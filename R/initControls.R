@@ -539,17 +539,17 @@ searchOSgeo4WOTB <- function(DL = "C:") {
 
 
 #'@title Checks if x is a raster or sp object
-#'@name getClass
+#'@name getSpatialClass
 #'@description  Checks if x is a raster or sp object
 #'@param obj R raster* or sp object
 #'@author Chris Reudenbach
 #'@examples
 #' \dontrun{
 #' # add path
-#' getClass(x)
+#' getSpatialClass(x)
 #' }
-#'@export getClass
-getClass <- function(obj) {
+#'@export getSpatialClass
+getSpatialClass <- function(obj) {
   if (class(obj) %in% c("RasterLayer", "RasterStack",
                         "RasterBrick", "Satellite",
                         "SpatialGridDataFrame",

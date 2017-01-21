@@ -2,9 +2,9 @@
 
 export(add2Path)
 export(checkPCRZP)
-export(getClass)
 export(getGrassParams4W)
 export(getGrassParams4X)
+export(getSpatialClass)
 export(initProj)
 export(linkGRASS7)
 export(linkOTB)

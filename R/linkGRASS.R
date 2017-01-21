@@ -65,14 +65,14 @@ linkGRASS7 <- function(x = NULL,
   if (is.null(x)) {
     stop("You MUST provide a raster* or sp* object, Did not found any of them so stopped.")
   } else {
-    if (getClass(x) == "rst") {
+    if (getSpatialClass(x) == "rst") {
       resolution <- raster::res(x)[1]
       proj4 <- as.character(x@crs)
       ymax <- x@extent@ymax
       ymin <- x@extent@ymin
       xmax <- x@extent@xmax
       xmin <- x@extent@xmin
-    } else if (getClass(x) == "rst") {
+    } else if (getSpatialClass(x) == "rst") {
       # i do not understand all this class stuff :-(
       s <- x@proj4string
       s <- s@projargs
@@ -113,7 +113,7 @@ linkGRASS7 <- function(x = NULL,
   )
   
   # assign GRASS extent
-  if (getClass(x) == "rst") {
+  if (getSpatialClass(x) == "rst") {
     rgrass7::execGRASS('g.region',
                        flags = c('quiet'),
                        n = as.character(ymax),
@@ -122,7 +122,7 @@ linkGRASS7 <- function(x = NULL,
                        w = as.character(xmin),
                        res = as.character(resolution)
     )
-  } else if (getClass(x) == "vec") {
+  } else if (getSpatialClass(x) == "vec") {
     rgrass7::execGRASS('g.region',
                        flags = c('quiet'),
                        n = as.character(ymax),

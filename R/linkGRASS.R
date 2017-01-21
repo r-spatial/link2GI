@@ -3,7 +3,7 @@ if (!isGeneric('linkGRASS7')) {
     standardGeneric('linkGRASS7'))
 }
 
-#'@title The function initializes environment variables and pathes for GRASS7
+#'@title Initializes environment variables and pathes for GRASS7
 #'@name linkGRASS7
 #'@description Initializes the environment and the pathes for 'GRASS GIS 7.x' 
 #' \url{https://grass.osgeo.org/}  The correct linkage to 'GRASS GIS' is performed by using an existing and valid
@@ -11,10 +11,10 @@ if (!isGeneric('linkGRASS7')) {
 #'@note 'GRASS GIS 7' is excellently supported by the
 #'  \link{rgrass7} wrapper package. Nevertheless 'GRASS GIS' is well known for
 #'  its high demands regarding the correct workspace and environment setup. This
-#'  becomes even worse on Windows platforms or if alternative 'GRASS GIS'
+#'  becomes even worse on 'Windows' platforms or if alternative 'GRASS GIS'
 #'  installations are available. While the setup function
 #'  \code{initGRASS} that is  provided by the \code{\link{rgrass7}} package, works fine under Linux and for known pathes and environmental variables, one
-#'  will find that the integration of a Windows based 'GRASS GIS' especially if
+#'  will find that the integration of a 'Windows' based 'GRASS GIS' especially if
 #'  provided by 'OSGeo4W' \url{http://trac.osgeo.org/osgeo4w/} and/or the parallel
 #'  installations of different software versions will be cumbersome. The function
 #'  \code{linkGRASS7} tries to find all valid 'GRASS GIS' binaries by analyzing

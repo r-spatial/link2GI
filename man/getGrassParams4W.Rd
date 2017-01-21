@@ -2,13 +2,13 @@
 % Please edit documentation in R/initControls.R
 \name{getGrassParams4W}
 \alias{getGrassParams4W}
-\title{Initialize the enviroment variables on a Windows OS}
+\title{Initialize the enviroment variables on a 'Windows' OS}
 \usage{
 getGrassParams4W(setDefaultGrass = NULL, DL = "C:", verSelect = FALSE)
 }
 \arguments{
-\item{setDefaultGrass}{default = NULL wil force a search for 'GRASS GIS' You may
-provide a valid combination as c("C:\\OSGeo4W64","grass-7.0.5","osgeo4w")}
+\item{setDefaultGrass}{default = NULL forces a full search for 'GRASS GIS' binaries. You may
+alternatively provide a vector containing pathes and keywords. c("C:/OSGeo4W64","grass-7.0.5","osgeo4w") is valid for a typical osgeo4w installation.}
 
 \item{DL}{raster or sp object}
 
@@ -18,15 +18,14 @@ provide a valid combination as c("C:\\OSGeo4W64","grass-7.0.5","osgeo4w")}
 getGrassParams4W initializes the usage of GRASS7.
 }
 \description{
-Initialize the enviroment variables on a Windows OS for using 
+Initialize the enviroment variables on a 'Windows' OS for using 
  'GRASS GIS' via \link{rgrass7}
 }
 \details{
 The concept is very straightforward but for an all days usage pretty
- helpful. You need to provide a GDAL conform raster file, a \link{raster}
- object. This settings will be used to initialize a temporary but static
+ helpful. You need to provide a \link{raster} or a \link{sp} object. The derived properties are used to initialize a temporary but static
  \href{https://CRAN.R-project.org/package=rgrass7}{rgrass7} environment. During the rsession you will have full access to
- GRASS7 via the wrapper packages. .
+ GRASS7 both via the wrapper package as well as the command line.
 }
 \examples{
 \dontrun{
@@ -35,10 +34,10 @@ The concept is very straightforward but for an all days usage pretty
 getGrassParams4W()
 
 # typical standalone installation
-getGrassParams4W(c("C:\\\\Program Files\\\\GRASS GIS 7.0.5","GRASS GIS 7.0.5","NSIS"))
+getGrassParams4W(c("C:/Program Files/GRASS GIS 7.0.5","GRASS GIS 7.0.5","NSIS"))
 
 # typical OSGeo4W64 installation
-getGrassParams4W(c("C:\\\\OSGeo4W64","grass-7.0.5","osgeo4W"))
+getGrassParams4W(c("C:/OSGeo4W64","grass-7.0.5","osgeo4W"))
 }
 }
 

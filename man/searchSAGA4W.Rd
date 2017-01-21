@@ -2,7 +2,7 @@
 % Please edit documentation in R/initControls.R
 \name{searchSAGA4W}
 \alias{searchSAGA4W}
-\title{Search for valid Win SAGA installation(s)}
+\title{Search for valid 'Windows' 'SAGA GIS' installation(s)}
 \usage{
 searchSAGA4W(DL = "C:")
 }
@@ -10,10 +10,10 @@ searchSAGA4W(DL = "C:")
 \item{DL}{drive letter default is "C:"}
 }
 \value{
-a dataframe with the SAGA root folder, the version name and the installation type
+a dataframe with the 'SAGA GIS' root folder, the version name and the installation type
 }
 \description{
-Search for valid SAGA installation(s) on a given Windows drive
+Search for valid 'SAGA GIS' installation(s) on a given 'Windows' drive
 }
 \examples{
 \dontrun{

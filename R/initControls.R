@@ -1,9 +1,9 @@
 
-#'@title Search for valid Win SAGA installation(s)
+#'@title Search for valid 'Windows' 'SAGA GIS' installation(s)
 #'@name searchSAGA4W
-#'@description  Search for valid SAGA installation(s) on a given Windows drive 
+#'@description  Search for valid 'SAGA GIS' installation(s) on a given 'Windows' drive 
 #'@param DL drive letter default is "C:"
-#'@return a dataframe with the SAGA root folder, the version name and the installation type
+#'@return a dataframe with the 'SAGA GIS' root folder, the version name and the installation type
 #'@author Chris Reudenbach
 #'@export searchSAGA4W
 #'
@@ -73,18 +73,17 @@ searchSAGA4W <- function(DL = "C:"){
   return(sagaPath)
 }
 
-#'@title Initialize the enviroment variables on a Windows OS
+#'@title Initialize the enviroment variables on a 'Windows' OS
 #'@name getGrassParams4W
-#'@description Initialize the enviroment variables on a Windows OS for using 
+#'@description Initialize the enviroment variables on a 'Windows' OS for using 
 #'  'GRASS GIS' via \link{rgrass7}
 #'@details The concept is very straightforward but for an all days usage pretty
-#'  helpful. You need to provide a GDAL conform raster file, a \link{raster}
-#'  object. This settings will be used to initialize a temporary but static
+#'  helpful. You need to provide a \link{raster} or a \link{sp} object. The derived properties are used to initialize a temporary but static
 #'  \href{https://CRAN.R-project.org/package=rgrass7}{rgrass7} environment. During the rsession you will have full access to
-#'  GRASS7 via the wrapper packages. .
+#'  GRASS7 both via the wrapper package as well as the command line.
 #'@param DL raster or sp object
-#'@param setDefaultGrass default = NULL wil force a search for 'GRASS GIS' You may
-#'  provide a valid combination as c("C:\\OSGeo4W64","grass-7.0.5","osgeo4w")
+#'@param setDefaultGrass default = NULL forces a full search for 'GRASS GIS' binaries. You may
+#'  alternatively provide a vector containing pathes and keywords. c("C:/OSGeo4W64","grass-7.0.5","osgeo4w") is valid for a typical osgeo4w installation.
 #'@param verSelect if TRUE you must interactivley selcect between alternative installations
 #'@return getGrassParams4W initializes the usage of GRASS7.
 #'@export getGrassParams4W
@@ -96,15 +95,15 @@ searchSAGA4W <- function(DL = "C:"){
 #' getGrassParams4W()
 #' 
 #' # typical standalone installation
-#' getGrassParams4W(c("C:\\Program Files\\GRASS GIS 7.0.5","GRASS GIS 7.0.5","NSIS"))
+#' getGrassParams4W(c("C:/Program Files/GRASS GIS 7.0.5","GRASS GIS 7.0.5","NSIS"))
 #' 
 #' # typical OSGeo4W64 installation
-#' getGrassParams4W(c("C:\\OSGeo4W64","grass-7.0.5","osgeo4W"))
+#' getGrassParams4W(c("C:/OSGeo4W64","grass-7.0.5","osgeo4W"))
 #' }
 
 getGrassParams4W <- function(setDefaultGrass=NULL, DL="C:", verSelect = FALSE){
   
-  # (R) set pathes  of GRASS  binaries depending on OS WINDOWS
+  # (R) set pathes  of 'GRASS' binaries depending on 'WINDOWS'
   if (is.null(setDefaultGrass)) {
     
     # if no path is provided  we have to search
@@ -144,10 +143,10 @@ getGrassParams4W <- function(setDefaultGrass=NULL, DL="C:", verSelect = FALSE){
 
 
 
-#'@title Search for valid OSGeo4W 'GRASS GIS' installation(s) on a given Windows drive 
+#'@title Search for valid 'OSGeo4W' 'GRASS GIS' installation(s) on a given 'Windows' drive 
 #'@name searchOSgeo4WGrass
-#'@title Search for valid OSGeo4W 'GRASS GIS' installation(s) on a given Windows drive 
-#'@description  Provides an  estimation of valid 'GRASS GIS' installation(s) on your Windows system. There is a major difference between osgeo4W and standalone installations. The functions trys to find all valid installations by analysing the calling batch scripts.
+#'@title Search for valid OSGeo4W 'GRASS GIS' installation(s) on a given 'Windows' drive 
+#'@description  Provides an  estimation of valid 'GRASS GIS' installation(s) on your 'Windows' system. There is a major difference between osgeo4W and standalone installations. The functions trys to find all valid installations by analysing the calling batch scripts.
 #'@param DL drive letter to be searched, default is "C:"
 #'@return dataframe with the 'GRASS GIS' root dir, version name and installation type code word
 #'@author Chris Reudenbach
@@ -155,7 +154,7 @@ getGrassParams4W <- function(setDefaultGrass=NULL, DL="C:", verSelect = FALSE){
 #'
 #'@examples
 #' \dontrun{
-#' # get all valid 'GRASS GIS' installation folders and params on WindowsOS
+#' # get all valid 'GRASS GIS' installation folders and params on 'Windows' OS
 #' grassParam<- searchOSgeo4WGrass()
 #' }
 
@@ -237,11 +236,10 @@ searchOSgeo4WGrass <- function(DL = "C:"){
 #'@title Initialize and set up \link{rgrass7}  for Linux
 #'@name getGrassParams4X
 #'@description Initialize and set up \link{rgrass7}  for Linux
-#'@details During the rsession you will have full access to GRASS7 GIS via the \link{rgrass7} wrappe. Additionally you may use also use the CLI calls of GRASS7.
-#'@param setDefaultGrass default = NULL wil force a search for 'GRASS GIS' You may provide a valid combination as c("C:\\OSGeo4W64","grass-7.0.5","osgeo4w")
+#'@details During the rsession you will have full access to GRASS7 GIS via the \link{rgrass7} wrappe. Additionally you may use also use the API calls of GRASS7 via the command line.
+#'@param setDefaultGrass default = NULL will force a search for 'GRASS GIS' You may provide a valid combination as c("C:/OSGeo4W64","grass-7.0.5","osgeo4w")
 #'@param MP mount point to be searched. default is "usr"
 #'@param verSelect if TRUE you must interactivley selcect between alternative installations
-#'@return getGrassParams4X initializes the usage of GRASS7.
 #'@export getGrassParams4X
 #'
 #'@examples
@@ -258,7 +256,7 @@ searchOSgeo4WGrass <- function(DL = "C:"){
 
 getGrassParams4X <- function(setDefaultGrass=NULL, MP = "/usr",verSelect = FALSE){
   
-  # (R) set pathes  of GRASS  binaries depending on OS WINDOWS
+  # (R) set pathes  of 'GRASS' binaries depending on 'Windows' OS
   if (is.null(setDefaultGrass)) {
     
     # if no path is provided  we have to search
@@ -472,9 +470,9 @@ setOTBEnv <- function(binPathOtb = NULL, rootPathOtb = NULL){
   return(binPathOtb)
 }
 
-#'@title Search for valid OTB installations on a Windows OS
+#'@title Search for valid 'OTB' installations on a 'Windows' OS
 #'@name searchOSgeo4WOTB
-#'@description  Search for valid OTB installations on your Windows system
+#'@description  Search for valid 'OTB' installations on a 'Windows' OS
 #'@param DL drive letter default is "C:"
 #'@return a dataframe with the OTB root dir the Version name and the installation type
 #'@author Chris Reudenbach

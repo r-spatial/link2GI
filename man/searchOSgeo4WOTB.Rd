@@ -2,7 +2,7 @@
 % Please edit documentation in R/initControls.R
 \name{searchOSgeo4WOTB}
 \alias{searchOSgeo4WOTB}
-\title{Search for valid OTB installations on a Windows OS}
+\title{Search for valid 'OTB' installations on a 'Windows' OS}
 \usage{
 searchOSgeo4WOTB(DL = "C:")
 }
@@ -13,7 +13,7 @@ searchOSgeo4WOTB(DL = "C:")
 a dataframe with the OTB root dir the Version name and the installation type
 }
 \description{
-Search for valid OTB installations on your Windows system
+Search for valid 'OTB' installations on a 'Windows' OS
 }
 \examples{
 \dontrun{

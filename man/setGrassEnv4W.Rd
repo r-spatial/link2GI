@@ -24,7 +24,7 @@ Initializes and set up  access to GRASS7 via the \link{rgrass7} wrapper or comma
 }
 \examples{
 \dontrun{
-# get all valid GRASS installation folders and params
+# get all valid 'GRASS GIS' installation folders and params
 grassParam<- setGrassEnv4W()
 }
 }

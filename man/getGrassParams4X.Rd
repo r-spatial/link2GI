@@ -4,12 +4,14 @@
 \alias{getGrassParams4X}
 \title{Initialize and set up \link{rgrass7}  for Linux}
 \usage{
-getGrassParams4X(setDefaultGrass = NULL, MP = "/usr")
+getGrassParams4X(setDefaultGrass = NULL, MP = "/usr", verSelect = FALSE)
 }
 \arguments{
-\item{setDefaultGrass}{default = NULL wil force a search for GRASS You may provide a valid combination as c("C:\\OSGeo4W64","grass-7.0.5","osgeo4w")}
+\item{setDefaultGrass}{default = NULL wil force a search for 'GRASS GIS' You may provide a valid combination as c("C:\\OSGeo4W64","grass-7.0.5","osgeo4w")}
 
 \item{MP}{mount point to be searched. default is "usr"}
+
+\item{verSelect}{if TRUE you must interactivley selcect between alternative installations}
 }
 \value{
 getGrassParams4X initializes the usage of GRASS7.

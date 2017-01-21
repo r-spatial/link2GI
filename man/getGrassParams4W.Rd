@@ -4,20 +4,22 @@
 \alias{getGrassParams4W}
 \title{Initialize the enviroment variables on a Windows OS}
 \usage{
-getGrassParams4W(setDefaultGrass = NULL, DL = "C:")
+getGrassParams4W(setDefaultGrass = NULL, DL = "C:", verSelect = FALSE)
 }
 \arguments{
-\item{setDefaultGrass}{default = NULL wil force a search for GRASS You may
+\item{setDefaultGrass}{default = NULL wil force a search for 'GRASS GIS' You may
 provide a valid combination as c("C:\\OSGeo4W64","grass-7.0.5","osgeo4w")}
 
 \item{DL}{raster or sp object}
+
+\item{verSelect}{if TRUE you must interactivley selcect between alternative installations}
 }
 \value{
 getGrassParams4W initializes the usage of GRASS7.
 }
 \description{
 Initialize the enviroment variables on a Windows OS for using 
- GRASS via \link{rgrass7}
+ 'GRASS GIS' via \link{rgrass7}
 }
 \details{
 The concept is very straightforward but for an all days usage pretty
@@ -28,7 +30,7 @@ The concept is very straightforward but for an all days usage pretty
 }
 \examples{
 \dontrun{
-# automatic retrieval of valid GRASS environment settings 
+# automatic retrieval of valid 'GRASS GIS' environment settings 
 # if more than one is found the user has to choose.
 getGrassParams4W()
 

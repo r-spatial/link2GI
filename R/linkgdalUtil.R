@@ -1,21 +1,21 @@
-if (!isGeneric('initgdalUtils')) {
-  setGeneric('initgdalUtils', function(x, ...)
-    standardGeneric('initgdalUtils'))
+if (!isGeneric('linkgdalUtils')) {
+  setGeneric('linkgdalUtils', function(x, ...)
+    standardGeneric('linkgdalUtils'))
 }
 
 #'@title Check and export the gdalUtils settings
-#'@name initgdalUtils
+#'@name linkgdalUtils
 #'@description  Check and export the gdalUtils settings. 
-#'You need to have installed the GDAL binaries.
+#'You need to have installed the 'GDAL' \url{http://www.gdal.org/} binaries.
 #'@author CR
 #'@return 
-#' a list of the complete capabilities of the current installed gdal version
-#'@export initgdalUtils 
+#' a list of the complete capabilities of the current installed GDAL version
+#'@export linkgdalUtils 
 #'@examples
 #' \dontrun{
 #'
 #' # get all available driver 
-#' gdal<- initgdalUtils()
+#' gdal<- linkgdalUtils()
 #' 
 #' gdal[[1]]$drivers$format_code
 #' 
@@ -26,7 +26,7 @@ if (!isGeneric('initgdalUtils')) {
 #' gdal[[1]]$python_utilities
 #' }
 
-initgdalUtils <- function(){
+linkgdalUtils <- function(){
   if (substr(Sys.getenv("COMPUTERNAME"),1,5) == "PCRZP") {
     gdalUtils::gdal_setInstallation(search_path = shQuote("C:/Program Files/QGIS 2.14/bin/"))
   } else {

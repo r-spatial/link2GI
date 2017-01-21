@@ -4,7 +4,7 @@
 \name{link2GI}
 \alias{link2GI}
 \alias{link2GI-package}
-\title{Linking R to the GI-world}
+\title{Linking the GI-World}
 \description{
 Functions for linking  GI/RS functionality to R
 }

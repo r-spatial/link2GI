@@ -2,7 +2,7 @@
 % Please edit documentation in R/initControls.R
 \name{searchOSgeo4WGrass}
 \alias{searchOSgeo4WGrass}
-\title{Search for valid OSGeo4W GRASS installation(s) on a given Windows drive}
+\title{Search for valid OSGeo4W 'GRASS GIS' installation(s) on a given Windows drive}
 \usage{
 searchOSgeo4WGrass(DL = "C:")
 }
@@ -10,14 +10,14 @@ searchOSgeo4WGrass(DL = "C:")
 \item{DL}{drive letter to be searched, default is "C:"}
 }
 \value{
-dataframe with the GRASS root dir, version name and installation type code word
+dataframe with the 'GRASS GIS' root dir, version name and installation type code word
 }
 \description{
-Provides an  estimation of valid GRASS installation(s) on your Windows system. There is a major difference between osgeo4W and standalone installations. The functions trys to find all valid installations by analysing the calling batch scripts.
+Provides an  estimation of valid 'GRASS GIS' installation(s) on your Windows system. There is a major difference between osgeo4W and standalone installations. The functions trys to find all valid installations by analysing the calling batch scripts.
 }
 \examples{
 \dontrun{
-# get all valid GRASS installation folders and params on WindowsOS
+# get all valid 'GRASS GIS' installation folders and params on WindowsOS
 grassParam<- searchOSgeo4WGrass()
 }
 }

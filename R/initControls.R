@@ -76,21 +76,22 @@ searchSAGA4W <- function(DL = "C:"){
 #'@title Initialize the enviroment variables on a Windows OS
 #'@name getGrassParams4W
 #'@description Initialize the enviroment variables on a Windows OS for using 
-#'  GRASS via \link{rgrass7}
+#'  'GRASS GIS' via \link{rgrass7}
 #'@details The concept is very straightforward but for an all days usage pretty
 #'  helpful. You need to provide a GDAL conform raster file, a \link{raster}
 #'  object. This settings will be used to initialize a temporary but static
 #'  \href{https://CRAN.R-project.org/package=rgrass7}{rgrass7} environment. During the rsession you will have full access to
 #'  GRASS7 via the wrapper packages. .
 #'@param DL raster or sp object
-#'@param setDefaultGrass default = NULL wil force a search for GRASS You may
+#'@param setDefaultGrass default = NULL wil force a search for 'GRASS GIS' You may
 #'  provide a valid combination as c("C:\\OSGeo4W64","grass-7.0.5","osgeo4w")
+#'@param verSelect if TRUE you must interactivley selcect between alternative installations
 #'@return getGrassParams4W initializes the usage of GRASS7.
 #'@export getGrassParams4W
 #'  
 #'@examples
 #' \dontrun{
-#' # automatic retrieval of valid GRASS environment settings 
+#' # automatic retrieval of valid 'GRASS GIS' environment settings 
 #' # if more than one is found the user has to choose.
 #' getGrassParams4W()
 #' 
@@ -101,7 +102,7 @@ searchSAGA4W <- function(DL = "C:"){
 #' getGrassParams4W(c("C:\\OSGeo4W64","grass-7.0.5","osgeo4W"))
 #' }
 
-getGrassParams4W <- function(setDefaultGrass=NULL, DL="C:"){
+getGrassParams4W <- function(setDefaultGrass=NULL, DL="C:", verSelect = FALSE){
   
   # (R) set pathes  of GRASS  binaries depending on OS WINDOWS
   if (is.null(setDefaultGrass)) {
@@ -116,7 +117,7 @@ getGrassParams4W <- function(setDefaultGrass=NULL, DL="C:"){
                                       installationType = setDefaultGrass[3])
       
       # if more than one valid installation was found you have to choose 
-    } else if (nrow(grassParams) > 1) {
+    } else if (nrow(grassParams) > 1 & !verSelect) {
       cat("You have more than one valid GRASS version\n")
       print(grassParams)
       cat("\n")
@@ -137,18 +138,18 @@ getGrassParams4W <- function(setDefaultGrass=NULL, DL="C:"){
 
 
 
-#'@title Search for valid OSGeo4W GRASS installation(s) on a given Windows drive 
+#'@title Search for valid OSGeo4W 'GRASS GIS' installation(s) on a given Windows drive 
 #'@name searchOSgeo4WGrass
-#'@title Search for valid OSGeo4W GRASS installation(s) on a given Windows drive 
-#'@description  Provides an  estimation of valid GRASS installation(s) on your Windows system. There is a major difference between osgeo4W and standalone installations. The functions trys to find all valid installations by analysing the calling batch scripts.
+#'@title Search for valid OSGeo4W 'GRASS GIS' installation(s) on a given Windows drive 
+#'@description  Provides an  estimation of valid 'GRASS GIS' installation(s) on your Windows system. There is a major difference between osgeo4W and standalone installations. The functions trys to find all valid installations by analysing the calling batch scripts.
 #'@param DL drive letter to be searched, default is "C:"
-#'@return dataframe with the GRASS root dir, version name and installation type code word
+#'@return dataframe with the 'GRASS GIS' root dir, version name and installation type code word
 #'@author Chris Reudenbach
 #'@export searchOSgeo4WGrass
 #'
 #'@examples
 #' \dontrun{
-#' # get all valid GRASS installation folders and params on WindowsOS
+#' # get all valid 'GRASS GIS' installation folders and params on WindowsOS
 #' grassParam<- searchOSgeo4WGrass()
 #' }
 
@@ -231,8 +232,9 @@ searchOSgeo4WGrass <- function(DL = "C:"){
 #'@name getGrassParams4X
 #'@description Initialize and set up \link{rgrass7}  for Linux
 #'@details During the rsession you will have full access to GRASS7 GIS via the \link{rgrass7} wrappe. Additionally you may use also use the CLI calls of GRASS7.
-#'@param setDefaultGrass default = NULL wil force a search for GRASS You may provide a valid combination as c("C:\\OSGeo4W64","grass-7.0.5","osgeo4w")
+#'@param setDefaultGrass default = NULL wil force a search for 'GRASS GIS' You may provide a valid combination as c("C:\\OSGeo4W64","grass-7.0.5","osgeo4w")
 #'@param MP mount point to be searched. default is "usr"
+#'@param verSelect if TRUE you must interactivley selcect between alternative installations
 #'@return getGrassParams4X initializes the usage of GRASS7.
 #'@export getGrassParams4X
 #'
@@ -248,7 +250,7 @@ searchOSgeo4WGrass <- function(DL = "C:"){
 #' getGrassParams4X("/usr/local/bin/grass72")
 #' }
 
-getGrassParams4X <- function(setDefaultGrass=NULL, MP = "/usr"){
+getGrassParams4X <- function(setDefaultGrass=NULL, MP = "/usr",verSelect = FALSE){
   
   # (R) set pathes  of GRASS  binaries depending on OS WINDOWS
   if (is.null(setDefaultGrass)) {
@@ -261,7 +263,7 @@ getGrassParams4X <- function(setDefaultGrass=NULL, MP = "/usr"){
       grass.gis.base <- grassParams$instDir
       
       # if more than one valid installation was found you have to choose 
-    } else if (nrow(grassParams) > 1) {
+    } else if (nrow(grassParams) > 1 & !verSelect ) {
       cat("You have more than one valid GRASS version\n")
       print(grassParams)
       cat("\n")
@@ -276,20 +278,20 @@ getGrassParams4X <- function(setDefaultGrass=NULL, MP = "/usr"){
   return(grass.gis.base)
 }
 
-#'@title Search for valid GRASS installations at a given Linux mount point
+#'@title Search for valid 'GRASS GIS' installations at a given Linux mount point
 #'@name searchGRASSX
-#'@description Search for valid GRASS installations at a given Linux mount point
+#'@description Search for valid 'GRASS GIS' installations at a given Linux mount point
 #'@param MP default is /usr
-#'@return dataframe containing GRASS binary dir(s), version name(s) and installation type code(s)
+#'@return dataframe containing 'GRASS GIS' binary dir(s), version name(s) and installation type code(s)
 #'@author Chris Reudenbach
 #'@export searchGRASSX
 #'
 #'@examples
 #' \dontrun{
-#' # get all valid GRASS installation folders in the /usr directory (typical location)
+#' # get all valid 'GRASS GIS' installation folders in the /usr directory (typical location)
 #' grassParam<- searchGRASSX("~/")
 #' 
-#' # get all valid GRASS installation folders in the home directory
+#' # get all valid 'GRASS GIS' installation folders in the home directory
 #' grassParam<- searchGRASSX("~/")
 #' }
 
@@ -333,7 +335,7 @@ searchGRASSX <- function(MP = "/usr"){
 #'
 #'@examples
 #' \dontrun{
-#' # get all valid GRASS installation folders and params
+#' # get all valid 'GRASS GIS' installation folders and params
 #' grassParam<- setGrassEnv4W()
 #' }
 

@@ -1,35 +1,34 @@
-if (!isGeneric('initOTB')) {
-  setGeneric('initOTB', function(x, ...)
-    standardGeneric('initOTB'))
+if (!isGeneric('linkOTB')) {
+  setGeneric('linkOTB', function(x, ...)
+    standardGeneric('linkOTB'))
 }
 
-#'@title The function initOTB set up OTB bindings
-#'@name initOTB
-#'@description  The function initOTB trys to locate all valid OTB installation
-#'  and returns the pathes and environment settings. All valid means that it
-#'  looks for the \code{otb_cli.bat} file. If the file is found in a \code{bin} folder it is assumed to be a valid OTB binary installation.
+#'@title Locate and set up Orfeo ToolBox API bindings
+#'@name linkOTB
+#'@description  Locate and set up 'Orfeo ToolBox' \url{https://www.orfeo-toolbox.org/} API bindings
+#'@details It looks for the \code{otb_cli.bat} file. If the file is found in a \code{bin} folder it is assumed to be a valid OTB binary installation.
 #'@param binPathOtb string contains path to where the otb binaries are located
 #'@param rootPathOtb string provides the root folder of the \code{binPathOtb}
 #'@param selectOtbVer boolean default is FALSE. If there is more than one OTB installation and \code{selectOtbVer} = TRUE the user can select interactively the preferred OTB version 
 #'@param DL string hard drive letter default is \code{C:}
 #'@param otbType string 
 #'
-#'@note It is strongly recommended to set the path manually. Using a osgeo4w installation it is typically \code{C:/OSGeo4W64/bin/}
-#'@author CR
+#'@note It is strongly recommended to set the path manually. Using a 'OSGeo4W' \url{http://trac.osgeo.org/osgeo4w/} installation it is typically \code{C:/OSGeo4W64/bin/}
+#'@author Chris Reudenbach
 #'@return add otb pathes to the enviroment and creates global variables otbPath
-#'@details if called without any parameter \code{initOTB()} it performs a full search over the hardrive \code{C:}. If it finds one or more OTB binaries it will take the first hit. You have to set \code{selectOtbVer = TRUE} for an interactive selection of the preferred version.
-#'@export initOTB
+#'@details if called without any parameter \code{linkOTB()} it performs a full search over the hardrive \code{C:}. If it finds one or more OTB binaries it will take the first hit. You have to set \code{selectOtbVer = TRUE} for an interactive selection of the preferred version.
+#'@export linkOTB
 #'  
 #'@examples
 #' \dontrun{
 #' # call it for a default OSGeo4W installation of the OTB
-#' initOTB("C:/OSGeo4W64/bin/")
+#' linkOTB("C:/OSGeo4W64/bin/")
 #' 
 #' # call it for a default Linux installation of the OTB
-#' initOTB("/usr/bin/")
+#' linkOTB("/usr/bin/")
 #'}
 
-initOTB <- function(binPathOtb=NULL,
+linkOTB <- function(binPathOtb=NULL,
                     rootPathOtb= NULL, 
                     otbType=NULL,
                     DL="C:",

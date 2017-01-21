@@ -1,23 +1,15 @@
 Package: link2GI
 Type: Package
-Title: Functions for Linking GIS/RS and Other Command Line Interfaces to R
+Title: Linking GIS, Remote Sensing and Other Command Line Tools
 Version: 0.1.0
 Date: 2016-12-24
-Author: Chris Reudenbach
+Author: Chris Reudenbach [cre, aut]
 Encoding: UTF-8
-Maintainer: Chris Reudenbach <gisma@gis-ma.org>
-Description: The package provides functions to simplify the linking of the most important command line tools to R.  It focus Linux and WindowsX OS but nevertheless it should also work with OSX.
-License: MIT + file LICENSE
-Depends:
-    R (>= 3.1.0)
-Imports:
-    methods,
-    stringr,
-        sp,
-    raster,
-    rgdal,
-    gdalUtils,
-    tools,
-    rgrass7
+Maintainer: Chris Reudenbach <reudenbach@uni-marburg.de>
+Description: Functions to simplify the linking of open source GIS and remote sensing related command line interfaces.
+License: GPL (>= 3) | file LICENSE
+Depends: R (>= 2.10), methods
+Imports: sp, raster, rgdal, gdalUtils, tools, rgrass7
 RoxygenNote: 5.0.1
-SystemRequirements: GNU make
+Suggests: knitr, rmarkdown
+SystemRequirements: GNU make SAGA GIS GRASS GIS (7.x.x) Orfeo ToolBox

@@ -1,35 +1,41 @@
-if ( !isGeneric("initSAGA") ) {
-  setGeneric("initSAGA", function(x, ...)
-    standardGeneric("initSAGA"))
+if ( !isGeneric("linkSAGA") ) {
+  setGeneric("linkSAGA", function(x, ...)
+    standardGeneric("linkSAGA"))
 }
 
-#'@title The function initSAGA trys to locate and set up valid SAGA installations 
-#'@name initSAGA
-#'@description The function initSAGA trys to locate and set up valid SAGA installations 
-#'  and returns the pathes and correct environment settings. All valid means that it
-#'  looks for the \code{saga_cmd} or \code{saga_cmd.exe} executable of the SAGA CLI. If the file is found it is assumed to be a valid SAGA binary installation. 
-#'@note The SAGA wrapper for R RSAGA is NOT used. The reason is the weird concept of the SAGA developers which are always changing the System calls and so forth. Due to this developing design RSAGA is only running stable with specific versions of SAGA. 
+#'@title Locate and bind valid SAGA installation(s)
+#'@name linkSAGA
+#'@description Locate and bind valid 'SAGA GIS' \url{http://www.saga-gis.org/}
+#'  installation(s). It returns the pathes and correct environment settings. All
+#'  valid means that it looks for the \code{saga_cmd} or \code{saga_cmd.exe}
+#'  executable of the SAGA CLI. If the file is found it is assumed to be a valid
+#'  SAGA binary installation.
+#'@note The excellent SAGA wrapper \href{https://CRAN.R-project.org/package=RSAGA}{RSAGA} is NOT used because the
+#'  permanent occucrence of breaking the API calls makes it highly impracticable
+#'  to keep in line. RSAGA fits perfectly your needs if you use 'SAGA GIS'
+#'  (2.0.4 - 2.2.3).
+#'  
 #'@param defaultSAGA string contains path to SAGA binaries
 #'@param DL drive letter
 #'@param MP mount point
+#'  
+#'@details Adds SAGA pathes to the environment and creates the global variables
+#'sagaPath, sagaModPath and sagaCmd
 #'
-#'@return 
-#' add SAGA pathes to the enviroment and creates global variables sagaPath, sagaModPath and sagaCmd
-#' 
-#'@export initSAGA
-#'
+#'@export linkSAGA
+#'  
 #'@examples
 #'\dontrun{
 #'
 #' # full search
-#'initSAGA()
+#' linkSAGA()
 #'
-#' typical OSGeo4W64 installation 
-#'initSAGA(c("C:\\OSGeo4W64\\apps\\saga","C:\\OSGeo4W64\\apps\\saga\\modules"))
+#' # typical OSGeo4W64 installation 
+#' linkSAGA(c("C:/OSGeo4W64/apps/saga","C:/OSGeo4W64/apps/saga/modules"))
 #'}
 
 
-initSAGA <- function(defaultSAGA = NULL, DL = "C:", MP="/usr"){
+linkSAGA <- function(defaultSAGA = NULL, DL = "C:", MP="/usr"){
   # (R) set pathes  of SAGA modules and binaries depending on OS  
   exist <- FALSE
   if (Sys.info()["sysname"] == "Windows") {

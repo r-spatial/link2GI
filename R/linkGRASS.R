@@ -1,34 +1,42 @@
-if (!isGeneric('initGRASS')) {
-  setGeneric('initGRASS', function(x, ...)
-    standardGeneric('initGRASS'))
+if (!isGeneric('linkGRASS7')) {
+  setGeneric('linkGRASS7', function(x, ...)
+    standardGeneric('linkGRASS7'))
 }
 
-#'@title The function initializes environment variables and pathes for GRASS7x
-#'@name initGRASS
-#'@description The function initializes environment and pathes for GRASS7x. '
-#'Despite the GRASS GIS seup is performed by the initGRASS() funtion of the
-#'\link{rgrass7} package, there are some workarounds necessary. 
-#'While initGRASS works fine for known pathes and environmental varibles, one 
-#'will find that the integration of Windows based GRASS especially as provided 
-#'by OSGeo4W or the usage of parallel installations could be cumbersome. 
-#'initGRASS trys to find valid GRASS binaries by analyzing the initial GRASS script files.
-#'If necessary it set the system variables and finally it initialize GRASS for R with user
-#'provided  valid raster or sp object.\cr\cr 
-#'*NOTE* If you have more than one valid installation you will be ask to select.
-#'@details The concept is very straightforward but for an all days usage pretty helpful. 
-#'You need to provide a \link{raster}/\link{sp} spatial object which is correct georeferenced
-#'The resulting params will be used to initialize a temporary but static 
-#'\href{https://CRAN.R-project.org/package=rgrass7}{rgrass7}
-#'environment. During the rsession you will have full access to
-#'GRASS7 via the \link{rgrass7} wrapper package. 
+#'@title The function initializes environment variables and pathes for GRASS7
+#'@name linkGRASS7
+#'@description Initializes the environment and the pathes for 'GRASS GIS 7.x' 
+#' \url{https://grass.osgeo.org/}  The correct linkage to 'GRASS GIS' is performed by using an existing and valid
+#'  \code{\link{raster}} or \code{\link{sp}} object. \cr
+#'@note 'GRASS GIS 7' is excellently supported by the
+#'  \link{rgrass7} wrapper package. Nevertheless 'GRASS GIS' is well known for
+#'  its high demands regarding the correct workspace and environment setup. This
+#'  becomes even worse on Windows platforms or if alternative 'GRASS GIS'
+#'  installations are available. While the setup function
+#'  \code{initGRASS} that is  provided by the \code{\link{rgrass7}} package, works fine under Linux and for known pathes and environmental variables, one
+#'  will find that the integration of a Windows based 'GRASS GIS' especially if
+#'  provided by 'OSGeo4W' \url{http://trac.osgeo.org/osgeo4w/} and/or the parallel
+#'  installations of different software versions will be cumbersome. The function
+#'  \code{linkGRASS7} tries to find all valid 'GRASS GIS' binaries by analyzing
+#'  the startup files of 'GRASS GIS'. After identifying 'GRASS GIS' binaries all
+#'  necessary system variables and settings will be performed.
+#'@details The concept is very straightforward but for an all days usage pretty 
+#'  helpful. You need to provide a \code{\link{raster}} or \code{\link{sp}} spatial object
+#'  which has to be correctly georeferenced. The resulting params will be used
+#'  to initialize a temporary but static 
+#'  \href{https://CRAN.R-project.org/package=rgrass7}{rgrass7} environment. 
+#'  During the rsession you will have full access to GRASS7 via the 
+#'  \link{rgrass7} wrapper package. #'  *NOTE* If you have more than one valid
+#'  installation you will be ask to select.
 #'@param SP searchpath
-#'@param x raster or sp object 
-#'@param setDefaultGrass default = NULL will force a search for GRASS You
-#'may provide a valid combination as c("C:\\OSGeo4W64","grass-7.0.5","osgeo4w") 
-#'@author Chris Reudenbach 
-#'@return initGRASS initializes the usage of GRASS7.
-#'@export initGRASS 
-#'
+#'@param x raster or sp object
+#'@param setDefaultGrass default = NULL will force a search for GRASS You may 
+#'  provide a valid combination as c("C:/OSGeo4W64","grass-7.0.5","osgeo4w")
+#'@param verSelect boolean if TRUE you may choose interactively the binary version (if found  more than one),  by default FALSE
+#'@author Chris Reudenbach
+#'@return linkGRASS7 initializes the usage of GRASS7.
+#'@export linkGRASS7
+#'  
 #'@examples 
 #'\dontrun{
 #'# get meuse data
@@ -39,20 +47,21 @@ if (!isGeneric('initGRASS')) {
 #' 
 #' # automatic search and find of GRASS binaries if 
 #' # more than one you have to choose. 
-#' initGRASS(meuse) 
+#' linkGRASS7(meuse) 
 #' 
 #' # assuming a typical standalone installation 
-#' initGRASS(meuse,c("C:\\Program Files\\GRASS GIS7.0.5","GRASS GIS 7.0.5","NSIS")) 
+#' linkGRASS7(meuse,c("C:/Program Files/GRASS GIS7.0.5","GRASS GIS 7.0.5","NSIS")) 
 #' 
 #' # assuming a typical OSGeo4W installation
-#' initGRASS(meuse,c("C:\\OSGeo4W64","grass-7.0.5","osgeo4W"))
+#' linkGRASS7(meuse,c("C:/OSGeo4W64","grass-7.0.5","osgeo4W"))
 #' 
 #' # string for Linux c("/usr/bin","grass72") '
 #' }
 
-initGRASS <- function(x = NULL,
+linkGRASS7 <- function(x = NULL,
                       setDefaultGrass = NULL, 
-                      SP = NULL){
+                      SP = NULL,
+                      verSelect = FALSE){
   if (is.null(x)) {
     stop("You MUST provide a raster* or sp* object, Did not found any of them so stopped.")
   } else {
@@ -80,10 +89,10 @@ initGRASS <- function(x = NULL,
   }
   if (Sys.info()["sysname"] == "Windows") {
     if (is.null(SP)) SP <- "C:"
-    grass.gis.base <- getGrassParams4W(setDefaultGrass,SP)
+    grass.gis.base <- getGrassParams4W(setDefaultGrass,SP,verSelect)
   } else {
     if (is.null(SP)) SP <- "/usr"
-    grass.gis.base <- getGrassParams4X(setDefaultGrass,SP)
+    grass.gis.base <- getGrassParams4X(setDefaultGrass,SP,verSelect)
   }
   
   

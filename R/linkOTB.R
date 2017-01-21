@@ -38,11 +38,13 @@ linkOTB <- function(binPathOtb=NULL,
     # if no path is provided  we have to search
     
     otbParams <- system2("find", paste("/usr"," ! -readable -prune -o -type f -executable -iname 'otbcli' -print"),stdout = TRUE)
-    binPathOtb <- substr(otbParams,1,nchar(otbParams) - 6) }
+    binPathOtb <- substr(otbParams,1,nchar(otbParams) - 6)  
   makGlobalVar("otbPath", binPathOtb)
+  }
+    
   
   # (R) set pathes  of OTB  binaries depending on OS WINDOWS
-  if (is.null(binPathOtb)) {
+  else if (is.null(binPathOtb)) {
     otbParams <- searchOSgeo4WOTB()
     # if just one valid installation was found take it
     if (nrow(otbParams) == 1) {  

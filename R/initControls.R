@@ -112,12 +112,12 @@ getGrassParams4W <- function(setDefaultGrass=NULL, DL="C:", verSelect = FALSE){
     
     # if just one valid installation was found take it
     if (nrow(grassParams) == 1) {  
-      grass.gis.base <- setGrassEnv4W(grassRoot = setDefaultGrass[1], 
-                                      grassVersion = setDefaultGrass[2], 
-                                      installationType = setDefaultGrass[3])
+      grass.gis.base <- setGrassEnv4W(grassRoot = grassParams$instDir[[1]],
+                                      grassVersion = grassParams$version[[1]], 
+                                      installationType = grassParams$installationType[[1]] )
       
       # if more than one valid installation was found you have to choose 
-    } else if (nrow(grassParams) > 1 & !verSelect) {
+    } else if (nrow(grassParams) > 1 & verSelect) {
       cat("You have more than one valid GRASS version\n")
       print(grassParams)
       cat("\n")
@@ -125,6 +125,12 @@ getGrassParams4W <- function(setDefaultGrass=NULL, DL="C:", verSelect = FALSE){
       grass.gis.base <- setGrassEnv4W(grassRoot = grassParams$instDir[[ver]],
                                     grassVersion = grassParams$version[[ver]], 
                                     installationType = grassParams$installationType[[ver]] )
+    } else if (nrow(grassParams) > 1 & !verSelect) {  
+      grass.gis.base <- setGrassEnv4W(grassRoot = grassParams$instDir[[1]],
+                                      grassVersion = grassParams$version[[1]], 
+                                      installationType = grassParams$installationType[[1]] )
+      
+      # if more than one valid installation was found you have to choose 
     }
     
     # if a setDefaultGrass was provided take this 
@@ -263,7 +269,7 @@ getGrassParams4X <- function(setDefaultGrass=NULL, MP = "/usr",verSelect = FALSE
       grass.gis.base <- grassParams$instDir
       
       # if more than one valid installation was found you have to choose 
-    } else if (nrow(grassParams) > 1 & !verSelect ) {
+    } else if (nrow(grassParams) > 1 & verSelect ) {
       cat("You have more than one valid GRASS version\n")
       print(grassParams)
       cat("\n")
@@ -343,7 +349,7 @@ setGrassEnv4W <- function(grassRoot="C:\\OSGEO4~1",
                           grassVersion = "grass-7.0.5",
                           installationType = "osgeo4w",
                           jpgmem = 1000000){
-  if (!exists(.GiEnv)) .GiEnv <- globalenv()  
+  if (!exists(".GiEnv")) .GiEnv <- globalenv()  
   #.GRASS_CACHE <- new.env(FALSE parent=globalenv())
   if (installationType == "osgeo4w") {
     Sys.setenv(OSGEO4W_ROOT = grassRoot)
@@ -448,20 +454,16 @@ setGrassEnv4W <- function(grassRoot="C:\\OSGEO4~1",
 
 setOTBEnv <- function(binPathOtb = NULL, rootPathOtb = NULL){
   # check if running on a HRZMR Pool PC
-  binPathOtb <- checkPCRZP("otb")   
+  if (!exists(".GiEnv")) .GiEnv <- globalenv() 
   if (substr(Sys.getenv("COMPUTERNAME"),1,5) == "PCRZP") {
-    binPathOtb <- shQuote("C:\\Program Files\\QGIS 2.14\\bin")
-    installationRoot <- shQuote("C:\\Program Files\\QGIS 2.14")
-    
-    if (!exists(.GiEnv)) .GiEnv <- globalenv()  
-    
+    binPathOtb <- checkPCRZP("otb")   
     Sys.setenv(GEOTIFF_CSV = paste0(Sys.getenv("OSGEO4W_ROOT"),"\\share\\epsg_csv"),envir = .GiEnv)
   } else {
     # (R) set pathes  of otb modules and binaries depending on OS  
     if (Sys.info()["sysname"] == "Windows") {
       makGlobalVar("otbPath", binPathOtb)
       add2Path(binPathOtb)
-      Sys.setenv(OSGEO4W_ROOT = installationRoot)
+      Sys.setenv(OSGEO4W_ROOT = rootPathOtb)
       Sys.setenv(GEOTIFF_CSV = paste0(Sys.getenv("OSGEO4W_ROOT"),"\\share\\epsg_csv"),envir = .GiEnv)
     } else {
       makGlobalVar("otbPath", "(usr/bin/")
@@ -487,7 +489,7 @@ setOTBEnv <- function(binPathOtb = NULL, rootPathOtb = NULL){
 #' }
 
 searchOSgeo4WOTB <- function(DL = "C:") {
-  if (!exists(.GiEnv)) .GiEnv <- globalenv()  
+  if (!exists(".GiEnv")) .GiEnv <- globalenv()  
   if (substr(Sys.getenv("COMPUTERNAME"),1,5) == "PCRZP") {
     defaultOtb <- shQuote("C:\\Program Files\\QGIS 2.14\\bin")
     otbInstallations <- data.frame(instDir = shQuote("C:\\Program Files\\QGIS 2.14\\bin"), installationType = "osgeo4wOTB",stringsAsFactors = FALSE)
@@ -574,7 +576,7 @@ getSpatialClass <- function(obj) {
 #' }
 #'@export checkPCRZP
 checkPCRZP <- function(cliCode=NULL, prefixPC="PCRZP") {
-  if (!exists(.GiEnv)) .GiEnv <- globalenv()  
+  if (!exists(".GiEnv")) .GiEnv <- globalenv()  
   if (substr(Sys.getenv("COMPUTERNAME"),1,5) == substr(prefixPC,1,5)) {
     if (cliCode == "saga") { 
       defaultSAGA <- shQuote(c("C:\\Program Files\\QGIS 2.14\\apps\\saga","C:\\Program Files\\QGIS 2.14\\apps\\saga\\modules"))
@@ -584,7 +586,7 @@ checkPCRZP <- function(cliCode=NULL, prefixPC="PCRZP") {
     }
   } else if (cliCode == "otb") {
     defaultOtb <- shQuote("C:\\Program Files\\QGIS 2.14\\bin")
-    installationRoot <- shQuote("C:\\Program Files\\QGIS 2.14")
+    rootPathOtb <- shQuote("C:\\Program Files\\QGIS 2.14")
     Sys.setenv(GEOTIFF_CSV = paste0(Sys.getenv("OSGEO4W_ROOT"),"\\share\\epsg_csv"),envir = .GiEnv)
     otbInstallations <- data.frame(instDir = shQuote("C:\\Program Files\\QGIS 2.14\\bin"), installationType = "osgeo4wOTB", stringsAsFactors = FALSE)
     return(otbInstallations)
@@ -637,7 +639,7 @@ add2Path <- function(newPath) {
 #' }
 #' 
 makGlobalVar <- function(name,value) {
-  if (!exists(.GiEnv)) .GiEnv <- globalenv()  
+  if (!exists(".GiEnv")) .GiEnv <- globalenv()  
   if (exists(name, envir = .GiEnv)) {
     #warning(paste0("The variable '", name,"' already exist in .GlobalEnv"))
     assign(name, value, envir = .GiEnv, inherits = TRUE)

@@ -14,10 +14,15 @@ initSAGA(defaultSAGA = NULL, DL = "C:", MP = "/usr")
 \item{MP}{mount point}
 }
 \value{
-add saga pathes to the enviroment and creates global variables sagaPath, sagaModPath and sagaCmd
+add SAGA pathes to the enviroment and creates global variables sagaPath, sagaModPath and sagaCmd
 }
 \description{
-initSAGA setup SAGA binaries
+The function initSAGA trys to locate all valid SAGA installations 
+ and returns the pathes and correct environment settings. All valid means that it
+ looks for the \code{saga_cmd} or \code{saga_cmd.exe} executable of the SAGA CLI. If the file is found it is assumed to be a valid SAGA binary installation.
+}
+\note{
+The SAGA wrapper for R RSAGA is NOT used. The reason is the weird concept of the SAGA developers which are always changing the System calls and so forth. Due to this developing design RSAGA is only running stable with specific versions of SAGA.
 }
 \examples{
 \dontrun{

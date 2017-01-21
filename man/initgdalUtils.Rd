@@ -2,7 +2,7 @@
 % Please edit documentation in R/initgdalUtil.R
 \name{initgdalUtils}
 \alias{initgdalUtils}
-\title{initGIS check and initializes gdal binaries}
+\title{initgdalUtils check and initializes gdal binaries}
 \usage{
 initgdalUtils()
 }
@@ -10,7 +10,7 @@ initgdalUtils()
 a list of the complete capabilities of the current installed gdal version
 }
 \description{
-initGIS check and initializes gdal binaries
+Check and export the gdalUtils settings. You need to have installed the GDAL binaries.
 }
 \examples{
 \dontrun{

@@ -1,7 +1,4 @@
 # link2GI
-tools for gods view methodological approaches
-
-====
 
 link2GI is a collection of tools to support the visual interpretation of airborne data sets
 

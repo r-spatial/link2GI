@@ -59,7 +59,10 @@ proj4string(meuse) <-CRS("+init=epsg:28992")
 
 # automatic search and find of GRASS binaries if 
 # more than one you have to choose. 
-linkGRASS7(meuse) 
+linkGRASS7(meuse)
+ 
+# call if you do not have any idea if and where GRASS is installed
+linkGRASS7(meuse)
 
 # assuming a typical standalone installation 
 linkGRASS7(meuse,c("C:/Program Files/GRASS GIS7.0.5","GRASS GIS 7.0.5","NSIS")) 

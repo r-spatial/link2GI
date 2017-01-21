@@ -27,7 +27,7 @@ if ( !isGeneric("linkSAGA") ) {
 #'@examples
 #'\dontrun{
 #'
-#' # full search
+#' # call if you do not have any idea if and where SAGA GIS is installed
 #' linkSAGA()
 #'
 #' # typical OSGeo4W64 installation 

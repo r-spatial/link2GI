@@ -34,6 +34,9 @@ It is strongly recommended to set the path manually. Using a 'OSGeo4W' \url{http
 }
 \examples{
 \dontrun{
+# call if you do not have any idea if and where OTB is installed
+linkOTB()
+
 # call it for a default OSGeo4W installation of the OTB
 linkOTB("C:/OSGeo4W64/bin/")
 

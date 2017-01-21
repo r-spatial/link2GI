@@ -2,7 +2,7 @@
 % Please edit documentation in R/initControls.R
 \name{searchOSgeo4WGrass}
 \alias{searchOSgeo4WGrass}
-\title{search for valid OSGeo4W GRASS installation(s) on a given Windows drive}
+\title{Search for valid OSGeo4W GRASS installation(s) on a given Windows drive}
 \usage{
 searchOSgeo4WGrass(DL = "C:")
 }
@@ -14,9 +14,6 @@ dataframe with the GRASS root dir, version name and installation type code word
 }
 \description{
 Provides an  estimation of valid GRASS installation(s) on your Windows system. There is a major difference between osgeo4W and standalone installations. The functions trys to find all valid installations by analysing the calling batch scripts.
-}
-\details{
-searchOSgeo4WGrass
 }
 \examples{
 \dontrun{

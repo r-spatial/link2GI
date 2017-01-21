@@ -2,7 +2,7 @@
 % Please edit documentation in R/initSAGA.R
 \name{initSAGA}
 \alias{initSAGA}
-\title{initSAGA setup SAGA binaries}
+\title{The function initSAGA trys to locate and set up valid SAGA installations}
 \usage{
 initSAGA(defaultSAGA = NULL, DL = "C:", MP = "/usr")
 }
@@ -17,7 +17,7 @@ initSAGA(defaultSAGA = NULL, DL = "C:", MP = "/usr")
 add SAGA pathes to the enviroment and creates global variables sagaPath, sagaModPath and sagaCmd
 }
 \description{
-The function initSAGA trys to locate all valid SAGA installations 
+The function initSAGA trys to locate and set up valid SAGA installations 
  and returns the pathes and correct environment settings. All valid means that it
  looks for the \code{saga_cmd} or \code{saga_cmd.exe} executable of the SAGA CLI. If the file is found it is assumed to be a valid SAGA binary installation.
 }

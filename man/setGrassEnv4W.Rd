@@ -2,7 +2,7 @@
 % Please edit documentation in R/initControls.R
 \name{setGrassEnv4W}
 \alias{setGrassEnv4W}
-\title{Set Windows OS environment variables for \link{rgrass7}}
+\title{Initializes and set up  access to GRASS7 via the \link{rgrass7} wrapper or command line packages}
 \usage{
 setGrassEnv4W(grassRoot = "C:\\\\OSGEO4~1", grassVersion = "grass-7.0.5",
   installationType = "osgeo4w", jpgmem = 1e+06)
@@ -20,7 +20,7 @@ setGrassEnv4W(grassRoot = "C:\\\\OSGEO4~1", grassVersion = "grass-7.0.5",
 set all enviroment variables and additionally returns the GISBASE
 }
 \description{
-Provides during the rsession full access to GRASS7 via the \link{rgrass7} wrapper or command line packages
+Initializes and set up  access to GRASS7 via the \link{rgrass7} wrapper or command line packages
 }
 \examples{
 \dontrun{

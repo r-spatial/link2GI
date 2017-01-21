@@ -1,8 +1,7 @@
-#'search for valid SAGA installations on a given Windows drive 
-#'
+
+#'@title Search for valid Win SAGA installation(s)
 #'@name searchSAGA4W
-#'
-#'@description  Provides a fairly good estimation of valid SAGA installation(s) on your Windows system
+#'@description  Search for valid SAGA installation(s) on a given Windows drive 
 #'@param DL drive letter default is "C:"
 #'@return a dataframe with the SAGA root folder, the version name and the installation type
 #'@author Chris Reudenbach
@@ -18,7 +17,7 @@
 
 searchSAGA4W <- function(DL = "C:"){
   # check if running on a HRZMR Pool PC
-  sagaPath <- checkPC("saga")  
+  sagaPath <- checkPCRZP("saga")  
   if (is.null(sagaPath)) {
     # trys to find a osgeo4w installation on the whole C: disk returns root directory and version name
     # recursive dir for saga_cmd.exe returns all version of otb bat files
@@ -74,7 +73,7 @@ searchSAGA4W <- function(DL = "C:"){
   return(sagaPath)
 }
 
-#'Initialize \link{rgrass7} for Windows OS
+#'@title Initialize the enviroment variables on a Windows OS
 #'@name getGrassParams4W
 #'@description Initialize the enviroment variables on a Windows OS for using 
 #'  GRASS via \link{rgrass7}
@@ -136,8 +135,11 @@ getGrassParams4W <- function(setDefaultGrass=NULL, DL="C:"){
   return(grass.gis.base)
 }
 
-#'searchOSgeo4WGrass
-#'@title search for valid OSGeo4W GRASS installation(s) on a given Windows drive 
+
+
+#'@title Search for valid OSGeo4W GRASS installation(s) on a given Windows drive 
+#'@name searchOSgeo4WGrass
+#'@title Search for valid OSGeo4W GRASS installation(s) on a given Windows drive 
 #'@description  Provides an  estimation of valid GRASS installation(s) on your Windows system. There is a major difference between osgeo4W and standalone installations. The functions trys to find all valid installations by analysing the calling batch scripts.
 #'@param DL drive letter to be searched, default is "C:"
 #'@return dataframe with the GRASS root dir, version name and installation type code word
@@ -225,9 +227,9 @@ searchOSgeo4WGrass <- function(DL = "C:"){
   return(grassInstallations)
 }
 
-#' initialize \link{rgrass7}  for Linux
+#'@title Initialize and set up \link{rgrass7}  for Linux
 #'@name getGrassParams4X
-#'@description Initialize \link{rgrass7}  for Linux
+#'@description Initialize and set up \link{rgrass7}  for Linux
 #'@details During the rsession you will have full access to GRASS7 GIS via the \link{rgrass7} wrappe. Additionally you may use also use the CLI calls of GRASS7.
 #'@param setDefaultGrass default = NULL wil force a search for GRASS You may provide a valid combination as c("C:\\OSGeo4W64","grass-7.0.5","osgeo4w")
 #'@param MP mount point to be searched. default is "usr"
@@ -274,7 +276,7 @@ getGrassParams4X <- function(setDefaultGrass=NULL, MP = "/usr"){
   return(grass.gis.base)
 }
 
-#'Search for valid GRASS7 installation(s) on Linux OS
+#'@title Search for valid GRASS installations at a given Linux mount point
 #'@name searchGRASSX
 #'@description Search for valid GRASS installations at a given Linux mount point
 #'@param MP default is /usr
@@ -318,9 +320,9 @@ searchGRASSX <- function(MP = "/usr"){
 
 
 
-#'Set Windows OS environment variables for \link{rgrass7}
+#'@title Initializes and set up  access to GRASS7 via the \link{rgrass7} wrapper or command line packages
 #'@name setGrassEnv4W
-#'@description  Provides during the rsession full access to GRASS7 via the \link{rgrass7} wrapper or command line packages
+#'@description  Initializes and set up  access to GRASS7 via the \link{rgrass7} wrapper or command line packages
 #'@param grassRoot  grass root directory i.e. "C:\\OSGEO4~1",
 #'@param grassVersion grass version name i.e. "grass-7.0.5"
 #'@param installationType two options "osgeo4w" and "NSIS"
@@ -425,8 +427,9 @@ setGrassEnv4W <- function(grassRoot="C:\\OSGEO4~1",
 }
 
 
-#'setOTBEnv set environ Params of OTB
-#'@description  Provides during the rsession full access to the OTB command line interface  
+#'@title  Initializes and set up  access to the OTB command line interface 
+#'@name setOTBEnv
+#'@description  Initializes and set up  access to the OTB command line interface  
 #'
 #'@param binPathOtb  string contains path to otb binaries
 #'@param rootPathOtb string contains the full string to call otb launcher
@@ -443,7 +446,7 @@ setGrassEnv4W <- function(grassRoot="C:\\OSGEO4~1",
 
 setOTBEnv <- function(binPathOtb = NULL, rootPathOtb = NULL){
   # check if running on a HRZMR Pool PC
-  binPathOtb <- checkPC("otb")   
+  binPathOtb <- checkPCRZP("otb")   
   if (substr(Sys.getenv("COMPUTERNAME"),1,5) == "PCRZP") {
     binPathOtb <- shQuote("C:\\Program Files\\QGIS 2.14\\bin")
     installationRoot <- shQuote("C:\\Program Files\\QGIS 2.14")
@@ -465,7 +468,7 @@ setOTBEnv <- function(binPathOtb = NULL, rootPathOtb = NULL){
   return(binPathOtb)
 }
 
-#'search for valid OTB installations on a given Windows drive 
+#'@title Search for valid OTB installations on a Windows OS
 #'@name searchOSgeo4WOTB
 #'@description  Search for valid OTB installations on your Windows system
 #'@param DL drive letter default is "C:"
@@ -532,19 +535,19 @@ searchOSgeo4WOTB <- function(DL = "C:") {
 }
 
 
-#' Checks if x is a raster or sp object
-#'@name getSimpleClass
+
+#'@title Checks if x is a raster or sp object
+#'@name getClass
 #'@description  Checks if x is a raster or sp object
-#'
 #'@param obj R raster* or sp object
 #'@author Chris Reudenbach
 #'@examples
 #' \dontrun{
 #' # add path
-#' getSimpleClass(x)
+#' getClass(x)
 #' }
-#'@export getSimpleClass
-getSimpleClass <- function(obj) {
+#'@export getClass
+getClass <- function(obj) {
   if (class(obj) %in% c("RasterLayer", "RasterStack",
                         "RasterBrick", "Satellite",
                         "SpatialGridDataFrame",
@@ -556,39 +559,39 @@ getSimpleClass <- function(obj) {
                              "SpatialLines")) {"vec"}
 }
 
-#' Adds a variable to the global search path of the current environment
-#'@name checkPC
-#'@description  Adds a variable to the global search path of the current environment
-#'@param binaryName name of binary sofware "saga", "otb"
-#'@param checkName name of PC
-#'@author Chris Reudenbach
+#'@title Checks if the computer belongs to the Marburg Universitys computer domain
+#'@name checkPCRZP
+#'@description  Checks if the computer belongs to the Marburg Universitys computer pools
+#'@param cliCode code of the sofware currently "saga" and "otb" are supported
+#'@param prefixPC name of PC
+#'@author CR
 #'@examples
 #' \dontrun{
 #' # add path
-#' checkPC("saga",checkName="PCRZP")
+#' checkPCRZP("saga",prefixPC="PCRZP")
 #' }
-#'@export checkPC
-checkPC <- function(binaryName=NULL, checkName="PCRZP") {
+#'@export checkPCRZP
+checkPCRZP <- function(cliCode=NULL, prefixPC="PCRZP") {
   if (!exists(.GiEnv)) .GiEnv <- globalenv()  
-  if (substr(Sys.getenv("COMPUTERNAME"),1,5) == substr(checkName,1,5)) {
-    if (binaryName == "saga") { 
+  if (substr(Sys.getenv("COMPUTERNAME"),1,5) == substr(prefixPC,1,5)) {
+    if (cliCode == "saga") { 
       defaultSAGA <- shQuote(c("C:\\Program Files\\QGIS 2.14\\apps\\saga","C:\\Program Files\\QGIS 2.14\\apps\\saga\\modules"))
       return(defaultSAGA)
     } else {
       return(defaultSAGA = NULL)  
     }
-  } else if (binaryName == "otb") {
+  } else if (cliCode == "otb") {
     defaultOtb <- shQuote("C:\\Program Files\\QGIS 2.14\\bin")
     installationRoot <- shQuote("C:\\Program Files\\QGIS 2.14")
     Sys.setenv(GEOTIFF_CSV = paste0(Sys.getenv("OSGEO4W_ROOT"),"\\share\\epsg_csv"),envir = .GiEnv)
     otbInstallations <- data.frame(instDir = shQuote("C:\\Program Files\\QGIS 2.14\\bin"), installationType = "osgeo4wOTB", stringsAsFactors = FALSE)
-    
+    return(otbInstallations)
   }
   
   
 }
 
-#' Adds a variable to the global search path of the current environment
+#'@title Adds a defined variable and value to the global search path
 #'@name add2Path
 #'@description  Adds a variable to the global search path of the current environment
 #'@param newPath the path that is added
@@ -617,8 +620,9 @@ add2Path <- function(newPath) {
   }
 }
 
-#' makGlobalVar creates global vars
-#' @description  makGlobalVar generates a variable with a certain value in the R environment
+#'@title Generates a variable with a certain value in the R environment
+#'@name makGlobalVar
+#' @description  Generates a variable with a certain value in the R environment
 #' @param name character string name of the variable
 #' @param value character string value of the variable
 #'@export makGlobalVar 

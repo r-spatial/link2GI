@@ -2,7 +2,7 @@
 % Please edit documentation in R/initControls.R
 \name{makGlobalVar}
 \alias{makGlobalVar}
-\title{makGlobalVar creates global vars}
+\title{Generates a variable with a certain value in the R environment}
 \usage{
 makGlobalVar(name, value)
 }
@@ -12,7 +12,7 @@ makGlobalVar(name, value)
 \item{value}{character string value of the variable}
 }
 \description{
-makGlobalVar generates a variable with a certain value in the R environment
+Generates a variable with a certain value in the R environment
 }
 \examples{
 \dontrun{

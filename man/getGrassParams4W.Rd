@@ -2,7 +2,7 @@
 % Please edit documentation in R/initControls.R
 \name{getGrassParams4W}
 \alias{getGrassParams4W}
-\title{Initialize \link{rgrass7} for Windows OS}
+\title{Initialize the enviroment variables on a Windows OS}
 \usage{
 getGrassParams4W(setDefaultGrass = NULL, DL = "C:")
 }

@@ -3,8 +3,9 @@ if (!isGeneric('initGRASS')) {
     standardGeneric('initGRASS'))
 }
 
-#'The function initGRASS setup enviroment for using \link{rgrass7} with GRASS 
-#'@description Function that initializes environment and pathes for GRASS7x. '
+#'@title The function initializes environment variables and pathes for GRASS7x
+#'@name initGRASS
+#'@description The function initializes environment and pathes for GRASS7x. '
 #'Despite the GRASS GIS seup is performed by the initGRASS() funtion of the
 #'\link{rgrass7} package, there are some workarounds necessary. 
 #'While initGRASS works fine for known pathes and environmental varibles, one 
@@ -55,15 +56,14 @@ initGRASS <- function(x = NULL,
   if (is.null(x)) {
     stop("You MUST provide a raster* or sp* object, Did not found any of them so stopped.")
   } else {
-    type <- getSimpleClass(x)
-    if (type == "rst") {
+    if (getClass(x) == "rst") {
       resolution <- raster::res(x)[1]
       proj4 <- as.character(x@crs)
       ymax <- x@extent@ymax
       ymin <- x@extent@ymin
       xmax <- x@extent@xmax
       xmin <- x@extent@xmin
-    } else {
+    } else if (getClass(x) == "rst") {
       # i do not understand all this class stuff :-(
       s <- x@proj4string
       s <- s@projargs
@@ -74,6 +74,8 @@ initGRASS <- function(x = NULL,
       ymax <- x@bbox[4]
       ymin <- x@bbox[2]
       #resolution<-0.0008333333
+    } else {
+      stop("Currently only raster* or sp* objects are supported - have to stop.")
     }
   }
   if (Sys.info()["sysname"] == "Windows") {
@@ -102,7 +104,7 @@ initGRASS <- function(x = NULL,
   )
   
   # assign GRASS extent
-  if (type == "rst") {
+  if (getClass(x) == "rst") {
     rgrass7::execGRASS('g.region',
                        flags = c('quiet'),
                        n = as.character(ymax),
@@ -111,7 +113,7 @@ initGRASS <- function(x = NULL,
                        w = as.character(xmin),
                        res = as.character(resolution)
     )
-  } else {
+  } else if (getClass(x) == "vec") {
     rgrass7::execGRASS('g.region',
                        flags = c('quiet'),
                        n = as.character(ymax),
@@ -120,6 +122,8 @@ initGRASS <- function(x = NULL,
                        w = as.character(xmin)
                        #res=as.character(resolution)
     )
+  } else {
+    stop("Currently only raster* or sp* objects are supported - have to stop.")
   }
   return(rgrass7::gmeta())
 }

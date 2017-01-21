@@ -1,4 +1,10 @@
-#'initOTB setup the Orfeo ToolBox bindings for a rsession
+if (!isGeneric('initOTB')) {
+  setGeneric('initOTB', function(x, ...)
+    standardGeneric('initOTB'))
+}
+
+#'@title The function initOTB set up OTB bindings
+#'@name initOTB
 #'@description  The function initOTB trys to locate all valid OTB installation
 #'  and returns the pathes and environment settings. All valid means that it
 #'  looks for the \code{otb_cli.bat} file. If the file is found in a \code{bin} folder it is assumed to be a valid OTB binary installation.

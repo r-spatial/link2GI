@@ -2,7 +2,9 @@ if ( !isGeneric("initProj") ) {
   setGeneric("initProj", function(x, ...)
     standardGeneric("initProj"))
 }
-#' initProj
+
+#'@title Defines and creates folders and variables
+#'@name initProj
 #'@description Defines and creates (if necessary) all folders variables
 #' set the SAGA path variables and other system variables
 #' exports all variables to the global environment

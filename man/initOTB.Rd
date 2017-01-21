@@ -2,7 +2,7 @@
 % Please edit documentation in R/initOTB.R
 \name{initOTB}
 \alias{initOTB}
-\title{initOTB setup the Orfeo ToolBox bindings for a rsession}
+\title{The function initOTB set up OTB bindings}
 \usage{
 initOTB(binPathOtb = NULL, rootPathOtb = NULL, otbType = NULL,
   DL = "C:", selectOtbVer = FALSE)

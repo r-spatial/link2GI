@@ -2,7 +2,7 @@
 % Please edit documentation in R/initGRASS.R
 \name{initGRASS}
 \alias{initGRASS}
-\title{The function initGRASS setup enviroment for using \link{rgrass7} with GRASS}
+\title{The function initializes environment variables and pathes for GRASS7x}
 \usage{
 initGRASS(x = NULL, setDefaultGrass = NULL, SP = NULL)
 }
@@ -18,7 +18,7 @@ may provide a valid combination as c("C:\\OSGeo4W64","grass-7.0.5","osgeo4w")}
 initGRASS initializes the usage of GRASS7.
 }
 \description{
-Function that initializes environment and pathes for GRASS7x. '
+The function initializes environment and pathes for GRASS7x. '
 Despite the GRASS GIS seup is performed by the initGRASS() funtion of the
 \link{rgrass7} package, there are some workarounds necessary. 
 While initGRASS works fine for known pathes and environmental varibles, one 

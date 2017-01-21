@@ -2,7 +2,7 @@
 % Please edit documentation in R/initControls.R
 \name{setOTBEnv}
 \alias{setOTBEnv}
-\title{setOTBEnv set environ Params of OTB}
+\title{Initializes and set up  access to the OTB command line interface}
 \usage{
 setOTBEnv(binPathOtb = NULL, rootPathOtb = NULL)
 }
@@ -15,7 +15,7 @@ setOTBEnv(binPathOtb = NULL, rootPathOtb = NULL)
 add otb pathes to the enviroment and creates global variables otbCmd
 }
 \description{
-Provides during the rsession full access to the OTB command line interface
+Initializes and set up  access to the OTB command line interface
 }
 \examples{
 \dontrun{

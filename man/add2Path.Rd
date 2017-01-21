@@ -2,7 +2,7 @@
 % Please edit documentation in R/initControls.R
 \name{add2Path}
 \alias{add2Path}
-\title{Adds a variable to the global search path of the current environment}
+\title{Adds a defined variable and value to the global search path}
 \usage{
 add2Path(newPath)
 }

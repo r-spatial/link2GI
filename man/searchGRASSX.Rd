@@ -2,7 +2,7 @@
 % Please edit documentation in R/initControls.R
 \name{searchGRASSX}
 \alias{searchGRASSX}
-\title{Search for valid GRASS7 installation(s) on Linux OS}
+\title{Search for valid GRASS installations at a given Linux mount point}
 \usage{
 searchGRASSX(MP = "/usr")
 }

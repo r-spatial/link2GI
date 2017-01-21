@@ -2,7 +2,7 @@
 % Please edit documentation in R/initgdalUtil.R
 \name{initgdalUtils}
 \alias{initgdalUtils}
-\title{initgdalUtils check and initializes gdal binaries}
+\title{Check and export the gdalUtils settings}
 \usage{
 initgdalUtils()
 }
@@ -10,7 +10,8 @@ initgdalUtils()
 a list of the complete capabilities of the current installed gdal version
 }
 \description{
-Check and export the gdalUtils settings. You need to have installed the GDAL binaries.
+Check and export the gdalUtils settings. 
+You need to have installed the GDAL binaries.
 }
 \examples{
 \dontrun{
@@ -26,5 +27,8 @@ gdal[[1]]$path
 # get additional and available python tools
 gdal[[1]]$python_utilities
 }
+}
+\author{
+CR
 }
 

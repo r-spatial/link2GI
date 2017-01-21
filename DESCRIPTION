@@ -18,7 +18,6 @@ Imports:
     rgdal,
     gdalUtils,
     tools,
-    log4r,
     rgrass7
 RoxygenNote: 5.0.1
 SystemRequirements: GNU make

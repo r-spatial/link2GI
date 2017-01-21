@@ -2,7 +2,7 @@
 % Please edit documentation in R/initControls.R
 \name{searchSAGA4W}
 \alias{searchSAGA4W}
-\title{search for valid SAGA installations on a given Windows drive}
+\title{Search for valid Win SAGA installation(s)}
 \usage{
 searchSAGA4W(DL = "C:")
 }
@@ -13,7 +13,7 @@ searchSAGA4W(DL = "C:")
 a dataframe with the SAGA root folder, the version name and the installation type
 }
 \description{
-Provides a fairly good estimation of valid SAGA installation(s) on your Windows system
+Search for valid SAGA installation(s) on a given Windows drive
 }
 \examples{
 \dontrun{

@@ -2,7 +2,7 @@
 % Please edit documentation in R/initControls.R
 \name{searchOSgeo4WOTB}
 \alias{searchOSgeo4WOTB}
-\title{search for valid OTB installations on a given Windows drive}
+\title{Search for valid OTB installations on a Windows OS}
 \usage{
 searchOSgeo4WOTB(DL = "C:")
 }

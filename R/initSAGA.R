@@ -2,8 +2,10 @@ if ( !isGeneric("initSAGA") ) {
   setGeneric("initSAGA", function(x, ...)
     standardGeneric("initSAGA"))
 }
-#' initSAGA setup SAGA binaries 
-#'@description The function initSAGA trys to locate all valid SAGA installations 
+
+#'@title The function initSAGA trys to locate and set up valid SAGA installations 
+#'@name initSAGA
+#'@description The function initSAGA trys to locate and set up valid SAGA installations 
 #'  and returns the pathes and correct environment settings. All valid means that it
 #'  looks for the \code{saga_cmd} or \code{saga_cmd.exe} executable of the SAGA CLI. If the file is found it is assumed to be a valid SAGA binary installation. 
 #'@note The SAGA wrapper for R RSAGA is NOT used. The reason is the weird concept of the SAGA developers which are always changing the System calls and so forth. Due to this developing design RSAGA is only running stable with specific versions of SAGA. 

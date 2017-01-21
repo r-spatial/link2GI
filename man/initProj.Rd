@@ -2,7 +2,7 @@
 % Please edit documentation in R/initProj.R
 \name{initProj}
 \alias{initProj}
-\title{initProj}
+\title{Defines and creates folders and variables}
 \usage{
 initProj(projRootDir = getwd(), projFolders = c("data/", "result/", "run/",
   "log/"))

@@ -2,7 +2,7 @@
 % Please edit documentation in R/initControls.R
 \name{getGrassParams4X}
 \alias{getGrassParams4X}
-\title{initialize \link{rgrass7}  for Linux}
+\title{Initialize and set up \link{rgrass7}  for Linux}
 \usage{
 getGrassParams4X(setDefaultGrass = NULL, MP = "/usr")
 }
@@ -15,7 +15,7 @@ getGrassParams4X(setDefaultGrass = NULL, MP = "/usr")
 getGrassParams4X initializes the usage of GRASS7.
 }
 \description{
-Initialize \link{rgrass7}  for Linux
+Initialize and set up \link{rgrass7}  for Linux
 }
 \details{
 During the rsession you will have full access to GRASS7 GIS via the \link{rgrass7} wrappe. Additionally you may use also use the CLI calls of GRASS7.

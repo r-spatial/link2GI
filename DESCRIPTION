@@ -1,0 +1,24 @@
+Package: link2GI
+Type: Package
+Title: Functions for Linking GIS/RS and Other Command Line Interfaces to R
+Version: 0.1.0
+Date: 2016-12-24
+Author: Chris Reudenbach
+Encoding: UTF-8
+Maintainer: Chris Reudenbach <gisma@gis-ma.org>
+Description: The package provides functions to simplify the linking of the most important command line tools to R.  It focus Linux and WindowsX OS but nevertheless it should also work with OSX.
+License: MIT + file LICENSE
+Depends:
+    R (>= 3.1.0)
+Imports:
+    methods,
+    stringr,
+        sp,
+    raster,
+    rgdal,
+    gdalUtils,
+    tools,
+    log4r,
+    rgrass7
+RoxygenNote: 5.0.1
+SystemRequirements: GNU make

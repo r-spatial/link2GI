@@ -1,8 +1,6 @@
 # link2GI
 
-link2GI is a collection of tools to support the visual interpretation of airborne data sets
-
-Additionally GRASS, SAGA, Python cli calls are used. 
+The package provides functions to simplify the linking of the most important command line tools to R.  It focus Linux and WindowsX OS but nevertheless it should also work with OSX.
 
 
 For installation use devtools::install_github().

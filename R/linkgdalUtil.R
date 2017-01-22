@@ -5,8 +5,8 @@ if (!isGeneric('linkgdalUtils')) {
 
 #'@title Search and export the settings of \code{gdalUtils} and 'GDAL' binaries.
 #'@name linkgdalUtils
-#'@description  Check and export the \link{gdalUtils} and \href{http://www.gdal.org/}{'GDAL'} settings. 
-#'You need to have installed the  \code{'GDAL'} binaries.
+#'@description  Check and export the \href{https://CRAN.R-project.org/package=gdalUtils}{gdalUtils} and \href{http://www.gdal.org/}{'GDAL'} settings. 
+#'You need to have installed the  'GDAL' binaries.
 #'@author CR
 #'@return 
 #' A list of the complete capabilities of the current installed GDAL version

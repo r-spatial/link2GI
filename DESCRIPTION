@@ -1,7 +1,7 @@
 Package: link2GI
 Type: Package
 Title: Linking GIS, Remote Sensing and Other Command Line Tools
-Version: 0.1.0
+Version: 0.1-0
 Date: 2016-12-24
 Author: Chris Reudenbach [cre, aut]
 Encoding: UTF-8
@@ -9,7 +9,7 @@ Maintainer: Chris Reudenbach <reudenbach@uni-marburg.de>
 Description: Functions to simplify the linking of open source GIS and remote sensing related command line interfaces.
 License: GPL (>= 3) | file LICENSE
 Depends: R (>= 2.10), methods
-Imports: sp, raster, rgdal, gdalUtils, tools, rgrass7
+Imports: sp, raster, rgdal, gdalUtils, tools, rgrass7, sf
 RoxygenNote: 5.0.1
 Suggests: knitr, rmarkdown
 SystemRequirements: GNU make SAGA GIS GRASS GIS (7.x.x) Orfeo ToolBox

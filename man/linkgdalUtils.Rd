@@ -10,8 +10,8 @@ linkgdalUtils()
 A list of the complete capabilities of the current installed GDAL version
 }
 \description{
-Check and export the \link{gdalUtils} and \href{http://www.gdal.org/}{'GDAL'} settings. 
-You need to have installed the  \code{'GDAL'} binaries.
+Check and export the \href{https://CRAN.R-project.org/package=gdalUtils}{gdalUtils} and \href{http://www.gdal.org/}{'GDAL'} settings. 
+You need to have installed the  'GDAL' binaries.
 }
 \examples{
 \dontrun{

@@ -1,6 +1,6 @@
 Package: link2GI
 Type: Package
-Title: Linking GIS, Remote Sensing and Other Command Line Tools
+Title: Linking Geographic Information Systems, Remote Sensing and Other Command Line Tools
 Version: 0.1-0
 Date: 2016-12-24
 Author: Chris Reudenbach [cre, aut]

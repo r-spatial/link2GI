@@ -2,7 +2,7 @@
 % Please edit documentation in R/initControls.R
 \name{searchOTBW}
 \alias{searchOTBW}
-\title{Search for valid 'OTB' installation(s) on a 'Windows' OS}
+\title{Search recursively for valid 'OTB' installation(s) on a 'Windows' OS}
 \usage{
 searchOTBW(DL = "C:")
 }

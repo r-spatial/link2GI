@@ -2,7 +2,7 @@
 % Please edit documentation in R/initControls.R
 \name{searchSAGAW}
 \alias{searchSAGAW}
-\title{Search for valid 'Windows' 'SAGA GIS' installation(s)}
+\title{Search recursively for valid 'Windows' 'SAGA GIS' installation(s)}
 \usage{
 searchSAGAW(DL = "C:", verSelect = FALSE)
 }

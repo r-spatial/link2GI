@@ -1,5 +1,5 @@
 
-#'@title Search for valid 'Windows' 'SAGA GIS' installation(s)
+#'@title Search recursively for valid 'Windows' 'SAGA GIS' installation(s)
 #'@name searchSAGAW
 #'@description  Search for valid 'SAGA GIS' installation(s) on a given 'Windows' drive 
 #'@param DL drive letter default is "C:"
@@ -473,7 +473,7 @@ setOTBEnv <- function(binPathOtb = NULL, rootPathOtb = NULL){
   return(binPathOtb)
 }
 
-#'@title Search for valid 'OTB' installation(s) on a 'Windows' OS
+#'@title Search recursively for valid 'OTB' installation(s) on a 'Windows' OS
 #'@name searchOTBW
 #'@description  Search for valid 'OTB' installations on a 'Windows' OS
 #'@param DL drive letter default is "C:"

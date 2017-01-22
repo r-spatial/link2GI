@@ -4,7 +4,7 @@
 \alias{linkSAGA}
 \title{Locate and bind valid SAGA installation(s)}
 \usage{
-linkSAGA(defaultSAGA = NULL, DL = "C:", MP = "/usr")
+linkSAGA(defaultSAGA = NULL, DL = "C:", MP = "/usr", verSelect = FALSE)
 }
 \arguments{
 \item{defaultSAGA}{string contains path to SAGA binaries}
@@ -12,23 +12,23 @@ linkSAGA(defaultSAGA = NULL, DL = "C:", MP = "/usr")
 \item{DL}{drive letter}
 
 \item{MP}{mount point}
+
+\item{verSelect}{boolean default is FALSE. If there is more than one 'SAGA GIS' installation and \code{verSelect} = TRUE the user can select interactively the preferred 'SAGA GIS' version}
 }
 \description{
-Locate and bind valid 'SAGA GIS' \url{http://www.saga-gis.org/}
+Locate and bind valid \href{http://www.saga-gis.org/}{SAGA GIS}
  installation(s). It returns the pathes and correct environment settings. All
  valid means that it looks for the \code{saga_cmd} or \code{saga_cmd.exe}
- executable of the SAGA CLI. If the file is found it is assumed to be a valid
- SAGA binary installation.
+ executables. If the file is found it is assumed to be a valid
+ 'SAGA GIS' installation.
 }
 \details{
-Adds SAGA pathes to the environment and creates the global variables
-sagaPath, sagaModPath and sagaCmd
+If called without any parameter \code{linkSAGA()} it performs a full search over \code{C:}. If it finds one or more 'SAGA GIS' binaries it will take the first hit. You have to set \code{verSelect = TRUE} for an interactive selection of the preferred version. Additionally the selected SAGA pathes are added to the environment and the global variables \code{sagaPath}, \code{sagaModPath} and \code{sagaCmd} will be created.
 }
 \note{
-The excellent SAGA wrapper \href{https://CRAN.R-project.org/package=RSAGA}{RSAGA} is NOT used because the
- permanent occucrence of breaking the API calls makes it highly impracticable
- to keep in line. RSAGA fits perfectly your needs if you use 'SAGA GIS'
- (2.0.4 - 2.2.3).
+The excellent 'SAGA GIS' wrapper \href{https://CRAN.R-project.org/package=RSAGA}{RSAGA} is NOT used because the
+ the developemt of 'SAGA GIS' breaks permanently the API call syntax. This fact makes it highly impracticable
+ to keep with the wrapper adaptions in line. \code{RSAGA} will meet perfectly your needs if you use 'SAGA GIS' versions from 2.0.4 - 2.2.3.
 }
 \examples{
 \dontrun{

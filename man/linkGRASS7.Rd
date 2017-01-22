@@ -21,8 +21,8 @@ also provide a valid combination as c("C:/OSGeo4W64","grass-7.0.5","osgeo4w")}
 linkGRASS7 initializes the usage of GRASS7.
 }
 \description{
-Initializes the environment and the pathes for 'GRASS GIS 7.x' 
-\url{https://grass.osgeo.org/}  The correct linkage to 'GRASS GIS' is performed by using an existing and valid
+Initializes the environment and the pathes for 
+\href{https://grass.osgeo.org/}{'GRASS GIS 7.x'}  The correct linkage to 'GRASS GIS' is performed by using an existing and valid
  \code{\link{raster}} or \code{\link{sp}} object. \cr
 }
 \details{

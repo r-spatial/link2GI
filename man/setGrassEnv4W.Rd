@@ -2,7 +2,7 @@
 % Please edit documentation in R/initControls.R
 \name{setGrassEnv4W}
 \alias{setGrassEnv4W}
-\title{Initializes and set up  access to GRASS7 via the \link{rgrass7} wrapper or command line packages}
+\title{Initializes and set up  access to 'GRASS GIS 7.xx' via the \link{rgrass7} wrapper or command line packages}
 \usage{
 setGrassEnv4W(grassRoot = "C:\\\\OSGEO4~1", grassVersion = "grass-7.0.5",
   installationType = "osgeo4W", jpgmem = 1e+06)
@@ -12,15 +12,15 @@ setGrassEnv4W(grassRoot = "C:\\\\OSGEO4~1", grassVersion = "grass-7.0.5",
 
 \item{grassVersion}{grass version name i.e. "grass-7.0.5"}
 
-\item{installationType}{two options "osgeo4w" and "NSIS"}
+\item{installationType}{two options "osgeo4w" as installed by the 'OSGeo4W'-installer and "NSIS" that is typical for a standalone installtion of 'GRASS GIS'.}
 
 \item{jpgmem}{jpeg2000 memory allocation size. Default is 1000000}
 }
 \value{
-set all enviroment variables and additionally returns the GISBASE
+Set all necessary environment variables and additionally returns the GISBASE directory as string.
 }
 \description{
-Initializes and set up  access to GRASS7 via the \link{rgrass7} wrapper or command line packages
+Initializes and set up  access to 'GRASS GIS 7.xx' via the \link{rgrass7} wrapper or command line packages
 }
 \examples{
 \dontrun{

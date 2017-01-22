@@ -2,7 +2,7 @@
 % Please edit documentation in R/initControls.R
 \name{searchOTBW}
 \alias{searchOTBW}
-\title{Search for valid 'OTB' installations on a 'Windows' OS}
+\title{Search for valid 'OTB' installation(s) on a 'Windows' OS}
 \usage{
 searchOTBW(DL = "C:")
 }
@@ -10,7 +10,7 @@ searchOTBW(DL = "C:")
 \item{DL}{drive letter default is "C:"}
 }
 \value{
-A dataframe with the 'OTB' root dir the Version name and the installation type
+A dataframe with the 'OTB' root folder(s) the version name(s) and the installation type(s).
 }
 \description{
 Search for valid 'OTB' installations on a 'Windows' OS
@@ -20,7 +20,7 @@ Search for valid 'OTB' installations on a 'Windows' OS
 #### Examples how to use RSAGA and OTB bindings from R
 
 # get all valid OTB installation folders and params
-otbParam<- searchOTBW()
+searchOTBW()
 }
 }
 \author{

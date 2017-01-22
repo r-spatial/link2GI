@@ -2,7 +2,7 @@
 % Please edit documentation in R/initControls.R
 \name{searchGRASSX}
 \alias{searchGRASSX}
-\title{Search for valid 'GRASS GIS' installations at a given Linux mount point}
+\title{Search recursivly valid 'GRASS GIS' installation(s) at a given 'Linux' mount point}
 \usage{
 searchGRASSX(MP = "/usr")
 }
@@ -10,18 +10,18 @@ searchGRASSX(MP = "/usr")
 \item{MP}{default is /usr}
 }
 \value{
-dataframe containing 'GRASS GIS' binary dir(s), version name(s) and installation type code(s)
+A dataframe containing 'GRASS GIS' binary folder(s), version name(s) and installation type code(s)
 }
 \description{
-Search for valid 'GRASS GIS' installations at a given Linux mount point
+Search for valid 'GRASS GIS' installations at a given 'Linux' mount point
 }
 \examples{
 \dontrun{
 # get all valid 'GRASS GIS' installation folders in the /usr directory (typical location)
-grassParam<- searchGRASSX("~/")
+searchGRASSX("~/usr")
 
 # get all valid 'GRASS GIS' installation folders in the home directory
-grassParam<- searchGRASSX("~/")
+searchGRASSX("~/")
 }
 }
 \author{

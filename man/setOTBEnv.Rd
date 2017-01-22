@@ -7,13 +7,13 @@
 setOTBEnv(binPathOtb = NULL, rootPathOtb = NULL)
 }
 \arguments{
-\item{binPathOtb}{string contains the path to the OTB binaries}
+\item{binPathOtb}{string contains the path to the 'OTB' binaries}
 
 \item{rootPathOtb}{string contains the full string to the root folder
 containing the 'OTB' installation'}
 }
 \value{
-Adds 'OTB' pathes to the enviroment and creates global the variable \code{otbCmd}
+Adds 'OTB' pathes to the enviroment and creates the variable global string variable \code{otbCmd}, that contains the path to the 'OTB' binaries.
 }
 \description{
 Initializes and set up  access to the 'OTB' command line interface

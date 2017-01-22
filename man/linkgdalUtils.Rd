@@ -2,16 +2,16 @@
 % Please edit documentation in R/linkgdalUtil.R
 \name{linkgdalUtils}
 \alias{linkgdalUtils}
-\title{Check and export the gdalUtils settings}
+\title{Search and export the settings of \code{gdalUtils} and 'GDAL' binaries.}
 \usage{
 linkgdalUtils()
 }
 \value{
-a list of the complete capabilities of the current installed GDAL version
+A list of the complete capabilities of the current installed GDAL version
 }
 \description{
-Check and export the gdalUtils settings. 
-You need to have installed the 'GDAL' \url{http://www.gdal.org/} binaries.
+Check and export the \link{gdalUtils} and \href{http://www.gdal.org/}{'GDAL'} settings. 
+You need to have installed the  \code{'GDAL'} binaries.
 }
 \examples{
 \dontrun{

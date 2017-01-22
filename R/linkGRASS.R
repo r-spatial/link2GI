@@ -5,8 +5,8 @@ if (!isGeneric('linkGRASS7')) {
 
 #'@title Initializes environment variables and pathes for GRASS7
 #'@name linkGRASS7
-#'@description Initializes the environment and the pathes for 'GRASS GIS 7.x' 
-#' \url{https://grass.osgeo.org/}  The correct linkage to 'GRASS GIS' is performed by using an existing and valid
+#'@description Initializes the environment and the pathes for 
+#' \href{https://grass.osgeo.org/}{'GRASS GIS 7.x'}  The correct linkage to 'GRASS GIS' is performed by using an existing and valid
 #'  \code{\link{raster}} or \code{\link{sp}} object. \cr
 #'@note 'GRASS GIS 7' is excellently supported by the
 #'  \link{rgrass7} wrapper package. Nevertheless 'GRASS GIS' is well known for

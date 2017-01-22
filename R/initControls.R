@@ -3,7 +3,8 @@
 #'@name searchSAGAW
 #'@description  Search for valid 'SAGA GIS' installation(s) on a given 'Windows' drive 
 #'@param DL drive letter default is "C:"
-#'@return a dataframe with the 'SAGA GIS' root folder, the version name and the installation type
+#'@param verSelect boolean default is FALSE. If there is more than one 'SAGA GIS' installation and \code{verSelect} = TRUE the user can select interactively the preferred 'SAGA GIS' version 
+#'@return A dataframe contasining the 'SAGA GIS' root folder(s), the version name(s) and the installation type(s)
 #'@author Chris Reudenbach
 #'@export searchSAGAW
 #'
@@ -15,13 +16,15 @@
 #' sagaParams<- searchSAGAW()
 #' }
 
-searchSAGAW <- function(DL = "C:"){
-  # check if running on a HRZMR Pool PC
-  sagaPath <- checkPCRZP("saga")  
+searchSAGAW <- function(DL = "C:",
+                        verSelect=FALSE){
+  
+  sagaPath <- checkPCDomain("saga")  
   if (is.null(sagaPath)) {
+    
     # trys to find a osgeo4w installation on the whole C: disk returns root directory and version name
     # recursive dir for saga_cmd.exe returns all version of otb bat files
-    cat("\nsearching for SAGA installations - this may take a while\n")
+    cat("\nsearching for SAGA GIS installations - this may take a while\n")
     cat("For providing the path manually see ?searchSAGAW \n")
     
     # for a straightforward use of a correct codetable using the cmd command "dir" is used
@@ -72,7 +75,7 @@ searchSAGAW <- function(DL = "C:"){
   return(sagaPath)
 }
 
-#'@title Initialize the enviroment variables on a 'Windows' OS
+#'@title Initialize and set up 'GRASS GIS' and \code{rgrass7} for the usage on 'Windows' OS
 #'@name getGrassParams4W
 #'@description Initialize the enviroment variables on a 'Windows' OS for using 
 #'  'GRASS GIS' via \link{rgrass7}
@@ -116,7 +119,7 @@ getGrassParams4W <- function(setDefaultGrass=NULL, DL="C:", verSelect = FALSE){
       
       # if more than one valid installation was found you have to choose 
     } else if (nrow(grassParams) > 1 & verSelect) {
-      cat("You have more than one valid GRASS version\n")
+      cat("You have more than one valid GRASS GIS version\n")
       print(grassParams)
       cat("\n")
       ver <- as.numeric(readline(prompt = "Please choose one:  "))
@@ -142,19 +145,19 @@ getGrassParams4W <- function(setDefaultGrass=NULL, DL="C:", verSelect = FALSE){
 
 
 
-#'@title Search for valid 'OSGeo4W' 'GRASS GIS' installation(s) on a given 'Windows' drive 
+#'@title Search recursivly valid 'GRASS GIS' installation(s) on a given 'Windows' drive 
 #'@name searchGRASSW
 #'@title Search for valid OSGeo4W 'GRASS GIS' installation(s) on a given 'Windows' drive 
-#'@description  Provides an  estimation of valid 'GRASS GIS' installation(s) on your 'Windows' system. There is a major difference between osgeo4W and standalone installations. The functions trys to find all valid installations by analysing the calling batch scripts.
+#'@description  Provides an  list of valid 'GRASS GIS' installation(s) on your 'Windows' system. There is a major difference between osgeo4W and standalone installations. The functions trys to find all valid installations by analysing the calling batch scripts.
 #'@param DL drive letter to be searched, default is "C:"
-#'@return dataframe with the 'GRASS GIS' root dir, version name and installation type code word
+#'@return A dataframe with the 'GRASS GIS' root folder(s), version name(s) and installation type code(s)
 #'@author Chris Reudenbach
 #'@export searchGRASSW
 #'
 #'@examples
 #' \dontrun{
-#' # get all valid 'GRASS GIS' installation folders and params on 'Windows' OS
-#' grassParam<- searchGRASSW()
+#' # get all valid 'GRASS GIS' installation folders and params at "C:"
+#' searchGRASSW()
 #' }
 
 searchGRASSW <- function(DL = "C:"){
@@ -234,9 +237,9 @@ searchGRASSW <- function(DL = "C:"){
   return(grassInstallations)
 }
 
-#'@title Initialize and set up \link{rgrass7}  for Linux
+#'@title Initialize and set up 'GRASS GIS' and \code{rgrass7} for the usage on 'Linux' OS
 #'@name getGrassParams4X
-#'@description Initialize and set up \link{rgrass7}  for Linux
+#'@description Initialize and set up \link{rgrass7}  for 'Linux'
 #'@details During the rsession you will have full access to GRASS7 GIS via the \link{rgrass7} wrappe. Additionally you may use also use the API calls of GRASS7 via the command line.
 #'@param setDefaultGrass default = NULL will force a search for 'GRASS GIS' You may provide a valid combination as c("C:/OSGeo4W64","grass-7.0.5","osgeo4w")
 #'@param MP mount point to be searched. default is "usr"
@@ -283,21 +286,21 @@ getGrassParams4X <- function(setDefaultGrass=NULL, MP = "/usr",verSelect = FALSE
   return(grass.gis.base)
 }
 
-#'@title Search for valid 'GRASS GIS' installations at a given Linux mount point
+#'@title Search recursivly valid 'GRASS GIS' installation(s) at a given 'Linux' mount point
 #'@name searchGRASSX
-#'@description Search for valid 'GRASS GIS' installations at a given Linux mount point
+#'@description Search for valid 'GRASS GIS' installations at a given 'Linux' mount point
 #'@param MP default is /usr
-#'@return dataframe containing 'GRASS GIS' binary dir(s), version name(s) and installation type code(s)
+#'@return A dataframe containing 'GRASS GIS' binary folder(s), version name(s) and installation type code(s)
 #'@author Chris Reudenbach
 #'@export searchGRASSX
 #'
 #'@examples
 #' \dontrun{
 #' # get all valid 'GRASS GIS' installation folders in the /usr directory (typical location)
-#' grassParam<- searchGRASSX("~/")
+#' searchGRASSX("~/usr")
 #' 
 #' # get all valid 'GRASS GIS' installation folders in the home directory
-#' grassParam<- searchGRASSX("~/")
+#' searchGRASSX("~/")
 #' }
 
 searchGRASSX <- function(MP = "/usr"){
@@ -327,14 +330,14 @@ searchGRASSX <- function(MP = "/usr"){
 
 
 
-#'@title Initializes and set up  access to GRASS7 via the \link{rgrass7} wrapper or command line packages
+#'@title Initializes and set up  access to 'GRASS GIS 7.xx' via the \link{rgrass7} wrapper or command line packages
 #'@name setGrassEnv4W
-#'@description  Initializes and set up  access to GRASS7 via the \link{rgrass7} wrapper or command line packages
+#'@description  Initializes and set up  access to 'GRASS GIS 7.xx' via the \link{rgrass7} wrapper or command line packages
 #'@param grassRoot  grass root directory i.e. "C:\\OSGEO4~1",
 #'@param grassVersion grass version name i.e. "grass-7.0.5"
-#'@param installationType two options "osgeo4w" and "NSIS"
+#'@param installationType two options "osgeo4w" as installed by the 'OSGeo4W'-installer and "NSIS" that is typical for a standalone installtion of 'GRASS GIS'.
 #'@param jpgmem jpeg2000 memory allocation size. Default is 1000000
-#'@return set all enviroment variables and additionally returns the GISBASE 
+#'@return Set all necessary environment variables and additionally returns the GISBASE directory as string.
 #'@author Chris Reudenbach
 #'@export setGrassEnv4W
 #'
@@ -438,10 +441,10 @@ setGrassEnv4W <- function(grassRoot="C:\\OSGEO4~1",
 #'@name setOTBEnv
 #'@description  Initializes and set up  access to the 'OTB' command line interface
 #'  
-#'@param binPathOtb  string contains the path to the OTB binaries
+#'@param binPathOtb  string contains the path to the 'OTB' binaries
 #'@param rootPathOtb string contains the full string to the root folder
 #'  containing the 'OTB' installation'
-#'@return Adds 'OTB' pathes to the enviroment and creates global the variable \code{otbCmd}
+#'@return Adds 'OTB' pathes to the enviroment and creates the variable global string variable \code{otbCmd}, that contains the path to the 'OTB' binaries.
 #'@export setOTBEnv
 #'  
 #'@examples
@@ -454,7 +457,7 @@ setOTBEnv <- function(binPathOtb = NULL, rootPathOtb = NULL){
   # check if running on a HRZMR Pool PC
   if (!exists("GiEnv")) GiEnv <- new.env(parent=globalenv()) 
   if (substr(Sys.getenv("COMPUTERNAME"),1,5) == "PCRZP") {
-    binPathOtb <- checkPCRZP("otb")   
+    binPathOtb <- checkPCDomain("otb")   
     Sys.setenv(GEOTIFF_CSV = paste0(Sys.getenv("OSGEO4W_ROOT"),"\\share\\epsg_csv"),envir = GiEnv)
   } else {
     # (R) set pathes  of otb modules and binaries depending on OS  
@@ -470,11 +473,11 @@ setOTBEnv <- function(binPathOtb = NULL, rootPathOtb = NULL){
   return(binPathOtb)
 }
 
-#'@title Search for valid 'OTB' installations on a 'Windows' OS
+#'@title Search for valid 'OTB' installation(s) on a 'Windows' OS
 #'@name searchOTBW
 #'@description  Search for valid 'OTB' installations on a 'Windows' OS
 #'@param DL drive letter default is "C:"
-#'@return A dataframe with the 'OTB' root dir the Version name and the installation type
+#'@return A dataframe with the 'OTB' root folder(s) the version name(s) and the installation type(s).
 #'@author Chris Reudenbach
 #'@export searchOTBW
 #'
@@ -483,7 +486,7 @@ setOTBEnv <- function(binPathOtb = NULL, rootPathOtb = NULL){
 #'#### Examples how to use RSAGA and OTB bindings from R
 #'
 #' # get all valid OTB installation folders and params
-#' otbParam<- searchOTBW()
+#' searchOTBW()
 #' }
 
 searchOTBW <- function(DL = "C:") {
@@ -495,7 +498,7 @@ searchOTBW <- function(DL = "C:") {
   } else {
     # trys to find a osgeo4w installation on the whole C: disk returns root directory and version name
     # recursive dir for otb*.bat returns all version of otb bat files
-    cat("\nsearching for OTB installations - this may take a while\n")
+    cat("\nsearching for Orfeo Toolbox installations - this may take a while\n")
     cat("For providing the path manually see ?searchOTBW \n")
     rawOTB <- system(paste0("cmd.exe /c dir /B /S ",DL,"\\","otbcli.bat"),intern = TRUE)
     
@@ -567,8 +570,8 @@ getSpatialClass <- function(obj) {
                              "SpatialLines")) {"vec"}
 }
 
-#'@title Checks if the computer belongs to the Marburg Universitys computer domain
-#'@name checkPCRZP
+#'@title Checks if running on a specified computer domain
+#'@name checkPCDomain
 #'@description  Checks if the computer belongs to the Marburg Universitys computer pools
 #'@param cliCode code of the sofware currently \code{saga} and \code{otb} are supported
 #'@param prefixPC contains the an arbitrary part of the computer name. It always starts with the first letter.
@@ -576,10 +579,10 @@ getSpatialClass <- function(obj) {
 #'@examples
 #' \dontrun{
 #' # add path
-#' checkPCRZP("saga",prefixPC="PCRZP")
+#' checkPCDomain("saga",prefixPC="PCRZP")
 #' }
-#'@export checkPCRZP
-checkPCRZP <- function(cliCode=NULL, prefixPC="PCRZP") {
+#'@export checkPCDomain
+checkPCDomain <- function(cliCode=NULL, prefixPC="PCRZP") {
   if (!exists("GiEnv")) GiEnv <- new.env(parent=globalenv()) 
   if (substr(Sys.getenv("COMPUTERNAME"),1,nchar(prefixPC)) == substr(prefixPC,1,nchar(prefixPC))) {
     if (cliCode == "saga") { 

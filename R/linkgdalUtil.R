@@ -3,13 +3,13 @@ if (!isGeneric('linkgdalUtils')) {
     standardGeneric('linkgdalUtils'))
 }
 
-#'@title Check and export the gdalUtils settings
+#'@title Search and export the settings of \code{gdalUtils} and 'GDAL' binaries.
 #'@name linkgdalUtils
-#'@description  Check and export the gdalUtils settings. 
-#'You need to have installed the 'GDAL' \url{http://www.gdal.org/} binaries.
+#'@description  Check and export the \link{gdalUtils} and \href{http://www.gdal.org/}{'GDAL'} settings. 
+#'You need to have installed the  \code{'GDAL'} binaries.
 #'@author CR
 #'@return 
-#' a list of the complete capabilities of the current installed GDAL version
+#' A list of the complete capabilities of the current installed GDAL version
 #'@export linkgdalUtils 
 #'@examples
 #' \dontrun{

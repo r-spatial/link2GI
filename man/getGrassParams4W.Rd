@@ -8,7 +8,7 @@ getGrassParams4W(setDefaultGrass = NULL, DL = "C:", verSelect = FALSE)
 }
 \arguments{
 \item{setDefaultGrass}{default = NULL forces a full search for 'GRASS GIS' binaries. You may
-alternatively provide a vector containing pathes and keywords. c("C:/OSGeo4W64","grass-7.0.5","osgeo4w") is valid for a typical osgeo4w installation.}
+alternatively provide a vector containing pathes and keywords. c("C:/OSGeo4W64","grass-7.0.5","osgeo4W") is valid for a typical osgeo4w installation.}
 
 \item{DL}{raster or sp object}
 

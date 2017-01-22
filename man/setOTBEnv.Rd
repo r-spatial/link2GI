@@ -2,25 +2,26 @@
 % Please edit documentation in R/initControls.R
 \name{setOTBEnv}
 \alias{setOTBEnv}
-\title{Initializes and set up  access to the OTB command line interface}
+\title{Initializes and set up  access to the 'OTB' command line interface}
 \usage{
 setOTBEnv(binPathOtb = NULL, rootPathOtb = NULL)
 }
 \arguments{
-\item{binPathOtb}{string contains path to otb binaries}
+\item{binPathOtb}{string contains the path to the OTB binaries}
 
-\item{rootPathOtb}{string contains the full string to call otb launcher}
+\item{rootPathOtb}{string contains the full string to the root folder
+containing the 'OTB' installation'}
 }
 \value{
-add otb pathes to the enviroment and creates global variables otbCmd
+Adds 'OTB' pathes to the enviroment and creates global the variable \code{otbCmd}
 }
 \description{
-Initializes and set up  access to the OTB command line interface
+Initializes and set up  access to the 'OTB' command line interface
 }
 \examples{
 \dontrun{
-## call it for a default OSGeo4W64 oinstallation of SAGA
-setOTBEnv()
+## example for the most common default OSGeo4W64 installation of OTB
+setOTBEnv(binPathOtb="C:\\\\OSGeo4W64\\\\bin\\\\",rootPathOtb="C:\\\\OSGeo4W64")
 }
 }
 

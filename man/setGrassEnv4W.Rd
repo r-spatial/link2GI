@@ -5,7 +5,7 @@
 \title{Initializes and set up  access to GRASS7 via the \link{rgrass7} wrapper or command line packages}
 \usage{
 setGrassEnv4W(grassRoot = "C:\\\\OSGEO4~1", grassVersion = "grass-7.0.5",
-  installationType = "osgeo4w", jpgmem = 1e+06)
+  installationType = "osgeo4W", jpgmem = 1e+06)
 }
 \arguments{
 \item{grassRoot}{grass root directory i.e. "C:\\OSGEO4~1",}

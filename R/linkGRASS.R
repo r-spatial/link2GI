@@ -24,14 +24,13 @@ if (!isGeneric('linkGRASS7')) {
 #'  helpful. You need to provide a \code{\link{raster}} or \code{\link{sp}} spatial object
 #'  which has to be correctly georeferenced. The resulting params will be used
 #'  to initialize a temporary but static 
-#'  \href{https://CRAN.R-project.org/package=rgrass7}{rgrass7} environment. 
-#'  During the rsession you will have full access to GRASS7 via the 
-#'  \link{rgrass7} wrapper package. #'  *NOTE* If you have more than one valid
-#'  installation you will be ask to select.
-#'@param SP searchpath
+#'  \href{https://CRAN.R-project.org/package=rgrass7}{rgrass7} environment.\cr\cr
+#'  If you want speed up the init process (mainly the search over your hard disk) you can provide a correct parameter set. Best way to do so is to call search 
+#'@note If you have more than one valid installation you will be ask to select one.
+#'@param searchPath path or mounting point that will be searched
 #'@param x raster or sp object
-#'@param setDefaultGrass default = NULL will force a search for GRASS You may 
-#'  provide a valid combination as c("C:/OSGeo4W64","grass-7.0.5","osgeo4w")
+#'@param defaultGrass if NULL an automatic search will be performed. You may 
+#'  also provide a valid combination as c("C:/OSGeo4W64","grass-7.0.5","osgeo4w")
 #'@param verSelect boolean if TRUE you may choose interactively the binary version (if found  more than one),  by default FALSE
 #'@author Chris Reudenbach
 #'@return linkGRASS7 initializes the usage of GRASS7.
@@ -50,9 +49,11 @@ if (!isGeneric('linkGRASS7')) {
 #' linkGRASS7(meuse)
 #'  
 #' # call if you do not have any idea if and where GRASS is installed
+#' # Actually this linking procedure is highly recommended
 #' linkGRASS7(meuse)
 #' 
-#' # assuming a typical standalone installation 
+#' # assuming a typical standalone non-OSGeo4W installation
+#' # You must provide at  
 #' linkGRASS7(meuse,c("C:/Program Files/GRASS GIS7.0.5","GRASS GIS 7.0.5","NSIS")) 
 #' 
 #' # assuming a typical OSGeo4W installation
@@ -62,8 +63,8 @@ if (!isGeneric('linkGRASS7')) {
 #' }
 
 linkGRASS7 <- function(x = NULL,
-                      setDefaultGrass = NULL, 
-                      SP = NULL,
+                      defaultGrass = NULL, 
+                      searchPath = NULL,
                       verSelect = FALSE){
   if (is.null(x)) {
     stop("You MUST provide a raster* or sp* object, Did not found any of them so stopped.")
@@ -91,11 +92,11 @@ linkGRASS7 <- function(x = NULL,
     }
   }
   if (Sys.info()["sysname"] == "Windows") {
-    if (is.null(SP)) SP <- "C:"
-    grass.gis.base <- getGrassParams4W(setDefaultGrass,SP,verSelect)
+    if (is.null(searchPath)) searchPath <- "C:"
+    grass.gis.base <- getGrassParams4W(defaultGrass,searchPath,verSelect)
   } else {
-    if (is.null(SP)) SP <- "/usr"
-    grass.gis.base <- getGrassParams4X(setDefaultGrass,SP,verSelect)
+    if (is.null(searchPath)) searchPath <- "/usr"
+    grass.gis.base <- getGrassParams4X(defaultGrass,searchPath,verSelect)
   }
   
   

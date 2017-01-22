@@ -4,16 +4,16 @@
 \alias{linkGRASS7}
 \title{Initializes environment variables and pathes for GRASS7}
 \usage{
-linkGRASS7(x = NULL, setDefaultGrass = NULL, SP = NULL,
+linkGRASS7(x = NULL, defaultGrass = NULL, searchPath = NULL,
   verSelect = FALSE)
 }
 \arguments{
 \item{x}{raster or sp object}
 
-\item{setDefaultGrass}{default = NULL will force a search for GRASS You may 
-provide a valid combination as c("C:/OSGeo4W64","grass-7.0.5","osgeo4w")}
+\item{defaultGrass}{if NULL an automatic search will be performed. You may 
+also provide a valid combination as c("C:/OSGeo4W64","grass-7.0.5","osgeo4w")}
 
-\item{SP}{searchpath}
+\item{searchPath}{path or mounting point that will be searched}
 
 \item{verSelect}{boolean if TRUE you may choose interactively the binary version (if found  more than one),  by default FALSE}
 }
@@ -30,10 +30,8 @@ The concept is very straightforward but for an all days usage pretty
  helpful. You need to provide a \code{\link{raster}} or \code{\link{sp}} spatial object
  which has to be correctly georeferenced. The resulting params will be used
  to initialize a temporary but static 
- \href{https://CRAN.R-project.org/package=rgrass7}{rgrass7} environment. 
- During the rsession you will have full access to GRASS7 via the 
- \link{rgrass7} wrapper package. #'  *NOTE* If you have more than one valid
- installation you will be ask to select.
+ \href{https://CRAN.R-project.org/package=rgrass7}{rgrass7} environment.\cr\cr
+ If you want speed up the init process (mainly the search over your hard disk) you can provide a correct parameter set. Best way to do so is to call search
 }
 \note{
 'GRASS GIS 7' is excellently supported by the
@@ -48,6 +46,8 @@ The concept is very straightforward but for an all days usage pretty
  \code{linkGRASS7} tries to find all valid 'GRASS GIS' binaries by analyzing
  the startup files of 'GRASS GIS'. After identifying 'GRASS GIS' binaries all
  necessary system variables and settings will be performed.
+
+If you have more than one valid installation you will be ask to select one.
 }
 \examples{
 \dontrun{
@@ -62,9 +62,11 @@ proj4string(meuse) <-CRS("+init=epsg:28992")
 linkGRASS7(meuse)
  
 # call if you do not have any idea if and where GRASS is installed
+# Actually this linking procedure is highly recommended
 linkGRASS7(meuse)
 
-# assuming a typical standalone installation 
+# assuming a typical standalone non-OSGeo4W installation
+# You must provide at  
 linkGRASS7(meuse,c("C:/Program Files/GRASS GIS7.0.5","GRASS GIS 7.0.5","NSIS")) 
 
 # assuming a typical OSGeo4W installation

@@ -7,9 +7,9 @@
 checkPCRZP(cliCode = NULL, prefixPC = "PCRZP")
 }
 \arguments{
-\item{cliCode}{code of the sofware currently "saga" and "otb" are supported}
+\item{cliCode}{code of the sofware currently \code{saga} and \code{otb} are supported}
 
-\item{prefixPC}{name of PC}
+\item{prefixPC}{contains the an arbitrary part of the computer name. It always starts with the first letter.}
 }
 \description{
 Checks if the computer belongs to the Marburg Universitys computer pools

@@ -39,7 +39,7 @@ linkSAGA <- function(defaultSAGA = NULL, DL = "C:", MP="/usr"){
   # (R) set pathes  of SAGA modules and binaries depending on OS  
   exist <- FALSE
   if (Sys.info()["sysname"] == "Windows") {
-    if (is.null(defaultSAGA)) defaultSAGA <- searchSAGA4W(DL = DL) 
+    if (is.null(defaultSAGA)) defaultSAGA <- searchSAGAW(DL = DL) 
     # take the first return
     makGlobalVar("sagaCmd", paste0(defaultSAGA[[1]][1],"\\saga_cmd.exe"))
     makGlobalVar("sagaPath", defaultSAGA[[1]][1])

@@ -16,7 +16,7 @@ linkOTB(binPathOtb = NULL, rootPathOtb = NULL, otbType = NULL,
 
 \item{DL}{string hard drive letter default is \code{C:}}
 
-\item{selectOtbVer}{boolean default is FALSE. If there is more than one OTB installation and \code{selectOtbVer} = TRUE the user can select interactively the preferred OTB version}
+\item{selectOtbVer}{boolean default is FALSE. If there is more than one OTB installation and \code{selectOtbVer} = TRUE the user can select interactively the preferred 'OTB' version}
 }
 \value{
 add otb pathes to the enviroment and creates global variables otbPath
@@ -25,12 +25,12 @@ add otb pathes to the enviroment and creates global variables otbPath
 Locate and set up 'Orfeo ToolBox' \url{https://www.orfeo-toolbox.org/} API bindings
 }
 \details{
-It looks for the \code{otb_cli.bat} file. If the file is found in a \code{bin} folder it is assumed to be a valid OTB binary installation.
+It looks for the \code{otb_cli.bat} file. If the file is found in a \code{bin} folder it is assumed to be a valid 'OTB' binary installation.
 
-if called without any parameter \code{linkOTB()} it performs a full search over the hardrive \code{C:}. If it finds one or more OTB binaries it will take the first hit. You have to set \code{selectOtbVer = TRUE} for an interactive selection of the preferred version.
+if called without any parameter \code{linkOTB()} it performs a full search over the hardrive \code{C:}. If it finds one or more 'OTB' binaries it will take the first hit. You have to set \code{selectOtbVer = TRUE} for an interactive selection of the preferred version.
 }
 \note{
-It is strongly recommended to set the path manually. Using a 'OSGeo4W' \url{http://trac.osgeo.org/osgeo4w/} installation it is typically \code{C:/OSGeo4W64/bin/}
+You may also set the path manually. Using a 'OSGeo4W64' \url{http://trac.osgeo.org/osgeo4w/} installation it is typically \code{C:/OSGeo4W64/bin/}
 }
 \examples{
 \dontrun{

@@ -38,7 +38,8 @@ searchSAGAW <- function(DL = "C:",
       if (length(unique(grep(paste("OSGeo4W64", collapse = "|"), rawSAGA[i], value = TRUE))) > 0) {
         rootDir <- unique(grep(paste("OSGeo4W64", collapse = "|"), rawSAGA[i], value = TRUE))
         rootDir <- substr(rootDir,1, gregexpr(pattern = "saga_cmd.exe", rootDir)[[1]][1] - 1)
-        installDir <- substr(rootDir,1, gregexpr(pattern = "bin", rootDir)[[1]][1] - 2)
+        #installDir <- substr(rootDir,1, gregexpr(pattern = "bin", rootDir)[[1]][1] - 2)
+        installDir <- rootDir
         installerType <- "osgeo4w64SAGA"
       }    
       
@@ -46,19 +47,22 @@ searchSAGAW <- function(DL = "C:",
       else if (length(unique(grep(paste("OSGeo4W", collapse = "|"), rawSAGA[i], value = TRUE))) > 0) {
         rootDir <- unique(grep(paste("OSGeo4W", collapse = "|"), rawSAGA[i], value = TRUE))
         rootDir <- substr(rootDir,1, gregexpr(pattern = "saga_cmd.exe", rootDir)[[1]][1] - 1)
-        installDir <- substr(rootDir,1, gregexpr(pattern = "bin", rootDir)[[1]][1] - 2)
+        #installDir <- substr(rootDir,1, gregexpr(pattern = "bin", rootDir)[[1]][1] - 2)
+        installDir <- rootDir
         installerType <- "osgeo4wSAGA"
       }
       # if the the tag "QGIS" exists set installationType
       else if (length(unique(grep(paste("QGIS", collapse = "|"), rawSAGA[i], value = TRUE))) > 0) {
         rootDir <- unique(grep(paste("QGIS", collapse = "|"), rawSAGA[i], value = TRUE))
         rootDir <- substr(rootDir,1, gregexpr(pattern = "saga_cmd.exe", rootDir)[[1]][1] - 1)
-        installDir <- substr(rootDir,1, gregexpr(pattern = "bin", rootDir)[[1]][1] - 2)
+        #installDir <- substr(rootDir,1, gregexpr(pattern = "bin", rootDir)[[1]][1] - 2)
+        installDir <- rootDir
         installerType <- "qgisSAGA"
       }
       else{
         rootDir <- substr(rawSAGA[i],1, gregexpr(pattern = "saga_cmd.exe", rawSAGA[i])[[1]][1] - 1)
-        installDir <- substr(rootDir,1, gregexpr(pattern = "bin", rootDir)[[1]][1] - 2)
+        #installDir <- substr(rootDir,1, gregexpr(pattern = "bin", rootDir)[[1]][1] - 2)
+        installDir <- rootDir
         installerType <- "userSAGA"
       }
       

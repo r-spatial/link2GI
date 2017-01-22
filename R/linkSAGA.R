@@ -54,12 +54,19 @@ linkSAGA <- function(defaultSAGA = NULL,
         print(defaultSAGA)
         cat("\n")
         ver <- as.numeric(readline(prompt = "Please choose one:  "))
-        makGlobalVar("sagaCmd", paste0(defaultSAGA[[ver]][1],"\\saga_cmd.exe"))
-        makGlobalVar("sagaPath", defaultSAGA[[ver]][1])
-        if (!is.null(defaultSAGA[[2]][1])) makGlobalVar("sagaModPath",  defaultSAGA[[2]][1])
-        add2Path(defaultSAGA[[1]][1])
-        add2Path(defaultSAGA[[2]][1])
-            }
+        makGlobalVar("sagaCmd", paste0(defaultSAGA[[1]][ver],"\\saga_cmd.exe"))
+        makGlobalVar("sagaPath", defaultSAGA[[1]][ver])
+        add2Path(defaultSAGA[[1]][ver])
+    }
+    else if (nrow(defaultSAGA) > 1  & !verSelect) { 
+      
+      cat("You have more than one valid SAGA GIS version\n")
+      print(defaultSAGA[[1]])
+      cat("\nTake the first one...\n")
+      makGlobalVar("sagaCmd", paste0(defaultSAGA[[1]][1],"\\saga_cmd.exe"))
+      makGlobalVar("sagaPath", defaultSAGA[[1]][1])
+      add2Path(defaultSAGA[[1]][1])
+    }
   } 
   # if Linux
   else {

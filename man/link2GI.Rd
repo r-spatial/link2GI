@@ -6,7 +6,7 @@
 \alias{link2GI-package}
 \title{Linking the GI-World}
 \description{
-The package provides a simple wrapper for linking  GI/RS functionality to R
+A simple wrapper for linking  GI/RS functionality to R
 }
 \details{
 Functions for linking  GI/RS functionality to R

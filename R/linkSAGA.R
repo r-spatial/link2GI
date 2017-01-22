@@ -8,8 +8,7 @@ if ( !isGeneric("linkSAGA") ) {
 #'@description Locate and bind valid \href{http://www.saga-gis.org/}{SAGA GIS}
 #'  installation(s). It returns the pathes and correct environment settings. All
 #'  valid means that it looks for the \code{saga_cmd} or \code{saga_cmd.exe}
-#'  executables. If the file is found it is assumed to be a valid
-#'  'SAGA GIS' installation.
+#'  executables. If the file is found it is assumed to be a valid 'SAGA GIS' installation.
 #'@note The excellent 'SAGA GIS' wrapper \href{https://CRAN.R-project.org/package=RSAGA}{RSAGA} is NOT used because the
 #'  the developemt of 'SAGA GIS' breaks permanently the API call syntax. This fact makes it highly impracticable
 #'  to keep with the wrapper adaptions in line. \code{RSAGA} will meet perfectly your needs if you use 'SAGA GIS' versions from 2.0.4 - 2.2.3.

@@ -19,8 +19,7 @@ linkSAGA(defaultSAGA = NULL, DL = "C:", MP = "/usr", verSelect = FALSE)
 Locate and bind valid \href{http://www.saga-gis.org/}{SAGA GIS}
  installation(s). It returns the pathes and correct environment settings. All
  valid means that it looks for the \code{saga_cmd} or \code{saga_cmd.exe}
- executables. If the file is found it is assumed to be a valid
- 'SAGA GIS' installation.
+ executables. If the file is found it is assumed to be a valid 'SAGA GIS' installation.
 }
 \details{
 If called without any parameter \code{linkSAGA()} it performs a full search over \code{C:}. If it finds one or more 'SAGA GIS' binaries it will take the first hit. You have to set \code{verSelect = TRUE} for an interactive selection of the preferred version. Additionally the selected SAGA pathes are added to the environment and the global variables \code{sagaPath}, \code{sagaModPath} and \code{sagaCmd} will be created.

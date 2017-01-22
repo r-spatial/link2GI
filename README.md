@@ -1,6 +1,6 @@
 # link2GI
 
-The package provides functions to simplify the linking of the most important command line tools to R.  It focus 'Linux' and 'WindowsX' operating systems but nevertheless it should also work with 'OSX'.
+Provides functions to simplify the linking of the most important GIS/RS and image analysis command line tools to R.  It focus 'Linux' and 'WindowsX' operating systems but nevertheless it should also work with 'OSX'.
 
 
 For installation use devtools::install_github().

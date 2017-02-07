@@ -76,7 +76,7 @@ linkGRASS7 <- function(x = NULL,
       ymin <- x@extent@ymin
       xmax <- x@extent@xmax
       xmin <- x@extent@xmin
-    } else if (getSpatialClass(x) == "rst") {
+    } else if (getSpatialClass(x) == "vec") {
       # i do not understand all this class stuff :-(
       s <- x@proj4string
       s <- s@projargs
@@ -119,7 +119,7 @@ linkGRASS7 <- function(x = NULL,
   # assign GRASS extent
   if (getSpatialClass(x) == "rst") {
     rgrass7::execGRASS('g.region',
-                       flags = c('quiet'),
+                       flags = c('quiet','d'),
                        n = as.character(ymax),
                        s = as.character(ymin),
                        e = as.character(xmax),

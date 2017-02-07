@@ -16,7 +16,7 @@ linkSAGA(defaultSAGA = NULL, DL = "C:", MP = "/usr", verSelect = FALSE)
 \item{verSelect}{boolean default is FALSE. If there is more than one 'SAGA GIS' installation and \code{verSelect} = TRUE the user can select interactively the preferred 'SAGA GIS' version}
 }
 \description{
-Locate and bind valid \href{http://www.saga-gis.org/}{SAGA GIS}
+Locate and bind valid \href{http://www.saga-gis.org/}{SAGA GIlink2GI::linkSAGA()S}
  installation(s). It returns the pathes and correct environment settings. All
  valid means that it looks for the \code{saga_cmd} or \code{saga_cmd.exe}
  executables. If the file is found it is assumed to be a valid 'SAGA GIS' installation.

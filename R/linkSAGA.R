@@ -5,7 +5,7 @@ if ( !isGeneric("linkSAGA") ) {
 
 #'@title Locate and bind valid SAGA installation(s)
 #'@name linkSAGA
-#'@description Locate and bind valid \href{http://www.saga-gis.org/}{SAGA GIS}
+#'@description Locate and bind valid \href{http://www.saga-gis.org/}{SAGA GIlink2GI::linkSAGA()S}
 #'  installation(s). It returns the pathes and correct environment settings. All
 #'  valid means that it looks for the \code{saga_cmd} or \code{saga_cmd.exe}
 #'  executables. If the file is found it is assumed to be a valid 'SAGA GIS' installation.
@@ -74,7 +74,7 @@ linkSAGA <- function(defaultSAGA = NULL,
       
       defaultSAGA[1] <- system2("find", paste(MP," ! -readable -prune -o -type f -executable -iname 'saga_cmd' -print"), stdout = TRUE)
       defaultSAGA[2] <- substr(defaultSAGA,1,nchar(defaultSAGA) - 9)
-      rawSAGALib <- system2("find", paste(MP," ! -readable -prune -o -type f -executable -iname 'libio_gdal.so' -print"), stdout = TRUE)
+      rawSAGALib <-     system2("find", paste(MP," ! -readable -prune -o -type f  -iname 'libio_gdal.so' -print"), stdout = TRUE)
       defaultSAGA[3] <- substr(rawSAGALib,1,nchar(rawSAGALib) - 14)
     }
     makGlobalVar("sagaCmd", defaultSAGA[1])

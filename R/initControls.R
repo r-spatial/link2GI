@@ -127,9 +127,9 @@ getGrassParams4W <- function(setDefaultGrass=NULL, DL="C:", verSelect = FALSE){
       print(grassParams)
       cat("\n")
       ver <- as.numeric(readline(prompt = "Please choose one:  "))
-      grass.gis.base <- setGrassEnv4W(grassRoot = grassParams$instDir[[ver]],
+      grass.gis.base <- normalizePath(setGrassEnv4W(grassRoot = grassParams$instDir[[ver]],
                                     grassVersion = grassParams$version[[ver]], 
-                                    installationType = grassParams$installationType[[ver]] )
+                                    installationType = grassParams$installationType[[ver]] ),winslash = "/")
     } else if (nrow(grassParams) > 1 & !verSelect) {  
       grass.gis.base <- setGrassEnv4W(grassRoot = grassParams$instDir[[1]],
                                       grassVersion = grassParams$version[[1]], 
@@ -402,7 +402,7 @@ setGrassEnv4W <- function(grassRoot="C:\\OSGEO4~1",
     
     Sys.setenv(GRASS_ROOT = grassRoot)
     # define GISBASE
-    grass.gis.base <- grassRoot
+    grass.gis.base <- normalizePath(grassRoot)
     Sys.setenv(GISBASE = grass.gis.base,envir = GiEnv)
     assign("SYS", "WinNat", envir = GiEnv)
     assign("addEXE", ".exe", envir = GiEnv)
@@ -411,8 +411,8 @@ setGrassEnv4W <- function(grassRoot="C:\\OSGEO4~1",
     
     
     Sys.setenv(GRASS_PYTHON = paste0(Sys.getenv("GRASS_ROOT"),"\\bin\\python.exe"),envir = GiEnv)
-    Sys.setenv(PYTHONHOME = paste0(Sys.getenv("GRASS_ROOT"),"\\apps\\Python27"),envir = GiEnv)
-    Sys.setenv(PYTHONPATH = paste0(Sys.getenv("GRASS_ROOT"),"\\apps\\grass\\",grassVersion,"\\etc\\python"),envir = GiEnv)
+    Sys.setenv(PYTHONHOME = paste0(Sys.getenv("GRASS_ROOT"),"\\Python27"),envir = GiEnv)
+    Sys.setenv(PYTHONPATH = paste0(Sys.getenv("GRASS_ROOT"),"\\etc\\python"),envir = GiEnv)
     Sys.setenv(GRASS_PROJSHARE = paste0(Sys.getenv("GRASS_ROOT"),"\\share\\proj"),envir = GiEnv)
     Sys.setenv(PROJ_LIB = paste0(Sys.getenv("GRASS_ROOT"),"\\share\\proj"),envir = GiEnv)
     Sys.setenv(GDAL_DATA = paste0(Sys.getenv("GRASS_ROOT"),"\\share\\gdal"),envir = GiEnv)
@@ -424,14 +424,13 @@ setGrassEnv4W <- function(grassRoot="C:\\OSGEO4~1",
     
     # set path variable
     Sys.setenv(PATH = paste0(grass.gis.base,";",
-                           grassRoot,"\\apps\\Python27\\lib\\site-packages\\numpy\\core",";",
-                           grassRoot,"\\apps\\grass\\",grassVersion,"\\bin",";",
-                           grassRoot,"\\apps\\grass\\",grassVersion,"\\lib",";",
-                           grassRoot,"\\apps\\grass\\",grassVersion,"\\etc",";",
-                           grassRoot,"\\apps\\grass\\",grassVersion,"\\etc\\python",";",
-                           grassRoot,"\\apps\\Python27\\Scripts",";",
+                           grassRoot,"\\Python27\\lib\\site-packages\\numpy\\core",";",
                            grassRoot,"\\bin",";",
-                           grassRoot,"\\apps",";",
+                           grassRoot,"\\lib",";",
+                           grassRoot,"\\etc",";",
+                           grassRoot,"\\etc\\python",";",
+                           grassRoot,"\\Scripts",";",
+                           grassRoot,";",
                            paste0(Sys.getenv("WINDIR"),"/WBem"),";",
                            Sys.getenv("PATH")),envir = GiEnv)
     

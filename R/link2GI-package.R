@@ -5,7 +5,7 @@
 #' @name link2GI
 #' @docType package
 #' @title Linking the GI-World
-#' @author Chris Reudenbach
+#' @author Chris Reudenbach Tim Appelhans
 #' \cr
 #' \emph{Maintainer:} Chris Reudenbach \email{reudenbach@@uni-marburg.de}
 #'

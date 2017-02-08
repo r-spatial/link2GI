@@ -41,28 +41,41 @@ if (!isGeneric('linkGRASS7')) {
 #'  
 #'@examples 
 #'\dontrun{
-#'# get meuse data
-#' library(sp)
+#'# get meuse data as sp object
+#' library(link2GI)
+#' require(sp)
 #' data(meuse) 
 #' coordinates(meuse) <- ~x+y 
 #' proj4string(meuse) <-CRS("+init=epsg:28992") 
+#' 
+#'# get meuse data as sf object
+#' require(sf)
+#' meuse_sf = st_as_sf(meuse, coords = c("x", "y"), crs = 28992, agr = "constant")
 #' 
 #' # automatic search and find of GRASS binaries if 
 #' # more than one you have to choose. 
 #' linkGRASS7(meuse)
 #'  
-#' # call if you do not have any idea if and where GRASS is installed
-#' # Actually this linking procedure is highly recommended
+#' # if you do not have any idea if and where GRASS is installed
+#' # Actually this type of linking procedure is highly recommended
 #' linkGRASS7(meuse)
 #' 
 #' # assuming a typical standalone non-OSGeo4W installation
-#' # You must provide at  
 #' linkGRASS7(meuse,c("C:/Program Files/GRASS GIS7.0.5","GRASS GIS 7.0.5","NSIS")) 
 #' 
 #' # assuming a typical OSGeo4W installation
 #' linkGRASS7(meuse,c("C:/OSGeo4W64","grass-7.0.5","osgeo4W"))
+#'
+#' # assuming a permanent GRASS folder at "~/temp3" location named "project1" 
+#' # and using an sf object for initialisation
+#' linkGRASS7(meuse_sf,gisdbase = "~/temp3",location = "project1")   
 #' 
-#' # string for Linux c("/usr/bin","grass72") '
+#' # choose manually the GRASS installation 
+#' linkGRASS7(meuse_sf,verSelect = TRUE)
+#' 
+#' # choose manually the GRASS installation and change the search location
+#' linkGRASS7(meuse_sf,verSelect = TRUE, searchPath = "D:/")
+#' 
 #' }
 
 linkGRASS7 <- function(x = NULL,
@@ -72,9 +85,14 @@ linkGRASS7 <- function(x = NULL,
                       gisdbase = NULL,
                       mapset="PERMANENT",
                       location = NULL) {
-   
-  if (is.null(location)) location <-  tempdir()
-  if (is.null(gisdbase)) gisdbase <-  basename(tempfile())
+  
+  if (is.null(location)) location <-  basename(tempfile())
+  if (is.null(gisdbase)) {
+    gisdbase <-  tempdir()
+  } else { 
+    gisdbase <- path.expand(gisdbase)
+  }
+  
   if (!file.exists(file.path(gisdbase))) {
     dir.create(file.path(gisdbase),recursive = TRUE)
     #cat("the path ",gisdbase," is not found. Please provide an existing and valid path to your gisdbase folder\n ")
@@ -132,7 +150,7 @@ linkGRASS7 <- function(x = NULL,
   #################### start with GRASS setup ------------------------------------
   # create the TEMPORARY GRASS location
   rgrass7::initGRASS(gisBase  = grass.gis.base,
-                     home = home,
+                     home = tmpDir(),
                      gisDbase = gisdbase,
                      mapset = mapset,
                      location = location,

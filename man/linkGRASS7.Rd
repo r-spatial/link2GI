@@ -58,28 +58,41 @@ If you have more than one valid installation you will be ask to select one.
 }
 \examples{
 \dontrun{
-# get meuse data
-library(sp)
+# get meuse data as sp object
+library(link2GI)
+require(sp)
 data(meuse) 
 coordinates(meuse) <- ~x+y 
 proj4string(meuse) <-CRS("+init=epsg:28992") 
+
+# get meuse data as sf object
+require(sf)
+meuse_sf = st_as_sf(meuse, coords = c("x", "y"), crs = 28992, agr = "constant")
 
 # automatic search and find of GRASS binaries if 
 # more than one you have to choose. 
 linkGRASS7(meuse)
  
-# call if you do not have any idea if and where GRASS is installed
-# Actually this linking procedure is highly recommended
+# if you do not have any idea if and where GRASS is installed
+# Actually this type of linking procedure is highly recommended
 linkGRASS7(meuse)
 
 # assuming a typical standalone non-OSGeo4W installation
-# You must provide at  
 linkGRASS7(meuse,c("C:/Program Files/GRASS GIS7.0.5","GRASS GIS 7.0.5","NSIS")) 
 
 # assuming a typical OSGeo4W installation
 linkGRASS7(meuse,c("C:/OSGeo4W64","grass-7.0.5","osgeo4W"))
 
-# string for Linux c("/usr/bin","grass72") '
+# assuming a permanent GRASS folder at "~/temp3" location named "project1" 
+# and using an sf object for initialisation
+linkGRASS7(meuse_sf,gisdbase = "~/temp3",location = "project1")   
+
+# choose manually the GRASS installation 
+linkGRASS7(meuse_sf,verSelect = TRUE)
+
+# choose manually the GRASS installation and change the search location
+linkGRASS7(meuse_sf,verSelect = TRUE, searchPath = "D:/")
+
 }
 }
 \author{

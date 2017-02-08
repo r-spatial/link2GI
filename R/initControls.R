@@ -563,15 +563,16 @@ searchOTBW <- function(DL = "C:") {
 #' }
 #'@export getSpatialClass
 getSpatialClass <- function(obj) {
-  if (class(obj) %in% c("RasterLayer", "RasterStack",
+  if (class(obj)[1] %in% c("RasterLayer", "RasterStack",
                         "RasterBrick", "Satellite",
                         "SpatialGridDataFrame",
                         "SpatialPixelsDataFrame")) {"rst"} 
-  else if (class(obj) %in% c("SpatialPointsDataFrame", "SpatialPoints",
+  else if (class(obj)[1] %in% c("SpatialPointsDataFrame", "SpatialPoints",
                              "SpatialPolygonsDataFrame",
                              "SpatialPolygons",
                              "SpatialLinesDataFrame",
-                             "SpatialLines")) {"vec"}
+                             "SpatialLines",
+                             "sf")) {"vec"}
 }
 
 #'@title Checks if running on a specified computer domain

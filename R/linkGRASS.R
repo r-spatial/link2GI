@@ -31,6 +31,9 @@ if (!isGeneric('linkGRASS7')) {
 #'@param x raster or sp object
 #'@param defaultGrass if NULL an automatic search will be performed. You may 
 #'  also provide a valid combination as c("C:/OSGeo4W64","grass-7.0.5","osgeo4w")
+#'@param gisdbase 'GRASS' database directory de4fault is \code{tempdir()}
+#'@param location the 'GRASS' location
+#'@param mapset the 'GRASS' mapset
 #'@param verSelect boolean if TRUE you may choose interactively the binary version (if found  more than one),  by default FALSE
 #'@author Chris Reudenbach
 #'@return linkGRASS7 initializes the usage of GRASS7.
@@ -65,7 +68,21 @@ if (!isGeneric('linkGRASS7')) {
 linkGRASS7 <- function(x = NULL,
                       defaultGrass = NULL, 
                       searchPath = NULL,
-                      verSelect = FALSE){
+                      verSelect = FALSE,
+                      gisdbase = NULL,
+                      mapset="PERMANENT",
+                      location = NULL) {
+   
+  if (is.null(location)) location <-  tempdir()
+  if (is.null(gisdbase)) gisdbase <-  basename(tempfile())
+  if (!file.exists(file.path(gisdbase))) {
+    dir.create(file.path(gisdbase),recursive = TRUE)
+    #cat("the path ",gisdbase," is not found. Please provide an existing and valid path to your gisdbase folder\n ")
+  }
+  if (!file.exists(file.path(gisdbase,location))) {
+    dir.create(file.path(gisdbase,location),recursive = TRUE)
+  }
+
   if (is.null(x)) {
     stop("You MUST provide a raster* or sp* object, Did not found any of them so stopped.")
   } else {
@@ -78,6 +95,14 @@ linkGRASS7 <- function(x = NULL,
       xmin <- x@extent@xmin
     } else if (getSpatialClass(x) == "vec") {
       # i do not understand all this class stuff :-(
+      if (class(x)[1] == "sf" ) {
+        corner <- sf::st_bbox(x) 
+        xmax <- corner[3]
+        xmin <- corner[1]
+        ymax <- corner[4]
+        ymin <- corner[2]
+        proj4 <-  unlist(sf::st_crs(x)[2])
+      } else {
       s <- x@proj4string
       s <- s@projargs
       s2 <- (strsplit(s,split = " "))
@@ -87,14 +112,17 @@ linkGRASS7 <- function(x = NULL,
       ymax <- x@bbox[4]
       ymin <- x@bbox[2]
       #resolution<-0.0008333333
+      }
     } else {
       stop("Currently only raster* or sp* objects are supported - have to stop.")
     }
   }
   if (Sys.info()["sysname"] == "Windows") {
+      home <- Sys.getenv("USERPROFILE")
     if (is.null(searchPath)) searchPath <- "C:"
     grass.gis.base <- getGrassParams4W(defaultGrass,searchPath,verSelect)
   } else {
+    home <- Sys.getenv("HOME")
     if (is.null(searchPath)) searchPath <- "/usr"
     grass.gis.base <- getGrassParams4X(defaultGrass,searchPath,verSelect)
   }
@@ -104,8 +132,10 @@ linkGRASS7 <- function(x = NULL,
   #################### start with GRASS setup ------------------------------------
   # create the TEMPORARY GRASS location
   rgrass7::initGRASS(gisBase  = grass.gis.base,
-                     home = tempdir(),
-                     mapset = 'PERMANENT',
+                     home = home,
+                     gisDbase = gisdbase,
+                     mapset = mapset,
+                     location = location,
                      override = TRUE
   )
   

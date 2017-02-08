@@ -5,7 +5,8 @@
 \title{Initializes environment variables and pathes for GRASS7}
 \usage{
 linkGRASS7(x = NULL, defaultGrass = NULL, searchPath = NULL,
-  verSelect = FALSE)
+  verSelect = FALSE, gisdbase = NULL, mapset = "PERMANENT",
+  location = NULL)
 }
 \arguments{
 \item{x}{raster or sp object}
@@ -16,6 +17,12 @@ also provide a valid combination as c("C:/OSGeo4W64","grass-7.0.5","osgeo4w")}
 \item{searchPath}{path or mounting point that will be searched}
 
 \item{verSelect}{boolean if TRUE you may choose interactively the binary version (if found  more than one),  by default FALSE}
+
+\item{gisdbase}{'GRASS' database directory de4fault is \code{tempdir()}}
+
+\item{mapset}{the 'GRASS' mapset}
+
+\item{location}{the 'GRASS' location}
 }
 \value{
 linkGRASS7 initializes the usage of GRASS7.

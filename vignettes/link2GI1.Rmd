@@ -2,17 +2,18 @@
 title: "Link GIS to R"
 output:
   html_document:
-    toc: true
     theme: united
-vignette: >
-  %\VignetteIndexEntry{Link GIS to R}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
+    toc: yes
+  pdf_document:
+    toc: yes
+vignette: |
+  %\VignetteIndexEntry{Link GIS to R} %\VignetteEngine{knitr::rmarkdown} %\VignetteEncoding{UTF-8}
 ---
 
 ```{r echo=FALSE}
 knitr::opts_chunk$set(collapse = TRUE)
 ```
+# Why link2GI?
 
 R has quite a lot of classes for storing and dealing with spatial data. For vector data the [sp](https://CRAN.R-project.org/package=sp) and recently the great [sf](https://CRAN.R-project.org/package=sf) packages are well known and the raster data world is widley covered by the [raster](https://CRAN.R-project.org/package=raster) package. Additionally external spatial data formats are interfaced by wrapping packages as [rgdal](https://CRAN.R-project.org/package=rgdal) or [gdalUtils](https://CRAN.R-project.org/package=gdalUtils). For more specific links as needed for manipulating atmospheric modeling packages as [ncdf4](https://CRAN.R-project.org/package=ncdf4) are very helpful.
 
@@ -20,18 +21,118 @@ The spatial analysis itself is often supported by wrapper packages that integrat
 
 Despite all this possibilities it can be confirmed (at least from a non-R point of view) that there  is a big gap between R and the major opensource Geographic Information System (GIS) and Remote Sensing (RS) software tools. GRASS GIS and SAGA GIS provides a comprehensive, established collection of highly sophisticated algorithms. They are fast and stable and most of them are well proofed. Most spatial R  users know that there are some really good wrapper packages for bridging the gap around. For [GRASS GIS](https://grass.osgeo.org/) it is [rgrass7](https://CRAN.R-project.org/package=rgrass7) and for [SAGA GIS](http://www.saga-gis.org/)  the [RSAGA](https://CRAN.R-project.org/package=RSAGA) package. 
 
-Unfortunately  both wrappers are lacking to be easy to use. SAGA GIS is the continously changing the syntax of the command line interfaces (CLI). So the development of RSAGA is somewhat frozen on a release below 2.2.3. On the other hand needs GRASS GIS  a very sophisticated environment and setup which is very cumbersome. Furthermore it it getting really complicated on Windows platforms.
+Unfortunately both packages are not that easy to use. In case of RSAGA the main problem seems to be the fact that the SAGA GIS developers are not only changing the syntax and strategy of the command line interface (CLI) but also within a release the calls differ from OS to OS. So the maintenance of RSAGA is obviously laborious. Currently RSAGA supports the SAGA versions 2.0.4 - 2.2.3. On the other hand ias  GRASS GIS  well known for a sophisticated setup of the environment and the spatial properties of the database. It is not really simple to get an easy working temporary or permanent setup due to spatial and projection issues but even more caused by challenging system and environment settings. even more complicated these settings are pretty different for the major available Windows installer. To make it short it is a bit cumbersome to deal with all this stuff if one just want to start e.g. GRASS from the R commandline.
 
-The [link2GI](https://CRAN.R-project.org/package=RSAGA) package tries to open an easy to use entrance door for linking GRASS and SAGA GIS as well as other command line tools like the Orfeo Toolbox (OTB). 
+The [link2GI](https://CRAN.R-project.org/package=RSAGA) package tries to open an easy to walk through entrance door for linking GRASS and SAGA GIS as well as other command line tools like the Orfeo Toolbox (OTB). 
 
 This vignette:
 
 * explains what is meant by linking the GIS/R world to R
 * shows how to use it according to specific system requirements
-* provides examples of how you can work with them
 * give some examples of how they can be used for meaningful and more efficient spatial analysis
 
 # What means linking?
+Linking means simply to provide all necessary environment settings as well as the full acess to the the command line APIs of the mentioned software tools. The strategy differs from software to software. 
+
+GRASS GIS has the most challenging requirements. It needs a bunch of envrionment and path variables as well as a correct setup of the geographical data parameters. The linkGRASS7() function tries to find all installations let you choose one and generate the necessary variables. As a result you can use both the rgrass7 package  or the command line API of GRASS.
+
+SAGA GIS is a bit easier to set up. The strategy is similar. The linkSAGA() function tries to find all SAGA installations, let you choose one and generate some global variables. You may use RSAGA if you run a SAGA version of 2.0.4 - 2.2.3. Nevertheless it is strongly recommended to use the R system() call to  interface R with the saga_cmd API. 
+
+The Orfeo Toolbox (OTB) is a very powerful remote sensing toolbox. It is widely used for classifcation filtering and machine learning applications. You will find a lot of the implemented algorithm within different R packages but always much slower or restricted to small data chunks. The linkage is performed similar so that it is easy to use the command line API of the OTB. Currently there is no OTB wrapper available. 
+
+# Usage of the link2GI package
+
+## linkGRASS7 - Locate and set up 'GRASS 7' API bindings
+
+linkGRASS7() Initializes the session environment and the system pathes for an easy access to GRASS GIS 7.x. The correct setup of the spatial and projection parameters is automatically performed by using either an existing and valid raster, sp or sf object, or manually by providing a list containing the minimum parameters needed. These properties are used to initialize either a temporary or a permanent rgrass7 environment including the correct 'GRASS 7' data base structure.
+
+The most time consuming part on 'Windows' Systems is the search process. This can easily take 10 or more minutes. To speed up this process you can also provide a correct parameter set. Best way to do so is to call manually searchGRASSW() for Windows or for 'Linux' searchGRASSX(). Then call linkGRASS7 with the version arguments of your choice.
+
+The function linkGRASS7 tries to find all valid 'GRASS GIS' binaries by analyzing the startup script files of 'GRASS GIS'. After identifying the 'GRASS GIS' binaries all necessary system variables and settings will be generated and passed to a temporary R enviroment.
+
+If you have more than one valid installation and run linkGRASS7() without arguments, you will be ask to select one.
+
+## Examples
 
 
+### get meuse data as sp object
+
+```{r}
+library(link2GI)
+require(sp)
+data(meuse) 
+coordinates(meuse) <- ~x+y 
+proj4string(meuse) <-CRS("+init=epsg:28992") 
+```
+
+### get meuse data as sf object
+
+```{r}
+require(sf)
+meuse_sf = st_as_sf(meuse, 
+                    coords = 
+                    c("x", "y"), 
+                    crs = 28992, 
+                    agr = "constant")
+
+```
+
+
+### Standard Full Search Usage 
+Automatic search and find of GRASS binaries using the meuse sp data object for spatial referencing.
+This is the highly recommended linking procedure.  NOTE: if more than one GRASS installation is found you have to choose. 
+
+```{r}
+linkGRASS7(meuse)
+```
+
+### Typical call for standalone distro
+Assuming a typical standalone non-OSGeo4W installation and using the meuse sp data object for spatial referencing
+
+
+```{r,eval=FALSE}
+linkGRASS7(meuse,c("C:/Program Files/GRASS GIS7.0.5","GRASS GIS 7.0.5","NSIS")) 
+
+```
+
+### Typical OSGeo4W64 installation
+Typical OSGeo4W64 installation using the meuse sp data object for spatial referencing
+
+```{r, eval=FALSE}
+linkGRASS7(meuse,c("C:/OSGeo4W64","grass-7.0.5","osgeo4W"))
+```
+
+### Using Permanent gisbase folder
+Permanent GRASS folder at "~/temp3", location named "project1" additionally using the meuse sf object for spatial referencing
+
+```{r}
+linkGRASS7(meuse_sf,gisdbase = "~/temp3",location = "project1")   
+```
+### Manual choosing the version
+Choose manually the GRASS installation  additionally using the meuse sf object for spatial referencing
+
+```{r}
+linkGRASS7(meuse_sf,verSelect = TRUE)
+```
+
+### Choose another searchpath
+Choose manually the GRASS installation and change the search location additionally using the meuse sf object for spatial referencing
+
+```{r,eval=FALSE}
+linkGRASS7(meuse_sf, searchPath = "D:/")
+
+```
+### Manual Setup
+Setting up GRASS manually with spatial parameters of the meuse data
+
+```{r}
+ linkGRASS7(spatialParams = c(178605,329714,181390,333611,"+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +no_defs +a=6377397.155 +rf=299.1528128 +towgs84=565.4171,50.3319,465.5524,-0.398957,0.343988,-1.8774,4.0725 +to_meter=1")) 
+
+```
+
+
+
+
+
+# Hands on how to use GRASS SAGA and OTB
 

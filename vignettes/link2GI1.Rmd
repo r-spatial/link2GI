@@ -1,0 +1,36 @@
+---
+title: "Link GIS to R"
+output:
+  html_document:
+    toc: true
+    theme: united
+vignette: >
+  %\VignetteIndexEntry{Link GIS to R}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r echo=FALSE}
+knitr::opts_chunk$set(collapse = TRUE)
+```
+
+R has quite a lot of classes for storing and dealing with spatial
+data. For vector data the [sp](https://CRAN.R-project.org/package=sp) and recently the great [sf](https://CRAN.R-project.org/package=sf) packages are well known and the raster data world is widley covered by the [raster](https://CRAN.R-project.org/package=rater package). However the interfacing to the esternal spatial data formats is basically provided by interfacing and wrapping packages as [rgdal](https://CRAN.R-project.org/package=rgdal)  or on a more tool focused level [gdalUtils](https://CRAN.R-project.org/package=gdalUtils).The spatial analysis itself is often performed by wrapper packages for efficient libraries or command line tools like [rgeos](https://CRAN.R-project.org/package=rgeos), [geosphere](https://CRAN.R-project.org/package=geosphere), [Distance](https://CRAN.R-project.org/package=Distance), [maptools](https://CRAN.R-project.org/package=maptools), [igraph](https://CRAN.R-project.org/package=igraph) or [spatstat](https://CRAN.R-project.org/package=spatstat). This would be a neverending list. 
+
+Nevertheless seen from a non R point of view there is still a huge gap between R and the big opensource Geographic Information System (GIS) and Remote Sensing (RS) tools. There is a lot of unknown and unused power as well for the stable and highly sophisticated algorithms as for the speed and optimization. Actually there ara some really good wrapper packages as [rgrass7](https://CRAN.R-project.org/package=rgrass7) for bridging the gap to [GRASS GIS](https://grass.osgeo.org/) and also [RSAGA](https://CRAN.R-project.org/package=RSAGA) package helps linking [SAGA GIS](http://www.saga-gis.org/). 
+
+The major problem of both wrappers is the continously changing syntax of the command line interfaces (CLI) in this case especiall SAGA GIS and or the extremly heterogenous system setups in a  multi operation system world. Especially Windows platforms tends to be very cumbersome. 
+
+The [link2GI](https://CRAN.R-project.org/package=RSAGA) package tries to open an easy to use entrance door for linking GRASS and SAGA GIS as well as other command line tools like the Orfeo Toolbox (OTB). 
+
+This vignette:
+
+* explains what is meant by linking the GIS/R world to R
+* shows how to use it according to specific system requirements
+* provides examples of how you can work with them
+* give some examples of how they can be used for meaningful and more efficient spatial analysis
+
+# What means linking?
+
+
+

@@ -28,33 +28,37 @@ also provide a valid combination as c("C:/OSGeo4W64","grass-7.0.5","osgeo4w")}
 linkGRASS7 initializes the usage of GRASS7.
 }
 \description{
-Initializes the environment and the pathes for 
-\href{https://grass.osgeo.org/}{'GRASS GIS 7.x'}  The correct linkage to 'GRASS GIS' is performed by using an existing and valid
- \code{\link{raster}} or \code{\link{sp}} object. \cr
+Initializes the session environment and the system pathes for an easy acces to 
+\href{https://grass.osgeo.org/}{'GRASS GIS 7.x'}.  The correct setup of the spatial and projection parameters is
+ automatically performed by using either an existing and valid \code{\link{raster}}, \code{\link{sp}} or \code{\link{sf}} object, 
+ or manually by providing a list containing the minimum parameters needed.\cr
 }
 \details{
 The concept is very straightforward but for an all days usage pretty 
- helpful. You need to provide a \code{\link{raster}} or \code{\link{sp}} spatial object
- which has to be correctly georeferenced. The resulting params will be used
- to initialize a temporary but static 
- \href{https://CRAN.R-project.org/package=rgrass7}{rgrass7} environment.\cr\cr
- If you want speed up the init process (mainly the search over your hard disk) you can provide a correct parameter set. Best way to do so is to call search
+ helpful. You need to provide a \code{\link{raster}} or \code{\link{sp}} \code{\link{sf}} spatial object
+ which has correct spatial and projection properties. These properties are used to initialize either a temporary or a permanent 
+ \href{https://CRAN.R-project.org/package=rgrass7}{rgrass7} environment including the correct 'GRASS 7' structure.\cr\cr
+ The most time consuming part on 'Windows' Systems is the search process. This can easily take 10 or more minutes. 
+ To speed up this process you can also provide a correct parameter set. Best way to do so is to call \code{searchGRASSW} or for 'Linux' \code{searchGRASSX} manually. 
+ and call \code{linkGRASS7} with the version arguments of your choice.
 }
 \note{
 'GRASS GIS 7' is excellently supported by the
  \link{rgrass7} wrapper package. Nevertheless 'GRASS GIS' is well known for
- its high demands regarding the correct workspace and environment setup. This
- becomes even worse on 'Windows' platforms or if alternative 'GRASS GIS'
- installations are available. While the setup function
- \code{initGRASS} that is  provided by the \code{\link{rgrass7}} package, works fine under Linux and for known pathes and environmental variables, one
- will find that the integration of a 'Windows' based 'GRASS GIS' especially if
- provided by 'OSGeo4W' \url{http://trac.osgeo.org/osgeo4w/} and/or the parallel
- installations of different software versions will be cumbersome. The function
- \code{linkGRASS7} tries to find all valid 'GRASS GIS' binaries by analyzing
- the startup files of 'GRASS GIS'. After identifying 'GRASS GIS' binaries all
- necessary system variables and settings will be performed.
+ its high demands regarding the correct spatial and reference setup an a bunch 
+ of workspace and environment requirements. This becomes even worse on 'Windows' 
+ platforms or if several alternative 'GRASS GIS' installations are available.
+ If one knows what to do the \code{\link{rgrass7}} package setup function \code{initGRASS} works fine under Linux. 
+ This is also valid for well known configurations under the 'Windows' operation system. 
+ Nevertheless on university lab or on company computers with restriced privileges and/or using different releases
+ like the  \href{http://trac.osgeo.org/osgeo4w/}{'OSGeo4W'} distribution and the  
+ \href{https://grass.osgeo.org/download/software/ms-windows/#stand-alone}{stand-alone} installation, 
+ or different software releases (e.g. 'GRASS 7.0.5 and GRASS 7.2.0), it becomes often cumbersome or even impossible to get the correct linkages. \cr 
+ The function \code{linkGRASS7} tries to find all valid 'GRASS GIS' binaries by analyzing
+ the startup script files of 'GRASS GIS'. After identifying the 'GRASS GIS' binaries all
+ necessary system variables and settings will be generated and passed to a temporary R enviroment.
 
-If you have more than one valid installation you will be ask to select one.
+If you have more than one valid installation and run \code{linkGRASS7()} without arguments, you will be ask to select one.
 }
 \examples{
 \dontrun{

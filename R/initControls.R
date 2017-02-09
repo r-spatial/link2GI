@@ -79,7 +79,7 @@ searchSAGAW <- function(DL = "C:",
   return(sagaPath)
 }
 
-#'@title Initialize and set up 'GRASS GIS' and \code{rgrass7} for the usage on 'Windows' OS
+#'@title Get 'GRASS GIS' and \code{rgrass7} parameters on 'Windows' OS
 #'@name getGrassParams4W
 #'@description Initialize the enviroment variables on a 'Windows' OS for using 
 #'  'GRASS GIS' via \link{rgrass7}
@@ -241,7 +241,7 @@ searchGRASSW <- function(DL = "C:"){
   return(grassInstallations)
 }
 
-#'@title Initialize and set up 'GRASS GIS' and \code{rgrass7} for the usage on 'Linux' OS
+#'@title Get 'GRASS GIS' and \code{rgrass7} parameters on 'Linux' OS
 #'@name getGrassParams4X
 #'@description Initialize and set up \link{rgrass7}  for 'Linux'
 #'@details During the rsession you will have full access to GRASS7 GIS via the \link{rgrass7} wrappe. Additionally you may use also use the API calls of GRASS7 via the command line.
@@ -334,7 +334,7 @@ searchGRASSX <- function(MP = "/usr"){
 
 
 
-#'@title Initializes and set up  access to 'GRASS GIS 7.xx' via the \link{rgrass7} wrapper or command line packages
+#'@title Create valid 'GRASS GIS 7.xx' rsession environment settings
 #'@name setGrassEnv4W
 #'@description  Initializes and set up  access to 'GRASS GIS 7.xx' via the \link{rgrass7} wrapper or command line packages
 #'@param grassRoot  grass root directory i.e. "C:\\OSGEO4~1",
@@ -551,7 +551,7 @@ searchOTBW <- function(DL = "C:") {
 
 
 
-#'@title Checks if x is a raster or sp object
+#'@title Checks if x is of type raster,sf or sp
 #'@name getSpatialClass
 #'@description  Checks if x is a raster or sp object
 #'@param obj R raster* or sp object

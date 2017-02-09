@@ -3,7 +3,7 @@ if (!isGeneric('linkGRASS7')) {
     standardGeneric('linkGRASS7'))
 }
 
-#'@title Initializes environment variables and pathes for GRASS7
+#'@title 	Locate and set up 'GRASS 7' API bindings 
 #'@name linkGRASS7
 #'@description Initializes the session environment and the system pathes for an easy acces to 
 #' \href{https://grass.osgeo.org/}{'GRASS GIS 7.x'}.  The correct setup of the spatial and projection parameters is

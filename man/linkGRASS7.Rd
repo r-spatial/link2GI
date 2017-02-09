@@ -2,7 +2,7 @@
 % Please edit documentation in R/linkGRASS.R
 \name{linkGRASS7}
 \alias{linkGRASS7}
-\title{Initializes environment variables and pathes for GRASS7}
+\title{Locate and set up 'GRASS 7' API bindings}
 \usage{
 linkGRASS7(x = NULL, defaultGrass = NULL, searchPath = NULL,
   verSelect = FALSE, gisdbase = NULL, location = NULL,

@@ -2,7 +2,7 @@
 % Please edit documentation in R/initControls.R
 \name{setGrassEnv4W}
 \alias{setGrassEnv4W}
-\title{Initializes and set up  access to 'GRASS GIS 7.xx' via the \link{rgrass7} wrapper or command line packages}
+\title{Create valid 'GRASS GIS 7.xx' rsession environment settings}
 \usage{
 setGrassEnv4W(grassRoot = "C:\\\\OSGEO4~1", grassVersion = "grass-7.0.5",
   installationType = "osgeo4W", jpgmem = 1e+06)

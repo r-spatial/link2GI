@@ -573,6 +573,7 @@ getSpatialClass <- function(obj) {
                              "SpatialLinesDataFrame",
                              "SpatialLines",
                              "sf")) {"vec"}
+  else {"paramList"}
 }
 
 #'@title Checks if running on a specified computer domain

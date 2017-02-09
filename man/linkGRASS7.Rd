@@ -5,24 +5,24 @@
 \title{Initializes environment variables and pathes for GRASS7}
 \usage{
 linkGRASS7(x = NULL, defaultGrass = NULL, searchPath = NULL,
-  verSelect = FALSE, gisdbase = NULL, mapset = "PERMANENT",
-  location = NULL)
+  verSelect = FALSE, gisdbase = NULL, location = NULL,
+  spatialParams = NULL)
 }
 \arguments{
 \item{x}{raster or sp object}
 
-\item{defaultGrass}{if NULL an automatic search will be performed. You may 
-also provide a valid combination as c("C:/OSGeo4W64","grass-7.0.5","osgeo4w")}
+\item{defaultGrass}{default is \code{NULL} If is \code{NULL} an automatic search for all installed versions is performed. 
+If you provide a valid list the corresponding version is initialized. An example for OSGeo4W64 is: \code{c("C:/OSGeo4W64","grass-7.0.5","osgeo4w")}}
 
 \item{searchPath}{path or mounting point that will be searched}
 
 \item{verSelect}{boolean if TRUE you may choose interactively the binary version (if found  more than one),  by default FALSE}
 
-\item{gisdbase}{'GRASS' database directory de4fault is \code{tempdir()}}
+\item{gisdbase}{default is \code{NULL}, invoke \code{tempdir()} to the 'GRASS' database. Alternativeley you can provide a individual path.}
 
-\item{mapset}{the 'GRASS' mapset}
+\item{location}{default is \code{NULL}, invoke \code{basename(tempfile())} for defining the 'GRASS' location. Alternativeley you can provide a individual path.}
 
-\item{location}{the 'GRASS' location}
+\item{spatialParams}{default is \code{NULL}. Instead of a spatial object you may provide the geometry as a list. E.g. c(xmin,ymin,xmax,ymax,proj4_string)}
 }
 \value{
 linkGRASS7 initializes the usage of GRASS7.
@@ -52,7 +52,7 @@ The concept is very straightforward but for an all days usage pretty
  This is also valid for well known configurations under the 'Windows' operation system. 
  Nevertheless on university lab or on company computers with restriced privileges and/or using different releases
  like the  \href{http://trac.osgeo.org/osgeo4w/}{'OSGeo4W'} distribution and the  
- \href{https://grass.osgeo.org/download/software/ms-windows/#stand-alone}{stand-alone} installation, 
+ \href{https://grass.osgeo.org/download/software/ms-windows/#stand-alone}{'GRASS 7' stand-alone} installation, 
  or different software releases (e.g. 'GRASS 7.0.5 and GRASS 7.2.0), it becomes often cumbersome or even impossible to get the correct linkages. \cr 
  The function \code{linkGRASS7} tries to find all valid 'GRASS GIS' binaries by analyzing
  the startup script files of 'GRASS GIS'. After identifying the 'GRASS GIS' binaries all
@@ -97,6 +97,14 @@ linkGRASS7(meuse_sf,verSelect = TRUE)
 # choose manually the GRASS installation and change the search location
 linkGRASS7(meuse_sf,verSelect = TRUE, searchPath = "D:/")
 
+# setting up GRASS with the spatial parameters of the meuse data
+ linkGRASS7(spatialParams = c(178605,329714,181390,333611,"+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +no_defs +a=6377397.155 +rf=299.1528128 +towgs84=565.4171,50.3319,465.5524,-0.398957,0.343988,-1.8774,4.0725 +to_meter=1")) 
+
+# setting up GRASS with the spatial parameters of the meuse data using
+# the peramanent directory "~/examples" and the location "meuse_spatialParams "
+linkGRASS7(gisdbase = "~/examples",
+           location = "meuse_spatialParams",
+           spatialParams = c(178605,329714,181390,333611,"+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +no_defs +a=6377397.155 +rf=299.1528128 +towgs84=565.4171,50.3319,465.5524,-0.398957,0.343988,-1.8774,4.0725 +to_meter=1")) 
 }
 }
 \author{

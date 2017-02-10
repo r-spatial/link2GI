@@ -1,16 +1,16 @@
-if ( !isGeneric("writeGvec") ) {
-  setGeneric("writeGvec", function(x, ...)
-    standardGeneric("writeGvec"))
+if ( !isGeneric("readGvec") ) {
+  setGeneric("readGvec", function(x, ...)
+    standardGeneric("readGvec"))
 }
 
-#' Write sf object to GRASS 7
+#' Read GRASS 7 vector into  sf object
 #' @param x sf* object corresponding to the settings of the corresponding GRASS container
 #' @param objName name of GRASS layer
 #' @param gisdbase  GRASS gisDbase folder
 #' @param location  GRASS location name containing \code{objName)}
 #' @author Chris Reudenbach
 #' 
-#' @export writeGvec
+#' @export readGvec
 #' @examples 
 #'\dontrun{
 #' ## example 
@@ -22,23 +22,23 @@ if ( !isGeneric("writeGvec") ) {
 #'                    agr = "constant")
 #'     
 #' 
-#' writeGvec(x = meuse_sf,
+#' readGvec(x = meuse_sf,
 #'           objName = "meuse_R-G",
 #'           gisdbase = "~/temp3",
 #'           location = "project1")
 #' }
 
-writeGvec <- function(x,objName,gisdbase,location ){
+readGvec <- function(x,objName,gisdbase,location ){
 
   linkGRASS7(x,gisdbase = gisdbase,location = location)  
   path <- Sys.getenv("GISDBASE")
   sqName <- gsub(tolower(paste0(objName,".sqlite")),pattern = "\\-",replacement = "_")
-  st_write(x, file.path(path,sqName))
-  
-  ret<-rgrass7::execGRASS('v.import',  
-                     flags = c("overwrite","quiet","o"),
-                     extent="region",
-                     input = file.path(path,sqName),
-                     layer = sqName,
-                     output = gsub(tolower(sqName),pattern = "\\.",replacement = "_"))
+
+   rgrass7::execGRASS('v.out.ogr',  
+                      flags = c("overwrite","quiet"),
+                      input = gsub(tolower(sqName),pattern = "\\.",replacement = "_"),
+                      output = file.path(path,paste0(objName,"_new.sqlite")),
+                      format = "SQLite")
+   
+  return(sf::st_read(file.path(path,paste0(objName,"_new.sqlite"))))
 }

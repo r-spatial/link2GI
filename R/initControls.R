@@ -496,6 +496,7 @@ setenv_OTB <- function(bin_OTB = NULL, root_OTB = NULL){
 #' }
 
 searchOTBW <- function(DL = "C:") {
+  if (Sys.info()["sysname"] == "Windows") {
   if (!exists("GiEnv")) GiEnv <- new.env(parent=globalenv()) 
   if (substr(Sys.getenv("COMPUTERNAME"),1,5) == "PCRZP") {
     defaultOtb <- shQuote("C:\\Program Files\\QGIS 2.14\\bin")
@@ -548,6 +549,7 @@ searchOTBW <- function(DL = "C:") {
     # bind the df lines
     otbInstallations <- do.call("rbind", otbInstallations)
   }
+  } else {otbInstallations <- "Sorry no Windows system..." }
   return(otbInstallations)
 }
 

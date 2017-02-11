@@ -16,6 +16,8 @@ if ( !isGeneric("w_gvec") ) {
 #' ## example 
 #' # get meuse data as sf object
 #' require(sf)
+#' require(sp)
+#' data(meuse)
 #' meuse_sf = st_as_sf(meuse, 
 #'                    coords = c("x", "y"), 
 #'                    crs = 28992, 
@@ -33,12 +35,15 @@ w_gvec <- function(x, obj_name, gisdbase, location ){
   linkGRASS7(x, gisdbase = gisdbase, location = location)  
   path <- Sys.getenv("GISDBASE")
   sq_name <- gsub(tolower(paste0(obj_name,".sqlite")),pattern = "\\-",replacement = "_")
-  st_write(x, file.path(path, sq_name))
+  st_write(x, file.path(path, sq_name), quiet = TRUE)
   
-  ret<-rgrass7::execGRASS('v.import',  
+  ret <- rgrass7::execGRASS('v.import',  
                      flags  = c("overwrite", "quiet", "o"),
                      extent = "region",
                      input  = file.path(path,sq_name),
                      layer  = sq_name,
-                     output = gsub(tolower(sq_name),pattern = "\\.",replacement = "_"))
+                     output = gsub(tolower(sq_name),pattern = "\\.",replacement = "_"),
+                     ignore.stderr = TRUE,
+                     intern = TRUE
+                     )
 }

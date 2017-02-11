@@ -16,8 +16,8 @@ if ( !isGeneric("linkSAGA") ) {
 #'@param defaultSAGA string contains path to SAGA binaries
 #'@param DL drive letter
 #'@param MP mount point
-#'@param verSelect boolean default is FALSE. If there is more than one 'SAGA GIS' installation and \code{verSelect} = TRUE the user can select interactively the preferred 'SAGA GIS' version 
-#'@details If called without any parameter \code{linkSAGA()} it performs a full search over \code{C:}. If it finds one or more 'SAGA GIS' binaries it will take the first hit. You have to set \code{verSelect = TRUE} for an interactive selection of the preferred version. Additionally the selected SAGA pathes are added to the environment and the global variables \code{sagaPath}, \code{sagaModPath} and \code{sagaCmd} will be created.
+#'@param ver_select boolean default is FALSE. If there is more than one 'SAGA GIS' installation and \code{ver_select} = TRUE the user can select interactively the preferred 'SAGA GIS' version 
+#'@details If called without any parameter \code{linkSAGA()} it performs a full search over \code{C:}. If it finds one or more 'SAGA GIS' binaries it will take the first hit. You have to set \code{ver_select = TRUE} for an interactive selection of the preferred version. Additionally the selected SAGA pathes are added to the environment and the global variables \code{sagaPath}, \code{sagaModPath} and \code{sagaCmd} will be created.
 #'
 #'@export linkSAGA
 #'  
@@ -35,11 +35,11 @@ if ( !isGeneric("linkSAGA") ) {
 linkSAGA <- function(defaultSAGA = NULL, 
                      DL = "C:", 
                      MP="/usr",
-                     verSelect=FALSE){
+                     ver_select=FALSE){
   # (R) set pathes  of SAGA modules and binaries depending on OS  
   exist <- FALSE
   if (Sys.info()["sysname"] == "Windows") {
-    if (is.null(defaultSAGA)) defaultSAGA <- searchSAGAW(DL = DL, verSelect = verSelect) 
+    if (is.null(defaultSAGA)) defaultSAGA <- searchSAGAW(DL = DL, ver_select = ver_select) 
     # take the first return
     if (nrow(defaultSAGA) == 1) {  
     makGlobalVar("sagaCmd", paste0(defaultSAGA[[1]][1],"\\saga_cmd.exe"))
@@ -47,7 +47,7 @@ linkSAGA <- function(defaultSAGA = NULL,
     if (!is.null(defaultSAGA[[2]][1])) makGlobalVar("sagaModPath",  defaultSAGA[[2]][1])
     add2Path(defaultSAGA[[1]][1])
     add2Path(defaultSAGA[[2]][1])
-    } else if (nrow(defaultSAGA) > 1  & verSelect) { 
+    } else if (nrow(defaultSAGA) > 1  & ver_select) { 
       
         cat("You have more than one valid SAGA GIS version\n")
         print(defaultSAGA)
@@ -57,7 +57,7 @@ linkSAGA <- function(defaultSAGA = NULL,
         makGlobalVar("sagaPath", defaultSAGA[[1]][ver])
         add2Path(defaultSAGA[[1]][ver])
     }
-    else if (nrow(defaultSAGA) > 1  & !verSelect) { 
+    else if (nrow(defaultSAGA) > 1  & !ver_select) { 
       
       cat("You have more than one valid SAGA GIS version\n")
       print(defaultSAGA[[1]])

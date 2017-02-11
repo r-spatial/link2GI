@@ -4,22 +4,22 @@
 \alias{linkOTB}
 \title{Locate and set up 'Orfeo ToolBox' API bindings}
 \usage{
-linkOTB(binPathOtb = NULL, rootPathOtb = NULL, otbType = NULL,
-  DL = "C:", verSelect = FALSE)
+linkOTB(bin_OTB = NULL, root_OTB = NULL, type_OTB = NULL, DL = "C:",
+  ver_select = FALSE)
 }
 \arguments{
-\item{binPathOtb}{string contains path to where the otb binaries are located}
+\item{bin_OTB}{string contains path to where the otb binaries are located}
 
-\item{rootPathOtb}{string provides the root folder of the \code{binPathOtb}}
+\item{root_OTB}{string provides the root folder of the \code{bin_OTB}}
 
-\item{otbType}{string}
+\item{type_OTB}{string}
 
 \item{DL}{string hard drive letter default is \code{C:}}
 
-\item{verSelect}{boolean default is FALSE. If there is more than one 'OTB' installation and \code{verSelect} = TRUE the user can select interactively the preferred 'OTB' version}
+\item{ver_select}{boolean default is FALSE. If there is more than one 'OTB' installation and \code{ver_select} = TRUE the user can select interactively the preferred 'OTB' version}
 }
 \value{
-add otb pathes to the enviroment and creates global variables otbPath
+add otb pathes to the enviroment and creates global variables path_OTB
 }
 \description{
 Locate and set up  \href{https://www.orfeo-toolbox.org/}{'Orfeo ToolBox'} API bindings
@@ -27,7 +27,7 @@ Locate and set up  \href{https://www.orfeo-toolbox.org/}{'Orfeo ToolBox'} API bi
 \details{
 It looks for the \code{otb_cli.bat} file. If the file is found in a \code{bin} folder it is assumed to be a valid 'OTB' binary installation.
 
-if called without any parameter \code{linkOTB()} it performs a full search over the hardrive \code{C:}. If it finds one or more 'OTB' binaries it will take the first hit. You have to set \code{verSelect = TRUE} for an interactive selection of the preferred version.
+if called without any parameter \code{linkOTB()} it performs a full search over the hardrive \code{C:}. If it finds one or more 'OTB' binaries it will take the first hit. You have to set \code{ver_select = TRUE} for an interactive selection of the preferred version.
 }
 \note{
 You may also set the path manually. Using a 'OSGeo4W64' \url{http://trac.osgeo.org/osgeo4w/} installation it is typically \code{C:/OSGeo4W64/bin/}

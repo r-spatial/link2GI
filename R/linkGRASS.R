@@ -31,14 +31,14 @@ if (!isGeneric('linkGRASS7')) {
 #'  To speed up this process you can also provide a correct parameter set. Best way to do so is to call \code{searchGRASSW} or for 'Linux' \code{searchGRASSX} manually. 
 #'  and call \code{linkGRASS7} with the version arguments of your choice.
 #'@note If you have more than one valid installation and run \code{linkGRASS7()} without arguments, you will be ask to select one.
-#'@param searchPath path or mounting point that will be searched
+#'@param search_path path or mounting point that will be searched
 #'@param x raster or sp object
-#'@param defaultGrass default is \code{NULL} If is \code{NULL} an automatic search for all installed versions is performed. 
+#'@param default_GRASS7 default is \code{NULL} If is \code{NULL} an automatic search for all installed versions is performed. 
 #'                    If you provide a valid list the corresponding version is initialized. An example for OSGeo4W64 is: \code{c("C:/OSGeo4W64","grass-7.0.5","osgeo4w")}
 #'@param gisdbase default is \code{NULL}, invoke \code{tempdir()} to the 'GRASS' database. Alternativeley you can provide a individual path.
 #'@param location default is \code{NULL}, invoke \code{basename(tempfile())} for defining the 'GRASS' location. Alternativeley you can provide a individual path.
-#'@param spatialParams default is \code{NULL}. Instead of a spatial object you may provide the geometry as a list. E.g. c(xmin,ymin,xmax,ymax,proj4_string)
-#'@param verSelect boolean if TRUE you may choose interactively the binary version (if found  more than one),  by default FALSE
+#'@param spatial_params default is \code{NULL}. Instead of a spatial object you may provide the geometry as a list. E.g. c(xmin,ymin,xmax,ymax,proj4_string)
+#'@param ver_select boolean if TRUE you may choose interactively the binary version (if found  more than one),  by default FALSE
 #'@author Chris Reudenbach
 #'@return linkGRASS7 initializes the usage of GRASS7.
 #'@export linkGRASS7
@@ -80,29 +80,31 @@ if (!isGeneric('linkGRASS7')) {
 #' 
 #' # choose manually the GRASS installation 
 #' # additionally using the meuse sf object for spatial referencing
-#' linkGRASS7(meuse_sf,verSelect = TRUE)
+#' linkGRASS7(meuse_sf,ver_select = TRUE)
 #' 
 #' # choose manually the GRASS installation and change the search location
 #' # additionally using the meuse sf object for spatial referencing
-#' linkGRASS7(meuse_sf,verSelect = TRUE, searchPath = "D:/")
+#' linkGRASS7(meuse_sf,ver_select = TRUE, search_path = "D:/")
 #'
 #' # setting up GRASS manually with spatial parameters of the meuse data
-#'  linkGRASS7(spatialParams = c(178605,329714,181390,333611,"+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +no_defs +a=6377397.155 +rf=299.1528128 +towgs84=565.4171,50.3319,465.5524,-0.398957,0.343988,-1.8774,4.0725 +to_meter=1")) 
+#' proj4_string <- as.character(sp::CRS("+init=epsg:28992"))
+#' linkGRASS7(spatial_params = c(178605,329714,181390,333611,proj4_string)) 
 #' 
 #' # setting up GRASS manually with spatial parameters of the meuse data 
-#' # additionally using a peramanent directory "~/examples" and the location "meuse_spatialParams "
+#' # additionally using a peramanent directory "~/examples" and the location "meuse_spatial_params "
+#' proj4_string <- as.character(sp::CRS("+init=epsg:28992"))
 #' linkGRASS7(gisdbase = "~/examples",
-#'            location = "meuse_spatialParams",
-#'            spatialParams = c(178605,329714,181390,333611,"+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +no_defs +a=6377397.155 +rf=299.1528128 +towgs84=565.4171,50.3319,465.5524,-0.398957,0.343988,-1.8774,4.0725 +to_meter=1")) 
-#' }
+#'            location = "meuse_spatial_params",
+#'            spatial_params = c(178605,329714,181390,333611,proj4_string))
+#'}
 
 linkGRASS7 <- function(x = NULL,
-                      defaultGrass = NULL, 
-                      searchPath = NULL,
-                      verSelect = FALSE,
+                      default_GRASS7 = NULL, 
+                      search_path = NULL,
+                      ver_select = FALSE,
                       gisdbase = NULL,
                       location = NULL,
-                      spatialParams=NULL) {
+                      spatial_params=NULL) {
   
   if (is.null(location)) location <-  basename(tempfile())
   if (is.null(gisdbase)) {
@@ -119,9 +121,9 @@ linkGRASS7 <- function(x = NULL,
     dir.create(file.path(gisdbase,location),recursive = TRUE)
   }
 
-  if (is.null(x) & is.null(spatialParams)) {
+  if (is.null(x) & is.null(spatial_params)) {
     stop("You MUST provide a raster* or sp* object, Did not found any of them so stopped.")
-  } else if (!is.null(x) & is.null(spatialParams)) {
+  } else if (!is.null(x) & is.null(spatial_params)) {
     if (getSpatialClass(x) == "rst") {
       resolution <- raster::res(x)[1]
       proj4 <- as.character(x@crs)
@@ -150,31 +152,31 @@ linkGRASS7 <- function(x = NULL,
         #resolution<-0.0008333333
       }
     } 
-  } else if  (is.null(x) & !is.null(spatialParams)) {
+  } else if  (is.null(x) & !is.null(spatial_params)) {
     if (getSpatialClass(x) == "paramList") {
-      proj4 <- spatialParams[5]
-      xmax <- spatialParams[3]
-      xmin <- spatialParams[1]
-      ymax <- spatialParams[4]
-      ymin <- spatialParams[2]
+      proj4 <- spatial_params[5]
+      xmax <- spatial_params[3]
+      xmin <- spatial_params[1]
+      ymax <- spatial_params[4]
+      ymin <- spatial_params[2]
     }
   }
   
   if (Sys.info()["sysname"] == "Windows") {
     home <- Sys.getenv("USERPROFILE")
-    if (is.null(searchPath)) searchPath <- "C:"
-    grass.gis.base <- getGrassParams4W(defaultGrass,searchPath,verSelect)
+    if (is.null(search_path)) search_path <- "C:"
+    gisbase_GRASS <- getparams_GRASS4W(default_GRASS7,search_path,ver_select)
   } else {
     home <- Sys.getenv("HOME")
-    if (is.null(searchPath)) searchPath <- "/usr"
-    grass.gis.base <- getGrassParams4X(defaultGrass,searchPath,verSelect)
+    if (is.null(search_path)) search_path <- "/usr"
+    gisbase_GRASS <- getparams_GRASS4X(default_GRASS7,search_path,ver_select)
   }
   
   
   #Sys.setenv(.GRASS_CACHE = paste(Sys.getenv("HOME"), "\\.grass_cache",sep = "")) 
   #################### start with GRASS setup ------------------------------------
   # create the TEMPORARY GRASS location
-  rgrass7::initGRASS(gisBase  = grass.gis.base,
+  rgrass7::initGRASS(gisBase  = gisbase_GRASS,
                      home = tmpDir(),
                      gisDbase = gisdbase,
                      mapset = "PERMANENT",

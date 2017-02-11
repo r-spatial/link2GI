@@ -13,7 +13,7 @@ searchGRASSW(DL = "C:")
 A dataframe with the 'GRASS GIS' root folder(s), version name(s) and installation type code(s)
 }
 \description{
-Provides an  list of valid 'GRASS GIS' installation(s) on your 'Windows' system. There is a major difference between osgeo4W and standalone installations. The functions trys to find all valid installations by analysing the calling batch scripts.
+Provides an  list of valid 'GRASS GIS' installation(s) on your 'Windows' system. There is a major difference between osgeo4W and stand_alone installations. The functions trys to find all valid installations by analysing the calling batch scripts.
 }
 \examples{
 \dontrun{

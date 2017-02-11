@@ -4,25 +4,25 @@
 \alias{linkGRASS7}
 \title{Locate and set up 'GRASS 7' API bindings}
 \usage{
-linkGRASS7(x = NULL, defaultGrass = NULL, searchPath = NULL,
-  verSelect = FALSE, gisdbase = NULL, location = NULL,
-  spatialParams = NULL)
+linkGRASS7(x = NULL, default_GRASS7 = NULL, search_path = NULL,
+  ver_select = FALSE, gisdbase = NULL, location = NULL,
+  spatial_params = NULL)
 }
 \arguments{
 \item{x}{raster or sp object}
 
-\item{defaultGrass}{default is \code{NULL} If is \code{NULL} an automatic search for all installed versions is performed. 
+\item{default_GRASS7}{default is \code{NULL} If is \code{NULL} an automatic search for all installed versions is performed. 
 If you provide a valid list the corresponding version is initialized. An example for OSGeo4W64 is: \code{c("C:/OSGeo4W64","grass-7.0.5","osgeo4w")}}
 
-\item{searchPath}{path or mounting point that will be searched}
+\item{search_path}{path or mounting point that will be searched}
 
-\item{verSelect}{boolean if TRUE you may choose interactively the binary version (if found  more than one),  by default FALSE}
+\item{ver_select}{boolean if TRUE you may choose interactively the binary version (if found  more than one),  by default FALSE}
 
 \item{gisdbase}{default is \code{NULL}, invoke \code{tempdir()} to the 'GRASS' database. Alternativeley you can provide a individual path.}
 
 \item{location}{default is \code{NULL}, invoke \code{basename(tempfile())} for defining the 'GRASS' location. Alternativeley you can provide a individual path.}
 
-\item{spatialParams}{default is \code{NULL}. Instead of a spatial object you may provide the geometry as a list. E.g. c(xmin,ymin,xmax,ymax,proj4_string)}
+\item{spatial_params}{default is \code{NULL}. Instead of a spatial object you may provide the geometry as a list. E.g. c(xmin,ymin,xmax,ymax,proj4_string)}
 }
 \value{
 linkGRASS7 initializes the usage of GRASS7.
@@ -97,20 +97,22 @@ linkGRASS7(meuse_sf,gisdbase = "~/temp3",location = "project1")
 
 # choose manually the GRASS installation 
 # additionally using the meuse sf object for spatial referencing
-linkGRASS7(meuse_sf,verSelect = TRUE)
+linkGRASS7(meuse_sf,ver_select = TRUE)
 
 # choose manually the GRASS installation and change the search location
 # additionally using the meuse sf object for spatial referencing
-linkGRASS7(meuse_sf,verSelect = TRUE, searchPath = "D:/")
+linkGRASS7(meuse_sf,ver_select = TRUE, search_path = "D:/")
 
 # setting up GRASS manually with spatial parameters of the meuse data
- linkGRASS7(spatialParams = c(178605,329714,181390,333611,"+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +no_defs +a=6377397.155 +rf=299.1528128 +towgs84=565.4171,50.3319,465.5524,-0.398957,0.343988,-1.8774,4.0725 +to_meter=1")) 
+proj4_string <- as.character(sp::CRS("+init=epsg:28992"))
+linkGRASS7(spatial_params = c(178605,329714,181390,333611,proj4_string)) 
 
 # setting up GRASS manually with spatial parameters of the meuse data 
-# additionally using a peramanent directory "~/examples" and the location "meuse_spatialParams "
+# additionally using a peramanent directory "~/examples" and the location "meuse_spatial_params "
+proj4_string <- as.character(sp::CRS("+init=epsg:28992"))
 linkGRASS7(gisdbase = "~/examples",
-           location = "meuse_spatialParams",
-           spatialParams = c(178605,329714,181390,333611,"+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +no_defs +a=6377397.155 +rf=299.1528128 +towgs84=565.4171,50.3319,465.5524,-0.398957,0.343988,-1.8774,4.0725 +to_meter=1")) 
+           location = "meuse_spatial_params",
+           spatial_params = c(178605,329714,181390,333611,proj4_string))
 }
 }
 \author{

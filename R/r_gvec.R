@@ -38,7 +38,9 @@ r_gvec <- function(x, obj_name, gisdbase, location ){
                       flags = c("overwrite","quiet"),
                       input = gsub(tolower(sq_name),pattern = "\\.",replacement = "_"),
                       output = file.path(path,paste0(obj_name,"_new.sqlite")),
-                      format = "SQLite")
+                      format = "SQLite",
+                      ignore.stderr = TRUE,
+                      intern = TRUE)
    
-  return(sf::st_read(file.path(path,paste0(obj_name,"_new.sqlite"))))
+  return(sf::st_read(file.path(path,paste0(obj_name,"_new.sqlite")),quiet = TRUE))
 }

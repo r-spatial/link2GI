@@ -11,7 +11,7 @@ Maintainer: Chris Reudenbach <reudenbach@uni-marburg.de>
 Description: Functions to simplify the linking of open source GIS and remote sensing related command line interfaces.
 License: GPL (>= 3) | file LICENSE
 Depends: R (>= 2.10), methods
-Imports: sp, raster, rgdal, gdalUtils, tools, rgrass7, sf
+Imports: sf, raster, rgdal, gdalUtils, tools, rgrass7, sp
 RoxygenNote: 5.0.1
 Suggests: knitr, rmarkdown
 SystemRequirements: GNU make SAGA GIS GRASS GIS (7.x.x) Orfeo ToolBox

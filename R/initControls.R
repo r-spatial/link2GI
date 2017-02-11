@@ -312,7 +312,8 @@ searchGRASSX <- function(MP = "/usr"){
   if (length(raw_GRASS) > 0) {
     installations_GRASS <- lapply(seq(length(raw_GRASS)), function(i){
       # grep line containing GISBASE and extract the substring 
-      root_dir <- grep(readLines(raw_GRASS),pattern = 'isbase = "',value = TRUE)
+      root_dir <- try(grep(readLines(raw_GRASS),pattern = 'gisbase = "',value = TRUE),silent = TRUE)
+      if(!class(root_dir) == "try-error") {
       root_dir <- substr(root_dir, gregexpr(pattern = '"', root_dir)[[1]][1] + 1, nchar(root_dir) - 1)
       ver_char <- grep(readLines(raw_GRASS),pattern = 'grass_version = "',value = TRUE)
       ver_char <- substr(ver_char, gregexpr(pattern = '"', ver_char)[[1]][1] + 1, nchar(ver_char) - 1)
@@ -321,6 +322,7 @@ searchGRASSX <- function(MP = "/usr"){
       
       # put it in data frame
       data.frame(instDir = root_dir, version = ver_char, cmd = cmd , stringsAsFactors = FALSE)
+      }
     }) # end lapply
     
     # bind the df lines

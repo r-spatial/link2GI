@@ -4,7 +4,7 @@ if ( !isGeneric("w_gvec") ) {
 }
 
 #' Write sf object to GRASS 7
-#' @param x sf* object corresponding to the settings of the corresponding GRASS container
+#' @param x  \code{\link{sf}} object corresponding to the settings of the corresponding GRASS container
 #' @param obj_name name of GRASS layer
 #' @param gisdbase  GRASS gisDbase folder
 #' @param location  GRASS location name containing \code{obj_name)}

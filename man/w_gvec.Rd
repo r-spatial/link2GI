@@ -7,7 +7,7 @@
 w_gvec(x, obj_name, gisdbase, location)
 }
 \arguments{
-\item{x}{sf* object corresponding to the settings of the corresponding GRASS container}
+\item{x}{\code{\link{sf}} object corresponding to the settings of the corresponding GRASS container}
 
 \item{obj_name}{name of GRASS layer}
 

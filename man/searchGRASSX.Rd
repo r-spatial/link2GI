@@ -18,7 +18,7 @@ Search for valid 'GRASS GIS' installations at a given 'Linux' mount point
 \examples{
 \dontrun{
 # get all valid 'GRASS GIS' installation folders in the /usr directory (typical location)
-searchGRASSX("~/usr")
+searchGRASSX("/usr")
 
 # get all valid 'GRASS GIS' installation folders in the home directory
 searchGRASSX("~/")

@@ -301,7 +301,7 @@ getparams_GRASS4X <- function(set_default_GRASS7=NULL, MP = "/usr",ver_select = 
 #'@examples
 #' \dontrun{
 #' # get all valid 'GRASS GIS' installation folders in the /usr directory (typical location)
-#' searchGRASSX("~/usr")
+#' searchGRASSX("/usr")
 #' 
 #' # get all valid 'GRASS GIS' installation folders in the home directory
 #' searchGRASSX("~/")

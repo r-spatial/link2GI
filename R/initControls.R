@@ -77,7 +77,7 @@ searchSAGAW <- function(DL = "C:",
     
   } 
     
-  } else {otbInstallations <- "Sorry no Windows system..." }
+  } else {sagaPath <- "Sorry no Windows system..." }
   return(sagaPath)
 }
 
@@ -358,7 +358,8 @@ searchGRASSX <- function(MP = "/usr"){
 setenv_GRASS4W <- function(root_GRASS="C:\\OSGEO4~1",
                           grass_version = "grass-7.0.5",
                           installation_type = "osgeo4W",
-                          jpgmem = 1000000){
+                          jpgmem = 1000000) {
+  if (Sys.info()["sysname"] == "Windows") {
   if (!exists("GiEnv")) GiEnv <- new.env(parent=globalenv())  
   #.GRASS_CACHE <- new.env(FALSE parent=globalenv())
   if (installation_type == "osgeo4W") {
@@ -440,7 +441,7 @@ setenv_GRASS4W <- function(root_GRASS="C:\\OSGEO4~1",
                            Sys.getenv("PATH")),envir = GiEnv)
     
   }
-  
+  } else {gisbase_GRASS <- "Sorry no Windows System..." }
   return(gisbase_GRASS)
 }
 

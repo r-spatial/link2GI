@@ -17,8 +17,9 @@
 #' }
 
 searchSAGAW <- function(DL = "C:",
-                        ver_select=FALSE){
+                        ver_select=FALSE) {
   
+  if (Sys.info()["sysname"] == "Windows") {  
   sagaPath <- checkPCDomain("saga")  
   if (is.null(sagaPath)) {
     
@@ -74,8 +75,9 @@ searchSAGAW <- function(DL = "C:",
     # bind df 
     sagaPath <- do.call("rbind", sagaPath)
     
-  }
-  
+  } 
+    
+  } else {otbInstallations <- "Sorry no Windows system..." }
   return(sagaPath)
 }
 

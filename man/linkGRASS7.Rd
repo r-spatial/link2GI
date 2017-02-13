@@ -5,8 +5,8 @@
 \title{Locate and set up 'GRASS 7' API bindings}
 \usage{
 linkGRASS7(x = NULL, default_GRASS7 = NULL, search_path = NULL,
-  ver_select = FALSE, gisdbase = NULL, location = NULL,
-  spatial_params = NULL)
+  ver_select = FALSE, gisdbase_exist = FALSE, gisdbase = NULL,
+  location = NULL, spatial_params = NULL)
 }
 \arguments{
 \item{x}{raster or sp object}
@@ -17,6 +17,8 @@ If you provide a valid list the corresponding version is initialized. An example
 \item{search_path}{path or mounting point that will be searched}
 
 \item{ver_select}{boolean if TRUE you may choose interactively the binary version (if found  more than one),  by default FALSE}
+
+\item{gisdbase_exist}{default is FALSE if set to TRUE the arguments gisdbase and location are expected to be an existing GRASS gisdbase}
 
 \item{gisdbase}{default is \code{NULL}, invoke \code{tempdir()} to the 'GRASS' database. Alternativeley you can provide a individual path.}
 

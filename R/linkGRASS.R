@@ -37,6 +37,7 @@ if (!isGeneric('linkGRASS7')) {
 #'                    If you provide a valid list the corresponding version is initialized. An example for OSGeo4W64 is: \code{c("C:/OSGeo4W64","grass-7.0.5","osgeo4w")}
 #'@param gisdbase default is \code{NULL}, invoke \code{tempdir()} to the 'GRASS' database. Alternativeley you can provide a individual path.
 #'@param location default is \code{NULL}, invoke \code{basename(tempfile())} for defining the 'GRASS' location. Alternativeley you can provide a individual path.
+#'@param gisdbase_exist default is FALSE if set to TRUE the arguments gisdbase and location are expected to be an existing GRASS gisdbase
 #'@param spatial_params default is \code{NULL}. Instead of a spatial object you may provide the geometry as a list. E.g. c(xmin,ymin,xmax,ymax,proj4_string)
 #'@param ver_select boolean if TRUE you may choose interactively the binary version (if found  more than one),  by default FALSE
 #'@author Chris Reudenbach
@@ -101,12 +102,15 @@ linkGRASS7 <- function(x = NULL,
                       default_GRASS7 = NULL, 
                       search_path = NULL,
                       ver_select = FALSE,
+                      gisdbase_exist =FALSE,
                       gisdbase = NULL,
                       location = NULL,
                       spatial_params=NULL) {
-  if (is.null(x) & is.null(spatial_params)  & is.null(location)) {
+  # if no spatial object AND no extent AND no existing GRASS dbase is provided stop
+  if (is.null(x) & is.null(spatial_params) & is.null(location)) {
     stop("You MUST provide a raster* or sp* object, Did not found any of them so stopped.")
   }
+  # search for GRASS on your system
   if (Sys.info()["sysname"] == "Windows") {
     home <- Sys.getenv("USERPROFILE")
     if (is.null(search_path)) search_path <- "C:"
@@ -116,8 +120,8 @@ linkGRASS7 <- function(x = NULL,
     if (is.null(search_path)) search_path <- "/usr"
     gisbase_GRASS <- getparams_GRASS4X(default_GRASS7,search_path,ver_select)
   }
-    
-  if (!is.null(location) & !is.null(gisdbase)) {
+  # if an existing gdbase is provided link it  
+  if (!is.null(location) & !is.null(gisdbase) & gisdbase_exist ) {
     rgrass7::initGRASS(gisBase  = gisbase_GRASS,
                        home = tmpDir(),
                        gisDbase = path.expand(gisdbase),
@@ -128,12 +132,15 @@ linkGRASS7 <- function(x = NULL,
     return(rgrass7::gmeta())
   }
   
+  ### if not do the normal linking procedure
+  
+  # create temporary location if not provided
   if (is.null(location)) {
     location <-  basename(tempfile())
   } else {
     location <- location  
   }
-  
+  # create temporary gsdbase if not provided
   if (is.null(gisdbase)) {
     gisdbase <-  tempdir()
   } else { 

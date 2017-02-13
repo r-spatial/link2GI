@@ -92,8 +92,7 @@ linkGRASS7(meuse,c("C:/Program Files/GRASS GIS7.0.5","GRASS GIS 7.0.5","NSIS"))
 linkGRASS7(meuse,c("C:/OSGeo4W64","grass-7.0.5","osgeo4W"))
 
 # Permanent GRASS folder at "~/temp3", location named "project1" 
-# additionally using the meuse sf object for spatial referencing
-linkGRASS7(meuse_sf,gisdbase = "~/temp3",location = "project1")   
+linkGRASS7(gisdbase = "~/temp3",location = "project1")   
 
 # choose manually the GRASS installation 
 # additionally using the meuse sf object for spatial referencing

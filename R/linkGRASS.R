@@ -75,8 +75,7 @@ if (!isGeneric('linkGRASS7')) {
 #' linkGRASS7(meuse,c("C:/OSGeo4W64","grass-7.0.5","osgeo4W"))
 #'
 #' # Permanent GRASS folder at "~/temp3", location named "project1" 
-#' # additionally using the meuse sf object for spatial referencing
-#' linkGRASS7(meuse_sf,gisdbase = "~/temp3",location = "project1")   
+#' linkGRASS7(gisdbase = "~/temp3",location = "project1")   
 #' 
 #' # choose manually the GRASS installation 
 #' # additionally using the meuse sf object for spatial referencing
@@ -105,8 +104,36 @@ linkGRASS7 <- function(x = NULL,
                       gisdbase = NULL,
                       location = NULL,
                       spatial_params=NULL) {
+  if (is.null(x) & is.null(spatial_params)  & is.null(location)) {
+    stop("You MUST provide a raster* or sp* object, Did not found any of them so stopped.")
+  }
+  if (Sys.info()["sysname"] == "Windows") {
+    home <- Sys.getenv("USERPROFILE")
+    if (is.null(search_path)) search_path <- "C:"
+    gisbase_GRASS <- getparams_GRASS4W(default_GRASS7,search_path,ver_select)
+  } else {
+    home <- Sys.getenv("HOME")
+    if (is.null(search_path)) search_path <- "/usr"
+    gisbase_GRASS <- getparams_GRASS4X(default_GRASS7,search_path,ver_select)
+  }
+    
+  if (!is.null(location) & !is.null(gisdbase)) {
+    rgrass7::initGRASS(gisBase  = gisbase_GRASS,
+                       home = tmpDir(),
+                       gisDbase = path.expand(gisdbase),
+                       mapset = "PERMANENT",
+                       location = location,
+                       override = TRUE
+    ) 
+    return(rgrass7::gmeta())
+  }
   
-  if (is.null(location)) location <-  basename(tempfile())
+  if (is.null(location)) {
+    location <-  basename(tempfile())
+  } else {
+    location <- location  
+  }
+  
   if (is.null(gisdbase)) {
     gisdbase <-  tempdir()
   } else { 
@@ -120,10 +147,8 @@ linkGRASS7 <- function(x = NULL,
   if (!file.exists(file.path(gisdbase,location))) {
     dir.create(file.path(gisdbase,location),recursive = TRUE)
   }
-
-  if (is.null(x) & is.null(spatial_params)) {
-    stop("You MUST provide a raster* or sp* object, Did not found any of them so stopped.")
-  } else if (!is.null(x) & is.null(spatial_params)) {
+  
+   if (!is.null(x) & is.null(spatial_params)) {
     if (getSpatialClass(x) == "rst") {
       resolution <- raster::res(x)[1]
       proj4 <- as.character(x@crs)
@@ -162,15 +187,7 @@ linkGRASS7 <- function(x = NULL,
     }
   }
   
-  if (Sys.info()["sysname"] == "Windows") {
-    home <- Sys.getenv("USERPROFILE")
-    if (is.null(search_path)) search_path <- "C:"
-    gisbase_GRASS <- getparams_GRASS4W(default_GRASS7,search_path,ver_select)
-  } else {
-    home <- Sys.getenv("HOME")
-    if (is.null(search_path)) search_path <- "/usr"
-    gisbase_GRASS <- getparams_GRASS4X(default_GRASS7,search_path,ver_select)
-  }
+
   
   
   #Sys.setenv(.GRASS_CACHE = paste(Sys.getenv("HOME"), "\\.grass_cache",sep = "")) 

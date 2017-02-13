@@ -23,9 +23,10 @@ if (!isGeneric('linkGRASS7')) {
 #'  The function \code{linkGRASS7} tries to find all valid 'GRASS GIS' binaries by analyzing
 #'  the startup script files of 'GRASS GIS'. After identifying the 'GRASS GIS' binaries all
 #'  necessary system variables and settings will be generated and passed to a temporary R enviroment.
-#'@details The concept is very straightforward but for an all days usage pretty 
-#'  helpful. You need to provide a \code{\link{raster}} or \code{\link{sp}} \code{\link{sf}} spatial object
-#'  which has correct spatial and projection properties. These properties are used to initialize either a temporary or a permanent 
+#'@details The concept is straightforward but for an all days usage helpful. Either you need to 
+#' provide a \code{\link{raster}} or \code{\link{sp}} \code{\link{sf}} spatial object
+#'  which has correct spatial and projection properties or you may link directlxy to an existing 'GRASS' gisdbase and mapset. 
+#'  If you choose an spatial object to initialize a correct 'GRASS' mapset it is used to create either a temporary or a permanent 
 #'  \href{https://CRAN.R-project.org/package=rgrass7}{rgrass7} environment including the correct 'GRASS 7' structure.\cr\cr
 #'  The most time consuming part on 'Windows' Systems is the search process. This can easily take 10 or more minutes. 
 #'  To speed up this process you can also provide a correct parameter set. Best way to do so is to call \code{searchGRASSW} or for 'Linux' \code{searchGRASSX} manually. 
@@ -85,7 +86,7 @@ if (!isGeneric('linkGRASS7')) {
 #' linkGRASS7(meuse_sf,ver_select = TRUE)
 #' 
 #' # SELECT the GRASS installation and define the search location
-#' linkGRASS7(meuse_sf,ver_select = TRUE, search_path = "D:/")
+#' linkGRASS7(meuse_sf,ver_selecPOSIXltt = TRUE, search_path = "D:/")
 #'
 #' # setting up GRASS manually with spatial parameters of the meuse data
 #' proj4_string <- as.character(sp::CRS("+init=epsg:28992"))

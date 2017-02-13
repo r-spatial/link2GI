@@ -64,33 +64,34 @@ if (!isGeneric('linkGRASS7')) {
 #'  
 #' # Automatic search and find of GRASS binaries 
 #' # using the meuse sp data object for spatial referencing
-#' # This is the highly recommended linking procedure
+#' # This is the highly recommended linking procedure for on the fly jobs
 #' # NOTE: if more than one GRASS installation is found you have to choose. 
 #' linkGRASS7(meuse)
 #' 
-#' # assuming a typical standalone non-OSGeo4W installation 
+#' # Typical non-OSGeo4W installation 
 #' # using the meuse sp data object for spatial referencing
 #' linkGRASS7(meuse,c("C:/Program Files/GRASS GIS7.0.5","GRASS GIS 7.0.5","NSIS")) 
 #' 
 #' # Typical OSGeo4W installation using the meuse sp data object for spatial referencing
 #' linkGRASS7(meuse,c("C:/OSGeo4W64","grass-7.0.5","osgeo4W"))
 #'
-#' # Permanent GRASS folder at "~/temp3", location named "project1" 
-#' linkGRASS7(gisdbase = "~/temp3",location = "project1")   
+#' # CREATE and link to a permanent GRASS folder at "~/temp3", location named "project1" 
+#' linkGRASS7(meuse_sf, gisdbase = "~/temp3",location = "project1")   
 #' 
-#' # choose manually the GRASS installation 
-#' # additionally using the meuse sf object for spatial referencing
+#' # ONLY LINK to a permanent GRASS folder at "~/temp3", location named "project1" 
+#' linkGRASS7(gisdbase = "~/temp3",location = "project1", gisdbase_exist = TRUE )   
+#' 
+#' # SELECT the GRASS installation 
 #' linkGRASS7(meuse_sf,ver_select = TRUE)
 #' 
-#' # choose manually the GRASS installation and change the search location
-#' # additionally using the meuse sf object for spatial referencing
+#' # SELECT the GRASS installation and define the search location
 #' linkGRASS7(meuse_sf,ver_select = TRUE, search_path = "D:/")
 #'
 #' # setting up GRASS manually with spatial parameters of the meuse data
 #' proj4_string <- as.character(sp::CRS("+init=epsg:28992"))
 #' linkGRASS7(spatial_params = c(178605,329714,181390,333611,proj4_string)) 
 #' 
-#' # setting up GRASS manually with spatial parameters of the meuse data 
+#' # creating a GRASS gisdbase manually with spatial parameters of the meuse data 
 #' # additionally using a peramanent directory "~/examples" and the location "meuse_spatial_params "
 #' proj4_string <- as.character(sp::CRS("+init=epsg:28992"))
 #' linkGRASS7(gisdbase = "~/examples",

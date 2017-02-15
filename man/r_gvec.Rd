@@ -4,7 +4,7 @@
 \alias{r_gvec}
 \title{Read GRASS 7 vector into  sf object}
 \usage{
-r_gvec(x, obj_name, gisdbase, location)
+r_gvec(x, obj_name, gisdbase, location, gisdbase_exist = FALSE)
 }
 \arguments{
 \item{x}{\code{\link{sf}} object corresponding to the settings of the corresponding GRASS container}

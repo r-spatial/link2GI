@@ -4,7 +4,7 @@
 \alias{w_gvec}
 \title{Write sf object to GRASS 7}
 \usage{
-w_gvec(x, obj_name, gisdbase, location)
+w_gvec(x, obj_name, gisdbase, location, gisdbase_exist = FALSE)
 }
 \arguments{
 \item{x}{\code{\link{sf}} object corresponding to the settings of the corresponding GRASS container}

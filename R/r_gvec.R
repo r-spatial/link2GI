@@ -28,9 +28,12 @@ if ( !isGeneric("r_gvec") ) {
 #'           location = "project1")
 #' }
 
-r_gvec <- function(x, obj_name, gisdbase, location ){
+r_gvec <- function(x, obj_name, gisdbase, location ,gisdbase_exist = FALSE){
 
-  linkGRASS7(x, gisdbase = gisdbase, location = location)  
+  if (gisdbase_exist)
+    linkGRASS7(gisdbase = gisdbase, location = location, gisdbase_exist = TRUE)  
+  else 
+    linkGRASS7(x, gisdbase = gisdbase, location = location)  
   path <- Sys.getenv("GISDBASE")
   sq_name <- gsub(tolower(paste0(obj_name,".sqlite")),pattern = "\\-",replacement = "_")
 

@@ -16,7 +16,7 @@ if ( !isGeneric("initProj") ) {
 #'   
 
 
-initProj <- function(projRootDir=getwd(), projFolders=c("data/","result/","run/","log/")) {
+initProj <- function(projRootDir=getwd(), GRASSlocation = "tmp", projFolders=c("data/","result/","run/","log/")) {
   
   # switch backslash to slash and expand path to full path
   projRootDir <- gsub("\\\\", "/", path.expand(projRootDir))  
@@ -38,6 +38,16 @@ initProj <- function(projRootDir=getwd(), projFolders=c("data/","result/","run/"
         value <- paste0(projRootDir,folder)
         makGlobalVar(name, value)
         } 
-      
     }
+  if (!file.exists(file.path(projRootDir,GRASSlocation))) {
+    dir.create(file.path(projRootDir,GRASSlocation), recursive = TRUE)
+    name <- paste0("path_",substr(GRASSlocation,1,nchar(GRASSlocation) - 1))
+    value <- paste0(projRootDir,GRASSlocation)
+    makGlobalVar(name, value)
+  } else {
+    name <- paste0("path_",substr(GRASSlocation,1,nchar(GRASSlocation) - 1))
+    value <- paste0(projRootDir,GRASSlocation)
+    makGlobalVar(name, value)
+  } 
+  
 }

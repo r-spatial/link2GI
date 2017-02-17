@@ -669,3 +669,13 @@ makGlobalVar <- function(name,value) {
     #cat("add variable ",name,"=",value," to global GiEnv\n")
   } 
 }
+
+checkGisdbase <- function(x = NULL , gisdbase = NULL, location = NULL, gisdbase_exist = FALSE, obj_name = NULL ) {
+if (gisdbase_exist)
+  linkGRASS7(gisdbase = gisdbase, location = location, gisdbase_exist = TRUE)  
+else 
+  linkGRASS7(x, gisdbase = gisdbase, location = location)  
+path <- Sys.getenv("GISDBASE")
+sq_name <- gsub(tolower(paste0(obj_name,".sqlite")),pattern = "\\-",replacement = "_")
+return(list(gisbase_path = path, sqlite = sq_name))
+}

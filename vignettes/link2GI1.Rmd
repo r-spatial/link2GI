@@ -52,10 +52,10 @@ The function linkGRASS7 tries to find all valid 'GRASS GIS' binaries by analyzin
 
 If you have more than one valid installation and run linkGRASS7() without arguments, you will be ask to select one.
 
-## Examples
+### Basic Examples 
 
 
-### get meuse data as sp object
+#### get meuse data as sp object
 
 ```{r}
 library(link2GI)
@@ -65,7 +65,7 @@ coordinates(meuse) <- ~x+y
 proj4string(meuse) <-CRS("+init=epsg:28992") 
 ```
 
-### get meuse data as sf object
+#### get meuse data as sf object
 
 ```{r}
 require(sf)
@@ -78,7 +78,7 @@ meuse_sf = st_as_sf(meuse,
 ```
 
 
-### Standard Full Search Usage 
+#### Standard Full Search Usage 
 Automatic search and find of GRASS binaries using the meuse sp data object for spatial referencing.
 This is the highly recommended linking procedure.  NOTE: if more than one GRASS installation is found you have to choose. 
 
@@ -86,7 +86,7 @@ This is the highly recommended linking procedure.  NOTE: if more than one GRASS 
 linkGRASS7(meuse)
 ```
 
-### Typical call for standalone distro
+#### Typical call for standalone distro
 Assuming a typical standalone non-OSGeo4W installation and using the meuse sp data object for spatial referencing
 
 
@@ -95,44 +95,60 @@ linkGRASS7(meuse,c("C:/Program Files/GRASS GIS7.0.5","GRASS GIS 7.0.5","NSIS"))
 
 ```
 
-### Typical OSGeo4W64 installation
+#### Typical OSGeo4W64 installation
 Typical OSGeo4W64 installation using the meuse sp data object for spatial referencing
 
 ```{r, eval=FALSE}
 linkGRASS7(meuse,c("C:/OSGeo4W64","grass-7.0.5","osgeo4W"))
 ```
 
-### Using Permanent gisbase folder
-Permanent GRASS folder at "~/temp3", location named "project1" additionally using the meuse sf object for spatial referencing
-
-```{r}
-linkGRASS7(meuse_sf,gisdbase = "~/temp3",location = "project1")   
-```
-### Manual choosing the version
+#### Manual choosing the version
 Choose manually the GRASS installation  additionally using the meuse sf object for spatial referencing
 
 ```{r}
-linkGRASS7(meuse_sf,verSelect = TRUE)
+linkGRASS7(meuse_sf, ver_select = TRUE)
 ```
 
-### Choose another searchpath
+#### Choose another searchpath
 Choose manually the GRASS installation and change the search location additionally using the meuse sf object for spatial referencing
 
 ```{r,eval=FALSE}
 linkGRASS7(meuse_sf, searchPath = "D:/")
 
 ```
-### Manual Setup
-Setting up GRASS manually with spatial parameters of the meuse data
+
+#### Creating a Permanent gisbase folder
+Creating a  permanent GRASS gisdbase (folder structure) at "~/temp3" with the standard mapset PERMANENT and the location named "project1". For all spatial attributes use the the meuse sf object.
 
 ```{r}
- linkGRASS7(spatialParams = c(178605,329714,181390,333611,"+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +no_defs +a=6377397.155 +rf=299.1528128 +towgs84=565.4171,50.3319,465.5524,-0.398957,0.343988,-1.8774,4.0725 +to_meter=1")) 
-
+linkGRASS7(x = meuse_sf, gisdbase = "~/temp3",location = "project1")   
 ```
 
 
+#### Using a Permanent gisbase folder
+Link to the permanent GRASS gisdbase (folder structure) at "~/temp3" with the standard mapset PERMANENT and the location named "project1". For all spatial attributes use the the meuse sf object.
 
+```{r}
+linkGRASS7(gisdbase = "~/temp3",location = "project1", gisdbase_exist = TRUE)   
+```
 
+#### Manual Setup of the spatial attributes
+Setting up GRASS manually with spatial parameters of the meuse data
+
+```{r}
+ linkGRASS7(spatial_params = c(178605,329714,181390,333611,"+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +no_defs +a=6377397.155 +rf=299.1528128 +towgs84=565.4171,50.3319,465.5524,-0.398957,0.343988,-1.8774,4.0725 +to_meter=1")) 
+
+```
+
+###  Advanced examples using GRASS algorithms
+
+#### Running a cost analysis 
+
+#### Running a watershed segementatiom
+
+#### Read GRASS vector data
+
+#### Write GRASS vector data
 
 # Hands on how to use GRASS SAGA and OTB
 

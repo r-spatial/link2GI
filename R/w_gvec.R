@@ -23,29 +23,38 @@ if ( !isGeneric("w_gvec") ) {
 #'                    crs = 28992, 
 #'                    agr = "constant")
 #'     
-#' 
+#' # write data to GRASS and create gisdbase
 #' w_gvec(x = meuse_sf,
+#'           obj_name = "meuse_R-G",
+#'           gisdbase = "~/temp3",
+#'           location = "project1")
+#'  
+#' # read from existing GRASS          
+#' r_gvec(x = meuse_sf,
 #'           obj_name = "meuse_R-G",
 #'           gisdbase = "~/temp3",
 #'           location = "project1")
 #' }
 
 w_gvec <- function(x, obj_name, gisdbase, location , gisdbase_exist=FALSE){
+  
   if (gisdbase_exist)
     linkGRASS7(gisdbase = gisdbase, location = location, gisdbase_exist = TRUE)  
   else 
-    linkGRASS7(x, gisdbase = gisdbase, location = location)  
+    linkGRASS7(x = x, gisdbase = gisdbase, location = location)  
   path <- Sys.getenv("GISDBASE")
   sq_name <- gsub(tolower(paste0(obj_name,".sqlite")),pattern = "\\-",replacement = "_")
-  st_write(x, file.path(path, sq_name), quiet = TRUE)
   
-  ret <- rgrass7::execGRASS('v.import',  
+  sf::st_write(x,file.path(path,sq_name),quiet = TRUE)
+  
+  ret <- try(rgrass7::execGRASS('v.import',  
                      flags  = c("overwrite", "quiet", "o"),
                      extent = "region",
                      input  = file.path(path,sq_name),
                      layer  = sq_name,
                      output = gsub(tolower(sq_name),pattern = "\\.",replacement = "_"),
                      ignore.stderr = TRUE,
-                     intern = TRUE
-                     )
+                     intern = TRUE),silent = TRUE)
+
+  if (class(ret) == "try-error")  return(cat("Data not found"))
 }

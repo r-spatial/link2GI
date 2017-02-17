@@ -30,8 +30,14 @@ meuse_sf = st_as_sf(meuse,
                    crs = 28992, 
                    agr = "constant")
     
-
+# write data to GRASS and create gisdbase
 w_gvec(x = meuse_sf,
+          obj_name = "meuse_R-G",
+          gisdbase = "~/temp3",
+          location = "project1")
+ 
+# read from existing GRASS          
+r_gvec(x = meuse_sf,
           obj_name = "meuse_R-G",
           gisdbase = "~/temp3",
           location = "project1")

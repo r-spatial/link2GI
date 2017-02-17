@@ -4,7 +4,7 @@
 \alias{r_gvec}
 \title{Read GRASS 7 vector into  sf object}
 \usage{
-r_gvec(x, obj_name, gisdbase, location, gisdbase_exist = FALSE)
+r_gvec(x, obj_name, gisdbase, location, gisdbase_exist = TRUE)
 }
 \arguments{
 \item{x}{\code{\link{sf}} object corresponding to the settings of the corresponding GRASS container}
@@ -29,6 +29,13 @@ meuse_sf = st_as_sf(meuse,
                    agr = "constant")
     
 
+# write data to GRASS and create gisdbase
+w_gvec(x = meuse_sf,
+          obj_name = "meuse_R-G",
+          gisdbase = "~/temp3",
+          location = "project1")
+ 
+# read from existing GRASS          
 r_gvec(x = meuse_sf,
           obj_name = "meuse_R-G",
           gisdbase = "~/temp3",

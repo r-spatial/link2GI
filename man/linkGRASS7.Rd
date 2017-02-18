@@ -6,7 +6,7 @@
 \usage{
 linkGRASS7(x = NULL, default_GRASS7 = NULL, search_path = NULL,
   ver_select = FALSE, gisdbase_exist = FALSE, gisdbase = NULL,
-  location = NULL, spatial_params = NULL)
+  location = NULL, spatial_params = NULL, resolution = NULL)
 }
 \arguments{
 \item{x}{raster or sp object}

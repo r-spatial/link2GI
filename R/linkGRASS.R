@@ -107,7 +107,8 @@ linkGRASS7 <- function(x = NULL,
                       gisdbase_exist =FALSE,
                       gisdbase = NULL,
                       location = NULL,
-                      spatial_params=NULL) {
+                      spatial_params=NULL,
+                      resolution=NULL) {
   # if no spatial object AND no extent AND no existing GRASS dbase is provided stop
   if (is.null(x) & is.null(spatial_params) & is.null(location)) {
     stop("You MUST provide a raster* or sp* object, Did not found any of them so stopped.")
@@ -174,6 +175,8 @@ linkGRASS7 <- function(x = NULL,
         ymax <- corner[4]
         ymin <- corner[2]
         proj4 <-  unlist(sf::st_crs(x)[2])
+        if (!is.null(resolution)) resolution<- resolution
+        else resolution <- "1"
       } else {
         s <- x@proj4string
         s <- s@projargs
@@ -183,7 +186,8 @@ linkGRASS7 <- function(x = NULL,
         xmin <- x@bbox[1]
         ymax <- x@bbox[4]
         ymin <- x@bbox[2]
-        #resolution<-0.0008333333
+        if (!is.null(resolution)) resolution<- resolution
+        else resolution <- "1"
       }
     } 
   } else if  (is.null(x) & !is.null(spatial_params)) {
@@ -193,10 +197,12 @@ linkGRASS7 <- function(x = NULL,
       xmin <- spatial_params[1]
       ymax <- spatial_params[4]
       ymin <- spatial_params[2]
+      if (!is.null(resolution)) resolution<- resolution
+      else resolution <- "1"
     }
   }
   
-
+  
   
   
   #Sys.setenv(.GRASS_CACHE = paste(Sys.getenv("HOME"), "\\.grass_cache",sep = "")) 
@@ -233,8 +239,8 @@ linkGRASS7 <- function(x = NULL,
                        n = as.character(ymax),
                        s = as.character(ymin),
                        e = as.character(xmax),
-                       w = as.character(xmin)
-                       #res=as.character(resolution)
+                       w = as.character(xmin),
+                       res=as.character(resolution)
     )
   } else if (getSpatialClass(x) == "paramList") {
     rgrass7::execGRASS('g.region',
@@ -242,8 +248,8 @@ linkGRASS7 <- function(x = NULL,
                        n = as.character(ymax),
                        s = as.character(ymin),
                        e = as.character(xmax),
-                       w = as.character(xmin)
-                       #res=as.character(resolution)
+                       w = as.character(xmin),
+                       res = as.character(resolution)
     )
   }
    else {

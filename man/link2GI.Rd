@@ -20,4 +20,3 @@ Chris Reudenbach Tim Appelhans
 \emph{Maintainer:} Chris Reudenbach \email{reudenbach@uni-marburg.de}
 }
 \keyword{package}
-

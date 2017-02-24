@@ -47,4 +47,3 @@ linkOTB("/usr/bin/")
 \author{
 Chris Reudenbach
 }
-

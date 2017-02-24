@@ -121,4 +121,3 @@ linkGRASS7(gisdbase = "~/examples",
 \author{
 Chris Reudenbach
 }
-

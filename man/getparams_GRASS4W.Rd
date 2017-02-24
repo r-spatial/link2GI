@@ -41,4 +41,3 @@ getparams_GRASS4W(c("C:/Program Files/GRASS GIS 7.0.5","GRASS GIS 7.0.5","NSIS")
 getparams_GRASS4W(c("C:/OSGeo4W64","grass-7.0.5","osgeo4W"))
 }
 }
-

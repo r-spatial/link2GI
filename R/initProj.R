@@ -16,7 +16,7 @@ if ( !isGeneric("initProj") ) {
 #'   
 
 
-initProj <- function(projRootDir=getwd(), GRASSlocation = "tmp", projFolders=c("data/","result/","run/","log/")) {
+initProj <- function(projRootDir=getwd(), GRASSlocation = "tmp/", projFolders=c("data/","result/","run/","log/")) {
   
   # switch backslash to slash and expand path to full path
   projRootDir <- gsub("\\\\", "/", path.expand(projRootDir))  

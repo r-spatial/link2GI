@@ -27,4 +27,3 @@ searchGRASSX("~/")
 \author{
 Chris Reudenbach
 }
-

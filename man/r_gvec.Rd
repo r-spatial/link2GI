@@ -45,4 +45,3 @@ r_gvec(x = meuse_sf,
 \author{
 Chris Reudenbach
 }
-

@@ -31,4 +31,3 @@ gdal[[1]]$python_utilities
 \author{
 CR
 }
-

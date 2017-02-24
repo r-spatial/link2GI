@@ -28,4 +28,3 @@ sagaParams<- searchSAGAW()
 \author{
 Chris Reudenbach
 }
-

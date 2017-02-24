@@ -40,4 +40,3 @@ linkSAGA()
 linkSAGA(c("C:/OSGeo4W64/apps/saga","C:/OSGeo4W64/apps/saga/modules"))
 }
 }
-

@@ -32,4 +32,3 @@ getparams_GRASS4X("/usr/bin/grass72")
 getparams_GRASS4X("/usr/local/bin/grass72")
 }
 }
-

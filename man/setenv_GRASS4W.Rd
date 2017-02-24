@@ -31,4 +31,3 @@ grassParam<- setenv_GRASS4W()
 \author{
 Chris Reudenbach
 }
-

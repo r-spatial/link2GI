@@ -26,4 +26,3 @@ searchOTBW()
 \author{
 Chris Reudenbach
 }
-

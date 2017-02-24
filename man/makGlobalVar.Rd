@@ -23,4 +23,3 @@ makGlobalVar("pathToData","~/home/data")
 }
 
 }
-

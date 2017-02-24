@@ -20,64 +20,62 @@ searchSAGAW <- function(DL = "C:",
                         ver_select=FALSE) {
   
   if (Sys.info()["sysname"] == "Windows") {  
-  sagaPath <- checkPCDomain("saga")  
-  if (is.null(sagaPath)) {
-    
-    # trys to find a osgeo4w installation on the whole C: disk returns root directory and version name
-    # recursive dir for saga_cmd.exe returns all version of otb bat files
-    cat("\nsearching for SAGA GIS installations - this may take a while\n")
-    cat("For providing the path manually see ?searchSAGAW \n")
-    
-    # for a straightforward use of a correct codetable using the cmd command "dir" is used
-    rawSAGA <- system(paste0("cmd.exe /c dir /B /S ",DL,"\\","saga_cmd.exe"),intern = TRUE)
-    
-    # trys to identify valid SAGA GIS installation(s) & version number(s)
-    sagaPath <- lapply(seq(length(rawSAGA)), function(i){
-      cmdfileLines <- rawSAGA[i]
-      installerType <- ""
-      # if the the tag "OSGEO4W" exists set installation_type
-      if (length(unique(grep(paste("OSGeo4W64", collapse = "|"), rawSAGA[i], value = TRUE))) > 0) {
-        root_dir <- unique(grep(paste("OSGeo4W64", collapse = "|"), rawSAGA[i], value = TRUE))
-        root_dir <- substr(root_dir,1, gregexpr(pattern = "saga_cmd.exe", root_dir)[[1]][1] - 1)
-        #installDir <- substr(root_dir,1, gregexpr(pattern = "bin", root_dir)[[1]][1] - 2)
-        installDir <- root_dir
-        installerType <- "osgeo4w64SAGA"
-      }    
+    sagaPath <- checkPCDomain("saga")  
+    if (is.null(sagaPath)) {
       
-      # if the the tag "OSGEO4W" exists set installation_type
-      else if (length(unique(grep(paste("OSGeo4W", collapse = "|"), rawSAGA[i], value = TRUE))) > 0) {
-        root_dir <- unique(grep(paste("OSGeo4W", collapse = "|"), rawSAGA[i], value = TRUE))
-        root_dir <- substr(root_dir,1, gregexpr(pattern = "saga_cmd.exe", root_dir)[[1]][1] - 1)
-        #installDir <- substr(root_dir,1, gregexpr(pattern = "bin", root_dir)[[1]][1] - 2)
-        installDir <- root_dir
-        installerType <- "osgeo4wSAGA"
-      }
-      # if the the tag "QGIS" exists set installation_type
-      else if (length(unique(grep(paste("QGIS", collapse = "|"), rawSAGA[i], value = TRUE))) > 0) {
-        root_dir <- unique(grep(paste("QGIS", collapse = "|"), rawSAGA[i], value = TRUE))
-        root_dir <- substr(root_dir,1, gregexpr(pattern = "saga_cmd.exe", root_dir)[[1]][1] - 1)
-        #installDir <- substr(root_dir,1, gregexpr(pattern = "bin", root_dir)[[1]][1] - 2)
-        installDir <- root_dir
-        installerType <- "qgisSAGA"
-      }
-      else{
-        root_dir <- substr(rawSAGA[i],1, gregexpr(pattern = "saga_cmd.exe", rawSAGA[i])[[1]][1] - 1)
-        #installDir <- substr(root_dir,1, gregexpr(pattern = "bin", root_dir)[[1]][1] - 2)
-        installDir <- root_dir
-        installerType <- "userSAGA"
-      }
+      # trys to find a osgeo4w installation on the whole C: disk returns root directory and version name
+      # recursive dir for saga_cmd.exe returns all version of otb bat files
+      cat("\nsearching for SAGA GIS installations - this may take a while\n")
+      cat("For providing the path manually see ?searchSAGAW \n")
       
-      # put the result in a data frame
-      data.frame(binDir = root_dir, baseDir = installDir, installation_type = installerType,stringsAsFactors = FALSE)
+      # for a straightforward use of a correct codetable using the cmd command "dir" is used
+      rawSAGA <- system(paste0("cmd.exe /c dir /B /S ",DL,"\\","saga_cmd.exe"),intern = TRUE)
       
-    }) # end lapply
-    
-    # bind df 
-    sagaPath <- do.call("rbind", sagaPath)
-    
-  } 
-    
-  } else {sagaPath <- "Sorry no Windows system..." }
+      # trys to identify valid SAGA GIS installation(s) & version number(s)
+      sagaPath <- lapply(seq(length(rawSAGA)), function(i){
+        cmdfileLines <- rawSAGA[i]
+        installerType <- ""
+        
+        # if "OSGeo4W64" 
+        if (length(unique(grep(paste("OSGeo4W64", collapse = "|"), rawSAGA[i], value = TRUE))) > 0) {
+          root_dir <- unique(grep(paste("OSGeo4W64", collapse = "|"), rawSAGA[i], value = TRUE))
+          root_dir <- substr(root_dir,1, gregexpr(pattern = "saga_cmd.exe", root_dir)[[1]][1] - 1)
+          #installDir <- substr(root_dir,1, gregexpr(pattern = "bin", root_dir)[[1]][1] - 2)
+          installDir <- root_dir
+          installerType <- "osgeo4w64SAGA"
+        }    
+        
+        # if  "OSGeo4W" 
+        else if (length(unique(grep(paste("OSGeo4W", collapse = "|"), rawSAGA[i], value = TRUE))) > 0) {
+          root_dir <- unique(grep(paste("OSGeo4W", collapse = "|"), rawSAGA[i], value = TRUE))
+          root_dir <- substr(root_dir,1, gregexpr(pattern = "saga_cmd.exe", root_dir)[[1]][1] - 1)
+          #installDir <- substr(root_dir,1, gregexpr(pattern = "bin", root_dir)[[1]][1] - 2)
+          installDir <- root_dir
+          installerType <- "osgeo4wSAGA"
+        }
+        # if  "QGIS" 
+        else if (length(unique(grep(paste("QGIS", collapse = "|"), rawSAGA[i], value = TRUE))) > 0) {
+          root_dir <- unique(grep(paste("QGIS", collapse = "|"), rawSAGA[i], value = TRUE))
+          root_dir <- substr(root_dir,1, gregexpr(pattern = "saga_cmd.exe", root_dir)[[1]][1] - 1)
+          #installDir <- substr(root_dir,1, gregexpr(pattern = "bin", root_dir)[[1]][1] - 2)
+          installDir <- root_dir
+          installerType <- "qgisSAGA"
+        }
+        else{
+          root_dir <- substr(rawSAGA[i],1, gregexpr(pattern = "saga_cmd.exe", rawSAGA[i])[[1]][1] - 1)
+          #installDir <- substr(root_dir,1, gregexpr(pattern = "bin", root_dir)[[1]][1] - 2)
+          installDir <- root_dir
+          installerType <- "userSAGA"
+        }
+        # put the result in a data frame
+        data.frame(binDir = root_dir, baseDir = installDir, installation_type = installerType,stringsAsFactors = FALSE)
+      }) # end lapply
+      # bind df 
+      sagaPath <- do.call("rbind", sagaPath)
+      
+    }  #  end of is.null(sagaPath)
+  } # end of sysname = Windows
+  else {sagaPath <- "Sorry no Windows system..." }
   return(sagaPath)
 }
 

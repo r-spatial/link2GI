@@ -21,4 +21,3 @@ addPath("pathtosomewhere")
 \author{
 Chris Reudenbach
 }
-

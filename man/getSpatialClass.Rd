@@ -21,4 +21,3 @@ getSpatialClass(x)
 \author{
 Chris Reudenbach
 }
-

@@ -1,10 +1,10 @@
 ---
 title: "Link GIS to R"
 output:
-  pdf_document:
-    toc: yes
   html_document:
     theme: united
+    toc: yes
+  pdf_document:
     toc: yes
 vignette: |
   %\VignetteIndexEntry{Link GIS to R} %\VignetteEngine{knitr::rmarkdown} %\VignetteEncoding{UTF-8}
@@ -13,23 +13,27 @@ vignette: |
 ```{r echo=FALSE}
 knitr::opts_chunk$set(collapse = TRUE)
 ```
+# What is link2GI?
+
+The [link2GI](https://CRAN.R-project.org/package=RSAGA) package tries to provide an easy entrance door for linking GRASS, SAGA GIS and QGIS as well as other awesome command line tools like the Orfeo Toolbox (OTB) for R users that are not operating system specialists or highly experienced GIS useres. It is a result of numerous graduate courseswith R-GIS beginners in the hostile world of university computer pools running under restricted Windows systems. It is is sometimes really cumbersome to get all necessary settings in a line. If have to do so on 20 ore so individual Windows Laptops you will get an idea why it could be comfortable to automize this procedure.
+
+This vignette:
+
+* shows how to use link2GI according to specific system requirements 
+* gives hands on examples of how to use it for exemplatory use of the linked software 
+* give some examples of how they can be used for meaningful and more efficient spatial analysis
+
+
 # Why link2GI?
 
 R has quite a lot of classes for storing and dealing with spatial data. For vector data the [sp](https://CRAN.R-project.org/package=sp) and recently the great [sf](https://CRAN.R-project.org/package=sf) packages are well known and the raster data world is widley covered by the [raster](https://CRAN.R-project.org/package=raster) package. Additionally external spatial data formats are interfaced by wrapping packages as [rgdal](https://CRAN.R-project.org/package=rgdal) or [gdalUtils](https://CRAN.R-project.org/package=gdalUtils). For more specific links as needed for manipulating atmospheric modeling packages as [ncdf4](https://CRAN.R-project.org/package=ncdf4) are very helpful.
 
 The spatial analysis itself is often supported by wrapper packages that integrate external libraries, command line tools or a mixture of both in an R-like syntax [rgeos](https://CRAN.R-project.org/package=rgeos), [geosphere](https://CRAN.R-project.org/package=geosphere), [Distance](https://CRAN.R-project.org/package=Distance), [maptools](https://CRAN.R-project.org/package=maptools), [igraph](https://CRAN.R-project.org/package=igraph) or [spatstat](https://CRAN.R-project.org/package=spatstat). It  would be a never ending story to complete this list. 
 
-Despite all this possibilities it can be confirmed (at least from a non-R point of view) that there  is a big gap between R and the major opensource Geographic Information System (GIS) and Remote Sensing (RS) software tools. GRASS GIS and SAGA GIS provides a comprehensive, established collection of highly sophisticated algorithms. They are fast and stable and most of them are well proofed. Most spatial R  users know that there are some really good wrapper packages for bridging the gap around. For [GRASS GIS](https://grass.osgeo.org/) it is [rgrass7](https://CRAN.R-project.org/package=rgrass7) and for [SAGA GIS](http://www.saga-gis.org/)  the [RSAGA](https://CRAN.R-project.org/package=RSAGA) package. 
+Despite all this capabilities of spatial analysis and data handling in the world of R, it can be stated (at least from a non-R point of view) that there is a enormous gap between R and the mature opensource Geographic Information System (GIS) and Remote Sensing (RS) software community. QGIS, GRASS GIS and SAGA GIS are providing a comprehensive, growing and mature  collection of highly sophisticated algorithms. In most cases the algorithms are fast, stable and most of them are well proofed. Probavly most of the R users that are somehow related to the GI community know that there are some awesome good wrapper packages for bridging this gap. For [GRASS GIS](https://grass.osgeo.org/) it is [rgrass7](https://CRAN.R-project.org/package=rgrass7) and for [SAGA GIS](http://www.saga-gis.org/)  the [RSAGA](https://CRAN.R-project.org/package=RSAGA) package. The develoment of the [RQGIS](https://CRAN.R-project.org/package=RQGIS) wrapper is the most recent outcome to get a simple access from the R side to the great [QGIS](https://www.qgis.org/) command line interface.
 
-Unfortunately both packages are not that easy to use. In case of RSAGA the main problem seems to be the fact that the SAGA GIS developers are not only changing the syntax and strategy of the command line interface (CLI) but also within a release the calls differ from OS to OS. So the maintenance of RSAGA is obviously laborious. Currently RSAGA supports the SAGA versions 2.0.4 - 2.2.3. On the other hand ias  GRASS GIS  well known for a sophisticated setup of the environment and the spatial properties of the database. It is not really simple to get an easy working temporary or permanent setup due to spatial and projection issues but even more caused by challenging system and environment settings. even more complicated these settings are pretty different for the major available Windows installer. To make it short it is a bit cumbersome to deal with all this stuff if one just want to start e.g. GRASS from the R commandline.
+Unfortunately most of these and other packages are not that easy to use. In case of RSAGA the main problem seems to be the fact that the SAGA GIS developers are not only changing the syntax and strategy of the command line interface (CLI) but also within a release the calls differ from OS to OS. So the maintenance of RSAGA is obviously laborious. Currently RSAGA supports the SAGA versions 2.0.4 - 2.2.3. On the other hand ias  GRASS GIS  well known for a sophisticated setup of the environment and the spatial properties of the database. It is not really simple to get an easy working temporary or permanent setup due to spatial and projection issues but even more caused by challenging system and environment settings. even more complicated these settings are pretty different for the major available Windows installer. To make it short it is a bit cumbersome to deal with all this stuff if one just want to start e.g. GRASS from the R commandline.
 
-The [link2GI](https://CRAN.R-project.org/package=RSAGA) package tries to open an easy to walk through entrance door for linking GRASS and SAGA GIS as well as other command line tools like the Orfeo Toolbox (OTB). 
-
-This vignette:
-
-* explains what is meant by linking the GIS/R world to R
-* shows how to use it according to specific system requirements
-* give some examples of how they can be used for meaningful and more efficient spatial analysis
 
 # What means linking?
 Linking means simply to provide all necessary environment settings as well as the full acess to the the command line APIs of the mentioned software tools. The strategy differs from software to software. 
@@ -71,7 +75,7 @@ proj4string(meuse) <-CRS("+init=epsg:28992")
 require(sf)
 meuse_sf = st_as_sf(meuse, 
                     coords = 
-                    c("x", "y"), 
+                      c("x", "y"), 
                     crs = 28992, 
                     agr = "constant")
 
@@ -140,7 +144,150 @@ Setting up GRASS manually with spatial parameters of the meuse data
 
 ```
 
-###  Advanced examples using GRASS algorithms
+###  Advanced examples 
+
+#### Creating a GRASS project
+First of all we need some real data. In this this case the gridded [2011 micro zensus](https://www.zensus2011.de/EN/2011Census/2011_Census_node.html) [population data](https://www.zensus2011.de/SharedDocs/Downloads/DE/Pressemitteilung/DemografischeGrunddaten/csv_Bevoelkerung_100m_Gitter.zip;jsessionid=294313DDBB57914D6636DE373897A3F2.2_cid389?__blob=publicationFile&v=3) of Germany. It has some nice aspects. It is provided in a typical authority format, it is big enough and it is pretty instructicve for al lot of spatial analysis. We also have to download a [meta data description file](https://www.zensus2011.de/SharedDocs/Downloads/DE/Pressemitteilung/DemografischeGrunddaten/Datensatzbeschreibung_Bevoelkerung_100m_Gitter.xlsx;jsessionid=294313DDBB57914D6636DE373897A3F2.2_cid389?__blob=publicationFile&v=2) provided as an excel sheet for some informations about projection and data concepts.
+
+
+
+```{r, eval=FALSE}
+ # we need some packages
+
+ require(link2GI)
+ require(curl)
+
+# first of all we create  a project folder structure 
+  link2GI::initProj(projRootDir = "~/link2GI_examples", 
+                    projFolders =  c("data/","output/","run/"))
+
+# set runtime directory
+  setwd(path_run)
+
+# get some typical authority generated data 
+  url<-"https://www.zensus2011.de/SharedDocs/Downloads/DE/Pressemitteilung/DemografischeGrunddaten/csv_Bevoelkerung_100m_Gitter.zip;jsessionid=294313DDBB57914D6636DE373897A3F2.2_cid389?__blob=publicationFile&v=3"
+ res <- curl::curl_download(url, "testdata.zip")
+
+# unzip it
+ unzip(res,files = grep(".csv", unzip(res,list = TRUE)$Name,value = TRUE),junkpaths = TRUE,overwrite = TRUE)
+fn <- list.files(pattern = "[.]csv$", path = getwd(), full.names = TRUE)
+
+
+```
+
+After downloading the data we will use it for some demonstration stuff. If you have a look the data is nothing than x,y,z with assumingly some projection information.
+
+```{r}
+# get the filename
+ 
+# fast read with data.table 
+ xyz <- data.table::fread(paste0(getwd(),"/Zensus_Bevoelkerung_100m-Gitter.csv"))
+
+ head(xyz)
+```
+
+We can easy rasterize this data as it is intentionally gridded data.that means we have in at a grid size of 100 by 100 meters a value.
+
+```{r}
+ require(RColorBrewer)
+ require(raster)
+ require(mapview)
+
+
+# clean dataframe
+xyz <- xyz[,-1]
+# rasterize it according to the projection 
+ r <- raster::rasterFromXYZ(xyz,crs=sp::CRS("+init=epsg:3035"),)
+raster::setMinMax(r)
+
+# map it
+ pal2 <- colorRampPalette(brewer.pal(8, "Reds"))
+ # aet resolution to 1 sqkm
+ mapview::mapviewOptions(mapview.maxpixels=r@ncols*r@nrows/100)
+ mapview::mapview(r, col.regions = pal2, at = c(-1,10,25,50,100,500,1000,2500), legend = TRUE)
+
+```
+
+So far nothing new. Now we create a new but permanent GRASS gisbase using the spatial parameters from the raster object. The linkGRASS7 function performs a full search for one ore more valid GRASS installations. If a valid GRASS installation exists all parameter are setup und the package rgrass7 is linked.
+
+Due to the fact that the gisdbase_exist is by default set to FALSE it will create a new structure according to the r object. 
+
+```{r}
+require(link2GI)
+# initialize GRASS and set up a permanent structure  
+link2GI::linkGRASS7(x = r, gisdbase = "~/link2GI_examples",location = "microzensus2011")   
+```
+
+Finally we can now import the data to the GRASS gisdbase using the rgass7 package functionality. 
+First we must convert the raster object to GeoTIFF file. Any GDAL format is possible but GeoTIFF is very common and stable.
+
+```{r}
+require(raster)
+require(rgrass7)
+
+# write it to geotiff
+  raster::writeRaster(r, paste0(getwd(),"/Zensus_Bevoelkerung_100m-Gitter.tif"), overwrite = TRUE)
+
+# import raster to GRASS
+rgrass7::execGRASS('r.external',
+                   flags=c('o',"overwrite","quiet"),
+                   input=paste0(getwd(),"/Zensus_Bevoelkerung_100m-Gitter.tif"),
+                   output="Zensus_Bevoelkerung_100m_Gitter",
+                   band=1
+)
+
+# check imported data set
+rgrass7::execGRASS('r.info',
+                   map = "Zensus_Bevoelkerung_100m_Gitter") 
+```
+Let's do now the same import as a vector data set. First we create a spatialpointdataframe (SPDF).
+
+```{r}
+ require(sp)
+ require(raster)
+ require(rgrass7)
+ require(mapview)
+vec_xyz <- xyz
+sp::coordinates(vec_xyz) <- ~x_mp_100m+y_mp_100m
+sp::proj4string(vec_xyz) <-CRS("+init=epsg:3035") 
+
+vec_xyz
+
+#map points
+raster::plot(vec_xyz)
+```
+
+The GRASS gisdbase already exists. So we set gisdbase_exist=TRUE and import the xyz data as generix GRASS vector points,
+
+```{r}
+
+ r_gvec(x = vec_xyz,
+           obj_name = "zensus_bevoelkerung_100m_gitter",
+           gisdbase = "~/link2GI_examples",
+           location = "microzensus2011"
+           )
+ 
+  raster::writeRaster(r, paste0(getwd(),"/Zensus_Bevoelkerung_100m-Gitter.tif"), overwrite = TRUE)
+
+
+  
+# import raster to GRASS
+rgrass7::execGRASS('r.external',
+                   flags=c('o',"overwrite","quiet"),
+                   input=paste0(getwd(),"/Zensus_Bevoelkerung_100m-Gitter.tif"),
+                   output="Zensus_Bevoelkerung_100m_Gitter",
+                   band=1
+)
+
+# check imported data set
+rgrass7::execGRASS('v.info',
+                   map = "Zensus_Bevoelkerung_100m_Gitter") 
+```
+
+
+#### Working with a GRASS project
+
+A typical example is the usage of an already existing project data base in GRASS. GRASS organizes all data in an internal file structure that is known as gisdbase folder, a mapset and one ore more locations within this mapset. All raster and vector data is stored inside this structure and the organisation is performed by GRASS. So a typical task could be to work on data sets that are already stored in an existing GRASS structure
 
 #### Running a cost analysis 
 

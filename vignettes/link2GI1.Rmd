@@ -1,10 +1,10 @@
 ---
 title: "Link GIS to R"
 output:
+  pdf_document:
+    toc: yes
   html_document:
     theme: united
-    toc: yes
-  pdf_document:
     toc: yes
 vignette: |
   %\VignetteIndexEntry{Link GIS to R} %\VignetteEngine{knitr::rmarkdown} %\VignetteEncoding{UTF-8}
@@ -15,7 +15,7 @@ knitr::opts_chunk$set(collapse = TRUE)
 ```
 # What is link2GI?
 
-The [link2GI](https://CRAN.R-project.org/package=RSAGA) package tries to provide an easy entrance door for linking GRASS, SAGA GIS and QGIS as well as other awesome command line tools like the Orfeo Toolbox (OTB) for R users that are not operating system specialists or highly experienced GIS useres. It is a result of numerous graduate courseswith R-GIS beginners in the hostile world of university computer pools running under restricted Windows systems. It is is sometimes really cumbersome to get all necessary settings in a line. If have to do so on 20 ore so individual Windows Laptops you will get an idea why it could be comfortable to automize this procedure.
+The [link2GI](https://CRAN.R-project.org/package=link2GI) package tries to provide an easy entrance door for linking GRASS, SAGA GIS and QGIS as well as other awesome command line tools like the Orfeo Toolbox (OTB) for R users that are not operating system specialists or highly experienced GIS useres. It is a result of numerous graduate courseswith R-GIS beginners in the hostile world of university computer pools running under restricted Windows systems. It is is sometimes really cumbersome to get all necessary settings in a line. If have to do so on 20 ore so individual Windows Laptops you will get an idea why it could be comfortable to automize this procedure.
 
 This vignette:
 
@@ -195,16 +195,17 @@ We can easy rasterize this data as it is intentionally gridded data.that means w
 
 
 # clean dataframe
-xyz <- xyz[,-1]
+ xyz <- xyz[,-1]
+
 # rasterize it according to the projection 
- r <- raster::rasterFromXYZ(xyz,crs=sp::CRS("+init=epsg:3035"),)
-raster::setMinMax(r)
+ r <- raster::rasterFromXYZ(xyz,crs = sp::CRS("+init=epsg:3035"))
+
 
 # map it
- pal2 <- colorRampPalette(brewer.pal(8, "Reds"))
+ p <- colorRampPalette(brewer.pal(8, "Reds"))
  # aet resolution to 1 sqkm
- mapview::mapviewOptions(mapview.maxpixels=r@ncols*r@nrows/100)
- mapview::mapview(r, col.regions = pal2, at = c(-1,10,25,50,100,500,1000,2500), legend = TRUE)
+ mapview::mapviewOptions(mapview.maxpixels = r@ncols*r@nrows/100)
+ mapview::mapview(r, col.regions = p, at = c(-1,10,25,50,100,500,1000,2500), legend = TRUE)
 
 ```
 
@@ -240,48 +241,41 @@ rgrass7::execGRASS('r.external',
 rgrass7::execGRASS('r.info',
                    map = "Zensus_Bevoelkerung_100m_Gitter") 
 ```
-Let's do now the same import as a vector data set. First we create a spatialpointdataframe (SPDF).
+Let's do now the same import as a vector data set. First we create a sf object.
 
 ```{r}
- require(sp)
- require(raster)
- require(rgrass7)
- require(mapview)
-vec_xyz <- xyz
-sp::coordinates(vec_xyz) <- ~x_mp_100m+y_mp_100m
-sp::proj4string(vec_xyz) <-CRS("+init=epsg:3035") 
 
-vec_xyz
+ # xyz_sf = st_as_sf(xyz, 
+ #                    coords = c("x_mp_100m", "y_mp_100m"), 
+ #                    crs = 3035, 
+ #                    agr = "constant")
 
 #map points
-raster::plot(vec_xyz)
+# sf::plot_sf(xyz_sf)
 ```
 
-The GRASS gisdbase already exists. So we set gisdbase_exist=TRUE and import the xyz data as generix GRASS vector points,
+The GRASS gisdbase already exists. So we tell it link2GRASS7 with setting gisdbase_exist=TRUE and import the xyz data as generic GRASS vector points.
 
 ```{r}
+ require(sf)
+ require(sp)
+ require(link2GI)
+ data(meuse)
+ meuse_sf = st_as_sf(meuse, 
+                    coords = c("x", "y"), 
+                    crs = 28992, 
+                    agr = "constant")
 
- r_gvec(x = vec_xyz,
-           obj_name = "zensus_bevoelkerung_100m_gitter",
+ w_gvec(x =  meuse_sf,
+           obj_name = "meuse",
            gisdbase = "~/link2GI_examples",
-           location = "microzensus2011"
+           location = "meuse",
+           gisdbase_exist = FALSE
+          
            )
  
-  raster::writeRaster(r, paste0(getwd(),"/Zensus_Bevoelkerung_100m-Gitter.tif"), overwrite = TRUE)
-
-
-  
-# import raster to GRASS
-rgrass7::execGRASS('r.external',
-                   flags=c('o',"overwrite","quiet"),
-                   input=paste0(getwd(),"/Zensus_Bevoelkerung_100m-Gitter.tif"),
-                   output="Zensus_Bevoelkerung_100m_Gitter",
-                   band=1
-)
-
 # check imported data set
-rgrass7::execGRASS('v.info',
-                   map = "Zensus_Bevoelkerung_100m_Gitter") 
+rgrass7::execGRASS('v.info', map = "meuse") 
 ```
 
 

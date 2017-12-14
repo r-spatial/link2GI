@@ -82,7 +82,7 @@ if (!isGeneric('linkGRASS7')) {
 #' # ONLY LINK to a permanent GRASS folder at "~/temp3", location named "project1" 
 #' linkGRASS7(gisdbase = "~/temp3",location = "project1", gisdbase_exist = TRUE )   
 #' 
-#' # SELECT the GRASS installation 
+#' # SELECT the GRASS installation grass<- link2GI::linkGRASS7(spatial_params = c(5630000.00,476000.00,5632000.00,478000.00,"+proj=utm +zone=32 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs"),
 #' linkGRASS7(meuse_sf,ver_select = TRUE)
 #' 
 #' # SELECT the GRASS installation and define the search location
@@ -191,7 +191,7 @@ linkGRASS7 <- function(x = NULL,
         else resolution <- "1"
       }
     } 
-  } else if  (is.null(x) & !is.null(spatial_params)) {
+  } else if  (!is.null(spatial_params)) {
     if (getSpatialClass(x) == "paramList") {
       proj4 <- spatial_params[5]
       xmax <- spatial_params[3]

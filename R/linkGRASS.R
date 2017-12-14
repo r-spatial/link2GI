@@ -113,7 +113,7 @@ linkGRASS7 <- function(x = NULL,
   if (is.null(x) & is.null(spatial_params) & is.null(location)) {
     stop("You MUST provide a raster*, sp* object or manually the extent of the loccation...\n, Did not found any of them so stopped.")
   }
-  if ((class(x)=="character") & (substr(x,1,5)!= "+proj"))  x <- raster::raster(x)
+  if (class(x)=="character")   x <- raster::raster(x)
   # search for GRASS on your system
   if (Sys.info()["sysname"] == "Windows") {
     home <- Sys.getenv("USERPROFILE")

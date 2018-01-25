@@ -30,22 +30,26 @@ initProj <- function(projRootDir=getwd(), GRASSlocation = "tmp/", projFolders=c(
     for (folder in projFolders) {
       if (!file.exists(file.path(projRootDir,folder))) {
         dir.create(file.path(projRootDir,folder), recursive = TRUE)
-        name <- paste0("path_",substr(folder,1,nchar(folder) - 1))
+        p<-gsub("/", "_", substr(folder,2,nchar(folder) - 1))
+        name <- paste0("path_",p)
         value <- paste0(projRootDir,folder)
         makGlobalVar(name, value)
         } else {
-        name <- paste0("path_",substr(folder,1,nchar(folder) - 1))
+        p<-gsub("/", "_", substr(folder,2,nchar(folder) - 1))
+        name <- paste0("path_",p)          
         value <- paste0(projRootDir,folder)
         makGlobalVar(name, value)
         } 
     }
   if (!file.exists(file.path(projRootDir,GRASSlocation))) {
     dir.create(file.path(projRootDir,GRASSlocation), recursive = TRUE)
-    name <- paste0("path_",substr(GRASSlocation,1,nchar(GRASSlocation) - 1))
+    p<-gsub("/", "_", substr(GRASSlocation,1,nchar(GRASSlocation) - 1))
+    name <- paste0("path_",p)
     value <- paste0(projRootDir,GRASSlocation)
     makGlobalVar(name, value)
   } else {
-    name <- paste0("path_",substr(GRASSlocation,1,nchar(GRASSlocation) - 1))
+    p<-gsub("/", "_", substr(GRASSlocation,1,nchar(GRASSlocation) - 1))
+    name <- paste0("path_",p)
     value <- paste0(projRootDir,GRASSlocation)
     makGlobalVar(name, value)
   } 

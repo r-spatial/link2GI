@@ -30,7 +30,7 @@ initProj <- function(projRootDir=getwd(), GRASSlocation = "tmp/", projFolders=c(
     for (folder in projFolders) {
       if (!file.exists(file.path(projRootDir,folder))) {
         dir.create(file.path(projRootDir,folder), recursive = TRUE)
-        p<-gsub("/", "_", substr(folder,2,nchar(folder) - 1))
+        p<-gsub("/", "_", substr(folder,1,nchar(folder) - 1))
         name <- paste0("path_",p)
         value <- paste0(projRootDir,folder)
         makGlobalVar(name, value)

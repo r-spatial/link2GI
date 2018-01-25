@@ -35,7 +35,7 @@ initProj <- function(projRootDir=getwd(), GRASSlocation = "tmp/", projFolders=c(
         value <- paste0(projRootDir,folder)
         makGlobalVar(name, value)
         } else {
-        p<-gsub("/", "_", substr(folder,2,nchar(folder) - 1))
+        p<-gsub("/", "_", substr(folder,1,nchar(folder) - 1))
         name <- paste0("path_",p)          
         value <- paste0(projRootDir,folder)
         makGlobalVar(name, value)

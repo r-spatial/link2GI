@@ -43,7 +43,8 @@ linkSAGA <- function(default_SAGA = NULL,
     # take the first return
     if (nrow(default_SAGA) == 1) {  
     makGlobalVar("sagaCmd", paste0(default_SAGA[[1]][1],"\\saga_cmd.exe"))
-    makGlobalVar("sagaPath", default_SAGA[[1]][1])
+    spa<-gsub("\\\\$", "", default_SAGA[[1]][1])
+    makGlobalVar("sagaPath", spa)
     if (!is.null(default_SAGA[[2]][1])) makGlobalVar("sagaModPath",  default_SAGA[[2]][1])
     add2Path(default_SAGA[[1]][1])
     add2Path(default_SAGA[[2]][1])
@@ -72,10 +73,10 @@ linkSAGA <- function(default_SAGA = NULL,
     
     if (is.null(default_SAGA)) {
       
-      default_SAGA[1] <- system2("find", paste(MP," ! -readable -prune -o -type f -executable -iname 'saga_cmd' -print"), stdout = TRUE)
-      default_SAGA[2] <- substr(default_SAGA,1,nchar(default_SAGA) - 9)
+      default_SAGA <- system2("find", paste(MP," ! -readable -prune -o -type f -executable -iname 'saga_cmd' -print"), stdout = TRUE)
+      default_SAGA[2] <- substr(default_SAGA[1],1,nchar(default_SAGA[1]) - 9)
       rawSAGALib <-     system2("find", paste(MP," ! -readable -prune -o -type f  -iname 'libio_gdal.so' -print"), stdout = TRUE)
-      default_SAGA[3] <- substr(rawSAGALib,1,nchar(rawSAGALib) - 14)
+      default_SAGA[3] <- substr(rawSAGALib[1],1,nchar(rawSAGALib[1]) - 14)
     }
     makGlobalVar("sagaCmd", default_SAGA[1])
     makGlobalVar("sagaPath", default_SAGA[2])

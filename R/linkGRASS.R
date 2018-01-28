@@ -30,7 +30,7 @@ if (!isGeneric('linkGRASS7')) {
 #'  \href{https://CRAN.R-project.org/package=rgrass7}{rgrass7} environment including the correct 'GRASS 7' structure.\cr\cr
 #'  The most time consuming part on 'Windows' Systems is the search process. This can easily take 10 or more minutes. 
 #'  To speed up this process you can also provide a correct parameter set. Best way to do so is to call \code{searchGRASSW} or for 'Linux' \code{searchGRASSX} manually. 
-#'  and call \code{linkGRASS7} with the version arguments of your choice.
+#'  and call \code{linkGRASS7} with the version arguments of your choice. linkGRASS7 initializes the usage of GRASS7.
 #'@note If you have more than one valid installation and run \code{linkGRASS7()} without arguments, you will be ask to select one.
 #'@param search_path path or mounting point that will be searched
 #'@param x raster or sp object
@@ -40,9 +40,10 @@ if (!isGeneric('linkGRASS7')) {
 #'@param location default is \code{NULL}, invoke \code{basename(tempfile())} for defining the 'GRASS' location. Alternativeley you can provide a individual path.
 #'@param gisdbase_exist default is FALSE if set to TRUE the arguments gisdbase and location are expected to be an existing GRASS gisdbase
 #'@param spatial_params default is \code{NULL}. Instead of a spatial object you may provide the geometry as a list. E.g. c(xmin,ymin,xmax,ymax,proj4_string)
+#'@param resolution resolution in map units for the GRASS raster cells
 #'@param ver_select boolean if TRUE you may choose interactively the binary version (if found  more than one),  by default FALSE
 #'@author Chris Reudenbach
-#'@return linkGRASS7 initializes the usage of GRASS7.
+
 #'@export linkGRASS7
 #'  
 #'@examples 
@@ -82,7 +83,7 @@ if (!isGeneric('linkGRASS7')) {
 #' # ONLY LINK to a permanent GRASS folder at "~/temp3", location named "project1" 
 #' linkGRASS7(gisdbase = "~/temp3",location = "project1", gisdbase_exist = TRUE )   
 #' 
-#' # SELECT the GRASS installation grass<- link2GI::linkGRASS7(spatial_params = c(5630000.00,476000.00,5632000.00,478000.00,"+proj=utm +zone=32 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs"),
+#' # SELECT the GRASS installation 
 #' linkGRASS7(meuse_sf,ver_select = TRUE)
 #' 
 #' # SELECT the GRASS installation and define the search location

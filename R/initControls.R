@@ -86,12 +86,11 @@ searchSAGAW <- function(DL = "C:",
 #'@details The concept is very straightforward but for an all days usage pretty
 #'  helpful. You need to provide a \link{raster} or a \link{sp} object. The derived properties are used to initialize a temporary but static
 #'  \href{https://CRAN.R-project.org/package=rgrass7}{rgrass7} environment. During the rsession you will have full access to
-#'  GRASS7 both via the wrapper package as well as the command line.
+#'  GRASS7 both via the wrapper package as well as the command line. getparams_GRASS4W initializes the usage of GRASS7.
 #'@param DL raster or sp object
 #'@param set_default_GRASS7 default = NULL forces a full search for 'GRASS GIS' binaries. You may
 #'  alternatively provide a vector containing pathes and keywords. c("C:/OSGeo4W64","grass-7.0.5","osgeo4W") is valid for a typical osgeo4w installation.
-#'@param ver_select if TRUE you must interactivley selcect between alternative installations
-#'@return getparams_GRASS4W initializes the usage of GRASS7.
+#'@param ver_select if TRUE you must interactivley selcect between alternative installations 
 #'@export getparams_GRASS4W
 #'  
 #'@examples

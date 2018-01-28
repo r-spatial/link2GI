@@ -14,6 +14,8 @@ r_gvec(x, obj_name, gisdbase, location, gisdbase_exist = TRUE)
 \item{gisdbase}{GRASS gisDbase folder}
 
 \item{location}{GRASS location name containing \code{obj_name)}}
+
+\item{gisdbase_exist}{logical switch if the GRASS gisdbase folder exist default is TRUE}
 }
 \description{
 Read GRASS 7 vector into  sf object

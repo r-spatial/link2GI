@@ -8,6 +8,7 @@ if ( !isGeneric("w_gvec") ) {
 #' @param obj_name name of GRASS layer
 #' @param gisdbase  GRASS gisDbase folder
 #' @param location  GRASS location name containing \code{obj_name)}
+#' @param gisdbase_exist logical switch if the GRASS gisdbase folder exist default is TRUE
 #' @author Chris Reudenbach
 #' 
 #' @export w_gvec
@@ -44,8 +45,10 @@ w_gvec <- function(x, obj_name, gisdbase, location , gisdbase_exist=FALSE){
     linkGRASS7(x = x, gisdbase = gisdbase, location = location)  
   path <- Sys.getenv("GISDBASE")
   sq_name <- gsub(tolower(paste0(obj_name,".sqlite")),pattern = "\\-",replacement = "_")
-  
-  sf::st_write(x,file.path(path,sq_name),quiet = TRUE)
+  if (!inherits(x, "sf")) sf::st_as_sf(x,x_sf)
+  else
+    x_sf <- x 
+  sf::st_write(x_sf,file.path(path,sq_name),quiet = TRUE)
   
   ret <- try(rgrass7::execGRASS('v.import',  
                      flags  = c("overwrite", "quiet", "o"),

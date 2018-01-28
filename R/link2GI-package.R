@@ -11,7 +11,6 @@
 #'
 #' @import methods
 #' @import sp 
-#' @import sf
 #' @import raster
 #' @import rgdal 
 #' @import gdalUtils 

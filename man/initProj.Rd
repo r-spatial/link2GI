@@ -10,6 +10,8 @@ initProj(projRootDir = getwd(), GRASSlocation = "tmp/",
 \arguments{
 \item{projRootDir}{project github root directory (your github name)}
 
+\item{GRASSlocation}{folder for GRASS data}
+
 \item{projFolders}{list of subfolders in project}
 }
 \description{

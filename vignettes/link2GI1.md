@@ -1,6 +1,6 @@
 ---
 author: "Chris Reudenbach"
-date: '`r Sys.Date()`'
+date: '2018-01-28'
 output:
   html_document:
     theme: united
@@ -15,9 +15,7 @@ vignette: >
   %\VignetteEngine{knitr::knitr}
 ---
 
-```{r echo=FALSE}
-knitr::opts_chunk$set(collapse = TRUE)
-```
+
 # What is link2GI?
 
 The [link2GI](https://CRAN.R-project.org/package=link2GI) package tries to provide an easy entrance door for linking GRASS, SAGA GIS and QGIS as well as other awesome command line tools like the Orfeo Toolbox (OTB) for R users that are not operating system specialists or highly experienced GIS useres. It is a result of numerous graduate courseswith R-GIS beginners in the hostile world of university computer pools running under restricted Windows systems. It is is sometimes really cumbersome to get all necessary settings in a line. If have to do so on 20 ore so individual Windows Laptops you will get an idea why it could be comfortable to automize this procedure.
@@ -67,7 +65,8 @@ If you have more than one valid installation and run linkGRASS7() without argume
 
 #### get meuse data as sp object
 
-```{r,eval=FALSE}
+
+```r
 require(link2GI)
 require(sp)
 data(meuse) 
@@ -77,7 +76,8 @@ proj4string(meuse) <-CRS("+init=epsg:28992")
 
 #### get meuse data as sf object
 
-```{r,eval=FALSE}
+
+```r
 require(sf)
 meuse_sf = st_as_sf(meuse, 
                     coords = 
@@ -92,7 +92,8 @@ meuse_sf = st_as_sf(meuse,
 Automatic search and find of GRASS binaries using the meuse sp data object for spatial referencing.
 This is the highly recommended linking procedure.  NOTE: if more than one GRASS installation is found you have to choose. 
 
-```{r,eval=FALSE}
+
+```r
 linkGRASS7(meuse)
 ```
 
@@ -100,7 +101,8 @@ linkGRASS7(meuse)
 Assuming a typical standalone non-OSGeo4W installation and using the meuse sp data object for spatial referencing
 
 
-```{r,eval=FALSE}
+
+```r
 linkGRASS7(meuse,c("C:/Program Files/GRASS GIS7.0.5","GRASS GIS 7.0.5","NSIS")) 
 
 ```
@@ -108,21 +110,24 @@ linkGRASS7(meuse,c("C:/Program Files/GRASS GIS7.0.5","GRASS GIS 7.0.5","NSIS"))
 #### Typical OSGeo4W64 installation
 Typical OSGeo4W64 installation using the meuse sp data object for spatial referencing
 
-```{r, eval=FALSE}
+
+```r
 linkGRASS7(meuse,c("C:/OSGeo4W64","grass-7.0.5","osgeo4W"))
 ```
 
 #### Manual choosing the version
 Choose manually the GRASS installation  additionally using the meuse sf object for spatial referencing
 
-```{r,eval=FALSE}
+
+```r
 linkGRASS7(meuse_sf, ver_select = TRUE)
 ```
 
 #### Choose another searchpath
 Choose manually the GRASS installation and change the search location additionally using the meuse sf object for spatial referencing
 
-```{r,eval=FALSE}
+
+```r
 linkGRASS7(meuse_sf, searchPath = "D:/")
 
 ```
@@ -130,7 +135,8 @@ linkGRASS7(meuse_sf, searchPath = "D:/")
 #### Creating a Permanent gisbase folder
 Creating a  permanent GRASS gisdbase (folder structure) at "~/temp3" with the standard mapset PERMANENT and the location named "project1". For all spatial attributes use the the meuse sf object.
 
-```{r,eval=FALSE}
+
+```r
 linkGRASS7(x = meuse_sf, gisdbase = "~/temp3",location = "project1")   
 ```
 
@@ -138,14 +144,16 @@ linkGRASS7(x = meuse_sf, gisdbase = "~/temp3",location = "project1")
 #### Using a Permanent gisbase folder
 Link to the permanent GRASS gisdbase (folder structure) at "~/temp3" with the standard mapset PERMANENT and the location named "project1". For all spatial attributes use the the meuse sf object.
 
-```{r,eval=FALSE}
+
+```r
 linkGRASS7(gisdbase = "~/temp3",location = "project1", gisdbase_exist = TRUE)   
 ```
 
 #### Manual Setup of the spatial attributes
 Setting up GRASS manually with spatial parameters of the meuse data
 
-```{r,eval=FALSE}
+
+```r
  linkGRASS7(spatial_params = c(178605,329714,181390,333611,"+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +no_defs +a=6377397.155 +rf=299.1528128 +towgs84=565.4171,50.3319,465.5524,-0.398957,0.343988,-1.8774,4.0725 +to_meter=1")) 
 
 ```
@@ -157,7 +165,8 @@ First of all we need some real data. In this this case the gridded [2011 micro z
 
 
 
-```{r, eval=FALSE}
+
+```r
  # we need some packages
 
  require(link2GI)
@@ -178,12 +187,12 @@ First of all we need some real data. In this this case the gridded [2011 micro z
  unzip(res,files = grep(".csv", unzip(res,list = TRUE)$Name,value = TRUE),junkpaths = TRUE,overwrite = TRUE)
 fn <- list.files(pattern = "[.]csv$", path = getwd(), full.names = TRUE)
 
-
 ```
 
 After downloading the data we will use it for some demonstration stuff. If you have a look the data is nothing than x,y,z with assumingly some projection information.
 
-```{r, eval=FALSE}
+
+```r
 # get the filename
  
 # fast read with data.table 
@@ -194,7 +203,8 @@ After downloading the data we will use it for some demonstration stuff. If you h
 
 We can easy rasterize this data as it is intentionally gridded data.that means we have in at a grid size of 100 by 100 meters a value.
 
-```{r, eval=FALSE}
+
+```r
  require(RColorBrewer)
  require(raster)
  require(mapview)
@@ -219,7 +229,8 @@ So far nothing new. Now we create a new but permanent GRASS gisbase using the sp
 
 Due to the fact that the gisdbase_exist is by default set to FALSE it will create a new structure according to the r object. 
 
-```{r, eval=FALSE}
+
+```r
 require(link2GI)
 # initialize GRASS and set up a permanent structure  
 link2GI::linkGRASS7(x = r, gisdbase = "~/link2GI_examples",location = "microzensus2011")   
@@ -228,7 +239,8 @@ link2GI::linkGRASS7(x = r, gisdbase = "~/link2GI_examples",location = "microzens
 Finally we can now import the data to the GRASS gisdbase using the rgass7 package functionality. 
 First we must convert the raster object to GeoTIFF file. Any GDAL format is possible but GeoTIFF is very common and stable.
 
-```{r, eval=FALSE}
+
+```r
 require(raster)
 require(rgrass7)
 
@@ -249,7 +261,8 @@ rgrass7::execGRASS('r.info',
 ```
 Let's do now the same import as a vector data set. First we create a sf object.
 
-```{r, eval=FALSE}
+
+```r
 
  # xyz_sf = st_as_sf(xyz, 
  #                    coords = c("x_mp_100m", "y_mp_100m"), 
@@ -262,7 +275,8 @@ Let's do now the same import as a vector data set. First we create a sf object.
 
 The GRASS gisdbase already exists. So we tell it link2GRASS7 with setting gisdbase_exist=TRUE and import the xyz data as generic GRASS vector points.
 
-```{r, eval=FALSE}
+
+```r
  require(sf)
  require(sp)
  require(link2GI)

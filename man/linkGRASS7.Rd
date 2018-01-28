@@ -25,9 +25,8 @@ If you provide a valid list the corresponding version is initialized. An example
 \item{location}{default is \code{NULL}, invoke \code{basename(tempfile())} for defining the 'GRASS' location. Alternativeley you can provide a individual path.}
 
 \item{spatial_params}{default is \code{NULL}. Instead of a spatial object you may provide the geometry as a list. E.g. c(xmin,ymin,xmax,ymax,proj4_string)}
-}
-\value{
-linkGRASS7 initializes the usage of GRASS7.
+
+\item{resolution}{resolution in map units for the GRASS raster cells}
 }
 \description{
 Initializes the session environment and the system pathes for an easy acces to 
@@ -43,7 +42,7 @@ provide a \code{\link{raster}} or \code{\link{sp}} \code{\link{sf}} spatial obje
  \href{https://CRAN.R-project.org/package=rgrass7}{rgrass7} environment including the correct 'GRASS 7' structure.\cr\cr
  The most time consuming part on 'Windows' Systems is the search process. This can easily take 10 or more minutes. 
  To speed up this process you can also provide a correct parameter set. Best way to do so is to call \code{searchGRASSW} or for 'Linux' \code{searchGRASSX} manually. 
- and call \code{linkGRASS7} with the version arguments of your choice.
+ and call \code{linkGRASS7} with the version arguments of your choice. linkGRASS7 initializes the usage of GRASS7.
 }
 \note{
 'GRASS GIS 7' is excellently supported by the

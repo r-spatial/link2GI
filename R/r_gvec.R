@@ -8,6 +8,7 @@ if ( !isGeneric("r_gvec") ) {
 #' @param obj_name name of GRASS layer
 #' @param gisdbase  GRASS gisDbase folder
 #' @param location  GRASS location name containing \code{obj_name)}
+#' @param gisdbase_exist logical switch if the GRASS gisdbase folder exist default is TRUE
 #' @author Chris Reudenbach
 #' 
 #' @export r_gvec

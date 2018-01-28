@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+<title>What is link2GI?</title>
+
+<script type="text/javascript">
+window.onload = function() {
+  var imgs = document.getElementsByTagName('img'), i, img;
+  for (i = 0; i < imgs.length; i++) {
+    img = imgs[i];
+    // center an image if it is the only element of its parent
+    if (img.parentElement.childElementCount === 1)
+      img.parentElement.style.textAlign = 'center';
+  }
+};
+</script>
+
+<!-- Styles for R syntax highlighter -->
+<style type="text/css">
+   pre .operator,
+   pre .paren {
+     color: rgb(104, 118, 135)
+   }
+
+   pre .literal {
+     color: #990073
+   }
+
+   pre .number {
+     color: #099;
+   }
+
+   pre .comment {
+     color: #998;
+     font-style: italic
+   }
+
+   pre .keyword {
+     color: #900;
+     font-weight: bold
+   }
+
+   pre .identifier {
+     color: rgb(0, 0, 0);
+   }
+
+   pre .string {
+     color: #d14;
+   }
+</style>
+
+<!-- R syntax highlighter -->
+<script type="text/javascript">
+var hljs=new function(){function m(p){return p.replace(/&/gm,"&amp;").replace(/</gm,"&lt;")}function f(r,q,p){return RegExp(q,"m"+(r.cI?"i":"")+(p?"g":""))}function b(r){for(var p=0;p<r.childNodes.length;p++){var q=r.childNodes[p];if(q.nodeName=="CODE"){return q}if(!(q.nodeType==3&&q.nodeValue.match(/\s+/))){break}}}function h(t,s){var p="";for(var r=0;r<t.childNodes.length;r++){if(t.childNodes[r].nodeType==3){var q=t.childNodes[r].nodeValue;if(s){q=q.replace(/\n/g,"")}p+=q}else{if(t.childNodes[r].nodeName=="BR"){p+="\n"}else{p+=h(t.childNodes[r])}}}if(/MSIE [678]/.test(navigator.userAgent)){p=p.replace(/\r/g,"\n")}return p}function a(s){var r=s.className.split(/\s+/);r=r.concat(s.parentNode.className.split(/\s+/));for(var q=0;q<r.length;q++){var p=r[q].replace(/^language-/,"");if(e[p]){return p}}}function c(q){var p=[];(function(s,t){for(var r=0;r<s.childNodes.length;r++){if(s.childNodes[r].nodeType==3){t+=s.childNodes[r].nodeValue.length}else{if(s.childNodes[r].nodeName=="BR"){t+=1}else{if(s.childNodes[r].nodeType==1){p.push({event:"start",offset:t,node:s.childNodes[r]});t=arguments.callee(s.childNodes[r],t);p.push({event:"stop",offset:t,node:s.childNodes[r]})}}}}return t})(q,0);return p}function k(y,w,x){var q=0;var z="";var s=[];function u(){if(y.length&&w.length){if(y[0].offset!=w[0].offset){return(y[0].offset<w[0].offset)?y:w}else{return w[0].event=="start"?y:w}}else{return y.length?y:w}}function t(D){var A="<"+D.nodeName.toLowerCase();for(var B=0;B<D.attributes.length;B++){var C=D.attributes[B];A+=" "+C.nodeName.toLowerCase();if(C.value!==undefined&&C.value!==false&&C.value!==null){A+='="'+m(C.value)+'"'}}return A+">"}while(y.length||w.length){var v=u().splice(0,1)[0];z+=m(x.substr(q,v.offset-q));q=v.offset;if(v.event=="start"){z+=t(v.node);s.push(v.node)}else{if(v.event=="stop"){var p,r=s.length;do{r--;p=s[r];z+=("</"+p.nodeName.toLowerCase()+">")}while(p!=v.node);s.splice(r,1);while(r<s.length){z+=t(s[r]);r++}}}}return z+m(x.substr(q))}function j(){function q(x,y,v){if(x.compiled){return}var u;var s=[];if(x.k){x.lR=f(y,x.l||hljs.IR,true);for(var w in x.k){if(!x.k.hasOwnProperty(w)){continue}if(x.k[w] instanceof Object){u=x.k[w]}else{u=x.k;w="keyword"}for(var r in u){if(!u.hasOwnProperty(r)){continue}x.k[r]=[w,u[r]];s.push(r)}}}if(!v){if(x.bWK){x.b="\\b("+s.join("|")+")\\s"}x.bR=f(y,x.b?x.b:"\\B|\\b");if(!x.e&&!x.eW){x.e="\\B|\\b"}if(x.e){x.eR=f(y,x.e)}}if(x.i){x.iR=f(y,x.i)}if(x.r===undefined){x.r=1}if(!x.c){x.c=[]}x.compiled=true;for(var t=0;t<x.c.length;t++){if(x.c[t]=="self"){x.c[t]=x}q(x.c[t],y,false)}if(x.starts){q(x.starts,y,false)}}for(var p in e){if(!e.hasOwnProperty(p)){continue}q(e[p].dM,e[p],true)}}function d(B,C){if(!j.called){j();j.called=true}function q(r,M){for(var L=0;L<M.c.length;L++){if((M.c[L].bR.exec(r)||[null])[0]==r){return M.c[L]}}}function v(L,r){if(D[L].e&&D[L].eR.test(r)){return 1}if(D[L].eW){var M=v(L-1,r);return M?M+1:0}return 0}function w(r,L){return L.i&&L.iR.test(r)}function K(N,O){var M=[];for(var L=0;L<N.c.length;L++){M.push(N.c[L].b)}var r=D.length-1;do{if(D[r].e){M.push(D[r].e)}r--}while(D[r+1].eW);if(N.i){M.push(N.i)}return f(O,M.join("|"),true)}function p(M,L){var N=D[D.length-1];if(!N.t){N.t=K(N,E)}N.t.lastIndex=L;var r=N.t.exec(M);return r?[M.substr(L,r.index-L),r[0],false]:[M.substr(L),"",true]}function z(N,r){var L=E.cI?r[0].toLowerCase():r[0];var M=N.k[L];if(M&&M instanceof Array){return M}return false}function F(L,P){L=m(L);if(!P.k){return L}var r="";var O=0;P.lR.lastIndex=0;var M=P.lR.exec(L);while(M){r+=L.substr(O,M.index-O);var N=z(P,M);if(N){x+=N[1];r+='<span class="'+N[0]+'">'+M[0]+"</span>"}else{r+=M[0]}O=P.lR.lastIndex;M=P.lR.exec(L)}return r+L.substr(O,L.length-O)}function J(L,M){if(M.sL&&e[M.sL]){var r=d(M.sL,L);x+=r.keyword_count;return r.value}else{return F(L,M)}}function I(M,r){var L=M.cN?'<span class="'+M.cN+'">':"";if(M.rB){y+=L;M.buffer=""}else{if(M.eB){y+=m(r)+L;M.buffer=""}else{y+=L;M.buffer=r}}D.push(M);A+=M.r}function G(N,M,Q){var R=D[D.length-1];if(Q){y+=J(R.buffer+N,R);return false}var P=q(M,R);if(P){y+=J(R.buffer+N,R);I(P,M);return P.rB}var L=v(D.length-1,M);if(L){var O=R.cN?"</span>":"";if(R.rE){y+=J(R.buffer+N,R)+O}else{if(R.eE){y+=J(R.buffer+N,R)+O+m(M)}else{y+=J(R.buffer+N+M,R)+O}}while(L>1){O=D[D.length-2].cN?"</span>":"";y+=O;L--;D.length--}var r=D[D.length-1];D.length--;D[D.length-1].buffer="";if(r.starts){I(r.starts,"")}return R.rE}if(w(M,R)){throw"Illegal"}}var E=e[B];var D=[E.dM];var A=0;var x=0;var y="";try{var s,u=0;E.dM.buffer="";do{s=p(C,u);var t=G(s[0],s[1],s[2]);u+=s[0].length;if(!t){u+=s[1].length}}while(!s[2]);if(D.length>1){throw"Illegal"}return{r:A,keyword_count:x,value:y}}catch(H){if(H=="Illegal"){return{r:0,keyword_count:0,value:m(C)}}else{throw H}}}function g(t){var p={keyword_count:0,r:0,value:m(t)};var r=p;for(var q in e){if(!e.hasOwnProperty(q)){continue}var s=d(q,t);s.language=q;if(s.keyword_count+s.r>r.keyword_count+r.r){r=s}if(s.keyword_count+s.r>p.keyword_count+p.r){r=p;p=s}}if(r.language){p.second_best=r}return p}function i(r,q,p){if(q){r=r.replace(/^((<[^>]+>|\t)+)/gm,function(t,w,v,u){return w.replace(/\t/g,q)})}if(p){r=r.replace(/\n/g,"<br>")}return r}function n(t,w,r){var x=h(t,r);var v=a(t);var y,s;if(v){y=d(v,x)}else{return}var q=c(t);if(q.length){s=document.createElement("pre");s.innerHTML=y.value;y.value=k(q,c(s),x)}y.value=i(y.value,w,r);var u=t.className;if(!u.match("(\\s|^)(language-)?"+v+"(\\s|$)")){u=u?(u+" "+v):v}if(/MSIE [678]/.test(navigator.userAgent)&&t.tagName=="CODE"&&t.parentNode.tagName=="PRE"){s=t.parentNode;var p=document.createElement("div");p.innerHTML="<pre><code>"+y.value+"</code></pre>";t=p.firstChild.firstChild;p.firstChild.cN=s.cN;s.parentNode.replaceChild(p.firstChild,s)}else{t.innerHTML=y.value}t.className=u;t.result={language:v,kw:y.keyword_count,re:y.r};if(y.second_best){t.second_best={language:y.second_best.language,kw:y.second_best.keyword_count,re:y.second_best.r}}}function o(){if(o.called){return}o.called=true;var r=document.getElementsByTagName("pre");for(var p=0;p<r.length;p++){var q=b(r[p]);if(q){n(q,hljs.tabReplace)}}}function l(){if(window.addEventListener){window.addEventListener("DOMContentLoaded",o,false);window.addEventListener("load",o,false)}else{if(window.attachEvent){window.attachEvent("onload",o)}else{window.onload=o}}}var e={};this.LANGUAGES=e;this.highlight=d;this.highlightAuto=g;this.fixMarkup=i;this.highlightBlock=n;this.initHighlighting=o;this.initHighlightingOnLoad=l;this.IR="[a-zA-Z][a-zA-Z0-9_]*";this.UIR="[a-zA-Z_][a-zA-Z0-9_]*";this.NR="\\b\\d+(\\.\\d+)?";this.CNR="\\b(0[xX][a-fA-F0-9]+|(\\d+(\\.\\d*)?|\\.\\d+)([eE][-+]?\\d+)?)";this.BNR="\\b(0b[01]+)";this.RSR="!|!=|!==|%|%=|&|&&|&=|\\*|\\*=|\\+|\\+=|,|\\.|-|-=|/|/=|:|;|<|<<|<<=|<=|=|==|===|>|>=|>>|>>=|>>>|>>>=|\\?|\\[|\\{|\\(|\\^|\\^=|\\||\\|=|\\|\\||~";this.ER="(?![\\s\\S])";this.BE={b:"\\\\.",r:0};this.ASM={cN:"string",b:"'",e:"'",i:"\\n",c:[this.BE],r:0};this.QSM={cN:"string",b:'"',e:'"',i:"\\n",c:[this.BE],r:0};this.CLCM={cN:"comment",b:"//",e:"$"};this.CBLCLM={cN:"comment",b:"/\\*",e:"\\*/"};this.HCM={cN:"comment",b:"#",e:"$"};this.NM={cN:"number",b:this.NR,r:0};this.CNM={cN:"number",b:this.CNR,r:0};this.BNM={cN:"number",b:this.BNR,r:0};this.inherit=function(r,s){var p={};for(var q in r){p[q]=r[q]}if(s){for(var q in s){p[q]=s[q]}}return p}}();hljs.LANGUAGES.cpp=function(){var a={keyword:{"false":1,"int":1,"float":1,"while":1,"private":1,"char":1,"catch":1,"export":1,virtual:1,operator:2,sizeof:2,dynamic_cast:2,typedef:2,const_cast:2,"const":1,struct:1,"for":1,static_cast:2,union:1,namespace:1,unsigned:1,"long":1,"throw":1,"volatile":2,"static":1,"protected":1,bool:1,template:1,mutable:1,"if":1,"public":1,friend:2,"do":1,"return":1,"goto":1,auto:1,"void":2,"enum":1,"else":1,"break":1,"new":1,extern:1,using:1,"true":1,"class":1,asm:1,"case":1,typeid:1,"short":1,reinterpret_cast:2,"default":1,"double":1,register:1,explicit:1,signed:1,typename:1,"try":1,"this":1,"switch":1,"continue":1,wchar_t:1,inline:1,"delete":1,alignof:1,char16_t:1,char32_t:1,constexpr:1,decltype:1,noexcept:1,nullptr:1,static_assert:1,thread_local:1,restrict:1,_Bool:1,complex:1},built_in:{std:1,string:1,cin:1,cout:1,cerr:1,clog:1,stringstream:1,istringstream:1,ostringstream:1,auto_ptr:1,deque:1,list:1,queue:1,stack:1,vector:1,map:1,set:1,bitset:1,multiset:1,multimap:1,unordered_set:1,unordered_map:1,unordered_multiset:1,unordered_multimap:1,array:1,shared_ptr:1}};return{dM:{k:a,i:"</",c:[hljs.CLCM,hljs.CBLCLM,hljs.QSM,{cN:"string",b:"'\\\\?.",e:"'",i:"."},{cN:"number",b:"\\b(\\d+(\\.\\d*)?|\\.\\d+)(u|U|l|L|ul|UL|f|F)"},hljs.CNM,{cN:"preprocessor",b:"#",e:"$"},{cN:"stl_container",b:"\\b(deque|list|queue|stack|vector|map|set|bitset|multiset|multimap|unordered_map|unordered_set|unordered_multiset|unordered_multimap|array)\\s*<",e:">",k:a,r:10,c:["self"]}]}}}();hljs.LANGUAGES.r={dM:{c:[hljs.HCM,{cN:"number",b:"\\b0[xX][0-9a-fA-F]+[Li]?\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\b\\d+(?:[eE][+\\-]?\\d*)?L\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\b\\d+\\.(?!\\d)(?:i\\b)?",e:hljs.IMMEDIATE_RE,r:1},{cN:"number",b:"\\b\\d+(?:\\.\\d*)?(?:[eE][+\\-]?\\d*)?i?\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\.\\d+(?:[eE][+\\-]?\\d*)?i?\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"keyword",b:"(?:tryCatch|library|setGeneric|setGroupGeneric)\\b",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\.\\.\\.",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\.\\.\\d+(?![\\w.])",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\b(?:function)",e:hljs.IMMEDIATE_RE,r:2},{cN:"keyword",b:"(?:if|in|break|next|repeat|else|for|return|switch|while|try|stop|warning|require|attach|detach|source|setMethod|setClass)\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"literal",b:"(?:NA|NA_integer_|NA_real_|NA_character_|NA_complex_)\\b",e:hljs.IMMEDIATE_RE,r:10},{cN:"literal",b:"(?:NULL|TRUE|FALSE|T|F|Inf|NaN)\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"identifier",b:"[a-zA-Z.][a-zA-Z0-9._]*\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"operator",b:"<\\-(?!\\s*\\d)",e:hljs.IMMEDIATE_RE,r:2},{cN:"operator",b:"\\->|<\\-",e:hljs.IMMEDIATE_RE,r:1},{cN:"operator",b:"%%|~",e:hljs.IMMEDIATE_RE},{cN:"operator",b:">=|<=|==|!=|\\|\\||&&|=|\\+|\\-|\\*|/|\\^|>|<|!|&|\\||\\$|:",e:hljs.IMMEDIATE_RE,r:0},{cN:"operator",b:"%",e:"%",i:"\\n",r:1},{cN:"identifier",b:"`",e:"`",r:0},{cN:"string",b:'"',e:'"',c:[hljs.BE],r:0},{cN:"string",b:"'",e:"'",c:[hljs.BE],r:0},{cN:"paren",b:"[[({\\])}]",e:hljs.IMMEDIATE_RE,r:0}]}};
+hljs.initHighlightingOnLoad();
+</script>
+
+
+
+<style type="text/css">
+body, td {
+   font-family: sans-serif;
+   background-color: white;
+   font-size: 13px;
+}
+
+body {
+  max-width: 800px;
+  margin: auto;
+  padding: 1em;
+  line-height: 20px;
+}
+
+tt, code, pre {
+   font-family: 'DejaVu Sans Mono', 'Droid Sans Mono', 'Lucida Console', Consolas, Monaco, monospace;
+}
+
+h1 {
+   font-size:2.2em;
+}
+
+h2 {
+   font-size:1.8em;
+}
+
+h3 {
+   font-size:1.4em;
+}
+
+h4 {
+   font-size:1.0em;
+}
+
+h5 {
+   font-size:0.9em;
+}
+
+h6 {
+   font-size:0.8em;
+}
+
+a:visited {
+   color: rgb(50%, 0%, 50%);
+}
+
+pre, img {
+  max-width: 100%;
+}
+pre {
+  overflow-x: auto;
+}
+pre code {
+   display: block; padding: 0.5em;
+}
+
+code {
+  font-size: 92%;
+  border: 1px solid #ccc;
+}
+
+code[class] {
+  background-color: #F8F8F8;
+}
+
+table, td, th {
+  border: none;
+}
+
+blockquote {
+   color:#666666;
+   margin:0;
+   padding-left: 1em;
+   border-left: 0.5em #EEE solid;
+}
+
+hr {
+   height: 0px;
+   border-bottom: none;
+   border-top-width: thin;
+   border-top-style: dotted;
+   border-top-color: #999999;
+}
+
+@media print {
+   * {
+      background: transparent !important;
+      color: black !important;
+      filter:none !important;
+      -ms-filter: none !important;
+   }
+
+   body {
+      font-size:12pt;
+      max-width:100%;
+   }
+
+   a, a:visited {
+      text-decoration: underline;
+   }
+
+   hr {
+      visibility: hidden;
+      page-break-before: always;
+   }
+
+   pre, blockquote {
+      padding-right: 1em;
+      page-break-inside: avoid;
+   }
+
+   tr, img {
+      page-break-inside: avoid;
+   }
+
+   img {
+      max-width: 100% !important;
+   }
+
+   @page :left {
+      margin: 15mm 20mm 15mm 10mm;
+   }
+
+   @page :right {
+      margin: 15mm 10mm 15mm 20mm;
+   }
+
+   p, h2, h3 {
+      orphans: 3; widows: 3;
+   }
+
+   h2, h3 {
+      page-break-after: avoid;
+   }
+}
+</style>
+
+
+
+</head>
+
+<body>
+<h1>What is link2GI?</h1>
+
+<p>The <a href="https://CRAN.R-project.org/package=link2GI">link2GI</a> package tries to provide an easy entrance door for linking GRASS, SAGA GIS and QGIS as well as other awesome command line tools like the Orfeo Toolbox (OTB) for R users that are not operating system specialists or highly experienced GIS useres. It is a result of numerous graduate courseswith R-GIS beginners in the hostile world of university computer pools running under restricted Windows systems. It is is sometimes really cumbersome to get all necessary settings in a line. If have to do so on 20 ore so individual Windows Laptops you will get an idea why it could be comfortable to automize this procedure.</p>
+
+<p>This vignette:</p>
+
+<ul>
+<li>shows how to use link2GI according to specific system requirements </li>
+<li>gives hands on examples of how to use it for exemplatory use of the linked software </li>
+<li>give some examples of how they can be used for meaningful and more efficient spatial analysis</li>
+</ul>
+
+<h1>Why link2GI?</h1>
+
+<p>R has quite a lot of classes for storing and dealing with spatial data. For vector data the <a href="https://CRAN.R-project.org/package=sp">sp</a> and recently the great <a href="https://CRAN.R-project.org/package=sf">sf</a> packages are well known and the raster data world is widley covered by the <a href="https://CRAN.R-project.org/package=raster">raster</a> package. Additionally external spatial data formats are interfaced by wrapping packages as <a href="https://CRAN.R-project.org/package=rgdal">rgdal</a> or <a href="https://CRAN.R-project.org/package=gdalUtils">gdalUtils</a>. For more specific links as needed for manipulating atmospheric modeling packages as <a href="https://CRAN.R-project.org/package=ncdf4">ncdf4</a> are very helpful.</p>
+
+<p>The spatial analysis itself is often supported by wrapper packages that integrate external libraries, command line tools or a mixture of both in an R-like syntax <a href="https://CRAN.R-project.org/package=rgeos">rgeos</a>, <a href="https://CRAN.R-project.org/package=geosphere">geosphere</a>, <a href="https://CRAN.R-project.org/package=Distance">Distance</a>, <a href="https://CRAN.R-project.org/package=maptools">maptools</a>, <a href="https://CRAN.R-project.org/package=igraph">igraph</a> or <a href="https://CRAN.R-project.org/package=spatstat">spatstat</a>. It  would be a never ending story to complete this list. </p>
+
+<p>Despite all this capabilities of spatial analysis and data handling in the world of R, it can be stated (at least from a non-R point of view) that there is a enormous gap between R and the mature opensource Geographic Information System (GIS) and Remote Sensing (RS) software community. QGIS, GRASS GIS and SAGA GIS are providing a comprehensive, growing and mature  collection of highly sophisticated algorithms. In most cases the algorithms are fast, stable and most of them are well proofed. Probavly most of the R users that are somehow related to the GI community know that there are some awesome good wrapper packages for bridging this gap. For <a href="https://grass.osgeo.org/">GRASS GIS</a> it is <a href="https://CRAN.R-project.org/package=rgrass7">rgrass7</a> and for <a href="http://www.saga-gis.org/">SAGA GIS</a>  the <a href="https://CRAN.R-project.org/package=RSAGA">RSAGA</a> package. The develoment of the <a href="https://CRAN.R-project.org/package=RQGIS">RQGIS</a> wrapper is the most recent outcome to get a simple access from the R side to the great <a href="https://www.qgis.org/">QGIS</a> command line interface.</p>
+
+<p>Unfortunately most of these and other packages are not that easy to use. In case of RSAGA the main problem seems to be the fact that the SAGA GIS developers are not only changing the syntax and strategy of the command line interface (CLI) but also within a release the calls differ from OS to OS. So the maintenance of RSAGA is obviously laborious. Currently RSAGA supports the SAGA versions 2.0.4 - 2.2.3. On the other hand ias  GRASS GIS  well known for a sophisticated setup of the environment and the spatial properties of the database. It is not really simple to get an easy working temporary or permanent setup due to spatial and projection issues but even more caused by challenging system and environment settings. even more complicated these settings are pretty different for the major available Windows installer. To make it short it is a bit cumbersome to deal with all this stuff if one just want to start e.g. GRASS from the R commandline.</p>
+
+<h1>What means linking?</h1>
+
+<p>Linking means simply to provide all necessary environment settings as well as the full acess to the the command line APIs of the mentioned software tools. The strategy differs from software to software. </p>
+
+<p>GRASS GIS has the most challenging requirements. It needs a bunch of envrionment and path variables as well as a correct setup of the geographical data parameters. The linkGRASS7() function tries to find all installations let you choose one and generate the necessary variables. As a result you can use both the rgrass7 package  or the command line API of GRASS.</p>
+
+<p>SAGA GIS is a bit easier to set up. The strategy is similar. The linkSAGA() function tries to find all SAGA installations, let you choose one and generate some global variables. You may use RSAGA if you run a SAGA version of 2.0.4 - 2.2.3. Nevertheless it is strongly recommended to use the R system() call to  interface R with the saga_cmd API. </p>
+
+<p>The Orfeo Toolbox (OTB) is a very powerful remote sensing toolbox. It is widely used for classifcation filtering and machine learning applications. You will find a lot of the implemented algorithm within different R packages but always much slower or restricted to small data chunks. The linkage is performed similar so that it is easy to use the command line API of the OTB. Currently there is no OTB wrapper available. </p>
+
+<h1>Usage of the link2GI package</h1>
+
+<p>We will start with GRASS.</p>
+
+<h2>linkGRASS7 - Locate and set up &#39;GRASS 7&#39; API bindings</h2>
+
+<p>linkGRASS7() Initializes the session environment and the system pathes for an easy access to GRASS GIS 7.x. The correct setup of the spatial and projection parameters is automatically performed by using either an existing and valid raster, sp or sf object, or manually by providing a list containing the minimum parameters needed. These properties are used to initialize either a temporary or a permanent rgrass7 environment including the correct &#39;GRASS 7&#39; data base structure.</p>
+
+<p>The most time consuming part on &#39;Windows&#39; Systems is the search process. This can easily take 10 or more minutes. To speed up this process you can also provide a correct parameter set. Best way to do so is to call manually searchGRASSW() for Windows or for &#39;Linux&#39; searchGRASSX(). Then call linkGRASS7 with the version arguments of your choice.</p>
+
+<p>The function linkGRASS7 tries to find all valid &#39;GRASS GIS&#39; binaries by analyzing the startup script files of &#39;GRASS GIS&#39;. After identifying the &#39;GRASS GIS&#39; binaries all necessary system variables and settings will be generated and passed to a temporary R enviroment.</p>
+
+<p>If you have more than one valid installation and run linkGRASS7() without arguments, you will be ask to select one.</p>
+
+<h3>Basic Examples</h3>
+
+<h4>get meuse data as sp object</h4>
+
+<pre><code class="r">require(link2GI)
+require(sp)
+data(meuse) 
+coordinates(meuse) &lt;- ~x+y 
+proj4string(meuse) &lt;-CRS(&quot;+init=epsg:28992&quot;) 
+</code></pre>
+
+<h4>get meuse data as sf object</h4>
+
+<pre><code class="r">require(sf)
+meuse_sf = st_as_sf(meuse, 
+                    coords = 
+                      c(&quot;x&quot;, &quot;y&quot;), 
+                    crs = 28992, 
+                    agr = &quot;constant&quot;)
+
+</code></pre>
+
+<h4>Standard Full Search Usage</h4>
+
+<p>Automatic search and find of GRASS binaries using the meuse sp data object for spatial referencing.
+This is the highly recommended linking procedure.  NOTE: if more than one GRASS installation is found you have to choose. </p>
+
+<pre><code class="r">linkGRASS7(meuse)
+</code></pre>
+
+<h4>Typical call for standalone distro</h4>
+
+<p>Assuming a typical standalone non-OSGeo4W installation and using the meuse sp data object for spatial referencing</p>
+
+<pre><code class="r">linkGRASS7(meuse,c(&quot;C:/Program Files/GRASS GIS7.0.5&quot;,&quot;GRASS GIS 7.0.5&quot;,&quot;NSIS&quot;)) 
+
+</code></pre>
+
+<h4>Typical OSGeo4W64 installation</h4>
+
+<p>Typical OSGeo4W64 installation using the meuse sp data object for spatial referencing</p>
+
+<pre><code class="r">linkGRASS7(meuse,c(&quot;C:/OSGeo4W64&quot;,&quot;grass-7.0.5&quot;,&quot;osgeo4W&quot;))
+</code></pre>
+
+<h4>Manual choosing the version</h4>
+
+<p>Choose manually the GRASS installation  additionally using the meuse sf object for spatial referencing</p>
+
+<pre><code class="r">linkGRASS7(meuse_sf, ver_select = TRUE)
+</code></pre>
+
+<h4>Choose another searchpath</h4>
+
+<p>Choose manually the GRASS installation and change the search location additionally using the meuse sf object for spatial referencing</p>
+
+<pre><code class="r">linkGRASS7(meuse_sf, searchPath = &quot;D:/&quot;)
+
+</code></pre>
+
+<h4>Creating a Permanent gisbase folder</h4>
+
+<p>Creating a  permanent GRASS gisdbase (folder structure) at &ldquo;~/temp3&rdquo; with the standard mapset PERMANENT and the location named &ldquo;project1&rdquo;. For all spatial attributes use the the meuse sf object.</p>
+
+<pre><code class="r">linkGRASS7(x = meuse_sf, gisdbase = &quot;~/temp3&quot;,location = &quot;project1&quot;)   
+</code></pre>
+
+<h4>Using a Permanent gisbase folder</h4>
+
+<p>Link to the permanent GRASS gisdbase (folder structure) at &ldquo;~/temp3&rdquo; with the standard mapset PERMANENT and the location named &ldquo;project1&rdquo;. For all spatial attributes use the the meuse sf object.</p>
+
+<pre><code class="r">linkGRASS7(gisdbase = &quot;~/temp3&quot;,location = &quot;project1&quot;, gisdbase_exist = TRUE)   
+</code></pre>
+
+<h4>Manual Setup of the spatial attributes</h4>
+
+<p>Setting up GRASS manually with spatial parameters of the meuse data</p>
+
+<pre><code class="r"> linkGRASS7(spatial_params = c(178605,329714,181390,333611,&quot;+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +no_defs +a=6377397.155 +rf=299.1528128 +towgs84=565.4171,50.3319,465.5524,-0.398957,0.343988,-1.8774,4.0725 +to_meter=1&quot;)) 
+
+</code></pre>
+
+<h3>Advanced examples</h3>
+
+<h4>Creating a GRASS project</h4>
+
+<p>First of all we need some real data. In this this case the gridded <a href="https://www.zensus2011.de/EN/2011Census/2011_Census_node.html">2011 micro zensus</a> <a href="https://www.zensus2011.de/SharedDocs/Downloads/DE/Pressemitteilung/DemografischeGrunddaten/csv_Bevoelkerung_100m_Gitter.zip;jsessionid=294313DDBB57914D6636DE373897A3F2.2_cid389?__blob=publicationFile&amp;v=3">population data</a> of Germany. It has some nice aspects. It is provided in a typical authority format, it is big enough and it is pretty instructicve for al lot of spatial analysis. We also have to download a <a href="https://www.zensus2011.de/SharedDocs/Downloads/DE/Pressemitteilung/DemografischeGrunddaten/Datensatzbeschreibung_Bevoelkerung_100m_Gitter.xlsx;jsessionid=294313DDBB57914D6636DE373897A3F2.2_cid389?__blob=publicationFile&amp;v=2">meta data description file</a> provided as an excel sheet for some informations about projection and data concepts.</p>
+
+<pre><code class="r"> # we need some packages
+
+ require(link2GI)
+ require(curl)
+
+# first of all we create  a project folder structure 
+  link2GI::initProj(projRootDir = &quot;~/link2GI_examples&quot;, 
+                    projFolders =  c(&quot;data/&quot;,&quot;output/&quot;,&quot;run/&quot;))
+
+# set runtime directory
+  setwd(path_run)
+
+# get some typical authority generated data 
+  url&lt;-&quot;https://www.zensus2011.de/SharedDocs/Downloads/DE/Pressemitteilung/DemografischeGrunddaten/csv_Bevoelkerung_100m_Gitter.zip;jsessionid=294313DDBB57914D6636DE373897A3F2.2_cid389?__blob=publicationFile&amp;v=3&quot;
+ res &lt;- curl::curl_download(url, &quot;testdata.zip&quot;)
+
+# unzip it
+ unzip(res,files = grep(&quot;.csv&quot;, unzip(res,list = TRUE)$Name,value = TRUE),junkpaths = TRUE,overwrite = TRUE)
+fn &lt;- list.files(pattern = &quot;[.]csv$&quot;, path = getwd(), full.names = TRUE)
+
+</code></pre>
+
+<p>After downloading the data we will use it for some demonstration stuff. If you have a look the data is nothing than x,y,z with assumingly some projection information.</p>
+
+<pre><code class="r"># get the filename
+
+# fast read with data.table 
+ xyz &lt;- data.table::fread(paste0(getwd(),&quot;/Zensus_Bevoelkerung_100m-Gitter.csv&quot;))
+
+ head(xyz)
+</code></pre>
+
+<p>We can easy rasterize this data as it is intentionally gridded data.that means we have in at a grid size of 100 by 100 meters a value.</p>
+
+<pre><code class="r"> require(RColorBrewer)
+ require(raster)
+ require(mapview)
+
+
+# clean dataframe
+ xyz &lt;- xyz[,-1]
+
+# rasterize it according to the projection 
+ r &lt;- raster::rasterFromXYZ(xyz,crs = sp::CRS(&quot;+init=epsg:3035&quot;))
+
+
+# map it
+ p &lt;- colorRampPalette(brewer.pal(8, &quot;Reds&quot;))
+ # aet resolution to 1 sqkm
+ mapview::mapviewOptions(mapview.maxpixels = r@ncols*r@nrows/100)
+ mapview::mapview(r, col.regions = p, at = c(-1,10,25,50,100,500,1000,2500), legend = TRUE)
+
+</code></pre>
+
+<p>So far nothing new. Now we create a new but permanent GRASS gisbase using the spatial parameters from the raster object. The linkGRASS7 function performs a full search for one ore more valid GRASS installations. If a valid GRASS installation exists all parameter are setup und the package rgrass7 is linked.</p>
+
+<p>Due to the fact that the gisdbase_exist is by default set to FALSE it will create a new structure according to the r object. </p>
+
+<pre><code class="r">require(link2GI)
+# initialize GRASS and set up a permanent structure  
+link2GI::linkGRASS7(x = r, gisdbase = &quot;~/link2GI_examples&quot;,location = &quot;microzensus2011&quot;)   
+</code></pre>
+
+<p>Finally we can now import the data to the GRASS gisdbase using the rgass7 package functionality. 
+First we must convert the raster object to GeoTIFF file. Any GDAL format is possible but GeoTIFF is very common and stable.</p>
+
+<pre><code class="r">require(raster)
+require(rgrass7)
+
+# write it to geotiff
+  raster::writeRaster(r, paste0(getwd(),&quot;/Zensus_Bevoelkerung_100m-Gitter.tif&quot;), overwrite = TRUE)
+
+# import raster to GRASS
+rgrass7::execGRASS(&#39;r.external&#39;,
+                   flags=c(&#39;o&#39;,&quot;overwrite&quot;,&quot;quiet&quot;),
+                   input=paste0(getwd(),&quot;/Zensus_Bevoelkerung_100m-Gitter.tif&quot;),
+                   output=&quot;Zensus_Bevoelkerung_100m_Gitter&quot;,
+                   band=1
+)
+
+# check imported data set
+rgrass7::execGRASS(&#39;r.info&#39;,
+                   map = &quot;Zensus_Bevoelkerung_100m_Gitter&quot;) 
+</code></pre>
+
+<p>Let&#39;s do now the same import as a vector data set. First we create a sf object.</p>
+
+<pre><code class="r">
+ # xyz_sf = st_as_sf(xyz, 
+ #                    coords = c(&quot;x_mp_100m&quot;, &quot;y_mp_100m&quot;), 
+ #                    crs = 3035, 
+ #                    agr = &quot;constant&quot;)
+
+#map points
+# sf::plot_sf(xyz_sf)
+</code></pre>
+
+<p>The GRASS gisdbase already exists. So we tell it link2GRASS7 with setting gisdbase_exist=TRUE and import the xyz data as generic GRASS vector points.</p>
+
+<pre><code class="r"> require(sf)
+ require(sp)
+ require(link2GI)
+ data(meuse)
+ meuse_sf = st_as_sf(meuse, 
+                    coords = c(&quot;x&quot;, &quot;y&quot;), 
+                    crs = 28992, 
+                    agr = &quot;constant&quot;)
+
+ w_gvec(x =  meuse_sf,
+           obj_name = &quot;meuse&quot;,
+           gisdbase = &quot;~/link2GI_examples&quot;,
+           location = &quot;meuse&quot;,
+           gisdbase_exist = FALSE
+
+           )
+
+# check imported data set
+rgrass7::execGRASS(&#39;v.info&#39;, map = &quot;meuse&quot;) 
+</code></pre>
+
+<h4>Working with a GRASS project</h4>
+
+<p>A typical example is the usage of an already existing project data base in GRASS. GRASS organizes all data in an internal file structure that is known as gisdbase folder, a mapset and one ore more locations within this mapset. All raster and vector data is stored inside this structure and the organisation is performed by GRASS. So a typical task could be to work on data sets that are already stored in an existing GRASS structure</p>
+
+</body>
+
+</html>

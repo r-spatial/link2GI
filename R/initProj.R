@@ -11,12 +11,15 @@ if ( !isGeneric("initProj") ) {
 #'
 #'@param projRootDir  project github root directory (your github name)
 #'@param projFolders list of subfolders in project
+#'@param GRASSlocation folder for GRASS data
 #'
 #'@export initProj
 #'   
 
 
-initProj <- function(projRootDir=getwd(), GRASSlocation = "tmp/", projFolders=c("data/","result/","run/","log/")) {
+initProj <- function(projRootDir=getwd(), 
+                     GRASSlocation = "tmp/", 
+                     projFolders=c("data/","result/","run/","log/")) {
   
   # switch backslash to slash and expand path to full path
   projRootDir <- gsub("\\\\", "/", path.expand(projRootDir))  

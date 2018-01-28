@@ -15,9 +15,6 @@ alternatively provide a vector containing pathes and keywords. c("C:/OSGeo4W64",
 
 \item{ver_select}{if TRUE you must interactivley selcect between alternative installations}
 }
-\value{
-getparams_GRASS4W initializes the usage of GRASS7.
-}
 \description{
 Initialize the enviroment variables on a 'Windows' OS for using 
  'GRASS GIS' via \link{rgrass7}
@@ -26,7 +23,7 @@ Initialize the enviroment variables on a 'Windows' OS for using
 The concept is very straightforward but for an all days usage pretty
  helpful. You need to provide a \link{raster} or a \link{sp} object. The derived properties are used to initialize a temporary but static
  \href{https://CRAN.R-project.org/package=rgrass7}{rgrass7} environment. During the rsession you will have full access to
- GRASS7 both via the wrapper package as well as the command line.
+ GRASS7 both via the wrapper package as well as the command line. getparams_GRASS4W initializes the usage of GRASS7.
 }
 \examples{
 \dontrun{

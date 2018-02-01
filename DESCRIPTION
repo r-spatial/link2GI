@@ -12,7 +12,7 @@ Description: Functions to simplify the linking of open source GIS and remote sen
 License: GPL (>= 3) | file LICENSE
 Depends: R (>= 3.1), methods
 Imports: raster, rgdal, gdalUtils, tools, rgrass7, sp, sf
-SystemRequirements: GNU make SAGA GIS GRASS GIS (7.x.x) Orfeo ToolBox
+SystemRequirements: GNU make 
 RoxygenNote: 6.0.1
 Suggests: knitr,
     rmarkdown,

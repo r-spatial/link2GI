@@ -6,7 +6,8 @@
 \usage{
 linkGRASS7(x = NULL, default_GRASS7 = NULL, search_path = NULL,
   ver_select = FALSE, gisdbase_exist = FALSE, gisdbase = NULL,
-  location = NULL, spatial_params = NULL, resolution = NULL)
+  location = NULL, spatial_params = NULL, resolution = NULL,
+  quiet = TRUE)
 }
 \arguments{
 \item{x}{raster or sp object}
@@ -27,6 +28,8 @@ If you provide a valid list the corresponding version is initialized. An example
 \item{spatial_params}{default is \code{NULL}. Instead of a spatial object you may provide the geometry as a list. E.g. c(xmin,ymin,xmax,ymax,proj4_string)}
 
 \item{resolution}{resolution in map units for the GRASS raster cells}
+
+\item{quiet}{boolean if set to FALSE you will get most of the console messages}
 }
 \description{
 Initializes the session environment and the system pathes for an easy acces to 

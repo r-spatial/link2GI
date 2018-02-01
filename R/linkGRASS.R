@@ -42,6 +42,7 @@ if (!isGeneric('linkGRASS7')) {
 #'@param spatial_params default is \code{NULL}. Instead of a spatial object you may provide the geometry as a list. E.g. c(xmin,ymin,xmax,ymax,proj4_string)
 #'@param resolution resolution in map units for the GRASS raster cells
 #'@param ver_select boolean if TRUE you may choose interactively the binary version (if found  more than one),  by default FALSE
+#'@param quiet boolean if set to FALSE you will get most of the console messages
 #'@author Chris Reudenbach
 
 #'@export linkGRASS7
@@ -109,7 +110,8 @@ linkGRASS7 <- function(x = NULL,
                       gisdbase = NULL,
                       location = NULL,
                       spatial_params=NULL,
-                      resolution=NULL) {
+                      resolution=NULL,
+                      quiet =TRUE) {
   # if no spatial object AND no extent AND no existing GRASS dbase is provided stop
   if (is.null(x) & is.null(spatial_params) & is.null(location)) {
     stop("You MUST provide a raster*, sp* object or manually the extent of the loccation...\n, Did not found any of them so stopped.")
@@ -134,7 +136,7 @@ linkGRASS7 <- function(x = NULL,
                        location = location,
                        override = TRUE
     ) 
-    return(rgrass7::gmeta())
+   if(!quiet) return(rgrass7::gmeta())
   }
   
   ### if not do the normal linking procedure
@@ -257,6 +259,6 @@ linkGRASS7 <- function(x = NULL,
    else {
     stop("Currently only raster* or sp* objects are supported - have to stop.")
   }
-  return(rgrass7::gmeta())
+  if(!quiet) return(rgrass7::gmeta())
 }
 

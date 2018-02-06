@@ -359,7 +359,7 @@ setenv_GRASS4W <- function(root_GRASS="C:\\OSGEO4~1",
   if (Sys.info()["sysname"] == "Windows") {
   if (!exists("GiEnv")) GiEnv <- new.env(parent=globalenv())  
   #.GRASS_CACHE <- new.env(FALSE parent=globalenv())
-  if (installation_type == "osgeo4W") {
+  if (installation_type == "osgeo4W" || installation_type == "OSGeo4W64") {
     Sys.setenv(OSGEO4W_ROOT = root_GRASS)
     # define GISBASE
     gisbase_GRASS <- paste0(root_GRASS,"\\apps\\grass\\",grass_version)
@@ -424,7 +424,7 @@ setenv_GRASS4W <- function(root_GRASS="C:\\OSGEO4~1",
     Sys.setenv(FONTCONFIG_FILE = paste0(Sys.getenv("GRASS_ROOT"),"\\bin\\gdalplugins"),envir = GiEnv)
     Sys.setenv(GISRC = paste(Sys.getenv("HOME"), "\\.grassrc7",  sep = ""),envir = GiEnv)
     
-    # set path variable
+    # set path variable OSGeo4W64/apps/grass/grass-7.2.2/bin
     Sys.setenv(PATH = paste0(gisbase_GRASS,";",
                            root_GRASS,"\\Python27\\lib\\site-packages\\numpy\\core",";",
                            root_GRASS,"\\bin",";",

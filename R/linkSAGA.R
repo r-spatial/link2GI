@@ -45,27 +45,34 @@ linkSAGA <- function(default_SAGA = NULL,
     makGlobalVar("sagaCmd", paste0(default_SAGA[[1]][1],"\\saga_cmd.exe"))
     spa<-gsub("\\\\$", "", default_SAGA[[1]][1])
     makGlobalVar("sagaPath", spa)
-    if (!is.null(default_SAGA[[2]][1])) makGlobalVar("sagaModPath",  default_SAGA[[2]][1])
-    add2Path(default_SAGA[[1]][1])
-    add2Path(default_SAGA[[2]][1])
+    if (!is.null(default_SAGA[[2]][1])) makGlobalVar("sagaModPath",  paste0(default_SAGA[[2]][1],"modules"))
+    add2Path(default_spa)
+    
     } else if (nrow(default_SAGA) > 1  & ver_select) { 
       
         cat("You have more than one valid SAGA GIS version\n")
         print(default_SAGA)
         cat("\n")
         ver <- as.numeric(readline(prompt = "Please choose one:  "))
+        default_saga <- gsub("\\\\$", "", default_SAGA[[1]][ver])
         makGlobalVar("sagaCmd", paste0(default_SAGA[[1]][ver],"\\saga_cmd.exe"))
-        makGlobalVar("sagaPath", default_SAGA[[1]][ver])
-        add2Path(default_SAGA[[1]][ver])
+        makGlobalVar("sagaPath", default_saga)
+        makGlobalVar("sagaModPath", paste0(default_SAGA[[1]][ver],"modules"))
+        add2Path(default_saga)
+        env<-rsaga.env(path = sagaPath, modules = sagaModPath)
     }
     else if (nrow(default_SAGA) > 1  & !ver_select) { 
       
       cat("You have more than one valid SAGA GIS version\n")
       print(default_SAGA[[1]])
       cat("\nTake the first one...\n")
+      default_saga <- gsub("\\\\$", "", default_SAGA[[1]][1])
       makGlobalVar("sagaCmd", paste0(default_SAGA[[1]][1],"\\saga_cmd.exe"))
-      makGlobalVar("sagaPath", default_SAGA[[1]][1])
+      makGlobalVar("sagaPath", default_saga)
+      makGlobalVar("sagaModPath", paste0(default_SAGA[[1]][1],"\\modules"))
       add2Path(default_SAGA[[1]][1])
+      add2Path(default_SAGA[[1]][1])
+      env<-rsaga.env(path = sagaPath, modules = sagaModPath)
     }
   } 
   # if Linux

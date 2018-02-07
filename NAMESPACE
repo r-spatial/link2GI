@@ -2,6 +2,7 @@
 
 export(add2Path)
 export(checkPCDomain)
+export(findGRASS)
 export(getSpatialClass)
 export(getparams_GRASS4W)
 export(getparams_GRASS4X)

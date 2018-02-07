@@ -164,6 +164,8 @@ getparams_GRASS4W <- function(set_default_GRASS7=NULL, DL="C:", ver_select = FAL
 #' }
 
 searchGRASSW <- function(DL = "C:"){
+  if (DL=="default") DL <- "C:"
+  
   # trys to find a osgeo4w installation on the whole C: disk returns root directory and version name
   # recursive dir for grass*.bat returns all version of grass bat files
   cat("\nsearching for GRASS installations - this may take a while\n")
@@ -307,6 +309,7 @@ getparams_GRASS4X <- function(set_default_GRASS7=NULL, MP = "/usr",ver_select = 
 #' }
 
 searchGRASSX <- function(MP = "/usr"){
+  if (MP=="default") MP <- "/usr"
   raw_GRASS <- system2("find", paste(MP," ! -readable -prune -o -type f -executable -iname 'grass??' -print"),stdout = TRUE)
   if (length(raw_GRASS) > 0) {
     installations_GRASS <- lapply(seq(length(raw_GRASS)), function(i){
@@ -675,4 +678,29 @@ else
 path <- Sys.getenv("GISDBASE")
 sq_name <- gsub(tolower(paste0(obj_name,".sqlite")),pattern = "\\-",replacement = "_")
 return(list(gisbase_path = path, sqlite = sq_name))
+}
+
+
+#'@title Search recursivly valid 'GRASS GIS' installation(s) on a given drive/mountpoint 
+#'@name findGRASS
+#'@title Search for valid OSGeo4W 'GRASS GIS' installation(s) on a given drive/mountpoint 
+#'@description  Provides an  list of valid 'GRASS GIS' installation(s) on your 'Windows' system. There is a major difference between osgeo4W and stand_alone installations. The functions trys to find all valid installations by analysing the calling batch scripts.
+#'@param searchLocation drive letter to be searched, For Windows systems default is \code{C:}, for Linux systems default is \code{/usr}.
+#'@return A dataframe with the 'GRASS GIS' root folder(s), version name(s) and installation type code(s)
+#'@author Chris Reudenbach
+#'@export findGRASS
+#'
+#'@examples
+#' \dontrun{
+#' # get all valid 'GRASS GIS' installation folders and params at "C:"
+#' findGRASS()
+#' }
+findGRASS <- function(searchLocation = "default") {
+
+if (Sys.info()["sysname"] == "Windows") {
+  link = link2GI::searchGRASSW(DL = searchLocation)  
+} else {
+  link = link2GI::searchGRASSX(MP = searchLocation)
+}
+  return(link)
 }

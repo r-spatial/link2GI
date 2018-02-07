@@ -4,6 +4,7 @@
 #'@description  Search for valid 'SAGA GIS' installation(s) on a given 'Windows' drive 
 #'@param DL drive letter default is "C:"
 #'@param ver_select boolean default is FALSE. If there is more than one 'SAGA GIS' installation and \code{ver_select} = TRUE the user can select interactively the preferred 'SAGA GIS' version 
+#'@param quiet boolean  switch for supressing messages default is TRUE
 #'@return A dataframe contasining the 'SAGA GIS' root folder(s), the version name(s) and the installation type(s)
 #'@author Chris Reudenbach
 #'@export searchSAGAW
@@ -17,7 +18,8 @@
 #' }
 
 searchSAGAW <- function(DL = "C:",
-                        ver_select=FALSE) {
+                        ver_select=FALSE,
+                        quiet = TRUE) {
   
   if (Sys.info()["sysname"] == "Windows") {  
     sagaPath <- checkPCDomain("saga")  
@@ -25,8 +27,8 @@ searchSAGAW <- function(DL = "C:",
       
       # trys to find a osgeo4w installation on the whole C: disk returns root directory and version name
       # recursive dir for saga_cmd.exe returns all version of otb bat files
-      cat("\nsearching for SAGA GIS installations - this may take a while\n")
-      cat("For providing the path manually see ?searchSAGAW \n")
+      if (!quiet) cat("\nsearching for SAGA GIS installations - this may take a while\n")
+      if (!quiet) cat("For providing the path manually see ?searchSAGAW \n")
       
       # for a straightforward use of a correct codetable using the cmd command "dir" is used
       rawSAGA <- system(paste0("cmd.exe /c dir /B /S ",DL,"\\","saga_cmd.exe"),intern = TRUE)
@@ -40,7 +42,6 @@ searchSAGAW <- function(DL = "C:",
         if (length(unique(grep(paste("OSGeo4W64", collapse = "|"), rawSAGA[i], value = TRUE))) > 0) {
           root_dir <- unique(grep(paste("OSGeo4W64", collapse = "|"), rawSAGA[i], value = TRUE))
           root_dir <- substr(root_dir,1, gregexpr(pattern = "saga_cmd.exe", root_dir)[[1]][1] - 1)
-          #installDir <- substr(root_dir,1, gregexpr(pattern = "bin", root_dir)[[1]][1] - 2)
           installDir <- root_dir
           installerType <- "osgeo4w64SAGA"
         }    
@@ -49,26 +50,22 @@ searchSAGAW <- function(DL = "C:",
         else if (length(unique(grep(paste("OSGeo4W", collapse = "|"), rawSAGA[i], value = TRUE))) > 0) {
           root_dir <- unique(grep(paste("OSGeo4W", collapse = "|"), rawSAGA[i], value = TRUE))
           root_dir <- substr(root_dir,1, gregexpr(pattern = "saga_cmd.exe", root_dir)[[1]][1] - 1)
-          #installDir <- substr(root_dir,1, gregexpr(pattern = "bin", root_dir)[[1]][1] - 2)
-          installDir <- root_dir
           installerType <- "osgeo4wSAGA"
         }
         # if  "QGIS" 
         else if (length(unique(grep(paste("QGIS", collapse = "|"), rawSAGA[i], value = TRUE))) > 0) {
           root_dir <- unique(grep(paste("QGIS", collapse = "|"), rawSAGA[i], value = TRUE))
           root_dir <- substr(root_dir,1, gregexpr(pattern = "saga_cmd.exe", root_dir)[[1]][1] - 1)
-          #installDir <- substr(root_dir,1, gregexpr(pattern = "bin", root_dir)[[1]][1] - 2)
-          installDir <- root_dir
           installerType <- "qgisSAGA"
         }
         else{
           root_dir <- substr(rawSAGA[i],1, gregexpr(pattern = "saga_cmd.exe", rawSAGA[i])[[1]][1] - 1)
-          #installDir <- substr(root_dir,1, gregexpr(pattern = "bin", root_dir)[[1]][1] - 2)
-          installDir <- root_dir
-          installerType <- "userSAGA"
+          installerType <- "soloSAGA"
         }
+        if (file.exists(paste0(root_dir,"\\tools"))) moduleDir <- paste0(root_dir,"tools")
+        else moduleDir <- paste0(root_dir,"modules")
         # put the result in a data frame
-        data.frame(binDir = root_dir, baseDir = installDir, installation_type = installerType,stringsAsFactors = FALSE)
+        data.frame(binDir = gsub("\\\\$", "", root_dir), moduleDir = gsub("\\\\$", "", moduleDir), installation_type = installerType,stringsAsFactors = FALSE)
       }) # end lapply
       # bind df 
       sagaPath <- do.call("rbind", sagaPath)
@@ -471,13 +468,14 @@ setenv_OTB <- function(bin_OTB = NULL, root_OTB = NULL){
   } else {
     # (R) set pathes  of otb modules and binaries depending on OS  
     if (Sys.info()["sysname"] == "Windows") {
-      makGlobalVar("otbPath", bin_OTB)
+      #makGlobalVar("otbPath", bin_OTB)
       add2Path(bin_OTB)
       Sys.setenv(OSGEO4W_ROOT = root_OTB)
       Sys.setenv(GEOTIFF_CSV = paste0(Sys.getenv("OSGEO4W_ROOT"),"\\share\\epsg_csv"),envir = GiEnv)
-    } else {
-      makGlobalVar("otbPath", "(usr/bin/")
     }
+    #else {
+    #  makGlobalVar("otbPath", "(usr/bin/")
+    #}
   }
   return(bin_OTB)
 }
@@ -486,6 +484,7 @@ setenv_OTB <- function(bin_OTB = NULL, root_OTB = NULL){
 #'@name searchOTBW
 #'@description  Search for valid 'OTB' installations on a 'Windows' OS
 #'@param DL drive letter default is "C:"
+#'@param quiet boolean  switch for supressing messages default is TRUE
 #'@return A dataframe with the 'OTB' root folder(s) the version name(s) and the installation type(s).
 #'@author Chris Reudenbach
 #'@export searchOTBW
@@ -498,7 +497,8 @@ setenv_OTB <- function(bin_OTB = NULL, root_OTB = NULL){
 #' searchOTBW()
 #' }
 
-searchOTBW <- function(DL = "C:") {
+searchOTBW <- function(DL = "C:",
+                       quiet = TRUE) {
   if (Sys.info()["sysname"] == "Windows") {
   if (!exists("GiEnv")) GiEnv <- new.env(parent=globalenv()) 
   if (substr(Sys.getenv("COMPUTERNAME"),1,5) == "PCRZP") {
@@ -508,10 +508,10 @@ searchOTBW <- function(DL = "C:") {
   } else {
     # trys to find a osgeo4w installation on the whole C: disk returns root directory and version name
     # recursive dir for otb*.bat returns all version of otb bat files
-    cat("\nsearching for Orfeo Toolbox installations - this may take a while\n")
-    cat("For providing the path manually see ?searchOTBW \n")
-    raw_OTB <- system(paste0("cmd.exe /c dir /B /S ",DL,"\\","otbcli.bat"),intern = TRUE)
-    
+    if (!quiet) cat("\nsearching for Orfeo Toolbox installations - this may take a while\n")
+    if (!quiet) cat("For providing the path manually see ?searchOTBW \n")
+    raw_OTB <- system(paste0("cmd.exe"," /c dir /B /S ",DL,"\\","otbcli.bat"),intern=TRUE)
+    if (!grepl(DL,raw_OTB)) stop("\n At ",DL," no OTB installation found")
     # trys to identify valid otb installations and their version numbers
     otbInstallations <- lapply(seq(length(raw_OTB)), function(i){
       # convert codetable according to cmd.exe using type

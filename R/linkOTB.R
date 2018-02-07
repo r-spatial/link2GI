@@ -12,6 +12,8 @@ if (!isGeneric('linkOTB')) {
 #'@param ver_select boolean default is FALSE. If there is more than one 'OTB' installation and \code{ver_select} = TRUE the user can select interactively the preferred 'OTB' version 
 #'@param DL string hard drive letter default is \code{C:}
 #'@param type_OTB string 
+#'@param quiet boolean  switch for supressing messages default is TRUE
+
 #'
 #'@note You may also set the path manually. Using a 'OSGeo4W64' \url{http://trac.osgeo.org/osgeo4w/} installation it is typically \code{C:/OSGeo4W64/bin/}
 #'@author Chris Reudenbach
@@ -35,14 +37,16 @@ linkOTB <- function(bin_OTB=NULL,
                     root_OTB= NULL, 
                     type_OTB=NULL,
                     DL="C:",
-                    ver_select=FALSE) {
+                    ver_select=FALSE,
+                    quiet = TRUE) {
   
   if (Sys.info()["sysname"] == "Linux") {
     # if no path is provided  we have to search
     
     params_OTB <- system2("find", paste("/usr"," ! -readable -prune -o -type f -executable -iname 'otbcli' -print"),stdout = TRUE)
     bin_OTB <- substr(params_OTB,1,nchar(params_OTB) - 6)  
-  makGlobalVar("path_OTB", bin_OTB)
+    pathOTB <- bin_OTB
+    #makGlobalVar("path_OTB", bin_OTB)
   }
     
   
@@ -51,7 +55,7 @@ linkOTB <- function(bin_OTB=NULL,
     params_OTB <- searchOTBW()
     # if just one valid installation was found take it
     if (nrow(params_OTB) == 1) {  
-      path_OTB <- setenv_OTB(bin_OTB = params_OTB$binDir[1],root_OTB = params_OTB$baseDir[2])
+      pathOTB <- setenv_OTB(bin_OTB = params_OTB$binDir[1],root_OTB = params_OTB$baseDir[2])
       
       # if more than one valid installation was found you have to choose 
     } else if (nrow(params_OTB) > 1 & ver_select ) {
@@ -60,17 +64,20 @@ linkOTB <- function(bin_OTB=NULL,
       print(params_OTB[1],right = FALSE,row.names = TRUE) 
       if (is.null(type_OTB)) {
         ver <- as.numeric(readline(prompt = "Please choose one:  "))
-        path_OTB <- setenv_OTB(bin_OTB = params_OTB$binDir[[ver]], root_OTB = params_OTB$baseDir[[ver]])
+        pathOTB <- setenv_OTB(bin_OTB = params_OTB$binDir[[ver]], root_OTB = params_OTB$baseDir[[ver]])
       } else {
-        path_OTB <- setenv_OTB(bin_OTB = params_OTB[params_OTB["installationType"] == type_OTB][1],root_OTB = params_OTB[params_OTB["installationType"] == type_OTB][2])
+        pathOTB <- setenv_OTB(bin_OTB = params_OTB[params_OTB["installationType"] == type_OTB][1],root_OTB = params_OTB[params_OTB["installationType"] == type_OTB][2])
       }
     } else {
-      path_OTB <- setenv_OTB(bin_OTB = params_OTB$binDir[[1]],root_OTB = params_OTB$baseDir[[1]])
+      pathOTB <- setenv_OTB(bin_OTB = params_OTB$binDir[[1]],root_OTB = params_OTB$baseDir[[1]])
     }
     
     # if a setDefaultOTB was provided take this 
   } 
-  return(path_OTB)
+  otb<-list()
+  otb$pathOTB<-pathOTB
+  otb$version<-params_OTB
+  return(otb)
 }
 
 

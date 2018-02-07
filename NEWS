@@ -1,3 +1,11 @@
+## link2GI 0.3-0
+
+new feature:
+  * remove all global variables
+bugfixes:
+  # remove tailing backslashes
+  # force compatibility to RSAGA and SAGA ver 3+
+
 ## link2GI 0.2-2
 new feature:
   * findGRASS a function that wraps for searchGRASSW and searchGRASSX

@@ -4,12 +4,14 @@
 \alias{searchSAGAW}
 \title{Search recursively for valid 'Windows' 'SAGA GIS' installation(s)}
 \usage{
-searchSAGAW(DL = "C:", ver_select = FALSE)
+searchSAGAW(DL = "C:", ver_select = FALSE, quiet = TRUE)
 }
 \arguments{
 \item{DL}{drive letter default is "C:"}
 
 \item{ver_select}{boolean default is FALSE. If there is more than one 'SAGA GIS' installation and \code{ver_select} = TRUE the user can select interactively the preferred 'SAGA GIS' version}
+
+\item{quiet}{boolean  switch for supressing messages default is TRUE}
 }
 \value{
 A dataframe contasining the 'SAGA GIS' root folder(s), the version name(s) and the installation type(s)

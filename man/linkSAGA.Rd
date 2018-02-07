@@ -5,7 +5,7 @@
 \title{Locate and bind valid SAGA installation(s)}
 \usage{
 linkSAGA(default_SAGA = NULL, DL = "C:", MP = "/usr",
-  ver_select = FALSE)
+  ver_select = FALSE, quiet = TRUE)
 }
 \arguments{
 \item{default_SAGA}{string contains path to SAGA binaries}
@@ -15,6 +15,8 @@ linkSAGA(default_SAGA = NULL, DL = "C:", MP = "/usr",
 \item{MP}{mount point}
 
 \item{ver_select}{boolean default is FALSE. If there is more than one 'SAGA GIS' installation and \code{ver_select} = TRUE the user can select interactively the preferred 'SAGA GIS' version}
+
+\item{quiet}{boolean  switch for supressing messages default is TRUE}
 }
 \description{
 Locate and bind valid \href{http://www.saga-gis.org/}{SAGA}

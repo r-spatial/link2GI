@@ -17,7 +17,7 @@ if ( !isGeneric("initProj") ) {
 #'   
 
 
-initProj <- function(projRootDir=getwd(), 
+initProj <- function(projRootDir=tempdir(), 
                      GRASSlocation = "tmp/", 
                      projFolders=c("data/","result/","run/","log/")) {
   

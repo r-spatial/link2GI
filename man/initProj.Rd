@@ -4,7 +4,7 @@
 \alias{initProj}
 \title{Defines and creates folders and variables}
 \usage{
-initProj(projRootDir = getwd(), GRASSlocation = "tmp/",
+initProj(projRootDir = tempdir(), GRASSlocation = "tmp/",
   projFolders = c("data/", "result/", "run/", "log/"))
 }
 \arguments{

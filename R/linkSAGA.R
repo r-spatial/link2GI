@@ -29,6 +29,8 @@ if ( !isGeneric("linkSAGA") ) {
 #'
 #' # typical OSGeo4W64 installation 
 #' linkSAGA(c("C:/OSGeo4W64/apps/saga","C:/OSGeo4W64/apps/saga/modules"))
+#' # setting the environment using RSAGA
+#' RSAGA::rsaga.env(path = sagaPath, modules = sagaModPath)
 #'}
 
 
@@ -46,7 +48,7 @@ linkSAGA <- function(default_SAGA = NULL,
     spa<-gsub("\\\\$", "", default_SAGA[[1]][1])
     makGlobalVar("sagaPath", spa)
     if (!is.null(default_SAGA[[2]][1])) makGlobalVar("sagaModPath",  paste0(default_SAGA[[2]][1],"modules"))
-    add2Path(default_spa)
+    add2Path(spa)
     
     } else if (nrow(default_SAGA) > 1  & ver_select) { 
       
@@ -59,7 +61,7 @@ linkSAGA <- function(default_SAGA = NULL,
         makGlobalVar("sagaPath", default_saga)
         makGlobalVar("sagaModPath", paste0(default_SAGA[[1]][ver],"modules"))
         add2Path(default_saga)
-        env<-rsaga.env(path = sagaPath, modules = sagaModPath)
+        #env<-RSAGA::rsaga.env(path = sagaPath, modules = sagaModPath)
     }
     else if (nrow(default_SAGA) > 1  & !ver_select) { 
       
@@ -72,7 +74,7 @@ linkSAGA <- function(default_SAGA = NULL,
       makGlobalVar("sagaModPath", paste0(default_SAGA[[1]][1],"\\modules"))
       add2Path(default_SAGA[[1]][1])
       add2Path(default_SAGA[[1]][1])
-      env<-rsaga.env(path = sagaPath, modules = sagaModPath)
+      #env<-RSAGA::rsaga.env(path = sagaPath, modules = sagaModPath)
     }
   } 
   # if Linux

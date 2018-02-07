@@ -111,11 +111,9 @@ linkGRASS7 <- function(x = NULL,
                       location = NULL,
                       spatial_params=NULL,
                       resolution=NULL,
-                      quiet =TRUE) {
+                      quiet = FALSE) {
   # if no spatial object AND no extent AND no existing GRASS dbase is provided stop
-  if (is.null(x) & is.null(spatial_params) & is.null(location)) {
-    stop("You MUST provide a raster*, sp* object or manually the extent of the loccation...\n, Did not found any of them so stopped.")
-  }
+
   if (class(x)=="character")   x <- raster::raster(x)
   # search for GRASS on your system
   if (Sys.info()["sysname"] == "Windows") {
@@ -203,7 +201,18 @@ linkGRASS7 <- function(x = NULL,
       ymin <- spatial_params[2]
       if (!is.null(resolution)) resolution<- resolution
       else resolution <- "1"
-    }
+    } 
+  } else if  (is.null(x) & is.null(spatial_params)) {
+    if (!quiet) cat("WARNING\n It is strongly recommended that you provide a raster*, sp* object or manually add the extent, resolution and projection information.\n These informations are obligatory to setup  the GRASS loccation...\n. Did not found any of them so lat WGS84 EPSG 4326 is assumed.\n")
+    
+    proj4 <- "+proj=longlat +datum=WGS84 +no_defs"
+    xmax <- 180
+    xmin <- -180
+    ymax <- 90
+    ymin <- -90
+    if (!is.null(resolution)) resolution<- resolution
+    else resolution <- "1"
+    
   }
   
   

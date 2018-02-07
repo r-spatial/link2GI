@@ -3,15 +3,15 @@ Type: Package
 Title: Linking Geographic Information Systems, Remote Sensing and Other Command Line Tools
 Version: 0.2-1
 Date: 2018-01-27
-Authors@R: c(person("Tim", "Appelhans", email = "admin@environmentalinformatics-marburg.de", role = c("aut", "aut")),
-             person("Chris", "Reudenbach", email = "reudenbach@uni-marburg.de", role = c("cre"))
+Authors@R: c(person("Tim", "Appelhans", email = "tim.appelhans@gmail.com>", role = c("ctb")),
+             person("Chris", "Reudenbach", email = "reudenbach@uni-marburg.de", role = c("cre", "aut"))
              )
 Encoding: UTF-8
 Maintainer: Chris Reudenbach <reudenbach@uni-marburg.de>
 Description: Functions to simplify the linking of open source GIS and remote sensing related command line interfaces.
 License: GPL (>= 3) | file LICENSE
 Depends: R (>= 3.1), methods
-Imports: raster, rgdal, gdalUtils, tools, rgrass7, sp, sf
+Imports: raster, rgdal, gdalUtils, tools, rgrass7, sp, sf, RSAGA
 SystemRequirements: GNU make 
 RoxygenNote: 6.0.1
 Suggests: knitr,

@@ -38,5 +38,7 @@ linkSAGA()
 
 # typical OSGeo4W64 installation 
 linkSAGA(c("C:/OSGeo4W64/apps/saga","C:/OSGeo4W64/apps/saga/modules"))
+# setting the environment using RSAGA
+RSAGA::rsaga.env(path = sagaPath, modules = sagaModPath)
 }
 }

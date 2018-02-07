@@ -17,7 +17,7 @@ Provides an  list of valid 'GRASS GIS' installation(s) on your 'Windows' system.
 }
 \examples{
 \dontrun{
-# get all valid 'GRASS GIS' installation folders and params at "C:"
+# get all valid 'GRASS GIS' installation folders at the default search location
 findGRASS()
 }
 }

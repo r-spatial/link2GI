@@ -692,7 +692,7 @@ return(list(gisbase_path = path, sqlite = sq_name))
 #'
 #'@examples
 #' \dontrun{
-#' # get all valid 'GRASS GIS' installation folders and params at "C:"
+#' # get all valid 'GRASS GIS' installation folders at the default search location
 #' findGRASS()
 #' }
 findGRASS <- function(searchLocation = "default") {

@@ -1,3 +1,7 @@
+## link2GI 0.2-2
+new feature:
+  * findGRASS a function that wraps for searchGRASSW and searchGRASSX
+  
 ## link2GI 0.2-1
 
 bugfixes:

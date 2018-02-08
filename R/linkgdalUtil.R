@@ -43,7 +43,7 @@ linkgdalUtils <- function(){
   }
   
   # make the path available for System calls
-  makGlobalVar("gdalPath", gdal[[1]]$path)
+  #makGlobalVar("gdalPath", gdal[[1]]$path)
   
   # add to the beginning of the sessions PATH
   add2Path(gdal[[1]]$path)

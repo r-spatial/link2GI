@@ -5,7 +5,8 @@
 \title{Defines and creates folders and variables}
 \usage{
 initProj(projRootDir = tempdir(), GRASSlocation = "tmp/",
-  projFolders = c("data/", "result/", "run/", "log/"))
+  projFolders = c("data/", "result/", "run/", "log/"), path_prefix = "",
+  global = FALSE)
 }
 \arguments{
 \item{projRootDir}{project github root directory (your github name)}
@@ -13,9 +14,23 @@ initProj(projRootDir = tempdir(), GRASSlocation = "tmp/",
 \item{GRASSlocation}{folder for GRASS data}
 
 \item{projFolders}{list of subfolders in project}
+
+\item{path_prefix}{character a prefix for the path variables names default is ""}
+
+\item{global}{boolean esport path strings as global variables default is false}
 }
 \description{
-Defines and creates (if necessary) all folders variables
-set the SAGA path variables and other system variables
-exports all variables to the global environment
+Defines and creates (if necessary) all folders variables. Returns a list with the project folder pathes. Optionally exports all pathes to a global sub environment.
+}
+\examples{
+\dontrun{
+
+link2GI::initProj(projRootDir = tempdir(),
+                 projFolders = c("data/",
+                                 "data/level0/",
+                                 "data/level1/",
+                                  "output/",
+                                  "run/",
+                                  "fun/") )
+}   
 }

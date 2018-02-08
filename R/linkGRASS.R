@@ -3,35 +3,41 @@ if (!isGeneric('linkGRASS7')) {
     standardGeneric('linkGRASS7'))
 }
 
-#'@title 	Locate and set up 'GRASS 7' API bindings 
+#'@title 	Locate 'GRASS 7' installations and set up the necessary API bindings 
 #'@name linkGRASS7
-#'@description Initializes the session environment and the system pathes for an easy acces to 
-#' \href{https://grass.osgeo.org/}{'GRASS GIS 7.x'}.  The correct setup of the spatial and projection parameters is
-#'  automatically performed by using either an existing and valid \code{\link{raster}}, \code{\link{sp}} or \code{\link{sf}} object, 
-#'  or manually by providing a list containing the minimum parameters needed.\cr
+#'@description Initializes the session environment and the system pathes for an easy access to  
+#' \href{https://grass.osgeo.org/}{'GRASS GIS 7.x'}. The correct setup of the spatial and 
+#' projection parameters can be automatically performed by using either an existing and valid 
+#' \code{\link{raster}}, \code{\link{sp}} or \code{\link{sf}} object. In addition, 
+#' manual initialization can be done via a list containing the minimum set of parameters. 
+#' If nothing is provided 'GRASS GIS 7'  binding will be setup by using a world wide extent with EPSG 4326.\cr
 #'@note 'GRASS GIS 7' is excellently supported by the
-#'  \link{rgrass7} wrapper package. Nevertheless 'GRASS GIS' is well known for
+#'  \code{\link{rgrass7}} wrapper package. Nevertheless 'GRASS GIS' is well known for
 #'  its high demands regarding the correct spatial and reference setup an a bunch 
-#'  of workspace and environment requirements. This becomes even worse on 'Windows' 
-#'  platforms or if several alternative 'GRASS GIS' installations are available.
-#'  If one knows what to do the \code{\link{rgrass7}} package setup function \code{initGRASS} works fine under Linux. 
-#'  This is also valid for well known configurations under the 'Windows' operation system. 
-#'  Nevertheless on university lab or on company computers with restriced privileges and/or using different releases
-#'  like the  \href{http://trac.osgeo.org/osgeo4w/}{'OSGeo4W'} distribution and the  
-#'  \href{https://grass.osgeo.org/download/software/ms-windows/#stand-alone}{'GRASS 7' stand-alone} installation, 
-#'  or different software releases (e.g. 'GRASS 7.0.5 and GRASS 7.2.0), it becomes often cumbersome or even impossible to get the correct linkages. \cr 
+#'  of workspace and environment requirements. This becomes even worse running it on 'Windows' 
+#'  platforms and even more if several alternative 'GRASS GIS' installations are available.
+#'  If one knows what to do the \code{\link{rgrass7}} package setup function \code{initGRASS} works fine on Linux platforms. 
+#'  This is also valid for well known configurations on the 'Windows' operation system. \cr  
+#'  Nevertheless "if one knows" most things will be fine... Using it university lab or on company computers with 
+#'  restriced privileges and/or using different releaseslike the  \href{http://trac.osgeo.org/osgeo4w/}{'OSGeo4W'} 
+#'  distribution and the  \href{https://grass.osgeo.org/download/software/ms-windows/#stand-alone}{'GRASS 7' stand-alone} installation, 
+#'  or different software releases (e.g. 'GRASS 7.0.5 and GRASS 7.2.0), it becomes often cumbersome
+#'  or even impossible to get the correct linkages. \cr 
 #'  The function \code{linkGRASS7} tries to find all valid 'GRASS GIS' binaries by analyzing
 #'  the startup script files of 'GRASS GIS'. After identifying the 'GRASS GIS' binaries all
 #'  necessary system variables and settings will be generated and passed to a temporary R enviroment.
 #'@details The concept is straightforward but for an all days usage helpful. Either you need to 
 #' provide a \code{\link{raster}} or \code{\link{sp}} \code{\link{sf}} spatial object
-#'  which has correct spatial and projection properties or you may link directlxy to an existing 'GRASS' gisdbase and mapset. 
-#'  If you choose an spatial object to initialize a correct 'GRASS' mapset it is used to create either a temporary or a permanent 
-#'  \href{https://CRAN.R-project.org/package=rgrass7}{rgrass7} environment including the correct 'GRASS 7' structure.\cr\cr
-#'  The most time consuming part on 'Windows' Systems is the search process. This can easily take 10 or more minutes. 
-#'  To speed up this process you can also provide a correct parameter set. Best way to do so is to call \code{searchGRASSW} or for 'Linux' \code{searchGRASSX} manually. 
-#'  and call \code{linkGRASS7} with the version arguments of your choice. linkGRASS7 initializes the usage of GRASS7.
-#'@note If you have more than one valid installation and run \code{linkGRASS7()} without arguments, you will be ask to select one.
+#'  which has correct spatial and projection properties or you may link directlxy to an existing 
+#'  'GRASS' gisdbase and mapset. If you choose an spatial object to initialize a correct 'GRASS' mapset
+#'  it is used to create either a temporary or a permanent  \href{https://CRAN.R-project.org/package=rgrass7}{rgrass7} 
+#'  environment including the correct 'GRASS 7' structure.\cr
+#'  The most time consuming part on 'Windows' Systems is the search process. 
+#'  This can easily take 10 or more minutes depending on system and hardware. 
+#'  To speed up this process you can also provide a correct parameter set. 
+#'  Best way to do so is to call \code{\link{findGRASS}} manually and call \code{\link{linkGRASS7}}
+#'  with the version arguments of your choice.
+#'@note If you have more than one valid installation and run \code{\link{linkGRASS7}} without arguments, you will be ask to select one.
 #'@param search_path path or mounting point that will be searched
 #'@param x raster or sp object
 #'@param default_GRASS7 default is \code{NULL} If is \code{NULL} an automatic search for all installed versions is performed. 

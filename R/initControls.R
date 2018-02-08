@@ -681,18 +681,22 @@ return(list(gisbase_path = path, sqlite = sq_name))
 }
 
 
-#'@title Search recursivly valid 'GRASS GIS' installation(s) on a given drive/mountpoint 
+#'@title Search recursivly valid 'GRASS GIS' installation(s) at a given drive/mountpoint 
 #'@name findGRASS
-#'@title Search for valid OSGeo4W 'GRASS GIS' installation(s) on a given drive/mountpoint 
-#'@description  Provides an  list of valid 'GRASS GIS' installation(s) on your 'Windows' system. There is a major difference between osgeo4W and stand_alone installations. The functions trys to find all valid installations by analysing the calling batch scripts.
-#'@param searchLocation drive letter to be searched, For Windows systems default is \code{C:}, for Linux systems default is \code{/usr}.
-#'@return A dataframe with the 'GRASS GIS' root folder(s), version name(s) and installation type code(s)
+#'@description  Provides an  list of valid 'GRASS GIS' installation(s) 
+#'on your 'Windows' system. There is a major difference between osgeo4W and 
+#'stand_alone installations. The functions trys to find all valid 
+#'installations by analysing the calling batch scripts.
+#'@param searchLocation drive letter to be searched, for Windows systems default
+#' is \code{C:}, for Linux systems default is \code{/usr}.
+#'@return A dataframe with the 'GRASS GIS' root folder(s), version name(s) and 
+#'installation type code(s)
 #'@author Chris Reudenbach
 #'@export findGRASS
 #'
 #'@examples
 #' \dontrun{
-#' # get all valid 'GRASS GIS' installation folders at the default search location
+#' # find recursively all existing 'GRASS GIS' installation folders starting at the default search location
 #' findGRASS()
 #' }
 findGRASS <- function(searchLocation = "default") {

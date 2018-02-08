@@ -686,7 +686,7 @@ return(list(gisbase_path = path, sqlite = sq_name))
 }
 
 
-#'@title Search recursivly valid 'GRASS GIS' installation(s) at a given drive/mountpoint 
+#'@title Search recursivly existing 'GRASS GIS' installation(s) at a given drive/mountpoint 
 #'@name findGRASS
 #'@description  Provides an  list of valid 'GRASS GIS' installation(s) 
 #'on your 'Windows' system. There is a major difference between osgeo4W and 
@@ -701,7 +701,8 @@ return(list(gisbase_path = path, sqlite = sq_name))
 #'
 #'@examples
 #' \dontrun{
-#' # find recursively all existing 'GRASS GIS' installation folders starting at the default search location
+#' # find recursively all existing 'GRASS GIS' installation folders starting 
+#' # at the default search location
 #' findGRASS()
 #' }
 findGRASS <- function(searchLocation = "default") {

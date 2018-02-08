@@ -113,7 +113,7 @@ WGparam <- function(set_default_GRASS7=NULL, DL="C:", ver_select = FALSE){
     
     # if just one valid installation was found take it
     if (nrow(params_GRASS) == 1) {  
-      gisbase_GRASS <- setenv_GRASS4W(root_GRASS = params_GRASS$instDir[[1]],
+      gisbase_GRASS <- setGRASSWEnv(root_GRASS = params_GRASS$instDir[[1]],
                                       grass_version = params_GRASS$version[[1]], 
                                       installation_type = params_GRASS$installation_type[[1]] )
       
@@ -123,11 +123,11 @@ WGparam <- function(set_default_GRASS7=NULL, DL="C:", ver_select = FALSE){
       print(params_GRASS)
       cat("\n")
       ver <- as.numeric(readline(prompt = "Please choose one:  "))
-      gisbase_GRASS <- normalizePath(setenv_GRASS4W(root_GRASS = params_GRASS$instDir[[ver]],
+      gisbase_GRASS <- normalizePath(setGRASSWEnv(root_GRASS = params_GRASS$instDir[[ver]],
                                     grass_version = params_GRASS$version[[ver]], 
                                     installation_type = params_GRASS$installation_type[[ver]] ),winslash = "/")
     } else if (nrow(params_GRASS) > 1 & !ver_select) {  
-      gisbase_GRASS <- setenv_GRASS4W(root_GRASS = params_GRASS$instDir[[1]],
+      gisbase_GRASS <- setGRASSWEnv(root_GRASS = params_GRASS$instDir[[1]],
                                       grass_version = params_GRASS$version[[1]], 
                                       installation_type = params_GRASS$installation_type[[1]] )
       
@@ -136,7 +136,7 @@ WGparam <- function(set_default_GRASS7=NULL, DL="C:", ver_select = FALSE){
     
     # if a set_default_GRASS7 was provided take this 
   } else {
-    gisbase_GRASS <- setenv_GRASS4W(root_GRASS = set_default_GRASS7[1],
+    gisbase_GRASS <- setGRASSWEnv(root_GRASS = set_default_GRASS7[1],
                                     grass_version = set_default_GRASS7[2], 
                                     installation_type = set_default_GRASS7[3])  
   }
@@ -336,8 +336,8 @@ searchGRASSX <- function(MP = "/usr"){
 
 
 
-#'@title Create valid 'GRASS GIS 7.xx' rsession environment settings
-#'@name setenv_GRASS4W
+#'@title Create valid 'GRASS GIS 7.xx' rsession environment settings for Windows OS
+#'@name setGRASSWEnv
 #'@description  Initializes and set up  access to 'GRASS GIS 7.xx' via the \link{rgrass7} wrapper or command line packages
 #'@param root_GRASS  grass root directory i.e. "C:\\OSGEO4~1",
 #'@param grass_version grass version name i.e. "grass-7.0.5"
@@ -345,15 +345,15 @@ searchGRASSX <- function(MP = "/usr"){
 #'@param jpgmem jpeg2000 memory allocation size. Default is 1000000
 #'@return Set all necessary environment variables and additionally returns the GISBASE directory as string.
 #'@author Chris Reudenbach
-#'@export setenv_GRASS4W
+#'@export setGRASSWEnv
 #'
 #'@examples
 #' \dontrun{
 #' # get all valid 'GRASS GIS' installation folders and params
-#' grassParam<- setenv_GRASS4W()
+#' grassParam<- setGRASSWEnv()
 #' }
 
-setenv_GRASS4W <- function(root_GRASS="C:\\OSGEO4~1",
+setGRASSWEnv <- function(root_GRASS="C:\\OSGEO4~1",
                           grass_version = "grass-7.0.5",
                           installation_type = "osgeo4W",
                           jpgmem = 1000000) {

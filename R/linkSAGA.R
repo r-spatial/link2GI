@@ -3,17 +3,17 @@ if ( !isGeneric("linkSAGA") ) {
     standardGeneric("linkSAGA"))
 }
 
-#'@title Locate and bind valid SAGA installation(s)
+#'@title Identifies SAGA GIS Instalations and returns linking Informations 
 #'@name linkSAGA
-#'@description Locate and bind valid \href{http://www.saga-gis.org/}{SAGA}
-#'  installation(s). It returns the pathes and correct environment settings. All
-#'  valid means that it looks for the \code{saga_cmd} or \code{saga_cmd.exe}
+#'@description Finds the existing \href{http://www.saga-gis.org/}{'SAGA GIS'} installation(s), generates and sets the necessary path and system variables for seamless use on the command line setup a default \code{\link{rsaga.env}} and utilize the \code{\link{RSAGA-package}} wrapper functions.
+#'  It returns the pathes and correct environment settings and setup the environment for a seamless use of \code{RSAGA} . All
+#'  existing installation(s) means that it looks for the \code{saga_cmd} or \code{saga_cmd.exe}
 #'  executables. If the file is found it is assumed to be a valid 'SAGA GIS' installation.
-#'@note The excellent 'SAGA GIS' wrapper \href{https://CRAN.R-project.org/package=RSAGA}{RSAGA} is NOT used because the
-#'  it currently covers only 'SAGA GIS' versions from 2.0.4 - 2.2.3. The fast SAGA GIS changes makes it highly impracticable
-#'  to keep the wrapper adaptions in line. \code{RSAGA} will meet all linking needs perfectly if you use 'SAGA GIS' versions from 2.0.4 - 2.2.3.
-#'  
-#'@param default_SAGA string contains path to SAGA binaries
+#'@note The excellent 'SAGA GIS' wrapper \href{https://CRAN.R-project.org/package=RSAGA}{RSAGA} is in line for a major update however it covers currently (Feb 2018) only 'SAGA GIS' versions from 2.0.4 - 2.2.3. The fast SAGA GIS changes makes it highly impracticable
+#'  to keep the wrapper adaptions in line. \code{RSAGA} will meet all linking needs perfectly if you use 'SAGA GIS' versions from 2.0.4 - 2.2.3. 
+#'@note Running Linux currently only the first  \code{SAGA}  installation at the defined mounting point is selected. This is done because Linux has a much cleaner installation structure and one can avoid system wide searches under 'Linux' due to the fact that \code{SAGA} will be installed at the typical \code{/usr} folder or somewhere in the \code{HOME} directory. In both cases the user probably knows which one is needed.  
+#'@return a list containing the selected \code{RSAGA} path variables \code{$sagaPath},\code{$sagaModPath},\code{$sagaCmd} and potentially other installations \code{$installed}  
+#'@param default_SAGA string contains path to \code{RSAGA} binaries
 #'@param DL drive letter
 #'@param MP mount point
 #'@param ver_select boolean default is FALSE. If there is more than one 'SAGA GIS' installation and \code{ver_select} = TRUE the user can select interactively the preferred 'SAGA GIS' version 
@@ -26,12 +26,15 @@ if ( !isGeneric("linkSAGA") ) {
 #'\dontrun{
 #'
 #' # call if you do not have any idea if and where SAGA GIS is installed
+#' # it will return a list with the selected and available SAGA installations
+#' # it prepares the system for running the selected SAGA version via RSAGA or CLI
 #' linkSAGA()
 #'
 #' # typical OSGeo4W64 installation 
-#' linkSAGA(c("C:/OSGeo4W64/apps/saga","C:/OSGeo4W64/apps/saga/modules"))
-#' # setting the environment using RSAGA
-#' RSAGA::rsaga.env(path = sagaPath, modules = sagaModPath)
+#' saga <- linkSAGA(c("C:/OSGeo4W64/apps/saga","C:/OSGeo4W64/apps/saga/modules"))
+#' # overriding the default environment using RSAGA and assuming you have 3 SAGA installations
+#' saga<-linkSAGA()
+#' RSAGA::rsaga.env(path = saga$installed$binDir[3],modules = saga$installed$moduleDir[3])
 #'}
 
 
@@ -96,10 +99,13 @@ linkSAGA <- function(default_SAGA = NULL,
     
     if (is.null(default_SAGA)) {
       
-      default_SAGA <- system2("find", paste(MP," ! -readable -prune -o -type f -executable -iname 'saga_cmd' -print"), stdout = TRUE)
+      default_SAGA[1] <- system2("find", paste(MP," ! -readable -prune -o -type f -executable -iname 'saga_cmd' -print"), stdout = TRUE)
       default_SAGA[2] <- substr(default_SAGA[1],1,nchar(default_SAGA[1]) - 9)
       rawSAGALib <-     system2("find", paste(MP," ! -readable -prune -o -type f  -iname 'libio_gdal.so' -print"), stdout = TRUE)
       default_SAGA[3] <- substr(rawSAGALib[1],1,nchar(rawSAGALib[1]) - 14)
+      tmp<-default_SAGA[1]
+      default_SAGA[1]<-default_SAGA[3]
+      default_SAGA[3]<-tmp
     }
     sagaCmd <- default_SAGA[1]
     #makGlobalVar("sagaCmd", default_SAGA[1])

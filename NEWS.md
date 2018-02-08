@@ -1,7 +1,10 @@
 ## link2GI 0.3-0
 
 new feature:
-  * remove all global variables
+  * remove all global variables (re-opened issue #3)
+  * returns pathes and environmental variables as a ist 
+  * add a quiet option to supress all console outputs (issue #4)
+  
 bugfixes:
   # remove tailing backslashes
   # force compatibility to RSAGA and SAGA ver 3+

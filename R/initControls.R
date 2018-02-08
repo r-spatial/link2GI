@@ -1,7 +1,7 @@
 
-#'@title Search recursively for valid 'Windows' 'SAGA GIS' installation(s)
+#'@title Searches recursively for existing 'Windows' 'SAGA GIS' installation(s)
 #'@name searchSAGAW
-#'@description  Search for valid 'SAGA GIS' installation(s) on a given 'Windows' drive 
+#'@description  Searches recursivley for existing 'SAGA GIS' installation(s) on a given 'Windows' drive 
 #'@param DL drive letter default is "C:"
 #'@param ver_select boolean default is FALSE. If there is more than one 'SAGA GIS' installation and \code{ver_select} = TRUE the user can select interactively the preferred 'SAGA GIS' version 
 #'@param quiet boolean  switch for supressing messages default is TRUE
@@ -76,34 +76,34 @@ searchSAGAW <- function(DL = "C:",
   return(sagaPath)
 }
 
-#'@title Get 'GRASS GIS' and \code{rgrass7} parameters on 'Windows' OS
-#'@name getparams_GRASS4W
+#'@title Usually for internally usage get 'GRASS GIS' and \code{rgrass7} parameters on 'Windows' OS
+#'@name WGparam
 #'@description Initialize the enviroment variables on a 'Windows' OS for using 
 #'  'GRASS GIS' via \link{rgrass7}
 #'@details The concept is very straightforward but for an all days usage pretty
 #'  helpful. You need to provide a \link{raster} or a \link{sp} object. The derived properties are used to initialize a temporary but static
 #'  \href{https://CRAN.R-project.org/package=rgrass7}{rgrass7} environment. During the rsession you will have full access to
-#'  GRASS7 both via the wrapper package as well as the command line. getparams_GRASS4W initializes the usage of GRASS7.
+#'  GRASS7 both via the wrapper package as well as the command line. WGparam initializes the usage of GRASS7.
 #'@param DL raster or sp object
 #'@param set_default_GRASS7 default = NULL forces a full search for 'GRASS GIS' binaries. You may
 #'  alternatively provide a vector containing pathes and keywords. c("C:/OSGeo4W64","grass-7.0.5","osgeo4W") is valid for a typical osgeo4w installation.
 #'@param ver_select if TRUE you must interactivley selcect between alternative installations 
-#'@export getparams_GRASS4W
+#'@export WGparam
 #'  
 #'@examples
 #' \dontrun{
 #' # automatic retrieval of valid 'GRASS GIS' environment settings 
 #' # if more than one is found the user has to choose.
-#' getparams_GRASS4W()
+#' WGparam()
 #' 
 #' # typical stand_alone installation
-#' getparams_GRASS4W(c("C:/Program Files/GRASS GIS 7.0.5","GRASS GIS 7.0.5","NSIS"))
+#' WGparam(c("C:/Program Files/GRASS GIS 7.0.5","GRASS GIS 7.0.5","NSIS"))
 #' 
 #' # typical OSGeo4W64 installation
-#' getparams_GRASS4W(c("C:/OSGeo4W64","grass-7.0.5","osgeo4W"))
+#' WGparam(c("C:/OSGeo4W64","grass-7.0.5","osgeo4W"))
 #' }
 
-getparams_GRASS4W <- function(set_default_GRASS7=NULL, DL="C:", ver_select = FALSE){
+WGparam <- function(set_default_GRASS7=NULL, DL="C:", ver_select = FALSE){
   
   # (R) set pathes  of 'GRASS' binaries depending on 'WINDOWS'
   if (is.null(set_default_GRASS7)) {
@@ -153,7 +153,7 @@ getparams_GRASS4W <- function(set_default_GRASS7=NULL, DL="C:", ver_select = FAL
 #'@return A dataframe with the 'GRASS GIS' root folder(s), version name(s) and installation type code(s)
 #'@author Chris Reudenbach
 #'@export searchGRASSW
-#'
+#'@keywords internal
 #'@examples
 #' \dontrun{
 #' # get all valid 'GRASS GIS' installation folders and params at "C:"
@@ -239,14 +239,14 @@ searchGRASSW <- function(DL = "C:"){
   return(installations_GRASS)
 }
 
-#'@title Get 'GRASS GIS' and \code{rgrass7} parameters on 'Linux' OS
-#'@name getparams_GRASS4X
+#'@title Usually for internally usage, get 'GRASS GIS' and \code{rgrass7} parameters on 'Linux' OS
+#'@name XGparam
 #'@description Initialize and set up \link{rgrass7}  for 'Linux'
 #'@details During the rsession you will have full access to GRASS7 GIS via the \link{rgrass7} wrappe. Additionally you may use also use the API calls of GRASS7 via the command line.
 #'@param set_default_GRASS7 default = NULL will force a search for 'GRASS GIS' You may provide a valid combination as c("C:/OSGeo4W64","grass-7.0.5","osgeo4w")
 #'@param MP mount point to be searched. default is "usr"
 #'@param ver_select if TRUE you must interactivley selcect between alternative installations
-#'@export getparams_GRASS4X
+#'@export XGparam
 #'
 #'@examples
 #' \dontrun{
@@ -254,13 +254,13 @@ searchGRASSW <- function(DL = "C:"){
 #' getparams_GRASS7X()
 #' 
 #' # typical stand_alone installation
-#' getparams_GRASS4X("/usr/bin/grass72")
+#' XGparam("/usr/bin/grass72")
 #' 
 #' # typical user defined installation (compiled sources)
-#' getparams_GRASS4X("/usr/local/bin/grass72")
+#' XGparam("/usr/local/bin/grass72")
 #' }
 
-getparams_GRASS4X <- function(set_default_GRASS7=NULL, MP = "/usr",ver_select = FALSE){
+XGparam <- function(set_default_GRASS7=NULL, MP = "/usr",ver_select = FALSE){
   
   # (R) set pathes  of 'GRASS' binaries depending on 'Windows' OS
   if (is.null(set_default_GRASS7)) {
@@ -295,6 +295,7 @@ getparams_GRASS4X <- function(set_default_GRASS7=NULL, MP = "/usr",ver_select = 
 #'@return A dataframe containing 'GRASS GIS' binary folder(s), version name(s) and installation type code(s)
 #'@author Chris Reudenbach
 #'@export searchGRASSX
+#'@keywords internal
 #'
 #'@examples
 #' \dontrun{
@@ -488,6 +489,7 @@ setenv_OTB <- function(bin_OTB = NULL, root_OTB = NULL){
 #'@return A dataframe with the 'OTB' root folder(s) the version name(s) and the installation type(s).
 #'@author Chris Reudenbach
 #'@export searchOTBW
+#'@keywords internal
 #'
 #'@examples
 #' \dontrun{
@@ -563,12 +565,13 @@ searchOTBW <- function(DL = "C:",
 #'@description  Checks if x is a raster or sp object
 #'@param obj R raster* or sp object
 #'@author Chris Reudenbach
+#'@keywords internal
 #'@examples
 #' \dontrun{
 #' # add path
 #' getSpatialClass(x)
 #' }
-#'@export getSpatialClass
+
 getSpatialClass <- function(obj) {
   if (class(obj)[1] %in% c("RasterLayer", "RasterStack",
                         "RasterBrick", "Satellite",
@@ -589,6 +592,7 @@ getSpatialClass <- function(obj) {
 #'@param cliCode code of the sofware currently \code{saga} and \code{otb} are supported
 #'@param prefixPC contains the an arbitrary part of the computer name. It always starts with the first letter.
 #'@author CR
+#'@keywords internal
 #'@examples
 #' \dontrun{
 #' # add path
@@ -649,6 +653,7 @@ add2Path <- function(newPath) {
 #' @description  Generates a variable with a certain value in the R environment
 #' @param name character string name of the variable
 #' @param value character string value of the variable
+#' @keywords internal
 #'@export makGlobalVar 
 #'@examples
 #' \dontrun{

@@ -1,17 +1,17 @@
-if ( !isGeneric("w_gvec") ) {
-  setGeneric("w_gvec", function(x, ...)
-    standardGeneric("w_gvec"))
+if ( !isGeneric("sf2gvec") ) {
+  setGeneric("sf2gvec", function(x, ...)
+    standardGeneric("sf2gvec"))
 }
 
-#' Write sf object to GRASS 7
+#' Write sf object to GRASS 7 vector
 #' @param x  \code{\link{sf}} object corresponding to the settings of the corresponding GRASS container
 #' @param obj_name name of GRASS layer
 #' @param gisdbase  GRASS gisDbase folder
 #' @param location  GRASS location name containing \code{obj_name)}
 #' @param gisdbase_exist logical switch if the GRASS gisdbase folder exist default is TRUE
 #' @author Chris Reudenbach
-#' 
-#' @export w_gvec
+#' @note  have a look at the \code{\link{sf}} capabilities to write direct to sqlite
+#' @export sf2gvec
 #' @examples 
 #'\dontrun{
 #' ## example 
@@ -25,19 +25,19 @@ if ( !isGeneric("w_gvec") ) {
 #'                    agr = "constant")
 #'     
 #' # write data to GRASS and create gisdbase
-#' w_gvec(x = meuse_sf,
+#' sf2gvec(x = meuse_sf,
 #'           obj_name = "meuse_R-G",
 #'           gisdbase = "~/temp3",
 #'           location = "project1")
 #'  
 #' # read from existing GRASS          
-#' r_gvec(x = meuse_sf,
+#' gvec2sf(x = meuse_sf,
 #'           obj_name = "meuse_R-G",
 #'           gisdbase = "~/temp3",
 #'           location = "project1")
 #' }
 
-w_gvec <- function(x, obj_name, gisdbase, location , gisdbase_exist=FALSE){
+sf2gvec <- function(x, obj_name, gisdbase, location , gisdbase_exist=FALSE){
   
   if (gisdbase_exist)
     linkGRASS7(gisdbase = gisdbase, location = location, gisdbase_exist = TRUE)  
@@ -62,9 +62,9 @@ w_gvec <- function(x, obj_name, gisdbase, location , gisdbase_exist=FALSE){
   if (class(ret) == "try-error")  return(cat("Data not found"))
 }
 
-if ( !isGeneric("r_gvec") ) {
-  setGeneric("r_gvec", function(x, ...)
-    standardGeneric("r_gvec"))
+if ( !isGeneric("gvec2sf") ) {
+  setGeneric("gvec2sf", function(x, ...)
+    standardGeneric("gvec2sf"))
 }
 
 #' Read GRASS 7 vector into  sf object
@@ -74,8 +74,8 @@ if ( !isGeneric("r_gvec") ) {
 #' @param location  GRASS location name containing \code{obj_name)}
 #' @param gisdbase_exist logical switch if the GRASS gisdbase folder exist default is TRUE
 #' @author Chris Reudenbach
-#' 
-#' @export r_gvec
+#' @note  have a look at the \code{\link{sf}} capabilities to read direct from sqlite
+#' @export gvec2sf
 #' @examples 
 #'\dontrun{
 #' ## example 
@@ -88,19 +88,19 @@ if ( !isGeneric("r_gvec") ) {
 #'     
 #' 
 #' # write data to GRASS and create gisdbase
-#' w_gvec(x = meuse_sf,
+#' sf2gvec(x = meuse_sf,
 #'           obj_name = "meuse_R-G",
 #'           gisdbase = "~/temp3",
 #'           location = "project1")
 #'  
 #' # read from existing GRASS          
-#' r_gvec(x = meuse_sf,
+#' gvec2sf(x = meuse_sf,
 #'           obj_name = "meuse_R-G",
 #'           gisdbase = "~/temp3",
 #'           location = "project1")
 #' }
 
-r_gvec <- function(x, obj_name, gisdbase, location ,gisdbase_exist = TRUE){
+gvec2sf <- function(x, obj_name, gisdbase, location ,gisdbase_exist = TRUE){
   
   if (gisdbase_exist)
     linkGRASS7(gisdbase = gisdbase, location = location, gisdbase_exist = TRUE)  

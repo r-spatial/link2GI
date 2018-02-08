@@ -24,3 +24,4 @@ searchGRASSW()
 \author{
 Chris Reudenbach
 }
+\keyword{internal}

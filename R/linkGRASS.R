@@ -125,11 +125,11 @@ linkGRASS7 <- function(x = NULL,
   if (Sys.info()["sysname"] == "Windows") {
     home <- Sys.getenv("USERPROFILE")
     if (is.null(search_path)) search_path <- "C:"
-    gisbase_GRASS <- getparams_GRASS4W(default_GRASS7,search_path,ver_select)
+    gisbase_GRASS <- WGparam(default_GRASS7,search_path,ver_select)
   } else {
     home <- Sys.getenv("HOME")
     if (is.null(search_path)) search_path <- "/usr"
-    gisbase_GRASS <- getparams_GRASS4X(default_GRASS7,search_path,ver_select)
+    gisbase_GRASS <- XGparam(default_GRASS7,search_path,ver_select)
   }
   # if an existing gdbase is provided link it  
   if (!is.null(location) & !is.null(gisdbase) & gisdbase_exist ) {

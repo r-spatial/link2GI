@@ -28,3 +28,4 @@ searchOTBW()
 \author{
 Chris Reudenbach
 }
+\keyword{internal}

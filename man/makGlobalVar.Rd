@@ -23,3 +23,4 @@ makGlobalVar("pathToData","~/home/data")
 }
 
 }
+\keyword{internal}

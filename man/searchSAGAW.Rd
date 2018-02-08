@@ -2,7 +2,7 @@
 % Please edit documentation in R/initControls.R
 \name{searchSAGAW}
 \alias{searchSAGAW}
-\title{Search recursively for valid 'Windows' 'SAGA GIS' installation(s)}
+\title{Searches recursively for existing 'Windows' 'SAGA GIS' installation(s)}
 \usage{
 searchSAGAW(DL = "C:", ver_select = FALSE, quiet = TRUE)
 }
@@ -17,7 +17,7 @@ searchSAGAW(DL = "C:", ver_select = FALSE, quiet = TRUE)
 A dataframe contasining the 'SAGA GIS' root folder(s), the version name(s) and the installation type(s)
 }
 \description{
-Search for valid 'SAGA GIS' installation(s) on a given 'Windows' drive
+Searches recursivley for existing 'SAGA GIS' installation(s) on a given 'Windows' drive
 }
 \examples{
 \dontrun{

@@ -27,3 +27,4 @@ searchGRASSX("~/")
 \author{
 Chris Reudenbach
 }
+\keyword{internal}

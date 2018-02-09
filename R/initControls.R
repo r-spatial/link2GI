@@ -88,6 +88,7 @@ searchSAGAW <- function(DL = "C:",
 #'@param set_default_GRASS7 default = NULL forces a full search for 'GRASS GIS' binaries. You may
 #'  alternatively provide a vector containing pathes and keywords. c("C:/OSGeo4W64","grass-7.0.5","osgeo4W") is valid for a typical osgeo4w installation.
 #'@param ver_select if TRUE you must interactivley selcect between alternative installations 
+#'@param quiet boolean if set to FALSE you will get most of the console messages
 #'@export WGparam
 #'  
 #'@examples
@@ -103,7 +104,7 @@ searchSAGAW <- function(DL = "C:",
 #' WGparam(c("C:/OSGeo4W64","grass-7.0.5","osgeo4W"))
 #' }
 
-WGparam <- function(set_default_GRASS7=NULL, DL="C:", ver_select = FALSE){
+WGparam <- function(set_default_GRASS7=NULL, DL="C:", ver_select = FALSE, quiet = TRUE){
   
   # (R) set pathes  of 'GRASS' binaries depending on 'WINDOWS'
   if (is.null(set_default_GRASS7)) {
@@ -115,7 +116,8 @@ WGparam <- function(set_default_GRASS7=NULL, DL="C:", ver_select = FALSE){
     if (nrow(params_GRASS) == 1) {  
       gisbase_GRASS <- setGRASSWEnv(root_GRASS = params_GRASS$instDir[[1]],
                                       grass_version = params_GRASS$version[[1]], 
-                                      installation_type = params_GRASS$installation_type[[1]] )
+                                      installation_type = params_GRASS$installation_type[[1]],
+                                       quiet = quiet )
       
       # if more than one valid installation was found you have to choose 
     } else if (nrow(params_GRASS) > 1 & ver_select) {
@@ -125,11 +127,12 @@ WGparam <- function(set_default_GRASS7=NULL, DL="C:", ver_select = FALSE){
       ver <- as.numeric(readline(prompt = "Please choose one:  "))
       gisbase_GRASS <- normalizePath(setGRASSWEnv(root_GRASS = params_GRASS$instDir[[ver]],
                                     grass_version = params_GRASS$version[[ver]], 
-                                    installation_type = params_GRASS$installation_type[[ver]] ),winslash = "/")
+                                    installation_type = params_GRASS$installation_type[[ver]],quiet = quiet  ),winslash = "/")
     } else if (nrow(params_GRASS) > 1 & !ver_select) {  
       gisbase_GRASS <- setGRASSWEnv(root_GRASS = params_GRASS$instDir[[1]],
                                       grass_version = params_GRASS$version[[1]], 
-                                      installation_type = params_GRASS$installation_type[[1]] )
+                                      installation_type = params_GRASS$installation_type[[1]] ,
+                                       quiet=quiet)
       
       # if more than one valid installation was found you have to choose 
     }
@@ -138,7 +141,8 @@ WGparam <- function(set_default_GRASS7=NULL, DL="C:", ver_select = FALSE){
   } else {
     gisbase_GRASS <- setGRASSWEnv(root_GRASS = set_default_GRASS7[1],
                                     grass_version = set_default_GRASS7[2], 
-                                    installation_type = set_default_GRASS7[3])  
+                                    installation_type = set_default_GRASS7[3],
+                                    quiet =quiet)  
   }
   return(gisbase_GRASS)
 }
@@ -342,6 +346,7 @@ searchGRASSX <- function(MP = "/usr"){
 #'@param root_GRASS  grass root directory i.e. "C:\\OSGEO4~1",
 #'@param grass_version grass version name i.e. "grass-7.0.5"
 #'@param installation_type two options "osgeo4w" as installed by the 'OSGeo4W'-installer and "NSIS" that is typical for a stand_alone installtion of 'GRASS GIS'.
+#'@param quiet boolean if set to FALSE you will get most of the console messages
 #'@param jpgmem jpeg2000 memory allocation size. Default is 1000000
 #'@return Set all necessary environment variables and additionally returns the GISBASE directory as string.
 #'@author Chris Reudenbach
@@ -356,7 +361,8 @@ searchGRASSX <- function(MP = "/usr"){
 setGRASSWEnv <- function(root_GRASS="C:\\OSGEO4~1",
                           grass_version = "grass-7.0.5",
                           installation_type = "osgeo4W",
-                          jpgmem = 1000000) {
+                          jpgmem = 1000000,
+                          quiet = TRUE) {
   if (Sys.info()["sysname"] == "Windows") {
   if (!exists("GiEnv")) GiEnv <- new.env(parent=globalenv())  
   #.GRASS_CACHE <- new.env(FALSE parent=globalenv())

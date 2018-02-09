@@ -4,7 +4,8 @@
 \alias{WGparam}
 \title{Usually for internally usage get 'GRASS GIS' and \code{rgrass7} parameters on 'Windows' OS}
 \usage{
-WGparam(set_default_GRASS7 = NULL, DL = "C:", ver_select = FALSE)
+WGparam(set_default_GRASS7 = NULL, DL = "C:", ver_select = FALSE,
+  quiet = TRUE)
 }
 \arguments{
 \item{set_default_GRASS7}{default = NULL forces a full search for 'GRASS GIS' binaries. You may
@@ -13,6 +14,8 @@ alternatively provide a vector containing pathes and keywords. c("C:/OSGeo4W64",
 \item{DL}{raster or sp object}
 
 \item{ver_select}{if TRUE you must interactivley selcect between alternative installations}
+
+\item{quiet}{boolean if set to FALSE you will get most of the console messages}
 }
 \description{
 Initialize the enviroment variables on a 'Windows' OS for using 

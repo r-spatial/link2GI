@@ -5,7 +5,7 @@
 \title{Create valid 'GRASS GIS 7.xx' rsession environment settings for Windows OS}
 \usage{
 setGRASSWEnv(root_GRASS = "C:\\\\OSGEO4~1", grass_version = "grass-7.0.5",
-  installation_type = "osgeo4W", jpgmem = 1e+06)
+  installation_type = "osgeo4W", jpgmem = 1e+06, quiet = TRUE)
 }
 \arguments{
 \item{root_GRASS}{grass root directory i.e. "C:\\OSGEO4~1",}
@@ -15,6 +15,8 @@ setGRASSWEnv(root_GRASS = "C:\\\\OSGEO4~1", grass_version = "grass-7.0.5",
 \item{installation_type}{two options "osgeo4w" as installed by the 'OSGeo4W'-installer and "NSIS" that is typical for a stand_alone installtion of 'GRASS GIS'.}
 
 \item{jpgmem}{jpeg2000 memory allocation size. Default is 1000000}
+
+\item{quiet}{boolean if set to FALSE you will get most of the console messages}
 }
 \value{
 Set all necessary environment variables and additionally returns the GISBASE directory as string.

@@ -1,5 +1,5 @@
 ## link2GI 0.3-0
-the version 0.3-0 It is quite restructured to conform to both 
+The 0.3-0  version is quite restructured to conform to both 
 common R conventions (e.g. no hidden globals) and to make the calls 
 more intuitive and one-line-like. some of the function follow a slightly 
 different naming and argument setting. This was done to keep in line with further 

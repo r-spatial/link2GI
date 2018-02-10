@@ -16,11 +16,6 @@ if ( !isGeneric("linkSAGA") ) {
 #'versions from 2.0.4 - 2.2.3. The fast evolution of 'SAGA GIS' makes it highly impracticable
 #'to keep the wrapper adaptions in line. \code{RSAGA} will meet all linking needs perfectly if 
 #'you use 'SAGA GIS' versions from 2.0.4 - 2.2.3. 
-#'@note Using 'Linux' currently only the first  \code{SAGA}  installation at the defined 
-#'mounting point is selected. This is done because 'Linux' has a much cleaner installation structure 
-#'and one can avoid system wide searches under 'Linux' due to the fact that by default 'SAGA GIS' will be installed 
-#'at the \code{/usr} folder. The second most place will be somewhere in the \code{HOME} directory. 
-#'In both cases the user probably knows which one is needed.  
 #'@return a list containing the selected \code{RSAGA} path variables \code{$sagaPath},\code{$sagaModPath},\code{$sagaCmd} and potentially other installations \code{$installed}  
 #'@param default_SAGA string contains path to \code{RSAGA} binaries
 #'@param DL drive letter

@@ -18,30 +18,30 @@ knitr::opts_chunk$set(collapse = TRUE)
 #  
 
 ## ----eval=FALSE----------------------------------------------------------
-#  linkGRASS7(meuse)
+#  link2GI::linkGRASS7(meuse,quiet =TRUE)
 
 ## ----eval=FALSE----------------------------------------------------------
-#  linkGRASS7(meuse,c("C:/Program Files/GRASS GIS7.0.5","GRASS GIS 7.0.5","NSIS"))
+#  link2GI::linkGRASS7(meuse,c("C:/Program Files/GRASS GIS7.0.5","GRASS GIS 7.0.5","NSIS"))
 #  
 
 ## ---- eval=FALSE---------------------------------------------------------
-#  linkGRASS7(meuse,c("C:/OSGeo4W64","grass-7.0.5","osgeo4W"))
+#  link2GI::linkGRASS7(meuse,c("C:/OSGeo4W64","grass-7.0.5","osgeo4W"))
 
 ## ----eval=FALSE----------------------------------------------------------
-#  linkGRASS7(meuse_sf, ver_select = TRUE)
+#  link2GI::linkGRASS7(meuse_sf, ver_select = TRUE)
 
 ## ----eval=FALSE----------------------------------------------------------
-#  linkGRASS7(meuse_sf, searchPath = "D:/")
+#  link2GI::linkGRASS7(meuse_sf, searchPath = "D:/")
 #  
 
 ## ----eval=FALSE----------------------------------------------------------
-#  linkGRASS7(x = meuse_sf, gisdbase = "~/temp3",location = "project1")
+#  link2GI::linkGRASS7(x = meuse_sf, gisdbase = "~/temp3",location = "project1")
 
 ## ----eval=FALSE----------------------------------------------------------
-#  linkGRASS7(gisdbase = "~/temp3",location = "project1", gisdbase_exist = TRUE)
+#  link2GI::linkGRASS7(gisdbase = "~/temp3",location = "project1", gisdbase_exist = TRUE)
 
 ## ----eval=FALSE----------------------------------------------------------
-#   linkGRASS7(spatial_params = c(178605,329714,181390,333611,"+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +no_defs +a=6377397.155 +rf=299.1528128 +towgs84=565.4171,50.3319,465.5524,-0.398957,0.343988,-1.8774,4.0725 +to_meter=1"))
+#   link2GI::linkGRASS7(spatial_params = c(178605,329714,181390,333611,"+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +no_defs +a=6377397.155 +rf=299.1528128 +towgs84=565.4171,50.3319,465.5524,-0.398957,0.343988,-1.8774,4.0725 +to_meter=1"))
 #  
 
 ## ---- eval=FALSE---------------------------------------------------------
@@ -51,11 +51,11 @@ knitr::opts_chunk$set(collapse = TRUE)
 #   require(curl)
 #  
 #  # first of all we create  a project folder structure
-#    link2GI::initProj(projRootDir = "~/link2GI_examples",
+#    paths<-link2GI::initProj(projRootDir = "~/link2GI_examples",
 #                      projFolders =  c("data/","output/","run/"))
 #  
 #  # set runtime directory
-#    setwd(path_run)
+#    setwd(paths$run)
 #  
 #  # get some typical authority generated data
 #    url<-"https://www.zensus2011.de/SharedDocs/Downloads/DE/Pressemitteilung/DemografischeGrunddaten/csv_Bevoelkerung_100m_Gitter.zip;jsessionid=294313DDBB57914D6636DE373897A3F2.2_cid389?__blob=publicationFile&v=3"
@@ -121,13 +121,13 @@ knitr::opts_chunk$set(collapse = TRUE)
 
 ## ---- eval=FALSE---------------------------------------------------------
 #  
-#   # xyz_sf = st_as_sf(xyz,
-#   #                    coords = c("x_mp_100m", "y_mp_100m"),
-#   #                    crs = 3035,
-#   #                    agr = "constant")
+#    xyz_sf = st_as_sf(xyz,
+#                       coords = c("x_mp_100m", "y_mp_100m"),
+#                       crs = 3035,
+#                       agr = "constant")
 #  
 #  #map points
-#  # sf::plot_sf(xyz_sf)
+#   sf::plot_sf(xyz_sf)
 
 ## ---- eval=FALSE---------------------------------------------------------
 #   require(sf)

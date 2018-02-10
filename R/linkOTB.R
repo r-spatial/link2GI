@@ -71,7 +71,7 @@ linkOTB <- function(bin_OTB=NULL,
     if (is.null(searchLocation)) searchLocation<-"C:"
     params_OTB <- findOTB(searchLocation = searchLocation,quiet = quiet)
     
-      pathOTB <- setenvOTBw(bin_OTB = params_OTB$binDir[1],root_OTB = params_OTB$baseDir[2])
+      pathOTB <- setenvOTB(bin_OTB = params_OTB$binDir[1],root_OTB = params_OTB$baseDir[2])
       
       # if more than one valid installation was found you have to choose 
     } else if (nrow(params_OTB) > 1 & ver_select ) {
@@ -80,12 +80,12 @@ linkOTB <- function(bin_OTB=NULL,
       print(params_OTB[1],right = FALSE,row.names = TRUE) 
       if (is.null(type_OTB)) {
         ver <- as.numeric(readline(prompt = "Please choose one:  "))
-        pathOTB <- setenvOTBw(bin_OTB = params_OTB$binDir[[ver]], root_OTB = params_OTB$baseDir[[ver]])
+        pathOTB <- setenvOTB(bin_OTB = params_OTB$binDir[[ver]], root_OTB = params_OTB$baseDir[[ver]])
       } else {
-        pathOTB <- setenvOTBw(bin_OTB = params_OTB[params_OTB["installationType"] == type_OTB][1],root_OTB = params_OTB[params_OTB["installationType"] == type_OTB][2])
+        pathOTB <- setenvOTB(bin_OTB = params_OTB[params_OTB["installationType"] == type_OTB][1],root_OTB = params_OTB[params_OTB["installationType"] == type_OTB][2])
       }
     } else {
-      pathOTB <- setenvOTBw(bin_OTB = params_OTB$binDir[[1]],root_OTB = params_OTB$baseDir[[1]])
+      pathOTB <- setenvOTB(bin_OTB = params_OTB$binDir[[1]],root_OTB = params_OTB$baseDir[[1]])
     }
     
     # if a setDefaultOTB was provided take this 

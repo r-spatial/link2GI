@@ -78,30 +78,30 @@ if (!isGeneric('linkGRASS7')) {
 #'# This is the highly recommended linking procedure for on the fly jobs
 #'# NOTE: if more than one GRASS installation is found you have to choose. 
 #'linkGRASS7(meuse)
-
+#'
 # Typical non-OSGeo4W installation 
 #'# using the meuse sp data object for spatial referencing
 #'linkGRASS7(meuse,c("C:/Program Files/GRASS GIS7.0.5","GRASS GIS 7.0.5","NSIS")) 
-
+#'
 #'# Typical OSGeo4W installation using the meuse sp data object for spatial referencing
 #'linkGRASS7(meuse,c("C:/OSGeo4W64","grass-7.0.5","osgeo4W"))
-
+#'
 #'# CREATE and link to a permanent GRASS folder at "~/temp3", location named "project1" 
 #'linkGRASS7(meuse_sf, gisdbase = "~/temp3",location = "project1")   
-
+#'
 #'# ONLY LINK to a permanent GRASS folder at "~/temp3", location named "project1" 
 #'linkGRASS7(gisdbase = "~/temp3",location = "project1", gisdbase_exist = TRUE )   
-
+#'
 #'# SELECT the GRASS installation 
 #'linkGRASS7(meuse_sf,ver_select = TRUE)
-
+#'
 #'# SELECT the GRASS installation and define the search location
 #'linkGRASS7(meuse_sf,ver_select = TRUE, search_path = "D:/")
-
+#'
 #'# setting up GRASS manually with spatial parameters of the meuse data
 #'proj4_string <- as.character(sp::CRS("+init=epsg:28992"))
-#'linkGRASS7(spatial_params = c(178605,329714,181390,333611,proj4_string)) 
-
+#'inkGRASS7(spatial_params = c(178605,329714,181390,333611,proj4_string)) 
+#'
 #'# creating a GRASS gisdbase manually with spatial parameters of the meuse data 
 #'# additionally using a peramanent directory "~/examples" and the location "meuse_spatial_params "
 #'proj4_string <- as.character(sp::CRS("+init=epsg:28992"))
@@ -126,11 +126,11 @@ linkGRASS7 <- function(x = NULL,
   if (Sys.info()["sysname"] == "Windows") {
     home <- Sys.getenv("USERPROFILE")
     if (is.null(search_path)) search_path <- "C:"
-    gisbase_GRASS <- WGparam(default_GRASS7,search_path,ver_select)
+    gisbase_GRASS <- paramGRASSw(default_GRASS7,search_path,ver_select)
   } else {
     home <- Sys.getenv("HOME")
     if (is.null(search_path)) search_path <- "/usr"
-    gisbase_GRASS <- XGparam(default_GRASS7,search_path,ver_select)
+    gisbase_GRASS <- paramGRASSx(default_GRASS7,search_path,ver_select)
   }
   # if an existing gdbase is provided link it  
   if (!is.null(location) & !is.null(gisdbase) & gisdbase_exist ) {

@@ -4,12 +4,10 @@
 \alias{searchSAGAW}
 \title{Searches recursively for existing 'Windows' 'SAGA GIS' installation(s)}
 \usage{
-searchSAGAW(DL = "C:", ver_select = FALSE, quiet = TRUE)
+searchSAGAW(DL = "C:", quiet = TRUE)
 }
 \arguments{
 \item{DL}{drive letter default is "C:"}
-
-\item{ver_select}{boolean default is FALSE. If there is more than one 'SAGA GIS' installation and \code{ver_select} = TRUE the user can select interactively the preferred 'SAGA GIS' version}
 
 \item{quiet}{boolean  switch for supressing messages default is TRUE}
 }
@@ -30,3 +28,4 @@ sagaParams<- searchSAGAW()
 \author{
 Chris Reudenbach
 }
+\keyword{internal}

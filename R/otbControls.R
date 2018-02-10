@@ -1,21 +1,22 @@
 
 #'@title  Initializes and set up  access to the 'OTB' command line interface
-#'@name setenv_OTB
+#'@name setenvOTB
 #'@description  Initializes and set up  access to the 'OTB' command line interface
 #'  
 #'@param bin_OTB  string contains the path to the 'OTB' binaries
 #'@param root_OTB string contains the full string to the root folder
 #'  containing the 'OTB' installation'
 #'@return Adds 'OTB' pathes to the enviroment and creates the variable global string variable \code{otbCmd}, that contains the path to the 'OTB' binaries.
-#'@export setenv_OTB
+#'@export setenvOTB
 #'  
 #'@examples
 #' \dontrun{
 #'## example for the most common default OSGeo4W64 installation of OTB
-#'setenv_OTB(bin_OTB="C:\\OSGeo4W64\\bin\\",root_OTB="C:\\OSGeo4W64")
+#'setenvOTB(bin_OTB = "C:\\OSGeo4W64\\bin\\",
+#'           root_OTB = "C:\\OSGeo4W64")
 #'}
 
-setenv_OTB <- function(bin_OTB = NULL, root_OTB = NULL){
+setenvOTB <- function(bin_OTB = NULL, root_OTB = NULL){
   # check if running on a HRZMR Pool PC
   if (!exists("GiEnv")) GiEnv <- new.env(parent=globalenv()) 
   if (substr(Sys.getenv("COMPUTERNAME"),1,5) == "PCRZP") {
@@ -55,7 +56,8 @@ setenv_OTB <- function(bin_OTB = NULL, root_OTB = NULL){
 #' }
 
 searchOTBW <- function(DL = "C:",
-                       quiet = TRUE) {
+                       quiet=TRUE) {
+  if (DL=="default") DL <- "C:"
   if (Sys.info()["sysname"] == "Windows") {
     if (!exists("GiEnv")) GiEnv <- new.env(parent=globalenv()) 
     if (substr(Sys.getenv("COMPUTERNAME"),1,5) == "PCRZP") {
@@ -113,4 +115,79 @@ searchOTBW <- function(DL = "C:",
   return(otbInstallations)
 }
 
+#'@title Search recursively for valid 'OTB' installation(s) on a 'Windows' OS
+#'@name searchOTBX
+#'@description  Search for valid 'OTB' installations on a 'Windows' OS
+#'@param MP drive letter default is "C:"
+#'@param quiet boolean  switch for supressing messages default is TRUE
+#'@return A dataframe with the 'OTB' root folder(s) the version name(s) and the installation type(s).
+#'@author Chris Reudenbach
+#'@export searchOTBX
+#'@keywords internal
+#'
+#'@examples
+#' \dontrun{
+#'#### Examples how to use RSAGA and OTB bindings from R
+#'
+#' # get all valid OTB installation folders and params
+#' searchOTBX()
+#' }
+searchOTBX <- function(MP = "/usr",
+                       quiet=TRUE) {
+  if (MP=="default") MP <- "/usr"
+    if (!exists("GiEnv")) GiEnv <- new.env(parent=globalenv()) 
+      # trys to find a osgeo4w installation at the mounting point  disk returns root directory and version name
+      # recursive dir for otb*.bat returns all version of otb bat files
+      if (!quiet) cat("\nsearching for Orfeo Toolbox installations - this may take a while\n")
+      if (!quiet) cat("For providing the path manually see ?searchOTBX \n")
+      raw_OTB <- system2("find", paste("/usr"," ! -readable -prune -o -type f -executable -iname 'otbcli' -print"),stdout = TRUE)
+      if (!grepl(MP,raw_OTB)) stop("\n At ",MP," no OTB installation found")
+      # trys to identify valid otb installations and their version numbers
+      otbInstallations <- lapply(seq(length(raw_OTB)), function(i){
+      
+      # if the the tag "OSGEO4W64" exists set installation_type
+          root_dir <- substr(raw_OTB[i],1, gregexpr(pattern = "otbcli", raw_OTB[i])[[1]][1] - 1)
+        # put the existing GISBASE directory, version number  and installation type in a data frame
+        data.frame(binDir = root_dir,otbCmd = paste0(root_dir,"otbcli"), stringsAsFactors = FALSE)
+      }) # end lapply
+      # bind the df lines
+      otbInstallations <- do.call("rbind", otbInstallations)
+    
+  
+  return(otbInstallations)
+}
 
+#'@title Search recursivly existing 'Orfeo Toolbox' installation(s) at a given drive/mountpoint 
+#'@name findOTB
+#'@description  Provides an  list of valid 'OTB' installation(s) 
+#'on your 'Windows' system. There is a major difference between osgeo4W and 
+#'stand_alone installations. The functions trys to find all valid 
+#'installations by analysing the calling batch scripts.
+#'@param searchLocation drive letter to be searched, for Windows systems default
+#' is \code{C:}, for Linux systems default is \code{/usr}.
+#'@param quiet boolean  switch for supressing messages default is TRUE
+#'@return A dataframe with the 'OTB' root folder(s),  and command line executable(s)
+#'@author Chris Reudenbach
+#'@export findOTB
+#'
+#'@examples
+#' \dontrun{
+#' # find recursively all existing 'Orfeo Toolbox' installations folders starting 
+#' # at the default search location
+#' findOTB()
+#' }
+findOTB <- function(searchLocation = "default",
+                    quiet=TRUE) {
+  
+  if (Sys.info()["sysname"] == "Windows") {
+    if (searchLocation %in% paste0(LETTERS,":"))
+      link = link2GI::searchOTBW(DL = searchLocation,                     
+                                 quiet=TRUE)  
+    else stop("You are running Windows - Please choose a suitable searchLocation argument that MUST include a Windows drive letter and colon" )
+  } else {
+    if (grepl(searchLocation,pattern = ":"))  stop("You are running Linux - please choose a suitable searchLocation argument" )
+    else link = link2GI::searchOTBX(MP = searchLocation,
+                                    quiet=TRUE)
+  }
+  return(link)
+}

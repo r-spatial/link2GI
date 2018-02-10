@@ -4,15 +4,14 @@
 \alias{linkSAGA}
 \title{Identifies SAGA GIS Installations and returns linking Informations}
 \usage{
-linkSAGA(default_SAGA = NULL, DL = "C:", MP = "/usr",
+linkSAGA(default_SAGA = NULL, searchLocation = "default",
   ver_select = FALSE, quiet = TRUE)
 }
 \arguments{
 \item{default_SAGA}{string contains path to \code{RSAGA} binaries}
 
-\item{DL}{drive letter}
-
-\item{MP}{mount point}
+\item{searchLocation}{drive letter to be searched, for Windows systems default
+is \code{C:}, for Linux systems default is \code{/usr}.}
 
 \item{ver_select}{boolean default is FALSE. If there is more than one 'SAGA GIS' installation and \code{ver_select} = TRUE the user can select interactively the preferred 'SAGA GIS' version}
 

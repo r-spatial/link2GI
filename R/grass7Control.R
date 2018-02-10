@@ -1,43 +1,48 @@
 
 #'@title Usually for internally usage get 'GRASS GIS' and \code{rgrass7} parameters on 'Windows' OS
-#'@name WGparam
+#'@name paramGRASSw
 #'@description Initialize the enviroment variables on a 'Windows' OS for using 
 #'  'GRASS GIS' via \link{rgrass7}
 #'@details The concept is very straightforward but for an all days usage pretty
 #'  helpful. You need to provide a \link{raster} or a \link{sp} object. The derived properties are used to initialize a temporary but static
 #'  \href{https://CRAN.R-project.org/package=rgrass7}{rgrass7} environment. During the rsession you will have full access to
-#'  GRASS7 both via the wrapper package as well as the command line. WGparam initializes the usage of GRASS7.
+#'  GRASS7 both via the wrapper package as well as the command line. paramGRASSw initializes the usage of GRASS7.
 #'@param DL raster or sp object
+#'@param ver_select boolean default is FALSE. If there is more than one 'SAGA GIS' installation and \code{ver_select} = TRUE the user can select interactively the preferred 'SAGA GIS' version 
 #'@param set_default_GRASS7 default = NULL forces a full search for 'GRASS GIS' binaries. You may
 #'  alternatively provide a vector containing pathes and keywords. c("C:/OSGeo4W64","grass-7.0.5","osgeo4W") is valid for a typical osgeo4w installation.
-#'@param ver_select if TRUE you must interactivley selcect between alternative installations 
+#'  
 #'@param quiet boolean if set to FALSE you will get most of the console messages
-#'@export WGparam
+#'@export paramGRASSw
 #'  
 #'@examples
 #' \dontrun{
 #' # automatic retrieval of valid 'GRASS GIS' environment settings 
 #' # if more than one is found the user has to choose.
-#' WGparam()
+#' paramGRASSw()
 #' 
 #' # typical stand_alone installation
-#' WGparam(c("C:/Program Files/GRASS GIS 7.0.5","GRASS GIS 7.0.5","NSIS"))
+#' paramGRASSw(c("C:/Program Files/GRASS GIS 7.0.5","GRASS GIS 7.0.5","NSIS"))
 #' 
 #' # typical OSGeo4W64 installation
-#' WGparam(c("C:/OSGeo4W64","grass-7.0.5","osgeo4W"))
+#' paramGRASSw(c("C:/OSGeo4W64","grass-7.0.5","osgeo4W"))
 #' }
 
-WGparam <- function(set_default_GRASS7=NULL, DL="C:", ver_select = FALSE, quiet = TRUE){
+paramGRASSw <- function(set_default_GRASS7=NULL, 
+                        DL="C:", 
+                        ver_select =FALSE,
+                        quiet = TRUE){
   
   # (R) set pathes  of 'GRASS' binaries depending on 'WINDOWS'
   if (is.null(set_default_GRASS7)) {
     
     # if no path is provided  we have to search
-    params_GRASS <- findGRASS(searchLocation = DL)
+    params_GRASS <- findGRASS(searchLocation = DL,
+                              quiet = quiet)
     
     # if just one valid installation was found take it
     if (nrow(params_GRASS) == 1) {  
-      gisbase_GRASS <- setGRASSWEnv(root_GRASS = params_GRASS$instDir[[1]],
+      gisbase_GRASS <- setenvGRASSw(root_GRASS = params_GRASS$instDir[[1]],
                                     grass_version = params_GRASS$version[[1]], 
                                     installation_type = params_GRASS$installation_type[[1]],
                                     quiet = quiet )
@@ -48,11 +53,11 @@ WGparam <- function(set_default_GRASS7=NULL, DL="C:", ver_select = FALSE, quiet 
       print(params_GRASS)
       cat("\n")
       ver <- as.numeric(readline(prompt = "Please choose one:  "))
-      gisbase_GRASS <- normalizePath(setGRASSWEnv(root_GRASS = params_GRASS$instDir[[ver]],
+      gisbase_GRASS <- normalizePath(setenvGRASSw(root_GRASS = params_GRASS$instDir[[ver]],
                                                   grass_version = params_GRASS$version[[ver]], 
                                                   installation_type = params_GRASS$installation_type[[ver]],quiet = quiet  ),winslash = "/")
     } else if (nrow(params_GRASS) > 1 & !ver_select) {  
-      gisbase_GRASS <- setGRASSWEnv(root_GRASS = params_GRASS$instDir[[1]],
+      gisbase_GRASS <- setenvGRASSw(root_GRASS = params_GRASS$instDir[[1]],
                                     grass_version = params_GRASS$version[[1]], 
                                     installation_type = params_GRASS$installation_type[[1]] ,
                                     quiet=quiet)
@@ -62,7 +67,7 @@ WGparam <- function(set_default_GRASS7=NULL, DL="C:", ver_select = FALSE, quiet 
     
     # if a set_default_GRASS7 was provided take this 
   } else {
-    gisbase_GRASS <- setGRASSWEnv(root_GRASS = set_default_GRASS7[1],
+    gisbase_GRASS <- setenvGRASSw(root_GRASS = set_default_GRASS7[1],
                                   grass_version = set_default_GRASS7[2], 
                                   installation_type = set_default_GRASS7[3],
                                   quiet =quiet)  
@@ -77,6 +82,7 @@ WGparam <- function(set_default_GRASS7=NULL, DL="C:", ver_select = FALSE, quiet 
 #'@title Search for valid OSGeo4W 'GRASS GIS' installation(s) on a given 'Windows' drive 
 #'@description  Provides an  list of valid 'GRASS GIS' installation(s) on your 'Windows' system. There is a major difference between osgeo4W and stand_alone installations. The functions trys to find all valid installations by analysing the calling batch scripts.
 #'@param DL drive letter to be searched, default is "C:"
+#'@param quiet boolean if set to FALSE you will get most of the console messages
 #'@return A dataframe with the 'GRASS GIS' root folder(s), version name(s) and installation type code(s)
 #'@author Chris Reudenbach
 #'@export searchGRASSW
@@ -87,13 +93,15 @@ WGparam <- function(set_default_GRASS7=NULL, DL="C:", ver_select = FALSE, quiet 
 #' searchGRASSW()
 #' }
 
-searchGRASSW <- function(DL = "C:"){
+searchGRASSW <- function(DL = "C:",
+                         quiet =TRUE){
+  
   if (DL=="default") DL <- "C:"
   
   # trys to find a osgeo4w installation on the whole C: disk returns root directory and version name
   # recursive dir for grass*.bat returns all version of grass bat files
-  cat("\nsearching for GRASS installations - this may take a while\n")
-  cat("For providing the path manually see ?searchGRASSW \n")
+  if (!quiet) cat("\nsearching for GRASS installations - this may take a while\n")
+  if (!quiet) cat("For providing the path manually see ?searchGRASSW \n")
   raw_GRASS <- system(paste0("cmd.exe /c dir /B /S ", DL, "\\grass*.bat"), intern = T)
   
   # trys to identify valid grass installation(s) & version number(s)
@@ -167,13 +175,14 @@ searchGRASSW <- function(DL = "C:"){
 }
 
 #'@title Usually for internally usage, get 'GRASS GIS' and \code{rgrass7} parameters on 'Linux' OS
-#'@name XGparam
+#'@name paramGRASSx
 #'@description Initialize and set up \link{rgrass7}  for 'Linux'
 #'@details During the rsession you will have full access to GRASS7 GIS via the \link{rgrass7} wrappe. Additionally you may use also use the API calls of GRASS7 via the command line.
 #'@param set_default_GRASS7 default = NULL will force a search for 'GRASS GIS' You may provide a valid combination as c("C:/OSGeo4W64","grass-7.0.5","osgeo4w")
 #'@param MP mount point to be searched. default is "usr"
+#'@param quiet boolean if set to FALSE you will get most of the console messages
 #'@param ver_select if TRUE you must interactivley selcect between alternative installations
-#'@export XGparam
+#'@export paramGRASSx
 #'
 #'@examples
 #' \dontrun{
@@ -181,13 +190,16 @@ searchGRASSW <- function(DL = "C:"){
 #' getparams_GRASS7X()
 #' 
 #' # typical stand_alone installation
-#' XGparam("/usr/bin/grass72")
+#' paramGRASSx("/usr/bin/grass72")
 #' 
 #' # typical user defined installation (compiled sources)
-#' XGparam("/usr/local/bin/grass72")
+#' paramGRASSx("/usr/local/bin/grass72")
 #' }
 
-XGparam <- function(set_default_GRASS7=NULL, MP = "/usr",ver_select = FALSE){
+paramGRASSx <- function(set_default_GRASS7=NULL, 
+                        MP = "/usr",
+                        ver_select = FALSE, 
+                        quiet =TRUE){
   
   # (R) set pathes  of 'GRASS' binaries depending on 'Windows' OS
   if (is.null(set_default_GRASS7)) {
@@ -263,25 +275,24 @@ searchGRASSX <- function(MP = "/usr"){
 
 
 
-#'@title Create valid 'GRASS GIS 7.xx' rsession environment settings for Windows OS
-#'@name setGRASSWEnv
-#'@description  Initializes and set up  access to 'GRASS GIS 7.xx' via the \link{rgrass7} wrapper or command line packages
+#'@title Create valid 'GRASS GIS 7.xx' rsession environment settings according to the selected  GRASS and Windows Version
+#'@name setenvGRASSw
+#'@description  Initializes and set up  access to 'GRASS GIS 7.xx' via the \link{rgrass7} wrapper or command line packages. Set and returns all necessary environment variables and additionally returns the GISBASE directory as string.
 #'@param root_GRASS  grass root directory i.e. "C:\\OSGEO4~1",
 #'@param grass_version grass version name i.e. "grass-7.0.5"
 #'@param installation_type two options "osgeo4w" as installed by the 'OSGeo4W'-installer and "NSIS" that is typical for a stand_alone installtion of 'GRASS GIS'.
 #'@param quiet boolean if set to FALSE you will get most of the console messages
 #'@param jpgmem jpeg2000 memory allocation size. Default is 1000000
-#'@return Set all necessary environment variables and additionally returns the GISBASE directory as string.
 #'@author Chris Reudenbach
-#'@export setGRASSWEnv
+#'@export setenvGRASSw
 #'
 #'@examples
 #' \dontrun{
-#' # get all valid 'GRASS GIS' installation folders and params
-#' grassParam<- setGRASSWEnv()
+#' # set and returns all valid 'GRASS GIS' installation folders and params
+#' grassParam<- setenvGRASSw()
 #' }
 
-setGRASSWEnv <- function(root_GRASS="C:\\OSGEO4~1",
+setenvGRASSw <- function(root_GRASS="C:\\OSGEO4~1",
                          grass_version = "grass-7.0.5",
                          installation_type = "osgeo4W",
                          jpgmem = 1000000,
@@ -392,6 +403,8 @@ checkGisdbase <- function(x = NULL , gisdbase = NULL, location = NULL, gisdbase_
 #'installations by analysing the calling batch scripts.
 #'@param searchLocation drive letter to be searched, for Windows systems default
 #' is \code{C:}, for Linux systems default is \code{/usr}.
+#'@param ver_select boolean default is FALSE. If there is more than one 'SAGA GIS' installation and \code{ver_select} = TRUE the user can select interactively the preferred 'SAGA GIS' version 
+#'@param quiet boolean  switch for supressing messages default is TRUE
 #'@return A dataframe with the 'GRASS GIS' root folder(s), version name(s) and 
 #'installation type code(s)
 #'@author Chris Reudenbach
@@ -403,11 +416,13 @@ checkGisdbase <- function(x = NULL , gisdbase = NULL, location = NULL, gisdbase_
 #' # at the default search location
 #' findGRASS()
 #' }
-findGRASS <- function(searchLocation = "default") {
+findGRASS <- function(searchLocation = "default",
+                      ver_select = FALSE,
+                      quiet=TRUE) {
   
   if (Sys.info()["sysname"] == "Windows") {
     if (searchLocation %in% paste0(LETTERS,":"))
-    link = link2GI::searchGRASSW(DL = searchLocation,)  
+    link = link2GI::searchGRASSW(DL = searchLocation)  
     else stop("You are running Windows - Please choose a suitable searchLocation argument that MUST include a Windows drive letter and colon" )
   } else {
     if (grepl(searchLocation,pattern = ":"))  stop("You are running Linux - please choose a suitable searchLocation argument" )

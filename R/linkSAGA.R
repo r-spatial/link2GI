@@ -18,8 +18,8 @@ if ( !isGeneric("linkSAGA") ) {
 #'you use 'SAGA GIS' versions from 2.0.4 - 2.2.3. 
 #'@return a list containing the selected \code{RSAGA} path variables \code{$sagaPath},\code{$sagaModPath},\code{$sagaCmd} and potentially other installations \code{$installed}  
 #'@param default_SAGA string contains path to \code{RSAGA} binaries
-#'@param DL drive letter
-#'@param MP mount point
+#'@param searchLocation drive letter to be searched, for Windows systems default
+#' is \code{C:}, for Linux systems default is \code{/usr}.
 #'@param ver_select boolean default is FALSE. If there is more than one 'SAGA GIS' installation and \code{ver_select} = TRUE the user can select interactively the preferred 'SAGA GIS' version 
 #'@param quiet boolean  switch for supressing messages default is TRUE
 #'@details If called without any parameter \code{linkSAGA()} it performs a full search over \code{C:}. If it finds one or more 'SAGA GIS' binaries it will take the first hit. You have to set \code{ver_select = TRUE} for an interactive selection of the preferred version. Additionally the selected SAGA pathes are added to the environment and the global variables \code{sagaPath}, \code{sagaModPath} and \code{sagaCmd} will be created.
@@ -43,16 +43,14 @@ if ( !isGeneric("linkSAGA") ) {
 
 
 linkSAGA <- function(default_SAGA = NULL, 
-                     DL = "C:", 
-                     MP="/usr",
+                     searchLocation = "default", 
                      ver_select=FALSE,
                      quiet = TRUE){
   # (R) set pathes  of SAGA modules and binaries depending on OS  
   exist <- FALSE
   
   if (Sys.info()["sysname"] == "Windows") {
-    if (is.null(default_SAGA)) default_SAGA <- searchSAGAW(DL = DL,
-                                                           ver_select = ver_select,
+      if (is.null(default_SAGA)) default_SAGA <- findSAGA(searchLocation = searchLocation,
                                                            quiet = quiet) 
     # take the first return
     if (nrow(default_SAGA) == 1) {  
@@ -103,8 +101,7 @@ linkSAGA <- function(default_SAGA = NULL,
   else {
     
     if (is.null(default_SAGA)) {
-      default_SAGA <- searchSAGAX(MP = MP,
-                                  ver_select = ver_select,
+      default_SAGA <- findSAGA(searchLocation = searchLocation,
                                   quiet = quiet) 
       # take the first return
       if (nrow(default_SAGA) == 1) {  

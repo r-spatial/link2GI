@@ -4,12 +4,10 @@
 \alias{searchSAGAX}
 \title{Searches recursively for existing 'Windows' 'SAGA GIS' installation(s)}
 \usage{
-searchSAGAX(MP = "/usr", ver_select = FALSE, quiet = TRUE)
+searchSAGAX(MP = "/usr", quiet = TRUE)
 }
 \arguments{
 \item{MP}{default mount point is \code{/usr}}
-
-\item{ver_select}{boolean default is FALSE. If there is more than one 'SAGA GIS' installation and \code{ver_select} = TRUE the user can select interactively the preferred 'SAGA GIS' version}
 
 \item{quiet}{boolean  switch for supressing messages default is TRUE}
 }
@@ -30,3 +28,4 @@ sagaParams<- searchSAGAX()
 \author{
 Chris Reudenbach
 }
+\keyword{internal}

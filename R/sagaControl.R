@@ -3,10 +3,10 @@
 #'@name searchSAGAX
 #'@description  Search for valid 'GRASS GIS' installations at a given 'Linux' mount point
 #'@param MP default mount point is \code{/usr}
-#'@param ver_select boolean default is FALSE. If there is more than one 'SAGA GIS' installation and \code{ver_select} = TRUE the user can select interactively the preferred 'SAGA GIS' version 
 #'@param quiet boolean  switch for supressing messages default is TRUE
 #'@return A dataframe contasining the 'SAGA GIS' root folder(s), the version name(s) and the installation type(s)
 #'@author Chris Reudenbach
+#'@keywords internal
 #'@export searchSAGAX
 #'
 #'@examples
@@ -18,8 +18,8 @@
 #' }
 
 searchSAGAX <- function(MP = "/usr",
-                        ver_select=FALSE,
                         quiet = TRUE) {
+  if (MP=="default") MP <- "/usr"
   
   if (Sys.info()["sysname"] == "Linux") {  
     
@@ -55,10 +55,10 @@ searchSAGAX <- function(MP = "/usr",
 #'@name searchSAGAW
 #'@description  Searches recursivley for existing 'SAGA GIS' installation(s) on a given 'Windows' drive 
 #'@param DL drive letter default is "C:"
-#'@param ver_select boolean default is FALSE. If there is more than one 'SAGA GIS' installation and \code{ver_select} = TRUE the user can select interactively the preferred 'SAGA GIS' version 
 #'@param quiet boolean  switch for supressing messages default is TRUE
 #'@return A dataframe contasining the 'SAGA GIS' root folder(s), the version name(s) and the installation type(s)
 #'@author Chris Reudenbach
+#'@keywords internal
 #'@export searchSAGAW
 #'
 #'@examples
@@ -70,9 +70,8 @@ searchSAGAX <- function(MP = "/usr",
 #' }
 
 searchSAGAW <- function(DL = "C:",
-                        ver_select=FALSE,
                         quiet = TRUE) {
-  
+  if (DL=="default") DL <- "C:"
   if (Sys.info()["sysname"] == "Windows") {  
     sagaPath <- checkPCDomain("saga")  
     if (is.null(sagaPath)) {
@@ -126,4 +125,39 @@ searchSAGAW <- function(DL = "C:",
   } # end of sysname = Windows
   else {sagaPath <- "Sorry no Windows system..." }
   return(sagaPath)
+}
+
+#'@title Search recursivly existing 'SAGA GIS' installation(s) at a given drive/mountpoint 
+#'@name findSAGA
+#'@description  Provides an  list of valid 'SAGA GIS' installation(s) 
+#'on your 'Windows' system. There is a major difference between osgeo4W and 
+#'stand_alone installations. The functions trys to find all valid 
+#'installations by analysing the calling batch scripts.
+#'@param searchLocation drive letter to be searched, for Windows systems default
+#' is \code{C:}, for Linux systems default is \code{/usr}.
+#'@param quiet boolean  switch for supressing messages default is TRUE
+
+#'@return A dataframe with the 'SAGA GIS' root folder(s), version name(s) and 
+#'installation type code(s)
+#'@author Chris Reudenbach
+#'@export findSAGA
+#'
+#'@examples
+#' \dontrun{
+#' # find recursively all existing 'SAGA GIS' installation folders starting 
+#' # at the default search location
+#' findSAGA()
+#' }
+findSAGA <- function(searchLocation = "default", 
+                     quiet = TRUE) {
+  
+  if (Sys.info()["sysname"] == "Windows") {
+    if (searchLocation %in% paste0(LETTERS,":"))
+      link = link2GI::searchSAGAW(DL = searchLocation,quiet = quiet)  
+    else stop("You are running Windows - Please choose a suitable searchLocation argument that MUST include a Windows drive letter and colon" )
+  } else {
+    if (grepl(searchLocation,pattern = ":"))  stop("You are running Linux - please choose a suitable searchLocation argument" )
+    else link = link2GI::searchSAGAX(MP = searchLocation,quiet = quiet)
+  }
+  return(link)
 }

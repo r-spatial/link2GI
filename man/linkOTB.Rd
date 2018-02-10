@@ -4,8 +4,8 @@
 \alias{linkOTB}
 \title{Locate and set up 'Orfeo ToolBox' API bindings}
 \usage{
-linkOTB(bin_OTB = NULL, root_OTB = NULL, type_OTB = NULL, DL = "C:",
-  ver_select = FALSE, quiet = TRUE)
+linkOTB(bin_OTB = NULL, root_OTB = NULL, type_OTB = NULL,
+  searchLocation = NULL, ver_select = FALSE, quiet = TRUE)
 }
 \arguments{
 \item{bin_OTB}{string contains path to where the otb binaries are located}
@@ -14,7 +14,7 @@ linkOTB(bin_OTB = NULL, root_OTB = NULL, type_OTB = NULL, DL = "C:",
 
 \item{type_OTB}{string}
 
-\item{DL}{string hard drive letter default is \code{C:}}
+\item{searchLocation}{string hard drive letter default is \code{C:}}
 
 \item{ver_select}{boolean default is FALSE. If there is more than one 'OTB' installation and \code{ver_select} = TRUE the user can select interactively the preferred 'OTB' version}
 

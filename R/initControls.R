@@ -720,3 +720,55 @@ if (Sys.info()["sysname"] == "Windows") {
 }
   return(link)
 }
+
+#'@title Searches recursively for existing 'Windows' 'SAGA GIS' installation(s)
+#'@name searchSAGAX
+#'@description  Searches recursivley for existing 'SAGA GIS' installation(s) on a given 'Windows' drive 
+#'@param DL drive letter default is "C:"
+#'@param ver_select boolean default is FALSE. If there is more than one 'SAGA GIS' installation and \code{ver_select} = TRUE the user can select interactively the preferred 'SAGA GIS' version 
+#'@param quiet boolean  switch for supressing messages default is TRUE
+#'@return A dataframe contasining the 'SAGA GIS' root folder(s), the version name(s) and the installation type(s)
+#'@author Chris Reudenbach
+#'@export searchSAGAX
+#'
+#'@examples
+#' \dontrun{
+#'#### Examples how to use searchSAGAX
+#'
+#' # get all valid SAGA installation folders and params
+#' sagaParams<- searchSAGAX()
+#' }
+
+searchSAGAX <- function(MP = "/usr",
+                        ver_select=FALSE,
+                        quiet = TRUE) {
+  
+  if (Sys.info()["sysname"] == "Linux") {  
+    
+      # trys to find a osgeo4w installation on the whole C: disk returns root directory and version name
+      # recursive dir for saga_cmd.exe returns all version of otb bat files
+      if (!quiet) cat("\nsearching for SAGA GIS installations - this may take a while\n")
+      if (!quiet) cat("For providing the path manually see ?searchSAGAX \n")
+    
+      # for a straightforward use of a correct codetable using the cmd command "dir" is used
+      rawSAGA    <- system2("find", paste(MP," ! -readable -prune -o -type f -executable -iname 'saga_cmd' -print"), stdout = TRUE)
+      rawSAGALib <- system2("find", paste(MP," ! -readable -prune -o -type f  -iname 'libio_gdal.so' -print"), stdout = TRUE)
+
+      # trys to identify valid SAGA GIS installation(s) & version number(s)
+      sagaPath <- lapply(seq(length(rawSAGA)), function(i){
+          root_dir <- substr(rawSAGA[i],1, gregexpr(pattern = "saga_cmd", rawSAGA[i])[[1]][1] - 1)
+          moduleDir <- substr(rawSAGALib[i],1, gregexpr(pattern = "libio_gdal.so", rawSAGALib[i])[[1]][1] - 1)
+          
+        # put the result in a data frame
+        data.frame(binDir = gsub("\\\\$", "", root_dir), 
+                   moduleDir = gsub("\\\\$", "", moduleDir),
+                   stringsAsFactors = FALSE)
+      }) # end lapply
+      # bind df 
+      sagaPath <- do.call("rbind", sagaPath)
+      
+
+  } # end of sysname = Windows
+  else {sagaPath <- "Sorry no Linux system..." }
+  return(sagaPath)
+}

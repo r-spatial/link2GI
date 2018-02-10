@@ -54,6 +54,7 @@ linkSAGA <- function(default_SAGA = NULL,
                      quiet = TRUE){
   # (R) set pathes  of SAGA modules and binaries depending on OS  
   exist <- FALSE
+  
   if (Sys.info()["sysname"] == "Windows") {
     if (is.null(default_SAGA)) default_SAGA <- searchSAGAW(DL = DL,
                                                            ver_select = ver_select,
@@ -107,23 +108,58 @@ linkSAGA <- function(default_SAGA = NULL,
   else {
     
     if (is.null(default_SAGA)) {
-      
-      default_SAGA[1] <- system2("find", paste(MP," ! -readable -prune -o -type f -executable -iname 'saga_cmd' -print"), stdout = TRUE)
-      default_SAGA[2] <- substr(default_SAGA[1],1,nchar(default_SAGA[1]) - 9)
-      rawSAGALib <-     system2("find", paste(MP," ! -readable -prune -o -type f  -iname 'libio_gdal.so' -print"), stdout = TRUE)
-      default_SAGA[3] <- substr(rawSAGALib[1],1,nchar(rawSAGALib[1]) - 14)
-      tmp<-default_SAGA[1]
-      default_SAGA[1]<-default_SAGA[3]
-      default_SAGA[3]<-tmp
+      default_SAGA <- searchSAGAX(MP = MP,
+                                  ver_select = ver_select,
+                                  quiet = quiet) 
+      # take the first return
+      if (nrow(default_SAGA) == 1) {  
+        sagaCmd <- paste0(default_SAGA[[1]][1],"/saga_cmd")
+        sagaPath <- gsub("//$", "", default_SAGA[[1]][1])
+        sagaModPath <- default_SAGA[[2]][1]
+        #add2Path(sagaPath)
+        
+      } else if (nrow(default_SAGA) > 1  & ver_select) { 
+        
+        cat("You have more than one valid SAGA GIS version\n")
+        print(default_SAGA)
+        cat("\n")
+        ver <- as.numeric(readline(prompt = "Please choose one:  "))
+        default_saga <- gsub("//$", "", default_SAGA[[1]][ver])
+        sagaCmd <- paste0(default_SAGA[[1]][ver],"/saga_cmd")
+        sagaPath <- default_saga
+        sagaModPath <- paste0(default_SAGA[[2]][ver],"\\tools")
+        #makGlobalVar("sagaModPath", paste0(default_SAGA[[1]][ver],"modules"))
+        
+        add2Path(sagaPath)
+        
+      }
+      else if (nrow(default_SAGA) > 1  & !ver_select) { 
+        
+        if (!quiet) cat("You have more than one valid SAGA GIS version\n")
+        if (!quiet) print(default_SAGA[[1]])
+        if (!quiet) cat("\nI use the first one...\n")
+        default_saga <- gsub("\\\\$", "", default_SAGA[[1]][1])
+        sagaCmd <- paste0(default_SAGA[[1]][1],"\\saga_cmd.exe")
+        #makGlobalVar("sagaCmd", paste0(default_SAGA[[1]][1],"\\saga_cmd.exe"))
+        sagaPath <- default_saga
+        #makGlobalVar("sagaPath", default_saga)
+        sagaModPath <- paste0(default_SAGA[[1]][1],"\\modules")
+        #makGlobalVar("sagaModPath", paste0(default_SAGA[[1]][1],"\\modules"))
+        
+        add2Path(sagaPath)
+      }
+            
+      # default_SAGA[1] <- system2("find", paste(MP," ! -readable -prune -o -type f -executable -iname 'saga_cmd' -print"), stdout = TRUE)
+      # default_SAGA[2] <- substr(default_SAGA[1],1,nchar(default_SAGA[1]) - 9)
+      # rawSAGALib <-     system2("find", paste(MP," ! -readable -prune -o -type f  -iname 'libio_gdal.so' -print"), stdout = TRUE)
+      # default_SAGA[3] <- substr(rawSAGALib[1],1,nchar(rawSAGALib[1]) - 14)
+      # tmp<-default_SAGA[1]
+      # default_SAGA[1]<-default_SAGA[3]
+      # default_SAGA[3]<-tmp
     }
-    sagaCmd <- default_SAGA[1]
-    #makGlobalVar("sagaCmd", default_SAGA[1])
-    sagaPath <- default_SAGA[2]
-    #makGlobalVar("sagaPath", default_SAGA[2])
-    sagaModPath <-  default_SAGA[3]
     #makGlobalVar("sagaModPath",  default_SAGA[3])
-    add2Path(default_SAGA[2])
-    add2Path(default_SAGA[3])
+    #add2Path(default_SAGA[2])
+    #add2Path(default_SAGA[3])
   }
   saga<-list()
   saga$sagaPath<-sagaPath

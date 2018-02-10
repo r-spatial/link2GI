@@ -5,7 +5,7 @@ if (!isGeneric('linkGDAL')) {
 
 #'Checks and sets up via \code{gdalUtils}  the 'GDAL' pathes and settings for the command line usage.
 #'@name linkGDAL
-#'@description For almost all GI related APIs you need to have installed the  \href{http://www.gdal.org/}{'GDAL'}  binaries. It is useful for checking and linking the 'GDAL' binary 
+#'@description For almost all GI related software tools you need to have installed the  \href{http://www.gdal.org/}{'GDAL'}  binaries. It is useful for checking and linking the 'GDAL' binary 
 #'installation to the 'R'environment for command line calls of GDAL functions.  \code{linkGDAL} checks
 #' via \code{gdalUtils} the status of the 'GDAL' binaries installation. 
 #' 

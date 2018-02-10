@@ -33,9 +33,6 @@ The concept is very straightforward but for an all days usage pretty
 # if more than one is found the user has to choose.
 paramGRASSw()
 
-# typical stand_alone installation
-paramGRASSw(c("C:/Program Files/GRASS GIS 7.0.5","GRASS GIS 7.0.5","NSIS"))
-
 # typical OSGeo4W64 installation
 paramGRASSw(c("C:/OSGeo4W64","grass-7.0.5","osgeo4W"))
 }

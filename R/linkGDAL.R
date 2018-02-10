@@ -52,7 +52,7 @@ linkGDAL <- function(quiet = TRUE,
   if (!valid.install) {
     stop('no valid GDAL/OGR found')
   } else {
-    if (!quiet) 
+    
     gdal <- getOption("gdalUtils_gdalPath")
   }
   

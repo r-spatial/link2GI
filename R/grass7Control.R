@@ -21,9 +21,6 @@
 #' # if more than one is found the user has to choose.
 #' paramGRASSw()
 #' 
-#' # typical stand_alone installation
-#' paramGRASSw(c("C:/Program Files/GRASS GIS 7.0.5","GRASS GIS 7.0.5","NSIS"))
-#' 
 #' # typical OSGeo4W64 installation
 #' paramGRASSw(c("C:/OSGeo4W64","grass-7.0.5","osgeo4W"))
 #' }
@@ -35,7 +32,7 @@ paramGRASSw <- function(set_default_GRASS7=NULL,
   
   # (R) set pathes  of 'GRASS' binaries depending on 'WINDOWS'
   if (is.null(set_default_GRASS7)) {
-    
+    if (DL=="default" || is.null(DL)) DL <- "C:"
     # if no path is provided  we have to search
     params_GRASS <- findGRASS(searchLocation = DL,
                               quiet = quiet)
@@ -46,6 +43,8 @@ paramGRASSw <- function(set_default_GRASS7=NULL,
                                     grass_version = params_GRASS$version[[1]], 
                                     installation_type = params_GRASS$installation_type[[1]],
                                     quiet = quiet )
+      grass_version = params_GRASS$version[[1]]
+      installation_type = params_GRASS$installation_type[[1]]
       
       # if more than one valid installation was found you have to choose 
     } else if (nrow(params_GRASS) > 1 & ver_select) {
@@ -55,12 +54,18 @@ paramGRASSw <- function(set_default_GRASS7=NULL,
       ver <- as.numeric(readline(prompt = "Please choose one:  "))
       gisbase_GRASS <- normalizePath(setenvGRASSw(root_GRASS = params_GRASS$instDir[[ver]],
                                                   grass_version = params_GRASS$version[[ver]], 
-                                                  installation_type = params_GRASS$installation_type[[ver]],quiet = quiet  ),winslash = "/")
+                                                  installation_type = params_GRASS$installation_type[[ver]],
+                                                  quiet = quiet  ),
+                                     winslash = "/")
+      grass_version = params_GRASS$version[[ver]]
+      installation_type = params_GRASS$installation_type[[ver]]
     } else if (nrow(params_GRASS) > 1 & !ver_select) {  
       gisbase_GRASS <- setenvGRASSw(root_GRASS = params_GRASS$instDir[[1]],
                                     grass_version = params_GRASS$version[[1]], 
                                     installation_type = params_GRASS$installation_type[[1]] ,
                                     quiet=quiet)
+      grass_version = params_GRASS$version[[1]]
+      installation_type = params_GRASS$installation_type[[1]]
       
       # if more than one valid installation was found you have to choose 
     }
@@ -71,8 +76,20 @@ paramGRASSw <- function(set_default_GRASS7=NULL,
                                   grass_version = set_default_GRASS7[2], 
                                   installation_type = set_default_GRASS7[3],
                                   quiet =quiet)  
+    grass_version = set_default_GRASS7[2]
+    installation_type = set_default_GRASS7[3]
+    params_GRASS<- data.frame(instDir = gisbase_GRASS, 
+                              version = grass_version, 
+                              installation_type = installation_type,
+                              stringsAsFactors = FALSE)
+    
   }
-  return(gisbase_GRASS)
+  grass<-list()
+  grass$gisbase_GRASS<-gisbase_GRASS
+  grass$version <- grass_version
+  grass$type <- installation_type
+  grass$installed <- params_GRASS
+  return(grass)
 }
 
 
@@ -102,8 +119,11 @@ searchGRASSW <- function(DL = "C:",
   # recursive dir for grass*.bat returns all version of grass bat files
   if (!quiet) cat("\nsearching for GRASS installations - this may take a while\n")
   if (!quiet) cat("For providing the path manually see ?searchGRASSW \n")
-  raw_GRASS <- system(paste0("cmd.exe /c dir /B /S ", DL, "\\grass*.bat"), intern = T)
-  
+  raw_GRASS <- try(system(paste0("cmd.exe /c dir /B /S ", DL, "\\grass*.bat"), intern = T))
+  options(warn=-1)
+  if(grepl(raw_GRASS,pattern = "Datei nicht gefunden") || grepl(raw_GRASS,pattern = "File not found")) 
+    {stop("\n ********* No GRASS installation found ************\n")}
+  options(warn=0)
   # trys to identify valid grass installation(s) & version number(s)
   installations_GRASS <- lapply(seq(length(raw_GRASS)), function(i){
     # convert codetable according to cmd.exe using type
@@ -224,6 +244,11 @@ paramGRASSx <- function(set_default_GRASS7=NULL,
   } else {
     gisbase_GRASS <- set_default_GRASS7
   }
+  grass<-list()
+  grass$gisbase_GRASS<-gisbase_GRASS
+  grass$installed <- params_GRASS
+  return(grass)
+  
   return(gisbase_GRASS)
 }
 
@@ -248,6 +273,7 @@ paramGRASSx <- function(set_default_GRASS7=NULL,
 searchGRASSX <- function(MP = "/usr"){
   if (MP=="default") MP <- "/usr"
   raw_GRASS <- system2("find", paste(MP," ! -readable -prune -o -type f -executable -iname 'grass??' -print"),stdout = TRUE)
+  cat(raw_GRASS)
   if (length(raw_GRASS) > 0) {
     installations_GRASS <- lapply(seq(length(raw_GRASS)), function(i){
       # grep line containing GISBASE and extract the substring 
@@ -288,18 +314,21 @@ searchGRASSX <- function(MP = "/usr"){
 #'
 #'@examples
 #' \dontrun{
-#' # set and returns all valid 'GRASS GIS' installation folders and params
+#' # set choosen'GRASS GIS' installation folders 
 #' grassParam<- setenvGRASSw()
 #' }
 
-setenvGRASSw <- function(root_GRASS="C:\\OSGEO4~1",
-                         grass_version = "grass-7.0.5",
-                         installation_type = "osgeo4W",
+setenvGRASSw <- function(root_GRASS=NULL,
+                         grass_version = NULL,
+                         installation_type = NULL,
                          jpgmem = 1000000,
                          quiet = TRUE) {
   if (Sys.info()["sysname"] == "Windows") {
     if (!exists("GiEnv")) GiEnv <- new.env(parent=globalenv())  
     #.GRASS_CACHE <- new.env(FALSE parent=globalenv())
+    if (is.null(root_GRASS) || is.null(grass_version) || is.null(installation_type)) {
+     stop("Please run findGRASS first and provide valid arguments")
+    }
     if (installation_type == "osgeo4W" || installation_type == "OSGeo4W64") {
       Sys.setenv(OSGEO4W_ROOT = root_GRASS)
       # define GISBASE
@@ -337,7 +366,7 @@ setenvGRASSw <- function(root_GRASS="C:\\OSGEO4~1",
                                Sys.getenv("PATH")),envir = GiEnv)
       
       # get list of all tools
-      system(paste0(root_GRASS,"/bin/o-help.bat"))
+      if (!quiet) system(paste0(root_GRASS,"/bin/o-help.bat"))
       
     } 
     # for the NSIS windows installer versions
@@ -401,7 +430,7 @@ checkGisdbase <- function(x = NULL , gisdbase = NULL, location = NULL, gisdbase_
 #'on your 'Windows' system. There is a major difference between osgeo4W and 
 #'stand_alone installations. The functions trys to find all valid 
 #'installations by analysing the calling batch scripts.
-#'@param searchLocation drive letter to be searched, for Windows systems default
+#'@param searchLocation drive letter to be searched, for Windows systems default For Windows Systems it is mandatory to use Capitel letters with colon only
 #' is \code{C:}, for Linux systems default is \code{/usr}.
 #'@param ver_select boolean default is FALSE. If there is more than one 'SAGA GIS' installation and \code{ver_select} = TRUE the user can select interactively the preferred 'SAGA GIS' version 
 #'@param quiet boolean  switch for supressing messages default is TRUE
@@ -421,10 +450,12 @@ findGRASS <- function(searchLocation = "default",
                       quiet=TRUE) {
   
   if (Sys.info()["sysname"] == "Windows") {
-    if (searchLocation %in% paste0(LETTERS,":"))
+    if (searchLocation=="default") searchLocation <- "C:"
+    if (searchLocation %in% paste0(LETTERS,":") )
     link = link2GI::searchGRASSW(DL = searchLocation)  
     else stop("You are running Windows - Please choose a suitable searchLocation argument that MUST include a Windows drive letter and colon" )
   } else {
+    if (searchLocation=="default") searchLocation <- "/usr"
     if (grepl(searchLocation,pattern = ":"))  stop("You are running Linux - please choose a suitable searchLocation argument" )
     else link = link2GI::searchGRASSX(MP = searchLocation)
   }

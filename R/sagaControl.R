@@ -152,10 +152,12 @@ findSAGA <- function(searchLocation = "default",
                      quiet = TRUE) {
   
   if (Sys.info()["sysname"] == "Windows") {
+    if (searchLocation=="default") searchLocation <- "C:"
     if (searchLocation %in% paste0(LETTERS,":"))
       link = link2GI::searchSAGAW(DL = searchLocation,quiet = quiet)  
     else stop("You are running Windows - Please choose a suitable searchLocation argument that MUST include a Windows drive letter and colon" )
   } else {
+    if (searchLocation=="default") searchLocation <- "/usr"
     if (grepl(searchLocation,pattern = ":"))  stop("You are running Linux - please choose a suitable searchLocation argument" )
     else link = link2GI::searchSAGAX(MP = searchLocation,quiet = quiet)
   }

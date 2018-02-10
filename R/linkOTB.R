@@ -45,7 +45,7 @@ linkOTB <- function(bin_OTB=NULL,
     if (is.null(searchLocation)) searchLocation<-"/usr"
     params_OTB <- findOTB(searchLocation = searchLocation,quiet = quiet)
     # if no path is provided  we have to search
-    
+    cat(nrow(params_OTB))
     #params_OTB <- system2("find", paste("/usr"," ! -readable -prune -o -type f -executable -iname 'otbcli' -print"),stdout = TRUE)
     #bin_OTB <- substr(params_OTB,1,nchar(params_OTB) - 6)  
     #pathOTB <- bin_OTB
@@ -67,10 +67,11 @@ linkOTB <- function(bin_OTB=NULL,
     } 
     
     # (R) set pathes  of OTB  binaries depending on OS WINDOWS 
-  }  else if (nrow(params_OTB) == 1) {  
+  }  else {    
     if (is.null(searchLocation)) searchLocation<-"C:"
     params_OTB <- findOTB(searchLocation = searchLocation,quiet = quiet)
-    
+    if (nrow(params_OTB) == 1) {  
+
       pathOTB <- setenvOTB(bin_OTB = params_OTB$binDir[1],root_OTB = params_OTB$baseDir[2])
       
       # if more than one valid installation was found you have to choose 
@@ -81,18 +82,21 @@ linkOTB <- function(bin_OTB=NULL,
       if (is.null(type_OTB)) {
         ver <- as.numeric(readline(prompt = "Please choose one:  "))
         pathOTB <- setenvOTB(bin_OTB = params_OTB$binDir[[ver]], root_OTB = params_OTB$baseDir[[ver]])
+        #otbCmd<- paste0(pathOTB,"otbcli.bat")
       } else {
         pathOTB <- setenvOTB(bin_OTB = params_OTB[params_OTB["installationType"] == type_OTB][1],root_OTB = params_OTB[params_OTB["installationType"] == type_OTB][2])
       }
-    } else {
-      pathOTB <- setenvOTB(bin_OTB = params_OTB$binDir[[1]],root_OTB = params_OTB$baseDir[[1]])
     }
+  }
+  #else {
+  #    pathOTB <- setenvOTB(bin_OTB = params_OTB$binDir[[1]],root_OTB = params_OTB$baseDir[[1]])
+  #  }
     
     # if a setDefaultOTB was provided take this 
   
   otb<-list()
   otb$pathOTB<-pathOTB
-  otb$otbCmd<-otbCmd
+  #otb$otbCmd<-otbCmd
   otb$version<-params_OTB
   return(otb)
 }

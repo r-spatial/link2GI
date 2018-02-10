@@ -3,7 +3,7 @@ if ( !isGeneric("sf2gvec") ) {
     standardGeneric("sf2gvec"))
 }
 
-#' Write sf object to GRASS 7 vector
+#' Write sf object to GRASS 7 vector utilising an existing or creating a new GRASS7 environment
 #' @param x  \code{\link{sf}} object corresponding to the settings of the corresponding GRASS container
 #' @param obj_name name of GRASS layer
 #' @param gisdbase  GRASS gisDbase folder
@@ -67,7 +67,7 @@ if ( !isGeneric("gvec2sf") ) {
     standardGeneric("gvec2sf"))
 }
 
-#' Read GRASS 7 vector into  sf object
+#' Converts from an existing GRASS 7 environment an arbitrary vector dataset  into a  sf object
 #' @param x  \code{\link{sf}} object corresponding to the settings of the corresponding GRASS container
 #' @param obj_name name of GRASS layer
 #' @param gisdbase  GRASS gisDbase folder

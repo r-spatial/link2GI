@@ -2,7 +2,7 @@
 % Please edit documentation in R/usefulStuff.R
 \name{sf2gvec}
 \alias{sf2gvec}
-\title{Write sf object to GRASS 7 vector}
+\title{Write sf object to GRASS 7 vector utilising an existing or creating a new GRASS7 environment}
 \usage{
 sf2gvec(x, obj_name, gisdbase, location, gisdbase_exist = FALSE)
 }
@@ -18,7 +18,7 @@ sf2gvec(x, obj_name, gisdbase, location, gisdbase_exist = FALSE)
 \item{gisdbase_exist}{logical switch if the GRASS gisdbase folder exist default is TRUE}
 }
 \description{
-Write sf object to GRASS 7 vector
+Write sf object to GRASS 7 vector utilising an existing or creating a new GRASS7 environment
 }
 \note{
 have a look at the \code{\link{sf}} capabilities to write direct to sqlite

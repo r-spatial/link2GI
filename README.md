@@ -22,3 +22,8 @@ If you want to install all dependencies use:
 ```S
 devtools::install_github("gisma/link2GI", ref = "master", dependencies = TRUE, force = TRUE)
 ```
+If you want to install the current develop version:
+
+```S
+devtools::install_github("gisma/link2GI", ref = "develop")
+```

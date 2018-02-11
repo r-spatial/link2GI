@@ -6,6 +6,7 @@ r:
   - oldrel
 
 r_packages:
+  - covr
   - rgdal
   - roxygen2
   - rmarkdown
@@ -58,5 +59,6 @@ after_success:
   - createdb postgis
   - psql -d postgis -c "CREATE EXTENSION postgis;"
   - psql -d postgis -c "GRANT CREATE ON DATABASE postgis TO travis"
-  - Rscript -e 'covr::codecov()'
+  
+  - Rscript -e 'library(covr); codecov()'
 

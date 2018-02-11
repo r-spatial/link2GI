@@ -1,4 +1,3 @@
-
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active) 
 [![Travis-CI Build Status](https://travis-ci.org/gisma/link2GI.svg?branch=master)](https://travis-ci.org/gisma/link2GI)
 <a href="https://cran.r-project.org/web/checks/check_results_link2GI.html"><img border="0" src="http://www.r-pkg.org/badges/version/link2GI" alt="CRAN version"></a>
@@ -9,10 +8,7 @@
 
 # link2GI
 
-
-
-
-`link2GI` provides functions that make it possible to connect the common opensource GI software packages to the R-biotope.  It focuses on `Linux` and `WindowsX` operating systems but nevertheless it should also work with `OSX`. 
+`link2gi` provides functions that make it possible to connect most of the common open source GI software packages to the R-biotop in a straightforward way. It focuses on `Linux` and `WindowsX` operating systems but nevertheless it should also work with `OSX`.
 
 To utilize the power of the open source GI tools from within `R` you need to install  them first. As a first promising opportunity to do fullfil most of the requirements you may install `QGIS, GRASS`- and `SAGA-GIS` following the excellent [installation instructions](https://github.com/jannes-m/RQGIS/blob/master/vignettes/install_guide.Rmd)  of the [RQGIS](https://cran.r-project.org/web/packages/RQGIS/index.html) package will have a good first try to ensure a smooth working environment. Note: for most of the cases you may use just `RQGIS` as wrapper for the `QGIS` related functionality. 
 

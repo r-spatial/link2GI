@@ -1,8 +1,5 @@
 
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active) 
-
-#### CRAN
-
 [![Travis-CI Build Status](https://travis-ci.org/gisma/link2GI.svg?branch=master)](https://travis-ci.org/gisma/link2GI)
 <a href="https://cran.r-project.org/web/checks/check_results_link2GI.html"><img border="0" src="http://www.r-pkg.org/badges/version/link2GI" alt="CRAN version"></a>
 ![](https://cranlogs.r-pkg.org/badges/grand-total/link2GI?color=green)

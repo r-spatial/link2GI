@@ -1,5 +1,12 @@
 # link2GI
 
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/link2GI?color=green)](https://cran.r-project.org/package=link2GI)
+![](https://cranlogs.r-pkg.org/badges/grand-total/link2GI?color=green)
+![](https://cranlogs.r-pkg.org/badges/link2GI?color=green)
+![](https://cranlogs.r-pkg.org/badges/last-week/link2GI?color=green)
+
+
+
 
 `link2GI` provides functions that make it possible to connect the common opensource GI software packages to the R-biotope.  It focuses on `Linux` and `WindowsX` operating systems but nevertheless it should also work with `OSX`. 
 

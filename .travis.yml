@@ -21,7 +21,7 @@ matrix:
   include:
     # deploy pkgdown docs
     - os: linux
-      dist: trusty
+      dist: xenial
       sudo: required
       latex: false
       # jdk: oraclejdk9
@@ -36,50 +36,24 @@ matrix:
       after_deploy: R -q -e 'tic::after_deploy()'
       after_script: R -q -e 'tic::after_script()'
 
-    # build QGIS OLD_LTR on Linux
-    - os: linux
-      dist: trusty
-      sudo: required
-      latex: false
-      jdk: oraclejdk9
-      env: 
-        - R_CODECOV=true
-        - OLD_LTR_Linux=true
-        
+  
     # build QGIS LTR on Linux
     - os: linux
-      dist: trusty
+      dist: xenial
       sudo: required
       latex: false
       jdk: oraclejdk9
       env: LTR_Linux=true
-      
-    # build QGIS NIGHTLY on Linux
-    #- os: linux
-    #  dist: trusty
-    #  sudo: required
-    #  latex: false
-    #  jdk: oraclejdk9
-    #  env: NIGHTLY_Linux=true
-      
+
 
 # if we install everything from ubuntugis-unstable PPA, we get GDAL2 but only QGIS 2.14.3
 # if we install everything from ubuntugis-ltr deb, we get most recent QGIS but only GDAL1 -> error in tests 
 # because GDAL2 is required 
 before_install:
   - if [ "${TRAVIS_OS_NAME}" == "linux" ]; then sudo apt-get -y --force-yes update -qq; fi
-  - if [[ "${OLD_LTR_Linux}" ]]; then sudo sh -c 'echo "deb http://qgis.org/ubuntugis-ltr trusty main" >> /etc/apt/sources.list'; fi
-  - if [[ "${OLD_LTR_Linux}" ]]; then sudo sh -c 'echo "deb-src http://qgis.org/ubuntugis-ltr trusty main " >> /etc/apt/sources.list'; fi
-  
-  - if [[ "${LTR_Linux}" ]]; then sudo sh -c 'echo "deb http://qgis.org/ubuntugis trusty main" >> /etc/apt/sources.list'; fi
-  - if [[ "${LTR_Linux}" ]]; then sudo sh -c 'echo "deb-src http://qgis.org/ubuntugis trusty main " >> /etc/apt/sources.list'; fi
-  
-  - if [[ "${NIGHTLY_Linux}" ]]; then sudo sh -c 'echo "deb http://qgis.org/ubuntugis-nightly trusty main" >> /etc/apt/sources.list'; fi
-  - if [[ "${NIGHTLY_Linux}" ]]; then sudo sh -c 'echo "deb-src http://qgis.org/ubuntugis-nightly trusty main " >> /etc/apt/sources.list'; fi
-  # for newest geos version from ubuntugis ppa
-  - if [[ "${NIGHTLY_Linux}" ]]; then sudo sh -c 'echo "deb http://ppa.launchpad.net/ubuntugis/ubuntugis-unstable/ubuntu trusty main " >> /etc/apt/sources.list'; fi
-  - if [[ "${NIGHTLY_Linux}" ]]; then sudo sh -c 'echo "deb-src http://ppa.launchpad.net/ubuntugis/ubuntugis-unstable/ubuntu trusty main" >> /etc/apt/sources.list'; fi
-  
+  - if [[ "${LTR_Linux}" ]]; then sudo sh -c 'echo "deb http://qgis.org/ubuntugis xenial main" >> /etc/apt/sources.list'; fi
+  - if [[ "${LTR_Linux}" ]]; then sudo sh -c 'echo "deb-src http://qgis.org/ubuntugis xenial main " >> /etc/apt/sources.list'; fi
+
   - if [ "${TRAVIS_OS_NAME}" == "linux" ]; then wget -O - http://qgis.org/downloads/qgis-2017.gpg.key | gpg --import; fi
   - if [ "${TRAVIS_OS_NAME}" == "linux" ]; then gpg --fingerprint CAEB3DC3BDF7FB45 && gpg --export --armor CAEB3DC3BDF7FB45 | sudo apt-key add -; fi
   
@@ -95,7 +69,6 @@ before_install:
   - if [ "${TRAVIS_OS_NAME}" == "linux" ]; then sudo add-apt-repository -y ppa:ubuntugis/ubuntugis-unstable; fi
 
   - if [ "${TRAVIS_OS_NAME}" == "linux" ]; then sudo apt-get update && sudo apt upgrade -y --allow-unauthenticated; fi # if you already have gdal 1.11 installed
-  - if [[ "${NIGHTLY_Linux}" ]]; then sudo apt install libgeos-c1v5; fi
   - if [ "${TRAVIS_OS_NAME}" == "linux" ]; then sudo apt install gdal-bin libgdal-dev python-gdal python3-gdal libudunits2-dev saga; fi
     
     
@@ -113,12 +86,8 @@ before_install:
 before_script:
   - "export DISPLAY=:99.0"
   - if [ "${TRAVIS_OS_NAME}" = "linux" ]; then sh -e /etc/init.d/xvfb start; fi
-  - if [ "${TRAVIS_OS_NAME}" = "osx" ]; then ( sudo Xvfb :99 -ac -screen 0 1024x768x8; echo ok )& fi
   - sleep 3 # give xvfb some time to start
   
-  # reinstall rgdal because binary installation on osx has from linking to libgdal.dylib
-  - if [ "${TRAVIS_OS_NAME}" = "osx" ]; then R -e "install.packages('rgdal', type = 'source')" && R -e "install.packages('devtools'); devtools::install_github('edzer/sfr')"; fi
-
 r_packages:
   - rgdal
   - roxygen2

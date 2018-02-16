@@ -15,21 +15,7 @@ If you have several versions installed or if you want to use the full power of t
 
 For the future it is planned to interface the `liblas` libraries, `Fusion`, `taudem` and some more exotic GI tools.
 
+# Installation
 
+`link2GI`is up to CRAN. For the installation of the stable version please use `install.packages("link2GI")`. To install the  cutting edge version use `devtools::install_github("gisma/link2GI", ref = "master")`.
 
-For installation use devtools::install_github().
-
-```S
-devtools::install_github("gisma/link2GI", ref = "master")
-```
-
-If you want to install all dependencies use:
-
-```S
-devtools::install_github("gisma/link2GI", ref = "master", dependencies = TRUE, force = TRUE)
-```
-If you want to install the current develop version:
-
-```S
-devtools::install_github("gisma/link2GI", ref = "develop")
-```

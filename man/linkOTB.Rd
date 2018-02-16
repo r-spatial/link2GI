@@ -5,7 +5,8 @@
 \title{Locate and set up 'Orfeo ToolBox' API bindings}
 \usage{
 linkOTB(bin_OTB = NULL, root_OTB = NULL, type_OTB = NULL,
-  searchLocation = NULL, ver_select = FALSE, quiet = TRUE)
+  searchLocation = NULL, ver_select = FALSE, quiet = TRUE,
+  returnPathes = TRUE)
 }
 \arguments{
 \item{bin_OTB}{string contains path to where the otb binaries are located}
@@ -19,6 +20,9 @@ linkOTB(bin_OTB = NULL, root_OTB = NULL, type_OTB = NULL,
 \item{ver_select}{boolean default is FALSE. If there is more than one 'OTB' installation and \code{ver_select} = TRUE the user can select interactively the preferred 'OTB' version}
 
 \item{quiet}{boolean  switch for supressing messages default is TRUE}
+
+\item{returnPathes}{boolean if set to FALSE the pathes of the selected version are written 
+to the PATH variable only, otherwise all paths and versions of the installed GRASS versions ae returned.}
 }
 \value{
 add otb pathes to the enviroment and creates global variables path_OTB

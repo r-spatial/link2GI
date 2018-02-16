@@ -13,6 +13,8 @@ if (!isGeneric('linkOTB')) {
 #'@param searchLocation string hard drive letter default is \code{C:}
 #'@param type_OTB string 
 #'@param quiet boolean  switch for supressing messages default is TRUE
+#'@param returnPathes boolean if set to FALSE the pathes of the selected version are written 
+#' to the PATH variable only, otherwise all paths and versions of the installed GRASS versions ae returned.
 
 #'
 #'@note You may also set the path manually. Using a 'OSGeo4W64' \url{http://trac.osgeo.org/osgeo4w/} installation it is typically \code{C:/OSGeo4W64/bin/}
@@ -38,7 +40,8 @@ linkOTB <- function(bin_OTB=NULL,
                     type_OTB=NULL,
                     searchLocation=NULL,
                     ver_select=FALSE,
-                    quiet = TRUE) {
+                    quiet = TRUE,
+                    returnPathes = TRUE) {
   
   
   if (Sys.info()["sysname"] == "Linux") {
@@ -98,7 +101,7 @@ linkOTB <- function(bin_OTB=NULL,
   otb$pathOTB<-pathOTB
   #otb$otbCmd<-otbCmd
   otb$version<-params_OTB
-  return(otb)
+  if (returnPathes) return(otb)
 }
 
 

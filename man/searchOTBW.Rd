@@ -9,7 +9,7 @@ searchOTBW(DL = "C:", quiet = TRUE)
 \arguments{
 \item{DL}{drive letter default is "C:"}
 
-\item{quiet}{boolean  switch for supressing messages default is TRUE}
+\item{quiet}{boolean  switch for supressing console messages default is TRUE}
 }
 \value{
 A dataframe with the 'OTB' root folder(s) the version name(s) and the installation type(s).

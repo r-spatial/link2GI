@@ -7,7 +7,7 @@
 linkGRASS7(x = NULL, default_GRASS7 = NULL, search_path = NULL,
   ver_select = FALSE, gisdbase_exist = FALSE, gisdbase = NULL,
   location = NULL, spatial_params = NULL, resolution = NULL,
-  quiet = FALSE)
+  quiet = TRUE, returnPathes = FALSE)
 }
 \arguments{
 \item{x}{raster or sp object}
@@ -29,7 +29,10 @@ If you provide a valid list the corresponding version is initialized. An example
 
 \item{resolution}{resolution in map units for the GRASS raster cells}
 
-\item{quiet}{boolean if set to FALSE you will get most of the console messages}
+\item{quiet}{boolean  switch for supressing console messages default is TRUE}
+
+\item{returnPathes}{boolean if set to FALSE the pathes of the selected version are written 
+to the PATH variable only, otherwise all paths and versions of the installed GRASS versions ae returned.}
 }
 \description{
 Initializes the session environment and the system pathes for an easy acces to 

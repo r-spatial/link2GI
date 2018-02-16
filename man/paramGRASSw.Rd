@@ -15,7 +15,7 @@ alternatively provide a vector containing pathes and keywords. c("C:/OSGeo4W64",
 
 \item{ver_select}{boolean default is FALSE. If there is more than one 'SAGA GIS' installation and \code{ver_select} = TRUE the user can select interactively the preferred 'SAGA GIS' version}
 
-\item{quiet}{boolean if set to FALSE you will get most of the console messages}
+\item{quiet}{boolean  switch for supressing console messages default is TRUE}
 }
 \description{
 Initialize the enviroment variables on a 'Windows' OS for using 

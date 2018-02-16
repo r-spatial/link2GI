@@ -12,7 +12,7 @@ is \code{C:}, for Linux systems default is \code{/usr}.}
 
 \item{ver_select}{boolean default is FALSE. If there is more than one 'SAGA GIS' installation and \code{ver_select} = TRUE the user can select interactively the preferred 'SAGA GIS' version}
 
-\item{quiet}{boolean  switch for supressing messages default is TRUE}
+\item{quiet}{boolean  switch for supressing console messages default is TRUE}
 }
 \value{
 A dataframe with the 'GRASS GIS' root folder(s), version name(s) and 

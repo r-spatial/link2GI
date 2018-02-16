@@ -9,7 +9,7 @@ searchGRASSW(DL = "C:", quiet = TRUE)
 \arguments{
 \item{DL}{drive letter to be searched, default is "C:"}
 
-\item{quiet}{boolean if set to FALSE you will get most of the console messages}
+\item{quiet}{boolean  switch for supressing console messages default is TRUEs}
 }
 \value{
 A dataframe with the 'GRASS GIS' root folder(s), version name(s) and installation type code(s)

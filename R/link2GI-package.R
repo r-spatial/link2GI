@@ -19,7 +19,6 @@
 #' @import gdalUtils 
 #' @import tools 
 #' @import rgrass7 
-#' @import RSAGA
 #' @keywords package
 #' 
 NULL

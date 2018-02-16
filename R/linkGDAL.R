@@ -9,7 +9,8 @@ if (!isGeneric('linkGDAL')) {
 #'installation to the 'R'environment for command line calls of GDAL functions.  \code{linkGDAL} checks
 #' via \code{gdalUtils} the status of the 'GDAL' binaries installation. 
 #' 
-#'@param quiet boolean if set to FALSE you will get most of the console messages
+#'@param quiet boolean  switch for supressing console messages default is TRUE
+#'
 #'@param returnPathes boolean if set to FALSE the GDAL binary path is written 
 #' to the PATH variable only, otherwise all paths and names of the installed "GDAL" ae returned.
 #'@author Chris Reudenbach

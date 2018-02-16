@@ -14,7 +14,7 @@ paramGRASSx(set_default_GRASS7 = NULL, MP = "/usr", ver_select = FALSE,
 
 \item{ver_select}{if TRUE you must interactivley selcect between alternative installations}
 
-\item{quiet}{boolean if set to FALSE you will get most of the console messages}
+\item{quiet}{boolean  switch for supressing console messages default is TRUE}
 }
 \description{
 Initialize and set up \link{rgrass7}  for 'Linux'

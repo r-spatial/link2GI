@@ -12,7 +12,7 @@
 #'@param set_default_GRASS7 default = NULL forces a full search for 'GRASS GIS' binaries. You may
 #'  alternatively provide a vector containing pathes and keywords. c("C:/OSGeo4W64","grass-7.0.5","osgeo4W") is valid for a typical osgeo4w installation.
 #'  
-#'@param quiet boolean if set to FALSE you will get most of the console messages
+#'@param quiet boolean  switch for supressing console messages default is TRUE
 #'@export paramGRASSw
 #'  
 #'@examples
@@ -99,7 +99,7 @@ paramGRASSw <- function(set_default_GRASS7=NULL,
 #'@title Search for valid OSGeo4W 'GRASS GIS' installation(s) on a given 'Windows' drive 
 #'@description  Provides an  list of valid 'GRASS GIS' installation(s) on your 'Windows' system. There is a major difference between osgeo4W and stand_alone installations. The functions trys to find all valid installations by analysing the calling batch scripts.
 #'@param DL drive letter to be searched, default is "C:"
-#'@param quiet boolean if set to FALSE you will get most of the console messages
+#'@param quiet boolean  switch for supressing console messages default is TRUEs
 #'@return A dataframe with the 'GRASS GIS' root folder(s), version name(s) and installation type code(s)
 #'@author Chris Reudenbach
 #'@export searchGRASSW
@@ -200,7 +200,7 @@ searchGRASSW <- function(DL = "C:",
 #'@details During the rsession you will have full access to GRASS7 GIS via the \link{rgrass7} wrappe. Additionally you may use also use the API calls of GRASS7 via the command line.
 #'@param set_default_GRASS7 default = NULL will force a search for 'GRASS GIS' You may provide a valid combination as c("C:/OSGeo4W64","grass-7.0.5","osgeo4w")
 #'@param MP mount point to be searched. default is "usr"
-#'@param quiet boolean if set to FALSE you will get most of the console messages
+#'@param quiet boolean  switch for supressing console messages default is TRUE
 #'@param ver_select if TRUE you must interactivley selcect between alternative installations
 #'@export paramGRASSx
 #'
@@ -307,7 +307,7 @@ searchGRASSX <- function(MP = "/usr"){
 #'@param root_GRASS  grass root directory i.e. "C:\\OSGEO4~1",
 #'@param grass_version grass version name i.e. "grass-7.0.5"
 #'@param installation_type two options "osgeo4w" as installed by the 'OSGeo4W'-installer and "NSIS" that is typical for a stand_alone installtion of 'GRASS GIS'.
-#'@param quiet boolean if set to FALSE you will get most of the console messages
+#'@param quiet boolean  switch for supressing console messages default is TRUE
 #'@param jpgmem jpeg2000 memory allocation size. Default is 1000000
 #'@author Chris Reudenbach
 #'@export setenvGRASSw
@@ -315,7 +315,9 @@ searchGRASSX <- function(MP = "/usr"){
 #'@examples
 #' \dontrun{
 #' # set choosen'GRASS GIS' installation folders 
-#' setenvGRASSw(root_GRASS = "C:\\PROGRA~1\\QGIS2~1.18",grass_version =  "grass-7.2.1",installation_type =  "osgeo4W")
+#' setenvGRASSw(root_GRASS = "C:\\PROGRA~1\\QGIS2~1.18",
+#'              grass_version =  "grass-7.2.1",
+#'              installation_type =  "osgeo4W")
 #' }
 
 setenvGRASSw <- function(root_GRASS=NULL,
@@ -433,7 +435,7 @@ checkGisdbase <- function(x = NULL , gisdbase = NULL, location = NULL, gisdbase_
 #'@param searchLocation drive letter to be searched, for Windows systems default For Windows Systems it is mandatory to use Capitel letters with colon only
 #' is \code{C:}, for Linux systems default is \code{/usr}.
 #'@param ver_select boolean default is FALSE. If there is more than one 'SAGA GIS' installation and \code{ver_select} = TRUE the user can select interactively the preferred 'SAGA GIS' version 
-#'@param quiet boolean  switch for supressing messages default is TRUE
+#'@param quiet boolean  switch for supressing console messages default is TRUE
 #'@return A dataframe with the 'GRASS GIS' root folder(s), version name(s) and 
 #'installation type code(s)
 #'@author Chris Reudenbach

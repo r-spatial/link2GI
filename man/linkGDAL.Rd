@@ -7,7 +7,7 @@
 linkGDAL(quiet = TRUE, returnPathes = TRUE)
 }
 \arguments{
-\item{quiet}{boolean if set to FALSE you will get most of the console messages}
+\item{quiet}{boolean  switch for supressing console messages default is TRUE}
 
 \item{returnPathes}{boolean if set to FALSE the GDAL binary path is written 
 to the PATH variable only, otherwise all paths and names of the installed "GDAL" ae returned.}

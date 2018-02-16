@@ -13,7 +13,7 @@ if (!isGeneric('linkOTB')) {
 #'@param searchLocation string hard drive letter default is \code{C:}
 #'@param type_OTB string 
 #'@param quiet boolean  switch for supressing messages default is TRUE
-#'@param returnPathes boolean if set to FALSE the pathes of the selected version are written 
+#'@param returnPaths boolean if set to FALSE the pathes of the selected version are written 
 #' to the PATH variable only, otherwise all paths and versions of the installed GRASS versions ae returned.
 
 #'
@@ -41,7 +41,7 @@ linkOTB <- function(bin_OTB=NULL,
                     searchLocation=NULL,
                     ver_select=FALSE,
                     quiet = TRUE,
-                    returnPathes = TRUE) {
+                    returnPaths = TRUE) {
   
   
   if (Sys.info()["sysname"] == "Linux") {
@@ -101,7 +101,7 @@ linkOTB <- function(bin_OTB=NULL,
   otb$pathOTB<-pathOTB
   #otb$otbCmd<-otbCmd
   otb$version<-params_OTB
-  if (returnPathes) return(otb)
+  if (returnPaths) return(otb)
 }
 
 

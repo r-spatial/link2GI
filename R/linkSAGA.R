@@ -22,7 +22,7 @@ if ( !isGeneric("linkSAGA") ) {
 #' is \code{C:}, for Linux systems default is \code{/usr}.
 #'@param ver_select boolean default is FALSE. If there is more than one 'SAGA GIS' installation and \code{ver_select} = TRUE the user can select interactively the preferred 'SAGA GIS' version 
 #'@param quiet boolean  switch for supressing console messages default is TRUE
-#'@param returnPathes boolean if set to FALSE the pathes of the selected version are written 
+#'@param returnPaths boolean if set to FALSE the pathes of the selected version are written 
 #' to the PATH variable only, otherwise all paths and versions of the installed SAGA versions ae returned.#'@details If called without any parameter \code{linkSAGA()} it performs a full search over \code{C:}. If it finds one or more 'SAGA GIS' binaries it will take the first hit. You have to set \code{ver_select = TRUE} for an interactive selection of the preferred version. Additionally the selected SAGA pathes are added to the environment and the global variables \code{sagaPath}, \code{sagaModPath} and \code{sagaCmd} will be created.
 #'
 #'@export linkSAGA
@@ -47,7 +47,7 @@ linkSAGA <- function(default_SAGA = NULL,
                      searchLocation = "default", 
                      ver_select=FALSE,
                      quiet = TRUE,
-                     returnPathes =FALSE){
+                     returnPaths =FALSE){
   # (R) set pathes  of SAGA modules and binaries depending on OS  
   exist <- FALSE
   
@@ -160,6 +160,6 @@ linkSAGA <- function(default_SAGA = NULL,
   saga$sagaModPath <- sagaModPath
   saga$sagaCmd <- sagaCmd
   saga$installed <- default_SAGA
-  if (returnPathes) return(saga)
+  if (returnPaths) return(saga)
 }
 

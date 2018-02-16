@@ -249,7 +249,7 @@ paramGRASSx <- function(set_default_GRASS7=NULL,
   grass$installed <- params_GRASS
   return(grass)
   
-  return(gisbase_GRASS)
+  #return(gisbase_GRASS)
 }
 
 #'@title Search recursivly valid 'GRASS GIS' installation(s) at a given 'Linux' mount point
@@ -273,7 +273,7 @@ paramGRASSx <- function(set_default_GRASS7=NULL,
 searchGRASSX <- function(MP = "/usr"){
   if (MP=="default") MP <- "/usr"
   raw_GRASS <- system2("find", paste(MP," ! -readable -prune -o -type f -executable -iname 'grass??' -print"),stdout = TRUE)
-  cat(raw_GRASS)
+  #cat(raw_GRASS)
   if (length(raw_GRASS) > 0) {
     installations_GRASS <- lapply(seq(length(raw_GRASS)), function(i){
       # grep line containing GISBASE and extract the substring 

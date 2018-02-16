@@ -11,7 +11,7 @@ if (!isGeneric('linkGDAL')) {
 #' 
 #'@param quiet boolean  switch for supressing console messages default is TRUE
 #'
-#'@param returnPathes boolean if set to FALSE the GDAL binary path is written 
+#'@param returnPaths boolean if set to FALSE the GDAL binary path is written 
 #' to the PATH variable only, otherwise all paths and names of the installed "GDAL" ae returned.
 #'@author Chris Reudenbach
 #'
@@ -41,7 +41,7 @@ if (!isGeneric('linkGDAL')) {
 #' }
 
 linkGDAL <- function(quiet = TRUE,
-                     returnPathes = TRUE){
+                     returnPaths = TRUE){
   if (substr(Sys.getenv("COMPUTERNAME"),1,5) == "PCRZP") {
     gdalUtils::gdal_setInstallation(search_path = shQuote("C:/Program Files/QGIS 2.14/bin/"))
   } else {
@@ -62,7 +62,7 @@ linkGDAL <- function(quiet = TRUE,
   add2Path(gdal[[1]]$path)
   
   # return all gdalUtilSettings
-  if (returnPathes) return(gdal)
+  if (returnPaths) return(gdal)
   
 }
 

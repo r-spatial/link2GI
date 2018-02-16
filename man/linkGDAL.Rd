@@ -4,12 +4,12 @@
 \alias{linkGDAL}
 \title{Checks and sets up via \code{gdalUtils}  the 'GDAL' pathes and settings for the command line usage.}
 \usage{
-linkGDAL(quiet = TRUE, returnPathes = TRUE)
+linkGDAL(quiet = TRUE, returnPaths = TRUE)
 }
 \arguments{
 \item{quiet}{boolean  switch for supressing console messages default is TRUE}
 
-\item{returnPathes}{boolean if set to FALSE the GDAL binary path is written 
+\item{returnPaths}{boolean if set to FALSE the GDAL binary path is written 
 to the PATH variable only, otherwise all paths and names of the installed "GDAL" ae returned.}
 }
 \description{

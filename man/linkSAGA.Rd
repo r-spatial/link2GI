@@ -5,7 +5,7 @@
 \title{Identifies SAGA GIS Installations and returns linking Informations}
 \usage{
 linkSAGA(default_SAGA = NULL, searchLocation = "default",
-  ver_select = FALSE, quiet = TRUE, returnPathes = FALSE)
+  ver_select = FALSE, quiet = TRUE, returnPaths = FALSE)
 }
 \arguments{
 \item{default_SAGA}{string contains path to \code{RSAGA} binaries}
@@ -17,7 +17,7 @@ is \code{C:}, for Linux systems default is \code{/usr}.}
 
 \item{quiet}{boolean  switch for supressing console messages default is TRUE}
 
-\item{returnPathes}{boolean if set to FALSE the pathes of the selected version are written 
+\item{returnPaths}{boolean if set to FALSE the pathes of the selected version are written 
 to the PATH variable only, otherwise all paths and versions of the installed SAGA versions ae returned.#'@details If called without any parameter \code{linkSAGA()} it performs a full search over \code{C:}. If it finds one or more 'SAGA GIS' binaries it will take the first hit. You have to set \code{ver_select = TRUE} for an interactive selection of the preferred version. Additionally the selected SAGA pathes are added to the environment and the global variables \code{sagaPath}, \code{sagaModPath} and \code{sagaCmd} will be created.}
 }
 \value{

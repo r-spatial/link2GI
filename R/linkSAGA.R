@@ -105,12 +105,13 @@ linkSAGA <- function(default_SAGA = NULL,
     if (is.null(default_SAGA)) {
       default_SAGA <- findSAGA(searchLocation = searchLocation,
                                   quiet = quiet) 
+      #print( default_SAGA[[2]][1])
       # take the first return
       if (nrow(default_SAGA) == 1) {  
         sagaCmd <- paste0(default_SAGA[[1]][1],"/saga_cmd")
         sagaPath <- gsub("//$", "", default_SAGA[[1]][1])
         sagaModPath <- default_SAGA[[2]][1]
-        #add2Path(sagaPath)
+        add2Path(sagaPath)
         
       } else if (nrow(default_SAGA) > 1  & ver_select) { 
         
@@ -121,26 +122,23 @@ linkSAGA <- function(default_SAGA = NULL,
         default_saga <- gsub("//$", "", default_SAGA[[1]][ver])
         sagaCmd <- paste0(default_SAGA[[1]][ver],"/saga_cmd")
         sagaPath <- default_saga
-        sagaModPath <- paste0(default_SAGA[[2]][ver],"\\tools")
+        sagaModPath <- paste0(default_SAGA[[2]][ver])
         #makGlobalVar("sagaModPath", paste0(default_SAGA[[1]][ver],"modules"))
         
         add2Path(sagaPath)
         
       }
       else if (nrow(default_SAGA) > 1  & !ver_select) { 
-        
-        if (!quiet) cat("You have more than one valid SAGA GIS version\n")
-        if (!quiet) print(default_SAGA[[1]])
-        if (!quiet) cat("\nI use the first one...\n")
+
         default_saga <- gsub("\\\\$", "", default_SAGA[[1]][1])
-        sagaCmd <- paste0(default_SAGA[[1]][1],"\\saga_cmd.exe")
+        sagaCmd <- paste0(default_SAGA[[1]][1],"\\saga_cmd")
         #makGlobalVar("sagaCmd", paste0(default_SAGA[[1]][1],"\\saga_cmd.exe"))
         sagaPath <- default_saga
         #makGlobalVar("sagaPath", default_saga)
-        sagaModPath <- paste0(default_SAGA[[1]][1],"\\modules")
+        sagaModPath <- paste0(default_SAGA[[2]][1])
         #makGlobalVar("sagaModPath", paste0(default_SAGA[[1]][1],"\\modules"))
         
-        add2Path(sagaPath)
+        add2Path(default_SAGA[[1]][1])
       }
             
       # default_SAGA[1] <- system2("find", paste(MP," ! -readable -prune -o -type f -executable -iname 'saga_cmd' -print"), stdout = TRUE)

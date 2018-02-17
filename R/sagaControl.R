@@ -163,3 +163,14 @@ findSAGA <- function(searchLocation = "default",
   }
   return(link)
 }
+
+readinteger <- function()
+{ 
+  
+  n <- readline()
+  n <- as.integer(n)
+  if (is.na(n)){
+    n <- readinteger()
+  }
+  return(n)
+}

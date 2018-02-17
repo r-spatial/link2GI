@@ -47,76 +47,99 @@ linkSAGA <- function(default_SAGA = NULL,
                      searchLocation = "default", 
                      ver_select=FALSE,
                      quiet = TRUE,
-                     returnPaths =FALSE){
+                     returnPaths = TRUE){
   # (R) set pathes  of SAGA modules and binaries depending on OS  
   exist <- FALSE
-  
-  if (Sys.info()["sysname"] == "Windows") {
-    if (is.null(default_SAGA)) default_SAGA <- findSAGA(searchLocation = searchLocation,
-                                                        quiet = quiet) 
-    # take the first return
+  scmd = ifelse(Sys.info()["sysname"]=="Windows", "saga_cmd.exe", "saga_cmd")
+  removePattern <- ifelse(Sys.info()["sysname"]=="Windows", "\\\\$", "/$")
+    if (is.null(default_SAGA)) 
+      default_SAGA <- findSAGA(searchLocation = searchLocation,
+                                        quiet = quiet) 
+    
+   
+    # Only one SAGA installation found
     if (nrow(default_SAGA) == 1) {  
-      sagaCmd <- paste0(default_SAGA[[1]][1],"\\saga_cmd.exe")
-      sagaPath <- gsub("\\\\$", "", default_SAGA[[1]][1])
-      if (!is.null(default_SAGA[[2]][1])) 
-        sagaModPath <- paste0(default_SAGA[[2]][1],"\\modules")
-    } else if (nrow(default_SAGA) > 1  & ver_select) { 
+      sagaCmd <- paste0(default_SAGA[[1]][1],scmd, sep=.Platform$file.sep)
+      sagaPath <- gsub(removePattern, "", default_SAGA[[1]][1])
       
-      cat("You have more than one valid SAGA GIS version\n")
+      if (!is.null(default_SAGA[[2]][1])) 
+        if (getSagaVer(sagaPath) >= "3.0.0" && Sys.info()["sysname"]=="Windows")
+          sagaModPath <- paste0(default_SAGA[[1]][1],"tools", sep=.Platform$file.sep)
+      else if (getSagaVer(sagaPath) >= "3.0.0" && Sys.info()["sysname"]=="Windows") 
+        sagaModPath <- paste0(default_SAGA[[1]][1],"modules", sep=.Platform$file.sep)
+      else sagaModPath <- paste0(default_SAGA[[2]][1])
+      
+      sagaModPath <-gsub(removePattern, "", sagaModPath )
+    } 
+    # more than one SAGA installation and ver_select = TRUE
+    else if (nrow(default_SAGA) > 1  & ver_select) { 
+    
+      cat("You have installed more than one SAGA GIS version\n")
       print(default_SAGA)
       cat("\n")
       cat("Choose a number: \n")
-      ver<-readinteger()  
-      default_saga <- gsub("\\\\$", "", default_SAGA[[1]][ver])
-      sagaCmd <- paste0(default_SAGA[[1]][ver],"\\saga_cmd.exe")
+      sagaVersion<-readinteger()  
+      default_saga <- gsub(removePattern, "", default_SAGA[[1]][sagaVersion])
+      sagaCmd <- paste0(default_SAGA[[1]][sagaVersion],scmd, sep=.Platform$file.sep)
       sagaPath <- default_saga
-      sagaModPath <- paste0(default_SAGA[[1]][ver],"\\tools")
+      if (getSagaVer(sagaPath) >= "3.0.0" && Sys.info()["sysname"]=="Windows")
+        sagaModPath <- paste0(default_SAGA[[1]][sagaVersion],"tools", sep=.Platform$file.sep)
+      else if (getSagaVer(sagaPath) >= "3.0.0" && Sys.info()["sysname"]=="Windows") 
+        sagaModPath <- paste0(default_SAGA[[1]][sagaVersion],"modules", sep=.Platform$file.sep)
+      else sagaModPath <- paste0(default_SAGA[[2]][sagaVersion])
+      
+      sagaModPath <-gsub(removePattern, "", sagaModPath )
       
     }
+    # more than one installation => automatic selection of the newest SAGA
     else if (nrow(default_SAGA) > 1  & !ver_select) { 
+      recentSaga <- getrowSagaVer(default_SAGA)
       
-      if (!quiet) cat("You have more than one valid SAGA GIS version\n")
-      if (!quiet) print(default_SAGA[[1]])
-      if (!quiet) cat("\nI use the first one...\n")
-      default_saga <- gsub("\\\\$", "", default_SAGA[[1]][1])
-      sagaCmd <- paste0(default_SAGA[[1]][1],"\\saga_cmd.exe")
+      default_saga <- gsub(removePattern, "", default_SAGA[[1]][recentSaga])
+      sagaCmd <- paste0(default_SAGA[[1]][recentSaga],scmd, sep=.Platform$file.sep)
       sagaPath <- default_saga
-      sagaModPath <- paste0(default_SAGA[[1]][1],"\\modules")
+      if (getSagaVer(sagaPath) >= "3.0.0" && Sys.info()["sysname"]=="Windows")
+      sagaModPath <- paste0(default_SAGA[[1]][recentSaga],"tools", sep=.Platform$file.sep)
+      else if (getSagaVer(sagaPath) >= "3.0.0" && Sys.info()["sysname"]=="Windows") 
+        sagaModPath <- paste0(default_SAGA[[1]][recentSaga],"modules", sep=.Platform$file.sep)
+      else sagaModPath <- paste0(default_SAGA[[2]][recentSaga])
+      
+      sagaModPath <-gsub(removePattern, "", sagaModPath )
     }
-  } 
-  # if Linux
-  else {
-    
-    if (is.null(default_SAGA)) {
-      default_SAGA <- findSAGA(searchLocation = searchLocation,
-                               quiet = quiet) 
-      #print( default_SAGA[[2]][1])
-      # take the first return
-      if (nrow(default_SAGA) == 1) {  
-        sagaCmd <- paste0(default_SAGA[[1]][1],"/saga_cmd")
-        sagaPath <- gsub("//$", "", default_SAGA[[1]][1])
-        sagaModPath <- default_SAGA[[2]][1]
-      } else if (nrow(default_SAGA) > 1  & ver_select) { 
-        
-        cat("You have more than one valid SAGA GIS version\n")
-        print(default_SAGA)
-        cat("\n")
-        cat("Choose a number: \n")
-        ver<-readinteger()
-        default_saga <- gsub("\\\\$", "", default_SAGA[[1]][ver])
-        sagaCmd <- paste0(default_SAGA[[1]][ver],"/saga_cmd")
-        sagaPath <- default_saga
-        sagaModPath <- paste0(default_SAGA[[2]][ver])
-      }
-      else if (nrow(default_SAGA) > 1  & !ver_select) { 
-        default_saga <- gsub("\\\\$", "", default_SAGA[[1]][1])
-        sagaCmd <- paste0(default_SAGA[[1]][1],"\\saga_cmd")
-        sagaPath <- default_SAGA[[1]][1]
-        sagaModPath <- paste0(default_SAGA[[2]][1])
-      }
-    }
-  }
   
+  # if Linux
+  # else {
+  #   
+  #   if (is.null(default_SAGA)) {
+  #     default_SAGA <- findSAGA(searchLocation = searchLocation,
+  #                              quiet = quiet) 
+  #     #print( default_SAGA[[2]][1])
+  #     # take the first return
+  #     if (nrow(default_SAGA) == 1) {  
+  #       sagaCmd <- paste0(default_SAGA[[1]][1],"/saga_cmd")
+  #       sagaPath <- gsub("//$", "", default_SAGA[[1]][1])
+  #       sagaModPath <- default_SAGA[[2]][1]
+  #     } else if (nrow(default_SAGA) > 1  & ver_select) { 
+  #       
+  #       cat("You have more than one valid SAGA GIS version\n")
+  #       print(default_SAGA)
+  #       cat("\n")
+  #       cat("Choose a number: \n")
+  #       ver<-readinteger()
+  #       default_saga <- gsub("\\\\$", "", default_SAGA[[1]][ver])
+  #       sagaCmd <- paste0(default_SAGA[[1]][ver],"/saga_cmd")
+  #       sagaPath <- default_saga
+  #       sagaModPath <- paste0(default_SAGA[[2]][ver])
+  #     }
+  #     else if (nrow(default_SAGA) > 1  & !ver_select) { 
+  #       default_saga <- gsub("\\\\$", "", default_SAGA[[1]][1])
+  #       sagaCmd <- paste0(default_SAGA[[1]][1],"\\saga_cmd")
+  #       sagaPath <- default_SAGA[[1]][1]
+  #       sagaModPath <- paste0(default_SAGA[[2]][1])
+  #     }
+  #   }
+  # }
+  # 
   # workaround for RSAGA that is constructing a default module path only
   Sys.setenv(SAGA_MLB = sagaModPath)
   add2Path(sagaPath)

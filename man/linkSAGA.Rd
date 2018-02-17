@@ -5,7 +5,7 @@
 \title{Identifies SAGA GIS Installations and returns linking Informations}
 \usage{
 linkSAGA(default_SAGA = NULL, searchLocation = "default",
-  ver_select = FALSE, quiet = TRUE, returnPaths = FALSE)
+  ver_select = FALSE, quiet = TRUE, returnPaths = TRUE)
 }
 \arguments{
 \item{default_SAGA}{string contains path to \code{RSAGA} binaries}

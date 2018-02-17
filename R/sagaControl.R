@@ -174,3 +174,27 @@ readinteger <- function()
   }
   return(n)
 }
+
+getrowSagaVer<- function (paths){
+  tmp<-c()
+  scmd = ifelse(Sys.info()["sysname"]=="Windows", "saga_cmd.exe", "saga_cmd")
+  sep = ifelse(Sys.info()["sysname"]=="Windows", "\\", "/")
+  highestVer<-"2.0.8"
+  for (i in 1:length(paths)){
+  tmp[i]<-  strsplit(x = system(paste0(paste0(paths$binDir[i],sep,scmd)," --version"),intern = TRUE),split = "SAGA Version: ")[[1]][2]
+  highestVer <- max(tmp[i],highestVer)
+  pathI <- i
+  }
+  return (pathI)
+  }
+getSagaVer<- function (paths){
+
+  sep = ifelse(Sys.info()["sysname"]=="Windows", "\\", "/")
+  scmd = ifelse(Sys.info()["sysname"]=="Windows", "saga_cmd.exe", "saga_cmd")
+  
+
+  sagaVersion<-  strsplit(x = system(paste0(paste0(paths,sep,scmd)," --version"),intern = TRUE),split = "SAGA Version: ")[[1]][2]
+
+  
+  return (sagaVersion)
+}

@@ -15,7 +15,8 @@ if ( !isGeneric("linkSAGA") ) {
 #'is in line for a major update however it covers currently (Feb 2018) only 'SAGA GIS' 
 #'versions from 2.0.4 - 2.2.3. The fast evolution of 'SAGA GIS' makes it highly impracticable
 #'to keep the wrapper adaptions in line. \code{RSAGA} will meet all linking needs perfectly if 
-#'you use 'SAGA GIS' versions from 2.0.4 - 2.2.3. 
+#'you use 'SAGA GIS' versions from 2.0.4 - 2.2.3. \cr  \code{RSAGA} is not supporting the \code{SAGA_MLB} path variable. So if you use a SAGA GIS Version >= 3.0.0 the module library is not recognized. You must call \code{rsaga.env} using the \code{rsaga.env(modules = saga$sagaModPath)} assuming that \code{saga} contains the returnPaths of \code{linkSAGA} 
+#'In addition most recently  the very promising  \href{https://github.com/stevenpawley/Rsagacmd}{Rsagacmd} wrapper package is providing a new list oriented wrapping tool.
 #'@return a list containing the selected \code{RSAGA} path variables \code{$sagaPath},\code{$sagaModPath},\code{$sagaCmd} and potentially other installations \code{$installed}  
 #'@param default_SAGA string contains path to \code{RSAGA} binaries
 #'@param searchLocation drive letter to be searched, for Windows systems default
@@ -24,7 +25,7 @@ if ( !isGeneric("linkSAGA") ) {
 #'@param quiet boolean  switch for supressing console messages default is TRUE
 #'@param returnPaths boolean if set to FALSE the pathes of the selected version are written 
 #' to the PATH variable only, otherwise all paths and versions of the installed SAGA versions ae returned.#'@details If called without any parameter \code{linkSAGA()} it performs a full search over \code{C:}. If it finds one or more 'SAGA GIS' binaries it will take the first hit. You have to set \code{ver_select = TRUE} for an interactive selection of the preferred version. Additionally the selected SAGA pathes are added to the environment and the global variables \code{sagaPath}, \code{sagaModPath} and \code{sagaCmd} will be created.
-#'
+
 #'@export linkSAGA
 #'  
 #'@examples
@@ -52,6 +53,8 @@ linkSAGA <- function(default_SAGA = NULL,
   exist <- FALSE
   scmd = ifelse(Sys.info()["sysname"]=="Windows", "saga_cmd.exe", "saga_cmd")
   removePattern <- ifelse(Sys.info()["sysname"]=="Windows", "\\\\$", "/$")
+  sep = ifelse(Sys.info()["sysname"]=="Windows", "\\", "/")
+  
     if (is.null(default_SAGA)) 
       default_SAGA <- findSAGA(searchLocation = searchLocation,
                                         quiet = quiet) 
@@ -59,14 +62,14 @@ linkSAGA <- function(default_SAGA = NULL,
    
     # Only one SAGA installation found
     if (nrow(default_SAGA) == 1) {  
-      sagaCmd <- paste0(default_SAGA[[1]][1],scmd, sep=.Platform$file.sep)
+      sagaCmd <- paste0(default_SAGA[[1]][1],sep,scmd )
       sagaPath <- gsub(removePattern, "", default_SAGA[[1]][1])
       
       if (!is.null(default_SAGA[[2]][1])) 
         if (getSagaVer(sagaPath) >= "3.0.0" && Sys.info()["sysname"]=="Windows")
-          sagaModPath <- paste0(default_SAGA[[1]][1],"tools", sep=.Platform$file.sep)
-      else if (getSagaVer(sagaPath) >= "3.0.0" && Sys.info()["sysname"]=="Windows") 
-        sagaModPath <- paste0(default_SAGA[[1]][1],"modules", sep=.Platform$file.sep)
+          sagaModPath <- paste0(default_SAGA[[1]][1],sep,"tools" )
+      else if (getSagaVer(sagaPath) < "3.0.0" && Sys.info()["sysname"]=="Windows") 
+        sagaModPath <- paste0(default_SAGA[[1]][1],sep,"modules" )
       else sagaModPath <- paste0(default_SAGA[[2]][1])
       
       sagaModPath <-gsub(removePattern, "", sagaModPath )
@@ -80,12 +83,14 @@ linkSAGA <- function(default_SAGA = NULL,
       cat("Choose a number: \n")
       sagaVersion<-readinteger()  
       default_saga <- gsub(removePattern, "", default_SAGA[[1]][sagaVersion])
-      sagaCmd <- paste0(default_SAGA[[1]][sagaVersion],scmd, sep=.Platform$file.sep)
+      sagaCmd <- paste0(default_SAGA[[1]][sagaVersion],sep,scmd )
       sagaPath <- default_saga
       if (getSagaVer(sagaPath) >= "3.0.0" && Sys.info()["sysname"]=="Windows")
-        sagaModPath <- paste0(default_SAGA[[1]][sagaVersion],"tools", sep=.Platform$file.sep)
-      else if (getSagaVer(sagaPath) >= "3.0.0" && Sys.info()["sysname"]=="Windows") 
-        sagaModPath <- paste0(default_SAGA[[1]][sagaVersion],"modules", sep=.Platform$file.sep)
+        {sagaModPath <- paste0(default_SAGA[[1]][sagaVersion],sep,"tools" )
+     #system(paste0( "mklink /d /h  ",paste0(default_SAGA[[1]][sagaVersion],sep,"modules ", default_SAGA[[1]][sagaVersion],sep,"tools" )))
+        }
+      else if (getSagaVer(sagaPath) < "3.0.0" && Sys.info()["sysname"]=="Windows") 
+        sagaModPath <- paste0(default_SAGA[[1]][sagaVersion],sep,"modules" )
       else sagaModPath <- paste0(default_SAGA[[2]][sagaVersion])
       
       sagaModPath <-gsub(removePattern, "", sagaModPath )
@@ -96,12 +101,13 @@ linkSAGA <- function(default_SAGA = NULL,
       recentSaga <- getrowSagaVer(default_SAGA)
       
       default_saga <- gsub(removePattern, "", default_SAGA[[1]][recentSaga])
-      sagaCmd <- paste0(default_SAGA[[1]][recentSaga],scmd, sep=.Platform$file.sep)
+      sagaCmd <- paste0(default_SAGA[[1]][recentSaga],sep,scmd )
       sagaPath <- default_saga
-      if (getSagaVer(sagaPath) >= "3.0.0" && Sys.info()["sysname"]=="Windows")
-      sagaModPath <- paste0(default_SAGA[[1]][recentSaga],"tools", sep=.Platform$file.sep)
-      else if (getSagaVer(sagaPath) >= "3.0.0" && Sys.info()["sysname"]=="Windows") 
-        sagaModPath <- paste0(default_SAGA[[1]][recentSaga],"modules", sep=.Platform$file.sep)
+      if (getSagaVer(sagaPath) >= "3.0.0" && Sys.info()["sysname"]=="Windows"){
+      #system(paste0( "mklink /d /h  ",paste0(default_SAGA[[1]][recentSaga],sep,"modules ", default_SAGA[[1]][recentSaga],sep,"tools" )))
+      sagaModPath <- paste0(default_SAGA[[1]][recentSaga],sep,"tools")}
+      else if (getSagaVer(sagaPath) < "3.0.0" && Sys.info()["sysname"]=="Windows") 
+        sagaModPath <- paste0(default_SAGA[[1]][recentSaga],sep,"modules")
       else sagaModPath <- paste0(default_SAGA[[2]][recentSaga])
       
       sagaModPath <-gsub(removePattern, "", sagaModPath )

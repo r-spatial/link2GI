@@ -21,7 +21,7 @@ is \code{C:}, for Linux systems default is \code{/usr}.}
 to the PATH variable only, otherwise all paths and versions of the installed SAGA versions ae returned.#'@details If called without any parameter \code{linkSAGA()} it performs a full search over \code{C:}. If it finds one or more 'SAGA GIS' binaries it will take the first hit. You have to set \code{ver_select = TRUE} for an interactive selection of the preferred version. Additionally the selected SAGA pathes are added to the environment and the global variables \code{sagaPath}, \code{sagaModPath} and \code{sagaCmd} will be created.}
 }
 \value{
-a list containing the selected \code{RSAGA} path variables \code{$sagaPath},\code{$sagaModPath},\code{$sagaCmd} and potentially other installations \code{$installed}
+A list containing the selected \code{RSAGA} path variables \code{$sagaPath},\code{$sagaModPath},\code{$sagaCmd} and potentially other installations \code{$installed}
 }
 \description{
 Finds the existing \href{http://www.saga-gis.org/}{SAGA GIS} installation(s), 
@@ -29,7 +29,7 @@ generates and sets the necessary path and system variables for a seamless use of
 line calls of the 'SAGA GIS' CLI API, setup valid system variables for calling a default 
 \code{rsaga.env} and by this makes available the \code{RSAGA} wrapper functions.\cr
 All existing installation(s) means that it looks for the \code{saga_cmd} or \code{saga_cmd.exe} 
-executables. If the file is found it is assumed to be a valid 'SAGA GIS' installation.
+executables. If the file is found it is assumed to be a valid 'SAGA GIS' installation. If it is called without any argument the most recent (i.e. highest) SAGA GIS version will be linked.
 }
 \note{
 The excellent 'SAGA GIS' wrapper \href{https://CRAN.R-project.org/package=RSAGA}{RSAGA} 

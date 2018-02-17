@@ -10,14 +10,14 @@ if ( !isGeneric("linkSAGA") ) {
 #'line calls of the 'SAGA GIS' CLI API, setup valid system variables for calling a default 
 #'\code{rsaga.env} and by this makes available the \code{RSAGA} wrapper functions.\cr
 #'All existing installation(s) means that it looks for the \code{saga_cmd} or \code{saga_cmd.exe} 
-#'executables. If the file is found it is assumed to be a valid 'SAGA GIS' installation.
+#'executables. If the file is found it is assumed to be a valid 'SAGA GIS' installation. If it is called without any argument the most recent (i.e. highest) SAGA GIS version will be linked.
 #'@note The excellent 'SAGA GIS' wrapper \href{https://CRAN.R-project.org/package=RSAGA}{RSAGA} 
 #'is in line for a major update however it covers currently (Feb 2018) only 'SAGA GIS' 
 #'versions from 2.0.4 - 2.2.3. The fast evolution of 'SAGA GIS' makes it highly impracticable
 #'to keep the wrapper adaptions in line. \code{RSAGA} will meet all linking needs perfectly if 
 #'you use 'SAGA GIS' versions from 2.0.4 - 2.2.3. \cr  \code{RSAGA} is not supporting the \code{SAGA_MLB} path variable. So if you use a SAGA GIS Version >= 3.0.0 the module library is not recognized. You must call \code{rsaga.env} using the \code{rsaga.env(modules = saga$sagaModPath)} assuming that \code{saga} contains the returnPaths of \code{linkSAGA} 
 #'In addition most recently  the very promising  \href{https://github.com/stevenpawley/Rsagacmd}{Rsagacmd} wrapper package is providing a new list oriented wrapping tool.
-#'@return a list containing the selected \code{RSAGA} path variables \code{$sagaPath},\code{$sagaModPath},\code{$sagaCmd} and potentially other installations \code{$installed}  
+#'@return A list containing the selected \code{RSAGA} path variables \code{$sagaPath},\code{$sagaModPath},\code{$sagaCmd} and potentially other installations \code{$installed}  
 #'@param default_SAGA string contains path to \code{RSAGA} binaries
 #'@param searchLocation drive letter to be searched, for Windows systems default
 #' is \code{C:}, for Linux systems default is \code{/usr}.

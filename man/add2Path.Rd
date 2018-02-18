@@ -21,3 +21,4 @@ addPath("pathtosomewhere")
 \author{
 Chris Reudenbach
 }
+\keyword{internal}

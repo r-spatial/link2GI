@@ -63,6 +63,7 @@ checkPCDomain <- function(cliCode=NULL, prefixPC="PCRZP") {
 #'@description  Adds a variable to the global search path of the current environment
 #'@param newPath the path that is added
 #'@author Chris Reudenbach
+#'@keywords internal
 #'@examples
 #' \dontrun{
 #' # add path
@@ -112,4 +113,16 @@ makGlobalVar <- function(name,value) {
     assign(name, value, envir = GiEnv, inherits = TRUE)
     #cat("add variable ",name,"=",value," to global GiEnv\n")
   } 
+}
+
+
+readinteger <- function()
+{ 
+  
+  n <- readline()
+  n <- as.integer(n)
+  if (is.na(n)){
+    n <- readinteger()
+  }
+  return(n)
 }

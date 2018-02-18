@@ -1,5 +1,5 @@
 
-#'@title  Initializes and set up  access to the 'OTB' command line interface
+#'@title  Usually for internally usage, initializes and set up  access to the 'OTB' command line interface
 #'@name setenvOTB
 #'@description  Initializes and set up  access to the 'OTB' command line interface
 #'  
@@ -49,8 +49,6 @@ setenvOTB <- function(bin_OTB = NULL, root_OTB = NULL){
 #'
 #'@examples
 #' \dontrun{
-#'#### Examples how to use RSAGA and OTB bindings from R
-#'
 #' # get all valid OTB installation folders and params
 #' searchOTBW()
 #' }
@@ -127,8 +125,6 @@ searchOTBW <- function(DL = "C:",
 #'
 #'@examples
 #' \dontrun{
-#'#### Examples how to use RSAGA and OTB bindings from R
-#'
 #' # get all valid OTB installation folders and params
 #' searchOTBX()
 #' }

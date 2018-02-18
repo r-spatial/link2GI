@@ -164,17 +164,6 @@ findSAGA <- function(searchLocation = "default",
   return(link)
 }
 
-readinteger <- function()
-{ 
-  
-  n <- readline()
-  n <- as.integer(n)
-  if (is.na(n)){
-    n <- readinteger()
-  }
-  return(n)
-}
-
 getrowSagaVer<- function (paths){
   tmp<-c()
   scmd = ifelse(Sys.info()["sysname"]=="Windows", "saga_cmd.exe", "saga_cmd")

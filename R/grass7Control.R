@@ -301,7 +301,7 @@ searchGRASSX <- function(MP = "/usr"){
 
 
 
-#'@title Create valid 'GRASS GIS 7.xx' rsession environment settings according to the selected  GRASS and Windows Version
+#'@title Usually for internally usage, create valid 'GRASS GIS 7.xx' rsession environment settings according to the selected GRASS GIS 7.x and Windows Version
 #'@name setenvGRASSw
 #'@description  Initializes and set up  access to 'GRASS GIS 7.xx' via the \link{rgrass7} wrapper or command line packages. Set and returns all necessary environment variables and additionally returns the GISBASE directory as string.
 #'@param root_GRASS  grass root directory i.e. "C:\\OSGEO4~1",

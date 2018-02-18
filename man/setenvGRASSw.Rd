@@ -2,7 +2,7 @@
 % Please edit documentation in R/grass7Control.R
 \name{setenvGRASSw}
 \alias{setenvGRASSw}
-\title{Create valid 'GRASS GIS 7.xx' rsession environment settings according to the selected  GRASS and Windows Version}
+\title{Usually for internally usage, create valid 'GRASS GIS 7.xx' rsession environment settings according to the selected GRASS GIS 7.x and Windows Version}
 \usage{
 setenvGRASSw(root_GRASS = NULL, grass_version = NULL,
   installation_type = NULL, jpgmem = 1e+06, quiet = TRUE)

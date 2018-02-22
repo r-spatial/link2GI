@@ -279,6 +279,7 @@ searchGRASSX <- function(MP = "/usr"){
       # grep line containing GISBASE and extract the substring 
       root_dir <- try(grep(readLines(raw_GRASS[[i]]),pattern = 'gisbase = "',value = TRUE),silent = TRUE)
       if(!class(root_dir) == "try-error" && length(root_dir) > 0) {
+        #print(root_dir)
         root_dir <- substr(root_dir, gregexpr(pattern = '"', root_dir)[[1]][1] + 1, nchar(root_dir) - 1)
         ver_char <- grep(readLines(raw_GRASS[[i]]),pattern = 'grass_version = "',value = TRUE)
         ver_char <- substr(ver_char, gregexpr(pattern = '"', ver_char)[[1]][1] + 1, nchar(ver_char) - 1)

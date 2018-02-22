@@ -69,6 +69,7 @@ linkSAGA <- function(default_SAGA = NULL,
         sagaModPath <- paste0(default_SAGA[[1]][1],sep,"tools" )
     else if (getSagaVer(sagaPath) < "3.0.0" && Sys.info()["sysname"]=="Windows") 
       sagaModPath <- paste0(default_SAGA[[1]][1],sep,"modules" )
+    else sagaModPath <- paste0(default_SAGA[[2]][1])
   } 
   # more than one SAGA installation and ver_select = TRUE
   else if (nrow(default_SAGA) > 1  & ver_select) { 

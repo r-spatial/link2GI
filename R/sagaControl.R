@@ -170,7 +170,7 @@ getrowSagaVer<- function (paths){
   sep = ifelse(Sys.info()["sysname"]=="Windows", "\\", "/")
   highestVer<-"2.0.8"
   for (i in 1:nrow(paths)){
-  tmp<-  strsplit(x = system(paste0(paste0(paths$binDir[i],sep,scmd)," --version"),intern = TRUE),split = "SAGA Version: ")[[1]][2]
+  tmp<-  strsplit(x = system(paste0(paste0(shQuote(paths$binDir[i]),sep,scmd)," --version"),intern = TRUE),split = "SAGA Version: ")[[1]][2]
   highestVer <- max(tmp,highestVer)
   pathI <- i
   }
@@ -181,6 +181,6 @@ getrowSagaVer<- function (paths){
 getSagaVer<- function (paths){
   sep = ifelse(Sys.info()["sysname"]=="Windows", "\\", "/")
   scmd = ifelse(Sys.info()["sysname"]=="Windows", "saga_cmd.exe", "saga_cmd")
-  sagaVersion<-  strsplit(x = system(paste0(paste0(paths,sep,scmd)," --version"),intern = TRUE),split = "SAGA Version: ")[[1]][2]
+  sagaVersion<-  strsplit(x = system(paste0(paste0(shQuote(paths),sep,scmd)," --version"),intern = TRUE),split = "SAGA Version: ")[[1]][2]
   return (sagaVersion)
 }

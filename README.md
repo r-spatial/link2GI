@@ -11,9 +11,9 @@
 
 To utilize the power of the open source GI tools from within `R` you need to install  them first. As a first promising opportunity to do fullfil most of the requirements you may install `QGIS, GRASS`- and `SAGA-GIS` following the excellent [installation instructions](https://github.com/jannes-m/RQGIS/blob/master/vignettes/install_guide.Rmd)  of the [RQGIS](https://cran.r-project.org/web/packages/RQGIS/index.html) package will have a good first try to ensure a smooth working environment. Note: for most of the cases you may use just `RQGIS` as wrapper for the `QGIS` related functionality. 
 
-If you have several versions installed or if you want to use the full power of the GI software it will be a nice and helpful tool to deal with some strange behaviours and requirements. Especially helpful is the support of `OTB`, the `GDAL-Python` functions and a simple support to use any `SAGA` version straightforward via the CLI. Hopefully `RSAGA` and [`Rsagacmd`](https://github.com/stevenpawley/Rsagacmd) will join forces in one package in the future. Anyway the brand new release 1.0.0 of  `RSAGA` as well as the current `Rsagacmd` will work with the `linkSAGA` genereated environment.
+If you have several versions installed or if you want to use the full power of the GI software it will be a nice and helpful tool to deal with some strange behaviours and requirements. Especially helpful is the support of `OTB`, the `GDAL-Python` functions and a simple support to use any `SAGA` version straightforward via the CLI. Hopefully `RSAGA` and [`Rsagacmd`](https://github.com/stevenpawley/Rsagacmd) will join forces in one package in the future. Anyway the brand new release 1.0.0 of  `RSAGA` as well as the current `Rsagacmd` will work with the environment settings as provided by `linkSAGA`.
 
-Next release will add an interface to `liblas` and `LAStools` and `Fusion`. Furthermore it is also planned to link the `taudem`  and some more exotic GI tool binaries.
+Next major release will focus on adding CLI interfaces to the GI tools that will not anymore be hosted under the `QGIS` processing hood and hence will also loose the interface via `RQGIS`. 
 
 # Installation
 

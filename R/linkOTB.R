@@ -48,7 +48,7 @@ linkOTB <- function(bin_OTB=NULL,
     if (is.null(searchLocation)) searchLocation<-"/usr"
     params_OTB <- findOTB(searchLocation = searchLocation,quiet = quiet)
     # if no path is provided  we have to search
-    cat(nrow(params_OTB))
+    #cat(nrow(params_OTB))
     #params_OTB <- system2("find", paste("/usr"," ! -readable -prune -o -type f -executable -iname 'otbcli' -print"),stdout = TRUE)
     #bin_OTB <- substr(params_OTB,1,nchar(params_OTB) - 6)  
     #pathOTB <- bin_OTB

@@ -50,16 +50,16 @@ initProj <- function(projRootDir=tempdir(),
         dir.create(file.path(projRootDir,folder), recursive = TRUE)
         p<-gsub("/", "_", substr(folder,1,nchar(folder) - 1))
         name <- paste0(path_prefix,p)
-        name = ifelse(Sys.info()["sysname"]=="Windows", sub("/$", "",name),name)
         value <- paste0(projRootDir,folder)
+        value = ifelse(Sys.info()["sysname"]=="Windows", sub("/$", "",value),value)
         assign(name, value)
         pth[[name]]<- value
         if (global) makGlobalVar(name, value)
         } else {
         p<-gsub("/", "_", substr(folder,1,nchar(folder) - 1))
         name <- paste0(path_prefix,p)          
-        name = ifelse(Sys.info()["sysname"]=="Windows", sub("/$", "",name),name)
         value <- paste0(projRootDir,folder)
+        value = ifelse(Sys.info()["sysname"]=="Windows", sub("/$", "",value),value)
         assign(name, value)
         pth[[name]]<- value
         if (global) makGlobalVar(name, value)
@@ -69,16 +69,16 @@ initProj <- function(projRootDir=tempdir(),
     dir.create(file.path(projRootDir,GRASSlocation), recursive = TRUE)
     p<-gsub("/", "_", substr(GRASSlocation,1,nchar(GRASSlocation) - 1))
     name <- paste0(path_prefix,p)
-    name = ifelse(Sys.info()["sysname"]=="Windows", sub("/$", "",name),name)
     value <- paste0(projRootDir,GRASSlocation)
+    value = ifelse(Sys.info()["sysname"]=="Windows", sub("/$", "",value),value)
     assign(name, value)
     pth[[name]]<- value
     if (global) makGlobalVar(name, value)
   } else {
     p<-gsub("/", "_", substr(GRASSlocation,1,nchar(GRASSlocation) - 1))
     name <- paste0(path_prefix,p)
-    name = ifelse(Sys.info()["sysname"]=="Windows", sub("/$", "",name),name)
     value <- paste0(projRootDir,GRASSlocation)
+    value = ifelse(Sys.info()["sysname"]=="Windows", sub("/$", "",value),value)
     assign(name, value)
     pth[[name]]<- value
     

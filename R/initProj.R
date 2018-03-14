@@ -41,6 +41,7 @@ initProj <- function(projRootDir=tempdir(),
   # check  tailing / and if not existing append
   if (substr(projRootDir,nchar(projRootDir) - 1,nchar(projRootDir)) != "/") {
     projRootDir <- paste0(projRootDir,"/")
+    name = ifelse(Sys.info()["sysname"]=="Windows", sub("/$", "",projRootDir),projRootDir)
   }
 
     # create directories if needed
@@ -49,6 +50,7 @@ initProj <- function(projRootDir=tempdir(),
         dir.create(file.path(projRootDir,folder), recursive = TRUE)
         p<-gsub("/", "_", substr(folder,1,nchar(folder) - 1))
         name <- paste0(path_prefix,p)
+        name = ifelse(Sys.info()["sysname"]=="Windows", sub("/$", "",name),name)
         value <- paste0(projRootDir,folder)
         assign(name, value)
         pth[[name]]<- value
@@ -56,6 +58,7 @@ initProj <- function(projRootDir=tempdir(),
         } else {
         p<-gsub("/", "_", substr(folder,1,nchar(folder) - 1))
         name <- paste0(path_prefix,p)          
+        name = ifelse(Sys.info()["sysname"]=="Windows", sub("/$", "",name),name)
         value <- paste0(projRootDir,folder)
         assign(name, value)
         pth[[name]]<- value
@@ -66,6 +69,7 @@ initProj <- function(projRootDir=tempdir(),
     dir.create(file.path(projRootDir,GRASSlocation), recursive = TRUE)
     p<-gsub("/", "_", substr(GRASSlocation,1,nchar(GRASSlocation) - 1))
     name <- paste0(path_prefix,p)
+    name = ifelse(Sys.info()["sysname"]=="Windows", sub("/$", "",name),name)
     value <- paste0(projRootDir,GRASSlocation)
     assign(name, value)
     pth[[name]]<- value
@@ -73,9 +77,11 @@ initProj <- function(projRootDir=tempdir(),
   } else {
     p<-gsub("/", "_", substr(GRASSlocation,1,nchar(GRASSlocation) - 1))
     name <- paste0(path_prefix,p)
+    name = ifelse(Sys.info()["sysname"]=="Windows", sub("/$", "",name),name)
     value <- paste0(projRootDir,GRASSlocation)
     assign(name, value)
     pth[[name]]<- value
+    
     if (global) makGlobalVar(name, value)
   } 
   

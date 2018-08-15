@@ -53,9 +53,10 @@ linkSAGA <- function(default_SAGA = NULL,
                      returnPaths = TRUE){
   # (R) set pathes  of SAGA modules and binaries depending on OS  
   exist <- FALSE
-  scmd = ifelse(Sys.info()["sysname"]=="Windows", "saga_cmd.exe", "saga_cmd")
+  scmd <- ifelse(Sys.info()["sysname"]=="Windows", "saga_cmd.exe", "saga_cmd")
   removePattern <- ifelse(Sys.info()["sysname"]=="Windows", "\\\\$", "/$")
   sep = ifelse(Sys.info()["sysname"]=="Windows", "\\", "/")
+  
   # if no default_SAGA is given search for SAGA installations
   if (is.null(default_SAGA)) 
     default_SAGA <- findSAGA(searchLocation = searchLocation,
@@ -76,7 +77,7 @@ linkSAGA <- function(default_SAGA = NULL,
     cat("You have installed more than one SAGA GIS version\n")
     print(default_SAGA)
     cat("\n")
-    cat("Choose a number: \n")
+    cat("Choose version: \n")
     sagaVersion<-readinteger()  
     default_saga <- gsub(removePattern, "", default_SAGA[[1]][sagaVersion])
     sagaCmd <- paste0(default_SAGA[[1]][sagaVersion],sep,scmd )
@@ -89,7 +90,8 @@ linkSAGA <- function(default_SAGA = NULL,
       sagaModPath <- paste0(default_SAGA[[1]][sagaVersion],sep,"modules" )
     else sagaModPath <- paste0(default_SAGA[[2]][sagaVersion])
   }
-  # more than one installation => automatic selection of the newest SAGA
+  # more than one installation and ver_select =FALSE 
+  # => automatic selection of the newest SAGA
   else if (nrow(default_SAGA) > 1  & !ver_select) { 
     recentSaga <- getrowSagaVer(default_SAGA)
     default_saga <- gsub(removePattern, "", default_SAGA[[1]][recentSaga])
@@ -104,7 +106,7 @@ linkSAGA <- function(default_SAGA = NULL,
     else sagaModPath <- paste0(default_SAGA[[2]][recentSaga])
   }
   sagaModPath <-gsub(removePattern, "", sagaModPath )
-  # SAGA_MLB is used by Linux-RSAGA to identify the correct module path 
+  # SAGA_MLB is only used by Linux-RSAGA to identify the correct module path 
   Sys.setenv(SAGA_MLB = sagaModPath)
   # add saga bin folder to the systemwide search path
   add2Path(sagaPath)

@@ -207,7 +207,7 @@ searchGRASSW <- function(DL = "C:",
 #'@examples
 #' \dontrun{
 #' # automatic retrieval of the GRASS7 enviroment settings
-#' getparams_GRASS7X()
+#' paramsGRASSx()
 #' 
 #' # typical stand_alone installation
 #' paramGRASSx("/usr/bin/grass72")

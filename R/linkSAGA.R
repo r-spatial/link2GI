@@ -48,11 +48,12 @@ if ( !isGeneric("linkSAGA") ) {
 
 linkSAGA <- function(default_SAGA = NULL, 
                      searchLocation = "default", 
-                     ver_select=FALSE,
+                     ver_select=0,
                      quiet = TRUE,
                      returnPaths = TRUE){
   # (R) set pathes  of SAGA modules and binaries depending on OS  
   exist <- FALSE
+  if (ver_select =='T') ver_select <- 'TRUE'
   scmd <- ifelse(Sys.info()["sysname"]=="Windows", "saga_cmd.exe", "saga_cmd")
   removePattern <- ifelse(Sys.info()["sysname"]=="Windows", "\\\\$", "/$")
   sep = ifelse(Sys.info()["sysname"]=="Windows", "\\", "/")
@@ -73,7 +74,7 @@ linkSAGA <- function(default_SAGA = NULL,
     else sagaModPath <- paste0(default_SAGA[[2]][1])
   } 
   # more than one SAGA installation and ver_select = TRUE
-  else if (nrow(default_SAGA) > 1  & ver_select) { 
+  else if (nrow(default_SAGA) > 1  & ver_select =='TRUE') { 
     cat("You have installed more than one SAGA GIS version\n")
     print(default_SAGA)
     cat("\n")
@@ -89,10 +90,26 @@ linkSAGA <- function(default_SAGA = NULL,
     else if (getSagaVer(sagaPath) < "3.0.0" && Sys.info()["sysname"]=="Windows") 
       sagaModPath <- paste0(default_SAGA[[1]][sagaVersion],sep,"modules" )
     else sagaModPath <- paste0(default_SAGA[[2]][sagaVersion])
+  }  # more than one SAGA installation and ver_select >0
+  else if (nrow(default_SAGA) > 1  & ver_select > 0 ) { 
+    cat("You have installed more than one SAGA GIS version\n")
+
+    sagaVersion<-readinteger()  
+    default_saga <- gsub(removePattern, "", default_SAGA[[1]][ver_select])
+    sagaCmd <- paste0(default_SAGA[[1]][ver_select],sep,scmd )
+    sagaPath <- default_saga
+    if (getSagaVer(sagaPath) >= "3.0.0" && Sys.info()["sysname"]=="Windows") {
+      sagaModPath <- paste0(default_SAGA[[1]][ver_select],sep,"tools" )
+      #system(paste0( "mklink /d /h  ",paste0(default_SAGA[[1]][ver_select],sep,"modules ", default_SAGA[[1]][sagaVersion],sep,"tools" )))
+    }
+    else if (getSagaVer(sagaPath) < "3.0.0" && Sys.info()["sysname"]=="Windows") 
+      sagaModPath <- paste0(default_SAGA[[1]][ver_select],sep,"modules" )
+    else sagaModPath <- paste0(default_SAGA[[2]][ver_select])
   }
+  
   # more than one installation and ver_select =FALSE 
   # => automatic selection of the newest SAGA
-  else if (nrow(default_SAGA) > 1  & !ver_select) { 
+  else if (nrow(default_SAGA) > 1  & ver_select!="TRUE") { 
     recentSaga <- getrowSagaVer(default_SAGA)
     default_saga <- gsub(removePattern, "", default_SAGA[[1]][recentSaga])
     sagaCmd <- paste0(default_SAGA[[1]][recentSaga],sep,scmd )

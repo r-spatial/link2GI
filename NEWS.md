@@ -1,6 +1,15 @@
+## link2GI 0.3-2
+new feature: 
+* ver_select can be used directly with the number of selection 
+* OTB basic wrapper
+bugfixes:
+* RSAGA related fixes
+* Typos
+
 ## link2GI 0.3-1
 new feature: 
 * add returnPaths argument for suppress all returns
+bugfixes:
 * windows RSAGA related fixes
 
 ## link2GI 0.3-0

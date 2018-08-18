@@ -48,12 +48,13 @@ if ( !isGeneric("linkSAGA") ) {
 
 linkSAGA <- function(default_SAGA = NULL, 
                      searchLocation = "default", 
-                     ver_select=0,
+                     ver_select=FALSE,
                      quiet = TRUE,
                      returnPaths = TRUE){
   # (R) set pathes  of SAGA modules and binaries depending on OS  
   exist <- FALSE
-  if (ver_select =='T') ver_select <- 'TRUE'
+  if (ver_select =='T') ver_select <- TRUE
+  if (ver_select == "F" && !is.numeric(ver_select)) ver_select <- FALSE
   scmd <- ifelse(Sys.info()["sysname"]=="Windows", "saga_cmd.exe", "saga_cmd")
   removePattern <- ifelse(Sys.info()["sysname"]=="Windows", "\\\\$", "/$")
   sep = ifelse(Sys.info()["sysname"]=="Windows", "\\", "/")
@@ -74,7 +75,7 @@ linkSAGA <- function(default_SAGA = NULL,
     else sagaModPath <- paste0(default_SAGA[[2]][1])
   } 
   # more than one SAGA installation and ver_select = TRUE
-  else if (nrow(default_SAGA) > 1  & ver_select =='TRUE') { 
+  else if (nrow(default_SAGA) > 1  & ver_select ) { 
     cat("You have installed more than one SAGA GIS version\n")
     print(default_SAGA)
     cat("\n")
@@ -91,10 +92,10 @@ linkSAGA <- function(default_SAGA = NULL,
       sagaModPath <- paste0(default_SAGA[[1]][sagaVersion],sep,"modules" )
     else sagaModPath <- paste0(default_SAGA[[2]][sagaVersion])
   }  # more than one SAGA installation and ver_select >0
-  else if (nrow(default_SAGA) > 1  & ver_select > 0 ) { 
-    cat("You have installed more than one SAGA GIS version\n")
-
-    sagaVersion<-readinteger()  
+  else if (nrow(default_SAGA) > 1  & is.numeric(ver_select) & ver_select > 0 ) { 
+    cat("You have installed more than one SAGA GIS version.\n")
+    print(default_SAGA)
+    cat("Your have choosen version: ",ver_select,"\n")
     default_saga <- gsub(removePattern, "", default_SAGA[[1]][ver_select])
     sagaCmd <- paste0(default_SAGA[[1]][ver_select],sep,scmd )
     sagaPath <- default_saga

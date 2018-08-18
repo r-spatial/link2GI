@@ -15,6 +15,6 @@ LaTeX: pdfLaTeX
 BuildType: Package
 PackageUseDevtools: Yes
 PackageInstallArgs: --no-multiarch --with-keep.source
-PackageBuildArgs: --resave-data --compact-vignettes="gs+qpdf"
-PackageCheckArgs: --compact-vignettes="gs+qpdf" --as-cran
+PackageBuildArgs: --compact-vignettes=qpdf --resave-data
+PackageCheckArgs: --as-cran  --compact-vignettes=qpdf
 PackageRoxygenize: rd,collate,namespace,vignette

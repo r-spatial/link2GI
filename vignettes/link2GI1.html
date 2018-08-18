@@ -317,33 +317,11 @@ This is the highly recommended linking procedure.  NOTE: if more than one <code>
 <pre><code class="r"># get meuse data as sp object
 require(link2GI)
 require(sp)
-</code></pre>
-
-<pre><code>## Lade nötiges Paket: sp
-</code></pre>
-
-<pre><code class="r">data(meuse) 
+data(meuse) 
 coordinates(meuse) &lt;- ~x+y 
 proj4string(meuse) &lt;-CRS(&quot;+init=epsg:28992&quot;) 
 
-# get meuse data as sf object
-require(sf)
-</code></pre>
-
-<pre><code>## Lade nötiges Paket: sf
-</code></pre>
-
-<pre><code>## Linking to GEOS 3.5.1, GDAL 2.2.2, proj.4 4.9.2
-</code></pre>
-
-<pre><code class="r">meuse_sf = st_as_sf(meuse, 
-                    coords = 
-                      c(&quot;x&quot;, &quot;y&quot;), 
-                    crs = 28992, 
-                    agr = &quot;constant&quot;)
-
 # create a temporary GRASS linkage using the meuse data
-
 linkGRASS7(meuse)
 </code></pre>
 
@@ -437,7 +415,7 @@ linkGRASS7(meuse)
 
 # unzip it
  unzip(res,files = grep(&quot;.csv&quot;, unzip(res,list = TRUE)$Name,value = TRUE),junkpaths = TRUE,overwrite = TRUE)
-fn &lt;- list.files(pattern = &quot;[.]csv$&quot;, path = getwd(), full.names = TRUE)
+fn &lt;- list.files(pattern = &quot;[.]csv$&quot;, path = path_run, full.names = TRUE)
 </code></pre>
 
 <p>After downloading the data we will use it for some demonstration stuff. If you have a look the data is nothing than x,y,z with assuming some projection information.</p>

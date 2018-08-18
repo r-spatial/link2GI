@@ -29,8 +29,7 @@ paramGRASSw <- function(set_default_GRASS7=NULL,
                         DL="C:", 
                         ver_select =FALSE,
                         quiet = TRUE){
-  if (ver_select =='T') ver_select <- TRUE
-  if (ver_select == "F" && !is.numeric(ver_select)) ver_select <- FALSE
+
   # (R) set pathes  of 'GRASS' binaries depending on 'WINDOWS'
   if (is.null(set_default_GRASS7)) {
     if (DL=="default" || is.null(DL)) DL <- "C:"
@@ -48,6 +47,18 @@ paramGRASSw <- function(set_default_GRASS7=NULL,
       installation_type = params_GRASS$installation_type[[1]]
       
       # if more than one valid installation was found you have to choose 
+    }else if (nrow(params_GRASS) >= 1 && is.numeric(ver_select) && ver_select > 0 ) {
+      cat("You have more than one valid GRASS GIS version\n")
+      print(params_GRASS)
+      cat("Your have choosen version: ",ver_select,"\n")
+      
+      gisbase_GRASS <- normalizePath(setenvGRASSw(root_GRASS = params_GRASS$instDir[[ver_select]],
+                                                  grass_version = params_GRASS$version[[ver_select]], 
+                                                  installation_type = params_GRASS$installation_type[[ver_select]],
+                                                  quiet = quiet  ),
+                                     winslash = "/")
+      grass_version = params_GRASS$version[[ver_select]]
+      installation_type = params_GRASS$installation_type[[ver_select]]
     } else if (nrow(params_GRASS) > 1 & ver_select) {
       cat("You have more than one valid GRASS GIS version\n")
       print(params_GRASS)
@@ -60,19 +71,7 @@ paramGRASSw <- function(set_default_GRASS7=NULL,
                                      winslash = "/")
       grass_version = params_GRASS$version[[ver]]
       installation_type = params_GRASS$installation_type[[ver]]
-    }   else if (nrow(params_GRASS) > 1 & is.numeric(ver_select) & ver_select > 0 ) {
-      cat("You have more than one valid GRASS GIS version\n")
-      print(params_GRASS)
-      cat("Your have choosen version: ",ver_select,"\n")
-      
-      gisbase_GRASS <- normalizePath(setenvGRASSw(root_GRASS = params_GRASS$instDir[[ver_select]],
-                                                  grass_version = params_GRASS$version[[ver_select]], 
-                                                  installation_type = params_GRASS$installation_type[[ver_select]],
-                                                  quiet = quiet  ),
-                                     winslash = "/")
-      grass_version = params_GRASS$version[[ver_select]]
-      installation_type = params_GRASS$installation_type[[ver_select]]
-    } else if (nrow(params_GRASS) > 1 & !ver_select) {  
+    }    else if (nrow(params_GRASS) > 1 & !ver_select) {  
       gisbase_GRASS <- setenvGRASSw(root_GRASS = params_GRASS$instDir[[1]],
                                     grass_version = params_GRASS$version[[1]], 
                                     installation_type = params_GRASS$installation_type[[1]] ,

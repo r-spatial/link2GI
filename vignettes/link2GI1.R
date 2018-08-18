@@ -35,25 +35,17 @@
 #  saga1
 #  sagaEnv1<- RSAGA::rsaga.env(path = saga1$sagaPath)
 
-## ------------------------------------------------------------------------
-# get meuse data as sp object
-require(link2GI)
-require(sp)
-data(meuse) 
-coordinates(meuse) <- ~x+y 
-proj4string(meuse) <-CRS("+init=epsg:28992") 
-
-# get meuse data as sf object
-require(sf)
-meuse_sf = st_as_sf(meuse, 
-                    coords = 
-                      c("x", "y"), 
-                    crs = 28992, 
-                    agr = "constant")
-
-# create a temporary GRASS linkage using the meuse data
-
-linkGRASS7(meuse)
+## ----echo=TRUE, message=FALSE, warning=FALSE,eval=FALSE------------------
+#  # get meuse data as sp object
+#  require(link2GI)
+#  require(sp)
+#  data(meuse)
+#  coordinates(meuse) <- ~x+y
+#  proj4string(meuse) <-CRS("+init=epsg:28992")
+#  
+#  # create a temporary GRASS linkage using the meuse data
+#  linkGRASS7(meuse)
+#  
 
 ## ---- eval=FALSE---------------------------------------------------------
 #  linkGRASS7(meuse,c("C:/Program Files/GRASS GIS7.0.5","GRASS GIS 7.0.5","NSIS"))
@@ -105,7 +97,7 @@ linkGRASS7(meuse)
 #  
 #  # unzip it
 #   unzip(res,files = grep(".csv", unzip(res,list = TRUE)$Name,value = TRUE),junkpaths = TRUE,overwrite = TRUE)
-#  fn <- list.files(pattern = "[.]csv$", path = getwd(), full.names = TRUE)
+#  fn <- list.files(pattern = "[.]csv$", path = path_run, full.names = TRUE)
 #  
 
 ## ---- eval=FALSE---------------------------------------------------------

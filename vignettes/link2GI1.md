@@ -115,6 +115,7 @@ In earlier times it has been pretty cumbersome to link the correct `SAGA GIS` ve
 
 
 
+
 ```r
 saga1<-link2GI::linkSAGA(ver_select = 1) 
 saga1
@@ -143,38 +144,11 @@ This is the highly recommended linking procedure.  NOTE: if more than one `GRASS
 # get meuse data as sp object
 require(link2GI)
 require(sp)
-```
-
-```
-## Lade nötiges Paket: sp
-```
-
-```r
 data(meuse) 
 coordinates(meuse) <- ~x+y 
 proj4string(meuse) <-CRS("+init=epsg:28992") 
 
-# get meuse data as sf object
-require(sf)
-```
-
-```
-## Lade nötiges Paket: sf
-```
-
-```
-## Linking to GEOS 3.5.1, GDAL 2.2.2, proj.4 4.9.2
-```
-
-```r
-meuse_sf = st_as_sf(meuse, 
-                    coords = 
-                      c("x", "y"), 
-                    crs = 28992, 
-                    agr = "constant")
-
 # create a temporary GRASS linkage using the meuse data
-
 linkGRASS7(meuse)
 ```
 
@@ -285,7 +259,7 @@ We also have to download a [meta data description file](https://www.zensus2011.d
 
 # unzip it
  unzip(res,files = grep(".csv", unzip(res,list = TRUE)$Name,value = TRUE),junkpaths = TRUE,overwrite = TRUE)
-fn <- list.files(pattern = "[.]csv$", path = getwd(), full.names = TRUE)
+fn <- list.files(pattern = "[.]csv$", path = path_run, full.names = TRUE)
 ```
 
 After downloading the data we will use it for some demonstration stuff. If you have a look the data is nothing than x,y,z with assuming some projection information.

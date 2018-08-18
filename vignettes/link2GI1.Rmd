@@ -138,7 +138,7 @@ Automatic search and find of `GRASS` binaries using the meuse sp data object for
 This is the highly recommended linking procedure.  NOTE: if more than one `GRASS` installation is found the first one is selected automatically. 
 
 
-```{r}
+```{r eval=FALSE}
 # get meuse data as sp object
 require(link2GI)
 require(sp)

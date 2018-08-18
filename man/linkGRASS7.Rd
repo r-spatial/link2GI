@@ -120,7 +120,7 @@ linkGRASS7(spatial_params = c(178605,329714,181390,333611,proj4_string))
 # creating a GRASS gisdbase manually with spatial parameters of the meuse data 
 # additionally using a peramanent directory "~/examples" and the location "meuse_spatial_params "
 proj4_string <- as.character(sp::CRS("+init=epsg:28992"))
-linkGRASS7(gisdbase = "~/examples",
+linkGRASS7(gisdbase = paste0(tempdir(),"~/examples"),
            location = "meuse_spatial_params",
            spatial_params = c(178605,329714,181390,333611,proj4_string))
 }

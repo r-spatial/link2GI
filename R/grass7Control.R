@@ -252,6 +252,14 @@ paramGRASSx <- function(set_default_GRASS7=NULL,
       cat("Your have choosen version: ",ver_select,"\n")
       gisbase_GRASS <- params_GRASS$instDir[[ver_select]]
     }
+    
+    else if (nrow(params_GRASS) > 1 & !ver_select ) {
+      cat("You have more than one valid GRASS version\n")
+      cat("Number 1 is taken\n")
+      print(params_GRASS)
+      cat("\n")
+     gisbase_GRASS <- params_GRASS$instDir[[1]]
+    }
     else if (nrow(params_GRASS) > 1 & ver_select ) {
       cat("You have more than one valid GRASS version\n")
       print(params_GRASS)

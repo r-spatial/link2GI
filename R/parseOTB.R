@@ -21,6 +21,9 @@ parseOTBAlgorithms<- function(gili=NULL) {
     otb<-link2GI::linkOTB()
     path_OTB<- otb$pathOTB
   } else path_OTB<- gili$pathOTB
+  
+  if (substr(path_OTB,nchar(path_OTB) - 1,nchar(path_OTB)) == "n/")   path_OTB <- substr(path_OTB,1,nchar(path_OTB)-1)
+    
   algorithms <-list.files(pattern="otbcli", path=path_OTB, full.names=FALSE)
   algorithms <- substr(algorithms,8,nchar(algorithms)) 
   return(algorithms)
@@ -37,18 +40,20 @@ parseOTBAlgorithms<- function(gili=NULL) {
 #'
 #'@examples
 #' \dontrun{
-#'  ## link to the OTB binaries
-#'  otbLinks<-link2GI::linkOTB()
-#'  path_OTB<-otbLinks$pathOTB
-#'  
-#'  ## parse all modules
-#'  algo<-parseOTBAlgorithms(gili = otbLinks)
-#'  
-#'  ## take edge detection
-#'  otb_algorithm<-algo[27]
-#'  algo_cmd<-parseOTBFunction(algo = otb_algorithm,gili = gili)
-#'  ## print the current command
-#'  print(algo_cmd)
+## link to the OTB binaries
+#' otbLinks<-link2GI::linkOTB()
+#' path_OTB<-otbLinks$pathOTB
+#' 
+#' 
+#' ## parse all modules
+#' algo<-parseOTBAlgorithms(gili = otbLinks)
+#' 
+#' 
+#' ## take edge detection
+#' otb_algorithm<-algo[27]
+#' algo_cmd<-parseOTBFunction(algo = otb_algorithm,gili = otbLinks)
+#' ## print the current command
+#' print(algo_cmd)
 #' 
 #' ### usecase
 #' 
@@ -62,42 +67,45 @@ parseOTBAlgorithms<- function(gili=NULL) {
 #' url<-"http://www.ldbv.bayern.de/file/zip/5619/DOP%2040_CIR.zip"
 #' res <- curl::curl_download(url, "testdata.zip")
 #' unzip(res,junkpaths = TRUE,overwrite = TRUE)
-#'
+#' 
 #' ## get all modules
 #' algo<-parseOTBAlgorithms(gili = otblink)
 #' 
 #' ## use edge detection
 #' otb_algorithm<-algo[27]
 #' algo_cmd<-parseOTBFunction(algo = algo[27],gili = otblink)
-#'
-#' ## create out name
-#' outName<-paste0(getwd(),"/",tools::file_path_sans_ext("out"),"_","1","_f",filter,".tif")
+#' 
+#' 
 #' 
 #' ## set arguments
 #' algo_cmd$`-progress`<-1
 #' algo_cmd$`-in`<- file.path(getwd(),"4490600_5321400.tif")
 #' algo_cmd$`-filter`<- "sobel"
+#' 
+#' ## create out name
+#' outName<-paste0(getwd(),"/out",algo_cmd$`-filter`,".tif")
+#' algo_cmd$`-out`<- outName
+#' 
 #' if (filter == "touzi") {
 #'   algo_cmd$`-filter.touzi.xradius`<- filter.touzi.xradius
 #'   algo_cmd$`-filter.touzi.yradius`<- filter.touzi.yradius
 #' }
-#' algo_cmd$`-out`<- outName
+#' 
 #' 
 #' ## generate basic command 
 #' command<-paste0(path_OTB,"otbcli_",otb_algorithm," ")
 #' ## generate full command
 #' command<-paste(command,paste(names(algo_cmd),algo_cmd,collapse = " "))
-#'
+#' 
 #' ## make the system call
 #' system(command,intern = TRUE)
 #' 
 #' ##create raster
-#' retStack<-assign(paste0(tools::file_path_sans_ext(basename(outName)),"band_1"),
-#'                  raster::stack(outName))
+#' retStack<-assign(outName,raster::raster(outName))
+#' 
 #' 
 #' ## plot raster
 #' raster::plot(retStack)
-#' 
 #' } 
 #' 
 parseOTBFunction <- function(algos=NULL,gili=NULL) {
@@ -113,9 +121,9 @@ parseOTBFunction <- function(algos=NULL,gili=NULL) {
   
   for (algo in algos){
     if (algo != ""){
-      system("rm tst.txt",intern = FALSE,ignore.stderr = TRUE)
-      system2(paste0(path_OTB,"otbcli"),paste0(algo," -help >> tst.txt 2>&1"))
-      txt<-readLines("tst.txt")
+      system("rm otb_module_dump.txt",intern = FALSE,ignore.stderr = TRUE)
+      system2(paste0(path_OTB,"otbcli"),paste0(algo," -help >> otb_module_dump.txt 2>&1"))
+      txt<-readLines("otb_module_dump.txt")
       # Pull out the appropriate line
       args <- txt[grep("-", txt)]
       args <- args[-grep("http",args)]

@@ -35,25 +35,25 @@
 #  saga1
 #  sagaEnv1<- RSAGA::rsaga.env(path = saga1$sagaPath)
 
-## ------------------------------------------------------------------------
-# get meuse data as sp object
-require(link2GI)
-require(sp)
-data(meuse) 
-coordinates(meuse) <- ~x+y 
-proj4string(meuse) <-CRS("+init=epsg:28992") 
-
-# get meuse data as sf object
-require(sf)
-meuse_sf = st_as_sf(meuse, 
-                    coords = 
-                      c("x", "y"), 
-                    crs = 28992, 
-                    agr = "constant")
-
-# create a temporary GRASS linkage using the meuse data
-
-linkGRASS7(meuse)
+## ----eval=FALSE----------------------------------------------------------
+#  # get meuse data as sp object
+#  require(link2GI)
+#  require(sp)
+#  data(meuse)
+#  coordinates(meuse) <- ~x+y
+#  proj4string(meuse) <-CRS("+init=epsg:28992")
+#  
+#  # get meuse data as sf object
+#  require(sf)
+#  meuse_sf = st_as_sf(meuse,
+#                      coords =
+#                        c("x", "y"),
+#                      crs = 28992,
+#                      agr = "constant")
+#  
+#  # create a temporary GRASS linkage using the meuse data
+#  
+#  linkGRASS7(meuse)
 
 ## ---- eval=FALSE---------------------------------------------------------
 #  linkGRASS7(meuse,c("C:/Program Files/GRASS GIS7.0.5","GRASS GIS 7.0.5","NSIS"))

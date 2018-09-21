@@ -52,7 +52,7 @@ paramGRASSw <- function(set_default_GRASS7=NULL,
       cat("You have more than one valid GRASS GIS version\n")
       print(params_GRASS)
       cat("\n")
-      ver <- as.numeric(readline(prompt = "Please choose one:  "))
+      ver <- as.numeric(readline(prompt = "Please select one:  "))
       gisbase_GRASS <- normalizePath(setenvGRASSw(root_GRASS = params_GRASS$instDir[[ver]],
                                                   grass_version = params_GRASS$version[[ver]], 
                                                   installation_type = params_GRASS$installation_type[[ver]],
@@ -63,7 +63,7 @@ paramGRASSw <- function(set_default_GRASS7=NULL,
     }   else if (nrow(params_GRASS) > 1 & is.numeric(ver_select) & ver_select > 0 ) {
       cat("You have more than one valid GRASS GIS version\n")
       print(params_GRASS)
-      cat("Your have choosen version: ",ver_select,"\n")
+      cat("You have selected version: ",ver_select,"\n")
       
       gisbase_GRASS <- normalizePath(setenvGRASSw(root_GRASS = params_GRASS$instDir[[ver_select]],
                                                   grass_version = params_GRASS$version[[ver_select]], 
@@ -73,14 +73,17 @@ paramGRASSw <- function(set_default_GRASS7=NULL,
       grass_version = params_GRASS$version[[ver_select]]
       installation_type = params_GRASS$installation_type[[ver_select]]
     } else if (nrow(params_GRASS) > 1 & !ver_select) {  
-      gisbase_GRASS <- setenvGRASSw(root_GRASS = params_GRASS$instDir[[1]],
-                                    grass_version = params_GRASS$version[[1]], 
-                                    installation_type = params_GRASS$installation_type[[1]] ,
-                                    quiet=quiet)
-      grass_version = params_GRASS$version[[1]]
-      installation_type = params_GRASS$installation_type[[1]]
+      cat("You have more than one valid GRASS version installed!\n")
+      cat("The latest installed version (",which(params_GRASS$version == max(params_GRASS$version)),")has been selected \n")
       
-      # if more than one valid installation was found you have to choose 
+      gisbase_GRASS <- setenvGRASSw(root_GRASS = params_GRASS$instDir[[which(params_GRASS$version == max(params_GRASS$version))]],
+                                    grass_version = params_GRASS$version[[which(params_GRASS$version == max(params_GRASS$version))]], 
+                                    installation_type = params_GRASS$installation_type[[which(params_GRASS$version == max(params_GRASS$version))]] ,
+                                    quiet=quiet)
+      grass_version = params_GRASS$version[[which(params_GRASS$version == max(params_GRASS$version))]]
+      installation_type = params_GRASS$installation_type[[which(params_GRASS$version == max(params_GRASS$version))]]
+      
+      
     }
     
     # if a set_default_GRASS7 was provided take this 
@@ -247,24 +250,24 @@ paramGRASSx <- function(set_default_GRASS7=NULL,
       
       # if more than one valid installation was found you have to choose 
     } else if (nrow(params_GRASS) > 1 & is.numeric(ver_select) & ver_select > 0 ) {
-      cat("You have more than one valid GRASS version\n")
+      cat("You have more than one valid GRASS version installed!\n")
       print(params_GRASS)
-      cat("Your have choosen version: ",ver_select,"\n")
+      cat("You have selected version: ",ver_select,"\n")
       gisbase_GRASS <- params_GRASS$instDir[[ver_select]]
     }
     
     else if (nrow(params_GRASS) > 1 & !ver_select ) {
-      cat("You have more than one valid GRASS version\n")
-      cat("Number 1 is taken\n")
+      cat("You have more than one valid GRASS version installed!\n")
+      cat("The latest installed version (",which(params_GRASS$version == max(params_GRASS$version)),")has been selected \n")
       print(params_GRASS)
       cat("\n")
-     gisbase_GRASS <- params_GRASS$instDir[[1]]
+     gisbase_GRASS <- params_GRASS$instDir[[which(params_GRASS$version == max(params_GRASS$version))]]
     }
     else if (nrow(params_GRASS) > 1 & ver_select ) {
-      cat("You have more than one valid GRASS version\n")
+      cat("You have more than one valid GRASS version installed!\n")
       print(params_GRASS)
       cat("\n")
-      ver <- as.numeric(readline(prompt = "Please choose one:  "))
+      ver <- as.numeric(readline(prompt = "Please select one:  "))
       gisbase_GRASS <- params_GRASS$instDir[[ver]]
     }
     

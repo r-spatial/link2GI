@@ -16,18 +16,19 @@ retrieve the choosen function and parses all arguments with the defaults
 }
 \examples{
 \dontrun{
- ## link to the OTB binaries
- otbLinks<-link2GI::linkOTB()
- path_OTB<-otbLinks$pathOTB
- 
- ## parse all modules
- algo<-parseOTBAlgorithms(gili = otbLinks)
- 
- ## take edge detection
- otb_algorithm<-algo[27]
- algo_cmd<-parseOTBFunction(algo = otb_algorithm,gili = gili)
- ## print the current command
- print(algo_cmd)
+otbLinks<-link2GI::linkOTB()
+path_OTB<-otbLinks$pathOTB
+
+
+## parse all modules
+algo<-parseOTBAlgorithms(gili = otbLinks)
+
+
+## take edge detection
+otb_algorithm<-algo[27]
+algo_cmd<-parseOTBFunction(algo = otb_algorithm,gili = otbLinks)
+## print the current command
+print(algo_cmd)
 
 ### usecase
 
@@ -49,18 +50,22 @@ algo<-parseOTBAlgorithms(gili = otblink)
 otb_algorithm<-algo[27]
 algo_cmd<-parseOTBFunction(algo = algo[27],gili = otblink)
 
-## create out name
-outName<-paste0(getwd(),"/",tools::file_path_sans_ext("out"),"_","1","_f",filter,".tif")
+
 
 ## set arguments
 algo_cmd$`-progress`<-1
 algo_cmd$`-in`<- file.path(getwd(),"4490600_5321400.tif")
 algo_cmd$`-filter`<- "sobel"
+
+## create out name
+outName<-paste0(getwd(),"/out",algo_cmd$`-filter`,".tif")
+algo_cmd$`-out`<- outName
+
 if (filter == "touzi") {
   algo_cmd$`-filter.touzi.xradius`<- filter.touzi.xradius
   algo_cmd$`-filter.touzi.yradius`<- filter.touzi.yradius
 }
-algo_cmd$`-out`<- outName
+
 
 ## generate basic command 
 command<-paste0(path_OTB,"otbcli_",otb_algorithm," ")
@@ -71,12 +76,11 @@ command<-paste(command,paste(names(algo_cmd),algo_cmd,collapse = " "))
 system(command,intern = TRUE)
 
 ##create raster
-retStack<-assign(paste0(tools::file_path_sans_ext(basename(outName)),"band_1"),
-                 raster::stack(outName))
+retStack<-assign(outName,raster::raster(outName))
+
 
 ## plot raster
 raster::plot(retStack)
-
 } 
 
 }

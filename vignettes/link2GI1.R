@@ -264,3 +264,14 @@
 #  # check imported data set
 #  rgrass7::execGRASS('v.info', map = "Zensus_Bevoelkerung_100m_")
 
+## ---- eval=FALSE---------------------------------------------------------
+#  install.packages(c("sf", "raster",  "rgdal", "gdalUtils", "tools", "rgrass7", "sp", "RSAGA", "link2GI"))
+#  
+#  # for the Canopy height model usecase you need to install uavRst
+#  devtools::install_github("gisma/uavRst", ref = "master")
+
+## ---- eval=FALSE---------------------------------------------------------
+#  url <- "https://github.com/gisma/link2gi2018/archive/master.zip"
+#  res <- curl::curl_download(url, paste0(tmpDir(),"master.zip"))
+#  utils::unzip(zipfile = res, exdir = "~")
+

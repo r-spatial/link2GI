@@ -55,7 +55,9 @@ parseOTBAlgorithms<- function(gili=NULL) {
 #' ## print the current command
 #' print(algo_cmd)
 #' 
+#' ###########
 #' ### usecase
+#' ###########
 #' 
 #' ## link to OTB
 #' otblink<-link2GI::linkOTB()
@@ -68,17 +70,22 @@ parseOTBAlgorithms<- function(gili=NULL) {
 #' res <- curl::curl_download(url, "testdata.zip")
 #' unzip(res,junkpaths = TRUE,overwrite = TRUE)
 #' 
-#' ## get all modules
+#' ## get all available OTB modules
 #' algo<-parseOTBAlgorithms(gili = otblink)
 #' 
-#' ## use edge detection
-#' otb_algorithm<-algo[27]
-#' algo_cmd<-parseOTBFunction(algo = algo[27],gili = otblink)
+#' ## for the example we use the edge detection, 
+#' ## because of the windows call via a batch file 
+#' ## we have to distinguish the module name
+#' ifelse(Sys.info()["sysname"]=="Windows", 
+#' algo_keyword<- "EdgeExtraction.bat",
+#' algo_keyword<- "EdgeExtraction")
 #' 
+#' # write it to a variable
+#' otb_algorithm<-algo[algo[]==algo_keyword]
+#' # now create the command list
+#' algo_cmd<-parseOTBFunction(algo = otb_algorithm,gili = otblink)
 #' 
-#' 
-#' ## set arguments
-#' algo_cmd$`-progress`<-1
+#' ## define the current run arguments
 #' algo_cmd$`-in`<- file.path(getwd(),"4490600_5321400.tif")
 #' algo_cmd$`-filter`<- "sobel"
 #' 
@@ -86,23 +93,15 @@ parseOTBAlgorithms<- function(gili=NULL) {
 #' outName<-paste0(getwd(),"/out",algo_cmd$`-filter`,".tif")
 #' algo_cmd$`-out`<- outName
 #' 
-#' if (filter == "touzi") {
-#'   algo_cmd$`-filter.touzi.xradius`<- filter.touzi.xradius
-#'   algo_cmd$`-filter.touzi.yradius`<- filter.touzi.yradius
-#' }
-#' 
-#' 
-#' ## generate basic command 
-#' command<-paste0(path_OTB,"otbcli_",otb_algorithm," ")
 #' ## generate full command
-#' command<-paste(command,paste(names(algo_cmd),algo_cmd,collapse = " "))
+#' command<-paste(paste0(path_OTB,"otbcli_",otb_algorithm," "),
+#'                paste(names(algo_cmd),algo_cmd,collapse = " "))
 #' 
 #' ## make the system call
 #' system(command,intern = TRUE)
 #' 
 #' ##create raster
 #' retStack<-assign(outName,raster::raster(outName))
-#' 
 #' 
 #' ## plot raster
 #' raster::plot(retStack)
@@ -150,33 +149,33 @@ parseOTBFunction <- function(algos=NULL,gili=NULL) {
       args<-strsplit(args,split ="   ")
       
       param<-list()
-      drop<-list()
+
       
       otbcmd[[algo]] <- sapply(args, "[", 2)[[1]]
       #otbtype[[algo]] <- sapply(args, "[", 2:4)
       otbhelp[[algo]] <- sapply(args, "[", 2:4)
       for (j in 1:(length(args)-1)){
-
+        drop<-FALSE
         if (length(grep("default value is",sapply(args, "[", 4)[[j]])) > 0)  {
           tmp<-strsplit(sapply(args, "[", 4)[[j]],split ="default value is ")[[1]][2]
           tmp <-strsplit(tmp,split =")")[[1]][1]
           
           default <- tmp
         }
-        else if (length(grep("(OTB-Team)",args[[j]])) > 0) drop <- append(drop,j)
-        else if (length(grep("(-help)",args[[j]])) > 0) drop <- append(drop,j)
-        else if (length(grep("(otbcli_)",args[[j]])) > 0) drop <- append(drop,j)
-        
+        else if (length(grep("(OTB-Team)",args[[j]])) > 0) drop <- TRUE
+        else if (length(grep("(-help)",args[[j]])) > 0) drop <- TRUE
+        else if (length(grep("(otbcli_)",args[[j]])) > 0) drop <- TRUE
+        else if (length(grep("(-inxml)",args[[j]])) > 0) drop <- TRUE
         else if (length(grep("(mandatory)",sapply(args, "[", 4)[[j]])) > 0) default <- "mandatory"
         else if  (sapply(args, "[", 4)[[j]] == "Report progress ") default <- "false"
         
 
         else default < sapply(args, "[", 4)[[j]]
-        
-        param[[paste0(sapply(args, "[", 2)[[j]])]] <- default
+
+        if (!drop) param[[paste0(sapply(args, "[", 2)[[j]])]] <- default
         
       }
-      args=args[-drop[[1]]]
+
       if (length(ocmd) > 0)
         ocmd[[algo]]<- append(otbcmd,assign(algo, param))
       else

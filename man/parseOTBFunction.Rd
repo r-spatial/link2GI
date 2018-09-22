@@ -30,7 +30,9 @@ algo_cmd<-parseOTBFunction(algo = otb_algorithm,gili = otbLinks)
 ## print the current command
 print(algo_cmd)
 
+###########
 ### usecase
+###########
 
 ## link to OTB
 otblink<-link2GI::linkOTB()
@@ -43,17 +45,22 @@ url<-"http://www.ldbv.bayern.de/file/zip/5619/DOP\%2040_CIR.zip"
 res <- curl::curl_download(url, "testdata.zip")
 unzip(res,junkpaths = TRUE,overwrite = TRUE)
 
-## get all modules
+## get all available OTB modules
 algo<-parseOTBAlgorithms(gili = otblink)
 
-## use edge detection
-otb_algorithm<-algo[27]
-algo_cmd<-parseOTBFunction(algo = algo[27],gili = otblink)
+## for the example we use the edge detection, 
+## because of the windows call via a batch file 
+## we have to distinguish the module name
+ifelse(Sys.info()["sysname"]=="Windows", 
+algo_keyword<- "EdgeExtraction.bat",
+algo_keyword<- "EdgeExtraction")
 
+# write it to a variable
+otb_algorithm<-algo[algo[]==algo_keyword]
+# now create the command list
+algo_cmd<-parseOTBFunction(algo = otb_algorithm,gili = otblink)
 
-
-## set arguments
-algo_cmd$`-progress`<-1
+## define the current run arguments
 algo_cmd$`-in`<- file.path(getwd(),"4490600_5321400.tif")
 algo_cmd$`-filter`<- "sobel"
 
@@ -61,23 +68,15 @@ algo_cmd$`-filter`<- "sobel"
 outName<-paste0(getwd(),"/out",algo_cmd$`-filter`,".tif")
 algo_cmd$`-out`<- outName
 
-if (filter == "touzi") {
-  algo_cmd$`-filter.touzi.xradius`<- filter.touzi.xradius
-  algo_cmd$`-filter.touzi.yradius`<- filter.touzi.yradius
-}
-
-
-## generate basic command 
-command<-paste0(path_OTB,"otbcli_",otb_algorithm," ")
 ## generate full command
-command<-paste(command,paste(names(algo_cmd),algo_cmd,collapse = " "))
+command<-paste(paste0(path_OTB,"otbcli_",otb_algorithm," "),
+               paste(names(algo_cmd),algo_cmd,collapse = " "))
 
 ## make the system call
 system(command,intern = TRUE)
 
 ##create raster
 retStack<-assign(outName,raster::raster(outName))
-
 
 ## plot raster
 raster::plot(retStack)

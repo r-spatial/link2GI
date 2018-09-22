@@ -122,11 +122,18 @@ parseOTBFunction <- function(algos=NULL,gili=NULL) {
   for (algo in algos){
     if (algo != ""){
       system("rm otb_module_dump.txt",intern = FALSE,ignore.stderr = TRUE)
-      system2(paste0(path_OTB,"otbcli"),paste0(algo," -help >> otb_module_dump.txt 2>&1"))
-      txt<-readLines("otb_module_dump.txt")
+      ifelse(Sys.info()["sysname"]=="Windows",
+             system(paste0(path_OTB,"otbcli_",paste0(algo," -help >> otb_module_dump.txt 2>&1"))), 
+             system2(paste0(path_OTB,"otbcli"),paste0(algo," -help >> otb_module_dump.txt 2>&1"))
+             )
+      
+      
+      
+         txt<-readLines("otb_module_dump.txt")
       # Pull out the appropriate line
       args <- txt[grep("-", txt)]
-      args <- args[-grep("http",args)]
+      if (Sys.info()["sysname"]=="Linux") args <- args[-grep("http",args)]
+      
       # Delete unwanted characters in the lines we pulled out
       args <- gsub("MISSING", "     ", args, fixed = TRUE)
       args <- gsub("\t", "     ", args, fixed = TRUE)
@@ -143,26 +150,33 @@ parseOTBFunction <- function(algos=NULL,gili=NULL) {
       args<-strsplit(args,split ="   ")
       
       param<-list()
+      drop<-list()
       
       otbcmd[[algo]] <- sapply(args, "[", 2)[[1]]
       #otbtype[[algo]] <- sapply(args, "[", 2:4)
       otbhelp[[algo]] <- sapply(args, "[", 2:4)
       for (j in 1:(length(args)-1)){
-        
+
         if (length(grep("default value is",sapply(args, "[", 4)[[j]])) > 0)  {
           tmp<-strsplit(sapply(args, "[", 4)[[j]],split ="default value is ")[[1]][2]
           tmp <-strsplit(tmp,split =")")[[1]][1]
           
           default <- tmp
         }
+        else if (length(grep("(OTB-Team)",args[[j]])) > 0) drop <- append(drop,j)
+        else if (length(grep("(-help)",args[[j]])) > 0) drop <- append(drop,j)
+        else if (length(grep("(otbcli_)",args[[j]])) > 0) drop <- append(drop,j)
+        
         else if (length(grep("(mandatory)",sapply(args, "[", 4)[[j]])) > 0) default <- "mandatory"
         else if  (sapply(args, "[", 4)[[j]] == "Report progress ") default <- "false"
+        
+
         else default < sapply(args, "[", 4)[[j]]
         
         param[[paste0(sapply(args, "[", 2)[[j]])]] <- default
         
       }
-      
+      args=args[-drop[[1]]]
       if (length(ocmd) > 0)
         ocmd[[algo]]<- append(otbcmd,assign(algo, param))
       else

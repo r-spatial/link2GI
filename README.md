@@ -7,13 +7,12 @@
 
 # link2GI
 
-`link2gi` provides functions that make it a bit easier to connect most of the common open source GI software packages to the R-biotop in a straightforward way. It supports both the use of wrapper packages and the direct use via system calls. It focuses on `Linux` and `WindowsX` operating systems but nevertheless it should also work with `OSX`.
+`link2GI` provides functions that make it a bit easier to connect straightforward some of the common open source GI software packages to the R-biotop. It supports both the use of wrapper packages and the direct API-use via system calls. It focuses on `Linux` and `WindowsX` operating systems but nevertheless it should also work with `OSX`.
 
 To utilize the power of the open source GI tools from within `R` you need to install  them first. As a first promising opportunity to do fullfil most of the requirements you may install `QGIS, GRASS`- and `SAGA-GIS` following the excellent [installation instructions](https://github.com/jannes-m/RQGIS/blob/master/vignettes/install_guide.Rmd)  of the [RQGIS](https://CRAN.R-project.org/package=RQGIS) package will have a good first try to ensure a smooth working environment. Note: for most of the cases you may use just `RQGIS` as wrapper for the `QGIS` related functionality. 
 
-If you have several versions installed or if you want to use the full power of the GI software it will be a nice and helpful tool to deal with some strange behaviours and requirements. Especially helpful is the support of `OTB`, the `GDAL-Python` functions and a simple support to use any `SAGA` version straightforward via the CLI. Hopefully `RSAGA` and [`Rsagacmd`](https://github.com/stevenpawley/Rsagacmd) will join forces in one package in the future. Anyway the brand new release 1.0.0 of  `RSAGA` as well as the current `Rsagacmd` will work with the environment settings as provided by `linkSAGA`.
+If you have several versions installed or if you want to use the full power of the GI software it will be a nice and helpful tool to deal with some strange behaviours and requirements. Especially helpful is the support of `OTB`, the `GDAL-Python` functions and a simple support to use any `SAGA` version via the CLI. Hopefully `RSAGA` and [`Rsagacmd`](https://github.com/stevenpawley/Rsagacmd) will join forces in one package in the future. Anyway the brand new release 1.2.0 of  `RSAGA` as well as the current `Rsagacmd` will work with the environment settings as provided by `linkSAGA`.
 
-Next major release will focus on adding CLI interfaces to the GI tools that will not anymore be hosted under the `QGIS` processing hood and hence will also loose the interface via `RQGIS`. 
 
 # Installation
 

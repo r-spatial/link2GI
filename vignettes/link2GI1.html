@@ -389,6 +389,91 @@ linkGRASS7(meuse)
 <pre><code class="r"> linkGRASS7(spatial_params = c(178605,329714,181390,333611,&quot;+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +no_defs +a=6377397.155 +rf=299.1528128 +towgs84=565.4171,50.3319,465.5524,-0.398957,0.343988,-1.8774,4.0725 +to_meter=1&quot;)) 
 </code></pre>
 
+<h2>A typical usecase for the Orfeo Toolbox wrapper</h2>
+
+<p>link2GI supports the use of the Orfeo Toolbox with a listbased simple wrapper function. Actually two functions parse the modules and functions syntax dumps and generate a command list that is easy to modify with the necessary arguments.</p>
+
+<p>Usually you have to get the module list first:</p>
+
+<pre><code class="r"># link to the installed OTB 
+otbLinks&lt;-link2GI::linkOTB()
+
+
+# get the modulelist from the linked version
+algo&lt;-parseOTBAlgorithms(gili = otbLinks)
+</code></pre>
+
+<p>Based on the modules of the current version of OTB you can then choose the module(s) you want to use.</p>
+
+<pre><code class="r">## for the example we use the edge detection, 
+## because of the windows call via a batch file 
+## we have to distinguish the module name
+ifelse(Sys.info()[&quot;sysname&quot;]==&quot;Windows&quot;, 
+algo_keyword&lt;- &quot;EdgeExtraction.bat&quot;,
+algo_keyword&lt;- &quot;EdgeExtraction&quot;)
+
+# now create the command list
+algo_cmd&lt;-parseOTBFunction(algo = algo[algo[]==algo_keyword],gili = otblink)
+## print the current command
+print(algo_cmd)
+</code></pre>
+
+<p>Admittedly this is a very straightforward and preliminary approach. Nevertheless it provids you a valid list of all OTB API calls that can easily manipulated for your needs. The following working example will give you an idea how to use it.</p>
+
+<pre><code class="r">###########
+### usecase
+###########
+
+## link to OTB
+otblink&lt;-link2GI::linkOTB()
+path_OTB&lt;-otblink$pathOTB
+
+## get data
+setwd(tempdir())
+## get some typical data as provided by the authority
+url&lt;-&quot;http://www.ldbv.bayern.de/file/zip/5619/DOP%2040_CIR.zip&quot;
+res &lt;- curl::curl_download(url, &quot;testdata.zip&quot;)
+unzip(res,junkpaths = TRUE,overwrite = TRUE)
+
+## get all available OTB modules
+algo&lt;-parseOTBAlgorithms(gili = otblink)
+
+## for the example we use the edge detection, 
+## because of the windows call via a batch file 
+## we have to distinguish the module name
+ifelse(Sys.info()[&quot;sysname&quot;]==&quot;Windows&quot;, 
+algo_keyword&lt;- &quot;EdgeExtraction.bat&quot;,
+algo_keyword&lt;- &quot;EdgeExtraction&quot;)
+
+# write it to a variable
+otb_algorithm&lt;-algo[algo[]==algo_keyword]
+# now create the command list
+algo_cmd&lt;-parseOTBFunction(algo = otb_algorithm,gili = otblink)
+
+## define the current run arguments
+algo_cmd$`-in`&lt;- file.path(getwd(),&quot;4490600_5321400.tif&quot;)
+algo_cmd$`-filter`&lt;- &quot;sobel&quot;
+
+## create out name
+outName&lt;-paste0(getwd(),&quot;/out&quot;,algo_cmd$`-filter`,&quot;.tif&quot;)
+algo_cmd$`-out`&lt;- outName
+
+## generate full command
+command&lt;-paste(paste0(path_OTB,&quot;otbcli_&quot;,otb_algorithm,&quot; &quot;),
+               paste(names(algo_cmd),algo_cmd,collapse = &quot; &quot;))
+
+## make the system call
+system(command,intern = TRUE)
+
+##create raster
+retStack&lt;-assign(outName,raster::raster(outName))
+
+## plot raster
+raster::plot(retStack)
+
+## End(Not run) 
+</code></pre>
+
 <h1>Advanced examples</h1>
 
 <p>A typical example is the usage of an already existing project database in <code>GRASS</code>. <code>GRASS</code> organizes all data in an internal file structure that is known as gisdbase folder, a mapset and one or more locations within this mapset. All raster and vector data is stored inside this structure and the organisation is performed by <code>GRASS</code>. So a typical task could be to work on data sets that are already stored in an existing <code>GRASS</code> structure</p>

@@ -227,6 +227,95 @@ Setting up `GRASS` manually with spatial parameters of the meuse data
 
 ```
 
+## A typical usecase for the Orfeo Toolbox wrapper
+link2GI supports the use of the Orfeo Toolbox with a listbased simple wrapper function. Actually two functions parse the modules and functions syntax dumps and generate a command list that is easy to modify with the necessary arguments.
+
+Usually you have to get the module list first:
+
+``` {r, eval=FALSE}
+# link to the installed OTB 
+otbLinks<-link2GI::linkOTB()
+
+
+# get the modulelist from the linked version
+algo<-parseOTBAlgorithms(gili = otbLinks)
+
+
+```
+
+Based on the modules of the current version of OTB you can then choose the module(s) you want to use.
+
+``` {r, eval=FALSE}
+
+## for the example we use the edge detection, 
+## because of the windows call via a batch file 
+## we have to distinguish the module name
+ifelse(Sys.info()["sysname"]=="Windows", 
+algo_keyword<- "EdgeExtraction.bat",
+algo_keyword<- "EdgeExtraction")
+
+# now create the command list
+algo_cmd<-parseOTBFunction(algo = algo[algo[]==algo_keyword],gili = otblink)
+## print the current command
+print(algo_cmd)
+```
+
+Admittedly this is a very straightforward and preliminary approach. Nevertheless it provids you a valid list of all OTB API calls that can easily manipulated for your needs. The following working example will give you an idea how to use it.
+
+``` {r, eval=FALSE}
+###########
+### usecase
+###########
+
+## link to OTB
+otblink<-link2GI::linkOTB()
+path_OTB<-otblink$pathOTB
+
+## get data
+setwd(tempdir())
+## get some typical data as provided by the authority
+url<-"http://www.ldbv.bayern.de/file/zip/5619/DOP%2040_CIR.zip"
+res <- curl::curl_download(url, "testdata.zip")
+unzip(res,junkpaths = TRUE,overwrite = TRUE)
+
+## get all available OTB modules
+algo<-parseOTBAlgorithms(gili = otblink)
+
+## for the example we use the edge detection, 
+## because of the windows call via a batch file 
+## we have to distinguish the module name
+ifelse(Sys.info()["sysname"]=="Windows", 
+algo_keyword<- "EdgeExtraction.bat",
+algo_keyword<- "EdgeExtraction")
+
+# write it to a variable
+otb_algorithm<-algo[algo[]==algo_keyword]
+# now create the command list
+algo_cmd<-parseOTBFunction(algo = otb_algorithm,gili = otblink)
+
+## define the current run arguments
+algo_cmd$`-in`<- file.path(getwd(),"4490600_5321400.tif")
+algo_cmd$`-filter`<- "sobel"
+
+## create out name
+outName<-paste0(getwd(),"/out",algo_cmd$`-filter`,".tif")
+algo_cmd$`-out`<- outName
+
+## generate full command
+command<-paste(paste0(path_OTB,"otbcli_",otb_algorithm," "),
+               paste(names(algo_cmd),algo_cmd,collapse = " "))
+
+## make the system call
+system(command,intern = TRUE)
+
+##create raster
+retStack<-assign(outName,raster::raster(outName))
+
+## plot raster
+raster::plot(retStack)
+
+## End(Not run) 
+```
 #  Advanced examples 
 A typical example is the usage of an already existing project database in `GRASS`. `GRASS` organizes all data in an internal file structure that is known as gisdbase folder, a mapset and one or more locations within this mapset. All raster and vector data is stored inside this structure and the organisation is performed by `GRASS`. So a typical task could be to work on data sets that are already stored in an existing `GRASS` structure
 

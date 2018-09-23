@@ -263,7 +263,7 @@
 #  
 #  # check imported data set
 #  rgrass7::execGRASS('v.info', map = "Zensus_Bevoelkerung_100m_")
-
+"`r Sys.Date()`"
 ## ---- eval=FALSE---------------------------------------------------------
 #  install.packages(c("sf", "raster",  "rgdal", "gdalUtils", "tools", "rgrass7", "sp", "RSAGA", "link2GI"))
 #  

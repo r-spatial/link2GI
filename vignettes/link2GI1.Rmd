@@ -1,6 +1,6 @@
 ---
 author: "Chris Reudenbach"
-date: '2018-09-23'
+date: "`r Sys.Date()`"
 editor_options:
   chunk_output_type: console
 output:
@@ -14,8 +14,12 @@ output:
     theme: united
     toc: yes
 urlcolor: blue
-vignette: |
-  %\VignetteIndexEntry{Link GIS to R} %\VignetteEncoding{UTF-8}{inputenc}\ %\VignetteEngine{knitr::knitr}
+vignette: >
+  %\VignetteEngine{knitr::knitr}
+  %\VignetteIndexEntry{Link GIS to R}
+  %\usepackage[UTF-8]{inputenc}
+editor_options: 
+  chunk_output_type: console
 ---
 
 

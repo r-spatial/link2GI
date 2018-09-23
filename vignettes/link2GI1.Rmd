@@ -4,16 +4,16 @@ date: '2018-09-23'
 editor_options:
   chunk_output_type: console
 output:
-  html_document:
-    theme: united
+  pdf_document:
+    latex_engine: xelatex
     toc: yes
   word_document:
     toc: yes
   rmarkdown: default
-  pdf_document:
-    latex_engine: xelatex
+  html_document:
+    theme: united
     toc: yes
-urlcolor: cyan
+urlcolor: blue
 vignette: |
   %\VignetteIndexEntry{Link GIS to R} %\VignetteEncoding{UTF-8}{inputenc}\ %\VignetteEngine{knitr::knitr}
 ---

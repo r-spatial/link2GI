@@ -17,7 +17,7 @@ urlcolor: blue
 vignette: >
   %\VignetteEngine{knitr::knitr}
   %\VignetteIndexEntry{Link GIS to R}
-  %\usepackage[UTF-8]{inputenc}
+  %\VignetteEncoding{UTF-8}{inputenc}\
 editor_options: 
   chunk_output_type: console
 ---

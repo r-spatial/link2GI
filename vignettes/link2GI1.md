@@ -1,18 +1,23 @@
 ---
 author: "Chris Reudenbach"
-date: '2018-08-18'
+date: "2018-09-23"
+editor_options:
+  chunk_output_type: console
 output:
-  html_document:
-    theme: united
-    toc: yes
   pdf_document:
     latex_engine: xelatex
     toc: yes
+  word_document:
+    toc: yes
   rmarkdown: default
+  html_document:
+    theme: united
+    toc: yes
+urlcolor: blue
 vignette: >
+  %\VignetteEngine{knitr::knitr}
   %\VignetteIndexEntry{Link GIS to R}
   %\VignetteEncoding{UTF-8}{inputenc}\
-  %\VignetteEngine{knitr::knitr}
 editor_options: 
   chunk_output_type: console
 ---
@@ -218,8 +223,7 @@ Link to the permanent `GRASS` gisdbase (folder structure) at "~/temp3" with the 
 
 
 ```r
-linkGRASS7(gisdbase = "~/temp3",
-                     location = "project1", 
+linkGRASS7(gisdbase = "~/temp3", location = "project1", 
                      gisdbase_exist = TRUE)   
 ```
 
@@ -229,7 +233,14 @@ Setting up `GRASS` manually with spatial parameters of the meuse data
 
 
 ```r
- linkGRASS7(spatial_params = c(178605,329714,181390,333611,"+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +no_defs +a=6377397.155 +rf=299.1528128 +towgs84=565.4171,50.3319,465.5524,-0.398957,0.343988,-1.8774,4.0725 +to_meter=1")) 
+ linkGRASS7(spatial_params = c(178605,329714,181390,333611,
+                              "+proj=sterea +lat_0=52.15616055555555 
+                               +lon_0=5.38763888888889 +k=0.9999079 
+                               +x_0=155000 +y_0=463000 +no_defs 
+                               +a=6377397.155 +rf=299.1528128
+                               +towgs84=565.4171,50.3319,465.5524,
+                                -0.398957,0.343988,-1.8774,4.0725
+                               +to_meter=1")) 
 ```
 
 ## A typical usecase for the Orfeo Toolbox wrapper
@@ -351,11 +362,14 @@ We also have to download a [meta data description file](https://www.zensus2011.d
   setwd(path_run)
 
 # get some typical authority generated data 
-  url<-"https://www.zensus2011.de/SharedDocs/Downloads/DE/Pressemitteilung/DemografischeGrunddaten/csv_Bevoelkerung_100m_Gitter.zip;jsessionid=294313DDBB57914D6636DE373897A3F2.2_cid389?__blob=publicationFile&v=3"
+  url<-"https://www.zensus2011.de/SharedDocs/Downloads/DE/Pressemitteilung/
+        DemografischeGrunddaten/csv_Bevoelkerung_100m_Gitter.zip;
+        jsessionid=294313DDBB57914D6636DE373897A3F2.2_cid389?__blob=publicationFile&v=3"
  res <- curl::curl_download(url, paste0(path_run,"testdata.zip"))
 
 # unzip it
- unzip(res,files = grep(".csv", unzip(res,list = TRUE)$Name,value = TRUE),junkpaths = TRUE,overwrite = TRUE)
+ unzip(res,files = grep(".csv", unzip(res,list = TRUE)$Name,value = TRUE),
+       junkpaths = TRUE, overwrite = TRUE)
 fn <- list.files(pattern = "[.]csv$", path = getwd(), full.names = TRUE)
 ```
 
@@ -393,7 +407,9 @@ We can easy rasterize this data as it is intentionally gridded data.that means w
  p <- colorRampPalette(brewer.pal(8, "Reds"))
  # aet resolution to 1 sqkm
  mapview::mapviewOptions(mapview.maxpixels = r@ncols*r@nrows/10)
- mapview::mapview(r, col.regions = p, at = c(-1,10,25,50,100,500,1000,2500), legend = TRUE)
+ mapview::mapview(r, col.regions = p, 
+                  at = c(-1,10,25,50,100,500,1000,2500), 
+                  legend = TRUE)
 ```
 
 So far nothing new. Now we create a new but permanent `GRASS` gisbase using the spatial parameters from the raster object. As you know the `linkGRASS7` function performs a full search for one or more than one existing  `GRASS` installations. If a valid `GRASS` installation exists all parameter are setup und the package `rgrass7`  is linked.
@@ -405,7 +421,9 @@ Due to the fact that the `gisdbase_exist` is by default set to FALSE it will cre
 ```r
 require(link2GI)
 # initialize GRASS and set up a permanent structure  
-link2GI::linkGRASS7(x = r, gisdbase = paste0(tempdir(),"/link2GI_examples"),location = "microzensus2011")   
+link2GI::linkGRASS7(x = r, 
+                    gisdbase = paste0(tempdir(),"/link2GI_examples"),
+                    location = "microzensus2011")   
 ```
 
 Finally we can now import the data to the `GRASS` gisdbase using the `rgass7` package functionality. 
@@ -419,15 +437,15 @@ require(raster)
 require(rgrass7)
 
 # write it to geotiff
-  raster::writeRaster(r, paste0(path_run,"/Zensus_Bevoelkerung_100m-Gitter.tif"), overwrite = TRUE)
+  raster::writeRaster(r, paste0(path_run,"/Zensus_Bevoelkerung_100m-Gitter.tif"), 
+                      overwrite = TRUE)
 
 # import raster to GRASS
 rgrass7::execGRASS('r.external',
                    flags=c('o',"overwrite","quiet"),
                    input=paste0(path_run,"/Zensus_Bevoelkerung_100m-Gitter.tif"),
                    output="Zensus_Bevoelkerung_100m_Gitter",
-                   band=1
-)
+                   band=1)
 
 # check imported data set
 rgrass7::execGRASS('r.info',
@@ -460,9 +478,7 @@ The `GRASS` gisdbase already exists. So we pass  `linkGRASS7` the argument `gisd
            obj_name = "Zensus_Bevoelkerung_100m_",
            gisdbase = paste0(tempdir(),"/link2GI_examples"),
            location = "microzensus2011",
-           gisdbase_exist = TRUE
-          
-           )
+           gisdbase_exist = TRUE)
  
 # check imported data set
 rgrass7::execGRASS('v.info', map = "Zensus_Bevoelkerung_100m_") 
@@ -483,7 +499,8 @@ Please check the R dependencies:
 
 
 ```r
-install.packages(c("sf", "raster",  "rgdal", "gdalUtils", "tools", "rgrass7", "sp", "RSAGA", "link2GI"))
+install.packages(c("sf", "raster",  "rgdal", "gdalUtils", 
+                   "tools", "rgrass7", "sp", "RSAGA", "link2GI"))
 
 # for the Canopy height model usecase you need to install uavRst
 devtools::install_github("gisma/uavRst", ref = "master")

@@ -62,16 +62,17 @@ linkOTB <- function(bin_OTB=NULL,
       cat("You have more than one valid OTB version\n")
       #print("installation folder: ",params_OTB$baseDir,"\ninstallation type: ",params_OTB$installationType,"\n")
       print(params_OTB,right = FALSE,row.names = TRUE) 
-      cat("Your have choosen version: ",ver_select,"\n")
+      cat("You have choosen version: ",ver_select,"\n")
       if (is.null(type_OTB)) {
         pathOTB <- params_OTB$binDir[[ver_select]] 
         otbCmd <- params_OTB$otbCmd[[ver_select]]
       }
-    } else if (nrow(params_OTB) > 1 &  is.numeric(ver_select) & ver_select > 0) {
+    } else if (nrow(params_OTB) > 1 &  (!ver_select)) {
+      if (!quiet){
       cat("You have more than one valid OTB version\n")
       #print("installation folder: ",params_OTB$baseDir,"\ninstallation type: ",params_OTB$installationType,"\n")
       print(params_OTB,right = FALSE,row.names = TRUE) 
-      cat("Your have choosen version: ",ver_select,"\n")
+      cat("You have choosen version: ",ver_select,"\n")}
       if (is.null(type_OTB)) {
         pathOTB <- params_OTB$binDir[[ver_select]] 
         otbCmd <- params_OTB$otbCmd[[ver_select]]

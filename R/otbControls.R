@@ -140,7 +140,10 @@ searchOTBX <- function(MP = "/usr",
       if (!grepl(MP,raw_OTB)) stop("\n At ",MP," no OTB installation found")
       # trys to identify valid otb installations and their version numbers
       otbInstallations <- lapply(seq(length(raw_OTB)), function(i){
-      
+        
+       # TODO strip version from OTB /usr/bin/otbcli_BandMath -version
+        # "This is the BandMath application, version 6.0.0"
+        
       # if the the tag "OSGEO4W64" exists set installation_type
           root_dir <- substr(raw_OTB[i],1, gregexpr(pattern = "otbcli", raw_OTB[i])[[1]][1] - 1)
         # put the existing GISBASE directory, version number  and installation type in a data frame

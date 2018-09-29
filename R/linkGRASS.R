@@ -229,7 +229,7 @@ linkGRASS7 <- function(x = NULL,
   #################### start with GRASS setup ------------------------------------
   # create the TEMPORARY GRASS location
   rgrass7::initGRASS(gisBase  = grass$gisbase_GRASS,
-                     home = tmpDir(),
+                     home = tempdir(),
                      gisDbase = gisdbase,
                      mapset = "PERMANENT",
                      location = location,

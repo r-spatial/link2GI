@@ -1,14 +1,19 @@
 ---
 author: "Chris Reudenbach"
-date: '2018-08-18'
+date: "2018-09-29"
+editor_options:
+  chunk_output_type: console
 output:
   html_document:
     theme: united
     toc: yes
+  word_document:
+    toc: yes
+  rmarkdown: default
   pdf_document:
     latex_engine: xelatex
     toc: yes
-  rmarkdown: default
+urlcolor: blue
 vignette: >
   %\VignetteIndexEntry{Link GIS to R}
   %\VignetteEncoding{UTF-8}{inputenc}\
@@ -218,8 +223,7 @@ Link to the permanent `GRASS` gisdbase (folder structure) at "~/temp3" with the 
 
 
 ```r
-linkGRASS7(gisdbase = "~/temp3",
-                     location = "project1", 
+linkGRASS7(gisdbase = "~/temp3", location = "project1", 
                      gisdbase_exist = TRUE)   
 ```
 
@@ -229,9 +233,105 @@ Setting up `GRASS` manually with spatial parameters of the meuse data
 
 
 ```r
- linkGRASS7(spatial_params = c(178605,329714,181390,333611,"+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +no_defs +a=6377397.155 +rf=299.1528128 +towgs84=565.4171,50.3319,465.5524,-0.398957,0.343988,-1.8774,4.0725 +to_meter=1")) 
+ linkGRASS7(spatial_params = c(178605,329714,181390,333611,
+                              "+proj=sterea +lat_0=52.15616055555555 
+                               +lon_0=5.38763888888889 +k=0.9999079 
+                               +x_0=155000 +y_0=463000 +no_defs 
+                               +a=6377397.155 +rf=299.1528128
+                               +towgs84=565.4171,50.3319,465.5524,
+                                -0.398957,0.343988,-1.8774,4.0725
+                               +to_meter=1")) 
 ```
 
+## A typical usecase for the Orfeo Toolbox wrapper
+link2GI supports the use of the Orfeo Toolbox with a listbased simple wrapper function. Actually two functions parse the modules and functions syntax dumps and generate a command list that is easy to modify with the necessary arguments.
+
+Usually you have to get the module list first:
+
+
+```r
+# link to the installed OTB 
+otbLinks<-link2GI::linkOTB()
+
+
+# get the modulelist from the linked version
+algo<-parseOTBAlgorithms(gili = otbLinks)
+```
+
+Based on the modules of the current version of OTB you can then choose the module(s) you want to use.
+
+
+```r
+## for the example we use the edge detection, 
+## because of the windows call via a batch file 
+## we have to distinguish the module name
+ifelse(Sys.info()["sysname"]=="Windows", 
+algo_keyword<- "EdgeExtraction.bat",
+algo_keyword<- "EdgeExtraction")
+
+# now create the command list
+algo_cmd<-parseOTBFunction(algo = algo[algo[]==algo_keyword],gili = otblink)
+## print the current command
+print(algo_cmd)
+```
+
+Admittedly this is a very straightforward and preliminary approach. Nevertheless it provids you a valid list of all OTB API calls that can easily manipulated for your needs. The following working example will give you an idea how to use it.
+
+
+```r
+###########
+### usecase
+###########
+
+## link to OTB
+otblink<-link2GI::linkOTB()
+path_OTB<-otblink$pathOTB
+
+## get data
+setwd(tempdir())
+## get some typical data as provided by the authority
+url<-"http://www.ldbv.bayern.de/file/zip/5619/DOP%2040_CIR.zip"
+res <- curl::curl_download(url, "testdata.zip")
+unzip(res,junkpaths = TRUE,overwrite = TRUE)
+
+## get all available OTB modules
+algo<-parseOTBAlgorithms(gili = otblink)
+
+## for the example we use the edge detection, 
+## because of the windows call via a batch file 
+## we have to distinguish the module name
+ifelse(Sys.info()["sysname"]=="Windows", 
+algo_keyword<- "EdgeExtraction.bat",
+algo_keyword<- "EdgeExtraction")
+
+# write it to a variable
+otb_algorithm<-algo[algo[]==algo_keyword]
+# now create the command list
+algo_cmd<-parseOTBFunction(algo = otb_algorithm,gili = otblink)
+
+## define the current run arguments
+algo_cmd$`-in`<- file.path(getwd(),"4490600_5321400.tif")
+algo_cmd$`-filter`<- "sobel"
+
+## create out name
+outName<-paste0(getwd(),"/out",algo_cmd$`-filter`,".tif")
+algo_cmd$`-out`<- outName
+
+## generate full command
+command<-paste(paste0(path_OTB,"otbcli_",otb_algorithm," "),
+               paste(names(algo_cmd),algo_cmd,collapse = " "))
+
+## make the system call
+system(command,intern = TRUE)
+
+##create raster
+retStack<-assign(outName,raster::raster(outName))
+
+## plot raster
+raster::plot(retStack)
+
+## End(Not run) 
+```
 #  Advanced examples 
 A typical example is the usage of an already existing project database in `GRASS`. `GRASS` organizes all data in an internal file structure that is known as gisdbase folder, a mapset and one or more locations within this mapset. All raster and vector data is stored inside this structure and the organisation is performed by `GRASS`. So a typical task could be to work on data sets that are already stored in an existing `GRASS` structure
 
@@ -262,11 +362,14 @@ We also have to download a [meta data description file](https://www.zensus2011.d
   setwd(path_run)
 
 # get some typical authority generated data 
-  url<-"https://www.zensus2011.de/SharedDocs/Downloads/DE/Pressemitteilung/DemografischeGrunddaten/csv_Bevoelkerung_100m_Gitter.zip;jsessionid=294313DDBB57914D6636DE373897A3F2.2_cid389?__blob=publicationFile&v=3"
+  url<-"https://www.zensus2011.de/SharedDocs/Downloads/DE/Pressemitteilung/
+        DemografischeGrunddaten/csv_Bevoelkerung_100m_Gitter.zip;
+        jsessionid=294313DDBB57914D6636DE373897A3F2.2_cid389?__blob=publicationFile&v=3"
  res <- curl::curl_download(url, paste0(path_run,"testdata.zip"))
 
 # unzip it
- unzip(res,files = grep(".csv", unzip(res,list = TRUE)$Name,value = TRUE),junkpaths = TRUE,overwrite = TRUE)
+ unzip(res,files = grep(".csv", unzip(res,list = TRUE)$Name,value = TRUE),
+       junkpaths = TRUE, overwrite = TRUE)
 fn <- list.files(pattern = "[.]csv$", path = getwd(), full.names = TRUE)
 ```
 
@@ -304,7 +407,9 @@ We can easy rasterize this data as it is intentionally gridded data.that means w
  p <- colorRampPalette(brewer.pal(8, "Reds"))
  # aet resolution to 1 sqkm
  mapview::mapviewOptions(mapview.maxpixels = r@ncols*r@nrows/10)
- mapview::mapview(r, col.regions = p, at = c(-1,10,25,50,100,500,1000,2500), legend = TRUE)
+ mapview::mapview(r, col.regions = p, 
+                  at = c(-1,10,25,50,100,500,1000,2500), 
+                  legend = TRUE)
 ```
 
 So far nothing new. Now we create a new but permanent `GRASS` gisbase using the spatial parameters from the raster object. As you know the `linkGRASS7` function performs a full search for one or more than one existing  `GRASS` installations. If a valid `GRASS` installation exists all parameter are setup und the package `rgrass7`  is linked.
@@ -316,7 +421,9 @@ Due to the fact that the `gisdbase_exist` is by default set to FALSE it will cre
 ```r
 require(link2GI)
 # initialize GRASS and set up a permanent structure  
-link2GI::linkGRASS7(x = r, gisdbase = paste0(tempdir(),"/link2GI_examples"),location = "microzensus2011")   
+link2GI::linkGRASS7(x = r, 
+                    gisdbase = paste0(tempdir(),"/link2GI_examples"),
+                    location = "microzensus2011")   
 ```
 
 Finally we can now import the data to the `GRASS` gisdbase using the `rgass7` package functionality. 
@@ -330,15 +437,15 @@ require(raster)
 require(rgrass7)
 
 # write it to geotiff
-  raster::writeRaster(r, paste0(path_run,"/Zensus_Bevoelkerung_100m-Gitter.tif"), overwrite = TRUE)
+  raster::writeRaster(r, paste0(path_run,"/Zensus_Bevoelkerung_100m-Gitter.tif"), 
+                      overwrite = TRUE)
 
 # import raster to GRASS
 rgrass7::execGRASS('r.external',
                    flags=c('o',"overwrite","quiet"),
                    input=paste0(path_run,"/Zensus_Bevoelkerung_100m-Gitter.tif"),
                    output="Zensus_Bevoelkerung_100m_Gitter",
-                   band=1
-)
+                   band=1)
 
 # check imported data set
 rgrass7::execGRASS('r.info',
@@ -371,16 +478,62 @@ The `GRASS` gisdbase already exists. So we pass  `linkGRASS7` the argument `gisd
            obj_name = "Zensus_Bevoelkerung_100m_",
            gisdbase = paste0(tempdir(),"/link2GI_examples"),
            location = "microzensus2011",
-           gisdbase_exist = TRUE
-          
-           )
+           gisdbase_exist = TRUE)
  
 # check imported data set
 rgrass7::execGRASS('v.info', map = "Zensus_Bevoelkerung_100m_") 
 ```
 
 
+## Usecases presented on the GEOSTAT August 2018
 
+During the [GEOSTAT 2018](http://opengeohub.org/node/146) in Prague some more complex usescases has been [presented](https://htmlpreview.github.io/?https://github.com/gisma/link2gi2018/blob/master/link2gi2018.html).
+
+### Find slides and materials
+[GEOSTAT 2018](https://htmlpreview.github.io/?https://github.com/gisma/link2gi2018/blob/master/link2gi2018.html) presentation slides.
+
+[link2GI GEOSTAT](https://github.com/gisma/link2gi2018) github repository.
+
+### Prerequisites
+Please check the R dependencies:
+
+
+```r
+install.packages(c("sf", "raster",  "rgdal", "gdalUtils", 
+                   "tools", "rgrass7", "sp", "RSAGA", "link2GI"))
+
+# for the Canopy height model usecase you need to install uavRst
+devtools::install_github("gisma/uavRst", ref = "master")
+```
+
+In addition you need at least one installation of the following GIS software.
+
+- For `GRASS`- and `SAGA-GIS` follow the [RQGIS installation instructions](https://github.com/jannes-m/RQGIS/blob/master/vignettes/install_guide.Rmd) as provided by Jannes Muenchow. For standalone GRASS you may have a look at the the [geostat2018 instructions](https://gitlab.com/veroandreo/grass-gis-geostat-2018) as provided by Veronica Andreos.
+- For installing the `Orfeo Toolbox`, please follow the OTB cookbook [installation instructions](https://www.orfeo-toolbox.org/CookBook/Installation.html).
+
+Please download the data and scripts for the exercises.
+
+**PLEASE NOTE:** 
+
+If you run the following code you will create the folder *link2gi-master* in your **home folder**. During the tutorial it is assumed to be the root folder.
+
+
+
+```r
+url <- "https://github.com/gisma/link2gi2018/archive/master.zip"
+res <- curl::curl_download(url, paste0(tmpDir(),"master.zip"))
+utils::unzip(zipfile = res, exdir = "~")
+```
+
+## The examples
+
+- Basic usage of SAGA and OTB calls - [SAGA & OTB basic usecase](https://github.com/gisma/link2gi2018/blob/master/R/usecases/saga-otb/useCaseSAGA-OTB.R)
+
+- Wrapping a [GRASS GIS example](https://neteler.gitlab.io/grass-gis-analysis/02_grass-gis_ecad_analysis/) of Marcus Neteler as presented on GEOSTAT 2018 - [Analysing the ECA&D climatic data - reloaded](https://github.com/gisma/link2gi2018/blob/master/R/usecases/grass/useCaseGRASS-Neteler2018.R)
+
+- Performing a GRASS based cost analysis on a huge cost raster - [Beetle spread over high asia](https://github.com/gisma/link2gi2018/blob/master/R/usecases/cost-analysis/useCaseBeetle.R)
+
+- Deriving a canopy height model using a mixed API approach - [Canopy Height Model from UAV derived point clouds](https://github.com/gisma/link2gi2018/blob/master/R/usecases/uav-pc/useCaseCHM.R)
 
 
 

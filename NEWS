@@ -1,3 +1,12 @@
+## link2GI 0.3-3
+new feature: 
+* by default the latest version of each API is selected
+
+bugfixes:
+* OTB basic wrapper fixed for Windows
+* new examples
+* Typos
+
 ## link2GI 0.3-2
 new feature: 
 * ver_select can be used directly with the number of selection 

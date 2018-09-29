@@ -8,7 +8,8 @@ paramGRASSx(set_default_GRASS7 = NULL, MP = "/usr",
   ver_select = FALSE, quiet = TRUE)
 }
 \arguments{
-\item{set_default_GRASS7}{default = NULL will force a search for 'GRASS GIS' You may provide a valid combination as c("C:/OSGeo4W64","grass-7.0.5","osgeo4w")}
+\item{set_default_GRASS7}{default = NULL will force a search for 'GRASS GIS' You may provide a valid combination as 
+c("/usr/lib/grass74","7.4.1","grass74")}
 
 \item{MP}{mount point to be searched. default is "usr"}
 

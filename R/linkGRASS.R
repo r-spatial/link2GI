@@ -140,7 +140,7 @@ linkGRASS7 <- function(x = NULL,
                        mapset = "PERMANENT",
                        location = location,
                        override = TRUE
-    ) 
+                       ) 
    if(!quiet) return(rgrass7::gmeta())
   }
   

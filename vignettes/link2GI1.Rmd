@@ -7,19 +7,15 @@ output:
   pdf_document:
     latex_engine: xelatex
     toc: yes
-  word_document:
-    toc: yes
   rmarkdown: default
   html_document:
     theme: united
     toc: yes
 urlcolor: blue
 vignette: >
-  %\VignetteEngine{knitr::knitr}
   %\VignetteIndexEntry{Link GIS to R}
   %\VignetteEncoding{UTF-8}{inputenc}\
-editor_options: 
-  chunk_output_type: console
+  %\VignetteEngine{knitr::knitr}
 ---
 
 

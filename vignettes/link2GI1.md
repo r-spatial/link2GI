@@ -1,23 +1,23 @@
 ---
 author: "Chris Reudenbach"
-date: "2018-09-23"
+date: "2018-09-29"
 editor_options:
   chunk_output_type: console
 output:
-  pdf_document:
-    latex_engine: xelatex
+  html_document:
+    theme: united
     toc: yes
   word_document:
     toc: yes
   rmarkdown: default
-  html_document:
-    theme: united
+  pdf_document:
+    latex_engine: xelatex
     toc: yes
 urlcolor: blue
 vignette: >
-  %\VignetteEngine{knitr::knitr}
   %\VignetteIndexEntry{Link GIS to R}
   %\VignetteEncoding{UTF-8}{inputenc}\
+  %\VignetteEngine{knitr::knitr}
 editor_options: 
   chunk_output_type: console
 ---

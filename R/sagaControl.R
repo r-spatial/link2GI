@@ -29,8 +29,18 @@ searchSAGAX <- function(MP = "/usr",
     if (!quiet) cat("For providing the path manually see ?searchSAGAX \n")
     
     # find saga and SAGA lib path(es)
-    rawSAGA    <- system2("find", paste(MP," ! -readable -prune -o -type f -executable -iname 'saga_cmd' -print"), stdout = TRUE)
-    rawSAGALib <- system2("find", paste(MP," ! -readable -prune -o -type f  -iname 'libio_gdal.so' -print"), stdout = TRUE)
+    options(show.error.messages = FALSE)
+    options(warn=-1)
+    rawSAGA    <- try(system2("find", paste(MP," ! -readable -prune -o -type f -executable -iname 'saga_cmd' -print"), stdout = TRUE))
+    rawSAGALib <- try(system2("find", paste(MP," ! -readable -prune -o -type f  -iname 'libio_gdal.so' -print"), stdout = TRUE))
+    
+   if (grepl(rawSAGA,pattern = "File not found") | grepl(rawSAGA,pattern = "Datei nicht gefunden")) {
+      rawSAGA<- "message"
+      class(rawSAGA) <- c("try-error", class(rawSAGA))
+    }
+    options(show.error.messages = TRUE)
+    options(warn=0)
+    if(!class(rawSAGA) == "try-error" && length( rawSAGA) > 0) { 
     
     # split the search returns of existing SAGA GIS installation(s
     sagaPath <- lapply(seq(length(rawSAGA)), function(i){
@@ -44,10 +54,16 @@ searchSAGAX <- function(MP = "/usr",
     }) # end lapply
     # bind df 
     sagaPath <- do.call("rbind", sagaPath)
-    
+   }
+  else {
+      if (!quiet) cat(paste("Did not find any valid SAGA installation at mount point",MP))
+      return(installations_GRASS <- FALSE)}
     
   } # end of sysname = Windows
-  else {sagaPath <- "Sorry no Linux system..." }
+  else {
+    sagaPath <- NULL 
+    cat("No SAGA GIS found.\n")
+  }
   return(sagaPath)
 }
 
@@ -82,8 +98,19 @@ searchSAGAW <- function(DL = "C:",
       if (!quiet) cat("For providing the path manually see ?searchSAGAW \n")
       
       # for a straightforward use of a correct codetable using the cmd command "dir" is used
-      rawSAGA <- system(paste0("cmd.exe /c dir /B /S ",DL,"\\","saga_cmd.exe"),intern = TRUE)
       
+      options(show.error.messages = FALSE)
+      options(warn=-1)
+      rawSAGA <- try(system(paste0("cmd.exe /c dir /B /S ",DL,"\\","saga_cmd.exe"),intern = TRUE))
+      
+      if (grepl(rawSAGA,pattern = "File not found") | grepl(rawSAGA,pattern = "Datei nicht gefunden")) {
+        rawSAGA<- "message"
+        class(rawSAGA) <- c("try-error", class(rawSAGA))
+      }
+      options(show.error.messages = TRUE)
+      options(warn=0)
+      
+      if(!class(rawSAGA) == "try-error" && length( rawSAGA) > 0) {
       # trys to identify valid SAGA GIS installation(s) & version number(s)
       sagaPath <- lapply(seq(length(rawSAGA)), function(i){
         cmdfileLines <- rawSAGA[i]
@@ -121,9 +148,15 @@ searchSAGAW <- function(DL = "C:",
       # bind df 
       sagaPath <- do.call("rbind", sagaPath)
       
+      }else {
+        if (!quiet) cat(paste("Did not find any valid SAGA installation at mount point",DL))
+        return(sagaPath <- FALSE)}
     }  #  end of is.null(sagaPath)
   } # end of sysname = Windows
-  else {sagaPath <- "Sorry no Windows system..." }
+  else {
+    sagaPath <-NULL
+    cat("Sorry no Windows system...")
+  }
   return(sagaPath)
 }
 

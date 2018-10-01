@@ -230,13 +230,18 @@ searchGRASSW <- function(DL = "C:",
   # recursive dir for grass*.bat returns all version of grass bat files
   if (!quiet) cat("\nsearching for GRASS installations - this may take a while\n")
   if (!quiet) cat("For providing the path manually see ?searchGRASSW \n")
-  raw_GRASS <- try(system(paste0("cmd.exe /c dir /B /S ", DL, "\\grass*.bat"), intern = T))
-  if (identical(raw_GRASS, character(0))) installations_GRASS <- FALSE 
+  options(show.error.messages = FALSE)
   options(warn=-1)
-  if(grepl(raw_GRASS,pattern = "Datei nicht gefunden") || grepl(raw_GRASS,pattern = "File not found")) 
-    {installations_GRASS <- FALSE }
+  raw_GRASS <- try(system(paste0("cmd.exe /c dir /B /S ", DL, "\\grass*.bat"), intern = TRUE))
+
+   if (grepl(raw_GRASS,pattern = "File not found") | grepl(raw_GRASS,pattern = "Datei nicht gefunden")) {
+     raw_GRASS<- "message"
+     class(raw_GRASS) <- c("try-error", class(raw_GRASS))
+   }
+  options(show.error.messages = TRUE)
   options(warn=0)
-  if (installations_GRASS){
+  
+  if(!class(raw_GRASS) == "try-error" && length( raw_GRASS) > 0) {
   # trys to identify valid grass installation(s) & version number(s)
   installations_GRASS <- lapply(seq(length(raw_GRASS)), function(i){
     # convert codetable according to cmd.exe using type
@@ -303,8 +308,11 @@ searchGRASSW <- function(DL = "C:",
   
   # bind the df lines
   installations_GRASS <- do.call("rbind", installations_GRASS)
-  }
   return(installations_GRASS)
+  } else {
+  if(!quiet) cat("Did not find any valid GRASS installation at mount point",DL)
+  return(installations_GRASS <- FALSE)}
+  
 }
 
 
@@ -354,8 +362,8 @@ searchGRASSX <- function(MP = "/usr"){
     installations_GRASS <- do.call("rbind", installations_GRASS)
     return(installations_GRASS)
   } else {
-    warning(paste("Did not find any valid GRASS installation at mount point",MP))
-    return(installations_GRASS <- NULL)
+    if(!quiet) cat("Did not find any valid GRASS installation at mount point",MP)
+    return(installations_GRASS <- FALSE)
   }
 }
 

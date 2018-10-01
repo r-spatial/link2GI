@@ -67,8 +67,22 @@ searchOTBW <- function(DL = "C:",
       # recursive dir for otb*.bat returns all version of otb bat files
       if (!quiet) cat("\nsearching for Orfeo Toolbox installations - this may take a while\n")
       if (!quiet) cat("For providing the path manually see ?searchOTBW \n")
-      raw_OTB <- system(paste0("cmd.exe"," /c dir /B /S ",DL,"\\","otbcli.bat"),intern=TRUE)
-      if (!grepl(DL,raw_OTB)) stop("\n At ",DL," no OTB installation found")
+      
+      
+      options(show.error.messages = FALSE)
+      options(warn=-1)
+      raw_OTB  <- try(system(paste0("cmd.exe"," /c dir /B /S ",DL,"\\","otbcli.bat"),intern=TRUE))
+      
+      if (grepl(raw_OTB,pattern = "File not found") | grepl(raw_OTB,pattern = "Datei nicht gefunden")) {
+        raw_OTB<- "message"
+        class(raw_OTB) <- c("try-error", class(raw_OTB))
+      }
+      options(show.error.messages = TRUE)
+      options(warn=0)
+      
+      if(!class(raw_OTB) == "try-error" && length( raw_OTB) > 0) {
+      #if (!grepl(DL,raw_OTB)) stop("\n At ",DL," no OTB installation found")
+      
       # trys to identify valid otb installations and their version numbers
       otbInstallations <- lapply(seq(length(raw_OTB)), function(i){
         # convert codetable according to cmd.exe using type
@@ -108,8 +122,15 @@ searchOTBW <- function(DL = "C:",
       }) # end lapply
       # bind the df lines
       otbInstallations <- do.call("rbind", otbInstallations)
+      } else {
+        if(!quiet) cat("Did not find any valid OTB installation at mount point",DL)
+        return(otbInstallations <- FALSE)}
     }
-  } else {otbInstallations <- "Sorry no Windows system..." }
+  } else {
+    otbInstallations <- NULL
+    cat("Sorry no Windows system..." )
+  
+  }
   return(otbInstallations)
 }
 
@@ -136,8 +157,21 @@ searchOTBX <- function(MP = "/usr",
       # recursive dir for otb*.bat returns all version of otb bat files
       if (!quiet) cat("\nsearching for Orfeo Toolbox installations - this may take a while\n")
       if (!quiet) cat("For providing the path manually see ?searchOTBX \n")
-      raw_OTB <- system2("find", paste("/usr"," ! -readable -prune -o -type f -executable -iname 'otbcli' -print"),stdout = TRUE)
-      if (!grepl(MP,raw_OTB)) stop("\n At ",MP," no OTB installation found")
+
+      raw_OTB <- 
+      options(show.error.messages = FALSE)
+      options(warn=-1)
+      raw_OTB  <- try(system2("find", paste("/usr"," ! -readable -prune -o -type f -executable -iname 'otbcli' -print"),stdout = TRUE))
+      
+      if (grepl(raw_OTB,pattern = "File not found") | grepl(raw_OTB,pattern = "Datei nicht gefunden")) {
+        raw_OTB<- "message"
+        class(raw_OTB) <- c("try-error", class(raw_OTB))
+      }
+      options(show.error.messages = TRUE)
+      options(warn=0)
+      
+      if(!class(raw_OTB) == "try-error" && length( raw_OTB) > 0) {
+      #if (!grepl(MP,raw_OTB)) stop("\n At ",MP," no OTB installation found")
       # trys to identify valid otb installations and their version numbers
       otbInstallations <- lapply(seq(length(raw_OTB)), function(i){
         
@@ -151,7 +185,9 @@ searchOTBX <- function(MP = "/usr",
       }) # end lapply
       # bind the df lines
       otbInstallations <- do.call("rbind", otbInstallations)
-    
+      } else {
+        if(!quiet) cat("Did not find any valid OTB installation at mount point",DL)
+        return(otbInstallations <- FALSE)}
   
   return(otbInstallations)
 }

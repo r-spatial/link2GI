@@ -322,6 +322,8 @@ searchGRASSW <- function(DL = "C:",
 #'@description Search for valid 'GRASS GIS' installations at a given 'Linux' mount point
 #'@param MP default is /usr
 #'@return A dataframe containing 'GRASS GIS' binary folder(s), version name(s) and installation type code(s)
+#'@param quiet boolean  switch for supressing console messages default is TRUEs
+
 #'@author Chris Reudenbach
 #'@export searchGRASSX
 #'@keywords internal
@@ -335,7 +337,7 @@ searchGRASSW <- function(DL = "C:",
 #' searchGRASSX("~/")
 #' }
 
-searchGRASSX <- function(MP = "/usr"){
+searchGRASSX <- function(MP = "/usr",quiet =TRUE){
   if (MP=="default") MP <- "/usr"
   raw_GRASS <- system2("find", paste(MP," ! -readable -prune -o -type f -executable -iname 'grass??' -print"),stdout = TRUE)
   

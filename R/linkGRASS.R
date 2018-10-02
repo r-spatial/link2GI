@@ -132,6 +132,7 @@ linkGRASS7 <- function(x = NULL,
     if (is.null(search_path)) search_path <- "/usr"
     grass <- paramGRASSx(default_GRASS7,search_path,ver_select)
   }
+  if (grass != FALSE) {
   # if an existing gdbase is provided link it  
   if (!is.null(location) & !is.null(gisdbase) & gisdbase_exist ) {
     rgrass7::initGRASS(gisBase  = grass$gisbase_GRASS,
@@ -219,8 +220,8 @@ linkGRASS7 <- function(x = NULL,
     ymin <- -90
     if (!is.null(resolution)) resolution<- resolution
     else resolution <- "1"
-    
-  }
+    }
+
   
   
   
@@ -276,6 +277,10 @@ linkGRASS7 <- function(x = NULL,
     stop("Currently only raster* or sp* objects are supported - have to stop.")
   }
   if(!quiet) print(rgrass7::gmeta())
+  } else {
+    grass <-FALSE
+    returnPaths <- TRUE
+  }
   if (returnPaths) return(grass)
 }
 

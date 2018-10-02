@@ -40,7 +40,7 @@ paramGRASSx <- function(set_default_GRASS7=NULL,
     }
   
   # choosing the desired installation depending on the ver_select options 
-  
+  if (params_GRASS != FALSE) {
   # if only one take it  
   if (nrow(params_GRASS) == 1) {  
     gisbase_GRASS <- as.character(params_GRASS$instDir)
@@ -80,6 +80,7 @@ paramGRASSx <- function(set_default_GRASS7=NULL,
   grass<-list()
   grass$gisbase_GRASS<-gisbase_GRASS
   grass$installed <- params_GRASS
+  } else {grass <-FALSE}
   return(grass)
   
   #return(gisbase_GRASS)
@@ -129,7 +130,7 @@ paramGRASSw <- function(set_default_GRASS7=NULL,
     params_GRASS <- rbind.data.frame(set_default_GRASS7)
     names(params_GRASS)<-c("instDir","version","installation_type")
   }
-  
+  if (params_GRASS != FALSE) {
   # if just one valid installation was found take it
   if (nrow(params_GRASS) == 1) {  
     gisbase_GRASS <- setenvGRASSw(root_GRASS = params_GRASS$instDir[[1]],
@@ -200,6 +201,7 @@ paramGRASSw <- function(set_default_GRASS7=NULL,
   grass$version <- grass_version
   grass$type <- installation_type
   grass$installed <- params_GRASS
+  } else {grass <-FALSE}
   return(grass)
 }
 
@@ -232,16 +234,16 @@ searchGRASSW <- function(DL = "C:",
   if (!quiet) cat("For providing the path manually see ?searchGRASSW \n")
   options(show.error.messages = FALSE)
   options(warn=-1)
-  raw_GRASS <- try(system(paste0("cmd.exe /c dir /B /S ", DL, "\\grass*.bat"), intern = TRUE))
+  raw_GRASS <- try(system(paste0("cmd.exe /c dir /B /S ", DL, "\\grasss*.bat"), intern = TRUE))
 
    if (grepl(raw_GRASS,pattern = "File not found") | grepl(raw_GRASS,pattern = "Datei nicht gefunden")) {
-     raw_GRASS<- "message"
+
      class(raw_GRASS) <- c("try-error", class(raw_GRASS))
    }
   options(show.error.messages = TRUE)
   options(warn=0)
   
-  if(!class(raw_GRASS) == "try-error" && length( raw_GRASS) > 0) {
+  if(!class(raw_GRASS)[1] == "try-error") {
   # trys to identify valid grass installation(s) & version number(s)
   installations_GRASS <- lapply(seq(length(raw_GRASS)), function(i){
     # convert codetable according to cmd.exe using type
@@ -346,7 +348,7 @@ searchGRASSX <- function(MP = "/usr",quiet =TRUE){
     installations_GRASS <- lapply(seq(length(raw_GRASS)), function(i){
       # grep line containing GISBASE and extract the substring 
       root_dir <- try(grep(readLines(raw_GRASS[[i]]),pattern = 'gisbase = "',value = TRUE),silent = TRUE)
-      if(!class(root_dir) == "try-error" && length(root_dir) > 0) {
+      if(!class(root_dir)[1] == "try-error" ) {
         #print(root_dir)
         root_dir <- substr(root_dir, gregexpr(pattern = '"', root_dir)[[1]][1] + 1, nchar(root_dir) - 1)
         ver_char <- grep(readLines(raw_GRASS[[i]]),pattern = 'grass_version = "',value = TRUE)

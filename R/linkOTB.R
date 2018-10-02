@@ -54,6 +54,7 @@ linkOTB <- function(bin_OTB=NULL,
     #pathOTB <- bin_OTB
     #params_OTB <- searchOTBW()
     # if just one valid installation was found take it
+    if (params_OTB != FALSE){
     if (nrow(params_OTB) == 1) {  
       pathOTB <- params_OTB[1]
       otbCmd <- params_OTB[2]
@@ -120,7 +121,11 @@ linkOTB <- function(bin_OTB=NULL,
   otb<-list()
   otb$pathOTB<-pathOTB
   #otb$otbCmd<-otbCmd
-  otb$version<-params_OTB
+  otb$version<-params_OTB}
+  else { 
+    otb<-FALSE
+    returnPaths <-TRUE
+  }
   if (returnPaths) return(otb)
 }
 

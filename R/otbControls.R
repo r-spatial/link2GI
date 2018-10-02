@@ -187,7 +187,7 @@ searchOTBX <- function(MP = "/usr",
       # bind the df lines
       otbInstallations <- do.call("rbind", otbInstallations)
       } else {
-        if(!quiet) cat("Did not find any valid OTB installation at mount point",MPL)
+        if(!quiet) cat("Did not find any valid OTB installation at mount point",MP)
         return(otbInstallations <- FALSE)}
   
   return(otbInstallations)

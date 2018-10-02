@@ -126,9 +126,11 @@ linkOTB <- function(bin_OTB=NULL,
   otb<-list()
   otb$pathOTB<-pathOTB
   #otb$otbCmd<-otbCmd
-  otb$version<-params_OTB}
+  otb$version<-params_OTB
+  otb$exist<-TRUE
+  }
   else { 
-    otb<-FALSE
+    otb$exist<-FALSE
     returnPaths <-TRUE
   }
   if (returnPaths) return(otb)

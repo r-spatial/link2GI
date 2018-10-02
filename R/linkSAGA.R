@@ -135,7 +135,8 @@ linkSAGA <- function(default_SAGA = NULL,
   saga$sagaModPath <- sagaModPath
   saga$sagaCmd <- sagaCmd
   saga$installed <- default_SAGA
-} else saga <- default_SAGA
+  saga$exist<-TRUE
+} else saga$exist <- FALSE
   if (returnPaths) return(saga)
 }
 

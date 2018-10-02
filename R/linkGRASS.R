@@ -109,18 +109,18 @@ if (!isGeneric('linkGRASS7')) {
 #'}
 
 linkGRASS7 <- function(x = NULL,
-                      default_GRASS7 = NULL, 
-                      search_path = NULL,
-                      ver_select = FALSE,
-                      gisdbase_exist =FALSE,
-                      gisdbase = NULL,
-                      location = NULL,
-                      spatial_params=NULL,
-                      resolution=NULL,
-                      quiet =TRUE,
-                      returnPaths = FALSE) {
+                       default_GRASS7 = NULL, 
+                       search_path = NULL,
+                       ver_select = FALSE,
+                       gisdbase_exist =FALSE,
+                       gisdbase = NULL,
+                       location = NULL,
+                       spatial_params=NULL,
+                       resolution=NULL,
+                       quiet =TRUE,
+                       returnPaths = FALSE) {
   # if no spatial object AND no extent AND no existing GRASS dbase is provided stop
-
+  
   if (class(x)[1]=="character")   x <- raster::raster(x)
   # search for GRASS on your system
   if (Sys.info()["sysname"] == "Windows") {
@@ -133,152 +133,153 @@ linkGRASS7 <- function(x = NULL,
     grass <- paramGRASSx(default_GRASS7,search_path,ver_select)
   }
   if (grass[[1]][1] != FALSE) {
-  # if an existing gdbase is provided link it  
-  if (!is.null(location) & !is.null(gisdbase) & gisdbase_exist ) {
+    # if an existing gdbase is provided link it  
+    if (!is.null(location) & !is.null(gisdbase) & gisdbase_exist ) {
+      rgrass7::initGRASS(gisBase  = grass$gisbase_GRASS,
+                         home = tmpDir(),
+                         gisDbase = path.expand(gisdbase),
+                         mapset = "PERMANENT",
+                         location = location,
+                         override = TRUE
+      ) 
+      if(!quiet) return(rgrass7::gmeta())
+    }
+    
+    ### if not do the normal linking procedure
+    
+    # create temporary location if not provided
+    if (is.null(location)) {
+      location <-  basename(tempfile())
+    } else {
+      location <- location  
+    }
+    # create temporary gsdbase if not provided
+    if (is.null(gisdbase)) {
+      gisdbase <-  tempdir()
+    } else { 
+      gisdbase <- path.expand(gisdbase)
+    }
+    
+    if (!file.exists(file.path(gisdbase))) {
+      dir.create(file.path(gisdbase),recursive = TRUE)
+      #cat("the path ",gisdbase," is not found. Please provide an existing and valid path to your gisdbase folder\n ")
+    }
+    if (!file.exists(file.path(gisdbase,location))) {
+      dir.create(file.path(gisdbase,location),recursive = TRUE)
+    }
+    
+    if (!is.null(x) & is.null(spatial_params)) {
+      if (getSpatialClass(x) == "rst") {
+        resolution <- raster::res(x)[1]
+        proj4 <- as.character(x@crs)
+        ymax <- x@extent@ymax
+        ymin <- x@extent@ymin
+        xmax <- x@extent@xmax
+        xmin <- x@extent@xmin
+      } else if (getSpatialClass(x) == "vec") {
+        # i do not understand all this class stuff :-(
+        if (class(x)[1] == "sf" ) {
+          corner <- sf::st_bbox(x) 
+          xmax <- corner[3]
+          xmin <- corner[1]
+          ymax <- corner[4]
+          ymin <- corner[2]
+          proj4 <-  unlist(sf::st_crs(x)[2])
+          if (!is.null(resolution)) resolution<- resolution
+          else resolution <- "1"
+        } else {
+          s <- x@proj4string
+          s <- s@projargs
+          s2 <- (strsplit(s,split = " "))
+          proj4 <- paste(s2[[1]][2:length(unlist(s2))], collapse = ' ')
+          xmax <- x@bbox[3]
+          xmin <- x@bbox[1]
+          ymax <- x@bbox[4]
+          ymin <- x@bbox[2]
+          if (!is.null(resolution)) resolution<- resolution
+          else resolution <- "1"
+        }
+      } 
+    } else if  (!is.null(spatial_params)) {
+      if (getSpatialClass(x) == "paramList") {
+        proj4 <- spatial_params[5]
+        xmax <- spatial_params[3]
+        xmin <- spatial_params[1]
+        ymax <- spatial_params[4]
+        ymin <- spatial_params[2]
+        if (!is.null(resolution)) resolution<- resolution
+        else resolution <- "1"
+      } 
+    } else if  (is.null(x) & is.null(spatial_params)) {
+      if (!quiet) cat("WARNING\n It is strongly recommended that you provide a raster*, sp* object or manually add the extent, resolution and projection information.\n These informations are obligatory to setup  the GRASS loccation...\n. Did not found any of them so lat WGS84 EPSG 4326 is assumed.\n")
+      
+      proj4 <- "+proj=longlat +datum=WGS84 +no_defs"
+      xmax <- 180
+      xmin <- -180
+      ymax <- 90
+      ymin <- -90
+      if (!is.null(resolution)) resolution<- resolution
+      else resolution <- "1"
+    }
+    
+    
+    
+    
+    
+    #Sys.setenv(.GRASS_CACHE = paste(Sys.getenv("HOME"), "\\.grass_cache",sep = "")) 
+    #################### start with GRASS setup ------------------------------------
+    # create the TEMPORARY GRASS location
     rgrass7::initGRASS(gisBase  = grass$gisbase_GRASS,
-                       home = tmpDir(),
-                       gisDbase = path.expand(gisdbase),
+                       home = tempdir(),
+                       gisDbase = gisdbase,
                        mapset = "PERMANENT",
                        location = location,
                        override = TRUE
-                       ) 
-   if(!quiet) return(rgrass7::gmeta())
-  }
-  
-  ### if not do the normal linking procedure
-  
-  # create temporary location if not provided
-  if (is.null(location)) {
-    location <-  basename(tempfile())
-  } else {
-    location <- location  
-  }
-  # create temporary gsdbase if not provided
-  if (is.null(gisdbase)) {
-    gisdbase <-  tempdir()
-  } else { 
-    gisdbase <- path.expand(gisdbase)
-  }
-  
-  if (!file.exists(file.path(gisdbase))) {
-    dir.create(file.path(gisdbase),recursive = TRUE)
-    #cat("the path ",gisdbase," is not found. Please provide an existing and valid path to your gisdbase folder\n ")
-  }
-  if (!file.exists(file.path(gisdbase,location))) {
-    dir.create(file.path(gisdbase,location),recursive = TRUE)
-  }
-  
-   if (!is.null(x) & is.null(spatial_params)) {
-    if (getSpatialClass(x) == "rst") {
-      resolution <- raster::res(x)[1]
-      proj4 <- as.character(x@crs)
-      ymax <- x@extent@ymax
-      ymin <- x@extent@ymin
-      xmax <- x@extent@xmax
-      xmin <- x@extent@xmin
-    } else if (getSpatialClass(x) == "vec") {
-      # i do not understand all this class stuff :-(
-      if (class(x)[1] == "sf" ) {
-        corner <- sf::st_bbox(x) 
-        xmax <- corner[3]
-        xmin <- corner[1]
-        ymax <- corner[4]
-        ymin <- corner[2]
-        proj4 <-  unlist(sf::st_crs(x)[2])
-        if (!is.null(resolution)) resolution<- resolution
-        else resolution <- "1"
-      } else {
-        s <- x@proj4string
-        s <- s@projargs
-        s2 <- (strsplit(s,split = " "))
-        proj4 <- paste(s2[[1]][2:length(unlist(s2))], collapse = ' ')
-        xmax <- x@bbox[3]
-        xmin <- x@bbox[1]
-        ymax <- x@bbox[4]
-        ymin <- x@bbox[2]
-        if (!is.null(resolution)) resolution<- resolution
-        else resolution <- "1"
-      }
-    } 
-  } else if  (!is.null(spatial_params)) {
-    if (getSpatialClass(x) == "paramList") {
-      proj4 <- spatial_params[5]
-      xmax <- spatial_params[3]
-      xmin <- spatial_params[1]
-      ymax <- spatial_params[4]
-      ymin <- spatial_params[2]
-      if (!is.null(resolution)) resolution<- resolution
-      else resolution <- "1"
-    } 
-  } else if  (is.null(x) & is.null(spatial_params)) {
-    if (!quiet) cat("WARNING\n It is strongly recommended that you provide a raster*, sp* object or manually add the extent, resolution and projection information.\n These informations are obligatory to setup  the GRASS loccation...\n. Did not found any of them so lat WGS84 EPSG 4326 is assumed.\n")
+    )
     
-    proj4 <- "+proj=longlat +datum=WGS84 +no_defs"
-    xmax <- 180
-    xmin <- -180
-    ymax <- 90
-    ymin <- -90
-    if (!is.null(resolution)) resolution<- resolution
-    else resolution <- "1"
+    # assign GRASS projection according to data set
+    rgrass7::execGRASS('g.proj',
+                       flags 
+                       = c('c','quiet'),
+                       proj4 = proj4
+    )
+    
+    # assign GRASS extent
+    if (getSpatialClass(x) == "rst") {
+      rgrass7::execGRASS('g.region',
+                         flags = c('quiet','d'),
+                         n = as.character(ymax),
+                         s = as.character(ymin),
+                         e = as.character(xmax),
+                         w = as.character(xmin),
+                         res = as.character(resolution)
+      )
+    } else if (getSpatialClass(x) == "vec") {
+      rgrass7::execGRASS('g.region',
+                         flags = c('quiet'),
+                         n = as.character(ymax),
+                         s = as.character(ymin),
+                         e = as.character(xmax),
+                         w = as.character(xmin),
+                         res=as.character(resolution)
+      )
+    } else if (getSpatialClass(x) == "paramList") {
+      rgrass7::execGRASS('g.region',
+                         flags = c('quiet'),
+                         n = as.character(ymax),
+                         s = as.character(ymin),
+                         e = as.character(xmax),
+                         w = as.character(xmin),
+                         res = as.character(resolution)
+      )
     }
-
-  
-  
-  
-  
-  #Sys.setenv(.GRASS_CACHE = paste(Sys.getenv("HOME"), "\\.grass_cache",sep = "")) 
-  #################### start with GRASS setup ------------------------------------
-  # create the TEMPORARY GRASS location
-  rgrass7::initGRASS(gisBase  = grass$gisbase_GRASS,
-                     home = tempdir(),
-                     gisDbase = gisdbase,
-                     mapset = "PERMANENT",
-                     location = location,
-                     override = TRUE
-  )
-  
-  # assign GRASS projection according to data set
-  rgrass7::execGRASS('g.proj',
-                     flags 
-                     = c('c','quiet'),
-                     proj4 = proj4
-  )
-  
-  # assign GRASS extent
-  if (getSpatialClass(x) == "rst") {
-    rgrass7::execGRASS('g.region',
-                       flags = c('quiet','d'),
-                       n = as.character(ymax),
-                       s = as.character(ymin),
-                       e = as.character(xmax),
-                       w = as.character(xmin),
-                       res = as.character(resolution)
-    )
-  } else if (getSpatialClass(x) == "vec") {
-    rgrass7::execGRASS('g.region',
-                       flags = c('quiet'),
-                       n = as.character(ymax),
-                       s = as.character(ymin),
-                       e = as.character(xmax),
-                       w = as.character(xmin),
-                       res=as.character(resolution)
-    )
-  } else if (getSpatialClass(x) == "paramList") {
-    rgrass7::execGRASS('g.region',
-                       flags = c('quiet'),
-                       n = as.character(ymax),
-                       s = as.character(ymin),
-                       e = as.character(xmax),
-                       w = as.character(xmin),
-                       res = as.character(resolution)
-    )
-  }
-   else {
-    stop("Currently only raster* or sp* objects are supported - have to stop.")
-  }
-  if(!quiet) print(rgrass7::gmeta())
+    else {
+      stop("Currently only raster* or sp* objects are supported - have to stop.")
+    }
+    if(!quiet) print(rgrass7::gmeta())
+    grass$exist <- TRUE
   } else {
-    grass <-FALSE
+    grass$exist  <-FALSE
     returnPaths <- TRUE
   }
   if (returnPaths) return(grass)

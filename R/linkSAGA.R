@@ -63,6 +63,7 @@ linkSAGA <- function(default_SAGA = NULL,
   if (is.null(default_SAGA)) 
     default_SAGA <- findSAGA(searchLocation = searchLocation,
                              quiet = quiet) 
+  if (default_SAGA != FALSE) {
   # only one SAGA installation found/given
   if (nrow(default_SAGA) == 1) {  
     sagaCmd <- paste0(default_SAGA[[1]][1],sep,scmd )
@@ -75,7 +76,7 @@ linkSAGA <- function(default_SAGA = NULL,
     else sagaModPath <- paste0(default_SAGA[[2]][1])
   } 
   # more than one SAGA installation and ver_select = TRUE
-  else if (nrow(default_SAGA) > 1  & ver_select ) { 
+  else if (nrow(default_SAGA) > 1  & ver_select) { 
     cat("You have installed more than one SAGA GIS version\n")
     print(default_SAGA)
     cat("\n")
@@ -92,7 +93,7 @@ linkSAGA <- function(default_SAGA = NULL,
       sagaModPath <- paste0(default_SAGA[[1]][sagaVersion],sep,"modules" )
     else sagaModPath <- paste0(default_SAGA[[2]][sagaVersion])
   }  # more than one SAGA installation and ver_select >0
-  else if (nrow(default_SAGA) > 1  & is.numeric(ver_select) & ver_select > 0 ) { 
+  else if (nrow(default_SAGA) > 1  & is.numeric(ver_select) & ver_select > 0) { 
     cat("You have installed more than one SAGA GIS version.\n")
     print(default_SAGA)
     cat("Your have choosen version: ",ver_select,"\n")
@@ -110,7 +111,7 @@ linkSAGA <- function(default_SAGA = NULL,
   
   # more than one installation and ver_select =FALSE 
   # => automatic selection of the newest SAGA
-  else if (nrow(default_SAGA) > 1  & ver_select!="TRUE") { 
+  else if (nrow(default_SAGA) > 1  & ver_select!="TRUE" ) { 
     recentSaga <- getrowSagaVer(default_SAGA)
     default_saga <- gsub(removePattern, "", default_SAGA[[1]][recentSaga])
     sagaCmd <- paste0(default_SAGA[[1]][recentSaga],sep,scmd )
@@ -134,6 +135,7 @@ linkSAGA <- function(default_SAGA = NULL,
   saga$sagaModPath <- sagaModPath
   saga$sagaCmd <- sagaCmd
   saga$installed <- default_SAGA
+} else saga <- default_SAGA
   if (returnPaths) return(saga)
 }
 

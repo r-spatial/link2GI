@@ -35,12 +35,12 @@ searchSAGAX <- function(MP = "/usr",
     rawSAGALib <- try(system2("find", paste(MP," ! -readable -prune -o -type f  -iname 'libio_gdal.so' -print"), stdout = TRUE))
     
    if (grepl(rawSAGA,pattern = "File not found") | grepl(rawSAGA,pattern = "Datei nicht gefunden")) {
-      rawSAGA<- "message"
+
       class(rawSAGA) <- c("try-error", class(rawSAGA))
     }
     options(show.error.messages = TRUE)
     options(warn=0)
-    if(!class(rawSAGA) == "try-error" && length( rawSAGA) > 0) { 
+    if(!class(rawSAGA) == "try-error") { 
     
     # split the search returns of existing SAGA GIS installation(s
     sagaPath <- lapply(seq(length(rawSAGA)), function(i){
@@ -57,7 +57,7 @@ searchSAGAX <- function(MP = "/usr",
    }
   else {
       if (!quiet) cat(paste("Did not find any valid SAGA installation at mount point",MP))
-      return(installations_GRASS <- FALSE)}
+      return(sagaPath <- FALSE)}
     
   } # end of sysname = Windows
   else {
@@ -101,7 +101,7 @@ searchSAGAW <- function(DL = "C:",
       
       options(show.error.messages = FALSE)
       options(warn=-1)
-      rawSAGA <- try(system(paste0("cmd.exe /c dir /B /S ",DL,"\\","saga_cmd.exe"),intern = TRUE))
+      rawSAGA <- try(system(paste0("cmd.exe /c dir /B /S ",DL,"\\","ssaga_cmd.exe"),intern = TRUE))
       
       if (grepl(rawSAGA,pattern = "File not found") | grepl(rawSAGA,pattern = "Datei nicht gefunden")) {
         rawSAGA<- "message"
@@ -110,7 +110,7 @@ searchSAGAW <- function(DL = "C:",
       options(show.error.messages = TRUE)
       options(warn=0)
       
-      if(!class(rawSAGA) == "try-error" && length( rawSAGA) > 0) {
+      if(!class(rawSAGA)[1] == "try-error") {
       # trys to identify valid SAGA GIS installation(s) & version number(s)
       sagaPath <- lapply(seq(length(rawSAGA)), function(i){
         cmdfileLines <- rawSAGA[i]
@@ -150,7 +150,7 @@ searchSAGAW <- function(DL = "C:",
       
       }else {
         if (!quiet) cat(paste("Did not find any valid SAGA installation at mount point",DL))
-        return(sagaPath <- FALSE)}
+        sagaPath <- FALSE}
     }  #  end of is.null(sagaPath)
   } # end of sysname = Windows
   else {

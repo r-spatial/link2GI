@@ -72,7 +72,7 @@ searchOTBW <- function(DL = "C:",
       options(show.error.messages = FALSE)
       options(warn=-1)
       raw_OTB  <- try(system(paste0("cmd.exe"," /c dir /B /S ",DL,"\\","otbcli.bat"),intern=TRUE))
-      
+      if (identical(raw_OTB, character(0))) raw_OTB <- "File not found"
       if (grepl(raw_OTB,pattern = "File not found") | grepl(raw_OTB,pattern = "Datei nicht gefunden")) {
 
         class(raw_OTB) <- c("try-error", class(raw_OTB))
@@ -162,10 +162,10 @@ searchOTBX <- function(MP = "/usr",
       raw_OTB <- 
       options(show.error.messages = FALSE)
       options(warn=-1)
-      raw_OTB  <- try(system2("find", paste("/usr"," ! -readable -prune -o -type f -executable -iname 'otbcli' -print"),stdout = TRUE))
-      
+      raw_OTB  <- try(system2("find", paste("/usr"," ! -readable -prune -o -type f -executable -iname 'ootbcli' -print"),stdout = TRUE))
+      if (identical(raw_OTB, character(0))) raw_OTB <- "File not found"
       if (grepl(raw_OTB,pattern = "File not found") | grepl(raw_OTB,pattern = "Datei nicht gefunden")) {
-        raw_OTB<- "message"
+
         class(raw_OTB) <- c("try-error", class(raw_OTB))
       }
       options(show.error.messages = TRUE)

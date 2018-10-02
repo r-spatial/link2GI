@@ -40,7 +40,7 @@ paramGRASSx <- function(set_default_GRASS7=NULL,
     }
   
   # choosing the desired installation depending on the ver_select options 
-  if (params_GRASS != FALSE) {
+  if (params_GRASS[[1]][1] != FALSE) {
   # if only one take it  
   if (nrow(params_GRASS) == 1) {  
     gisbase_GRASS <- as.character(params_GRASS$instDir)
@@ -130,7 +130,7 @@ paramGRASSw <- function(set_default_GRASS7=NULL,
     params_GRASS <- rbind.data.frame(set_default_GRASS7)
     names(params_GRASS)<-c("instDir","version","installation_type")
   }
-  if (params_GRASS != FALSE) {
+  if (params_GRASS[[1]][1] != FALSE) {
   # if just one valid installation was found take it
   if (nrow(params_GRASS) == 1) {  
     gisbase_GRASS <- setenvGRASSw(root_GRASS = params_GRASS$instDir[[1]],

@@ -101,7 +101,7 @@ searchSAGAW <- function(DL = "C:",
       
       options(show.error.messages = FALSE)
       options(warn=-1)
-      rawSAGA <- try(system(paste0("cmd.exe /c dir /B /S ",DL,"\\","ssaga_cmd.exe"),intern = TRUE))
+      rawSAGA <- try(system(paste0("cmd.exe /c dir /B /S ",DL,"\\","saga_cmd.exe"),intern = TRUE))
       
       if (grepl(rawSAGA,pattern = "File not found") | grepl(rawSAGA,pattern = "Datei nicht gefunden")) {
         rawSAGA<- "message"

@@ -162,7 +162,7 @@ searchOTBX <- function(MP = "/usr",
       raw_OTB <- 
       options(show.error.messages = FALSE)
       options(warn=-1)
-      raw_OTB  <- try(system2("find", paste("/usr"," ! -readable -prune -o -type f -executable -iname 'ootbcli' -print"),stdout = TRUE))
+      raw_OTB  <- try(system2("find", paste("/usr"," ! -readable -prune -o -type f -executable -iname 'otbcli' -print"),stdout = TRUE))
       if (identical(raw_OTB, character(0))) raw_OTB <- "File not found"
       if (grepl(raw_OTB,pattern = "File not found") | grepl(raw_OTB,pattern = "Datei nicht gefunden")) {
 
@@ -187,7 +187,7 @@ searchOTBX <- function(MP = "/usr",
       # bind the df lines
       otbInstallations <- do.call("rbind", otbInstallations)
       } else {
-        if(!quiet) cat("Did not find any valid OTB installation at mount point",DL)
+        if(!quiet) cat("Did not find any valid OTB installation at mount point",MPL)
         return(otbInstallations <- FALSE)}
   
   return(otbInstallations)

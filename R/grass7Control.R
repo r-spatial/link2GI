@@ -232,7 +232,7 @@ searchGRASSW <- function(DL = "C:",
   if (!quiet) cat("For providing the path manually see ?searchGRASSW \n")
   options(show.error.messages = FALSE)
   options(warn=-1)
-  raw_GRASS <- try(system(paste0("cmd.exe /c dir /B /S ", DL, "\\grass*.bat"), intern = TRUE))
+  raw_GRASS <- try(system(paste0("cmd.exe /c dir /B /S ", DL, "\\grass*.bat"), intern = TRUE,ignore.stderr = TRUE))
 
    if (grepl(raw_GRASS,pattern = "File not found") | grepl(raw_GRASS,pattern = "Datei nicht gefunden")) {
      raw_GRASS<- "message"
@@ -339,7 +339,7 @@ searchGRASSW <- function(DL = "C:",
 
 searchGRASSX <- function(MP = "/usr",quiet =TRUE){
   if (MP=="default") MP <- "/usr"
-  raw_GRASS <- system2("find", paste(MP," ! -readable -prune -o -type f -executable -iname 'grass??' -print"),stdout = TRUE)
+  raw_GRASS <- system2("find", paste(MP," ! -readable -prune -o -type f -executable -iname 'grass??' -print"),stdout = TRUE,stderr = FALSE)
   
   #cat(raw_GRASS)
   if (length(raw_GRASS) > 0) {

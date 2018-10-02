@@ -57,7 +57,7 @@ linkOTB <- function(bin_OTB=NULL,
     #pathOTB <- bin_OTB
     #params_OTB <- searchOTBW()
     # if just one valid installation was found take it
-    if (params_OTB != FALSE){
+    if (params_OTB[[1]][1] != FALSE){
       if (Sys.info()["sysname"] != "Windows"){   
     if (nrow(params_OTB) == 1) {  
       pathOTB <- params_OTB[1]

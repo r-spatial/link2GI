@@ -63,7 +63,7 @@ linkSAGA <- function(default_SAGA = NULL,
   if (is.null(default_SAGA)) 
     default_SAGA <- findSAGA(searchLocation = searchLocation,
                              quiet = quiet) 
-  if (default_SAGA != FALSE) {
+  if (default_SAGA[[1]][1] != FALSE) {
   # only one SAGA installation found/given
   if (nrow(default_SAGA) == 1) {  
     sagaCmd <- paste0(default_SAGA[[1]][1],sep,scmd )

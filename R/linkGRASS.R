@@ -132,7 +132,7 @@ linkGRASS7 <- function(x = NULL,
     if (is.null(search_path)) search_path <- "/usr"
     grass <- paramGRASSx(default_GRASS7,search_path,ver_select)
   }
-  if (grass != FALSE) {
+  if (grass[[1]][1] != FALSE) {
   # if an existing gdbase is provided link it  
   if (!is.null(location) & !is.null(gisdbase) & gisdbase_exist ) {
     rgrass7::initGRASS(gisBase  = grass$gisbase_GRASS,

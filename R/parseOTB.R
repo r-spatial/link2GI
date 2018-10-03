@@ -42,6 +42,8 @@ parseOTBAlgorithms<- function(gili=NULL) {
 #' \dontrun{
 ## link to the OTB binaries
 #' otbLinks<-link2GI::linkOTB()
+#' if (otbLinks$exist) {
+#' 
 #' path_OTB<-otbLinks$pathOTB
 #' 
 #' 
@@ -54,6 +56,7 @@ parseOTBAlgorithms<- function(gili=NULL) {
 #' algo_cmd<-parseOTBFunction(algo = otb_algorithm,gili = otbLinks)
 #' ## print the current command
 #' print(algo_cmd)
+#' }
 #' 
 #' ###########
 #' ### usecase
@@ -106,7 +109,7 @@ parseOTBAlgorithms<- function(gili=NULL) {
 #' ## plot raster
 #' raster::plot(retStack)
 #' } 
-#' 
+#' ##+##
 parseOTBFunction <- function(algos=NULL,gili=NULL) {
   if (is.null(gili)) {
     otb<-link2GI::linkOTB()

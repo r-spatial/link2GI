@@ -22,7 +22,7 @@ if (!isGeneric('linkGDAL')) {
 #'
 #' # get all available GDAL informations 
 #' gdal<-linkGDAL()
-#' 
+#' if (nchar(gdal[[1]][[1]])>0) {
 #' # get available GDAL driver
 #' gdal[[1]]$drivers$format_code
 #' 
@@ -38,6 +38,7 @@ if (!isGeneric('linkGDAL')) {
 
 #' gdal[[1]]$python_utilities
 #' 
+#' }
 #' }
 
 linkGDAL <- function(quiet = TRUE,

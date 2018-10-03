@@ -1,12 +1,13 @@
 ## link2GI 0.3-4
 new feature: 
-* add variable that hold the status if required API exists
+* add boolean variable if required API exists
 
 bugfixes:
 * fix of the quiet option
-* fix the search order 
+* fix the search order
+* straighten GRASS problems with r.in.lidar
 * several fixes for Windows search and linking
-* fix  a lot of examples
+* fix and add a lot of examples
 * Comments and typos
 
 

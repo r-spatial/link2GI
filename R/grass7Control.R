@@ -12,7 +12,8 @@
 #'@examples
 #' \dontrun{
 #' # automatic retrieval of the GRASS7 enviroment settings
-#' paramsGRASSx()
+#' paramGRASSx()
+#' 
 #' 
 #' # typical stand_alone installation
 #' paramGRASSx("/usr/bin/grass72")
@@ -27,7 +28,7 @@ paramGRASSx <- function(set_default_GRASS7=NULL,
                         quiet =TRUE){
   if (ver_select =='T') ver_select <- TRUE
   if (ver_select == "F" && !is.numeric(ver_select)) ver_select <- FALSE
-  
+  if (Sys.info()["sysname"]=="Windows") return(cat("You are running Windows - Please choose a suitable searchLocation argument that MUST include a Windows drive letter and colon"))
   # iF WE KNOW NOTHING ABOUT grass PATHES WE HAVE TO SEARCH
   if (is.null(set_default_GRASS7 )) {
     # SEARCH FOR INSTALLATIONS
@@ -102,11 +103,11 @@ paramGRASSx <- function(set_default_GRASS7=NULL,
 #'@export paramGRASSw
 #'  
 #'@examples
-#' \dontrun{
+#' \dontrun{ 
 #' # automatic retrieval of valid 'GRASS GIS' environment settings 
 #' # if more than one is found the user has to choose.
 #' paramGRASSw()
-#' 
+#'
 #' # typical OSGeo4W64 installation
 #' paramGRASSw(c("C:/OSGeo4W64","grass-7.0.5","osgeo4W"))
 #' }
@@ -117,7 +118,7 @@ paramGRASSw <- function(set_default_GRASS7=NULL,
                         quiet = TRUE) {
   if (ver_select =='T') ver_select <- TRUE
   if (ver_select == "F" && !is.numeric(ver_select)) ver_select <- FALSE
-  
+  if (Sys.info()["sysname"]=="Linux") return(cat("You are running Linux - please choose a suitable searchLocation argument"))
   # (R) set pathes  of 'GRASS' binaries depending on 'WINDOWS'
   if (is.null(set_default_GRASS7)) {
     if (DL=="default" || is.null(DL)) DL <- "C:"
@@ -529,10 +530,10 @@ findGRASS <- function(searchLocation = "default",
     if (searchLocation=="default") searchLocation <- "C:"
     if (searchLocation %in% paste0(LETTERS,":") )
     link = link2GI::searchGRASSW(DL = searchLocation)  
-    else stop("You are running Windows - Please choose a suitable searchLocation argument that MUST include a Windows drive letter and colon" )
+    else return(cat("You are running Windows - Please choose a suitable searchLocation argument that MUST include a Windows drive letter and colon"))
   } else {
     if (searchLocation=="default") searchLocation <- "/usr"
-    if (grepl(searchLocation,pattern = ":"))  stop("You are running Linux - please choose a suitable searchLocation argument" )
+    if (grepl(searchLocation,pattern = ":"))  return(cat("You are running Linux - please choose a suitable searchLocation argument"))
     else link = link2GI::searchGRASSX(MP = searchLocation)
   }
   return(link)

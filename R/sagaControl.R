@@ -14,7 +14,7 @@
 #'#### Examples how to use searchSAGAX
 #'
 #' # get all valid SAGA installation folders and params
-#' sagaParams<- searchSAGAX()
+#' searchSAGAX()
 #' }
 
 searchSAGAX <- function(MP = "/usr",
@@ -82,7 +82,7 @@ searchSAGAX <- function(MP = "/usr",
 #'#### Examples how to use searchSAGAW 
 #'
 #' # get all valid SAGA installation folders and params
-#' sagaParams<- searchSAGAW()
+#' searchSAGAW()
 #' }
 
 searchSAGAW <- function(DL = "C:",

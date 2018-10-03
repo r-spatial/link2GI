@@ -36,13 +36,13 @@ if ( !isGeneric("linkSAGA") ) {
 #' # it prepares the system for running the selected SAGA version via RSAGA or CLI
 #' linkSAGA()
 #'
-#' # typical OSGeo4W64 installation 
-#' saga <- linkSAGA(c("C:/OSGeo4W64/apps/saga","C:/OSGeo4W64/apps/saga/modules"))
+#' # overriding the default environment of rsaga.env call 
 #' 
-#' # overriding the default environment of rsaga.env call assuming you have 3 SAGA installations
 #' saga<-linkSAGA()
+#' if (saga$exist) {
 #' require(RSAGA)
-#' RSAGA::rsaga.env(path = saga$installed$binDir[3],modules = saga$installed$moduleDir[3])
+#' RSAGA::rsaga.env(path = saga$installed$binDir[1],modules = saga$installed$moduleDir[1])
+#' }
 #'}
 
 

@@ -150,6 +150,7 @@ searchOTBW <- function(DL = "C:",
 #' # get all valid OTB installation folders and params
 #' searchOTBX()
 #' }
+
 searchOTBX <- function(MP = "/usr",
                        quiet=TRUE) {
   if (MP=="default") MP <- "/usr"
@@ -162,7 +163,7 @@ searchOTBX <- function(MP = "/usr",
       raw_OTB <- 
       options(show.error.messages = FALSE)
       options(warn=-1)
-      raw_OTB  <- try(system2("find", paste("/usr"," ! -readable -prune -o -type f -executable -iname 'otbcli' -print"),stdout = TRUE))
+      raw_OTB  <- try(system2("find", paste("/usr"," ! -readable -prune -o -type f -executable -iname 'ootbcli' -print"),stdout = TRUE))
       if (identical(raw_OTB, character(0))) raw_OTB <- "File not found"
       if (grepl(raw_OTB,pattern = "File not found") | grepl(raw_OTB,pattern = "Datei nicht gefunden")) {
 
@@ -226,6 +227,6 @@ findOTB <- function(searchLocation = "default",
     if (grepl(searchLocation,pattern = ":"))  stop("You are running Linux - please choose a suitable searchLocation argument" )
     else link = link2GI::searchOTBX(MP = searchLocation,
                                     quiet=TRUE)
-  }
+  } 
   return(link)
 }

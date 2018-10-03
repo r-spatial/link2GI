@@ -17,6 +17,8 @@ retrieve the choosen function and parses all arguments with the defaults
 \examples{
 \dontrun{
 otbLinks<-link2GI::linkOTB()
+if (otbLinks$exist) {
+
 path_OTB<-otbLinks$pathOTB
 
 
@@ -29,6 +31,7 @@ otb_algorithm<-algo[27]
 algo_cmd<-parseOTBFunction(algo = otb_algorithm,gili = otbLinks)
 ## print the current command
 print(algo_cmd)
+}
 
 ###########
 ### usecase
@@ -81,5 +84,5 @@ retStack<-assign(outName,raster::raster(outName))
 ## plot raster
 raster::plot(retStack)
 } 
-
+##+##
 }

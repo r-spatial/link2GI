@@ -41,13 +41,11 @@ You may also set the path manually. Using a 'OSGeo4W64' \url{http://trac.osgeo.o
 \examples{
 \dontrun{
 # call if you do not have any idea if and where OTB is installed
-linkOTB()
-
+otb<-linkOTB()
+if (otb$exist) {
 # call it for a default OSGeo4W installation of the OTB
-linkOTB("C:/OSGeo4W64/bin/")
-
-# call it for a default Linux installation of the OTB
-linkOTB("/usr/bin/")
+print(otb)
+}
 }
 }
 \author{

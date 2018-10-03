@@ -22,7 +22,7 @@ via \code{gdalUtils} the status of the 'GDAL' binaries installation.
 
 # get all available GDAL informations 
 gdal<-linkGDAL()
-
+if (nchar(gdal[[1]][[1]])>0) {
 # get available GDAL driver
 gdal[[1]]$drivers$format_code
 
@@ -37,6 +37,7 @@ gdal[[1]]$path
 #                         "-of SAGA"), intern = TRUE)
 gdal[[1]]$python_utilities
 
+}
 }
 }
 \author{

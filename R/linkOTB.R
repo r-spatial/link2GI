@@ -128,6 +128,7 @@ linkOTB <- function(bin_OTB=NULL,
   otb$exist<-TRUE
   }
   else { 
+    otb<-list()
     otb$exist<-FALSE
     returnPaths <-TRUE
   }

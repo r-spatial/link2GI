@@ -528,7 +528,7 @@ findGRASS <- function(searchLocation = "default",
   
   if (Sys.info()["sysname"] == "Windows") {
     if (searchLocation=="default") searchLocation <- "C:"
-    if (searchLocation %in% grepl(paste0(LETTERS, ":", collapse="|"), searchLocation) )
+    if (grepl(paste0(LETTERS, ":", collapse="|"), searchLocation) )
     link = link2GI::searchGRASSW(DL = searchLocation)  
     else return(cat("You are running Windows - Please choose a suitable searchLocation argument that MUST include a Windows drive letter and colon"))
   } else {

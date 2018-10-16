@@ -218,7 +218,7 @@ findOTB <- function(searchLocation = "default",
   
   if (Sys.info()["sysname"] == "Windows") {
     if (searchLocation=="default") searchLocation <- "C:"
-    if (searchLocation %in% paste0(LETTERS,":"))
+    if (grepl(paste0(LETTERS, ":", collapse="|"), searchLocation))
       link = link2GI::searchOTBW(DL = searchLocation,                     
                                  quiet=TRUE)  
     else stop("You are running Windows - Please choose a suitable searchLocation argument that MUST include a Windows drive letter and colon" )

@@ -115,7 +115,7 @@ searchSAGAW <- function(DL = "C:",
       sagaPath <- lapply(seq(length(rawSAGA)), function(i){
         cmdfileLines <- rawSAGA[i]
         installerType <- ""
-        
+        if (substr(cmdfileLines,1,1) == "\\") cmdfileLines <- substr(cmdfileLines,2,nchar(cmdfileLines)) 
         # if "OSGeo4W64" 
         if (length(unique(grep(paste("OSGeo4W64", collapse = "|"), rawSAGA[i], value = TRUE))) > 0) {
           root_dir <- unique(grep(paste("OSGeo4W64", collapse = "|"), rawSAGA[i], value = TRUE))

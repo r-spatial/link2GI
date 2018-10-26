@@ -255,7 +255,7 @@ searchGRASSW <- function(DL = "C:",
     osgeo4w <- FALSE
     stand_alone <- FALSE
     root_dir <- ''
-    
+    if (substr(batchfile_lines,1,1) == "\\") batchfile_lines <- substr(batchfile_lines,2,nchar(cmdfileLines))
     # if the the tag "OSGEO4W" exists set installation_type
     if (length(unique(grep(paste("OSGEO4W", collapse = "|"), batchfile_lines, value = TRUE))) > 0) {
       osgeo4w <- TRUE
@@ -271,7 +271,7 @@ searchGRASSW <- function(DL = "C:",
     if (osgeo4w) {
       # grep line with root directory and extract the substring defining GISBASE
       root_dir <- unique(grep(paste("SET OSGEO4W_ROOT=", collapse = "|"), batchfile_lines, value = TRUE))
-      if (length(root_dir) > 0) root_dir <- substr(root_dir, gregexpr(pattern = "=", root_dir)[[1]][1] + 2, nchar(root_dir))
+      if (length(root_dir) > 0) root_dir <- substr(root_dir, gregexpr(pattern = "=", root_dir)[[1]][1] + 1, nchar(root_dir))
       
       # grep line with the version name and extract it
       ver_char <- unique(grep(paste("\\benv.bat\\b", collapse = "|"), batchfile_lines,value = TRUE))
@@ -286,7 +286,7 @@ searchGRASSW <- function(DL = "C:",
     if (stand_alone) {
       # grep line containing GISBASE and extract the substring 
       root_dir <- unique(grep(paste("set GISBASE=", collapse = "|"), batchfile_lines, value = TRUE))
-      if (length(root_dir) > 0) root_dir <- substr(root_dir, gregexpr(pattern = "=", root_dir)[[1]][1] + 2, nchar(root_dir))
+      if (length(root_dir) > 0) root_dir <- substr(root_dir, gregexpr(pattern = "=", root_dir)[[1]][1] + 1, nchar(root_dir))
       ver_char <- root_dir
       if (length(root_dir) > 0) {
         ver_char <- substr(ver_char, gregexpr(pattern = "GRASS", ver_char)[[1]][1], nchar(ver_char))

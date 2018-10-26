@@ -22,7 +22,7 @@ Searches recursivley for existing 'SAGA GIS' installation(s) on a given 'Windows
 #### Examples how to use searchSAGAW 
 
 # get all valid SAGA installation folders and params
-sagaParams<- searchSAGAW()
+searchSAGAW()
 }
 }
 \author{

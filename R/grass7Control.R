@@ -12,7 +12,8 @@
 #'@examples
 #' \dontrun{
 #' # automatic retrieval of the GRASS7 enviroment settings
-#' paramsGRASSx()
+#' paramGRASSx()
+#' 
 #' 
 #' # typical stand_alone installation
 #' paramGRASSx("/usr/bin/grass72")
@@ -27,7 +28,7 @@ paramGRASSx <- function(set_default_GRASS7=NULL,
                         quiet =TRUE){
   if (ver_select =='T') ver_select <- TRUE
   if (ver_select == "F" && !is.numeric(ver_select)) ver_select <- FALSE
-  
+  if (Sys.info()["sysname"]=="Windows") return(cat("You are running Windows - Please choose a suitable searchLocation argument that MUST include a Windows drive letter and colon"))
   # iF WE KNOW NOTHING ABOUT grass PATHES WE HAVE TO SEARCH
   if (is.null(set_default_GRASS7 )) {
     # SEARCH FOR INSTALLATIONS
@@ -40,7 +41,7 @@ paramGRASSx <- function(set_default_GRASS7=NULL,
     }
   
   # choosing the desired installation depending on the ver_select options 
-  
+  if (params_GRASS[[1]][1] != FALSE) {
   # if only one take it  
   if (nrow(params_GRASS) == 1) {  
     gisbase_GRASS <- as.character(params_GRASS$instDir)
@@ -80,6 +81,7 @@ paramGRASSx <- function(set_default_GRASS7=NULL,
   grass<-list()
   grass$gisbase_GRASS<-gisbase_GRASS
   grass$installed <- params_GRASS
+  } else {grass <-FALSE}
   return(grass)
   
   #return(gisbase_GRASS)
@@ -101,11 +103,11 @@ paramGRASSx <- function(set_default_GRASS7=NULL,
 #'@export paramGRASSw
 #'  
 #'@examples
-#' \dontrun{
+#' \dontrun{ 
 #' # automatic retrieval of valid 'GRASS GIS' environment settings 
 #' # if more than one is found the user has to choose.
 #' paramGRASSw()
-#' 
+#'
 #' # typical OSGeo4W64 installation
 #' paramGRASSw(c("C:/OSGeo4W64","grass-7.0.5","osgeo4W"))
 #' }
@@ -116,7 +118,7 @@ paramGRASSw <- function(set_default_GRASS7=NULL,
                         quiet = TRUE) {
   if (ver_select =='T') ver_select <- TRUE
   if (ver_select == "F" && !is.numeric(ver_select)) ver_select <- FALSE
-  
+  if (Sys.info()["sysname"]=="Linux") return(cat("You are running Linux - please choose a suitable searchLocation argument"))
   # (R) set pathes  of 'GRASS' binaries depending on 'WINDOWS'
   if (is.null(set_default_GRASS7)) {
     if (DL=="default" || is.null(DL)) DL <- "C:"
@@ -129,7 +131,7 @@ paramGRASSw <- function(set_default_GRASS7=NULL,
     params_GRASS <- rbind.data.frame(set_default_GRASS7)
     names(params_GRASS)<-c("instDir","version","installation_type")
   }
-  
+  if (params_GRASS[[1]][1] != FALSE) {
   # if just one valid installation was found take it
   if (nrow(params_GRASS) == 1) {  
     gisbase_GRASS <- setenvGRASSw(root_GRASS = params_GRASS$instDir[[1]],
@@ -200,6 +202,7 @@ paramGRASSw <- function(set_default_GRASS7=NULL,
   grass$version <- grass_version
   grass$type <- installation_type
   grass$installed <- params_GRASS
+  } else {grass <-FALSE}
   return(grass)
 }
 
@@ -232,16 +235,18 @@ searchGRASSW <- function(DL = "C:",
   if (!quiet) cat("For providing the path manually see ?searchGRASSW \n")
   options(show.error.messages = FALSE)
   options(warn=-1)
-  raw_GRASS <- try(system(paste0("cmd.exe /c dir /B /S ", DL, "\\grass*.bat"), intern = TRUE))
+
+  raw_GRASS <- try(system(paste0("cmd.exe /c dir /B /S ", DL, "\\grass*.bat"), intern = TRUE,ignore.stderr = TRUE))
+
 
    if (grepl(raw_GRASS,pattern = "File not found") | grepl(raw_GRASS,pattern = "Datei nicht gefunden")) {
-     raw_GRASS<- "message"
+
      class(raw_GRASS) <- c("try-error", class(raw_GRASS))
    }
   options(show.error.messages = TRUE)
   options(warn=0)
   
-  if(!class(raw_GRASS) == "try-error" && length( raw_GRASS) > 0) {
+  if(!class(raw_GRASS)[1] == "try-error") {
   # trys to identify valid grass installation(s) & version number(s)
   installations_GRASS <- lapply(seq(length(raw_GRASS)), function(i){
     # convert codetable according to cmd.exe using type
@@ -266,6 +271,7 @@ searchGRASSW <- function(DL = "C:",
     if (osgeo4w) {
       # grep line with root directory and extract the substring defining GISBASE
       root_dir <- unique(grep(paste("SET OSGEO4W_ROOT=", collapse = "|"), batchfile_lines, value = TRUE))
+      #if (substr(root_dir,1,1) == "\\" & length(root_dir) > 0) root_dir <- substr(root_dir,3,nchar(root_dir))
       if (length(root_dir) > 0) root_dir <- substr(root_dir, gregexpr(pattern = "=", root_dir)[[1]][1] + 1, nchar(root_dir))
       
       # grep line with the version name and extract it
@@ -281,6 +287,7 @@ searchGRASSW <- function(DL = "C:",
     if (stand_alone) {
       # grep line containing GISBASE and extract the substring 
       root_dir <- unique(grep(paste("set GISBASE=", collapse = "|"), batchfile_lines, value = TRUE))
+      #if (substr(root_dir,1,1) == "\\" & length(root_dir) > 0) root_dir <- substr(root_dir,3,nchar(root_dir))
       if (length(root_dir) > 0) root_dir <- substr(root_dir, gregexpr(pattern = "=", root_dir)[[1]][1] + 1, nchar(root_dir))
       ver_char <- root_dir
       if (length(root_dir) > 0) {
@@ -339,14 +346,14 @@ searchGRASSW <- function(DL = "C:",
 
 searchGRASSX <- function(MP = "/usr",quiet =TRUE){
   if (MP=="default") MP <- "/usr"
-  raw_GRASS <- system2("find", paste(MP," ! -readable -prune -o -type f -executable -iname 'grass??' -print"),stdout = TRUE)
+  raw_GRASS <- system2("find", paste(MP," ! -readable -prune -o -type f -executable -iname 'grass??' -print"),stdout = TRUE,stderr = FALSE)
   
   #cat(raw_GRASS)
   if (length(raw_GRASS) > 0) {
     installations_GRASS <- lapply(seq(length(raw_GRASS)), function(i){
       # grep line containing GISBASE and extract the substring 
       root_dir <- try(grep(readLines(raw_GRASS[[i]]),pattern = 'gisbase = "',value = TRUE),silent = TRUE)
-      if(!class(root_dir) == "try-error" && length(root_dir) > 0) {
+      if(!class(root_dir)[1] == "try-error" ) {
         #print(root_dir)
         root_dir <- substr(root_dir, gregexpr(pattern = '"', root_dir)[[1]][1] + 1, nchar(root_dir) - 1)
         ver_char <- grep(readLines(raw_GRASS[[i]]),pattern = 'grass_version = "',value = TRUE)
@@ -523,12 +530,12 @@ findGRASS <- function(searchLocation = "default",
   
   if (Sys.info()["sysname"] == "Windows") {
     if (searchLocation=="default") searchLocation <- "C:"
-    if (searchLocation %in% paste0(LETTERS,":") )
+    if (grepl(paste0(LETTERS, ":", collapse="|"), searchLocation) )
     link = link2GI::searchGRASSW(DL = searchLocation)  
-    else stop("You are running Windows - Please choose a suitable searchLocation argument that MUST include a Windows drive letter and colon" )
+    else return(cat("You are running Windows - Please choose a suitable searchLocation argument that MUST include a Windows drive letter and colon"))
   } else {
     if (searchLocation=="default") searchLocation <- "/usr"
-    if (grepl(searchLocation,pattern = ":"))  stop("You are running Linux - please choose a suitable searchLocation argument" )
+    if (grepl(searchLocation,pattern = ":"))  return(cat("You are running Linux - please choose a suitable searchLocation argument"))
     else link = link2GI::searchGRASSX(MP = searchLocation)
   }
   return(link)

@@ -26,13 +26,11 @@ if (!isGeneric('linkOTB')) {
 #'@examples
 #' \dontrun{
 #' # call if you do not have any idea if and where OTB is installed
-#' linkOTB()
-#' 
+#' otb<-linkOTB()
+#' if (otb$exist) {
 #' # call it for a default OSGeo4W installation of the OTB
-#' linkOTB("C:/OSGeo4W64/bin/")
-#' 
-#' # call it for a default Linux installation of the OTB
-#' linkOTB("/usr/bin/")
+#' print(otb)
+#' }
 #'}
 
 linkOTB <- function(bin_OTB=NULL,
@@ -43,9 +41,12 @@ linkOTB <- function(bin_OTB=NULL,
                     quiet = TRUE,
                     returnPaths = TRUE) {
   
-  
-  if (Sys.info()["sysname"] == "Linux") {
-    if (is.null(searchLocation)) searchLocation<-"/usr"
+  if (is.null(searchLocation)){
+  if (Sys.info()["sysname"] == "Windows") {
+     searchLocation<-"C:"
+    } else 
+    {searchLocation<-"/usr"}
+    }
     params_OTB <- findOTB(searchLocation = searchLocation,quiet = quiet)
     # if no path is provided  we have to search
     #cat(nrow(params_OTB))
@@ -54,6 +55,8 @@ linkOTB <- function(bin_OTB=NULL,
     #pathOTB <- bin_OTB
     #params_OTB <- searchOTBW()
     # if just one valid installation was found take it
+    if (params_OTB[[1]][1] != FALSE){
+      if (Sys.info()["sysname"] != "Windows"){   
     if (nrow(params_OTB) == 1) {  
       pathOTB <- params_OTB[1]
       otbCmd <- params_OTB[2]
@@ -91,8 +94,9 @@ linkOTB <- function(bin_OTB=NULL,
     
     # (R) set pathes  of OTB  binaries depending on OS WINDOWS 
   }  else {    
-    if (is.null(searchLocation)) searchLocation<-"C:"
-    params_OTB <- findOTB(searchLocation = searchLocation,quiet = quiet)
+    # if (is.null(searchLocation)) searchLocation<-"C:"
+    # params_OTB <- findOTB(searchLocation = searchLocation,quiet = quiet)
+    #if ( params_OTB != FALSE)
     if (nrow(params_OTB) == 1) {  
 
       pathOTB <- setenvOTB(bin_OTB = params_OTB$binDir[1],root_OTB = params_OTB$baseDir[2])
@@ -121,6 +125,13 @@ linkOTB <- function(bin_OTB=NULL,
   otb$pathOTB<-pathOTB
   #otb$otbCmd<-otbCmd
   otb$version<-params_OTB
+  otb$exist<-TRUE
+  }
+  else { 
+    otb<-list()
+    otb$exist<-FALSE
+    returnPaths <-TRUE
+  }
   if (returnPaths) return(otb)
 }
 

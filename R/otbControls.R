@@ -19,8 +19,8 @@
 setenvOTB <- function(bin_OTB = NULL, root_OTB = NULL){
   # check if running on a HRZMR Pool PC
   if (!exists("GiEnv")) GiEnv <- new.env(parent=globalenv()) 
-  if (substr(Sys.getenv("COMPUTERNAME"),1,5) == "PCRZP") {
-    bin_OTB <- checkPCDomain("otb")   
+  if (substr(Sys.getenv("COMPUTERNAME"),1,5) == "PCRZP1") {
+    bin_OTB <- #checkPCDomain("otb")   
     Sys.setenv(GEOTIFF_CSV = paste0(Sys.getenv("OSGEO4W_ROOT"),"\\share\\epsg_csv"),envir = GiEnv)
   } else {
     # (R) set pathes  of otb modules and binaries depending on OS  
@@ -72,15 +72,15 @@ searchOTBW <- function(DL = "C:",
       options(show.error.messages = FALSE)
       options(warn=-1)
       raw_OTB  <- try(system(paste0("cmd.exe"," /c dir /B /S ",DL,"\\","otbcli.bat"),intern=TRUE))
-      
+      if (identical(raw_OTB, character(0))) raw_OTB <- "File not found"
       if (grepl(raw_OTB,pattern = "File not found") | grepl(raw_OTB,pattern = "Datei nicht gefunden")) {
-        raw_OTB<- "message"
+
         class(raw_OTB) <- c("try-error", class(raw_OTB))
       }
       options(show.error.messages = TRUE)
       options(warn=0)
       
-      if(!class(raw_OTB) == "try-error" && length( raw_OTB) > 0) {
+      if(!class(raw_OTB)[1] == "try-error")  {
       #if (!grepl(DL,raw_OTB)) stop("\n At ",DL," no OTB installation found")
       
       # trys to identify valid otb installations and their version numbers
@@ -122,6 +122,7 @@ searchOTBW <- function(DL = "C:",
       }) # end lapply
       # bind the df lines
       otbInstallations <- do.call("rbind", otbInstallations)
+      
       } else {
         if(!quiet) cat("Did not find any valid OTB installation at mount point",DL)
         return(otbInstallations <- FALSE)}
@@ -149,6 +150,7 @@ searchOTBW <- function(DL = "C:",
 #' # get all valid OTB installation folders and params
 #' searchOTBX()
 #' }
+
 searchOTBX <- function(MP = "/usr",
                        quiet=TRUE) {
   if (MP=="default") MP <- "/usr"
@@ -161,16 +163,16 @@ searchOTBX <- function(MP = "/usr",
       raw_OTB <- 
       options(show.error.messages = FALSE)
       options(warn=-1)
-      raw_OTB  <- try(system2("find", paste("/usr"," ! -readable -prune -o -type f -executable -iname 'otbcli' -print"),stdout = TRUE))
-      
+      raw_OTB  <- try(system2("find", paste("/usr"," ! -readable -prune -o -type f -executable -iname 'ootbcli' -print"),stdout = TRUE))
+      if (identical(raw_OTB, character(0))) raw_OTB <- "File not found"
       if (grepl(raw_OTB,pattern = "File not found") | grepl(raw_OTB,pattern = "Datei nicht gefunden")) {
-        raw_OTB<- "message"
+
         class(raw_OTB) <- c("try-error", class(raw_OTB))
       }
       options(show.error.messages = TRUE)
       options(warn=0)
       
-      if(!class(raw_OTB) == "try-error" && length( raw_OTB) > 0) {
+      if(!class(raw_OTB)[1] == "try-error") {
       #if (!grepl(MP,raw_OTB)) stop("\n At ",MP," no OTB installation found")
       # trys to identify valid otb installations and their version numbers
       otbInstallations <- lapply(seq(length(raw_OTB)), function(i){
@@ -186,7 +188,7 @@ searchOTBX <- function(MP = "/usr",
       # bind the df lines
       otbInstallations <- do.call("rbind", otbInstallations)
       } else {
-        if(!quiet) cat("Did not find any valid OTB installation at mount point",DL)
+        if(!quiet) cat("Did not find any valid OTB installation at mount point",MP)
         return(otbInstallations <- FALSE)}
   
   return(otbInstallations)
@@ -216,7 +218,7 @@ findOTB <- function(searchLocation = "default",
   
   if (Sys.info()["sysname"] == "Windows") {
     if (searchLocation=="default") searchLocation <- "C:"
-    if (searchLocation %in% paste0(LETTERS,":"))
+    if (grepl(paste0(LETTERS, ":", collapse="|"), searchLocation))
       link = link2GI::searchOTBW(DL = searchLocation,                     
                                  quiet=TRUE)  
     else stop("You are running Windows - Please choose a suitable searchLocation argument that MUST include a Windows drive letter and colon" )
@@ -225,6 +227,6 @@ findOTB <- function(searchLocation = "default",
     if (grepl(searchLocation,pattern = ":"))  stop("You are running Linux - please choose a suitable searchLocation argument" )
     else link = link2GI::searchOTBX(MP = searchLocation,
                                     quiet=TRUE)
-  }
+  } 
   return(link)
 }

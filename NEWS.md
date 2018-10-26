@@ -1,3 +1,15 @@
+## link2GI 0.3-4
+new feature: 
+* add boolean variable if required API exists
+
+bugfixes:
+* fix of the quiet option
+* fix the search order
+* straighten GRASS problems with r.in.lidar
+* several fixes for Windows search and linking
+* fix and add a lot of examples
+* Comments and typos
+
 ## link2GI 0.3-3
 new feature: 
 * by default the latest version of each API is selected

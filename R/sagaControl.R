@@ -14,7 +14,7 @@
 #'#### Examples how to use searchSAGAX
 #'
 #' # get all valid SAGA installation folders and params
-#' sagaParams<- searchSAGAX()
+#' searchSAGAX()
 #' }
 
 searchSAGAX <- function(MP = "/usr",
@@ -35,12 +35,12 @@ searchSAGAX <- function(MP = "/usr",
     rawSAGALib <- try(system2("find", paste(MP," ! -readable -prune -o -type f  -iname 'libio_gdal.so' -print"), stdout = TRUE))
     
    if (grepl(rawSAGA,pattern = "File not found") | grepl(rawSAGA,pattern = "Datei nicht gefunden")) {
-      rawSAGA<- "message"
+
       class(rawSAGA) <- c("try-error", class(rawSAGA))
     }
     options(show.error.messages = TRUE)
     options(warn=0)
-    if(!class(rawSAGA) == "try-error" && length( rawSAGA) > 0) { 
+    if(!class(rawSAGA) == "try-error") { 
     
     # split the search returns of existing SAGA GIS installation(s
     sagaPath <- lapply(seq(length(rawSAGA)), function(i){
@@ -57,7 +57,7 @@ searchSAGAX <- function(MP = "/usr",
    }
   else {
       if (!quiet) cat(paste("Did not find any valid SAGA installation at mount point",MP))
-      return(installations_GRASS <- FALSE)}
+      return(sagaPath <- FALSE)}
     
   } # end of sysname = Windows
   else {
@@ -82,14 +82,14 @@ searchSAGAX <- function(MP = "/usr",
 #'#### Examples how to use searchSAGAW 
 #'
 #' # get all valid SAGA installation folders and params
-#' sagaParams<- searchSAGAW()
+#' searchSAGAW()
 #' }
 
 searchSAGAW <- function(DL = "C:",
                         quiet = TRUE) {
   if (DL=="default") DL <- "C:"
   if (Sys.info()["sysname"] == "Windows") {  
-    sagaPath <- checkPCDomain("saga")  
+    sagaPath <- NULL #checkPCDomain("saga")  
     if (is.null(sagaPath)) {
       
       # trys to find a osgeo4w installation on the whole C: disk returns root directory and version name
@@ -110,12 +110,12 @@ searchSAGAW <- function(DL = "C:",
       options(show.error.messages = TRUE)
       options(warn=0)
       
-      if(!class(rawSAGA) == "try-error" && length( rawSAGA) > 0) {
+      if(!class(rawSAGA)[1] == "try-error") {
       # trys to identify valid SAGA GIS installation(s) & version number(s)
       sagaPath <- lapply(seq(length(rawSAGA)), function(i){
         cmdfileLines <- rawSAGA[i]
         installerType <- ""
-        
+        if (substr(cmdfileLines,1,1) == "\\") rawSAGA[i] <- substr(cmdfileLines,3,nchar(cmdfileLines)) 
         # if "OSGeo4W64" 
         if (length(unique(grep(paste("OSGeo4W64", collapse = "|"), rawSAGA[i], value = TRUE))) > 0) {
           root_dir <- unique(grep(paste("OSGeo4W64", collapse = "|"), rawSAGA[i], value = TRUE))
@@ -150,7 +150,7 @@ searchSAGAW <- function(DL = "C:",
       
       }else {
         if (!quiet) cat(paste("Did not find any valid SAGA installation at mount point",DL))
-        return(sagaPath <- FALSE)}
+        sagaPath <- FALSE}
     }  #  end of is.null(sagaPath)
   } # end of sysname = Windows
   else {
@@ -186,7 +186,7 @@ findSAGA <- function(searchLocation = "default",
   
   if (Sys.info()["sysname"] == "Windows") {
     if (searchLocation=="default") searchLocation <- "C:"
-    if (searchLocation %in% paste0(LETTERS,":"))
+    if (grepl(paste0(LETTERS, ":", collapse="|"), searchLocation))
       link = link2GI::searchSAGAW(DL = searchLocation,quiet = quiet)  
     else stop("You are running Windows - Please choose a suitable searchLocation argument that MUST include a Windows drive letter and colon" )
   } else {

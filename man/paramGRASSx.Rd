@@ -26,7 +26,8 @@ During the rsession you will have full access to GRASS7 GIS via the \link{rgrass
 \examples{
 \dontrun{
 # automatic retrieval of the GRASS7 enviroment settings
-paramsGRASSx()
+paramGRASSx()
+
 
 # typical stand_alone installation
 paramGRASSx("/usr/bin/grass72")

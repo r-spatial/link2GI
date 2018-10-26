@@ -22,7 +22,7 @@ Search for valid 'GRASS GIS' installations at a given 'Linux' mount point
 #### Examples how to use searchSAGAX
 
 # get all valid SAGA installation folders and params
-sagaParams<- searchSAGAX()
+searchSAGAX()
 }
 }
 \author{

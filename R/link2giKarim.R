@@ -25,38 +25,7 @@ getSpatialClass <- function(obj) {
   else {"paramList"}
 }
 
-#'@title Checks if running on a specified computer domain
-#'@name checkPCDomain
-#'@description  Checks if the computer belongs to the Marburg Universitys computer pools
-#'@param cliCode code of the sofware currently \code{saga} and \code{otb} are supported
-#'@param prefixPC contains the an arbitrary part of the computer name. It always starts with the first letter.
-#'@author CR
-#'@keywords internal
-#'@examples
-#' \dontrun{
-#' # add path
-#' checkPCDomain("saga",prefixPC="PCRZP")
-#' }
-#'@export checkPCDomain
-checkPCDomain <- function(cliCode=NULL, prefixPC="PCRZP") {
-  if (!exists("GiEnv")) GiEnv <- new.env(parent=globalenv()) 
-  if (substr(Sys.getenv("COMPUTERNAME"),1,nchar(prefixPC)) == substr(prefixPC,1,nchar(prefixPC))) {
-    if (cliCode == "saga") { 
-      defaultSAGA <- shQuote(c("C:\\Program Files\\QGIS 2.14\\apps\\saga","C:\\Program Files\\QGIS 2.14\\apps\\saga\\modules"))
-      return(defaultSAGA)
-    } else {
-      return(defaultSAGA = NULL)  
-    }
-  } else if (cliCode == "otb") {
-    defaultOtb <- shQuote("C:\\Program Files\\QGIS 2.14\\bin")
-    root_OTB <- shQuote("C:\\Program Files\\QGIS 2.14")
-    Sys.setenv(GEOTIFF_CSV = paste0(Sys.getenv("OSGEO4W_ROOT"),"\\share\\epsg_csv"),envir = GiEnv)
-    otbInstallations <- data.frame(instDir = shQuote("C:\\Program Files\\QGIS 2.14\\bin"), installation_type = "osgeo4wOTB", stringsAsFactors = FALSE)
-    return(otbInstallations)
-  }
-  
-  
-}
+
 
 #'@title Adds a defined variable and value to the global search path
 #'@name add2Path

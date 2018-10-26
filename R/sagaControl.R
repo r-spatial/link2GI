@@ -89,7 +89,7 @@ searchSAGAW <- function(DL = "C:",
                         quiet = TRUE) {
   if (DL=="default") DL <- "C:"
   if (Sys.info()["sysname"] == "Windows") {  
-    sagaPath <- checkPCDomain("saga")  
+    sagaPath <- NULL #checkPCDomain("saga")  
     if (is.null(sagaPath)) {
       
       # trys to find a osgeo4w installation on the whole C: disk returns root directory and version name

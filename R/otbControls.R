@@ -19,8 +19,8 @@
 setenvOTB <- function(bin_OTB = NULL, root_OTB = NULL){
   # check if running on a HRZMR Pool PC
   if (!exists("GiEnv")) GiEnv <- new.env(parent=globalenv()) 
-  if (substr(Sys.getenv("COMPUTERNAME"),1,5) == "PCRZP") {
-    bin_OTB <- checkPCDomain("otb")   
+  if (substr(Sys.getenv("COMPUTERNAME"),1,5) == "PCRZP1") {
+    bin_OTB <- #checkPCDomain("otb")   
     Sys.setenv(GEOTIFF_CSV = paste0(Sys.getenv("OSGEO4W_ROOT"),"\\share\\epsg_csv"),envir = GiEnv)
   } else {
     # (R) set pathes  of otb modules and binaries depending on OS  

@@ -38,6 +38,8 @@
 #' @import tools 
 #' @import rgrass7 
 #' @import RSAGA
+#' @import roxygen2
+#' @import devtools
 #' @keywords package
 #' 
 NULL

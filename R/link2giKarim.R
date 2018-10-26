@@ -117,7 +117,9 @@ readinteger <- function()
 #' 
 #' @author 
 #' Florian Detsch, Chris Reudenbach
-#' 
+#' @import roxygen2
+#' @import devtools
+#' @importFrom utils install.packages
 #' @keywords internal
 #' @examples
 #' \dontrun{
@@ -155,7 +157,7 @@ manuallyBuild <- function(dsn = getwd(), pkgDir="H:/Dokumente",document = TRUE, 
                     pattern = paste0(basename(dsn), ".*.tar.gz$"))
   pkg <- pkg[length(pkg)]
   
-  install.packages(pkg, repos = NULL)
+  utils::install.packages(pkg, repos = NULL)
   
   return(invisible(NULL))
 }

@@ -1,3 +1,11 @@
+## link2GI 0.3-5
+new feature: 
+* add manual build function for UNC pathes
+bugfixes:
+* remove search argument for PRZP
+* several fixes for Windows search and linking
+* Comments and typos
+
 ## link2GI 0.3-4
 new feature: 
 * add boolean variable if required API exists

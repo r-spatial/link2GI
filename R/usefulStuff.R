@@ -12,6 +12,10 @@ if ( !isGeneric("sf2gvec") ) {
 #' @author Chris Reudenbach
 #' @note  have a look at the \code{\link{sf}} capabilities to write direct to sqlite
 #' @export sf2gvec
+#' @importFrom sf st_as_sf
+#' @importFrom sf st_write
+#' @importFrom sf st_read 
+
 #' @examples 
 #'\dontrun{
 #' ## example 

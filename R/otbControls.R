@@ -17,9 +17,11 @@
 #'}
 
 setenvOTB <- function(bin_OTB = NULL, root_OTB = NULL){
-
+  
+    
     # (R) set pathes  of otb modules and binaries depending on OS  
     if (Sys.info()["sysname"] == "Windows") {
+      if (!exists("GiEnv")) GiEnv <- new.env(parent=globalenv()) 
       #makGlobalVar("otbPath", bin_OTB)
       add2Path(bin_OTB)
       Sys.setenv(OSGEO4W_ROOT = root_OTB)

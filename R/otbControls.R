@@ -17,12 +17,7 @@
 #'}
 
 setenvOTB <- function(bin_OTB = NULL, root_OTB = NULL){
-  # check if running on a HRZMR Pool PC
-  if (!exists("GiEnv")) GiEnv <- new.env(parent=globalenv()) 
-  if (substr(Sys.getenv("COMPUTERNAME"),1,5) == "PCRZP1") {
-    bin_OTB <- #checkPCDomain("otb")   
-    Sys.setenv(GEOTIFF_CSV = paste0(Sys.getenv("OSGEO4W_ROOT"),"\\share\\epsg_csv"),envir = GiEnv)
-  } else {
+
     # (R) set pathes  of otb modules and binaries depending on OS  
     if (Sys.info()["sysname"] == "Windows") {
       #makGlobalVar("otbPath", bin_OTB)
@@ -33,7 +28,7 @@ setenvOTB <- function(bin_OTB = NULL, root_OTB = NULL){
     #else {
     #  makGlobalVar("otbPath", "(usr/bin/")
     #}
-  }
+  
   return(bin_OTB)
 }
 
@@ -58,11 +53,7 @@ searchOTBW <- function(DL = "C:",
   if (DL=="default") DL <- "C:"
   if (Sys.info()["sysname"] == "Windows") {
     if (!exists("GiEnv")) GiEnv <- new.env(parent=globalenv()) 
-    if (substr(Sys.getenv("COMPUTERNAME"),1,5) == "PCRZP") {
-      defaultOtb <- shQuote("C:\\Program Files\\QGIS 2.14\\bin")
-      otbInstallations <- data.frame(instDir = shQuote("C:\\Program Files\\QGIS 2.14\\bin"), installation_type = "osgeo4wOTB",stringsAsFactors = FALSE)
-      Sys.setenv(GEOTIFF_CSV = paste0(Sys.getenv("OSGEO4W_ROOT"),"\\share\\epsg_csv"),envir = GiEnv)
-    } else {
+
       # trys to find a osgeo4w installation on the whole C: disk returns root directory and version name
       # recursive dir for otb*.bat returns all version of otb bat files
       if (!quiet) cat("\nsearching for Orfeo Toolbox installations - this may take a while\n")
@@ -126,7 +117,7 @@ searchOTBW <- function(DL = "C:",
       } else {
         if(!quiet) cat("Did not find any valid OTB installation at mount point",DL)
         return(otbInstallations <- FALSE)}
-    }
+    
   } else {
     otbInstallations <- NULL
     cat("Sorry no Windows system..." )

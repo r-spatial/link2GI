@@ -43,13 +43,11 @@ if (!isGeneric('linkGDAL')) {
 
 linkGDAL <- function(quiet = TRUE,
                      returnPaths = TRUE){
-  if (substr(Sys.getenv("COMPUTERNAME"),1,5) == "PCRZP") {
-    gdalUtils::gdal_setInstallation(search_path = shQuote("C:/Program Files/QGIS 2.14/bin/"))
-  } else {
+
   ## (gdalUtils) check for a valid GDAL binary installation on your system
     if (!quiet) gdalUtils::gdal_setInstallation(verbose = TRUE)
     else gdalUtils::gdal_setInstallation()
-  }
+
   valid.install <- !is.null(getOption("gdalUtils_gdalPath"))
   if (!valid.install) {
     stop('no valid GDAL/OGR found')

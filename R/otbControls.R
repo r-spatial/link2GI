@@ -17,14 +17,11 @@
 #'}
 
 setenvOTB <- function(bin_OTB = NULL, root_OTB = NULL){
-  # check if running on a HRZMR Pool PC
-  if (!exists("GiEnv")) GiEnv <- new.env(parent=globalenv()) 
-  if (substr(Sys.getenv("COMPUTERNAME"),1,5) == "PCRZP1") {
-    bin_OTB <- #checkPCDomain("otb")   
-    Sys.setenv(GEOTIFF_CSV = paste0(Sys.getenv("OSGEO4W_ROOT"),"\\share\\epsg_csv"),envir = GiEnv)
-  } else {
+  
+    
     # (R) set pathes  of otb modules and binaries depending on OS  
     if (Sys.info()["sysname"] == "Windows") {
+      if (!exists("GiEnv")) GiEnv <- new.env(parent=globalenv()) 
       #makGlobalVar("otbPath", bin_OTB)
       add2Path(bin_OTB)
       Sys.setenv(OSGEO4W_ROOT = root_OTB)
@@ -33,7 +30,7 @@ setenvOTB <- function(bin_OTB = NULL, root_OTB = NULL){
     #else {
     #  makGlobalVar("otbPath", "(usr/bin/")
     #}
-  }
+  
   return(bin_OTB)
 }
 
@@ -58,11 +55,7 @@ searchOTBW <- function(DL = "C:",
   if (DL=="default") DL <- "C:"
   if (Sys.info()["sysname"] == "Windows") {
     if (!exists("GiEnv")) GiEnv <- new.env(parent=globalenv()) 
-    if (substr(Sys.getenv("COMPUTERNAME"),1,5) == "PCRZP") {
-      defaultOtb <- shQuote("C:\\Program Files\\QGIS 2.14\\bin")
-      otbInstallations <- data.frame(instDir = shQuote("C:\\Program Files\\QGIS 2.14\\bin"), installation_type = "osgeo4wOTB",stringsAsFactors = FALSE)
-      Sys.setenv(GEOTIFF_CSV = paste0(Sys.getenv("OSGEO4W_ROOT"),"\\share\\epsg_csv"),envir = GiEnv)
-    } else {
+
       # trys to find a osgeo4w installation on the whole C: disk returns root directory and version name
       # recursive dir for otb*.bat returns all version of otb bat files
       if (!quiet) cat("\nsearching for Orfeo Toolbox installations - this may take a while\n")
@@ -126,7 +119,7 @@ searchOTBW <- function(DL = "C:",
       } else {
         if(!quiet) cat("Did not find any valid OTB installation at mount point",DL)
         return(otbInstallations <- FALSE)}
-    }
+    
   } else {
     otbInstallations <- NULL
     cat("Sorry no Windows system..." )
@@ -163,7 +156,7 @@ searchOTBX <- function(MP = "/usr",
       raw_OTB <- 
       options(show.error.messages = FALSE)
       options(warn=-1)
-      raw_OTB  <- try(system2("find", paste("/usr"," ! -readable -prune -o -type f -executable -iname 'ootbcli' -print"),stdout = TRUE))
+      raw_OTB  <- try(system2("find", paste("/usr"," ! -readable -prune -o -type f -executable -iname 'otbcli' -print"),stdout = TRUE))
       if (identical(raw_OTB, character(0))) raw_OTB <- "File not found"
       if (grepl(raw_OTB,pattern = "File not found") | grepl(raw_OTB,pattern = "Datei nicht gefunden")) {
 

@@ -49,7 +49,9 @@ if (!isGeneric('linkGRASS7')) {
 #'@author Chris Reudenbach
 
 #'@export linkGRASS7
-#'  
+#' @importFrom sf st_as_sf
+#' @importFrom sf st_crs 
+#' @importFrom sf st_bbox
 #'@examples 
 #'
 #'\dontrun{

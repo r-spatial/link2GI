@@ -3,7 +3,8 @@ language: r
 
 r:
   - release
-  - oldrel
+  - devel
+#- oldrel # breaks on lacking isFALSE#/isTRUE
 
 r_packages:
   - covr
@@ -19,11 +20,23 @@ r_packages:
   - RSAGA
 
 sudo: required
-
 dist: trusty
+cache: packages
+latex: true
 
 addons:
-  postgresql: "9.6"
+  apt:
+    sources:
+      - sourceline: 'ppa:ubuntugis/ubuntugis-unstable'
+    packages:
+      - libudunits2-dev
+      - libnetcdf-dev
+      - libproj-dev
+      - libgeos-devaddons:
+
+      - libgdal-dev
+      - netcdf-bin
+      - postgresql-server-dev-9.6 # required for postgis installation
 
 before_install:
   - sudo add-apt-repository ppa:ubuntugis/ubuntugis-unstable --yes

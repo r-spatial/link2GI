@@ -12,9 +12,11 @@ to smoothly enable the necessary system variables and path parameters for a dire
 via system calls on all operating systems. In particular, \code{rgrass7} and \code{RSAGA} can cause severe 
 problems during initialization of parallel installations of \code{GRASS GIS} or \code{SAGA GIS} under the
 Windows operating system(s). \code{link2GI} tries to set the correct system settings and returns if system 
-calls are required the necessary paths and commands.\cr\cr
-Nevertheless there are also some usefull functions for creating project folder structures, direct reading and 
-writing of GRASS vector data.
+calls are required the necessary paths and commands. \cr
+Furthermore the package provides a linkage to the Orfeo Toolbox software as well as a basic list based command parser.
+\cr\cr
+In addition there are some usefull functions for creating project folder structures, direct reading and 
+writing of GRASS vector data and manual building of the package in UNC related enviroments.
 }
 \details{
 Functions for linking  GI/RS functionality to R

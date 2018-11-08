@@ -1,9 +1,8 @@
 # R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
-language: r		 
-
-r:
-  - release
-  - devel
+language: R
+sudo: false
+cache: packages
+  
 #- oldrel # breaks on lacking isFALSE#/isTRUE
 
 r_packages:

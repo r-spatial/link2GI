@@ -17,6 +17,7 @@ addons:
     packages:
       - saga 
       - grass
+      - otb-bin
       - libnetcdf-dev
       - libgeos-dev
       - libproj-dev
@@ -26,23 +27,21 @@ addons:
 
 
 
-before_install: R -q -e 'remotes::install_github("ropenscilabs/tic"); tic::prepare_all_stages(); tic::before_install()'
+before_install:
+  - R -q -e 'install.packages("devtools"); devtools::install_github("ropenscilabs/tic"); tic::prepare_all_stages()'
+
 install: R -q -e 'tic::install()'
-afterr_install: R -q -e 'tic::after_install()'
 script: R -q -e 'tic::script()'
 before_deploy: R -q -e 'tic::before_deploy()'
 deploy:
-    provider: script
-    script: R -q -e 'tic::deploy()'
-    on:
-      branches: master
-      condition:
-         - $TRAVIS_PULL_REQUEST = false
-         - $TRAVIS_EVENT_TYPE != cron
-
-after_deploy: R -q -e 'tic::after_deploy()'
-after_script: R -q -e 'tic::after_script()'
-after_success: R -q -e 'tic::after_success()'
+   provider: script
+   script: R -q -e 'tic::deploy()'
+   on:
+     branch: master
+     condition:
+       - $TRAVIS_PULL_REQUEST = false
+       - $TRAVIS_EVENT_TYPE != cron
+       - $TRAVIS_R_VERSION_STRING = release
   
 
 

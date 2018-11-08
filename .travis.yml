@@ -8,7 +8,10 @@ cache: packages
 r_packages:
   - remotes
 
-r_github_packages: gisma/uavRst
+r_github_packages: 
+  - gisma/uavRst
+  - ropenscilabs/tic
+
 
 addons:
   apt:
@@ -28,7 +31,7 @@ addons:
 
 
 before_install:
-  - R -q -e 'install.packages("devtools"); devtools::install_github("ropenscilabs/tic"); tic::prepare_all_stages()'
+  - R -q -e  'tic::prepare_all_stages()'
 
 install: R -q -e 'tic::install()'
 script: R -q -e 'tic::script()'

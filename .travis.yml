@@ -5,13 +5,8 @@ cache: packages
   
 #- oldrel # breaks on lacking isFALSE#/isTRUE
 
-r_packages:
-  - remotes
-
 r_github_packages: 
   - gisma/uavRst
-  - ropenscilabs/tic
-
 
 addons:
   apt:

@@ -1,24 +1,16 @@
 # R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
-language: R
+language: r
 sudo: false
 cache: packages
   
 #- oldrel # breaks on lacking isFALSE#/isTRUE
 
 r_packages:
-  - rgdal
-  - roxygen2
-  - rmarkdown
-  - sf
-  - raster
-  - gdalUtils
-  - tools
-  - rgrass7
-  - sp
-  - RSAGA
+  - remotes
+
+r_github_packages: gisma/uavRst
 
 addons:
-  postgresql: "9.6"
   apt:
     sources:
       - sourceline: 'ppa:ubuntugis/ubuntugis-unstable'
@@ -31,10 +23,10 @@ addons:
       - libgdal-dev
       - netcdf-bin 
       - libudunits2-dev
-      - postgresql-server-dev-9.6 # required for postgis installation
 
 
-before_install: R -q -e 'install.packages("remotes"); remotes::install_github("ropenscilabs/tic"); tic::prepare_all_stages(); tic::before_install()'
+
+before_install: R -q -e 'remotes::install_github("ropenscilabs/tic"); tic::prepare_all_stages(); tic::before_install()'
 install: R -q -e 'tic::install()'
 afterr_install: R -q -e 'tic::after_install()'
 script: R -q -e 'tic::script()'

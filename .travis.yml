@@ -30,21 +30,4 @@ addons:
 
 
 
-before_install:
-  - R -q -e  'tic::prepare_all_stages()'
-
-install: R -q -e 'tic::install()'
-script: R -q -e 'tic::script()'
-before_deploy: R -q -e 'tic::before_deploy()'
-deploy:
-   provider: script
-   script: R -q -e 'tic::deploy()'
-   on:
-     branch: master
-     condition:
-       - $TRAVIS_PULL_REQUEST = false
-       - $TRAVIS_EVENT_TYPE != cron
-       - $TRAVIS_R_VERSION_STRING = release
-  
-
 

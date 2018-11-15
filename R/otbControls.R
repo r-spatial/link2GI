@@ -104,8 +104,8 @@ searchOTBW <- function(DL = "C:",
           installerType <- "qgisOTB"
         }
         # if the the tag "OTB-" exists set installation_type
-        else if (length(unique(grep(paste("OTB-", collapse = "|"), batchfile_lines, value = TRUE))) > 0) {
-          root_dir <- unique(grep(paste("OTB-", collapse = "|"), raw_OTB[i], value = TRUE))
+        else if (length(unique(grep(paste("OTB", collapse = "|"), batchfile_lines, value = TRUE))) > 0) {
+          root_dir <- unique(grep(paste("OTB", collapse = "|"), raw_OTB[i], value = TRUE))
           root_dir <- substr(root_dir,1, gregexpr(pattern = "otbcli.bat", root_dir)[[1]][1] - 1)
           installDir <- substr(root_dir,1, gregexpr(pattern = "bin", root_dir)[[1]][1] - 2)
           installerType <- "OTB"

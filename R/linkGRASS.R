@@ -156,7 +156,7 @@ linkGRASS7 <- function(x = NULL,
       if(!quiet) return(rgrass7::gmeta())
     }
     
-    ### if not do the normal linking procedure
+    ### if not do the temp linking procedure
     
     # create temporary location if not provided
     if (is.null(location)) {
@@ -240,6 +240,7 @@ linkGRASS7 <- function(x = NULL,
     #Sys.setenv(.GRASS_CACHE = paste(Sys.getenv("HOME"), "\\.grass_cache",sep = "")) 
     #################### start with GRASS setup ------------------------------------
     # create the TEMPORARY GRASS location
+    returnPaths<-TRUE
     rgrass7::initGRASS(gisBase  = grass$gisbase_GRASS,
                        home = tempdir(),
                        gisDbase = gisdbase,

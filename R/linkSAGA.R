@@ -131,9 +131,9 @@ linkSAGA <- function(default_SAGA = NULL,
   add2Path(sagaPath)
   # create return list with all folders
   saga<-list()
-  saga$sagaPath<-sagaPath
-  saga$sagaModPath <- sagaModPath
-  saga$sagaCmd <- sagaCmd
+  saga$sagaPath<-shQuote(sagaPath)
+  saga$sagaModPath <- shQuote(sagaModPath)
+  saga$sagaCmd <- shQuote(sagaCmd)
   saga$installed <- default_SAGA
   saga$exist<-TRUE
 } else saga$exist <- FALSE

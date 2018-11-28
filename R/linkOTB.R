@@ -122,7 +122,7 @@ linkOTB <- function(bin_OTB=NULL,
     # if a setDefaultOTB was provided take this 
   
   otb<-list()
-  otb$pathOTB<-pathOTB
+  otb$pathOTB<-shQuote(pathOTB)
   #otb$otbCmd<-otbCmd
   otb$version<-params_OTB
   otb$exist<-TRUE

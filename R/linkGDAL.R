@@ -61,7 +61,7 @@ linkGDAL <- function(quiet = TRUE,
   add2Path(gdal[[1]]$path)
   
   # return all gdalUtilSettings
-  if (returnPaths) return(gdal)
+  if (returnPaths) return(gdal[[1]])
   
 }
 

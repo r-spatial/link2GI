@@ -2,41 +2,50 @@
 % Please edit documentation in R/linkGDAL.R
 \name{linkGDAL}
 \alias{linkGDAL}
-\title{Checks and sets up via \code{gdalUtils}  the 'GDAL' pathes and settings for the command line usage.}
+\title{Locate and set up 'GDAL' API bindings}
 \usage{
-linkGDAL(quiet = TRUE, returnPathes = TRUE)
+linkGDAL(bin_GDAL = NULL, root_GDAL = NULL, type_GDAL = NULL,
+  searchLocation = NULL, ver_select = FALSE, quiet = TRUE,
+  returnPaths = TRUE)
 }
 \arguments{
-\item{quiet}{boolean if set to FALSE you will get most of the console messages}
+\item{bin_GDAL}{string contains path to where the gdal binaries are located}
 
-\item{returnPathes}{boolean if set to FALSE the GDAL binary path is written 
-to the PATH variable only, otherwise all paths and names of the installed "GDAL" ae returned.}
+\item{root_GDAL}{string provides the root folder of the \code{bin_GDAL}}
+
+\item{type_GDAL}{string}
+
+\item{searchLocation}{string hard drive letter default is \code{C:}}
+
+\item{ver_select}{boolean default is FALSE. If there is more than one 'GDAL' installation and \code{ver_select} = TRUE the user can select interactively the preferred 'GDAL' version}
+
+\item{quiet}{boolean  switch for supressing messages default is TRUE}
+
+\item{returnPaths}{boolean if set to FALSE the pathes of the selected version are written 
+to the PATH variable only, otherwise all paths and versions of the installed GRASS versions ae returned.}
+}
+\value{
+add gdal pathes to the enviroment and creates global variables path_GDAL
 }
 \description{
-For almost all GI related software tools you need to have installed the  \href{http://www.gdal.org/}{'GDAL'}  binaries. It is useful for checking and linking the 'GDAL' binary 
-installation to the 'R'environment for command line calls of GDAL functions.  \code{linkGDAL} checks
-via \code{gdalUtils} the status of the 'GDAL' binaries installation.
+Locate and set up  \href{https://www.gdal.org}{'GDAL - Geospatial Data Abstraction Librar'} API bindings
+}
+\details{
+It looks for the \code{gdalinfo(.exe)} file. If the file is found in a \code{bin} folder it is assumed to be a valid 'GDAL' binary installation.
+
+if called without any parameter \code{linkGDAL()} it performs a full search over the hardrive \code{C:}. If it finds one or more 'GDAL' binaries it will take the first hit. You have to set \code{ver_select = TRUE} for an interactive selection of the preferred version.
+}
+\note{
+You may also set the path manually. Using a 'OSGeo4W64' \url{http://trac.osgeo.org/osgeo4w/} installation it is typically \code{C:/OSGeo4W64/bin/}
 }
 \examples{
 \dontrun{
-
-# get all available GDAL informations 
+# call if you do not have any idea if and where GDAL is installed
 gdal<-linkGDAL()
-
-# get available GDAL driver
-gdal[[1]]$drivers$format_code
-
-# get the binary path (is also written to the PATH variable)
-gdal[[1]]$path
-
-# get the available python tools e.g. for gdal_sieve.py
-# you may call it like following:
-#  ret <- system(paste0("gdal_sieve.py -8 ",
-#                         "input.sdat ",
-#                         "output.sdat ",
-#                         "-of SAGA"), intern = TRUE)
-gdal[[1]]$python_utilities
-
+if (gdal$exist) {
+# call it for a default OSGeo4W installation of the GDAL
+print(gdal)
+}
 }
 }
 \author{

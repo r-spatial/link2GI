@@ -31,7 +31,7 @@ During the [GEOSTAT 2018](http://opengeohub.org/node/146) in Prague some more co
 Please check the R dependencies:
 
 ```{r, eval=FALSE}
-install.packages(c("sf", "raster",  "rgdal", "gdalUtils", "tools", "rgrass7", "sp", "RSAGA", "link2GI"))
+install.packages(c("sf", "raster",  "rgdal",  "tools", "rgrass7", "sp", "RSAGA", "link2GI"))
 
 # for the Canopy height model usecase you need to install uavRst
 devtools::install_github("gisma/uavRst", ref = "master")

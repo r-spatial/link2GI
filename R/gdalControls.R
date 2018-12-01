@@ -72,7 +72,7 @@ searchGDALW <- function(DL = "C:",
     }
     options(show.error.messages = TRUE)
     options(warn=0)
-    
+    gdal1<-gdal_py<-gdal_bin<-list()
     if(!class(raw_GDAL)[1] == "try-error")  {
       #if (!grepl(DL,raw_GDAL)) stop("\n At ",DL," no GDAL installation found")
       
@@ -109,12 +109,30 @@ searchGDALW <- function(DL = "C:",
           root_dir <- substr(root_dir,1, gregexpr(pattern = "gdalinfo.exe", root_dir)[[1]][1] - 1)
           installDir <- substr(root_dir,1, gregexpr(pattern = "bin", root_dir)[[1]][1] - 2)
           installerType <- "GDAL"
+        }        # if the the tag "GRASS-" exists set installation_type
+        else if (length(unique(grep(paste("GRASS", collapse = "|"), batchfile_lines, value = TRUE))) > 0) {
+          root_dir <- unique(grep(paste("GRASS", collapse = "|"), raw_GDAL[i], value = TRUE))
+          root_dir <- substr(root_dir,1, gregexpr(pattern = "gdalinfo.exe", root_dir)[[1]][1] - 1)
+          bundle <- substr(root_dir,gregexpr(pattern = "GRASS", root_dir)[[1]][1],gregexpr(pattern = "bin", root_dir)[[1]][1]-7)
+          installerType <- bundle 
+        }        # if the the tag "OTB-" exists set installation_type
+        else if (length(unique(grep(paste("OTB", collapse = "|"), batchfile_lines, value = TRUE))) > 0) {
+          root_dir <- unique(grep(paste("OTB", collapse = "|"), raw_GDAL[i], value = TRUE))
+          root_dir <- substr(root_dir,1, gregexpr(pattern = "gdalinfo.exe", root_dir)[[1]][1] - 1)
+          installDir <- substr(root_dir,1, gregexpr(pattern = "bin", root_dir)[[1]][1] - 2)
+          installerType <- "OTB"
         }
+        
         # put the existing GISBASE directory, version number  and installation type in a data frame
         data.frame(binDir = root_dir, baseDir = installDir, installation_type = installerType, stringsAsFactors = FALSE)
       }) # end lapply
       # bind the df lines
       gdalInstallations <- do.call("rbind", gdalInstallations)
+      for (i in 1:nrow(gdalInstallations)){
+        gdal_bin[[i]]<- as.data.frame(grep(Sys.glob(file.path(R.utils::getAbsolutePath(gdalInstallations[[1]][i]),"gdal*")),pattern = "\\.(py)$", value=TRUE, invert=TRUE))
+        names(gdal_bin[[i]])<-"gdal_bin"
+        gdal_py[[i]]<-as.data.frame(grep(Sys.glob(file.path(R.utils::getAbsolutePath(gdalInstallations[[1]][i]),"gdal*")),pattern = "\\.(py)$", value=TRUE))
+        names(gdal_py[[i]])<-"gdal_py"}
       
     } else {
       if(!quiet) cat("Did not find any valid GDAL installation at mount point",DL)
@@ -247,10 +265,10 @@ getrowGDALVer<- function (paths){
 }
 
 
-getGDALVer<- function (paths){
-  sep = ifelse(Sys.info()["sysname"]=="Windows", "\\", "/")
-  scmd = ifelse(Sys.info()["sysname"]=="Windows", "gdalinfo.exe", "gdalinfo")
-  tmp<-  strsplit(x = system(paste0(paste0(shQuote(paths$binDir[i]),sep,scmd)," --version"),intern = TRUE),split = "GDAL ")[[1]][2]
-  gdalVersion<- strsplit(x = tmp,split = ", released ")[[1]][1]
-  return (sagaVersion)
-}
+# getGDALVer<- function (paths){
+#   sep = ifelse(Sys.info()["sysname"]=="Windows", "\\", "/")
+#   scmd = ifelse(Sys.info()["sysname"]=="Windows", "gdalinfo.exe", "gdalinfo")
+#   tmp<-  strsplit(x = system(paste0(paste0(shQuote(paths$binDir[i]),sep,scmd)," --version"),intern = TRUE),split = "GDAL ")[[1]][2]
+#   gdalVersion<- strsplit(x = tmp,split = ", released ")[[1]][1]
+#   return (gdalVersion)
+# }

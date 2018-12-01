@@ -36,7 +36,6 @@
 #' @import sp 
 #' @import raster
 #' @import rgdal 
-#' @import gdalUtils 
 #' @import tools 
 #' @import rgrass7 
 #' @import RSAGA

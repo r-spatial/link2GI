@@ -5,7 +5,8 @@
 \title{Locate and set up 'Orfeo ToolBox' API bindings}
 \usage{
 linkOTB(bin_OTB = NULL, root_OTB = NULL, type_OTB = NULL,
-  searchLocation = NULL, ver_select = FALSE, quiet = TRUE)
+  searchLocation = NULL, ver_select = FALSE, quiet = TRUE,
+  returnPaths = TRUE)
 }
 \arguments{
 \item{bin_OTB}{string contains path to where the otb binaries are located}
@@ -19,6 +20,9 @@ linkOTB(bin_OTB = NULL, root_OTB = NULL, type_OTB = NULL,
 \item{ver_select}{boolean default is FALSE. If there is more than one 'OTB' installation and \code{ver_select} = TRUE the user can select interactively the preferred 'OTB' version}
 
 \item{quiet}{boolean  switch for supressing messages default is TRUE}
+
+\item{returnPaths}{boolean if set to FALSE the pathes of the selected version are written 
+to the PATH variable only, otherwise all paths and versions of the installed GRASS versions ae returned.}
 }
 \value{
 add otb pathes to the enviroment and creates global variables path_OTB
@@ -37,13 +41,11 @@ You may also set the path manually. Using a 'OSGeo4W64' \url{http://trac.osgeo.o
 \examples{
 \dontrun{
 # call if you do not have any idea if and where OTB is installed
-linkOTB()
-
+otb<-linkOTB()
+if (otb$exist) {
 # call it for a default OSGeo4W installation of the OTB
-linkOTB("C:/OSGeo4W64/bin/")
-
-# call it for a default Linux installation of the OTB
-linkOTB("/usr/bin/")
+print(otb)
+}
 }
 }
 \author{

@@ -2,7 +2,7 @@
 % Please edit documentation in R/otbControls.R
 \name{setenvOTB}
 \alias{setenvOTB}
-\title{Initializes and set up  access to the 'OTB' command line interface}
+\title{Usually for internally usage, initializes and set up  access to the 'OTB' command line interface}
 \usage{
 setenvOTB(bin_OTB = NULL, root_OTB = NULL)
 }

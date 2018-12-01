@@ -4,10 +4,12 @@
 \alias{searchGRASSX}
 \title{Search recursivly valid 'GRASS GIS' installation(s) at a given 'Linux' mount point}
 \usage{
-searchGRASSX(MP = "/usr")
+searchGRASSX(MP = "/usr", quiet = TRUE)
 }
 \arguments{
 \item{MP}{default is /usr}
+
+\item{quiet}{boolean  switch for supressing console messages default is TRUEs}
 }
 \value{
 A dataframe containing 'GRASS GIS' binary folder(s), version name(s) and installation type code(s)

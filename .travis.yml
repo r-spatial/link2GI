@@ -1,0 +1,27 @@
+# R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
+language: r
+sudo: false
+cache: packages
+warnings_are_errors: false
+
+#- oldrel # breaks on lacking isFALSE#/isTRUE
+
+
+addons:
+  apt:
+    sources:
+      - sourceline: 'ppa:ubuntugis/ubuntugis-unstable'
+    packages:
+      - saga 
+      - grass
+      - otb-bin
+      - libnetcdf-dev
+      - libgeos-dev
+      - libproj-dev
+      - libgdal-dev
+      - netcdf-bin 
+      - libudunits2-dev
+
+
+
+

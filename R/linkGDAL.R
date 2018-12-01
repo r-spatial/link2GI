@@ -34,12 +34,12 @@ if (!isGeneric('linkGDAL')) {
 #'}
 
 linkGDAL <- function(bin_GDAL=NULL,
-                    root_GDAL= NULL, 
-                    type_GDAL=NULL,
-                    searchLocation=NULL,
-                    ver_select=FALSE,
-                    quiet = TRUE,
-                    returnPaths = TRUE) {
+                     root_GDAL= NULL, 
+                     type_GDAL=NULL,
+                     searchLocation=NULL,
+                     ver_select=FALSE,
+                     quiet = TRUE,
+                     returnPaths = TRUE) {
   
   if (is.null(searchLocation)){
     if (Sys.info()["sysname"] == "Windows") {
@@ -65,14 +65,14 @@ linkGDAL <- function(bin_GDAL=NULL,
         #print("installation folder: ",params_GDAL$baseDir,"\ninstallation type: ",params_GDAL$installationType,"\n")
         pathGDAL <- params_GDAL$gdalInstallations[[1]][ver_select]
         if(!quiet){
-        cat("You have more than one valid GDAL version\n")
-        print(params_GDAL$gdalInstallations,right = FALSE,row.names = TRUE) 
-        cat("You have selected: ",ver_select,"\n")}
+          cat("You have more than one valid GDAL version\n")
+          print(params_GDAL$gdalInstallations,right = FALSE,row.names = TRUE) 
+          cat("You have selected: ",ver_select,"\n")}
       } else if (nrow(params_GDAL$gdalInstallations) > 1 &  (!ver_select)) {
         
-          recentGDAL <- getrowGDALVer(params_GDAL$gdalInstallations)
-          pathGDAL <- params_GDAL$gdalInstallations[[1]][recentGDAL]
-          if (!quiet){   cat("You have choosen version: ",ver_select,"\n")}
+        recentGDAL <- getrowGDALVer(params_GDAL$gdalInstallations)
+        pathGDAL <- params_GDAL$gdalInstallations[[1]][recentGDAL]
+        if (!quiet){   cat("You have choosen version: ",ver_select,"\n")}
       } 
       else if (nrow(params_GDAL$gdalInstallations) > 1 & ver_select ) {
         cat("You have more than one valid GDAL version\n")

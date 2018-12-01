@@ -10,7 +10,7 @@ findSAGA(searchLocation = "default", quiet = TRUE)
 \item{searchLocation}{drive letter to be searched, for Windows systems default
 is \code{C:}, for Linux systems default is \code{/usr}.}
 
-\item{quiet}{boolean  switch for supressing messages default is TRUE}
+\item{quiet}{boolean  switch for supressing console messages default is TRUE}
 }
 \value{
 A dataframe with the 'SAGA GIS' root folder(s), version name(s) and 

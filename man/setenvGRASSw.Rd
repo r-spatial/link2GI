@@ -2,7 +2,7 @@
 % Please edit documentation in R/grass7Control.R
 \name{setenvGRASSw}
 \alias{setenvGRASSw}
-\title{Create valid 'GRASS GIS 7.xx' rsession environment settings according to the selected  GRASS and Windows Version}
+\title{Usually for internally usage, create valid 'GRASS GIS 7.xx' rsession environment settings according to the selected GRASS GIS 7.x and Windows Version}
 \usage{
 setenvGRASSw(root_GRASS = NULL, grass_version = NULL,
   installation_type = NULL, jpgmem = 1e+06, quiet = TRUE)
@@ -16,7 +16,7 @@ setenvGRASSw(root_GRASS = NULL, grass_version = NULL,
 
 \item{jpgmem}{jpeg2000 memory allocation size. Default is 1000000}
 
-\item{quiet}{boolean if set to FALSE you will get most of the console messages}
+\item{quiet}{boolean  switch for supressing console messages default is TRUE}
 }
 \description{
 Initializes and set up  access to 'GRASS GIS 7.xx' via the \link{rgrass7} wrapper or command line packages. Set and returns all necessary environment variables and additionally returns the GISBASE directory as string.
@@ -24,7 +24,9 @@ Initializes and set up  access to 'GRASS GIS 7.xx' via the \link{rgrass7} wrappe
 \examples{
 \dontrun{
 # set choosen'GRASS GIS' installation folders 
-setenvGRASSw(root_GRASS = "C:\\\\PROGRA~1\\\\QGIS2~1.18",grass_version =  "grass-7.2.1",installation_type =  "osgeo4W")
+setenvGRASSw(root_GRASS = "C:\\\\PROGRA~1\\\\QGIS2~1.18",
+             grass_version =  "grass-7.2.1",
+             installation_type =  "osgeo4W")
 }
 }
 \author{

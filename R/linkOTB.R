@@ -13,6 +13,8 @@ if (!isGeneric('linkOTB')) {
 #'@param searchLocation string hard drive letter default is \code{C:}
 #'@param type_OTB string 
 #'@param quiet boolean  switch for supressing messages default is TRUE
+#'@param returnPaths boolean if set to FALSE the pathes of the selected version are written 
+#' to the PATH variable only, otherwise all paths and versions of the installed GRASS versions ae returned.
 
 #'
 #'@note You may also set the path manually. Using a 'OSGeo4W64' \url{http://trac.osgeo.org/osgeo4w/} installation it is typically \code{C:/OSGeo4W64/bin/}
@@ -24,13 +26,11 @@ if (!isGeneric('linkOTB')) {
 #'@examples
 #' \dontrun{
 #' # call if you do not have any idea if and where OTB is installed
-#' linkOTB()
-#' 
+#' otb<-linkOTB()
+#' if (otb$exist) {
 #' # call it for a default OSGeo4W installation of the OTB
-#' linkOTB("C:/OSGeo4W64/bin/")
-#' 
-#' # call it for a default Linux installation of the OTB
-#' linkOTB("/usr/bin/")
+#' print(otb)
+#' }
 #'}
 
 linkOTB <- function(bin_OTB=NULL,
@@ -38,24 +38,50 @@ linkOTB <- function(bin_OTB=NULL,
                     type_OTB=NULL,
                     searchLocation=NULL,
                     ver_select=FALSE,
-                    quiet = TRUE) {
+                    quiet = TRUE,
+                    returnPaths = TRUE) {
   
-  
-  if (Sys.info()["sysname"] == "Linux") {
-    if (is.null(searchLocation)) searchLocation<-"/usr"
+  if (is.null(searchLocation)){
+  if (Sys.info()["sysname"] == "Windows") {
+     searchLocation<-"C:"
+    } else 
+    {searchLocation<-"/usr"}
+    }
     params_OTB <- findOTB(searchLocation = searchLocation,quiet = quiet)
     # if no path is provided  we have to search
-    cat(nrow(params_OTB))
+    #cat(nrow(params_OTB))
     #params_OTB <- system2("find", paste("/usr"," ! -readable -prune -o -type f -executable -iname 'otbcli' -print"),stdout = TRUE)
     #bin_OTB <- substr(params_OTB,1,nchar(params_OTB) - 6)  
     #pathOTB <- bin_OTB
     #params_OTB <- searchOTBW()
     # if just one valid installation was found take it
+    if (params_OTB[[1]][1] != FALSE){
+      if (Sys.info()["sysname"] != "Windows"){   
     if (nrow(params_OTB) == 1) {  
       pathOTB <- params_OTB[1]
       otbCmd <- params_OTB[2]
       # if more than one valid installation was found you have to choose 
-    } else if (nrow(params_OTB) > 1 & ver_select ) {
+    } else if (nrow(params_OTB) > 1 & is.numeric(ver_select) & ver_select > 0 ) {
+      cat("You have more than one valid OTB version\n")
+      #print("installation folder: ",params_OTB$baseDir,"\ninstallation type: ",params_OTB$installationType,"\n")
+      print(params_OTB,right = FALSE,row.names = TRUE) 
+      cat("You have choosen version: ",ver_select,"\n")
+      if (is.null(type_OTB)) {
+        pathOTB <- params_OTB$binDir[[ver_select]] 
+        otbCmd <- params_OTB$otbCmd[[ver_select]]
+      }
+    } else if (nrow(params_OTB) > 1 &  (!ver_select)) {
+      if (!quiet){
+      cat("You have more than one valid OTB version\n")
+      #print("installation folder: ",params_OTB$baseDir,"\ninstallation type: ",params_OTB$installationType,"\n")
+      print(params_OTB,right = FALSE,row.names = TRUE) 
+      cat("You have choosen version: ",ver_select,"\n")}
+      if (is.null(type_OTB)) {
+        pathOTB <- params_OTB$binDir[[ver_select]] 
+        otbCmd <- params_OTB$otbCmd[[ver_select]]
+      } 
+    } 
+    else if (nrow(params_OTB) > 1 & ver_select ) {
       cat("You have more than one valid OTB version\n")
       #print("installation folder: ",params_OTB$baseDir,"\ninstallation type: ",params_OTB$installationType,"\n")
       print(params_OTB,right = FALSE,row.names = TRUE) 
@@ -68,8 +94,9 @@ linkOTB <- function(bin_OTB=NULL,
     
     # (R) set pathes  of OTB  binaries depending on OS WINDOWS 
   }  else {    
-    if (is.null(searchLocation)) searchLocation<-"C:"
-    params_OTB <- findOTB(searchLocation = searchLocation,quiet = quiet)
+    # if (is.null(searchLocation)) searchLocation<-"C:"
+    # params_OTB <- findOTB(searchLocation = searchLocation,quiet = quiet)
+    #if ( params_OTB != FALSE)
     if (nrow(params_OTB) == 1) {  
 
       pathOTB <- setenvOTB(bin_OTB = params_OTB$binDir[1],root_OTB = params_OTB$baseDir[2])
@@ -98,7 +125,14 @@ linkOTB <- function(bin_OTB=NULL,
   otb$pathOTB<-pathOTB
   #otb$otbCmd<-otbCmd
   otb$version<-params_OTB
-  return(otb)
+  otb$exist<-TRUE
+  }
+  else { 
+    otb<-list()
+    otb$exist<-FALSE
+    returnPaths <-TRUE
+  }
+  if (returnPaths) return(otb)
 }
 
 

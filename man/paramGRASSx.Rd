@@ -8,13 +8,14 @@ paramGRASSx(set_default_GRASS7 = NULL, MP = "/usr",
   ver_select = FALSE, quiet = TRUE)
 }
 \arguments{
-\item{set_default_GRASS7}{default = NULL will force a search for 'GRASS GIS' You may provide a valid combination as c("C:/OSGeo4W64","grass-7.0.5","osgeo4w")}
+\item{set_default_GRASS7}{default = NULL will force a search for 'GRASS GIS' You may provide a valid combination as 
+c("/usr/lib/grass74","7.4.1","grass74")}
 
 \item{MP}{mount point to be searched. default is "usr"}
 
 \item{ver_select}{if TRUE you must interactivley selcect between alternative installations}
 
-\item{quiet}{boolean if set to FALSE you will get most of the console messages}
+\item{quiet}{boolean  switch for supressing console messages default is TRUE}
 }
 \description{
 Initialize and set up \link{rgrass7}  for 'Linux'
@@ -25,7 +26,8 @@ During the rsession you will have full access to GRASS7 GIS via the \link{rgrass
 \examples{
 \dontrun{
 # automatic retrieval of the GRASS7 enviroment settings
-getparams_GRASS7X()
+paramGRASSx()
+
 
 # typical stand_alone installation
 paramGRASSx("/usr/bin/grass72")

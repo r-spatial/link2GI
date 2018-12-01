@@ -19,8 +19,6 @@ Search for valid 'OTB' installations on a 'Windows' OS
 }
 \examples{
 \dontrun{
-#### Examples how to use RSAGA and OTB bindings from R
-
 # get all valid OTB installation folders and params
 searchOTBX()
 }

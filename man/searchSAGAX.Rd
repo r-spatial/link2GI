@@ -9,7 +9,7 @@ searchSAGAX(MP = "/usr", quiet = TRUE)
 \arguments{
 \item{MP}{default mount point is \code{/usr}}
 
-\item{quiet}{boolean  switch for supressing messages default is TRUE}
+\item{quiet}{boolean  switch for supressing console messages default is TRUE}
 }
 \value{
 A dataframe contasining the 'SAGA GIS' root folder(s), the version name(s) and the installation type(s)
@@ -22,7 +22,7 @@ Search for valid 'GRASS GIS' installations at a given 'Linux' mount point
 #### Examples how to use searchSAGAX
 
 # get all valid SAGA installation folders and params
-sagaParams<- searchSAGAX()
+searchSAGAX()
 }
 }
 \author{

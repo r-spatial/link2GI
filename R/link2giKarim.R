@@ -25,48 +25,18 @@ getSpatialClass <- function(obj) {
   else {"paramList"}
 }
 
-#'@title Checks if running on a specified computer domain
-#'@name checkPCDomain
-#'@description  Checks if the computer belongs to the Marburg Universitys computer pools
-#'@param cliCode code of the sofware currently \code{saga} and \code{otb} are supported
-#'@param prefixPC contains the an arbitrary part of the computer name. It always starts with the first letter.
-#'@author CR
-#'@keywords internal
-#'@examples
-#' \dontrun{
-#' # add path
-#' checkPCDomain("saga",prefixPC="PCRZP")
-#' }
-#'@export checkPCDomain
-checkPCDomain <- function(cliCode=NULL, prefixPC="PCRZP") {
-  if (!exists("GiEnv")) GiEnv <- new.env(parent=globalenv()) 
-  if (substr(Sys.getenv("COMPUTERNAME"),1,nchar(prefixPC)) == substr(prefixPC,1,nchar(prefixPC))) {
-    if (cliCode == "saga") { 
-      defaultSAGA <- shQuote(c("C:\\Program Files\\QGIS 2.14\\apps\\saga","C:\\Program Files\\QGIS 2.14\\apps\\saga\\modules"))
-      return(defaultSAGA)
-    } else {
-      return(defaultSAGA = NULL)  
-    }
-  } else if (cliCode == "otb") {
-    defaultOtb <- shQuote("C:\\Program Files\\QGIS 2.14\\bin")
-    root_OTB <- shQuote("C:\\Program Files\\QGIS 2.14")
-    Sys.setenv(GEOTIFF_CSV = paste0(Sys.getenv("OSGEO4W_ROOT"),"\\share\\epsg_csv"),envir = GiEnv)
-    otbInstallations <- data.frame(instDir = shQuote("C:\\Program Files\\QGIS 2.14\\bin"), installation_type = "osgeo4wOTB", stringsAsFactors = FALSE)
-    return(otbInstallations)
-  }
-  
-  
-}
+
 
 #'@title Adds a defined variable and value to the global search path
 #'@name add2Path
 #'@description  Adds a variable to the global search path of the current environment
 #'@param newPath the path that is added
 #'@author Chris Reudenbach
+#'@keywords internal
 #'@examples
 #' \dontrun{
 #' # add path
-#' addPath("pathtosomewhere")
+#' add2Path("pathtosomewhere")
 #' }
 #'@export add2Path
 #'
@@ -112,4 +82,82 @@ makGlobalVar <- function(name,value) {
     assign(name, value, envir = GiEnv, inherits = TRUE)
     #cat("add variable ",name,"=",value," to global GiEnv\n")
   } 
+}
+
+
+readinteger <- function()
+{ 
+  
+  n <- readline()
+  n <- as.integer(n)
+  if (is.na(n)){
+    n <- readinteger()
+  }
+  return(n)
+}
+
+#' Build package manually
+#' 
+#' @description 
+#' This function was specifically designed to build a package from local source 
+#' files manually, i.e., without using the package building functionality 
+#' offered e.g. by RStudio. 
+#' @details NOTE the default setting are focussing HRZ environment at Marburg University
+#' 
+#' 
+#' @param dsn 'character'. Target folder containing source files; defaults to 
+#' the current working directory.
+#' @param pkgDir 'character'. Target folder containing the result ing package of the invoked build process. According to Marburg University pools the default is set to pkgDir="H:/Dokumente". If you want to use it in a different setting you may set pkgDir to whatever you want.
+#' @param document 'logical'. Determines whether or not to invoke 
+#' \code{\link{roxygenize}} with default roclets for documentation purposes.  
+#' @param ... Further arguments passed on to \code{\link[devtools]{build}}. 
+#' 
+#' @seealso 
+#' \code{\link{roxygenize}}, \code{\link[devtools]{build}},\code{\link{install.packages}}.
+#' 
+#' @author 
+#' Florian Detsch, Chris Reudenbach
+#' @import roxygen2
+#' @import devtools
+#' @importFrom utils install.packages
+#' @keywords internal
+#' @examples
+#' \dontrun{
+#' ## when in a package directory, e.g. '~/link2GI' 
+#' manuallyBuild()
+#' }
+#' 
+#'
+
+manuallyBuild <- function(dsn = getwd(), pkgDir="H:/Dokumente",document = TRUE, ...) {
+  
+  ## reset 'dsn' to 'H:/...'  
+  if (length(grep("students_smb", dsn)) > 0) {
+    lst_dsn <- strsplit(dsn, "/")
+    chr_dsn <- unlist(lst_dsn)[3:5]
+    dsn <- paste0("H:/", paste(chr_dsn, collapse = "/"))
+  }
+  
+  ## if 'document = TRUE', create documentation 
+  if (document) {
+    cat("\nCreating package documentation...\n")
+    roxygen2::roxygenize(package.dir = dsn, 
+                         roclets = c('rd', 'collate', 'namespace'))
+  }
+  
+  ## build package
+  cat("\nBuilding package...\n")
+  
+  devtools::build(pkg = dsn, path = dirname(dsn), ...)
+  
+  
+  ## install package
+  cat("Installing package...\n")
+  pkg <- list.files(dirname(pkgDir), full.names = TRUE,
+                    pattern = paste0(basename(dsn), ".*.tar.gz$"))
+  pkg <- pkg[length(pkg)]
+  
+  utils::install.packages(pkg, repos = NULL)
+  
+  return(invisible(NULL))
 }

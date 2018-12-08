@@ -10,14 +10,13 @@ Encoding: UTF-8
 Maintainer: Chris Reudenbach <reudenbach@uni-marburg.de>
 Description: Functions to simplify the linking of open source GIS and remote sensing related command line interfaces.
 License: GPL (>= 3) | file LICENSE
-Depends: R (>= 3.1), methods
-Imports:  tools, devtools, roxygen2,R.utils
+Depends: R (>= 3.1)
+Imports:  methods,tools, devtools, R.utils,roxygen2,sf
 SystemRequirements: GNU make 
 RoxygenNote: 6.1.1
 Suggests: knitr, 
           rmarkdown,
           rgdal,
-          sf,
           raster,
           sp,
           RSAGA,

@@ -7,7 +7,7 @@
 sf2gvec(x, obj_name, gisdbase, location, gisdbase_exist = FALSE)
 }
 \arguments{
-\item{x}{\code{\link{sf}} object corresponding to the settings of the corresponding GRASS container}
+\item{x}{\code{sf} object corresponding to the settings of the corresponding GRASS container}
 
 \item{obj_name}{name of GRASS layer}
 
@@ -21,7 +21,7 @@ sf2gvec(x, obj_name, gisdbase, location, gisdbase_exist = FALSE)
 Write sf object to GRASS 7 vector utilising an existing or creating a new GRASS7 environment
 }
 \note{
-have a look at the \code{\link{sf}} capabilities to write direct to sqlite
+have a look at the \code{sf} capabilities to write direct to sqlite
 }
 \examples{
 \dontrun{

@@ -18,10 +18,10 @@ c("/usr/lib/grass74","7.4.1","grass74")}
 \item{quiet}{boolean  switch for supressing console messages default is TRUE}
 }
 \description{
-Initialize and set up \link{rgrass7}  for 'Linux'
+Initialize and set up \code{rgrass7}  for 'Linux'
 }
 \details{
-During the rsession you will have full access to GRASS7 GIS via the \link{rgrass7} wrappe. Additionally you may use also use the API calls of GRASS7 via the command line.
+During the rsession you will have full access to GRASS7 GIS via the \code{rgrass7} wrappe. Additionally you may use also use the API calls of GRASS7 via the command line.
 }
 \examples{
 \dontrun{

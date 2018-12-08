@@ -4,29 +4,29 @@
 #'@description  Initializes and set up  access to the 'GDAL' command line interface
 #'  
 #'@param bin_GDAL  string contains the path to the 'GDAL' binaries
-#'@param root_GDAL string contains the full string to the root folder
-#'  containing the 'GDAL' installation'
 #'@return Adds 'GDAL' pathes to the enviroment and creates the variable global string variable \code{gdalCmd}, that contains the path to the 'GDAL' binaries.
 #'@export setenvGDAL
 #'  
 #'@examples
 #' \dontrun{
 #'## example for the most common default OSGeo4W64 installation of GDAL
-#'setenvGDAL(bin_GDAL = "C:\\OSGeo4W64\\bin\\",
-#'           root_GDAL = "C:\\OSGeo4W64")
+#'setenvGDAL(bin_GDAL = "C:/OSGeo4W64/bin/",
+#'           root_GDAL = "C:/OSGeo4W64")
 #'}
 
-setenvGDAL <- function(bin_GDAL = NULL, root_GDAL = NULL){
+setenvGDAL <- function(bin_GDAL = NULL){
   
   
   # (R) set pathes  of gdal modules and binaries depending on OS  
-  if (Sys.info()["sysname"] == "Windows") {
+  #if (Sys.info()["sysname"] == "Windows") {
     if (!exists("GiEnv")) GiEnv <- new.env(parent=globalenv()) 
     #makGlobalVar("gdalPath", bin_GDAL)
     add2Path(bin_GDAL)
-    Sys.setenv(OSGEO4W_ROOT = root_GDAL)
-    Sys.setenv(GEOTIFF_CSV = paste0(Sys.getenv("OSGEO4W_ROOT"),"\\share\\epsg_csv"),envir = GiEnv)
-  }
+    p<-system(paste0(bin_GDAL,"gdal-config --datadir"),intern = TRUE,ignore.stdout = FALSE,ignore.stderr = FALSE)
+    #Sys.setenv(GDAL_DRIVER_PATH = root_GDAL)
+    Sys.setenv(GDAL_DATA = p)
+
+  #}
   #else {
   #  makGlobalVar("gdalPath", "(usr/bin/")
   #}

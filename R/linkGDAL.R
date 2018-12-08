@@ -8,10 +8,8 @@ if (!isGeneric('linkGDAL')) {
 #'@description  Locate and set up  \href{https://www.gdal.org}{'GDAL - Geospatial Data Abstraction Librar'} API bindings
 #'@details It looks for the \code{gdalinfo(.exe)} file. If the file is found in a \code{bin} folder it is assumed to be a valid 'GDAL' binary installation.
 #'@param bin_GDAL string contains path to where the gdal binaries are located
-#'@param root_GDAL string provides the root folder of the \code{bin_GDAL}
 #'@param ver_select boolean default is FALSE. If there is more than one 'GDAL' installation and \code{ver_select} = TRUE the user can select interactively the preferred 'GDAL' version 
 #'@param searchLocation string hard drive letter default is \code{C:}
-#'@param type_GDAL string 
 #'@param quiet boolean  switch for supressing messages default is TRUE
 #'@param returnPaths boolean if set to FALSE the pathes of the selected version are written 
 #' to the PATH variable only, otherwise all paths and versions of the installed GRASS versions ae returned.
@@ -34,13 +32,11 @@ if (!isGeneric('linkGDAL')) {
 #'}
 
 linkGDAL <- function(bin_GDAL=NULL,
-                     root_GDAL= NULL, 
-                     type_GDAL=NULL,
                      searchLocation=NULL,
                      ver_select=FALSE,
                      quiet = TRUE,
                      returnPaths = TRUE) {
-  
+   gdal<-list()
   if (is.null(searchLocation)){
     if (Sys.info()["sysname"] == "Windows") {
       searchLocation<-"C:"
@@ -56,14 +52,22 @@ linkGDAL <- function(bin_GDAL=NULL,
   #params_GDAL <- searchGDALW()
   # if just one valid installation was found take it
   if (nrow(params_GDAL$gdalInstallations) != FALSE){
-    if (Sys.info()["sysname"] != "Windows"){   
+ #   if (Sys.info()["sysname"] != "Windows"){   
       if (nrow(params_GDAL$gdalInstallations) == 1) {  
         pathGDAL <-params_GDAL$gdalInstallations[[1]][1]
-        
+        gdal$path<-pathGDAL 
+        gdal$bin<-params_GDAL[[2]][1]
+        gdal$py<-params_GDAL[[3]][1]
+        gdal$exist<-TRUE
         # if more than one valid installation was found you have to choose 
       } else if (nrow(params_GDAL$gdalInstallations) > 1 & is.numeric(ver_select) & ver_select > 0 ) {
         #print("installation folder: ",params_GDAL$baseDir,"\ninstallation type: ",params_GDAL$installationType,"\n")
         pathGDAL <- params_GDAL$gdalInstallations[[1]][ver_select]
+        pathGDAL <- setenvGDAL(bin_GDAL = pathGDAL)
+        gdal$path<-pathGDAL 
+        gdal$bin<-params_GDAL[[2]][ver_select]
+        gdal$py<-params_GDAL[[3]][ver_select]
+        gdal$exist<-TRUE
         if(!quiet){
           cat("You have more than one valid GDAL version\n")
           print(params_GDAL$gdalInstallations,right = FALSE,row.names = TRUE) 
@@ -72,52 +76,61 @@ linkGDAL <- function(bin_GDAL=NULL,
         
         recentGDAL <- getrowGDALVer(params_GDAL$gdalInstallations)
         pathGDAL <- params_GDAL$gdalInstallations[[1]][recentGDAL]
+        params_GDAL$gdalInstallations[[1]][recentGDAL]
+        pathGDAL <- setenvGDAL(bin_GDAL = pathGDAL)
+        gdal$path<-pathGDAL 
+        gdal$bin<-params_GDAL[[2]][recentGDAL]
+        gdal$py<-params_GDAL[[3]][recentGDAL]
+        gdal$exist<-TRUE
         if (!quiet){   cat("You have choosen version: ",ver_select,"\n")}
       } 
       else if (nrow(params_GDAL$gdalInstallations) > 1 & ver_select ) {
         cat("You have more than one valid GDAL version\n")
         #print("installation folder: ",params_GDAL$baseDir,"\ninstallation type: ",params_GDAL$installationType,"\n")
-        print(params_GDAL,right = FALSE,row.names = TRUE) 
-        if (is.null(type_GDAL)) {
+        print(params_GDAL$gdalInstallations,right = FALSE,row.names = TRUE) 
+
           ver <- as.numeric(readline(prompt = "Please choose one:  "))
-          pathGDAL <- params_GDAL$gdalInstallations[[1]][recentGDAL]
-        } 
+          pathGDAL <- params_GDAL$gdalInstallations[[1]][ver]
+          pathGDAL <- setenvGDAL(bin_GDAL = pathGDAL)
+          gdal$path<-pathGDAL 
+          gdal$bin<-params_GDAL[[2]][ver]
+          gdal$py<-params_GDAL[[3]][ver]
+          gdal$exist<-TRUE
+
       } 
       
       # (R) set pathes  of GDAL  binaries depending on OS WINDOWS 
-    }  else {    
-      # if (is.null(searchLocation)) searchLocation<-"C:"
-      # params_GDAL <- findGDAL(searchLocation = searchLocation,quiet = quiet)
-      #if ( params_GDAL != FALSE)
-      if (nrow(params_GDAL[[1]][1]) == 1) {  
-        
-        pathGDAL <- setenvGDAL(bin_GDAL =params_GDAL$gdalInstallations["binDir"][[1]][1],root_GDAL = params_GDAL$gdalInstallations["binDir"][[1]][1])
-        
-        # if more than one valid installation was found you have to choose 
-      } else if (nrow(params_GDAL$gdalInstallations) > 1 & ver_select ) {
-        cat("You have more than one valid GDAL version\n")
-        #print("installation folder: ",params_GDAL$baseDir,"\ninstallation type: ",params_GDAL$installationType,"\n")
-        print(nrow(params_GDAL$gdalInstallations),right = FALSE,row.names = TRUE) 
-        if (is.null(type_GDAL)) {
-          ver <- as.numeric(readline(prompt = "Please choose one:  "))
-          pathGDAL <- setenvGDAL(bin_GDAL = params_GDAL$gdalInstallations["binDir"][[1]][ver], root_GDAL = params_GDAL$gdalInstallations["binDir"][[1]][ver])
-          #gdalCmd<- paste0(pathGDAL,"gdalcli.bat")
-        } else {
-          pathGDAL <- setenvGDAL(bin_GDAL = params_GDAL[params_GDAL["installationType"] == type_GDAL][1],root_GDAL = params_GDAL[params_GDAL["installationType"] == type_GDAL][2])
-        }
-      }
-    }
+  #  } 
+    
+    # else {    
+    #   # if (is.null(searchLocation)) searchLocation<-"C:"
+    #   # params_GDAL <- findGDAL(searchLocation = searchLocation,quiet = quiet)
+    #   #if ( params_GDAL != FALSE)
+    #   if (nrow(params_GDAL$gdalInstallations) == 1) {  
+    #       pathGDAL <- setenvGDAL(bin_GDAL =params_GDAL$gdalInstallations[[1]][1])
+    #     
+    #     # if more than one valid installation was found you have to choose 
+    #   } else if (nrow(params_GDAL$gdalInstallations) > 1 & ver_select ) {
+    #     cat("You have more than one valid GDAL version\n")
+    #     #print("installation folder: ",params_GDAL$baseDir,"\ninstallation type: ",params_GDAL$installationType,"\n")
+    #     print(nrow(params_GDAL$gdalInstallations),right = FALSE,row.names = TRUE) 
+    #     if (is.null(type_GDAL)) {oent
+    #       ver <- as.numeric(readline(prompt = "Please choose one:  "))
+    #       pathGDAL <- setenvGDAL(bin_GDAL = params_GDAL$gdalInstallations[[1]][ver])
+    #       #gdalCmd<- paste0(pathGDAL,"gdalcli.bat")
+    #     } else {
+    #       pathGDAL <- setenvGDAL(bin_GDAL = params_GDAL[params_GDAL["installationType"] == type_GDAL][1],root_GDAL = params_GDAL[params_GDAL["installationType"] == type_GDAL][2])
+    #     }
+    #   }
+    # }
     #else {
     #    pathGDAL <- setenvGDAL(bin_GDAL = params_GDAL$binDir[[1]],root_GDAL = params_GDAL$baseDir[[1]])
     #  }
     
     # if a setDefaultGDAL was provided take this 
     
-    gdal<-list()
-    gdal$pathGDAL<-pathGDAL
-    #gdal$gdalCmd<-gdalCmd
-    gdal$version<-params_GDAL
-    gdal$exist<-TRUE
+    
+
   }
   else { 
     gdal<-list()

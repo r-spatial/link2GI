@@ -1,3 +1,10 @@
+## link2GI 0.3-6
+new feature: 
+* full re-implementation of linkGDAL returns now all gdal installations at a given search path
+bugfixes:
+* several fixes for Windows search and linking
+* examples and typos
+
 ## link2GI 0.3-5
 new feature: 
 * add manual build function for UNC pathes

@@ -4,13 +4,10 @@
 \alias{setenvGDAL}
 \title{Usually for internally usage, initializes and set up  access to the 'GDAL' command line interface}
 \usage{
-setenvGDAL(bin_GDAL = NULL, root_GDAL = NULL)
+setenvGDAL(bin_GDAL = NULL)
 }
 \arguments{
 \item{bin_GDAL}{string contains the path to the 'GDAL' binaries}
-
-\item{root_GDAL}{string contains the full string to the root folder
-containing the 'GDAL' installation'}
 }
 \value{
 Adds 'GDAL' pathes to the enviroment and creates the variable global string variable \code{gdalCmd}, that contains the path to the 'GDAL' binaries.
@@ -21,7 +18,7 @@ Initializes and set up  access to the 'GDAL' command line interface
 \examples{
 \dontrun{
 ## example for the most common default OSGeo4W64 installation of GDAL
-setenvGDAL(bin_GDAL = "C:\\\\OSGeo4W64\\\\bin\\\\",
-          root_GDAL = "C:\\\\OSGeo4W64")
+setenvGDAL(bin_GDAL = "C:/OSGeo4W64/bin/",
+          root_GDAL = "C:/OSGeo4W64")
 }
 }

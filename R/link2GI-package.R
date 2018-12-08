@@ -32,21 +32,6 @@
 #' \cr
 #' \emph{Maintainer:} Chris Reudenbach \email{reudenbach@@uni-marburg.de}
 #'
-#' @import methods
-#' @import sp 
-#' @import raster
-#' @import rgdal 
-#' @import tools 
-#' @import rgrass7 
-#' @import RSAGA
-#' @import roxygen2
-#' @import devtools
-#' @importFrom sf st_as_sf
-#' @importFrom sf st_write
-#' @importFrom sf st_read 
-#' @importFrom sf st_crs 
-#' @importFrom sf st_bbox
-#' @keywords package
 #' 
 NULL
 

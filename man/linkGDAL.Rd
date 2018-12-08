@@ -4,16 +4,11 @@
 \alias{linkGDAL}
 \title{Locate and set up 'GDAL' API bindings}
 \usage{
-linkGDAL(bin_GDAL = NULL, root_GDAL = NULL, type_GDAL = NULL,
-  searchLocation = NULL, ver_select = FALSE, quiet = TRUE,
-  returnPaths = TRUE)
+linkGDAL(bin_GDAL = NULL, searchLocation = NULL, ver_select = FALSE,
+  quiet = TRUE, returnPaths = TRUE)
 }
 \arguments{
 \item{bin_GDAL}{string contains path to where the gdal binaries are located}
-
-\item{root_GDAL}{string provides the root folder of the \code{bin_GDAL}}
-
-\item{type_GDAL}{string}
 
 \item{searchLocation}{string hard drive letter default is \code{C:}}
 

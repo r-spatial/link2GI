@@ -19,11 +19,11 @@ alternatively provide a vector containing pathes and keywords. c("C:/OSGeo4W64",
 }
 \description{
 Initialize the enviroment variables on a 'Windows' OS for using 
- 'GRASS GIS' via \link{rgrass7}
+ 'GRASS GIS' via \code{rgrass7}
 }
 \details{
 The concept is very straightforward but for an all days usage pretty
- helpful. You need to provide a \link{raster} or a \link{sp} object. The derived properties are used to initialize a temporary but static
+ helpful. You need to provide a \code{raster} or a \code{sp} object. The derived properties are used to initialize a temporary but static
  \href{https://CRAN.R-project.org/package=rgrass7}{rgrass7} environment. During the rsession you will have full access to
  GRASS7 both via the wrapper package as well as the command line. paramGRASSw initializes the usage of GRASS7.
 }

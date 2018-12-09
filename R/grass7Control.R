@@ -1,7 +1,7 @@
 #'@title Usually for internally usage, get 'GRASS GIS' and \code{rgrass7} parameters on 'Linux' OS
 #'@name paramGRASSx
-#'@description Initialize and set up \link{rgrass7}  for 'Linux'
-#'@details During the rsession you will have full access to GRASS7 GIS via the \link{rgrass7} wrappe. Additionally you may use also use the API calls of GRASS7 via the command line.
+#'@description Initialize and set up \code{rgrass7}  for 'Linux'
+#'@details During the rsession you will have full access to GRASS7 GIS via the \code{rgrass7} wrappe. Additionally you may use also use the API calls of GRASS7 via the command line.
 #'@param set_default_GRASS7 default = NULL will force a search for 'GRASS GIS' You may provide a valid combination as 
 #'                                    c("/usr/lib/grass74","7.4.1","grass74")
 #'@param MP mount point to be searched. default is "usr"
@@ -89,9 +89,9 @@ paramGRASSx <- function(set_default_GRASS7=NULL,
 #'@title Usually for internally usage get 'GRASS GIS' and \code{rgrass7} parameters on 'Windows' OS
 #'@name paramGRASSw
 #'@description Initialize the enviroment variables on a 'Windows' OS for using 
-#'  'GRASS GIS' via \link{rgrass7}
+#'  'GRASS GIS' via \code{rgrass7}
 #'@details The concept is very straightforward but for an all days usage pretty
-#'  helpful. You need to provide a \link{raster} or a \link{sp} object. The derived properties are used to initialize a temporary but static
+#'  helpful. You need to provide a \code{raster} or a \code{sp} object. The derived properties are used to initialize a temporary but static
 #'  \href{https://CRAN.R-project.org/package=rgrass7}{rgrass7} environment. During the rsession you will have full access to
 #'  GRASS7 both via the wrapper package as well as the command line. paramGRASSw initializes the usage of GRASS7.
 #'@param DL raster or sp object
@@ -380,7 +380,7 @@ searchGRASSX <- function(MP = "/usr",quiet =TRUE){
 
 #'@title Usually for internally usage, create valid 'GRASS GIS 7.xx' rsession environment settings according to the selected GRASS GIS 7.x and Windows Version
 #'@name setenvGRASSw
-#'@description  Initializes and set up  access to 'GRASS GIS 7.xx' via the \link{rgrass7} wrapper or command line packages. Set and returns all necessary environment variables and additionally returns the GISBASE directory as string.
+#'@description  Initializes and set up  access to 'GRASS GIS 7.xx' via the \code{rgrass7} wrapper or command line packages. Set and returns all necessary environment variables and additionally returns the GISBASE directory as string.
 #'@param root_GRASS  grass root directory i.e. "C:\\OSGEO4~1",
 #'@param grass_version grass version name i.e. "grass-7.0.5"
 #'@param installation_type two options "osgeo4w" as installed by the 'OSGeo4W'-installer and "NSIS" that is typical for a stand_alone installtion of 'GRASS GIS'.

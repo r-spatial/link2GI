@@ -18,18 +18,20 @@ setenvGDAL <- function(bin_GDAL = NULL){
   
   
   # (R) set pathes  of gdal modules and binaries depending on OS  
-  #if (Sys.info()["sysname"] == "Windows") {
+if (Sys.info()["sysname"] == "Windows") {
     if (!exists("GiEnv")) GiEnv <- new.env(parent=globalenv()) 
     #makGlobalVar("gdalPath", bin_GDAL)
     add2Path(bin_GDAL)
-    p<-system(paste0(bin_GDAL,"gdal-config --datadir"),intern = TRUE,ignore.stdout = FALSE,ignore.stderr = FALSE)
-    #Sys.setenv(GDAL_DRIVER_PATH = root_GDAL)
-    Sys.setenv(GDAL_DATA = p)
-
-  #}
-  #else {
-  #  makGlobalVar("gdalPath", "(usr/bin/")
-  #}
+    Sys.setenv(GDAL_DATA =  bin_GDAL)
+}
+else {
+  if (!exists("GiEnv")) GiEnv <- new.env(parent=globalenv()) 
+  #makGlobalVar("gdalPath", bin_GDAL)
+  add2Path((bin_GDAL))
+  p<-system(paste0((bin_GDAL),"gdal-config --datadir"),intern = TRUE,ignore.stdout = FALSE,ignore.stderr = FALSE)
+  #Sys.setenv(GDAL_DRIVER_PATH = root_GDAL)
+  Sys.setenv(GDAL_DATA = p)
+}
   
   return(bin_GDAL)
 }
@@ -58,7 +60,7 @@ searchGDALW <- function(DL = "C:",
     
     # trys to find a osgeo4w installation on the whole C: disk returns root directory and version name
     # recursive dir for gdal*.bat returns all version of gdal bat files
-    if (!quiet) cat("\nsearching for Orfeo Toolbox installations - this may take a while\n")
+    if (!quiet) cat("\nsearching for GDAL installations - this may take a while\n")
     if (!quiet) cat("For providing the path manually see ?searchGDALW \n")
     
     
@@ -85,42 +87,56 @@ searchGDALW <- function(DL = "C:",
         if (length(unique(grep(paste("OSGeo4W64", collapse = "|"), raw_GDAL[i], value = TRUE))) > 0) {
           root_dir <- unique(grep(paste("OSGeo4W64", collapse = "|"), raw_GDAL[i], value = TRUE))
           root_dir <- substr(root_dir,1, gregexpr(pattern = "gdalinfo.exe", root_dir)[[1]][1] - 1)
+          if (file.exists(file.path(root_dir,"ogdi.dll"))) installerType <- "osgeo4w64GDAL"
+          else installerType <- "missingdll"
+          
           installDir <- substr(root_dir,1, gregexpr(pattern = "bin", root_dir)[[1]][1] - 2)
-          installerType <- "osgeo4w64GDAL"
+    
         }    
         
         # if the the tag "OSGEO4W" exists set installation_type
         else if (length(unique(grep(paste("OSGeo4W", collapse = "|"), raw_GDAL[i], value = TRUE))) > 0) {
           root_dir <- unique(grep(paste("OSGeo4W", collapse = "|"), raw_GDAL[i], value = TRUE))
           root_dir <- substr(root_dir,1, gregexpr(pattern = "gdalinfo.exe", root_dir)[[1]][1] - 1)
+          if (file.exists(file.path(root_dir,"ogdi.dll"))) installerType <- "osgeo4wGDAL"
+          else installerType <- "missingdll"
           installDir <- substr(root_dir,1, gregexpr(pattern = "bin", root_dir)[[1]][1] - 2)
-          installerType <- "osgeo4wGDAL"
-        }
+         }
         # if the the tag "QGIS" exists set installation_type
         else if (length(unique(grep(paste("QGIS", collapse = "|"), batchfile_lines, value = TRUE))) > 0) {
           root_dir <- unique(grep(paste("QGIS", collapse = "|"), raw_GDAL[i], value = TRUE))
           root_dir <- substr(root_dir,1, gregexpr(pattern = "gdalinfo.exe", root_dir)[[1]][1] - 1)
+          if (file.exists(file.path(root_dir,"ogdi.dll"))) installerType <- "qgisGDAL"
+          else installerType <- "missingdll"
           installDir <- substr(root_dir,1, gregexpr(pattern = "bin", root_dir)[[1]][1] - 2)
-          installerType <- "qgisGDAL"
+
         }
         # if the the tag "GDAL-" exists set installation_type
         else if (length(unique(grep(paste("GDAL", collapse = "|"), batchfile_lines, value = TRUE))) > 0) {
           root_dir <- unique(grep(paste("GDAL", collapse = "|"), raw_GDAL[i], value = TRUE))
           root_dir <- substr(root_dir,1, gregexpr(pattern = "gdalinfo.exe", root_dir)[[1]][1] - 1)
+          if (file.exists(file.path(root_dir,"ogdi.dll"))) installerType <- "GDAL"
+          else installerType <- "missingdll"
+          
           installDir <- substr(root_dir,1, gregexpr(pattern = "bin", root_dir)[[1]][1] - 2)
-          installerType <- "GDAL"
+
         }        # if the the tag "GRASS-" exists set installation_type
         else if (length(unique(grep(paste("GRASS", collapse = "|"), batchfile_lines, value = TRUE))) > 0) {
           root_dir <- unique(grep(paste("GRASS", collapse = "|"), raw_GDAL[i], value = TRUE))
           root_dir <- substr(root_dir,1, gregexpr(pattern = "gdalinfo.exe", root_dir)[[1]][1] - 1)
+          installDir <- substr(root_dir,1, gregexpr(pattern = "bin", root_dir)[[1]][1] - 2)
           bundle <- substr(root_dir,gregexpr(pattern = "GRASS", root_dir)[[1]][1],gregexpr(pattern = "bin", root_dir)[[1]][1]-7)
-          installerType <- bundle 
+          if (file.exists(file.path(root_dir,"ogdi.dll"))) installerType <- bundle
+          else installerType <- "missingdll"
+          
         }        # if the the tag "OTB-" exists set installation_type
         else if (length(unique(grep(paste("OTB", collapse = "|"), batchfile_lines, value = TRUE))) > 0) {
           root_dir <- unique(grep(paste("OTB", collapse = "|"), raw_GDAL[i], value = TRUE))
           root_dir <- substr(root_dir,1, gregexpr(pattern = "gdalinfo.exe", root_dir)[[1]][1] - 1)
           installDir <- substr(root_dir,1, gregexpr(pattern = "bin", root_dir)[[1]][1] - 2)
-          installerType <- "OTB"
+          if (file.exists(file.path(root_dir,"ogdi.dll"))) installerType <- "OTB"
+          else installerType <- "missingdll"
+          
         }
         
         # put the existing GISBASE directory, version number  and installation type in a data frame
@@ -143,7 +159,14 @@ searchGDALW <- function(DL = "C:",
     cat("Sorry no Windows system..." )
     
   }
-  return(gdalInstallations)
+
+   df <-gdalInstallations[gdalInstallations$installation_type != "missingdll", ]
+    rownames(df) <- 1:nrow(df)
+  gdal1$gdalInstallations<-df
+  gdal1$bin<- gdal_bin[gdalInstallations$installation_type != "missingdll" ]
+  gdal1$py<- gdal_py[gdalInstallations$installation_type != "missingdll" ]
+
+  return(gdal1)
 }
 
 #'@title Search recursively for valid 'GDAL' installation(s) on a 'Windows' OS
@@ -168,7 +191,7 @@ searchGDALX <- function(MP = "/usr",
   if (!exists("GiEnv")) GiEnv <- new.env(parent=globalenv()) 
   # trys to find a osgeo4w installation at the mounting point  disk returns root directory and version name
   # recursive dir for gdal*.bat returns all version of gdal bat files
-  if (!quiet) cat("\nsearching for Orfeo Toolbox installations - this may take a while\n")
+  if (!quiet) cat("\nsearching for GDAL Toolbox installations - this may take a while\n")
   if (!quiet) cat("For providing the path manually see ?searchGDALX \n")
   
   raw_GDAL <- 
@@ -213,7 +236,7 @@ searchGDALX <- function(MP = "/usr",
   return(gdal1)
 }
 
-#'@title Search recursivly existing 'Orfeo Toolbox' installation(s) at a given drive/mountpoint 
+#'@title Search recursivly existing 'GDAL binaries' installation(s) at a given drive/mountpoint 
 #'@name findGDAL
 #'@description  Provides an  list of valid 'GDAL' installation(s) 
 #'on your 'Windows' system. There is a major difference between osgeo4W and 
@@ -228,7 +251,7 @@ searchGDALX <- function(MP = "/usr",
 #'
 #'@examples
 #' \dontrun{
-#' # find recursively all existing 'Orfeo Toolbox' installations folders starting 
+#' # find recursively all existing 'GDAL' installations folders starting 
 #' # at the default search location
 #' findGDAL()
 #' }
@@ -256,7 +279,10 @@ getrowGDALVer<- function (paths){
   sep = ifelse(Sys.info()["sysname"]=="Windows", "\\", "/")
   highestVer<-"1.4.0"
   for (i in 1:nrow(paths)){
-    tmp<-  strsplit(x = system(paste0(paste0(shQuote(paths$binDir[i]),sep,scmd)," --version"),intern = TRUE),split = "GDAL ")[[1]][2]
+    
+   ret<- system(paste0(paste0(shQuote(paths$binDir[i]),sep,scmd)," --version"),intern = TRUE)
+   
+    tmp<-  strsplit(x = ret ,split = "GDAL ")[[1]][2]
     tmp2<- strsplit(x = tmp,split = ", released ")[[1]][1]
     highestVer <- max(tmp2,highestVer)
     pathI <- i

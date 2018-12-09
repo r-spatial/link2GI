@@ -2,7 +2,7 @@
 % Please edit documentation in R/gdalControls.R
 \name{findGDAL}
 \alias{findGDAL}
-\title{Search recursivly existing 'Orfeo Toolbox' installation(s) at a given drive/mountpoint}
+\title{Search recursivly existing 'GDAL binaries' installation(s) at a given drive/mountpoint}
 \usage{
 findGDAL(searchLocation = "default", quiet = TRUE)
 }
@@ -23,7 +23,7 @@ installations by analysing the calling batch scripts.
 }
 \examples{
 \dontrun{
-# find recursively all existing 'Orfeo Toolbox' installations folders starting 
+# find recursively all existing 'GDAL' installations folders starting 
 # at the default search location
 findGDAL()
 }

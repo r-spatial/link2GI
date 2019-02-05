@@ -197,7 +197,7 @@ searchGDALX <- function(MP = "/usr",
   raw_GDAL <- 
     options(show.error.messages = FALSE)
   options(warn=-1)
-  raw_GDAL  <- try(system2("find", paste("/usr"," ! -readable -prune -o -type f -executable -iname 'gdalinfo' -print"),stdout = TRUE))
+  raw_GDAL  <- try(system2("find", paste( MP," ! -readable -prune -o -type f -executable -iname 'gdalinfo' -print"),stdout = TRUE))
   if (identical(raw_GDAL, character(0))) raw_GDAL <- "File not found"
   if (grepl(raw_GDAL,pattern = "File not found") | grepl(raw_GDAL,pattern = "Datei nicht gefunden")) {
     

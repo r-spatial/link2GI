@@ -146,7 +146,7 @@ searchOTBW <- function(DL = "C:",
 
 searchOTBX <- function(MP = "/usr",
                        quiet=TRUE) {
-  if (MP=="default") MP <- "/usr"
+  if (MP=="default") MP <- "~"
     if (!exists("GiEnv")) GiEnv <- new.env(parent=globalenv()) 
       # trys to find a osgeo4w installation at the mounting point  disk returns root directory and version name
       # recursive dir for otb*.bat returns all version of otb bat files

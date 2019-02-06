@@ -15,7 +15,7 @@ linkOTB(bin_OTB = NULL, root_OTB = NULL, type_OTB = NULL,
 
 \item{type_OTB}{string}
 
-\item{searchLocation}{string hard drive letter default is \code{C:}}
+\item{searchLocation}{string hard drive letter (Windows) or mounting point (Linux) default for Windows is \code{C:}, default for Linux is \code{~}}
 
 \item{ver_select}{boolean default is FALSE. If there is more than one 'OTB' installation and \code{ver_select} = TRUE the user can select interactively the preferred 'OTB' version}
 

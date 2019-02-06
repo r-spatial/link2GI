@@ -2,12 +2,12 @@
 % Please edit documentation in R/otbControls.R
 \name{searchOTBX}
 \alias{searchOTBX}
-\title{Search recursively for valid 'OTB' installation(s) on a 'Windows' OS}
+\title{Search recursively for valid 'OTB' installation(s) on a 'Linux' OS}
 \usage{
-searchOTBX(MP = "/usr", quiet = TRUE)
+searchOTBX(MP = "default", quiet = TRUE)
 }
 \arguments{
-\item{MP}{drive letter default is "C:"}
+\item{MP}{default mount point is the home directory "~" (as suggested by the OTB team)}
 
 \item{quiet}{boolean  switch for supressing messages default is TRUE}
 }
@@ -15,7 +15,7 @@ searchOTBX(MP = "/usr", quiet = TRUE)
 A dataframe with the 'OTB' root folder(s) the version name(s) and the installation type(s).
 }
 \description{
-Search for valid 'OTB' installations on a 'Windows' OS
+Search for valid 'OTB' installations on a 'Linux' OS
 }
 \examples{
 \dontrun{

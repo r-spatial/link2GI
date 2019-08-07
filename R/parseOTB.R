@@ -132,9 +132,11 @@ parseOTBFunction <- function(algos=NULL,gili=NULL) {
       
       
          txt<-readLines("otb_module_dump.txt")
+         file.remove("otb_module_dump.txt")
       # Pull out the appropriate line
       args <- txt[grep("-", txt)]
-      if (Sys.info()["sysname"]=="Linux") args <- args[-grep("http",args)]
+      # obviously the format has changed. TODO
+      #if (Sys.info()["sysname"]=="Linux") args <- args[-grep("http",args)]
       
       # Delete unwanted characters in the lines we pulled out
       args <- gsub("MISSING", "     ", args, fixed = TRUE)

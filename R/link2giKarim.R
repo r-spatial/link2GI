@@ -36,7 +36,7 @@ getSpatialClass <- function(obj) {
 #'@examples
 #' \dontrun{
 #' # add path
-#' addPath("pathtosomewhere")
+#' add2Path("pathtosomewhere")
 #' }
 #'@export add2Path
 #'

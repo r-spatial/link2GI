@@ -7,7 +7,6 @@ r:
 #- oldrel # breaks on lacking isFALSE#/isTRUE
 
 r_packages:
-  - covr
   - rgdal
   - roxygen2
   - rmarkdown
@@ -21,8 +20,7 @@ r_packages:
 
 sudo: required
 dist: trusty
-cache: packages
-latex: true
+latex: false
 
 addons:
   apt:
@@ -36,6 +34,7 @@ addons:
 
       - libgdal-dev
       - netcdf-bin
+      - libnetcdf-dev
       - postgresql-server-dev-9.6 # required for postgis installation
 
 before_install:
@@ -73,5 +72,5 @@ after_success:
   - psql -d postgis -c "CREATE EXTENSION postgis;"
   - psql -d postgis -c "GRANT CREATE ON DATABASE postgis TO travis"
   
-  - Rscript -e 'library(covr); codecov()'
+
 

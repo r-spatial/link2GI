@@ -120,10 +120,41 @@ linkOTB <- function(bin_OTB=NULL,
         ver <- as.numeric(readline(prompt = "Please choose one:  "))
         pathOTB <- setenvOTB(bin_OTB = params_OTB$binDir[[ver]], root_OTB = params_OTB$baseDir[[ver]])
         #otbCmd<- paste0(pathOTB,"otbcli.bat")
-      } else {
+      }
+      else {
         pathOTB <- setenvOTB(bin_OTB = params_OTB[params_OTB["installationType"] == type_OTB][1],root_OTB = params_OTB[params_OTB["installationType"] == type_OTB][2])
       }
-    }
+    }  else if (nrow(params_OTB) > 1 & is.numeric(ver_select) & ver_select > 0 ) {
+      cat("You have more than one valid OTB version\n")
+      #print("installation folder: ",params_OTB$baseDir,"\ninstallation type: ",params_OTB$installationType,"\n")
+      print(params_OTB,right = FALSE,row.names = TRUE) 
+      cat("You have choosen version: ",ver_select,"\n")
+      if (is.null(type_OTB)) {
+        pathOTB <- params_OTB$binDir[[ver_select]] 
+        otbCmd <- params_OTB$otbCmd[[ver_select]]
+      }
+    } else if (nrow(params_OTB) > 1 &  (!ver_select)) {
+      cat 
+      #recentotb <- getrowotbVer(params_OTB)
+      cat("You have more than one valid OTB version\n")
+      cat("Up to now there is no automatic selection please check a running version\n")
+      print(params_OTB,right = FALSE,row.names = TRUE) 
+      if (is.null(type_OTB)) {
+        ver <- as.numeric(readline(prompt = "Please choose one:  "))
+        pathOTB <- params_OTB$binDir[[ver]] 
+        otbCmd <- params_OTB$otbCmd[[ver]]
+      } 
+      # if (!quiet){
+      # cat("You have more than one valid OTB version\n")
+      # #print("installation folder: ",params_OTB$baseDir,"\ninstallation type: ",params_OTB$installationType,"\n")
+      # print(params_OTB,right = FALSE,row.names = TRUE) 
+      # cat("You have choosen version: ", recentotb,"\n")}
+      # if (is.null(type_OTB)) {
+      #   pathOTB <- params_OTB$binDir[[ recentotb]] 
+      #   otbCmd <- params_OTB$otbCmd[[ recentotb]]
+      # } 
+    } 
+    
   }
   #else {
   #    pathOTB <- setenvOTB(bin_OTB = params_OTB$binDir[[1]],root_OTB = params_OTB$baseDir[[1]])

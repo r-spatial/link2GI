@@ -241,8 +241,11 @@ getrowotbVer<- function (paths){
 
 
 getotbVer<- function (paths){
+  scmd = ifelse(Sys.info()["sysname"]=="Windows", "otbcli_LocalStatisticExtraction.bat ", "otbcli_LocalStatisticExtraction ")
   sep = ifelse(Sys.info()["sysname"]=="Windows", "\\", "/")
-  scmd = ifelse(Sys.info()["sysname"]=="Windows", "otb_cli.exe", "otb_cli")
-  sagaVersion<-  strsplit(x = system(paste0(paste0(shQuote(paths),sep,scmd)," -version"),intern = TRUE),split = "This is the LocalStatisticExtraction application, ")[[1]][2]
+  
+  otbVersion<-  strsplit(x = system(paste0(paste0(shQuote(paths),sep,scmd)," -version"),intern = TRUE),split = "This is the LocalStatisticExtraction application, ")[[1]][2]
+  otbVersion<-  strsplit(x = otbVersion,split = "version ")[[1]][2]
+  
   return (otbVersion)
 }

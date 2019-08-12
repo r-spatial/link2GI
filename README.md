@@ -1,8 +1,7 @@
-[![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active) 
 [![Travis-CI Build Status](https://travis-ci.org/r-spatial/link2GI.svg?branch=master)](https://travis-ci.org/r-spatial/link2GI)
 <a href="https://cran.r-project.org/web/checks/check_results_link2GI.html"><img border="0" src="http://www.r-pkg.org/badges/version/link2GI" alt="CRAN version"></a>
 ![](https://cranlogs.r-pkg.org/badges/grand-total/link2GI?color=green)
-[![GitHub last commit](https://img.shields.io/github/last-commit/google/skia.svg)](/master/)
+
 [![License](https://img.shields.io/badge/license-GPL%20%28%3E=%203%29-lightgrey.svg?style=flat)](http://www.gnu.org/licenses/gpl-3.0.html)
 
 # link2GI
@@ -16,7 +15,7 @@ If you have several versions installed or if you want to use the full power of t
 
 # Installation
 
-`link2GI`is up to CRAN. For the installation of the stable version please use `install.packages("link2GI")`. To install the  cutting edge version use `devtools::install_github("gisma/link2GI", ref = "master")`.
+`link2GI`is up to CRAN. For the installation of the stable version please use `install.packages("link2GI")`. To install the  cutting edge version use `devtools::install_github("r-spatial/link2GI", ref = "master")`.
 
 # Usecases presented on the GEOSTAT August 2018
 
@@ -31,10 +30,10 @@ During the [GEOSTAT 2018](http://opengeohub.org/node/146) in Prague some more co
 Please check the R dependencies:
 
 ```{r, eval=FALSE}
-install.packages(c("sf", "raster",  "rgdal", "gdalUtils", "tools", "rgrass7", "sp", "RSAGA", "link2GI"))
+install.packages(c("sf", "raster",  "rgdal",  "tools", "rgrass7", "sp", "RSAGA", "link2GI"))
 
 # for the Canopy height model usecase you need to install uavRst
-devtools::install_github("gisma/uavRst", ref = "master")
+devtools::install_github("r-spatial/uavRst", ref = "master")
 ```
 
 In addition you need at least one installation of the following GIS software.

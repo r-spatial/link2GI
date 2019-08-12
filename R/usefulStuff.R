@@ -4,13 +4,13 @@ if ( !isGeneric("sf2gvec") ) {
 }
 
 #' Write sf object to GRASS 7 vector utilising an existing or creating a new GRASS7 environment
-#' @param x  \code{\link{sf}} object corresponding to the settings of the corresponding GRASS container
+#' @param x  \code{sf} object corresponding to the settings of the corresponding GRASS container
 #' @param obj_name name of GRASS layer
 #' @param gisdbase  GRASS gisDbase folder
 #' @param location  GRASS location name containing \code{obj_name)}
 #' @param gisdbase_exist logical switch if the GRASS gisdbase folder exist default is TRUE
 #' @author Chris Reudenbach
-#' @note  have a look at the \code{\link{sf}} capabilities to write direct to sqlite
+#' @note  have a look at the \code{sf} capabilities to write direct to sqlite
 #' @export sf2gvec
 #' @importFrom sf st_as_sf
 #' @importFrom sf st_write

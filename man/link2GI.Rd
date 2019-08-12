@@ -40,4 +40,3 @@ Chris Reudenbach Tim Appelhans
 \cr
 \emph{Maintainer:} Chris Reudenbach \email{reudenbach@uni-marburg.de}
 }
-\keyword{package}

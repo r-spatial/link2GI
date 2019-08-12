@@ -4,7 +4,7 @@
 \alias{searchOTBW}
 \title{Search recursively for valid 'OTB' installation(s) on a 'Windows' OS}
 \usage{
-searchOTBW(DL = "C:", quiet = TRUE)
+searchOTBW(DL = "default", quiet = TRUE)
 }
 \arguments{
 \item{DL}{drive letter default is "C:"}

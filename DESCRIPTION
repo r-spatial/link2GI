@@ -1,7 +1,7 @@
 Package: link2GI
 Type: Package
 Title: Linking Geographic Information Systems, Remote Sensing and Other Command Line Tools
-Version: 0.3-6
+Version: 0.4-0
 Date: 2018-12-08
 Authors@R: c(person("Tim", "Appelhans", email = "tim.appelhans@gmail.com>", role = c("ctb")),
              person("Chris", "Reudenbach", email = "reudenbach@uni-marburg.de", role = c("cre", "aut"))

@@ -6,8 +6,8 @@
 \usage{
 linkGRASS7(x = NULL, default_GRASS7 = NULL, search_path = NULL,
   ver_select = FALSE, gisdbase_exist = FALSE, gisdbase = NULL,
-  location = NULL, spatial_params = NULL, resolution = NULL,
-  quiet = TRUE, returnPaths = FALSE)
+  use_home = FALSE, location = NULL, spatial_params = NULL,
+  resolution = NULL, quiet = TRUE, returnPaths = FALSE)
 }
 \arguments{
 \item{x}{raster or sp object}
@@ -22,6 +22,8 @@ If you provide a valid list the corresponding version is initialized. An example
 \item{gisdbase_exist}{default is FALSE if set to TRUE the arguments gisdbase and location are expected to be an existing GRASS gisdbase}
 
 \item{gisdbase}{default is \code{NULL}, invoke \code{tempdir()} to the 'GRASS' database. Alternativeley you can provide a individual path.}
+
+\item{use_home}{default is \code{FALSE}, set the GISRC path to tempdir(), if TRUE the HOME or USERPROFILE setting is used for writing the GISRC file}
 
 \item{location}{default is \code{NULL}, invoke \code{basename(tempfile())} for defining the 'GRASS' location. Alternativeley you can provide a individual path.}
 

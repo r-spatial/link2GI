@@ -161,23 +161,28 @@ parseOTBFunction <- function(algos=NULL,gili=NULL) {
       otbhelp[[algo]] <- sapply(args, "[", 2:4)
       for (j in 1:(length(args)-1)){
         drop<-FALSE
-        if (length(grep("default value is",sapply(args, "[", 4)[[j]])) > 0)  {
+        default<-""
+        cat(j,"out")
+        extractit <-FALSE
+        ltmp<-length(grep("default value is",sapply(args, "[", 4)[[j]])) 
+        if(ltmp>0) extractit=TRUE
+        if (extractit)  {
+          cat(j)
           tmp<-strsplit(sapply(args, "[", 4)[[j]],split ="default value is ")[[1]][2]
           tmp <-strsplit(tmp,split =")")[[1]][1]
-          
+          cat("iwas")
           default <- tmp
         }
-        else if (length(grep("(OTB-Team)",args[[j]])) > 0) drop <- TRUE
-        else if (length(grep("(-help)",args[[j]])) > 0) drop <- TRUE
-        else if (length(grep("(otbcli_)",args[[j]])) > 0) drop <- TRUE
-        else if (length(grep("(-inxml)",args[[j]])) > 0) drop <- TRUE
-        else if (length(grep("(mandatory)",sapply(args, "[", 4)[[j]])) > 0) default <- "mandatory"
-        else if  (sapply(args, "[", 4)[[j]] == "Report progress ") default <- "false"
-        
+        else if (length(grep("(OTB-Team)",args[[j]])) > 0) {drop <- TRUE}
+        else if (length(grep("(-help)",args[[j]])) > 0) {drop <- TRUE}
+        else if (length(grep("(otbcli_)",args[[j]])) > 0) {drop <- TRUE}
+        else if (length(grep("(-inxml)",args[[j]])) > 0) {drop <- TRUE}
+        else if (length(grep("(mandatory)",sapply(args, "[", 4)[[j]])) > 0) {default <- "mandatory"}
+        else if  (sapply(args, "[", 4)[[j]] == "Report progress " & !is.na(sapply(args, "[", 4)[[j]] == "Report progress ")) {
+          default <- "false"}
+       else {default < sapply(args, "[", 4)[[j]]}
 
-        else default < sapply(args, "[", 4)[[j]]
-
-        if (!drop) param[[paste0(sapply(args, "[", 2)[[j]])]] <- default
+        if (!drop &default  != "") param[[paste0(sapply(args, "[", 2)[[j]])]] <- default
         
       }
 

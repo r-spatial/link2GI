@@ -167,7 +167,7 @@ parseOTBFunction <- function(algos=NULL,gili=NULL) {
         ltmp<-length(grep("default value is",sapply(args, "[", 4)[[j]])) 
         if(ltmp>0) extractit=TRUE
         if (extractit)  {
-          cat(j)
+
           tmp<-strsplit(sapply(args, "[", 4)[[j]],split ="default value is ")[[1]][2]
           tmp <-strsplit(tmp,split =")")[[1]][1]
           cat("iwas")

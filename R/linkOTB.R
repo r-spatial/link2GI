@@ -9,7 +9,7 @@ if (!isGeneric('linkOTB')) {
 #'@details It looks for the \code{otb_cli.bat} file. If the file is found in a \code{bin} folder it is assumed to be a valid 'OTB' binary installation.
 #'@param bin_OTB string contains path to where the otb binaries are located
 #'@param root_OTB string provides the root folder of the \code{bin_OTB}
-#'@param ver_select boolean default is FALSE. If there is more than one 'OTB' installation and \code{ver_select} = TRUE the user can select interactively the preferred 'OTB' version 
+#'@param ver_select boolean default is FALSE. If there is more than one 'OTB' installation and \code{ver_select} = TRUE the user can select interactively the preferred 'OTB' version In opposite if FALSE the newest version is automatically choosen.
 #'@param searchLocation string hard drive letter (Windows) or mounting point (Linux) default for Windows is \code{C:}, default for Linux is \code{~}
 #'@param type_OTB string 
 #'@param quiet boolean  switch for supressing messages default is TRUE
@@ -65,15 +65,16 @@ linkOTB <- function(bin_OTB=NULL,
         otbCmd <- params_OTB$otbCmd[[ver_select]]
       }
     } else if (nrow(params_OTB) > 1 &  (!ver_select)) {
-      cat 
+ 
       cat("You have more than one valid OTB version\n")
-      cat("Up to now there is no automatic selection please check a running version\n")
+
       print(params_OTB,right = FALSE,row.names = TRUE) 
-      if (is.null(type_OTB)) {
-        ver <- as.numeric(readline(prompt = "Please choose one:  "))
-        pathOTB <- params_OTB$binDir[[ver]] 
-        otbCmd <- params_OTB$otbCmd[[ver]]
-      } 
+      ver <- getrowotbVer(params_OTB$binDir)
+
+      pathOTB <- params_OTB$binDir[[ver]] 
+      otbCmd <- params_OTB$otbCmd[[ver]]
+      cat("\nSelect: ",ver)
+
     } 
     else if (nrow(params_OTB) > 1 & ver_select ) {
       cat("You have more than one valid OTB version\n")
@@ -113,13 +114,13 @@ linkOTB <- function(bin_OTB=NULL,
       }
     } else if (nrow(params_OTB) > 1 &  (!ver_select)) {
       cat("You have more than one valid OTB version\n")
-      cat("Up to now there is no automatic selection please check a running version\n")
+      
       print(params_OTB,right = FALSE,row.names = TRUE) 
-      if (is.null(type_OTB)) {
-        ver <- as.numeric(readline(prompt = "Please choose one:  "))
-        pathOTB <- params_OTB$binDir[[ver]] 
-        otbCmd <- params_OTB$otbCmd[[ver]]
-      } 
+      ver <- getrowotbVer(params_OTB$binDir)
+      
+      pathOTB <- params_OTB$binDir[[ver]] 
+      otbCmd <- params_OTB$otbCmd[[ver]]
+      cat("\nSelect: ",ver)
     } 
   }
 

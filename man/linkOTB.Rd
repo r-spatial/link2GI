@@ -17,7 +17,7 @@ linkOTB(bin_OTB = NULL, root_OTB = NULL, type_OTB = NULL,
 
 \item{searchLocation}{string hard drive letter (Windows) or mounting point (Linux) default for Windows is \code{C:}, default for Linux is \code{~}}
 
-\item{ver_select}{boolean default is FALSE. If there is more than one 'OTB' installation and \code{ver_select} = TRUE the user can select interactively the preferred 'OTB' version}
+\item{ver_select}{boolean default is FALSE. If there is more than one 'OTB' installation and \code{ver_select} = TRUE the user can select interactively the preferred 'OTB' version In opposite if FALSE the newest version is automatically choosen.}
 
 \item{quiet}{boolean  switch for supressing messages default is TRUE}
 

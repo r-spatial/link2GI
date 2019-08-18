@@ -162,7 +162,6 @@ parseOTBFunction <- function(algos=NULL,gili=NULL) {
       for (j in 1:(length(args)-1)){
         drop<-FALSE
         default<-""
-        cat(j,"out")
         extractit <-FALSE
         ltmp<-length(grep("default value is",sapply(args, "[", 4)[[j]])) 
         if(ltmp>0) extractit=TRUE
@@ -187,7 +186,7 @@ parseOTBFunction <- function(algos=NULL,gili=NULL) {
       }
 
       if (length(ocmd) > 0)
-        ocmd[[algo]]<- append(otbcmd,assign(algo, param))
+        ocmd[[algo]]<- append(otbcmd,assign(algo, as.character(param)))
       else
         ocmd<-param
       #params <- get_args_man(alg = "otb:localstatisticextraction")

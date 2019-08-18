@@ -227,16 +227,21 @@ findOTB <- function(searchLocation = "default",
 }
 
 getrowotbVer<- function (paths){
-  #tmp<-c()
-  scmd = ifelse(Sys.info()["sysname"]=="Windows", "otbcli_LocalStatisticExtraction.bat ", "otbcli_LocalStatisticExtraction ")
-  sep = ifelse(Sys.info()["sysname"]=="Windows", "\\", "/")
-  highestVer<-"5.0.0"
-  for (i in 1:nrow(paths)){
-    tmp<-  strsplit(x = system(paste0(paths$binDir[i],scmd," -version"),intern = TRUE,ignore.stdout = FALSE),split = "This is the LocalStatisticExtraction application, ")[[1]][2]
-    highestVer <- max(tmp,highestVer)
-    pathI <- i
+
+  scmd = ifelse(Sys.info()["sysname"]=="Windows", "otbcli_LocalStatisticExtraction.bat", "otbcli_LocalStatisticExtraction")
+  #sep = ifelse(Sys.info()["sysname"]=="Windows", "\\", "/")
+  oldversion<-"0.0.0"
+  ver <- 1
+  for (i in 1:length(paths)){
+    if (file.exists(paste0(paths[i],"../VERSION"))) tmp = strsplit(grep("OTB Version",readLines(paste0(paths[i],"../VERSION")),value = TRUE),"OTB Version: ")[[1]][2]
+    else if (grep("OTB-",paths[i]) >0)  tmp = substr(strsplit(paths[i],"OTB-")[[1]][2],start = 1,stop = 5)
+    #highestVer <- max(tmp,highestVer)
+    if (oldversion < tmp) {ver=i
+   oldversion<-tmp}
+
   }
-  return (pathI)
+  
+  return (ver)
 }
 
 
@@ -244,7 +249,7 @@ getotbVer<- function (paths){
   scmd = ifelse(Sys.info()["sysname"]=="Windows", "otbcli_LocalStatisticExtraction.bat ", "otbcli_LocalStatisticExtraction ")
   sep = ifelse(Sys.info()["sysname"]=="Windows", "\\", "/")
   
-  otbVersion<-  strsplit(x = system(paste0(paste0(shQuote(paths),sep,scmd)," -version"),intern = TRUE),split = "This is the LocalStatisticExtraction application, ")[[1]][2]
+  otbVersion<-  strsplit(x = system(paste0(paste0(shQuote(paths),sep,scmd)," -version"),intern = FALSE),split = " version ")[[1]][2]
   otbVersion<-  strsplit(x = otbVersion,split = "version ")[[1]][2]
   
   return (otbVersion)

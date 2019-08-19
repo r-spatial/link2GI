@@ -55,7 +55,7 @@ provide a \code{raster} or \code{sp} \code{sf} spatial object
 \note{
 'GRASS GIS 7' is excellently supported by the
  \code{rgrass7} wrapper package. Nevertheless 'GRASS GIS' is well known for
- its high demands regarding the correct spatial and reference setup an a bunch 
+ its high demands regarding the correct spatial and reference setup  
  of workspace and environment requirements. This becomes even worse on 'Windows' 
  platforms or if several alternative 'GRASS GIS' installations are available.
  If one knows what to do the \code{rgrass7} package setup function \code{rgrass7::initGRASS} works fine under Linux. 

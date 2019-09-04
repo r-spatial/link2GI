@@ -64,16 +64,15 @@ otb_algorithm<-algo[algo[]==algo_keyword]
 algo_cmd<-parseOTBFunction(algo = otb_algorithm,gili = otblink)
 
 ## define the current run arguments
-algo_cmd$`-in`<- file.path(getwd(),"4490600_5321400.tif")
-algo_cmd$`-filter`<- "sobel"
+algo_cmd$input  <- file.path(getwd(),"4490600_5321400.tif")
+algo_cmd$filter <- "sobel"
 
 ## create out name
-outName<-paste0(getwd(),"/out",algo_cmd$`-filter`,".tif")
-algo_cmd$`-out`<- outName
+outName <- paste0(getwd(),"/out",algo_cmd$filter,".tif")
+algo_cmd$out <- outName
 
-## generate full command
-command<-paste(paste0(path_OTB,"otbcli_",otb_algorithm," "),
-               paste(names(algo_cmd),algo_cmd,collapse = " "))
+## paste full command
+command <- mkcmd(path_OTB,otb_algorithm,algo_cmd)
 
 ## make the system call
 system(command,intern = TRUE)

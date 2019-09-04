@@ -89,16 +89,15 @@ parseOTBAlgorithms<- function(gili=NULL) {
 #' algo_cmd<-parseOTBFunction(algo = otb_algorithm,gili = otblink)
 #' 
 #' ## define the current run arguments
-#' algo_cmd$`-in`<- file.path(getwd(),"4490600_5321400.tif")
-#' algo_cmd$`-filter`<- "sobel"
+#' algo_cmd$input  <- file.path(getwd(),"4490600_5321400.tif")
+#' algo_cmd$filter <- "sobel"
 #' 
 #' ## create out name
-#' outName<-paste0(getwd(),"/out",algo_cmd$`-filter`,".tif")
-#' algo_cmd$`-out`<- outName
+#' outName <- paste0(getwd(),"/out",algo_cmd$filter,".tif")
+#' algo_cmd$out <- outName
 #' 
-#' ## generate full command
-#' command<-paste(paste0(path_OTB,"otbcli_",otb_algorithm," "),
-#'                paste(names(algo_cmd),algo_cmd,collapse = " "))
+#' ## paste full command
+#' command <- mkcmd(path_OTB,otb_algorithm,algo_cmd)
 #' 
 #' ## make the system call
 #' system(command,intern = TRUE)
@@ -169,7 +168,7 @@ parseOTBFunction <- function(algos=NULL,gili=NULL) {
 
           tmp<-strsplit(sapply(args, "[", 4)[[j]],split ="default value is ")[[1]][2]
           tmp <-strsplit(tmp,split =")")[[1]][1]
-          cat("iwas")
+          #cat("iwas")
           default <- tmp
         }
         else if (length(grep("(OTB-Team)",args[[j]])) > 0) {drop <- TRUE}
@@ -179,10 +178,15 @@ parseOTBFunction <- function(algos=NULL,gili=NULL) {
         else if (length(grep("(mandatory)",sapply(args, "[", 4)[[j]])) > 0) {default <- "mandatory"}
         else if  (sapply(args, "[", 4)[[j]] == "Report progress " & !is.na(sapply(args, "[", 4)[[j]] == "Report progress ")) {
           default <- "false"}
-       else {default < sapply(args, "[", 4)[[j]]}
+       else {
+         
+         default < sapply(args, "[", 4)[[j]]}
 
-        if (!drop &default  != "") param[[paste0(sapply(args, "[", 2)[[j]])]] <- default
-        
+        if (!drop &default  != "") {
+          arg<-sapply(args, "[", 2)[[j]]
+          if (arg == "-in") arg<-"-input"
+          param[[paste0(substr(arg,2,nchar(arg)))]] <- default
+        }
       }
 
       if (length(ocmd) > 0)
@@ -196,5 +200,15 @@ parseOTBFunction <- function(algos=NULL,gili=NULL) {
   return(ocmd)
 }
 
+#'@keywords internal
+#'@export
+mkcmd <- function(path_OTB,
+                  otb_algorithm,
+                  algo_cmd){
+if (names(algo_cmd)[1] =="input")  names(algo_cmd)[1]<-"in"
 
+        command<-paste(paste0(path_OTB,"otbcli_",otb_algorithm," "),
+                 paste0("-",names(algo_cmd)," ",algo_cmd,collapse = " "))
+ return(command) 
+}
 

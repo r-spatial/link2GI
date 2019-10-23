@@ -1,3 +1,16 @@
+## link2GI 0.3-8
+
+bugfixes:
+* issue 22 fixed
+* first parsing of the new GRASS (since 7.8.x ) start file 
+
+## link2GI 0.3-7
+new feature: 
+* improved implementation of parseOTB
+bugfixes:
+* several issues fixes
+* examples and typos
+
 ## link2GI 0.3-6
 new feature: 
 * full re-implementation of linkGDAL returns now all gdal installations at a given search path

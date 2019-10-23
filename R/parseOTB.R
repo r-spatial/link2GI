@@ -97,7 +97,7 @@ parseOTBAlgorithms<- function(gili=NULL) {
 #' algo_cmd$out <- outName
 #' 
 #' ## paste full command
-#' command <- mkcmd(path_OTB,otb_algorithm,algo_cmd)
+#' command <- mkOTBcmd(path_OTB,otb_algorithm,algo_cmd)
 #' 
 #' ## make the system call
 #' system(command,intern = TRUE)
@@ -199,10 +199,13 @@ parseOTBFunction <- function(algos=NULL,gili=NULL) {
   }
   return(ocmd)
 }
-
-#'@keywords internal
+#' paste the OTB command list into a system call compatible string
+#'@description helper function which paste the OTB command list into a system call compatible string
+#'@param path_OTB path to the OTB installastion directory as provided by linkOTB()
+#'@param otb_algorithm the currently choosen otb algorithm keyword
+#'@param algo_cmd the modified algorithm parameter list
 #'@export
-mkcmd <- function(path_OTB,
+mkOTBcmd <- function(path_OTB,
                   otb_algorithm,
                   algo_cmd){
 if (names(algo_cmd)[1] =="input")  names(algo_cmd)[1]<-"in"

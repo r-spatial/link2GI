@@ -72,7 +72,7 @@ outName <- paste0(getwd(),"/out",algo_cmd$filter,".tif")
 algo_cmd$out <- outName
 
 ## paste full command
-command <- mkcmd(path_OTB,otb_algorithm,algo_cmd)
+command <- mkOTBcmd(path_OTB,otb_algorithm,algo_cmd)
 
 ## make the system call
 system(command,intern = TRUE)

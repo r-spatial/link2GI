@@ -145,8 +145,6 @@ linkGRASS7 <- function(x = NULL,
                          override = TRUE
       ) 
       grass$exist <- TRUE
-      
-      
     }
     
     ### if not do the temp linking procedure

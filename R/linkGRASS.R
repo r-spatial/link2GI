@@ -156,6 +156,7 @@ linkGRASS7 <- function(x = NULL,
                          override = TRUE
       ) 
       if(!quiet) return(rgrass7::gmeta())
+      return()
     }
     
     ### if not do the temp linking procedure

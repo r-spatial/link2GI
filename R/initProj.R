@@ -85,5 +85,6 @@ initProj <- function(projRootDir=tempdir(),
     if (global) makGlobalVar(name, value)
   } 
   
+  if(Sys.info()["sysname"]=="Windows")  pth <-stringr::str_replace(pth, "/$", "")
   return(pth) 
 }

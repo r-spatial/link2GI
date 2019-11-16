@@ -87,27 +87,25 @@ searchGDALW <- function(DL = "C:",
         if (length(unique(grep(paste("OSGeo4W64", collapse = "|"), raw_GDAL[i], value = TRUE))) > 0) {
           root_dir <- unique(grep(paste("OSGeo4W64", collapse = "|"), raw_GDAL[i], value = TRUE))
           root_dir <- substr(root_dir,1, gregexpr(pattern = "gdalinfo.exe", root_dir)[[1]][1] - 1)
-          if (file.exists(file.path(root_dir,"ogdi.dll"))) installerType <- "osgeo4w64GDAL"
-          else installerType <- "missingdll"
-          
+          if (file.exists(file.path(root_dir,"gdalinfo.exe"))) installerType <- "osgeo4w64"
+          else installerType <- "unknown"
           installDir <- substr(root_dir,1, gregexpr(pattern = "bin", root_dir)[[1]][1] - 2)
-    
         }    
         
         # if the the tag "OSGEO4W" exists set installation_type
         else if (length(unique(grep(paste("OSGeo4W", collapse = "|"), raw_GDAL[i], value = TRUE))) > 0) {
           root_dir <- unique(grep(paste("OSGeo4W", collapse = "|"), raw_GDAL[i], value = TRUE))
           root_dir <- substr(root_dir,1, gregexpr(pattern = "gdalinfo.exe", root_dir)[[1]][1] - 1)
-          if (file.exists(file.path(root_dir,"ogdi.dll"))) installerType <- "osgeo4wGDAL"
-          else installerType <- "missingdll"
+          if (file.exists(file.path(root_dir,"gdalinfo.exe"))) installerType <- "osgeo4w"
+          else installerType <- "unknown"
           installDir <- substr(root_dir,1, gregexpr(pattern = "bin", root_dir)[[1]][1] - 2)
          }
         # if the the tag "QGIS" exists set installation_type
         else if (length(unique(grep(paste("QGIS", collapse = "|"), batchfile_lines, value = TRUE))) > 0) {
           root_dir <- unique(grep(paste("QGIS", collapse = "|"), raw_GDAL[i], value = TRUE))
           root_dir <- substr(root_dir,1, gregexpr(pattern = "gdalinfo.exe", root_dir)[[1]][1] - 1)
-          if (file.exists(file.path(root_dir,"ogdi.dll"))) installerType <- "qgisGDAL"
-          else installerType <- "missingdll"
+          if (file.exists(file.path(root_dir,"gdalinfo.exe"))) installerType <- "qgis"
+          else installerType <- "unknown"
           installDir <- substr(root_dir,1, gregexpr(pattern = "bin", root_dir)[[1]][1] - 2)
 
         }
@@ -115,8 +113,8 @@ searchGDALW <- function(DL = "C:",
         else if (length(unique(grep(paste("GDAL", collapse = "|"), batchfile_lines, value = TRUE))) > 0) {
           root_dir <- unique(grep(paste("GDAL", collapse = "|"), raw_GDAL[i], value = TRUE))
           root_dir <- substr(root_dir,1, gregexpr(pattern = "gdalinfo.exe", root_dir)[[1]][1] - 1)
-          if (file.exists(file.path(root_dir,"ogdi.dll"))) installerType <- "GDAL"
-          else installerType <- "missingdll"
+          if (file.exists(file.path(root_dir,"gdalinfo.exe"))) installerType <- "GDAL"
+          else installerType <- "unknown"
           
           installDir <- substr(root_dir,1, gregexpr(pattern = "bin", root_dir)[[1]][1] - 2)
 
@@ -126,16 +124,16 @@ searchGDALW <- function(DL = "C:",
           root_dir <- substr(root_dir,1, gregexpr(pattern = "gdalinfo.exe", root_dir)[[1]][1] - 1)
           installDir <- substr(root_dir,1, gregexpr(pattern = "bin", root_dir)[[1]][1] - 2)
           bundle <- substr(root_dir,gregexpr(pattern = "GRASS", root_dir)[[1]][1],gregexpr(pattern = "bin", root_dir)[[1]][1]-7)
-          if (file.exists(file.path(root_dir,"ogdi.dll"))) installerType <- bundle
-          else installerType <- "missingdll"
+          if (file.exists(file.path(root_dir,"gdalinfo.exe"))) installerType <- bundle
+          else installerType <- "unknown"
           
         }        # if the the tag "OTB-" exists set installation_type
         else if (length(unique(grep(paste("OTB", collapse = "|"), batchfile_lines, value = TRUE))) > 0) {
           root_dir <- unique(grep(paste("OTB", collapse = "|"), raw_GDAL[i], value = TRUE))
           root_dir <- substr(root_dir,1, gregexpr(pattern = "gdalinfo.exe", root_dir)[[1]][1] - 1)
           installDir <- substr(root_dir,1, gregexpr(pattern = "bin", root_dir)[[1]][1] - 2)
-          if (file.exists(file.path(root_dir,"ogdi.dll"))) installerType <- "OTB"
-          else installerType <- "missingdll"
+          if (file.exists(file.path(root_dir,"gdalinfo.exe"))) installerType <- "OTB"
+          else installerType <- "unknown"
           
         }
         
@@ -159,12 +157,13 @@ searchGDALW <- function(DL = "C:",
     cat("Sorry no Windows system..." )
     
   }
-
-   df <-gdalInstallations[gdalInstallations$installation_type != "missingdll", ]
+  gdalInstallations$binDir<- utils::shortPathName(gdalInstallations$binDir)
+  gdalInstallations$baseDir<- utils::shortPathName(gdalInstallations$baseDir)
+  df <-gdalInstallations[gdalInstallations$installation_type != "unknown", ]
     rownames(df) <- 1:nrow(df)
   gdal1$gdalInstallations<-df
-  gdal1$bin<- gdal_bin[gdalInstallations$installation_type != "missingdll" ]
-  gdal1$py<- gdal_py[gdalInstallations$installation_type != "missingdll" ]
+  gdal1$bin<- gdal_bin[gdalInstallations$installation_type != "unknown" ]
+  gdal1$py<- gdal_py[gdalInstallations$installation_type != "unknown" ]
 
   return(gdal1)
 }

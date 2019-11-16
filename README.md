@@ -35,7 +35,7 @@ During the [GEOSTAT 2018](http://opengeohub.org/node/146) in Prague some more co
 ## Prerequisites
 Please check the R dependencies:
 
-```{r, eval=FALSE}
+```r
 install.packages(c("sf", "raster",  "rgdal",  "tools", "rgrass7", "sp", "RSAGA", "link2GI"))
 
 # for the Canopy height model usecase you need to install uavRst
@@ -55,7 +55,7 @@ Please download the data and scripts for the exercises.
 If you run the following code you will create the folder *link2gi-master* in your **home folder**. During the tutorial it is assumed to be the root folder.
 
 
-```{r, eval=FALSE}
+```r
 url <- "https://github.com/gisma/link2gi2018/archive/master.zip"
 res <- curl::curl_download(url, paste0(tmpDir(),"master.zip"))
 utils::unzip(zipfile = res, exdir = "~")

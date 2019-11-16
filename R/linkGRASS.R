@@ -213,7 +213,7 @@ linkGRASS7 <- function(x = NULL,
         if (!is.null(resolution)) resolution<- resolution
         else resolution <- "1"
       } 
-    } else if  (is.null(x) & is.null(spatial_params) & is.null(location) & is.null(gisdbase) & !gisdbase_exist ) {
+    } else if  (is.null(x) & is.null(spatial_params) &   !gisdbase_exist ) {
       if (!quiet) cat("WARNING\n It is strongly recommended that you provide a raster*, sp* object or manually add the extent, resolution and projection information.\n These informations are obligatory to setup  the GRASS loccation...\n. Did not found any of them so lat WGS84 EPSG 4326 is assumed.\n")
       
       proj4 <- "+proj=longlat +datum=WGS84 +no_defs"

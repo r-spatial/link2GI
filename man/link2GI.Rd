@@ -3,7 +3,6 @@
 \docType{package}
 \name{link2GI}
 \alias{link2GI}
-\alias{link2GI-package}
 \title{Bridges to the GI-World}
 \description{
 A straightforward helper tool for linking  GI/RS functionality to R. The goal of the package 

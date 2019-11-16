@@ -21,7 +21,7 @@ If you have several versions installed or if you want to use the full power of t
 devtools::install_github("r-spatial/link2GI", ref = "master")
 # remotes package
 remotes::install_github("r-spatial/link2GI")
-```.
+```
 
 # Usecases presented on the GEOSTAT August 2018
 
@@ -40,6 +40,7 @@ install.packages(c("sf", "raster",  "rgdal",  "tools", "rgrass7", "sp", "RSAGA",
 
 # for the Canopy height model usecase you need to install uavRst
 devtools::install_github("r-spatial/uavRst", ref = "master")
+
 ```
 
 In addition you need at least one installation of the following GIS software.

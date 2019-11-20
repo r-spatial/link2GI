@@ -23,6 +23,7 @@ devtools::install_github("r-spatial/link2GI", ref = "master")
 remotes::install_github("r-spatial/link2GI")
 ```.
 
+
 # Usecases presented on the GEOSTAT August 2018
 
 During the [GEOSTAT 2018](http://opengeohub.org/node/146) in Prague some more complex usescases has been [presented](https://htmlpreview.github.io/?https://github.com/gisma/link2gi2018/blob/master/link2gi2018.html).

@@ -1,24 +1,26 @@
 Package: link2GI
 Type: Package
 Title: Linking Geographic Information Systems, Remote Sensing and Other Command Line Tools
-Version: 0.3-6
-Date: 2018-12-08
-Authors@R: c(person("Tim", "Appelhans", email = "tim.appelhans@gmail.com>", role = c("ctb")),
-             person("Chris", "Reudenbach", email = "reudenbach@uni-marburg.de", role = c("cre", "aut"))
+Version: 0.3-8
+Date: 2019-10-24
+Authors@R: c(person("Chris", "Reudenbach", email = "reudenbach@uni-marburg.de", role = c("cre", "aut")),
+             person("Tim", "Appelhans", email = "tim.appelhans@gmail.com>", role = c("ctb"))
              )
 Encoding: UTF-8
 Maintainer: Chris Reudenbach <reudenbach@uni-marburg.de>
 Description: Functions to simplify the linking of open source GIS and remote sensing related command line interfaces.
+URL: https://github.com/r-spatial/link2GI
 License: GPL (>= 3) | file LICENSE
 Depends: R (>= 3.1)
-Imports:  methods,tools, devtools, R.utils,roxygen2,sf
+Imports: methods,tools, devtools, R.utils,roxygen2,sf,stringr
 SystemRequirements: GNU make 
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.0
 Suggests: knitr, 
           rmarkdown,
           rgdal,
           raster,
           sp,
           RSAGA,
-          rgrass7
+          rgrass7,
+          curl
 VignetteBuilder: knitr

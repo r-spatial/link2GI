@@ -50,7 +50,7 @@ setenvOTB <- function(bin_OTB = NULL, root_OTB = NULL){
 #' searchOTBW()
 #' }
 
-searchOTBW <- function(DL = "C:",
+searchOTBW <- function(DL = "default",
                        quiet=TRUE) {
   if (DL=="default") DL <- "C:"
   if (Sys.info()["sysname"] == "Windows") {
@@ -64,6 +64,8 @@ searchOTBW <- function(DL = "C:",
       
       options(show.error.messages = FALSE)
       options(warn=-1)
+      # switch backslash to slash and expand path to full path
+      DL <- gsub("/","\\\\" ,DL)  
       raw_OTB  <- try(system(paste0("cmd.exe"," /c dir /B /S ",DL,"\\","otbcli.bat"),intern=TRUE))
       if (identical(raw_OTB, character(0))) raw_OTB <- "File not found"
       if (grepl(raw_OTB,pattern = "File not found") | grepl(raw_OTB,pattern = "Datei nicht gefunden")) {
@@ -128,10 +130,10 @@ searchOTBW <- function(DL = "C:",
   return(otbInstallations)
 }
 
-#'@title Search recursively for valid 'OTB' installation(s) on a 'Windows' OS
+#'@title Search recursively for valid 'OTB' installation(s) on a 'Linux' OS
 #'@name searchOTBX
-#'@description  Search for valid 'OTB' installations on a 'Windows' OS
-#'@param MP drive letter default is "C:"
+#'@description  Search for valid 'OTB' installations on a 'Linux' OS
+#'@param MP default mount point is the home directory "~" (as suggested by the OTB team) 
 #'@param quiet boolean  switch for supressing messages default is TRUE
 #'@return A dataframe with the 'OTB' root folder(s) the version name(s) and the installation type(s).
 #'@author Chris Reudenbach
@@ -144,9 +146,9 @@ searchOTBW <- function(DL = "C:",
 #' searchOTBX()
 #' }
 
-searchOTBX <- function(MP = "/usr",
+searchOTBX <- function(MP = "default",
                        quiet=TRUE) {
-  if (MP=="default") MP <- "/usr"
+  if (MP=="default") MP <- "~"
     if (!exists("GiEnv")) GiEnv <- new.env(parent=globalenv()) 
       # trys to find a osgeo4w installation at the mounting point  disk returns root directory and version name
       # recursive dir for otb*.bat returns all version of otb bat files
@@ -156,7 +158,7 @@ searchOTBX <- function(MP = "/usr",
       raw_OTB <- 
       options(show.error.messages = FALSE)
       options(warn=-1)
-      raw_OTB  <- try(system2("find", paste("/usr"," ! -readable -prune -o -type f -executable -iname 'otbcli' -print"),stdout = TRUE))
+      raw_OTB  <- try(system2("find", paste(MP," ! -readable -prune -o -type f -executable -iname 'otbcli' -print"),stdout = TRUE))
       if (identical(raw_OTB, character(0))) raw_OTB <- "File not found"
       if (grepl(raw_OTB,pattern = "File not found") | grepl(raw_OTB,pattern = "Datei nicht gefunden")) {
 
@@ -216,10 +218,39 @@ findOTB <- function(searchLocation = "default",
                                  quiet=TRUE)  
     else stop("You are running Windows - Please choose a suitable searchLocation argument that MUST include a Windows drive letter and colon" )
   } else {
-    if (searchLocation=="default") searchLocation <- "/usr"
+    if (searchLocation=="default") searchLocation <- "~"
     if (grepl(searchLocation,pattern = ":"))  stop("You are running Linux - please choose a suitable searchLocation argument" )
     else link = link2GI::searchOTBX(MP = searchLocation,
                                     quiet=TRUE)
   } 
   return(link)
+}
+
+getrowotbVer<- function (paths){
+
+  scmd = ifelse(Sys.info()["sysname"]=="Windows", "otbcli_LocalStatisticExtraction.bat", "otbcli_LocalStatisticExtraction")
+  #sep = ifelse(Sys.info()["sysname"]=="Windows", "\\", "/")
+  oldversion<-"0.0.0"
+  ver <- 1
+  for (i in 1:length(paths)){
+    if (file.exists(paste0(paths[i],"../VERSION"))) tmp = strsplit(grep("OTB Version",readLines(paste0(paths[i],"../VERSION")),value = TRUE),"OTB Version: ")[[1]][2]
+    else if (grep("OTB-",paths[i]) >0)  tmp = substr(strsplit(paths[i],"OTB-")[[1]][2],start = 1,stop = 5)
+    #highestVer <- max(tmp,highestVer)
+    if (oldversion < tmp) {ver=i
+   oldversion<-tmp}
+
+  }
+  
+  return (ver)
+}
+
+
+getotbVer<- function (paths){
+  scmd = ifelse(Sys.info()["sysname"]=="Windows", "otbcli_LocalStatisticExtraction.bat ", "otbcli_LocalStatisticExtraction ")
+  sep = ifelse(Sys.info()["sysname"]=="Windows", "\\", "/")
+  
+  otbVersion<-  strsplit(x = system(paste0(paste0(shQuote(paths),sep,scmd)," -version"),intern = FALSE),split = " version ")[[1]][2]
+  otbVersion<-  strsplit(x = otbVersion,split = "version ")[[1]][2]
+  
+  return (otbVersion)
 }

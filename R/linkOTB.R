@@ -9,8 +9,8 @@ if (!isGeneric('linkOTB')) {
 #'@details It looks for the \code{otb_cli.bat} file. If the file is found in a \code{bin} folder it is assumed to be a valid 'OTB' binary installation.
 #'@param bin_OTB string contains path to where the otb binaries are located
 #'@param root_OTB string provides the root folder of the \code{bin_OTB}
-#'@param ver_select boolean default is FALSE. If there is more than one 'OTB' installation and \code{ver_select} = TRUE the user can select interactively the preferred 'OTB' version 
-#'@param searchLocation string hard drive letter default is \code{C:}
+#'@param ver_select boolean default is FALSE. If there is more than one 'OTB' installation and \code{ver_select} = TRUE the user can select interactively the preferred 'OTB' version In opposite if FALSE the newest version is automatically choosen.
+#'@param searchLocation string hard drive letter (Windows) or mounting point (Linux) default for Windows is \code{C:}, default for Linux is \code{~}
 #'@param type_OTB string 
 #'@param quiet boolean  switch for supressing messages default is TRUE
 #'@param returnPaths boolean if set to FALSE the pathes of the selected version are written 
@@ -45,15 +45,9 @@ linkOTB <- function(bin_OTB=NULL,
   if (Sys.info()["sysname"] == "Windows") {
      searchLocation<-"C:"
     } else 
-    {searchLocation<-"/usr"}
+    {searchLocation<-"~"}
     }
     params_OTB <- findOTB(searchLocation = searchLocation,quiet = quiet)
-    # if no path is provided  we have to search
-    #cat(nrow(params_OTB))
-    #params_OTB <- system2("find", paste("/usr"," ! -readable -prune -o -type f -executable -iname 'otbcli' -print"),stdout = TRUE)
-    #bin_OTB <- substr(params_OTB,1,nchar(params_OTB) - 6)  
-    #pathOTB <- bin_OTB
-    #params_OTB <- searchOTBW()
     # if just one valid installation was found take it
     if (params_OTB[[1]][1] != FALSE){
       if (Sys.info()["sysname"] != "Windows"){   
@@ -71,15 +65,16 @@ linkOTB <- function(bin_OTB=NULL,
         otbCmd <- params_OTB$otbCmd[[ver_select]]
       }
     } else if (nrow(params_OTB) > 1 &  (!ver_select)) {
-      if (!quiet){
+ 
       cat("You have more than one valid OTB version\n")
-      #print("installation folder: ",params_OTB$baseDir,"\ninstallation type: ",params_OTB$installationType,"\n")
+
       print(params_OTB,right = FALSE,row.names = TRUE) 
-      cat("You have choosen version: ",ver_select,"\n")}
-      if (is.null(type_OTB)) {
-        pathOTB <- params_OTB$binDir[[ver_select]] 
-        otbCmd <- params_OTB$otbCmd[[ver_select]]
-      } 
+      ver <- getrowotbVer(params_OTB$binDir)
+
+      pathOTB <- params_OTB$binDir[[ver]] 
+      otbCmd <- params_OTB$otbCmd[[ver]]
+      cat("\nSelect: ",ver)
+
     } 
     else if (nrow(params_OTB) > 1 & ver_select ) {
       cat("You have more than one valid OTB version\n")
@@ -92,38 +87,46 @@ linkOTB <- function(bin_OTB=NULL,
       } 
     } 
     
-    # (R) set pathes  of OTB  binaries depending on OS WINDOWS 
-  }  else {    
-    # if (is.null(searchLocation)) searchLocation<-"C:"
-    # params_OTB <- findOTB(searchLocation = searchLocation,quiet = quiet)
-    #if ( params_OTB != FALSE)
+    #### (R) set pathes  of OTB  binaries depending on OS WINDOWS ###
+        
+  }  else {
     if (nrow(params_OTB) == 1) {  
-
       pathOTB <- setenvOTB(bin_OTB = params_OTB$binDir[1],root_OTB = params_OTB$baseDir[2])
-      
       # if more than one valid installation was found you have to choose 
     } else if (nrow(params_OTB) > 1 & ver_select ) {
       cat("You have more than one valid OTB version\n")
-      #print("installation folder: ",params_OTB$baseDir,"\ninstallation type: ",params_OTB$installationType,"\n")
       print(params_OTB[1],right = FALSE,row.names = TRUE) 
       if (is.null(type_OTB)) {
         ver <- as.numeric(readline(prompt = "Please choose one:  "))
         pathOTB <- setenvOTB(bin_OTB = params_OTB$binDir[[ver]], root_OTB = params_OTB$baseDir[[ver]])
-        #otbCmd<- paste0(pathOTB,"otbcli.bat")
-      } else {
+      }
+      else {
         pathOTB <- setenvOTB(bin_OTB = params_OTB[params_OTB["installationType"] == type_OTB][1],root_OTB = params_OTB[params_OTB["installationType"] == type_OTB][2])
       }
-    }
+    }  else if (nrow(params_OTB) > 1 & is.numeric(ver_select) & ver_select > 0 ) {
+      cat("You have more than one valid OTB version\n")
+      #print("installation folder: ",params_OTB$baseDir,"\ninstallation type: ",params_OTB$installationType,"\n")
+      print(params_OTB,right = FALSE,row.names = TRUE) 
+      cat("You have choosen version: ",ver_select,"\n")
+      if (is.null(type_OTB)) {
+        pathOTB <- params_OTB$binDir[[ver_select]] 
+        otbCmd <- params_OTB$otbCmd[[ver_select]]
+      }
+    } else if (nrow(params_OTB) > 1 &  (!ver_select)) {
+      cat("You have more than one valid OTB version\n")
+      
+      print(params_OTB,right = FALSE,row.names = TRUE) 
+      ver <- getrowotbVer(params_OTB$binDir)
+      
+      pathOTB <- params_OTB$binDir[[ver]] 
+      otbCmd <- params_OTB$otbCmd[[ver]]
+      cat("\nSelect: ",ver)
+    } 
   }
-  #else {
-  #    pathOTB <- setenvOTB(bin_OTB = params_OTB$binDir[[1]],root_OTB = params_OTB$baseDir[[1]])
-  #  }
-    
-    # if a setDefaultOTB was provided take this 
-  
+
+  # if a setDefaultOTB was provided take this 
   otb<-list()
   otb$pathOTB<-pathOTB
-  #otb$otbCmd<-otbCmd
   otb$version<-params_OTB
   otb$exist<-TRUE
   }

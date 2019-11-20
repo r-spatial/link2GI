@@ -1,6 +1,21 @@
+## link2GI 0.3-8
+
+bugfixes:
+* issue 22 fixed
+* first parsing of the new GRASS (since 7.8.x ) start file 
+
+## link2GI 0.3-7
+new feature: 
+* improved implementation of parseOTB
+
+bugfixes:
+* several issues fixes
+* examples and typos
+
 ## link2GI 0.3-6
 new feature: 
 * full re-implementation of linkGDAL returns now all gdal installations at a given search path
+
 bugfixes:
 * several fixes for Windows search and linking
 * examples and typos
@@ -8,6 +23,7 @@ bugfixes:
 ## link2GI 0.3-5
 new feature: 
 * add manual build function for UNC pathes
+
 bugfixes:
 * remove search argument for PRZP
 * several fixes for Windows search and linking
@@ -25,6 +41,7 @@ bugfixes:
 * fix and add a lot of examples
 * Comments and typos
 
+
 ## link2GI 0.3-3
 new feature: 
 * by default the latest version of each API is selected
@@ -38,6 +55,7 @@ bugfixes:
 new feature: 
 * ver_select can be used directly with the number of selection 
 * OTB basic wrapper
+
 bugfixes:
 * RSAGA related fixes
 * Typos
@@ -45,6 +63,7 @@ bugfixes:
 ## link2GI 0.3-1
 new feature: 
 * add returnPaths argument for suppress all returns
+
 bugfixes:
 * windows RSAGA related fixes
 

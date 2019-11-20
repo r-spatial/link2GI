@@ -38,49 +38,49 @@ paramGRASSx <- function(set_default_GRASS7=NULL,
   else {   
     params_GRASS <- rbind.data.frame(set_default_GRASS7)
     names(params_GRASS)<-c("instDir","version","installation_type")
-    }
+  }
   
   # choosing the desired installation depending on the ver_select options 
   if (params_GRASS[[1]][1] != FALSE) {
-  # if only one take it  
-  if (nrow(params_GRASS) == 1) {  
-    gisbase_GRASS <- as.character(params_GRASS$instDir)
+    # if only one take it  
+    if (nrow(params_GRASS) == 1) {  
+      gisbase_GRASS <- as.character(params_GRASS$instDir)
+      
+      # if more than one valid installation and verselect is a valid number:
+      # take the one as defined by ver_select
+    } else if (nrow(params_GRASS) > 1 & is.numeric(ver_select) & (ver_select > 0 & ver_select <= nrow(params_GRASS))) {
+      if (!quiet) {
+        cat("You have more than one valid GRASS version installed!\n")
+        print(params_GRASS)
+        cat("Selected version is: ",ver_select,"\n")}
+      gisbase_GRASS <- params_GRASS$instDir[[ver_select]]
+    }
+    # if ver_selct is FALSE take the one with the highest version number
+    else if (nrow(params_GRASS) > 1 & !ver_select ) {
+      if (!quiet) {
+        cat("You have more than one valid GRASS version installed!\n")
+        cat("The latest installed version (",which(params_GRASS$version == max(params_GRASS$version)),")has been selected \n")
+        print(params_GRASS)
+        cat("\n")}
+      gisbase_GRASS <- params_GRASS$instDir[[which(params_GRASS$version == max(params_GRASS$version))]]
+    }
+    # if ver_select is TRUE manually select a version
+    else if (nrow(params_GRASS) > 1 & ver_select ) {
+      cat("You have more than one valid GRASS version installed!\n")
+      print(params_GRASS)
+      cat("\n")
+      ver <- as.numeric(readline(prompt = "Please select one:  "))
+      gisbase_GRASS <- params_GRASS$instDir[[ver]]
+    }
     
-    # if more than one valid installation and verselect is a valid number:
-    # take the one as defined by ver_select
-  } else if (nrow(params_GRASS) > 1 & is.numeric(ver_select) & (ver_select > 0 & ver_select <= nrow(params_GRASS))) {
-    if (!quiet) {
-      cat("You have more than one valid GRASS version installed!\n")
-      print(params_GRASS)
-      cat("Selected version is: ",ver_select,"\n")}
-    gisbase_GRASS <- params_GRASS$instDir[[ver_select]]
-  }
-  # if ver_selct is FALSE take the one with the highest version number
-  else if (nrow(params_GRASS) > 1 & !ver_select ) {
-    if (!quiet) {
-      cat("You have more than one valid GRASS version installed!\n")
-      cat("The latest installed version (",which(params_GRASS$version == max(params_GRASS$version)),")has been selected \n")
-      print(params_GRASS)
-      cat("\n")}
-    gisbase_GRASS <- params_GRASS$instDir[[which(params_GRASS$version == max(params_GRASS$version))]]
-  }
-  # if ver_select is TRUE manually select a version
-  else if (nrow(params_GRASS) > 1 & ver_select ) {
-    cat("You have more than one valid GRASS version installed!\n")
-    print(params_GRASS)
-    cat("\n")
-    ver <- as.numeric(readline(prompt = "Please select one:  "))
-    gisbase_GRASS <- params_GRASS$instDir[[ver]]
-  }
-  
-  # if a set_default_GRASS7 was provided take this 
-  #} 
-  # else {
-  #   gisbase_GRASS <- set_default_GRASS7
-  # }
-  grass<-list()
-  grass$gisbase_GRASS<-gisbase_GRASS
-  grass$installed <- params_GRASS
+    # if a set_default_GRASS7 was provided take this 
+    #} 
+    # else {
+    #   gisbase_GRASS <- set_default_GRASS7
+    # }
+    grass<-list()
+    grass$gisbase_GRASS<-gisbase_GRASS
+    grass$installed <- params_GRASS
   } else {grass <-FALSE}
   return(grass)
   
@@ -132,76 +132,76 @@ paramGRASSw <- function(set_default_GRASS7=NULL,
     names(params_GRASS)<-c("instDir","version","installation_type")
   }
   if (params_GRASS[[1]][1] != FALSE) {
-  # if just one valid installation was found take it
-  if (nrow(params_GRASS) == 1) {  
-    gisbase_GRASS <- setenvGRASSw(root_GRASS = params_GRASS$instDir[[1]],
-                                  grass_version = params_GRASS$version[[1]], 
-                                  installation_type = params_GRASS$installation_type[[1]],
-                                  quiet = quiet )
-    grass_version = params_GRASS$version[[1]]
-    installation_type = params_GRASS$installation_type[[1]]
-    
-    # if more than one valid installation was found you have to choose 
-  } else if (nrow(params_GRASS) > 1 & is.numeric(ver_select) & (ver_select > 0 & ver_select <= nrow(params_GRASS))){
-    if (!quiet) {
+    # if just one valid installation was found take it
+    if (nrow(params_GRASS) == 1) {  
+      gisbase_GRASS <- setenvGRASSw(root_GRASS = params_GRASS$instDir[[1]],
+                                    grass_version = params_GRASS$version[[1]], 
+                                    installation_type = params_GRASS$installation_type[[1]],
+                                    quiet = quiet )
+      grass_version = params_GRASS$version[[1]]
+      installation_type = params_GRASS$installation_type[[1]]
+      
+      # if more than one valid installation was found you have to choose 
+    } else if (nrow(params_GRASS) > 1 & is.numeric(ver_select) & (ver_select > 0 & ver_select <= nrow(params_GRASS))){
+      if (!quiet) {
+        cat("You have more than one valid GRASS GIS version\n")
+        print(params_GRASS)
+        cat("You have selected version: ",ver_select,"\n")
+      }
+      gisbase_GRASS <- normalizePath(setenvGRASSw(root_GRASS = params_GRASS$instDir[[ver_select]],
+                                                  grass_version = params_GRASS$version[[ver_select]], 
+                                                  installation_type = params_GRASS$installation_type[[ver_select]],
+                                                  quiet = quiet  ),
+                                     winslash = "/")
+      grass_version = params_GRASS$version[[ver_select]]
+      installation_type = params_GRASS$installation_type[[ver_select]]
+      # if ver_selct is FALSE take the one with the highest version number
+    } else if (nrow(params_GRASS) > 1 & !ver_select) {  
+      if (!quiet) {
+        cat("You have more than one valid GRASS version installed!\n")
+        cat("The latest installed version (",which(params_GRASS$version == max(params_GRASS$version)),")has been selected \n")
+      }
+      gisbase_GRASS <- setenvGRASSw(root_GRASS = params_GRASS$instDir[[which(params_GRASS$version == max(params_GRASS$version))]],
+                                    grass_version = params_GRASS$version[[which(params_GRASS$version == max(params_GRASS$version))]], 
+                                    installation_type = params_GRASS$installation_type[[which(params_GRASS$version == max(params_GRASS$version))]] ,
+                                    quiet=quiet)
+      grass_version = params_GRASS$version[[which(params_GRASS$version == max(params_GRASS$version))]]
+      installation_type = params_GRASS$installation_type[[which(params_GRASS$version == max(params_GRASS$version))]]
+      # if ver_selct is true  one has to select
+    } else if (nrow(params_GRASS) > 1 & ver_select) {
       cat("You have more than one valid GRASS GIS version\n")
       print(params_GRASS)
-      cat("You have selected version: ",ver_select,"\n")
-    }
-    gisbase_GRASS <- normalizePath(setenvGRASSw(root_GRASS = params_GRASS$instDir[[ver_select]],
-                                                grass_version = params_GRASS$version[[ver_select]], 
-                                                installation_type = params_GRASS$installation_type[[ver_select]],
-                                                quiet = quiet  ),
-                                   winslash = "/")
-    grass_version = params_GRASS$version[[ver_select]]
-    installation_type = params_GRASS$installation_type[[ver_select]]
-    # if ver_selct is FALSE take the one with the highest version number
-  } else if (nrow(params_GRASS) > 1 & !ver_select) {  
-    if (!quiet) {
-      cat("You have more than one valid GRASS version installed!\n")
-      cat("The latest installed version (",which(params_GRASS$version == max(params_GRASS$version)),")has been selected \n")
-    }
-    gisbase_GRASS <- setenvGRASSw(root_GRASS = params_GRASS$instDir[[which(params_GRASS$version == max(params_GRASS$version))]],
-                                  grass_version = params_GRASS$version[[which(params_GRASS$version == max(params_GRASS$version))]], 
-                                  installation_type = params_GRASS$installation_type[[which(params_GRASS$version == max(params_GRASS$version))]] ,
-                                  quiet=quiet)
-    grass_version = params_GRASS$version[[which(params_GRASS$version == max(params_GRASS$version))]]
-    installation_type = params_GRASS$installation_type[[which(params_GRASS$version == max(params_GRASS$version))]]
-    # if ver_selct is true  one has to select
-  } else if (nrow(params_GRASS) > 1 & ver_select) {
-    cat("You have more than one valid GRASS GIS version\n")
-    print(params_GRASS)
-    cat("\n")
-    ver <- as.numeric(readline(prompt = "Please select one:  "))
-    gisbase_GRASS <- normalizePath(setenvGRASSw(root_GRASS = params_GRASS$instDir[[ver]],
-                                                grass_version = params_GRASS$version[[ver]], 
-                                                installation_type = params_GRASS$installation_type[[ver]],
-                                                quiet = quiet  ),
-                                   winslash = "/")
-    grass_version = params_GRASS$version[[ver]]
-    installation_type = params_GRASS$installation_type[[ver]]
-  }   
+      cat("\n")
+      ver <- as.numeric(readline(prompt = "Please select one:  "))
+      gisbase_GRASS <- normalizePath(setenvGRASSw(root_GRASS = params_GRASS$instDir[[ver]],
+                                                  grass_version = params_GRASS$version[[ver]], 
+                                                  installation_type = params_GRASS$installation_type[[ver]],
+                                                  quiet = quiet  ),
+                                     winslash = "/")
+      grass_version = params_GRASS$version[[ver]]
+      installation_type = params_GRASS$installation_type[[ver]]
+    }   
     
     # if a set_default_GRASS7 was provided take this 
- # } 
- # else {
- #    gisbase_GRASS <- setenvGRASSw(root_GRASS = set_default_GRASS7[1],
- #                                  grass_version = set_default_GRASS7[2], 
- #                                  installation_type = set_default_GRASS7[3],
- #                                  quiet =quiet)  
- #    grass_version = set_default_GRASS7[2]
- #    installation_type = set_default_GRASS7[3]
- #    params_GRASS<- data.frame(instDir = gisbase_GRASS, 
- #                              version = grass_version, 
- #                              installation_type = installation_type,
- #                              stringsAsFactors = FALSE)
- #    
- #  }
-  grass<-list()
-  grass$gisbase_GRASS<-gisbase_GRASS
-  grass$version <- grass_version
-  grass$type <- installation_type
-  grass$installed <- params_GRASS
+    # } 
+    # else {
+    #    gisbase_GRASS <- setenvGRASSw(root_GRASS = set_default_GRASS7[1],
+    #                                  grass_version = set_default_GRASS7[2], 
+    #                                  installation_type = set_default_GRASS7[3],
+    #                                  quiet =quiet)  
+    #    grass_version = set_default_GRASS7[2]
+    #    installation_type = set_default_GRASS7[3]
+    #    params_GRASS<- data.frame(instDir = gisbase_GRASS, 
+    #                              version = grass_version, 
+    #                              installation_type = installation_type,
+    #                              stringsAsFactors = FALSE)
+    #    
+    #  }
+    grass<-list()
+    grass$gisbase_GRASS<-gisbase_GRASS
+    grass$version <- grass_version
+    grass$type <- installation_type
+    grass$installed <- params_GRASS
   } else {grass <-FALSE}
   return(grass)
 }
@@ -235,90 +235,90 @@ searchGRASSW <- function(DL = "C:",
   if (!quiet) cat("For providing the path manually see ?searchGRASSW \n")
   options(show.error.messages = FALSE)
   options(warn=-1)
-
+  
   raw_GRASS <- try(system(paste0("cmd.exe /c dir /B /S ", DL, "\\grass*.bat"), intern = TRUE,ignore.stderr = TRUE))
-
-
-   if (grepl(raw_GRASS,pattern = "File not found") | grepl(raw_GRASS,pattern = "Datei nicht gefunden")) {
-
-     class(raw_GRASS) <- c("try-error", class(raw_GRASS))
-   }
+  
+  
+  if (grepl(raw_GRASS,pattern = "File not found") | grepl(raw_GRASS,pattern = "Datei nicht gefunden")) {
+    
+    class(raw_GRASS) <- c("try-error", class(raw_GRASS))
+  }
   options(show.error.messages = TRUE)
   options(warn=0)
   
   if(!class(raw_GRASS)[1] == "try-error") {
-  # trys to identify valid grass installation(s) & version number(s)
-  installations_GRASS <- lapply(seq(length(raw_GRASS)), function(i){
-    # convert codetable according to cmd.exe using type
-    batchfile_lines <- system(paste0("cmd.exe /c TYPE \"", raw_GRASS[i], "\""), 
-                              ignore.stdout = TRUE, intern = T)
-    osgeo4w <- FALSE
-    stand_alone <- FALSE
-    root_dir <- ''
-    
-    # if the the tag "OSGEO4W" exists set installation_type
-    if (length(unique(grep(paste("OSGEO4W", collapse = "|"), batchfile_lines, value = TRUE))) > 0) {
-      osgeo4w <- TRUE
-      stand_alone <- FALSE
-    }
-    # if the the tag "NSIS installer" exists set installation_type
-    if (length(unique(grep(paste("NSIS installer", collapse = "|"), batchfile_lines, value = TRUE))) > 0) {
+    # trys to identify valid grass installation(s) & version number(s)
+    installations_GRASS <- lapply(seq(length(raw_GRASS)), function(i){
+      # convert codetable according to cmd.exe using type
+      batchfile_lines <- system(paste0("cmd.exe /c TYPE \"", raw_GRASS[i], "\""), 
+                                ignore.stdout = TRUE, intern = T)
       osgeo4w <- FALSE
-      stand_alone <- TRUE
-    }
-    
-    ### if installation_type is osgeo4w
-    if (osgeo4w) {
-      # grep line with root directory and extract the substring defining GISBASE
-      root_dir <- unique(grep(paste("SET OSGEO4W_ROOT=", collapse = "|"), batchfile_lines, value = TRUE))
-      #if (substr(root_dir,1,1) == "\\" & length(root_dir) > 0) root_dir <- substr(root_dir,3,nchar(root_dir))
-      if (length(root_dir) > 0) root_dir <- substr(root_dir, gregexpr(pattern = "=", root_dir)[[1]][1] + 1, nchar(root_dir))
+      stand_alone <- FALSE
+      root_dir <- ''
       
-      # grep line with the version name and extract it
-      ver_char <- unique(grep(paste("\\benv.bat\\b", collapse = "|"), batchfile_lines,value = TRUE))
-      if (length(root_dir) > 0) {
-        ver_char <- substr(ver_char, gregexpr(pattern = "\\grass-", ver_char)[[1]][1], nchar(ver_char))
-        ver_char <- substr(ver_char, 1, gregexpr(pattern = "\\\\", ver_char)[[1]][1] - 1)
+      # if the the tag "OSGEO4W" exists set installation_type
+      if (length(unique(grep(paste("OSGEO4W", collapse = "|"), batchfile_lines, value = TRUE))) > 0) {
+        osgeo4w <- TRUE
+        stand_alone <- FALSE
       }
-      installerType <- "osgeo4W"
-    }
-    
-    ### if installatationtype is stand_alone
-    if (stand_alone) {
-      # grep line containing GISBASE and extract the substring 
-      root_dir <- unique(grep(paste("set GISBASE=", collapse = "|"), batchfile_lines, value = TRUE))
-      #if (substr(root_dir,1,1) == "\\" & length(root_dir) > 0) root_dir <- substr(root_dir,3,nchar(root_dir))
-      if (length(root_dir) > 0) root_dir <- substr(root_dir, gregexpr(pattern = "=", root_dir)[[1]][1] + 1, nchar(root_dir))
-      ver_char <- root_dir
-      if (length(root_dir) > 0) {
-        ver_char <- substr(ver_char, gregexpr(pattern = "GRASS", ver_char)[[1]][1], nchar(ver_char))
+      # if the the tag "NSIS installer" exists set installation_type
+      if (length(unique(grep(paste("NSIS installer", collapse = "|"), batchfile_lines, value = TRUE))) > 0) {
+        osgeo4w <- FALSE
+        stand_alone <- TRUE
       }
-      installerType <- "NSIS"
-    }
-    
-    # check if the the folder really exists
-    if (length(root_dir) > 0) {
-      if (!file.exists(file.path(root_dir))) {
-        exist <- FALSE
+      
+      ### if installation_type is osgeo4w
+      if (osgeo4w) {
+        # grep line with root directory and extract the substring defining GISBASE
+        root_dir <- unique(grep(paste("SET OSGEO4W_ROOT=", collapse = "|"), batchfile_lines, value = TRUE))
+        #if (substr(root_dir,1,1) == "\\" & length(root_dir) > 0) root_dir <- substr(root_dir,3,nchar(root_dir))
+        if (length(root_dir) > 0) root_dir <- substr(root_dir, gregexpr(pattern = "=", root_dir)[[1]][1] + 1, nchar(root_dir))
+        
+        # grep line with the version name and extract it
+        ver_char <- unique(grep(paste("\\benv.bat\\b", collapse = "|"), batchfile_lines,value = TRUE))
+        if (length(root_dir) > 0) {
+          ver_char <- substr(ver_char, gregexpr(pattern = "\\grass-", ver_char)[[1]][1], nchar(ver_char))
+          ver_char <- substr(ver_char, 1, gregexpr(pattern = "\\\\", ver_char)[[1]][1] - 1)
+        }
+        installerType <- "osgeo4W"
+      }
+      
+      ### if installatationtype is stand_alone
+      if (stand_alone) {
+        # grep line containing GISBASE and extract the substring 
+        root_dir <- unique(grep(paste("set GISBASE=", collapse = "|"), batchfile_lines, value = TRUE))
+        #if (substr(root_dir,1,1) == "\\" & length(root_dir) > 0) root_dir <- substr(root_dir,3,nchar(root_dir))
+        if (length(root_dir) > 0) root_dir <- substr(root_dir, gregexpr(pattern = "=", root_dir)[[1]][1] + 1, nchar(root_dir))
+        ver_char <- root_dir
+        if (length(root_dir) > 0) {
+          ver_char <- substr(ver_char, gregexpr(pattern = "GRASS", ver_char)[[1]][1], nchar(ver_char))
+        }
+        installerType <- "NSIS"
+      }
+      
+      # check if the the folder really exists
+      if (length(root_dir) > 0) {
+        if (!file.exists(file.path(root_dir))) {
+          exist <- FALSE
+        } else {
+          exist <- TRUE
+        } 
       } else {
-        exist <- TRUE
-      } 
-    } else {
-      exist <- FALSE
-    }
+        exist <- FALSE
+      }
+      
+      # put the existing GISBASE directory, version number  and installation type in a data frame
+      if (length(root_dir) > 0 & exist) {
+        data.frame(instDir = root_dir, version = ver_char, installation_type = installerType,stringsAsFactors = FALSE)
+      }
+    }) # end lapply
     
-    # put the existing GISBASE directory, version number  and installation type in a data frame
-    if (length(root_dir) > 0 & exist) {
-      data.frame(instDir = root_dir, version = ver_char, installation_type = installerType,stringsAsFactors = FALSE)
-    }
-  }) # end lapply
-  
-  # bind the df lines
-  installations_GRASS <- do.call("rbind", installations_GRASS)
-  return(installations_GRASS)
+    # bind the df lines
+    installations_GRASS <- do.call("rbind", installations_GRASS)
+    return(installations_GRASS)
   } else {
-  if(!quiet) cat("Did not find any valid GRASS installation at mount point",DL)
-  return(installations_GRASS <- FALSE)}
+    if(!quiet) cat("Did not find any valid GRASS installation at mount point",DL)
+    return(installations_GRASS <- FALSE)}
   
 }
 
@@ -348,28 +348,45 @@ searchGRASSX <- function(MP = "/usr",quiet =TRUE){
   if (MP=="default") MP <- "/usr"
   raw_GRASS <- system2("find", paste(MP," ! -readable -prune -o -type f -executable -iname 'grass??' -print"),stdout = TRUE,stderr = FALSE)
   
+  
   #cat(raw_GRASS)
-  if (length(raw_GRASS) > 0) {
+  if (length(raw_GRASS) > 0 ) {
+    
     installations_GRASS <- lapply(seq(length(raw_GRASS)), function(i){
       # grep line containing GISBASE and extract the substring 
-      root_dir <- try(grep(readLines(raw_GRASS[[i]]),pattern = 'gisbase = "',value = TRUE),silent = TRUE)
-      if(!class(root_dir)[1] == "try-error" ) {
-        #print(root_dir)
-        root_dir <- substr(root_dir, gregexpr(pattern = '"', root_dir)[[1]][1] + 1, nchar(root_dir) - 1)
-        ver_char <- grep(readLines(raw_GRASS[[i]]),pattern = 'grass_version = "',value = TRUE)
+      rg<- strsplit(raw_GRASS,split = "/")
+      if (rg[[i]][lengths(rg)] != "grass78") {
+        
+        root_dir <- try(grep(readLines(raw_GRASS[[i]]),pattern = 'gisbase = "',value = TRUE),silent = TRUE)
+        if(!class(root_dir)[1] == "try-error" ) {
+          #print(root_dir)
+          root_dir <- substr(root_dir, gregexpr(pattern = '"', root_dir)[[1]][1] + 1, nchar(root_dir) - 1)
+          ver_char <- grep(readLines(raw_GRASS[[i]]),pattern = 'grass_version = "',value = TRUE)
+          ver_char <- substr(ver_char, gregexpr(pattern = '"', ver_char)[[1]][1] + 1, nchar(ver_char) - 1)
+          cmd <- grep(readLines(raw_GRASS[[i]]),pattern = 'cmd_name = "',value = TRUE)
+          cmd <- substr(cmd, gregexpr(pattern = '"', cmd)[[1]][1] + 1, nchar(cmd) - 1)
+        }
+      } else {
+        
+        ver_char <- grep(readLines(raw_GRASS[[i]]),pattern = 'GRASS_VERSION = "',value = TRUE)        
         ver_char <- substr(ver_char, gregexpr(pattern = '"', ver_char)[[1]][1] + 1, nchar(ver_char) - 1)
-        cmd <- grep(readLines(raw_GRASS[[i]]),pattern = 'cmd_name = "',value = TRUE)
+        cmd <- grep(readLines(raw_GRASS[[i]]),pattern = 'CMD_NAME = "',value = TRUE)
         cmd <- substr(cmd, gregexpr(pattern = '"', cmd)[[1]][1] + 1, nchar(cmd) - 1)
-        
-        # put it in data frame
-        data.frame(instDir = root_dir, version = ver_char, installation_type = cmd , stringsAsFactors = FALSE)
-        
+        #rootdir<- grep(readLines(raw_GRASS[[i]]),pattern = 'GISBASE = os.path.normpath',value = TRUE)        
+        #rootdir <- substr(rootdir[2], gregexpr(pattern = '"', rootdir)[[1]][1] + 1, nchar(rootdir) - 1)
+        root_dir<- "/opt/grass"
       }
+      
+      # put it in data frame
+      data.frame(instDir = root_dir, version = ver_char, installation_type = cmd , stringsAsFactors = FALSE)
+      
+      
     }) # end lapply
     
     # bind the df lines
     installations_GRASS <- do.call("rbind", installations_GRASS)
     return(installations_GRASS)
+    #rawgrass    
   } else {
     if(!quiet) cat("Did not find any valid GRASS installation at mount point",MP)
     return(installations_GRASS <- FALSE)
@@ -406,7 +423,7 @@ setenvGRASSw <- function(root_GRASS=NULL,
     if (!exists("GiEnv")) GiEnv <- new.env(parent=globalenv())  
     #.GRASS_CACHE <- new.env(FALSE parent=globalenv())
     if (is.null(root_GRASS) || is.null(grass_version) || is.null(installation_type)) {
-     stop("Please run findGRASS first and provide valid arguments")
+      stop("Please run findGRASS first and provide valid arguments")
     }
     if (installation_type == "osgeo4W" || installation_type == "OSGeo4W64") {
       Sys.setenv(OSGEO4W_ROOT = root_GRASS)
@@ -531,7 +548,7 @@ findGRASS <- function(searchLocation = "default",
   if (Sys.info()["sysname"] == "Windows") {
     if (searchLocation=="default") searchLocation <- "C:"
     if (grepl(paste0(LETTERS, ":", collapse="|"), searchLocation) )
-    link = link2GI::searchGRASSW(DL = searchLocation)  
+      link = link2GI::searchGRASSW(DL = searchLocation)  
     else return(cat("You are running Windows - Please choose a suitable searchLocation argument that MUST include a Windows drive letter and colon"))
   } else {
     if (searchLocation=="default") searchLocation <- "/usr"

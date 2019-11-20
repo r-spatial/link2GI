@@ -1,16 +1,16 @@
 #' Functions for linking  GI/RS functionality to R
 #'
-#' @description A straightforward helper tool for linking  GI/RS functionality to R. The goals of the package 
-#' are to correctly initialize both the existing wrapper packages \code{rgrass7} and \code{RSAGA} and
+#' @description A straightforward helper tool for linking  GI/RS functionality to R. The goal of the package 
+#' is to correctly initialize both the existing wrapper packages \code{rgrass7} and \code{RSAGA} and
 #' to smoothly enable the necessary system variables and path parameters for a direct access of the binaries 
-#' via system calls on all operating systems. In particular, \code{rgrass7} and \code{RSAGA} can cause severe 
+#' via direct system calls on all operating systems. In particular, \code{rgrass7} and \code{RSAGA} can cause severe 
 #' problems during initialization of parallel installations of \code{GRASS GIS} or \code{SAGA GIS} under the
 #' Windows operating system(s). \code{link2GI} tries to set the correct system settings and returns if system 
-#' calls are required the necessary paths and commands. \cr
-#' Furthermore the package provides a linkage to the Orfeo Toolbox software as well as a basic list based command parser.
+#' calls are required the necessary paths and command strings. \cr
+#' Furthermore the package provides a linkage to the Orfeo Toolbox (OTB) software. 
+#' Due to the difficulties linking  the correct GDAL binaries  a  new system wide search for GDAL binaries is implemented.
 #' \cr\cr
-#' In addition there are some usefull functions for creating project folder structures, direct reading and 
-#' writing of GRASS vector data and manual building of the package in UNC related enviroments.
+#' Finally  there are some usefull functions for creating project folder structures and project environments. To deal with the not always consistent API-calls of OTB a list based command parser and generator is provided.
 #' 
 
 #' @note To utilize the power of the open source GI tools from within \code{R} you need to installthem first.

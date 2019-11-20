@@ -21,7 +21,7 @@ If you have several versions installed or if you want to use the full power of t
 devtools::install_github("r-spatial/link2GI", ref = "master")
 # remotes package
 remotes::install_github("r-spatial/link2GI")
-```.
+```
 
 
 # Usecases presented on the GEOSTAT August 2018
@@ -36,11 +36,12 @@ During the [GEOSTAT 2018](http://opengeohub.org/node/146) in Prague some more co
 ## Prerequisites
 Please check the R dependencies:
 
-```{r, eval=FALSE}
+```r
 install.packages(c("sf", "raster",  "rgdal",  "tools", "rgrass7", "sp", "RSAGA", "link2GI"))
 
 # for the Canopy height model usecase you need to install uavRst
 devtools::install_github("r-spatial/uavRst", ref = "master")
+
 ```
 
 In addition you need at least one installation of the following GIS software.
@@ -55,7 +56,7 @@ Please download the data and scripts for the exercises.
 If you run the following code you will create the folder *link2gi-master* in your **home folder**. During the tutorial it is assumed to be the root folder.
 
 
-```{r, eval=FALSE}
+```r
 url <- "https://github.com/gisma/link2gi2018/archive/master.zip"
 res <- curl::curl_download(url, paste0(tmpDir(),"master.zip"))
 utils::unzip(zipfile = res, exdir = "~")

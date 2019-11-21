@@ -44,7 +44,7 @@ path_OTB<-otblink$pathOTB
 ## get data
 setwd(tempdir())
 ## get some typical data as provided by the authority
-url<-"http://www.ldbv.bayern.de/file/zip/5619/DOP%2040_CIR.zip"
+url<-"http://www.ldbv.bayern.de/file/zip/5619/DOP\%2040_CIR.zip"
 res <- curl::curl_download(url, "testdata.zip")
 unzip(res,junkpaths = TRUE,overwrite = TRUE)
 

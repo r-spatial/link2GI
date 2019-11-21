@@ -1,6 +1,7 @@
 ---
 author: "Chris Reudenbach"
-date: "2019-11-16"
+title: "Link GIS to R"
+date: "2019-11-21"
 editor_options:
   chunk_output_type: console
 output:
@@ -58,10 +59,10 @@ Linking means simply to provide all necessary environment settings that satisfy 
 
 ### OTB
 
-The `Orfeo Toolbox` (OTB) is a very powerful remote sensing toolbox. It is widely used for classification, filtering and machine learning applications. You will find some of the implemented algorithm within different R packages but **always** much slower or only running on small data chunks. Due to a missing wrapper the linkage is performed to use the command line API of the `OTB`. Currently link2GI provides very basic list-based `OTB` wrapper. 
+The `Orfeo Toolbox` (OTB) is a very powerful remote sensing toolbox. It is widely used for classification, filtering and machine learning applications. You will find some of the implemented algorithm within different R packages but **always** much slower or only running on small data chunks. `link2GI` searches and connects all `OTB` installations of a given search path and provides the result as a clear list.  Due to a missing wrapper package, a list-based `OTB` module and function parser is also available, which can be piped into the function ` runOTB () ` for a convenient function call.
 
 ### GDAL
-GDAL is perfectly integrated in R. However in some cases it is beneficial to uses system calls and grab the binaries directly. `link2GI` generates a list of all pathes and commands so you may easily use also python scripts calls and other chains. 
+Notwithstanding that `GDAL` is perfectly integrated in R in some cases it is beneficial to use system calls and grab the binaries directly. In particular the evolution to `GDAL 3.x` and optionally various boxed versions of `GDAL` binaries working together with different `Python` and `proj4/proj6` libs makes it sometimes  difficult to grab the correct version of `GDAL`.  `link2GI` generates a list of all pathes and commands of all `GDAL` installation in the provided search path.  With this list, you can easily use all available API calls of each installation. 
 
 # Usage of the link2GI package - Basic Examples 
 
@@ -135,86 +136,141 @@ If you have more than one valid installation and run `linkGRASS7` with the  argu
 
 
 #### Standard Full Search Usage 
-Automatic search and find of `GRASS` binaries using the meuse sp data object for spatial referencing.
-This is the highly recommended linking procedure.  NOTE: if more than one `GRASS` installation is found the first one is selected automatically. 
+The most common way to use GRASS is just for one call or algorithm. So the user is not interested in the cumbersome setting up of all parameters. `linGRASS7(georeferenced-dataset)` does an automatic search and find all `GRASS` binaries using the georeferenced-dataset object for spatial referencing and the necessary other settings. 
+**NOTE:** This is the highly recommended linking procedure for all on the fly calls of GRASS. Please note also: If more than one `GRASS` installation is found the one with the highest version number is selected automatically. 
 
+Have a look at the following examples which show a typical call for  the well known `sp`and `sf` vector data objects.
+
+Starting with `sp`.
 
 
 ```r
-# get meuse data as sp object
+# get meuse data as sp object and link it temporary to GRASS
 require(link2GI)
 require(sp)
+
+# get data 
 data(meuse) 
+# add georeference
 coordinates(meuse) <- ~x+y 
 proj4string(meuse) <-CRS("+init=epsg:28992") 
 
-# get meuse data as sf object
-require(sf)
-meuse_sf = st_as_sf(meuse, 
-                    coords = 
-                      c("x", "y"), 
-                    crs = 28992, 
-                    agr = "constant")
-
-# create a temporary GRASS linkage using the meuse data
+# Automatic search and find of GRASS binaries
+# using the meuse sp data object for spatial referencing
+# This is the highly recommended linking procedure for on the fly jobs
+# NOTE: if more than one GRASS installation is found the highest version will be choosed
 
 linkGRASS7(meuse)
 ```
-
-#### Typical call for standalone distro
-Assuming a typical standalone non-OSGeo4W installation and using the meuse sp data object for spatial referencing
-
-
+Now do the same with  `sf` based data.
 
 
 ```r
-linkGRASS7(meuse,c("C:/Program Files/GRASS GIS7.0.5","GRASS GIS 7.0.5","NSIS")) 
+ require(link2GI)
+ require(sf)
+
+ # get  data
+ nc <- st_read(system.file("shape/nc.shp", package="sf"))
+
+ # Automatic search and find of GRASS binaries
+ # using the nc sf data object for spatial referencing
+ # This is the highly recommended linking procedure for on the fly jobs
+ # NOTE: if more than one GRASS installation is found the highest version will be choosed
+ 
+ grass<-linkGRASS7(nc,returnPaths = TRUE)
 ```
-
-#### Typical OSGeo4W64 installation
-Typical `OSGeo4W64` installation using the meuse sp data object for spatial referencing
-
+ 
+ The second most common situation is the usage of an existing GRASS location and project either with existing data sets or manually provided parameters. 
 
 
 ```r
-linkGRASS7(meuse,c("C:/OSGeo4W64","grass-7.0.5","osgeo4W"))
+  library(link2GI)
+ require(sf)
+
+ # proj folders
+ projRootDir<-tempdir()
+ paths<-link2GI::initProj(projRootDir = projRootDir,
+                          projFolders = c("project1/"))
+
+ # get  data
+ nc <- st_read(system.file("shape/nc.shp", package="sf"))
+
+ # CREATE and link to a permanent GRASS folder at "projRootDir", location named "project1"
+ linkGRASS7(nc, gisdbase = projRootDir, location = "project1")
+
+ # ONLY LINK to a permanent GRASS folder at "projRootDir", location named "project1"
+ linkGRASS7(gisdbase = projRootDir, location = "project1", gisdbase_exist = TRUE )
+
+
+ # setting up GRASS manually with spatial parameters of the nc data
+ proj4_string <- as.character(sp::CRS("+init=epsg:28992"))
+ linkGRASS7(spatial_params = c(178605,329714,181390,333611,proj4_string))
+
+ # creating a GRASS gisdbase manually with spatial parameters of the nc data
+ # additionally using a peramanent directory "projRootDir" and the location "nc_spatial_params "
+ proj4_string <- as.character(sp::CRS("+init=epsg:4267"))
+ linkGRASS7(gisdbase = projRootDir,
+            location = "nc_spatial_params",
+            spatial_params = c(-84.32385, 33.88199,-75.45698,36.58965,proj4_string))
 ```
+
+ 
+
+
+
+#### Typical for specified search pathes and OS
+ 
+The full disk search can be cumbersome especially running Windos it can easily take 10 minutes and more. So it is helpful to provide a searchpath for narrowing down the search. Searching for `GRASS installations in the home directory you may use the following command. 
+
+
+```r
+# Link the GRASS installation and define the search location
+ linkGRASS7(nc, search_path = "~")
+```
+
+If  you already did a full search and kow your installation fo example using the command `findGRASS` you can use the result directly for linking.
+
+
+```r
+findGRASS()
+     instDir version installation_type
+1 /opt/grass   7.8.1           grass78
+
+# now linking it 
+linkGRASS7(nc,c("/opt/grass","7.8.15","grass78")) 
+
+# corresponding linkage running windows
+linkGRASS7(nc,c("C:/Program Files/GRASS GIS7.0.5","GRASS GIS 7.0.5","NSIS")) 
+```
+
 
 #### Manual choosing the version
+Finally some more specific examples related to interactive selection or OS specific settings.
 Choose manually the GRASS installation  additionally using the meuse `sf` object for spatial referencing
 
 
 
 ```r
-linkGRASS7(meuse_sf, 
-                     ver_select = TRUE)
+linkGRASS7(nc, ver_select = TRUE)
 ```
 
-#### Choose another searchpath
-Choose manually the GRASS installation and change the search location additionally using the meuse `sf` object for spatial referencing
-
-
-
-```r
-linkGRASS7(meuse_sf, 
-                     search_path = "D:/")
-```
 
 #### Creating a permanent gisbase folder
 
-Creating a  permanent `GRASS` gisdbase (folder structure) at "~/temp3" with the standard mapset "PERMANENT"" and the location named "project1". For all spatial attributes use the the meuse `sf` object.
+Creating and linking a  permanent `GRASS` gisdbase (folder structure) at "~/temp3" with the standard mapset "PERMANENT"" and the location named "project1". For all spatial attributes use the the meuse `sf` object.
+
 
 
 
 ```r
-linkGRASS7(x = meuse_sf, 
+linkGRASS7(x = nc, 
                      gisdbase = "~/temp3",
                      location = "project1")   
 ```
 
 
 #### Using a Permanent gisbase folder
-Link to the permanent `GRASS` gisdbase (folder structure) at "~/temp3" with the standard mapset "PERMANENT" and the location named "project1". For all spatial attributes use the the meuse `sf` object.
+Link to the permanent `GRASS` gisdbase (folder structure) at "~/temp3" with the standard mapset "PERMANENT" and the location named "project1". For all spatial attributes use the formerly referencend nc `sf` object parameter.
 
 
 
@@ -245,88 +301,63 @@ link2GI supports the use of the Orfeo Toolbox with a listbased simple wrapper fu
 Usually you have to get the module list first:
 
 
+
 ```r
 # link to the installed OTB 
-otbLinks<-link2GI::linkOTB()
+otblink<-link2GI::linkOTB()
 
 
-# get the modulelist from the linked version
-algo<-parseOTBAlgorithms(gili = otbLinks)
+# get the list of modules from the linked version
+algo<-parseOTBAlgorithms(gili = otblink)
 ```
 
 Based on the modules of the current version of OTB you can then choose the module(s) you want to use.
 
 
+
 ```r
 ## for the example we use the edge detection, 
-## because of the windows call via a batch file 
-## we have to distinguish the module name
-ifelse(Sys.info()["sysname"]=="Windows", 
-algo_keyword<- "EdgeExtraction.bat",
-algo_keyword<- "EdgeExtraction")
+algoKeyword<- "EdgeExtraction"
 
-# now create the command list
-algo_cmd<-parseOTBFunction(algo = algo[algo[]==algo_keyword],gili = otblink)
+## extract the command list for the choosen algorithm 
+cmd<-parseOTBFunction(algo = algoKeyword, gili = otblink)
+
 ## print the current command
-print(algo_cmd)
+print(cmd)
 ```
 
 Admittedly this is a very straightforward and preliminary approach. Nevertheless it provids you a valid list of all OTB API calls that can easily manipulated for your needs. The following working example will give you an idea how to use it.
 
 
-```r
-###########
-### usecase
-###########
 
+```r
 ## link to OTB
 otblink<-link2GI::linkOTB()
-path_OTB<-otblink$pathOTB
 
 ## get data
 setwd(tempdir())
 ## get some typical data as provided by the authority
-url<-"http://www.ldbv.bayern.de/file/zip/5619/DOP%2040_CIR.zip"
+url<-'http://www.ldbv.bayern.de/file/zip/5619/DOP%2040_CIR.zip'
 res <- curl::curl_download(url, "testdata.zip")
 unzip(res,junkpaths = TRUE,overwrite = TRUE)
 
-## get all available OTB modules
-algo<-parseOTBAlgorithms(gili = otblink)
-
 ## for the example we use the edge detection, 
-## because of the windows call via a batch file 
-## we have to distinguish the module name
-ifelse(Sys.info()["sysname"]=="Windows", 
-algo_keyword<- "EdgeExtraction.bat",
-algo_keyword<- "EdgeExtraction")
+algoKeyword<- "EdgeExtraction"
 
-# write it to a variable
-otb_algorithm<-algo[algo[]==algo_keyword]
-# now create the command list
-algo_cmd<-parseOTBFunction(algo = otb_algorithm,gili = otblink)
+## extract the command list for the choosen algorithm 
+cmd<-parseOTBFunction(algo = algoKeyword, gili = otblink)
 
-## define the current run arguments
-algo_cmd$`-in`<- file.path(getwd(),"4490600_5321400.tif")
-algo_cmd$`-filter`<- "sobel"
 
-## create out name
-outName<-paste0(getwd(),"/out",algo_cmd$`-filter`,".tif")
-algo_cmd$`-out`<- outName
+## define the mandantory arguments all other will be default
+cmd$input  <- file.path(getwd(),"4490600_5321400.tif")
+cmd$filter <- "touzi"
+cmd$out <- paste0(getwd(),"/out",cmd$filter,".tif")
 
-## generate full command
-command<-paste(paste0(path_OTB,"otbcli_",otb_algorithm," "),
-               paste(names(algo_cmd),algo_cmd,collapse = " "))
-
-## make the system call
-system(command,intern = TRUE)
-
-##create raster
-retStack<-assign(outName,raster::raster(outName))
+## run algorithm
+retStack<-runOTB(cmd,gili = otblink)
 
 ## plot raster
 raster::plot(retStack)
-
-## End(Not run) 
 ```
 #  Advanced examples 
 A typical example is the usage of an already existing project database in `GRASS`. `GRASS` organizes all data in an internal file structure that is known as gisdbase folder, a mapset and one or more locations within this mapset. All raster and vector data is stored inside this structure and the organisation is performed by `GRASS`. So a typical task could be to work on data sets that are already stored in an existing `GRASS` structure

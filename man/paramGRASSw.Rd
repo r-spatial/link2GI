@@ -4,12 +4,8 @@
 \alias{paramGRASSw}
 \title{Usually for internally usage get 'GRASS GIS' and \code{rgrass7} parameters on 'Windows' OS}
 \usage{
-paramGRASSw(
-  set_default_GRASS7 = NULL,
-  DL = "C:",
-  ver_select = FALSE,
-  quiet = TRUE
-)
+paramGRASSw(set_default_GRASS7 = NULL, DL = "C:", ver_select = FALSE,
+  quiet = TRUE)
 }
 \arguments{
 \item{set_default_GRASS7}{default = NULL forces a full search for 'GRASS GIS' binaries. You may

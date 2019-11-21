@@ -4,12 +4,8 @@
 \alias{paramGRASSx}
 \title{Usually for internally usage, get 'GRASS GIS' and \code{rgrass7} parameters on 'Linux' OS}
 \usage{
-paramGRASSx(
-  set_default_GRASS7 = NULL,
-  MP = "/usr",
-  ver_select = FALSE,
-  quiet = TRUE
-)
+paramGRASSx(set_default_GRASS7 = NULL, MP = "/usr",
+  ver_select = FALSE, quiet = TRUE)
 }
 \arguments{
 \item{set_default_GRASS7}{default = NULL will force a search for 'GRASS GIS' You may provide a valid combination as 

@@ -4,15 +4,9 @@
 \alias{linkOTB}
 \title{Locate and set up 'Orfeo ToolBox' API bindings}
 \usage{
-linkOTB(
-  bin_OTB = NULL,
-  root_OTB = NULL,
-  type_OTB = NULL,
-  searchLocation = NULL,
-  ver_select = FALSE,
-  quiet = TRUE,
-  returnPaths = TRUE
-)
+linkOTB(bin_OTB = NULL, root_OTB = NULL, type_OTB = NULL,
+  searchLocation = NULL, ver_select = FALSE, quiet = TRUE,
+  returnPaths = TRUE)
 }
 \arguments{
 \item{bin_OTB}{string contains path to where the otb binaries are located}

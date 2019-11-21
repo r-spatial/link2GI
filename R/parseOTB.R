@@ -31,96 +31,46 @@ parseOTBAlgorithms<- function(gili=NULL) {
 
 
 
-#'@title Get OTB function calls
+#'@title Get OTB function argument list
 #'@name parseOTBFunction
 #'@description retrieve the choosen function and parses all arguments with the defaults
-#'@param algos number of the algorithm as provided by `getOTBAlgorithm`
+#'@param algo number or name of the algorithm as provided by `getOTBAlgorithm`
 #'@param gili optional gis linkage as done by `linkOTB()`
 #'@export parseOTBFunction
 #'
 #'@examples
+
 #' \dontrun{
 ## link to the OTB binaries
-#' otbLinks<-link2GI::linkOTB()
-#' if (otbLinks$exist) {
-#' 
-#' path_OTB<-otbLinks$pathOTB
-#' 
+#' otbLink<-link2GI::linkOTB()
+#' if (otbLink$exist) {
 #' 
 #' ## parse all modules
-#' algo<-parseOTBAlgorithms(gili = otbLinks)
+#' algos<-parseOTBAlgorithms(gili = otbLink)
 #' 
 #' 
 #' ## take edge detection
-#' otb_algorithm<-algo[27]
-#' algo_cmd<-parseOTBFunction(algo = otb_algorithm,gili = otbLinks)
+#' otb_algorithm<-algos[27]
+#' algo_cmd<-parseOTBFunction(algo = otb_algorithm,gili = otbLink)
 #' ## print the current command
 #' print(algo_cmd)
 #' }
-#' 
-#' ###########
-#' ### usecase
-#' ###########
-#' 
-#' ## link to OTB
-#' otblink<-link2GI::linkOTB()
-#' path_OTB<-otblink$pathOTB
-#' 
-#' ## get data
-#' setwd(tempdir())
-#' ## get some typical data as provided by the authority
-#' url<-"http://www.ldbv.bayern.de/file/zip/5619/DOP%2040_CIR.zip"
-#' res <- curl::curl_download(url, "testdata.zip")
-#' unzip(res,junkpaths = TRUE,overwrite = TRUE)
-#' 
-#' ## get all available OTB modules
-#' algo<-parseOTBAlgorithms(gili = otblink)
-#' 
-#' ## for the example we use the edge detection, 
-#' ## because of the windows call via a batch file 
-#' ## we have to distinguish the module name
-#' ifelse(Sys.info()["sysname"]=="Windows", 
-#' algo_keyword<- "EdgeExtraction.bat",
-#' algo_keyword<- "EdgeExtraction")
-#' 
-#' # write it to a variable
-#' otb_algorithm<-algo[algo[]==algo_keyword]
-#' # now create the command list
-#' algo_cmd<-parseOTBFunction(algo = otb_algorithm,gili = otblink)
-#' 
-#' ## define the current run arguments
-#' algo_cmd$input  <- file.path(getwd(),"4490600_5321400.tif")
-#' algo_cmd$filter <- "sobel"
-#' 
-#' ## create out name
-#' outName <- paste0(getwd(),"/out",algo_cmd$filter,".tif")
-#' algo_cmd$out <- outName
-#' 
-#' ## paste full command
-#' command <- mkOTBcmd(path_OTB,otb_algorithm,algo_cmd)
-#' 
-#' ## make the system call
-#' system(command,intern = TRUE)
-#' 
-#' ##create raster
-#' retStack<-assign(outName,raster::raster(outName))
-#' 
-#' ## plot raster
-#' raster::plot(retStack)
-#' } 
+#' }
+
 #' ##+##
-parseOTBFunction <- function(algos=NULL,gili=NULL) {
+parseOTBFunction <- function(algo=NULL,gili=NULL) {
   if (is.null(gili)) {
     otb<-link2GI::linkOTB()
     path_OTB<- otb$pathOTB
   } else path_OTB<- gili$pathOTB
+  
   ocmd<-tmp<-list()
   otbcmd <- list()
   otbhelp <- list()
   
   otbtype <- list()
+
   
-  for (algo in algos){
     if (algo != ""){
       system("rm otb_module_dump.txt",intern = FALSE,ignore.stderr = TRUE)
       ifelse(Sys.info()["sysname"]=="Windows",
@@ -192,26 +142,101 @@ parseOTBFunction <- function(algos=NULL,gili=NULL) {
       if (length(ocmd) > 0)
         ocmd[[algo]]<- append(otbcmd,assign(algo, as.character(param)))
       else
-        ocmd<-param
+        ocmd<-R.utils::insert(param,1,algo)
       #params <- get_args_man(alg = "otb:localstatisticextraction")
       
-    }
-  }
+    } else {print("no valid algorithm provided")}
+    
+  
   return(ocmd)
 }
-#' paste the OTB command list into a system call compatible string
-#'@description helper function which paste the OTB command list into a system call compatible string
-#'@param path_OTB path to the OTB installastion directory as provided by linkOTB()
-#'@param otb_algorithm the currently choosen otb algorithm keyword
-#'@param algo_cmd the modified algorithm parameter list
+
+
+#' Execute the OTB command list via system call
+#'@description Wrapper function which paste the OTB command list into a system call compatible string and execute this command. 
+#'@param otbCmdList the OTB algorithm parameter list
+#'@param gili optional gis linkage as done by `linkOTB()`
+#'@param quiet boolean  switch for supressing messages default is TRUE
+#'@param retRaster boolean if TRUE a raster stack is returned
+
+
+#'@examples
+
+
+
+#' \dontrun{
+#' ## link to OTB
+#' otblink<-link2GI::linkOTB()
+#' 
+#' ## get data
+#' setwd(tempdir())
+#' ## get some typical data as provided by the authority
+#' url<-'http://www.ldbv.bayern.de/file/zip/5619/DOP\%2040_CIR.zip'
+#' res <- curl::curl_download(url, "testdata.zip")
+#' unzip(res,junkpaths = TRUE,overwrite = TRUE)
+#' 
+#' ## for the example we use the edge detection, 
+#' algoKeyword<- "EdgeExtraction"
+#'
+#' ## extract the command list for the choosen algorithm 
+#' cmd<-parseOTBFunction(algo = algoKeyword, gili = otblink)
+#' 
+#' 
+#' ## define the mandantory arguments all other will be default
+#' cmd$input  <- file.path(getwd(),"4490600_5321400.tif")
+#' cmd$filter <- "touzi"
+#' cmd$out <- paste0(getwd(),"/out",cmd$filter,".tif")
+#' 
+#' ## run algorithm
+#' retStack<-runOTB(cmd,gili = otblink)
+#' 
+#' ## plot raster
+#' raster::plot(retStack)
+#' }
+
+
+
 #'@export
-mkOTBcmd <- function(path_OTB,
-                  otb_algorithm,
-                  algo_cmd){
-if (names(algo_cmd)[1] =="input")  names(algo_cmd)[1]<-"in"
+runOTB <- function(otbCmdList=NULL,
+                  gili=NULL,
+                  retRaster=TRUE,
+                  quiet = TRUE
+                  
+                  ){
+  
+  
+  if (is.null(gili)) {
+    otb<-link2GI::linkOTB()
+    path_OTB<- otb$pathOTB
+  } else path_OTB<- gili$pathOTB
+
+otb_algorithm<-otbCmdList[1]  
+otbCmdList[1]<-NULL
+
+if(Sys.info()["sysname"]=="Windows") otb_algorithm <- paste0(otb_algorithm,".bat")
+  
+if (names(otbCmdList)[1] =="input")  names(otbCmdList)[1]<-"in"
 
         command<-paste(paste0(path_OTB,"otbcli_",otb_algorithm," "),
-                 paste0("-",names(algo_cmd)," ",algo_cmd,collapse = " "))
- return(command) 
-}
+                 paste0("-",names(otbCmdList)," ",otbCmdList,collapse = " "))
+        
+        
+          if (quiet){
+            system(command,ignore.stdout = TRUE,ignore.stderr = TRUE,intern = FALSE)
+            if (retRaster){
+              rStack <- assign(otbCmdList$out,raster::stack(otbCmdList$out))
+              return(rStack)
+            }
+              
+              
+          }
+          else {
+            system(command,ignore.stdout = FALSE,ignore.stderr = FALSE,intern = TRUE)
+            if (retRaster){
+              r<-assign(otbCmdList$out,raster::stack(otbCmdList$out))
+              return(rStack)
+            }
+              
+            }
+          }
 

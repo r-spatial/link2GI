@@ -26,6 +26,42 @@ remotes::install_github("r-spatial/link2GI",ref = "develop")
 ```
 # Documentation
 
+#### Updated OTB wrapper
+
+the OTB wrapper is updated for a more convinient usage. Please have a look at the usecase below:
+
+```r
+if (FALSE) {
+## link to OTB
+otblink<-link2GI::linkOTB()
+
+## get data
+setwd(tempdir())
+## get some typical data as provided by the authority
+url<-'http://www.ldbv.bayern.de/file/zip/5619/DOP%2040_CIR.zip'
+res <- curl::curl_download(url, "testdata.zip")
+unzip(res,junkpaths = TRUE,overwrite = TRUE)
+
+## for the example we use the edge detection, 
+algoKeyword<- "EdgeExtraction"
+
+## extract the command list for the choosen algorithm 
+cmd<-parseOTBFunction(algo = algoKeyword, gili = otblink)
+
+
+## define the mandantory arguments all other will be default
+cmd$input  <- file.path(getwd(),"4490600_5321400.tif")
+cmd$filter <- "touzi"
+cmd$out <- paste0(getwd(),"/out",cmd$filter,".tif")
+
+## run algorithm
+retStack<-runOTB(cmd,gili = otblink)
+
+## plot raster
+raster::plot(retStack)
+}
+```
+
 
 [Online Vignettes](https://gisma.github.io/link2GI/)
 

@@ -31,7 +31,7 @@ remotes::install_github("r-spatial/link2GI",ref = "develop")
 the OTB wrapper is updated for a more convinient usage. Please have a look at the usecase below:
 
 ```r
-if (FALSE) {
+
 ## link to OTB
 otblink<-link2GI::linkOTB()
 
@@ -59,7 +59,7 @@ retStack<-runOTB(cmd,gili = otblink)
 
 ## plot raster
 raster::plot(retStack)
-}
+
 ```
 
 

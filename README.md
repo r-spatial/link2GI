@@ -24,6 +24,10 @@ devtools::install_github("r-spatial/link2GI", ref = "develop")
 # remotes package
 remotes::install_github("r-spatial/link2GI",ref = "develop")
 ```
+# Documentation
+
+
+[Online Vignettes](https://gisma.github.io/link2GI/)
 
 
 ### Usecases presented on the GEOSTAT August 2018

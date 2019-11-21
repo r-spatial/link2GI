@@ -1,5 +1,4 @@
-## link2GI 0.3-8
-
+V
 bugfixes:
 * issue 22 fixed
 * first parsing of the new GRASS (since 7.8.x ) start file 

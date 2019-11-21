@@ -239,9 +239,9 @@ hr {
 
 <p><code>SAGA GIS</code> is a far easier to set up. Again the <code>linkSAGA</code> function tries to find all <code>SAGA</code> installations, let you (optionally) choose one and generate the necessary variables. You may also use <code>RSAGA</code> but you have to hand over the result of <code>linkSAGA</code> like <code>RSAGA::rsaga.env(path = saga$sagaPath)</code>. For a straightforward usage you may simply use the  <code>R</code> system() call to  interface <code>R</code> with the <code>saga_cmd</code> API. </p>
 
-<h3>OTB</h3>
+<h3>Orfeo Toolbox (OTB)</h3>
 
-<p>The <code>Orfeo Toolbox</code> (OTB) is a very powerful remote sensing toolbox. It is widely used for classification, filtering and machine learning applications. You will find some of the implemented algorithm within different R packages but <strong>always</strong> much slower or only running on small data chunks. <code>link2GI</code> searches and connects all <code>OTB</code> installations of a given search path and provides the result as a clear list.  Due to a missing wrapper package, a list-based <code>OTB</code> module and function parser is also available, which can be piped into the function <code>runOTB ()</code> for a convenient function call.</p>
+<p>The <code>Orfeo Toolbox</code> (OTB) is a very powerful remote sensing toolbox. It is widely used for classification, filtering and machine learning applications. You will find some of the implemented algorithm within different R packages but <strong>always</strong> much slower or only running on small data chunks. <code>link2GI</code> searches and connects all <code>OTB</code> installations of a given search path and provides the result as a clear list.  Due to a missing wrapper package, a list-based <code>OTB</code> module and function parser is also available, which can be piped into the function <code>runOTB</code> for a convenient function call.</p>
 
 <h3>GDAL</h3>
 
@@ -638,50 +638,24 @@ rgrass7::execGRASS(&#39;v.info&#39;, map = &quot;Zensus_Bevoelkerung_100m_&quot;
 
 <h2>Usecases presented on the GEOSTAT August 2018</h2>
 
-<p>During the <a href="http://opengeohub.org/node/146">GEOSTAT 2018</a> in Prague some more complex usescases has been <a href="https://htmlpreview.github.io/?https://github.com/gisma/link2gi2018/blob/master/link2gi2018.html">presented</a>.</p>
+<h3>Usecases presented on the GEOSTAT August 2018</h3>
 
-<h3>Find slides and materials</h3>
+<p>During the <a href="http://opengeohub.org/node/146">GEOSTAT 2018</a> in Prague some more complex usescases have been presented.</p>
 
-<p><a href="https://htmlpreview.github.io/?https://github.com/gisma/link2gi2018/blob/master/link2gi2018.html">GEOSTAT 2018</a> presentation slides.</p>
-
-<p><a href="https://github.com/gisma/link2gi2018">link2GI GEOSTAT</a> github repository.</p>
-
-<h3>Prerequisites</h3>
-
-<p>Please check the R dependencies:</p>
-
-<pre><code class="r">install.packages(c(&quot;sf&quot;, &quot;raster&quot;,  &quot;rgdal&quot;, &quot;gdalUtils&quot;, 
-                   &quot;tools&quot;, &quot;rgrass7&quot;, &quot;sp&quot;, &quot;RSAGA&quot;, &quot;link2GI&quot;))
-
-# for the Canopy height model usecase you need to install uavRst
-devtools::install_github(&quot;gisma/uavRst&quot;, ref = &quot;master&quot;)
-</code></pre>
-
-<p>In addition you need at least one installation of the following GIS software.</p>
+<h4>Find slides and materials</h4>
 
 <ul>
-<li>For <code>GRASS</code>- and <code>SAGA-GIS</code> follow the <a href="https://github.com/jannes-m/RQGIS/blob/master/vignettes/install_guide.Rmd">RQGIS installation instructions</a> as provided by Jannes Muenchow. For standalone GRASS you may have a look at the the <a href="https://gitlab.com/veroandreo/grass-gis-geostat-2018">geostat2018 instructions</a> as provided by Veronica Andreos.</li>
-<li>For installing the <code>Orfeo Toolbox</code>, please follow the OTB cookbook <a href="https://www.orfeo-toolbox.org/CookBook/Installation.html">installation instructions</a>.</li>
+<li><a href="https://gisma.github.io/link2gi2018/link2gi2018.html#1">Presentation slides</a></li>
+<li><a href="https://github.com/gisma/link2gi2018">Github Repository</a></li>
 </ul>
 
-<p>Please download the data and scripts for the exercises.</p>
-
-<p><strong>PLEASE NOTE:</strong> </p>
-
-<p>If you run the following code you will create the folder <em>link2gi-master</em> in your <strong>home folder</strong>. During the tutorial it is assumed to be the root folder.</p>
-
-<pre><code class="r">url &lt;- &quot;https://github.com/gisma/link2gi2018/archive/master.zip&quot;
-res &lt;- curl::curl_download(url, paste0(tmpDir(),&quot;master.zip&quot;))
-utils::unzip(zipfile = res, exdir = &quot;~&quot;)
-</code></pre>
-
-<h2>The examples</h2>
+<h4>The examples</h4>
 
 <ul>
-<li><p>Basic usage of SAGA and OTB calls - <a href="https://github.com/gisma/link2gi2018/blob/master/R/usecases/saga-otb/useCaseSAGA-OTB.R">SAGA &amp; OTB basic usecase</a></p></li>
-<li><p>Wrapping a <a href="https://neteler.gitlab.io/grass-gis-analysis/02_grass-gis_ecad_analysis/">GRASS GIS example</a> of Marcus Neteler as presented on GEOSTAT 2018 - <a href="https://github.com/gisma/link2gi2018/blob/master/R/usecases/grass/useCaseGRASS-Neteler2018.R">Analysing the ECA&amp;D climatic data - reloaded</a></p></li>
-<li><p>Performing a GRASS based cost analysis on a huge cost raster - <a href="https://github.com/gisma/link2gi2018/blob/master/R/usecases/cost-analysis/useCaseBeetle.R">Beetle spread over high asia</a></p></li>
-<li><p>Deriving a canopy height model using a mixed API approach - <a href="https://github.com/gisma/link2gi2018/blob/master/R/usecases/uav-pc/useCaseCHM.R">Canopy Height Model from UAV derived point clouds</a></p></li>
+<li>Basic usage of SAGA and OTB calls - <a href="https://github.com/gisma/link2gi2018/blob/master/R/usecases/saga-otb/useCaseSAGA-OTB.R">SAGA &amp; OTB basic usecase</a></li>
+<li>Wrapping a <a href="https://neteler.gitlab.io/grass-gis-analysis/02_grass-gis_ecad_analysis/">GRASS GIS example</a> of Markus Neteler as presented on GEOSTAT 2018 - <a href="https://github.com/gisma/link2gi2018/blob/master/R/usecases/grass/useCaseGRASS-Neteler2018.R">Analysing the ECA&amp;D climatic data - reloaded</a></li>
+<li>Performing a GRASS based cost analysis on a huge cost raster - <a href="https://github.com/gisma/link2gi2018/blob/master/R/usecases/cost-analysis/useCaseBeetle.R">Beetle spread over high asia</a></li>
+<li>Deriving a canopy height model using a mixed API approach - <a href="https://github.com/gisma/link2gi2018/blob/master/R/usecases/uav-pc/useCaseCHM.R">Canopy Height Model from UAV derived point clouds</a></li>
 </ul>
 
 </body>

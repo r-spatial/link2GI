@@ -165,33 +165,34 @@ parseOTBFunction <- function(algo=NULL,gili=NULL) {
 
 
 #' \dontrun{
+#' require(raster)
 #' ## link to OTB
 #' otblink<-link2GI::linkOTB()
 #' 
-#' ## get data
-#' setwd(tempdir())
-#' ## get some typical data as provided by the authority
-#' url<-'http://www.ldbv.bayern.de/file/zip/5619/DOP%2040_CIR.zip'
-#' res <- curl::curl_download(url, "testdata.zip")
-#' unzip(res,junkpaths = TRUE,overwrite = TRUE)
+#' ## get data from the raster package
+#' r<-raster::writeRaster(raster::stack(system.file("external/test.grd", package="raster")), 
+#'                filename=file.path(tempdir(),"test.tif"), 
+#'                format="GTiff", overwrite=TRUE)
 #' 
 #' ## for the example we use the edge detection, 
-#' algoKeyword<- "EdgeExtraction"
-#'
+#' algoKeyword<- "LocalStatisticExtraction"
+#' 
 #' ## extract the command list for the choosen algorithm 
 #' cmd<-parseOTBFunction(algo = algoKeyword, gili = otblink)
 #' 
 #' 
 #' ## define the mandantory arguments all other will be default
-#' cmd$input  <- file.path(getwd(),"4490600_5321400.tif")
-#' cmd$filter <- "touzi"
-#' cmd$out <- paste0(getwd(),"/out",cmd$filter,".tif")
+#' cmd$input  <- file.path(tempdir(),"test.tif")
+#' cmd$out <- file.path(tempdir(),"test_otb_stat.tif")
+#' cmd$radius <- 7
 #' 
 #' ## run algorithm
 #' retStack<-runOTB(cmd,gili = otblink)
 #' 
 #' ## plot raster
 #' raster::plot(retStack)
+#' 
+
 #' }
 
 
@@ -233,7 +234,7 @@ if (names(otbCmdList)[1] =="input")  names(otbCmdList)[1]<-"in"
           else {
             system(command,ignore.stdout = FALSE,ignore.stderr = FALSE,intern = TRUE)
             if (retRaster){
-              r<-assign(otbCmdList$out,raster::stack(otbCmdList$out))
+              rStack<-assign(otbCmdList$out,raster::stack(otbCmdList$out))
               return(rStack)
             }
               

@@ -57,9 +57,9 @@ Linking means simply to provide all necessary environment settings that satisfy 
 
 `SAGA GIS` is a far easier to set up. Again the `linkSAGA` function tries to find all `SAGA` installations, let you (optionally) choose one and generate the necessary variables. You may also use `RSAGA` but you have to hand over the result of `linkSAGA` like `RSAGA::rsaga.env(path = saga$sagaPath)`. For a straightforward usage you may simply use the  `R` system() call to  interface `R` with the `saga_cmd` API. 
 
-### OTB
+### Orfeo Toolbox (OTB)
 
-The `Orfeo Toolbox` (OTB) is a very powerful remote sensing toolbox. It is widely used for classification, filtering and machine learning applications. You will find some of the implemented algorithm within different R packages but **always** much slower or only running on small data chunks. `link2GI` searches and connects all `OTB` installations of a given search path and provides the result as a clear list.  Due to a missing wrapper package, a list-based `OTB` module and function parser is also available, which can be piped into the function ` runOTB () ` for a convenient function call.
+The `Orfeo Toolbox` (OTB) is a very powerful remote sensing toolbox. It is widely used for classification, filtering and machine learning applications. You will find some of the implemented algorithm within different R packages but **always** much slower or only running on small data chunks. `link2GI` searches and connects all `OTB` installations of a given search path and provides the result as a clear list.  Due to a missing wrapper package, a list-based `OTB` module and function parser is also available, which can be piped into the function `runOTB` for a convenient function call.
 
 ### GDAL
 Notwithstanding that `GDAL` is perfectly integrated in R in some cases it is beneficial to use system calls and grab the binaries directly. In particular the evolution to `GDAL 3.x` and optionally various boxed versions of `GDAL` binaries working together with different `Python` and `proj4/proj6` libs makes it sometimes  difficult to grab the correct version of `GDAL`.  `link2GI` generates a list of all pathes and commands of all `GDAL` installation in the provided search path.  With this list, you can easily use all available API calls of each installation. 
@@ -514,55 +514,18 @@ rgrass7::execGRASS('v.info', map = "Zensus_Bevoelkerung_100m_")
 
 ## Usecases presented on the GEOSTAT August 2018
 
-During the [GEOSTAT 2018](http://opengeohub.org/node/146) in Prague some more complex usescases has been [presented](https://htmlpreview.github.io/?https://github.com/gisma/link2gi2018/blob/master/link2gi2018.html).
+### Usecases presented on the GEOSTAT August 2018
 
-### Find slides and materials
-[GEOSTAT 2018](https://htmlpreview.github.io/?https://github.com/gisma/link2gi2018/blob/master/link2gi2018.html) presentation slides.
+During the [GEOSTAT 2018](http://opengeohub.org/node/146) in Prague some more complex usescases have been presented.
 
-[link2GI GEOSTAT](https://github.com/gisma/link2gi2018) github repository.
-
-### Prerequisites
-Please check the R dependencies:
+#### Find slides and materials
+- [Presentation slides](https://gisma.github.io/link2gi2018/link2gi2018.html#1)
+- [Github Repository](https://github.com/gisma/link2gi2018)
 
 
-```r
-install.packages(c("sf", "raster",  "rgdal", "gdalUtils", 
-                   "tools", "rgrass7", "sp", "RSAGA", "link2GI"))
-
-# for the Canopy height model usecase you need to install uavRst
-devtools::install_github("gisma/uavRst", ref = "master")
-```
-
-In addition you need at least one installation of the following GIS software.
-
-- For `GRASS`- and `SAGA-GIS` follow the [RQGIS installation instructions](https://github.com/jannes-m/RQGIS/blob/master/vignettes/install_guide.Rmd) as provided by Jannes Muenchow. For standalone GRASS you may have a look at the the [geostat2018 instructions](https://gitlab.com/veroandreo/grass-gis-geostat-2018) as provided by Veronica Andreos.
-- For installing the `Orfeo Toolbox`, please follow the OTB cookbook [installation instructions](https://www.orfeo-toolbox.org/CookBook/Installation.html).
-
-Please download the data and scripts for the exercises.
-
-**PLEASE NOTE:** 
-
-If you run the following code you will create the folder *link2gi-master* in your **home folder**. During the tutorial it is assumed to be the root folder.
-
-
-
-```r
-url <- "https://github.com/gisma/link2gi2018/archive/master.zip"
-res <- curl::curl_download(url, paste0(tmpDir(),"master.zip"))
-utils::unzip(zipfile = res, exdir = "~")
-```
-
-## The examples
+#### The examples
 
 - Basic usage of SAGA and OTB calls - [SAGA & OTB basic usecase](https://github.com/gisma/link2gi2018/blob/master/R/usecases/saga-otb/useCaseSAGA-OTB.R)
-
-- Wrapping a [GRASS GIS example](https://neteler.gitlab.io/grass-gis-analysis/02_grass-gis_ecad_analysis/) of Marcus Neteler as presented on GEOSTAT 2018 - [Analysing the ECA&D climatic data - reloaded](https://github.com/gisma/link2gi2018/blob/master/R/usecases/grass/useCaseGRASS-Neteler2018.R)
-
+- Wrapping a [GRASS GIS example](https://neteler.gitlab.io/grass-gis-analysis/02_grass-gis_ecad_analysis/) of Markus Neteler as presented on GEOSTAT 2018 - [Analysing the ECA&D climatic data - reloaded](https://github.com/gisma/link2gi2018/blob/master/R/usecases/grass/useCaseGRASS-Neteler2018.R)
 - Performing a GRASS based cost analysis on a huge cost raster - [Beetle spread over high asia](https://github.com/gisma/link2gi2018/blob/master/R/usecases/cost-analysis/useCaseBeetle.R)
-
 - Deriving a canopy height model using a mixed API approach - [Canopy Height Model from UAV derived point clouds](https://github.com/gisma/link2gi2018/blob/master/R/usecases/uav-pc/useCaseCHM.R)
-
-
-
-
-

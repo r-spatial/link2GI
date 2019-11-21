@@ -1,5 +1,6 @@
 ---
 author: "Chris Reudenbach"
+title: "Link GIS to R"
 date: "`r Sys.Date()`"
 editor_options:
   chunk_output_type: console

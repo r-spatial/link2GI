@@ -627,22 +627,6 @@ rgrass7::execGRASS(&#39;r.info&#39;,
  sf::plot_sf(xyz_sf)
 </code></pre>
 
-<p>The <code>GRASS</code> gisdbase already exists. So we pass  <code>linkGRASS7</code> the argument <code>gisdbase_exist=TRUE</code> and import the xyz data as generic <code>GRASS</code> vector points.</p>
-
-<pre><code class="r"> require(sf)
- require(sp)
- require(link2GI)
-
-  sf2gvec(x =  xyz_sf,
-           obj_name = &quot;Zensus_Bevoelkerung_100m_&quot;,
-           gisdbase = paste0(tempdir(),&quot;/link2GI_examples&quot;),
-           location = &quot;microzensus2011&quot;,
-           gisdbase_exist = TRUE)
-
-# check imported data set
-rgrass7::execGRASS(&#39;v.info&#39;, map = &quot;Zensus_Bevoelkerung_100m_&quot;) 
-</code></pre>
-
 <h2>Usecases presented on the GEOSTAT August 2018</h2>
 
 <h3>Usecases presented on the GEOSTAT August 2018</h3>

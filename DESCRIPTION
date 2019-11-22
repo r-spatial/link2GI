@@ -14,7 +14,7 @@ License: GPL (>= 3) | file LICENSE
 Depends: R (>= 3.1)
 Imports: methods,tools, devtools, R.utils,roxygen2,sf,stringr
 SystemRequirements: GNU make 
-RoxygenNote: 7.0.0
+RoxygenNote: 7.0.1
 Suggests: knitr, 
           rmarkdown,
           rgdal,

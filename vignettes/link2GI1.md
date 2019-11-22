@@ -1,7 +1,7 @@
 ---
 author: "Chris Reudenbach"
 title: "Link GI to R"
-date: "2019-11-22"
+date: "2019-11-23"
 editor_options:
   chunk_output_type: console
 output:
@@ -500,25 +500,6 @@ Let's do now the same import as a vector data set. First we create a `sf` object
 
 #map points
  sf::plot_sf(xyz_sf)
-```
-
-The `GRASS` gisdbase already exists. So we pass  `linkGRASS7` the argument `gisdbase_exist=TRUE` and import the xyz data as generic `GRASS` vector points.
-
-
-
-```r
- require(sf)
- require(sp)
- require(link2GI)
- 
-  sf2gvec(x =  xyz_sf,
-           obj_name = "Zensus_Bevoelkerung_100m_",
-           gisdbase = paste0(tempdir(),"/link2GI_examples"),
-           location = "microzensus2011",
-           gisdbase_exist = TRUE)
- 
-# check imported data set
-rgrass7::execGRASS('v.info', map = "Zensus_Bevoelkerung_100m_") 
 ```
 
 

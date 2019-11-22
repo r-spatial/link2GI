@@ -22,5 +22,6 @@ Suggests: knitr,
           sp,
           RSAGA,
           rgrass7,
-          curl
+          curl,
+          listviewer
 VignetteBuilder: knitr

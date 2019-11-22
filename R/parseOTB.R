@@ -174,20 +174,24 @@ parseOTBFunction <- function(algo=NULL,gili=NULL) {
 #'@param quiet boolean  switch for supressing messages default is TRUE
 #'@param retRaster boolean if TRUE a raster stack is returned
 #'@examples
-#' \dontrun{
+#'\dontrun{
+#' require(link2GI)
 #' require(raster)
 #' require(listviewer)
+#' 
 #' ## link to OTB
 #' otblink<-link2GI::linkOTB()
 #' 
-#' if (otbLink$exist) { 
+#' if (otblink$exist) {
+#'  projRootDir<-tempdir()
+#'  data("rgb")
+#'  raster::plotRGB(rgb)
+#'  r<-raster::writeRaster(rgb, 
+#'                         filename=file.path(projRootDir,"test.tif"),
+#'                         format="GTiff", 
+#'                         overwrite=TRUE)
 #' 
-#' ## get data from the raster package
-#' r<-raster::writeRaster(raster::stack(system.file("external/test.grd", package="raster")), 
-#'                filename=file.path(tempdir(),"test.tif"), 
-#'                format="GTiff", overwrite=TRUE)
-#' 
-#' ## for the example we use the edge detection, 
+#' ## for the example we use the Statistic Extraction, 
 #' algoKeyword<- "LocalStatisticExtraction"
 #' 
 #' ## extract the command list for the choosen algorithm 

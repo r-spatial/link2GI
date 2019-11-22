@@ -203,7 +203,7 @@ hr {
 <body>
 <h1>What is link2GI?</h1>
 
-<p>The <a href="https://CRAN.R-project.org/package=link2GI">link2GI</a> package provides a small linking tool to simplify the usage of GRASS and SAGA GIS and Orfeo Toolbox (OTB) for R users. the focus is to simplify the the accessibility of this software for non operating system specialists or highly experienced GIS geeks.  Acutally it is a direct result of numerous graduate courses with R(-GIS) beginners in the hostile world of university computer pools running under extremely restricted Windows systems. </p>
+<p>The <a href="https://CRAN.R-project.org/package=link2GI">link2GI</a> package provides a small linking tool to simplify the usage of <code>GRASS GIS</code>, <code>SAGA GIS</code>, <code>Orfeo Toolbox</code> (<code>OTB</code>) and <code>GDAL</code> binaries for R users. the focus is to simplify the the accessibility of this software for non operating system specialists or highly experienced GIS geeks.  Acutally it is a direct result of numerous graduate courses with R(-GIS) beginners in the hostile world of university computer pools running under extremely restricted Windows systems. </p>
 
 <p>This vignette:</p>
 
@@ -221,11 +221,12 @@ hr {
 
 <p>A comprehensive introduction to the spatial R-biotope and its backgrounds is excellently treated in <a href="https://geocompr.robinlovelace.net">Geocomputation with R</a> wich is highly recommend as a reference textbook.</p>
 
-<p>Despite all this capabilities of spatial analysis and data handling in the world of <code>R</code>, it can be stated (at least from a non-R point of view), that there is still a enormous gap between R and the mature open source Geographic Information System (GIS) and even more Remote Sensing (RS) software community. <code>QGIS</code>, <code>GRASS GIS</code> and <code>SAGA GIS</code> are providing a comprehensive, growing and mature  collection of highly sophisticated algorithms. The provided algorithms are fast, stable and most of them are well proofed. Probably most of the <code>R</code> users who are somehow related to the GI community know that there are awesome good wrapper packages for bridging this gap. For <a href="https://grass.osgeo.org/">GRASS GIS 7</a> it is <a href="https://CRAN.R-project.org/package=rgrass7">rgrass7</a> and for <a href="http://www.saga-gis.org/">SAGA GIS</a>  the <a href="https://CRAN.R-project.org/package=RSAGA">RSAGA</a> package. The development of the <a href="https://CRAN.R-project.org/package=RQGIS">RQGIS</a> wrapper is the most recent outcome to provide a simple  usage of the powerful <a href="https://www.qgis.org/">QGIS</a> command line interface.</p>
+<p>Despite all this capabilities of spatial analysis and data handling in the world of <code>R</code>, it can be stated (at least from a non-R point of view), that there is still a enormous gap between R and the mature open source Geographic Information System (GIS) and even more Remote Sensing (RS) software community. <code>QGIS</code>, <code>GRASS GIS</code> and <code>SAGA GIS</code> are providing a comprehensive, growing and mature  collection of highly sophisticated algorithms. The provided algorithms are fast, stable and most of them are well proofed. Probably most of the <code>R</code> users who are somehow related to the GI community know that there are awesome good wrapper packages for bridging this gap. For <a href="https://grass.osgeo.org/">GRASS GIS 7</a> it is <a href="https://CRAN.R-project.org/package=rgrass7">rgrass7</a> and for <a href="http://www.saga-gis.org/">SAGA GIS</a>  the <a href="https://CRAN.R-project.org/package=RSAGA">RSAGA</a> package. The development of the <a href="https://CRAN.R-project.org/package=RQGIS">RQGIS</a> wrapper is the most recent outcome to provide a simple  usage of the powerful <a href="https://www.qgis.org/">QGIS</a> command line interface.
+In addition there is no wrapper for the great <code>OTB</code>. It seems to be at least convenient to provide a lightweight wrapping utility for the usage of <code>OTB</code> modules from <code>R</code>.</p>
 
-<p>Unfortunately one will run into a lot of technical problems depending on the choosen operating system (OS) or library dependencies or GIS software versions. In case of e.g. <code>RSAGA</code> the main problem has been that the SAGA GIS developers are not only changing the syntax and strategy of the command line interface (CLI) but also within the same release the calls differ from OS to OS. So the maintenance of RSAGA is at least laborious (but thumbs up is running again).  Another example is  given by <code>GRASS GIS</code>  which is well known for a sophisticated setup of the environment and the spatial properties of the database. If you &ldquo;just&rdquo; want to use a specific GRASS algorithm from R, you will probablys get lost in setting up all OS-dependencies that are neccessary to set up a correct temporary or permanent GRASS-environment from “outside”. This is not only caused due to the strict spatial and projection requirements of GRASS but much more by challenging OS enviroments especially Windows. </p>
+<p>Unfortunately one will run into a lot of technical problems depending on the choosen operating system (OS) or library dependencies or GIS software versions. In case of e.g. <code>RSAGA</code> the main problem has been that the <code>SAGA</code> GIS developers are not only changing the syntax and strategy of the command line interface (CLI) but also within the same release the calls differ from OS to OS. So the maintenance of RSAGA is at least laborious (but thumbs up is running again).  Another example is  given by <code>GRASS GIS</code>  which is well known for a sophisticated setup of the environment and the spatial properties of the database. If you &ldquo;just&rdquo; want to use a specific <code>GRASS</code> algorithm from R, you will probablys get lost in setting up all OS-dependencies that are neccessary to set up a correct temporary or permanent <code>GRASS</code>-environment from “outside”. This is not only caused due to the strict spatial and projection requirements of <code>GRASS</code> but much more by challenging OS enviroments especially Windows. </p>
 
-<p>To make it short it is a bit cumbersome to deal with all this stuff if one just want to start e.g. GRASS from the R command line for e.g. a powerful random walk cost analysis (<code>r.walk</code>) call as provided by GRASS.</p>
+<p>To make it short it is a bit cumbersome to deal with all this stuff if one just want to start e.g. <code>GRASS</code> from the R command line for e.g. a powerful random walk cost analysis (<code>r.walk</code>) call as provided by <code>GRASS</code>.</p>
 
 <h1>What means linking?</h1>
 
@@ -259,7 +260,7 @@ saga &lt;- link2GI::findSAGA()
 saga
 </code></pre>
 
-<p>Same with GRASS and OTB</p>
+<p>Same with <code>GRASS</code> and <code>OTB</code></p>
 
 <pre><code class="r"># find all SAGA GIS installations at the default search location
 require(link2GI)
@@ -273,7 +274,7 @@ otb
 
 <h2>Setting up project structures</h2>
 
-<p>If you just call link2GI on the fly , that means for a single temporary operation, there will be no need for setting up folders and project structures. If you work on a more complex project it is seems to be helpful to support this by a fixed structure. Same with existing GRASS projects wich need to be in specific mapsets and locations. </p>
+<p>If you just call link2GI on the fly , that means for a single temporary operation, there will be no need for setting up folders and project structures. If you work on a more complex project it is seems to be helpful to support this by a fixed structure. Same with existing <code>GRASS</code> projects wich need to be in specific mapsets and locations. </p>
 
 <p>A straightforward  (you may call it also dirty) approach is the ìnitProjfunction that creates folder structures (if not existing) and establishes (if wanted) global variables containing the pathes as strings.</p>
 
@@ -301,7 +302,7 @@ sagaEnv1&lt;- RSAGA::rsaga.env(path = saga1$sagaPath)
 
 <h2>linkGRASS7 - Locate and set up &#39;GRASS 7&#39; API bindings</h2>
 
-<p><code>linkGRASS7</code> Initializes the session environment and the system paths for an easy access to <code>GRASS GIS 7.x.</code> The correct setup of the spatial and projection parameters is automatically performed by using either an existing and valid <code>raster</code>, <code>sp</code> or <code>sf</code> object, or manually by providing a list containing the minimum parameters needed. These properties are used to initialize either a temporary or a permanent <code>rgrass7</code> environment including the correct &#39;GRASS 7&#39; database structure. If you provide none of the before mentioned objects <code>linkGRASS</code> will create a EPSG:4326 world wide location.</p>
+<p><code>linkGRASS7</code> Initializes the session environment and the system paths for an easy access to <code>GRASS GIS 7.x.</code> The correct setup of the spatial and projection parameters is automatically performed by using either an existing and valid <code>raster</code>, <code>sp</code> or <code>sf</code> object, or manually by providing a list containing the minimum parameters needed. These properties are used to initialize either a temporary or a permanent <code>rgrass7</code> environment including the correct <code>GRASS 7</code> database structure. If you provide none of the before mentioned objects <code>linkGRASS</code> will create a EPSG:4326 world wide location.</p>
 
 <p>The most time consuming part on &#39;Windows&#39; Systems is the search process. This can easily take 10 or more minutes. To speed up this process you can also provide a correct parameter set. Best way to do so is to call manually <code>findGRASS</code>. Then call <code>linkGRASS7</code> with the returned version arguments of your choice.</p>
 
@@ -311,8 +312,8 @@ sagaEnv1&lt;- RSAGA::rsaga.env(path = saga1$sagaPath)
 
 <h4>Standard Full Search Usage</h4>
 
-<p>The most common way to use GRASS is just for one call or algorithm. So the user is not interested in the cumbersome setting up of all parameters. <code>linGRASS7(georeferenced-dataset)</code> does an automatic search and find all <code>GRASS</code> binaries using the georeferenced-dataset object for spatial referencing and the necessary other settings. 
-<strong>NOTE:</strong> This is the highly recommended linking procedure for all on the fly calls of GRASS. Please note also: If more than one <code>GRASS</code> installation is found the one with the highest version number is selected automatically. </p>
+<p>The most common way to use <code>GRASS</code> is just for one call or algorithm. So the user is not interested in the cumbersome setting up of all parameters. <code>linGRASS7(georeferenced-dataset)</code> does an automatic search and find all <code>GRASS</code> binaries using the georeferenced-dataset object for spatial referencing and the necessary other settings. 
+<strong>NOTE:</strong> This is the highly recommended linking procedure for all on the fly calls of <code>GRASS</code>. Please note also: If more than one <code>GRASS</code> installation is found the one with the highest version number is selected automatically. </p>
 
 <p>Have a look at the following examples which show a typical call for  the well known <code>sp</code>and <code>sf</code> vector data objects.</p>
 
@@ -352,7 +353,7 @@ linkGRASS7(meuse)
  grass&lt;-linkGRASS7(nc,returnPaths = TRUE)
 </code></pre>
 
-<p>The second most common situation is the usage of an existing GRASS location and project either with existing data sets or manually provided parameters. </p>
+<p>The second most common situation is the usage of an existing <code>GRASS</code> location and project either with existing data sets or manually provided parameters. </p>
 
 <pre><code class="r">  library(link2GI)
  require(sf)
@@ -386,7 +387,7 @@ linkGRASS7(meuse)
 
 <h4>Typical for specified search pathes and OS</h4>
 
-<p>The full disk search can be cumbersome especially running Windos it can easily take 10 minutes and more. So it is helpful to provide a searchpath for narrowing down the search. Searching for GRASS installations in the home directory you may use the following command. </p>
+<p>The full disk search can be cumbersome especially running Windos it can easily take 10 minutes and more. So it is helpful to provide a searchpath for narrowing down the search. Searching for <code>GRASS</code> installations in the home directory you may use the following command. </p>
 
 <pre><code class="r"># Link the GRASS installation and define the search location
  linkGRASS7(nc, search_path = &quot;~&quot;)
@@ -408,7 +409,7 @@ linkGRASS7(nc,c(&quot;C:/Program Files/GRASS GIS7.0.5&quot;,&quot;GRASS GIS 7.0.
 <h4>Manual choosing the version</h4>
 
 <p>Finally some more specific examples related to interactive selection or OS specific settings.
-Choose manually the GRASS installation  additionally using the meuse <code>sf</code> object for spatial referencing</p>
+Choose manually the <code>GRASS</code> installation  additionally using the meuse <code>sf</code> object for spatial referencing</p>
 
 <pre><code class="r">linkGRASS7(nc, ver_select = TRUE)
 </code></pre>
@@ -458,7 +459,7 @@ otblink&lt;-link2GI::linkOTB()
 algo&lt;-parseOTBAlgorithms(gili = otblink)
 </code></pre>
 
-<p>Based on the modules of the current version of OTB you can then choose the module(s) you want to use.</p>
+<p>Based on the modules of the current version of <code>OTB</code> you can then choose the module(s) you want to use.</p>
 
 <pre><code class="r">## for the example we use the edge detection, 
 algoKeyword&lt;- &quot;EdgeExtraction&quot;
@@ -470,17 +471,19 @@ cmd&lt;-parseOTBFunction(algo = algoKeyword, gili = otblink)
 print(cmd)
 </code></pre>
 
-<p>Admittedly this is a very straightforward and preliminary approach. Nevertheless it provids you a valid list of all OTB API calls that can easily manipulated for your needs. The following working example will give you an idea how to use it.</p>
+<p>Admittedly this is a very straightforward and preliminary approach. Nevertheless it provids you a valid list of all <code>OTB</code> API calls that can easily manipulated for your needs. The following working example will give you an idea how to use it.</p>
 
 <pre><code class="r">require(link2GI)
+require(raster)
 require(listviewer)
 
 otblink&lt;-link2GI::linkOTB()
+ projRootDir&lt;-tempdir()
 
 data(&quot;rgb&quot;)
 raster::plotRGB(rgb)
 r&lt;-raster::writeRaster(rgb, 
-              filename=&quot;test.tif&quot;, 
+              filename=file.path(projRootDir,&quot;test.tif&quot;),
               format=&quot;GTiff&quot;, overwrite=TRUE)
 ## for the example we use the edge detection, 
 algoKeyword&lt;- &quot;EdgeExtraction&quot;
@@ -492,10 +495,10 @@ cmd&lt;-parseOTBFunction(algo = algoKeyword, gili = otblink)
 listviewer::jsonedit(cmd$help)
 
 ## define the mandantory arguments all other will be default
-cmd$input  &lt;- &quot;test.tif&quot;
+cmd$input  &lt;- file.path(projRootDir,&quot;test.tif&quot;)
 cmd$filter &lt;- &quot;touzi&quot;
 cmd$channel &lt;- 2
-cmd$out &lt;- paste0(&quot;out&quot;,cmd$filter,&quot;.tif&quot;)
+cmd$out &lt;- file.path(projRootDir,paste0(&quot;out&quot;,cmd$filter,&quot;.tif&quot;))
 
 ## run algorithm
 retStack&lt;-runOTB(cmd,gili = otblink)
@@ -595,7 +598,8 @@ link2GI::linkGRASS7(x = r,
 
 <p>First we must convert the raster object to <code>GeoTIFF</code> file. Any <code>GDAL</code> format is possible but <code>GeoTIFF</code> is very common and stable.</p>
 
-<pre><code class="r">require(raster)
+<pre><code class="r">require(link2GI)
+require(raster)
 require(rgrass7)
 
 # write it to geotiff
@@ -625,7 +629,7 @@ rgrass7::execGRASS(&#39;r.info&#39;,
  sf::plot_sf(xyz_sf)
 </code></pre>
 
-<p>The <code>GRASS</code> gisdbase already exists. So we pass  <code>linkGRASS7</code> the argument <code>gisdbase_exist=TRUE</code> and import the xyz data as generic GRASS vector points.</p>
+<p>The <code>GRASS</code> gisdbase already exists. So we pass  <code>linkGRASS7</code> the argument <code>gisdbase_exist=TRUE</code> and import the xyz data as generic <code>GRASS</code> vector points.</p>
 
 <pre><code class="r"> require(sf)
  require(sp)
@@ -657,9 +661,9 @@ rgrass7::execGRASS(&#39;v.info&#39;, map = &quot;Zensus_Bevoelkerung_100m_&quot;
 <h4>The examples</h4>
 
 <ul>
-<li>Basic usage of SAGA and OTB calls - <a href="https://github.com/gisma/link2gi2018/blob/master/R/usecases/saga-otb/useCaseSAGA-OTB.R">SAGA &amp; OTB basic usecase</a></li>
+<li>Basic usage of <code>SAGA</code> and <code>OTB</code> calls - <a href="https://github.com/gisma/link2gi2018/blob/master/R/usecases/saga-otb/useCaseSAGA-OTB.R">SAGA &amp; OTB basic usecase</a></li>
 <li>Wrapping a <a href="https://neteler.gitlab.io/grass-gis-analysis/02_grass-gis_ecad_analysis/">GRASS GIS example</a> of Markus Neteler as presented on GEOSTAT 2018 - <a href="https://github.com/gisma/link2gi2018/blob/master/R/usecases/grass/useCaseGRASS-Neteler2018.R">Analysing the ECA&amp;D climatic data - reloaded</a></li>
-<li>Performing a GRASS based cost analysis on a huge cost raster - <a href="https://github.com/gisma/link2gi2018/blob/master/R/usecases/cost-analysis/useCaseBeetle.R">Beetle spread over high asia</a></li>
+<li>Performing a <code>GRASS</code> based cost analysis on a huge cost raster - <a href="https://github.com/gisma/link2gi2018/blob/master/R/usecases/cost-analysis/useCaseBeetle.R">Beetle spread over high asia</a></li>
 <li>Deriving a canopy height model using a mixed API approach - <a href="https://github.com/gisma/link2gi2018/blob/master/R/usecases/uav-pc/useCaseCHM.R">Canopy Height Model from UAV derived point clouds</a></li>
 </ul>
 

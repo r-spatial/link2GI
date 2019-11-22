@@ -1,6 +1,6 @@
 ---
 author: "Chris Reudenbach"
-title: "Link GIS to R"
+title: "Link GI to R"
 date: "2019-11-22"
 editor_options:
   chunk_output_type: console
@@ -14,7 +14,7 @@ output:
     toc: yes
 urlcolor: blue
 vignette: >
-  %\VignetteIndexEntry{Link GIS to R}
+  %\VignetteIndexEntry{Link GI to R}
   %\VignetteEncoding{UTF-8}{inputenc}\
   %\VignetteEngine{knitr::knitr}
 ---
@@ -22,7 +22,7 @@ vignette: >
 
 # What is link2GI?
 
-The [link2GI](https://CRAN.R-project.org/package=link2GI) package provides a small linking tool to simplify the usage of GRASS and SAGA GIS and Orfeo Toolbox (OTB) for R users. the focus is to simplify the the accessibility of this software for non operating system specialists or highly experienced GIS geeks.  Acutally it is a direct result of numerous graduate courses with R(-GIS) beginners in the hostile world of university computer pools running under extremely restricted Windows systems. 
+The [link2GI](https://CRAN.R-project.org/package=link2GI) package provides a small linking tool to simplify the usage of `GRASS GIS`, `SAGA GIS`, `Orfeo Toolbox` (`OTB`) and `GDAL` binaries for R users. the focus is to simplify the the accessibility of this software for non operating system specialists or highly experienced GIS geeks.  Acutally it is a direct result of numerous graduate courses with R(-GIS) beginners in the hostile world of university computer pools running under extremely restricted Windows systems. 
 
 This vignette:
 
@@ -40,10 +40,11 @@ The spatial analysis itself is often supported by wrapper packages that integrat
 A comprehensive introduction to the spatial R-biotope and its backgrounds is excellently treated in [Geocomputation with R](https://geocompr.robinlovelace.net) wich is highly recommend as a reference textbook.
 
 Despite all this capabilities of spatial analysis and data handling in the world of `R`, it can be stated (at least from a non-R point of view), that there is still a enormous gap between R and the mature open source Geographic Information System (GIS) and even more Remote Sensing (RS) software community. `QGIS`, `GRASS GIS` and `SAGA GIS` are providing a comprehensive, growing and mature  collection of highly sophisticated algorithms. The provided algorithms are fast, stable and most of them are well proofed. Probably most of the `R` users who are somehow related to the GI community know that there are awesome good wrapper packages for bridging this gap. For [GRASS GIS 7](https://grass.osgeo.org/) it is [rgrass7](https://CRAN.R-project.org/package=rgrass7) and for [SAGA GIS](http://www.saga-gis.org/)  the [RSAGA](https://CRAN.R-project.org/package=RSAGA) package. The development of the [RQGIS](https://CRAN.R-project.org/package=RQGIS) wrapper is the most recent outcome to provide a simple  usage of the powerful [QGIS](https://www.qgis.org/) command line interface.
+In addition there is no wrapper for the great `OTB`. It seems to be at least convenient to provide a lightweight wrapping utility for the usage of `OTB` modules from `R`.
 
-Unfortunately one will run into a lot of technical problems depending on the choosen operating system (OS) or library dependencies or GIS software versions. In case of e.g. `RSAGA` the main problem has been that the SAGA GIS developers are not only changing the syntax and strategy of the command line interface (CLI) but also within the same release the calls differ from OS to OS. So the maintenance of RSAGA is at least laborious (but thumbs up is running again).  Another example is  given by `GRASS GIS`  which is well known for a sophisticated setup of the environment and the spatial properties of the database. If you "just" want to use a specific GRASS algorithm from R, you will probablys get lost in setting up all OS-dependencies that are neccessary to set up a correct temporary or permanent GRASS-environment from “outside”. This is not only caused due to the strict spatial and projection requirements of GRASS but much more by challenging OS enviroments especially Windows. 
+Unfortunately one will run into a lot of technical problems depending on the choosen operating system (OS) or library dependencies or GIS software versions. In case of e.g. `RSAGA` the main problem has been that the `SAGA` GIS developers are not only changing the syntax and strategy of the command line interface (CLI) but also within the same release the calls differ from OS to OS. So the maintenance of RSAGA is at least laborious (but thumbs up is running again).  Another example is  given by `GRASS GIS`  which is well known for a sophisticated setup of the environment and the spatial properties of the database. If you "just" want to use a specific `GRASS` algorithm from R, you will probablys get lost in setting up all OS-dependencies that are neccessary to set up a correct temporary or permanent `GRASS`-environment from “outside”. This is not only caused due to the strict spatial and projection requirements of `GRASS` but much more by challenging OS enviroments especially Windows. 
 
-To make it short it is a bit cumbersome to deal with all this stuff if one just want to start e.g. GRASS from the R command line for e.g. a powerful random walk cost analysis (`r.walk`) call as provided by GRASS.
+To make it short it is a bit cumbersome to deal with all this stuff if one just want to start e.g. `GRASS` from the R command line for e.g. a powerful random walk cost analysis (`r.walk`) call as provided by `GRASS`.
 
 
 # What means linking?
@@ -78,7 +79,7 @@ saga <- link2GI::findSAGA()
 saga
 ```
 
-Same with GRASS and OTB
+Same with `GRASS` and `OTB`
 
 
 ```r
@@ -94,7 +95,7 @@ The `find` functions are providing an overview of the installed software. This f
 
 ## Setting up project structures
 
-If you just call link2GI on the fly , that means for a single temporary operation, there will be no need for setting up folders and project structures. If you work on a more complex project it is seems to be helpful to support this by a fixed structure. Same with existing GRASS projects wich need to be in specific mapsets and locations. 
+If you just call link2GI on the fly , that means for a single temporary operation, there will be no need for setting up folders and project structures. If you work on a more complex project it is seems to be helpful to support this by a fixed structure. Same with existing `GRASS` projects wich need to be in specific mapsets and locations. 
 
 A straightforward  (you may call it also dirty) approach is the ìnitProj`function that creates folder structures (if not existing) and establishes (if wanted) global variables containing the pathes as strings.
 
@@ -125,7 +126,7 @@ sagaEnv1<- RSAGA::rsaga.env(path = saga1$sagaPath)
 
 ##  linkGRASS7 - Locate and set up 'GRASS 7' API bindings
 
-`linkGRASS7` Initializes the session environment and the system paths for an easy access to `GRASS GIS 7.x.` The correct setup of the spatial and projection parameters is automatically performed by using either an existing and valid `raster`, `sp` or `sf` object, or manually by providing a list containing the minimum parameters needed. These properties are used to initialize either a temporary or a permanent `rgrass7` environment including the correct 'GRASS 7' database structure. If you provide none of the before mentioned objects `linkGRASS` will create a EPSG:4326 world wide location.
+`linkGRASS7` Initializes the session environment and the system paths for an easy access to `GRASS GIS 7.x.` The correct setup of the spatial and projection parameters is automatically performed by using either an existing and valid `raster`, `sp` or `sf` object, or manually by providing a list containing the minimum parameters needed. These properties are used to initialize either a temporary or a permanent `rgrass7` environment including the correct `GRASS 7` database structure. If you provide none of the before mentioned objects `linkGRASS` will create a EPSG:4326 world wide location.
 
 The most time consuming part on 'Windows' Systems is the search process. This can easily take 10 or more minutes. To speed up this process you can also provide a correct parameter set. Best way to do so is to call manually `findGRASS`. Then call `linkGRASS7` with the returned version arguments of your choice.
 
@@ -136,8 +137,8 @@ If you have more than one valid installation and run `linkGRASS7` with the  argu
 
 
 #### Standard Full Search Usage 
-The most common way to use GRASS is just for one call or algorithm. So the user is not interested in the cumbersome setting up of all parameters. `linGRASS7(georeferenced-dataset)` does an automatic search and find all `GRASS` binaries using the georeferenced-dataset object for spatial referencing and the necessary other settings. 
-**NOTE:** This is the highly recommended linking procedure for all on the fly calls of GRASS. Please note also: If more than one `GRASS` installation is found the one with the highest version number is selected automatically. 
+The most common way to use `GRASS` is just for one call or algorithm. So the user is not interested in the cumbersome setting up of all parameters. `linGRASS7(georeferenced-dataset)` does an automatic search and find all `GRASS` binaries using the georeferenced-dataset object for spatial referencing and the necessary other settings. 
+**NOTE:** This is the highly recommended linking procedure for all on the fly calls of `GRASS`. Please note also: If more than one `GRASS` installation is found the one with the highest version number is selected automatically. 
 
 Have a look at the following examples which show a typical call for  the well known `sp`and `sf` vector data objects.
 
@@ -180,7 +181,7 @@ Now do the same with  `sf` based data.
  grass<-linkGRASS7(nc,returnPaths = TRUE)
 ```
  
- The second most common situation is the usage of an existing GRASS location and project either with existing data sets or manually provided parameters. 
+ The second most common situation is the usage of an existing `GRASS` location and project either with existing data sets or manually provided parameters. 
 
 
 ```r
@@ -220,7 +221,7 @@ Now do the same with  `sf` based data.
 
 #### Typical for specified search pathes and OS
  
-The full disk search can be cumbersome especially running Windos it can easily take 10 minutes and more. So it is helpful to provide a searchpath for narrowing down the search. Searching for `GRASS installations in the home directory you may use the following command. 
+The full disk search can be cumbersome especially running Windos it can easily take 10 minutes and more. So it is helpful to provide a searchpath for narrowing down the search. Searching for `GRASS` installations in the home directory you may use the following command. 
 
 
 ```r
@@ -246,7 +247,7 @@ linkGRASS7(nc,c("C:/Program Files/GRASS GIS7.0.5","GRASS GIS 7.0.5","NSIS"))
 
 #### Manual choosing the version
 Finally some more specific examples related to interactive selection or OS specific settings.
-Choose manually the GRASS installation  additionally using the meuse `sf` object for spatial referencing
+Choose manually the `GRASS` installation  additionally using the meuse `sf` object for spatial referencing
 
 
 
@@ -311,7 +312,7 @@ otblink<-link2GI::linkOTB()
 algo<-parseOTBAlgorithms(gili = otblink)
 ```
 
-Based on the modules of the current version of OTB you can then choose the module(s) you want to use.
+Based on the modules of the current version of `OTB` you can then choose the module(s) you want to use.
 
 
 
@@ -326,22 +327,215 @@ cmd<-parseOTBFunction(algo = algoKeyword, gili = otblink)
 print(cmd)
 ```
 
-Admittedly this is a very straightforward and preliminary approach. Nevertheless it provids you a valid list of all OTB API calls that can easily manipulated for your needs. The following working example will give you an idea how to use it.
+Admittedly this is a very straightforward and preliminary approach. Nevertheless it provids you a valid list of all `OTB` API calls that can easily manipulated for your needs. The following working example will give you an idea how to use it.
 
 
 
+```r
+require(link2GI)
+require(raster)
+require(listviewer)
+
+otblink<-link2GI::linkOTB()
+ projRootDir<-tempdir()
+ 
+data("rgb")
+raster::plotRGB(rgb)
+r<-raster::writeRaster(rgb, 
+              filename=file.path(projRootDir,"test.tif"),
+              format="GTiff", overwrite=TRUE)
+## for the example we use the edge detection, 
+algoKeyword<- "EdgeExtraction"
+
+## extract the command list for the choosen algorithm 
+cmd<-parseOTBFunction(algo = algoKeyword, gili = otblink)
+
+## get help using the convenient listviewer
+listviewer::jsonedit(cmd$help)
+
+## define the mandantory arguments all other will be default
+cmd$input  <- file.path(projRootDir,"test.tif")
+cmd$filter <- "touzi"
+cmd$channel <- 2
+cmd$out <- file.path(projRootDir,paste0("out",cmd$filter,".tif"))
+
+## run algorithm
+retStack<-runOTB(cmd,gili = otblink)
+
+## plot filter raster on the green channel
+plot(retStack)
+```
+
+<iframe src="demo.html" style="position:absolute;height:100%;width:100%"></iframe>
+
+#  Advanced examples 
+A typical example is the usage of an already existing project database in `GRASS`. `GRASS` organizes all data in an internal file structure that is known as gisdbase folder, a mapset and one or more locations within this mapset. All raster and vector data is stored inside this structure and the organisation is performed by `GRASS`. So a typical task could be to work on data sets that are already stored in an existing `GRASS` structure
+
+## Creating a GRASS project
+
+First of all we need some real world data. In this this case the gridded [2011 micro zensus](https://www.zensus2011.de/EN/2011Census/2011_Census_node.html) [population data](https://www.zensus2011.de/SharedDocs/Downloads/DE/Pressemitteilung/DemografischeGrunddaten/csv_Bevoelkerung_100m_Gitter.zip;jsessionid=294313DDBB57914D6636DE373897A3F2.2_cid389?__blob=publicationFile&v=3) of Germany. It has some nice aspects:
+
+  - It is provided in a typical authority format
+  - It is big enough >35 Mio points 
+  - It is pretty instructive for a lot of spatial analysis. 
+
+We also have to download a [meta data description file](https://www.zensus2011.de/SharedDocs/Downloads/DE/Pressemitteilung/DemografischeGrunddaten/Datensatzbeschreibung_Bevoelkerung_100m_Gitter.xlsx;jsessionid=294313DDBB57914D6636DE373897A3F2.2_cid389?__blob=publicationFile&v=2) (excel sheet) for informations about projection and data concepts and so on.
 
 
 
+```r
+ # we need some additional packages
+ require(link2GI)
+ require(curl)
+
+# first of all we create  a project folder structure 
+  link2GI::initProj(projRootDir = paste0(tempdir(),"/link2GI_examples"), 
+                    projFolders =  c("run/"),
+                    path_prefix = "path_",
+                    global = TRUE)
+
+# set runtime directory
+  setwd(path_run)
+
+# get some typical authority generated data 
+  url<-"https://www.zensus2011.de/SharedDocs/Downloads/DE/Pressemitteilung/
+        DemografischeGrunddaten/csv_Bevoelkerung_100m_Gitter.zip;
+        jsessionid=294313DDBB57914D6636DE373897A3F2.2_cid389?__blob=publicationFile&v=3"
+ res <- curl::curl_download(url, paste0(path_run,"testdata.zip"))
+
+# unzip it
+ unzip(res,files = grep(".csv", unzip(res,list = TRUE)$Name,value = TRUE),
+       junkpaths = TRUE, overwrite = TRUE)
+fn <- list.files(pattern = "[.]csv$", path = getwd(), full.names = TRUE)
+```
+
+After downloading the data we will use it for some demonstration stuff. If you have a look the data is nothing than x,y,z with assuming some projection information.
 
 
 
+```r
+# get the filename
+ 
+# fast read with data.table 
+ xyz <- data.table::fread(paste0(path_run,"/Zensus_Bevoelkerung_100m-Gitter.csv"))
+
+ head(xyz)
+```
+
+We can easy rasterize this data as it is intentionally gridded data.that means we have in at a grid size of 100 by 100 meters a value.
 
 
 
+```r
+ require(RColorBrewer)
+ require(raster)
+ require(mapview)
+
+
+# clean dataframe
+ xyz <- xyz[,-1]
+
+# rasterize it according to the projection 
+ r <- raster::rasterFromXYZ(xyz,crs = sp::CRS("+init=epsg:3035"))
+
+
+# map it
+ p <- colorRampPalette(brewer.pal(8, "Reds"))
+ # aet resolution to 1 sqkm
+ mapview::mapviewOptions(mapview.maxpixels = r@ncols*r@nrows/10)
+ mapview::mapview(r, col.regions = p, 
+                  at = c(-1,10,25,50,100,500,1000,2500), 
+                  legend = TRUE)
+```
+
+So far nothing new. Now we create a new but permanent `GRASS` gisbase using the spatial parameters from the raster object. As you know the `linkGRASS7` function performs a full search for one or more than one existing  `GRASS` installations. If a valid `GRASS` installation exists all parameter are setup und the package `rgrass7`  is linked.
+
+Due to the fact that the `gisdbase_exist` is by default set to FALSE it will create a new structure according to the `R` object. 
 
 
 
+```r
+require(link2GI)
+# initialize GRASS and set up a permanent structure  
+link2GI::linkGRASS7(x = r, 
+                    gisdbase = paste0(tempdir(),"/link2GI_examples"),
+                    location = "microzensus2011")   
+```
+
+Finally we can now import the data to the `GRASS` gisdbase using the `rgass7` package functionality. 
+
+First we must convert the raster object to `GeoTIFF` file. Any `GDAL` format is possible but `GeoTIFF` is very common and stable.
 
 
 
+```r
+require(link2GI)
+require(raster)
+require(rgrass7)
+
+# write it to geotiff
+  raster::writeRaster(r, paste0(path_run,"/Zensus_Bevoelkerung_100m-Gitter.tif"), 
+                      overwrite = TRUE)
+
+# import raster to GRASS
+rgrass7::execGRASS('r.external',
+                   flags=c('o',"overwrite","quiet"),
+                   input=paste0(path_run,"/Zensus_Bevoelkerung_100m-Gitter.tif"),
+                   output="Zensus_Bevoelkerung_100m_Gitter",
+                   band=1)
+
+# check imported data set
+rgrass7::execGRASS('r.info',
+                   map = "Zensus_Bevoelkerung_100m_Gitter") 
+```
+Let's do now the same import as a vector data set. First we create a `sf` object. Please note this will take quite a while.
+
+
+
+```r
+ xyz_sf = st_as_sf(xyz,
+                    coords = c("x_mp_100m", "y_mp_100m"),
+                    crs = 3035,
+                    agr = "constant")
+
+#map points
+ sf::plot_sf(xyz_sf)
+```
+
+The `GRASS` gisdbase already exists. So we pass  `linkGRASS7` the argument `gisdbase_exist=TRUE` and import the xyz data as generic `GRASS` vector points.
+
+
+
+```r
+ require(sf)
+ require(sp)
+ require(link2GI)
+ 
+  sf2gvec(x =  xyz_sf,
+           obj_name = "Zensus_Bevoelkerung_100m_",
+           gisdbase = paste0(tempdir(),"/link2GI_examples"),
+           location = "microzensus2011",
+           gisdbase_exist = TRUE)
+ 
+# check imported data set
+rgrass7::execGRASS('v.info', map = "Zensus_Bevoelkerung_100m_") 
+```
+
+
+## Usecases presented on the GEOSTAT August 2018
+
+### Usecases presented on the GEOSTAT August 2018
+
+During the [GEOSTAT 2018](http://opengeohub.org/node/146) in Prague some more complex usescases have been presented.
+
+#### Find slides and materials
+- [Presentation slides](https://gisma.github.io/link2gi2018/link2gi2018.html#1)
+- [Github Repository](https://github.com/gisma/link2gi2018)
+
+
+#### The examples
+
+- Basic usage of `SAGA` and `OTB` calls - [SAGA & OTB basic usecase](https://github.com/gisma/link2gi2018/blob/master/R/usecases/saga-otb/useCaseSAGA-OTB.R)
+- Wrapping a [GRASS GIS example](https://neteler.gitlab.io/grass-gis-analysis/02_grass-gis_ecad_analysis/) of Markus Neteler as presented on GEOSTAT 2018 - [Analysing the ECA&D climatic data - reloaded](https://github.com/gisma/link2gi2018/blob/master/R/usecases/grass/useCaseGRASS-Neteler2018.R)
+- Performing a `GRASS` based cost analysis on a huge cost raster - [Beetle spread over high asia](https://github.com/gisma/link2gi2018/blob/master/R/usecases/cost-analysis/useCaseBeetle.R)
+- Deriving a canopy height model using a mixed API approach - [Canopy Height Model from UAV derived point clouds](https://github.com/gisma/link2gi2018/blob/master/R/usecases/uav-pc/useCaseCHM.R)

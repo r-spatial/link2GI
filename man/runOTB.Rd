@@ -21,8 +21,11 @@ Wrapper function which paste the OTB command list into a system call compatible 
 \examples{
 \dontrun{
 require(raster)
+require(listviewer)
 ## link to OTB
 otblink<-link2GI::linkOTB()
+
+if (otbLink$exist) { 
 
 ## get data from the raster package
 r<-raster::writeRaster(raster::stack(system.file("external/test.grd", package="raster")), 
@@ -35,6 +38,8 @@ algoKeyword<- "LocalStatisticExtraction"
 ## extract the command list for the choosen algorithm 
 cmd<-parseOTBFunction(algo = algoKeyword, gili = otblink)
 
+## get help using the convenient listviewer
+listviewer::jsonedit(cmd$help)
 
 ## define the mandantory arguments all other will be default
 cmd$input  <- file.path(tempdir(),"test.tif")
@@ -47,5 +52,6 @@ retStack<-runOTB(cmd,gili = otblink)
 ## plot raster
 raster::plot(retStack)
 
+}
 }
 }

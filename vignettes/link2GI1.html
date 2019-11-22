@@ -472,34 +472,39 @@ print(cmd)
 
 <p>Admittedly this is a very straightforward and preliminary approach. Nevertheless it provids you a valid list of all OTB API calls that can easily manipulated for your needs. The following working example will give you an idea how to use it.</p>
 
-<pre><code class="r">## link to OTB
+<pre><code class="r">require(link2GI)
+require(listviewer)
+
 otblink&lt;-link2GI::linkOTB()
 
-## get data
-setwd(tempdir())
-## get some typical data as provided by the authority
-url&lt;-&#39;http://www.ldbv.bayern.de/file/zip/5619/DOP%2040_CIR.zip&#39;
-res &lt;- curl::curl_download(url, &quot;testdata.zip&quot;)
-unzip(res,junkpaths = TRUE,overwrite = TRUE)
-
+data(&quot;rgb&quot;)
+raster::plotRGB(rgb)
+r&lt;-raster::writeRaster(rgb, 
+              filename=&quot;test.tif&quot;, 
+              format=&quot;GTiff&quot;, overwrite=TRUE)
 ## for the example we use the edge detection, 
 algoKeyword&lt;- &quot;EdgeExtraction&quot;
 
 ## extract the command list for the choosen algorithm 
 cmd&lt;-parseOTBFunction(algo = algoKeyword, gili = otblink)
 
+## get help using the convenient listviewer
+listviewer::jsonedit(cmd$help)
 
 ## define the mandantory arguments all other will be default
-cmd$input  &lt;- file.path(getwd(),&quot;4490600_5321400.tif&quot;)
+cmd$input  &lt;- &quot;test.tif&quot;
 cmd$filter &lt;- &quot;touzi&quot;
-cmd$out &lt;- paste0(getwd(),&quot;/out&quot;,cmd$filter,&quot;.tif&quot;)
+cmd$channel &lt;- 2
+cmd$out &lt;- paste0(&quot;out&quot;,cmd$filter,&quot;.tif&quot;)
 
 ## run algorithm
 retStack&lt;-runOTB(cmd,gili = otblink)
 
-## plot raster
-raster::plot(retStack)
+## plot filter raster on the green channel
+plot(retStack)
 </code></pre>
+
+<iframe src="demo.html" style="position:absolute;height:100%;width:100%"></iframe>
 
 <h1>Advanced examples</h1>
 

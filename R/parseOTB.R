@@ -75,12 +75,12 @@ parseOTBFunction <- function(algo=NULL,gili=NULL) {
   if (algo != ""){
     system("rm otb_module_dump.txt",intern = FALSE,ignore.stderr = TRUE)
     ifelse(Sys.info()["sysname"]=="Windows",
-           system(paste0(path_OTB,"otbcli_",paste0(algo," -help >> otb_module_dump.txt 2>&1"))), 
-           system2(paste0(path_OTB,"otbcli"),paste0(algo," -help >> otb_module_dump.txt 2>&1"))
+           system(paste0(path_OTB,"otbcli_",paste0(algo," -help >>" ,tempdir(),"otb_module_dump.txt 2>&1"))), 
+           system2(paste0(path_OTB,"otbcli"),paste0(algo," -help >>" ,tempdir(),"otb_module_dump.txt 2>&1"))
     )
     
-    txt<-readLines("otb_module_dump.txt")
-    file.remove("otb_module_dump.txt")
+    txt<-readLines(paste0(tempdir(),"otb_module_dump.txt"))
+    file.remove(paste0(tempdir(),"otb_module_dump.txt"))
     # Pull out the appropriate line
     args <- txt[grep("-", txt)]
     # obviously the format has changed. TODO
@@ -153,8 +153,8 @@ parseOTBFunction <- function(algo=NULL,gili=NULL) {
   for (arg in names(t)){
     if (arg =="input")  arg<-"in"
     if (arg != "progress")  {
-  system(paste0(path_OTB,"otbcli_",paste0(algo," -help ",arg ,paste0(" >> ",ocmd[[1]],"-",arg,".txt 2>&1"))))
-  helpList[[arg]]<-readLines(paste0(ocmd[[1]],"-",arg,".txt"))
+  system(paste0(path_OTB,"otbcli_",paste0(algo," -help ",arg ,paste0(" >> ",tempdir(),ocmd[[1]],"-",arg,".txt 2>&1"))))
+  helpList[[arg]]<-readLines(paste0(tempdir(),ocmd[[1]],"-",arg,".txt"))
   file.remove(paste0(ocmd[[1]],"-",arg,".txt"))
   drop <-grep(x = helpList[[arg]],pattern =  "\\w*no version information available\\w*")
   drop<-append(drop,grep(x = helpList[[arg]],pattern =  '^$'))

@@ -5,12 +5,12 @@ date: "`r Sys.Date()`"
 editor_options:
   chunk_output_type: console
 output:
-  pdf_document:
-    latex_engine: xelatex
+  html_document: 
+    theme: united
     toc: yes
   rmarkdown: default
-  html_document:
-    theme: united
+  pdf_document:
+    latex_engine: xelatex
     toc: yes
 urlcolor: blue
 vignette: >
@@ -319,38 +319,50 @@ print(cmd)
 Admittedly this is a very straightforward and preliminary approach. Nevertheless it provids you a valid list of all OTB API calls that can easily manipulated for your needs. The following working example will give you an idea how to use it.
 
 
-```{r, eval=FALSE}
+```{r eval=FASLE}
+require(link2GI)
+require(listviewer)
 
-## link to OTB
 otblink<-link2GI::linkOTB()
-
-## get data
-setwd(tempdir())
-## get some typical data as provided by the authority
-url<-'http://www.ldbv.bayern.de/file/zip/5619/DOP%2040_CIR.zip'
-res <- curl::curl_download(url, "testdata.zip")
-unzip(res,junkpaths = TRUE,overwrite = TRUE)
-
+ projRootDir<-tempdir()
+ 
+data("rgb")
+raster::plotRGB(rgb)
+r<-raster::writeRaster(rgb, 
+              filename=file.path(projRootDir,"test.tif"),
+              format="GTiff", overwrite=TRUE)
 ## for the example we use the edge detection, 
 algoKeyword<- "EdgeExtraction"
 
 ## extract the command list for the choosen algorithm 
 cmd<-parseOTBFunction(algo = algoKeyword, gili = otblink)
 
+## get help using the convenient listviewer
+listviewer::jsonedit(cmd$help)
 
 ## define the mandantory arguments all other will be default
-cmd$input  <- file.path(getwd(),"4490600_5321400.tif")
+cmd$input  <- file.path(projRootDir,"test.tif")
 cmd$filter <- "touzi"
-cmd$out <- paste0(getwd(),"/out",cmd$filter,".tif")
+cmd$channel <- 2
+cmd$out <- file.path(projRootDir,paste0("out",cmd$filter,".tif"))
 
 ## run algorithm
 retStack<-runOTB(cmd,gili = otblink)
 
-## plot raster
-raster::plot(retStack)
+## plot filter raster on the green channel
+plot(retStack)
+
+
+
+
+
+
 
 
 ```
+
+<iframe src="demo.html" style="position:absolute;height:100%;width:100%"></iframe>
+
 #  Advanced examples 
 A typical example is the usage of an already existing project database in `GRASS`. `GRASS` organizes all data in an internal file structure that is known as gisdbase folder, a mapset and one or more locations within this mapset. All raster and vector data is stored inside this structure and the organisation is performed by `GRASS`. So a typical task could be to work on data sets that are already stored in an existing `GRASS` structure
 

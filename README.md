@@ -33,33 +33,38 @@ the OTB wrapper is updated for a more convinient usage. Please have a look at th
 ```r
 
 ## link to OTB
+require(link2GI)
+require(raster)
+require(listviewer)
+
 otblink<-link2GI::linkOTB()
-
-## get data
-setwd(tempdir())
-## get some typical data as provided by the authority
-url<-'http://www.ldbv.bayern.de/file/zip/5619/DOP%2040_CIR.zip'
-res <- curl::curl_download(url, "testdata.zip")
-unzip(res,junkpaths = TRUE,overwrite = TRUE)
-
+ projRootDir<-tempdir()
+ 
+data("rgb")
+raster::plotRGB(rgb)
+r<-raster::writeRaster(rgb, 
+              filename=file.path(projRootDir,"test.tif"),
+              format="GTiff", overwrite=TRUE)
 ## for the example we use the edge detection, 
 algoKeyword<- "EdgeExtraction"
 
 ## extract the command list for the choosen algorithm 
 cmd<-parseOTBFunction(algo = algoKeyword, gili = otblink)
 
+## get help using the convenient listviewer
+listviewer::jsonedit(cmd$help)
 
 ## define the mandantory arguments all other will be default
-cmd$input  <- file.path(getwd(),"4490600_5321400.tif")
+cmd$input  <- file.path(projRootDir,"test.tif")
 cmd$filter <- "touzi"
-cmd$out <- paste0(getwd(),"/out",cmd$filter,".tif")
+cmd$channel <- 2
+cmd$out <- file.path(projRootDir,paste0("out",cmd$filter,".tif"))
 
 ## run algorithm
 retStack<-runOTB(cmd,gili = otblink)
 
-## plot raster
-raster::plot(retStack)
-
+## plot filter raster on the green channel
+plot(retStack)
 ```
 
 

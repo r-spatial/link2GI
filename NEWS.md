@@ -1,4 +1,4 @@
-## link2GI 0.3-8
+## link2GI 0.4-0
 new feature
 * parse and return OTB API help for interactive use in R
 * add runOTB function according to # 29

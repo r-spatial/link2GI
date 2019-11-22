@@ -1,9 +1,10 @@
 ## link2GI 0.3-8
 new feature
-* add runOTB function according to # 29
+* parse and return OTB API help for interactive use in R
+* runOTB function according to # 29
 
 bugfixes:
-* issue 22 fixed
+* issue 19,21,22,26,29 fixed
 * first parsing of the new GRASS (since 7.8.x ) start file 
 
 ## link2GI 0.3-7

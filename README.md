@@ -68,21 +68,30 @@ plot(retStack)
 ```
 
 
+## Online Vignette
+
 [Online Vignettes](https://gisma.github.io/link2GI/)
 
 
-### Usecases presented on the GEOSTAT August 2018
+## Usecases presented on the GEOSTAT August 2018
+
+
 
 During the [GEOSTAT 2018](http://opengeohub.org/node/146) in Prague some more complex usescases have been presented.
 
-#### Find slides and materials
+### Find slides and materials
 - [Presentation slides](https://gisma.github.io/link2gi2018/link2gi2018.html#1)
 - [Github Repository](https://github.com/gisma/link2gi2018)
 
 
-#### The examples
+### Basic usage of SAGA and OTB calls 
+- [SAGA & OTB basic usecase](https://github.com/gisma/link2gi2018/blob/master/R/usecases/saga-otb/useCaseSAGA-OTB.R)
 
-- Basic usage of SAGA and OTB calls - [SAGA & OTB basic usecase](https://github.com/gisma/link2gi2018/blob/master/R/usecases/saga-otb/useCaseSAGA-OTB.R)
+### Wrapping  GRASS 
 - Wrapping a [GRASS GIS example](https://neteler.gitlab.io/grass-gis-analysis/02_grass-gis_ecad_analysis/) of Markus Neteler as presented on GEOSTAT 2018 - [Analysing the ECA&D climatic data - reloaded](https://github.com/gisma/link2gi2018/blob/master/R/usecases/grass/useCaseGRASS-Neteler2018.R)
+
+### GRASS based cost analysis
 - Performing a GRASS based cost analysis on a huge cost raster - [Beetle spread over high asia](https://github.com/gisma/link2gi2018/blob/master/R/usecases/cost-analysis/useCaseBeetle.R)
+
+### Deriving a Canopy height model
 - Deriving a canopy height model using a mixed API approach - [Canopy Height Model from UAV derived point clouds](https://github.com/gisma/link2gi2018/blob/master/R/usecases/uav-pc/useCaseCHM.R)

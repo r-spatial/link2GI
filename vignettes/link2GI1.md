@@ -503,7 +503,6 @@ Let's do now the same import as a vector data set. First we create a `sf` object
 ```
 
 
-## Usecases presented on the GEOSTAT August 2018
 
 ### Usecases presented on the GEOSTAT August 2018
 

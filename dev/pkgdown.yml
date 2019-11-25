@@ -1,0 +1,9 @@
+pandoc: '2.2'
+pkgdown: 1.4.1
+pkgdown_sha: ~
+articles:
+  link2GI1: link2GI1.html
+urls:
+  reference: https://r-spatial.github.io/link2GI/reference
+  article: https://r-spatial.github.io/link2GI/articles
+

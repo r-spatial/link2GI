@@ -18,12 +18,12 @@ If you have several versions installed or if you want to use the full power of t
 
 `link2GI`is up to CRAN. For the installation of the stable version please use `install.packages("link2GI")`. 
 
-To install the  cutting edge version use:
+To install the  latest stable version use:
 ```r
 # devtools package
-devtools::install_github("r-spatial/link2GI", ref = "develop")
+devtools::install_github("r-spatial/link2GI", ref = "master")
 # remotes package
-remotes::install_github("r-spatial/link2GI",ref = "develop")
+remotes::install_github("r-spatial/link2GI",ref = "master")
 ```
 # Documentation
 

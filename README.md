@@ -71,7 +71,7 @@ plot(retStack)
 
 ### Online Vignette
 
-[Online Vignettes](https://gisma.github.io/link2GI/)
+[Online Vignettes](https://r-spatial.github.io/link2GI)
 
 
 ### Usecases presented on the GEOSTAT August 2018

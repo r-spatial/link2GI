@@ -1,1 +1,7 @@
-destination: docs
+url: https://r-spatial.github.io/link2GI
+
+development:
+  mode: auto
+  version_label: default
+  version_tooltip: "Version"
+

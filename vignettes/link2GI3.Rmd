@@ -1,0 +1,175 @@
+---
+author: "Chris Reudenbach"
+title: "link2GI Advanced Usecases"
+date: "`r Sys.Date()`"
+editor_options:
+  chunk_output_type: console
+output:
+  html_document: 
+    theme: united
+    toc: yes
+  rmarkdown: default
+  pdf_document:
+    latex_engine: xelatex
+    toc: yes
+urlcolor: blue
+vignette: >
+  %\VignetteIndexEntry{link2GI Advanced Usecases}
+  %\VignetteEncoding{UTF-8}{inputenc}\
+  %\VignetteEngine{knitr::knitr}
+---
+
+
+#  Advanced examples 
+A typical example is the usage of an already existing project database in `GRASS`. `GRASS` organizes all data in an internal file structure that is known as gisdbase folder, a mapset and one or more locations within this mapset. All raster and vector data is stored inside this structure and the organisation is performed by `GRASS`. So a typical task could be to work on data sets that are already stored in an existing `GRASS` structure
+
+## Creating a GRASS project
+
+## Download Zensus Data
+First of all we need some real world data. In this this case the gridded [2011 micro zensus](https://www.zensus2011.de/EN/2011Census/2011_Census_node.html) [population data](https://www.zensus2011.de/SharedDocs/Downloads/DE/Pressemitteilung/DemografischeGrunddaten/csv_Bevoelkerung_100m_Gitter.zip;jsessionid=294313DDBB57914D6636DE373897A3F2.2_cid389?__blob=publicationFile&v=3) of Germany. It has some nice aspects:
+
+  - It is provided in a typical authority format
+  - It is big enough >35 Mio points 
+  - It is pretty instructive for a lot of spatial analysis. 
+
+We also have to download a [meta data description file](https://www.zensus2011.de/SharedDocs/Downloads/DE/Pressemitteilung/DemografischeGrunddaten/Datensatzbeschreibung_Bevoelkerung_100m_Gitter.xlsx;jsessionid=294313DDBB57914D6636DE373897A3F2.2_cid389?__blob=publicationFile&v=2) (excel sheet) for informations about projection and data concepts and so on.
+
+
+```{r, eval=FALSE}
+ # we need some additional packages
+ require(link2GI)
+ require(curl)
+
+# first of all we create  a project folder structure 
+  link2GI::initProj(projRootDir = paste0(tempdir(),"/link2GI_examples"), 
+                    projFolders =  c("run/"),
+                    path_prefix = "path_",
+                    global = TRUE)
+
+# set runtime directory
+  setwd(path_run)
+
+# get some typical authority generated data 
+  url<-"https://www.zensus2011.de/SharedDocs/Downloads/DE/Pressemitteilung/
+        DemografischeGrunddaten/csv_Bevoelkerung_100m_Gitter.zip;
+        jsessionid=294313DDBB57914D6636DE373897A3F2.2_cid389?__blob=publicationFile&v=3"
+ res <- curl::curl_download(url, paste0(path_run,"testdata.zip"))
+
+# unzip it
+ unzip(res,files = grep(".csv", unzip(res,list = TRUE)$Name,value = TRUE),
+       junkpaths = TRUE, overwrite = TRUE)
+fn <- list.files(pattern = "[.]csv$", path = getwd(), full.names = TRUE)
+
+```
+
+### Preprocessing of the data
+After downloading the data we will use it for some demonstration stuff. If you have a look the data is nothing than x,y,z with assuming some projection information.
+
+
+```{r, eval=FALSE}
+# get the filename
+ 
+# fast read with data.table 
+ xyz <- data.table::fread(paste0(path_run,"/Zensus_Bevoelkerung_100m-Gitter.csv"))
+
+ head(xyz)
+```
+
+We can easy rasterize this data as it is intentionally gridded data.that means we have in at a grid size of 100 by 100 meters a value.
+
+
+```{r, eval=FALSE}
+ require(RColorBrewer)
+ require(raster)
+ require(mapview)
+
+
+# clean dataframe
+ xyz <- xyz[,-1]
+
+# rasterize it according to the projection 
+ r <- raster::rasterFromXYZ(xyz,crs = sp::CRS("+init=epsg:3035"))
+
+
+# map it
+ p <- colorRampPalette(brewer.pal(8, "Reds"))
+ # aet resolution to 1 sqkm
+ mapview::mapviewOptions(mapview.maxpixels = r@ncols*r@nrows/10)
+ mapview::mapview(r, col.regions = p, 
+                  at = c(-1,10,25,50,100,500,1000,2500), 
+                  legend = TRUE)
+
+```
+
+
+### Setup GRASS Project
+So far nothing new. Now we create a new but permanent `GRASS` gisbase using the spatial parameters from the raster object. As you know the `linkGRASS7` function performs a full search for one or more than one existing  `GRASS` installations. If a valid `GRASS` installation exists all parameter are setup und the package `rgrass7`  is linked.
+
+Due to the fact that the `gisdbase_exist` is by default set to FALSE it will create a new structure according to the `R` object. 
+
+
+```{r, eval=FALSE}
+require(link2GI)
+# initialize GRASS and set up a permanent structure  
+link2GI::linkGRASS7(x = r, 
+                    gisdbase = paste0(tempdir(),"/link2GI_examples"),
+                    location = "microzensus2011")   
+```
+
+Finally we can now import the data to the `GRASS` gisdbase using the `rgass7` package functionality. 
+
+First we must convert the raster object to `GeoTIFF` file. Any `GDAL` format is possible but `GeoTIFF` is very common and stable.
+
+
+```{r, eval=FALSE}
+require(link2GI)
+require(raster)
+require(rgrass7)
+
+# write it to geotiff
+  raster::writeRaster(r, paste0(path_run,"/Zensus_Bevoelkerung_100m-Gitter.tif"), 
+                      overwrite = TRUE)
+
+# import raster to GRASS
+rgrass7::execGRASS('r.external',
+                   flags=c('o',"overwrite","quiet"),
+                   input=paste0(path_run,"/Zensus_Bevoelkerung_100m-Gitter.tif"),
+                   output="Zensus_Bevoelkerung_100m_Gitter",
+                   band=1)
+
+# check imported data set
+rgrass7::execGRASS('r.info',
+                   map = "Zensus_Bevoelkerung_100m_Gitter") 
+```
+
+Let's do now the same import as a vector data set. First we create a `sf` object. Please note this will take quite a while.
+
+
+```{r, eval=FALSE}
+
+ xyz_sf = st_as_sf(xyz,
+                    coords = c("x_mp_100m", "y_mp_100m"),
+                    crs = 3035,
+                    agr = "constant")
+
+#map points
+ sf::plot_sf(xyz_sf)
+```
+
+
+
+### Usecases presented on the GEOSTAT August 2018
+
+During the [GEOSTAT 2018](http://opengeohub.org/node/146) in Prague some more complex usescases have been presented.
+
+#### Find slides and materials
+- [Presentation slides](https://gisma.github.io/link2gi2018/link2gi2018.html#1)
+- [Github Repository](https://github.com/gisma/link2gi2018)
+
+
+#### The examples
+
+- Basic usage of `SAGA` and `OTB` calls - [SAGA & OTB basic usecase](https://github.com/gisma/link2gi2018/blob/master/R/usecases/saga-otb/useCaseSAGA-OTB.R)
+- Wrapping a [GRASS GIS example](https://neteler.gitlab.io/grass-gis-analysis/02_grass-gis_ecad_analysis/) of Markus Neteler as presented on GEOSTAT 2018 - [Analysing the ECA&D climatic data - reloaded](https://github.com/gisma/link2gi2018/blob/master/R/usecases/grass/useCaseGRASS-Neteler2018.R)
+- Performing a `GRASS` based cost analysis on a huge cost raster - [Beetle spread over high asia](https://github.com/gisma/link2gi2018/blob/master/R/usecases/cost-analysis/useCaseBeetle.R)
+- Deriving a canopy height model using a mixed API approach - [Canopy Height Model from UAV derived point clouds](https://github.com/gisma/link2gi2018/blob/master/R/usecases/uav-pc/useCaseCHM.R)

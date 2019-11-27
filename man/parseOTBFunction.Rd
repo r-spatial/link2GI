@@ -24,10 +24,9 @@ algos<-parseOTBAlgorithms(gili = otbLink)
 
 
 ## take edge detection
-otb_algorithm<-algos[27]
-algo_cmd<-parseOTBFunction(algo = otb_algorithm,gili = otbLink)
+cmdList<-parseOTBFunction(algo = algos[27],gili = otbLink)
 ## print the current command
-print(algo_cmd)
+print(cmdList)
 }
 }
 ##+##

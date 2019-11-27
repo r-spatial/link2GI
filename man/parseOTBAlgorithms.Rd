@@ -14,14 +14,18 @@ retrieve the OTB module folder content and parses the module names
 }
 \examples{
 \dontrun{
- ## link to the OTB binaries
-   otbLinks<-link2GI::linkOTB()
-   path_OTB<-otbLinks$pathOTB
- ##p arse all modules
-algo<-parseOTBAlgorithms(gili = otbLinks)
+## link to the OTB binaries
+otbLink<-link2GI::linkOTB()
 
-##print the list
-print(algo)
-} 
+ if (otbLink$exist) {
+
+ ## parse all modules
+ moduleList<-parseOTBAlgorithms(gili = otbLink)
+
+ ## print the list
+ print(moduleList)
+ 
+ } 
+}
 
 }

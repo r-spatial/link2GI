@@ -20,32 +20,42 @@ Wrapper function which paste the OTB command list into a system call compatible 
 }
 \examples{
 \dontrun{
+require(link2GI)
+require(raster)
+require(listviewer)
+
 ## link to OTB
 otblink<-link2GI::linkOTB()
 
-## get data
-setwd(tempdir())
-## get some typical data as provided by the authority
-url<-'http://www.ldbv.bayern.de/file/zip/5619/DOP\%2040_CIR.zip'
-res <- curl::curl_download(url, "testdata.zip")
-unzip(res,junkpaths = TRUE,overwrite = TRUE)
+if (otblink$exist) {
+ projRootDir<-tempdir()
+ data("rgb")
+ raster::plotRGB(rgb)
+ r<-raster::writeRaster(rgb, 
+                        filename=file.path(projRootDir,"test.tif"),
+                        format="GTiff", 
+                        overwrite=TRUE)
 
-## for the example we use the edge detection, 
-algoKeyword<- "EdgeExtraction"
+## for the example we use the Statistic Extraction, 
+algoKeyword<- "LocalStatisticExtraction"
 
 ## extract the command list for the choosen algorithm 
 cmd<-parseOTBFunction(algo = algoKeyword, gili = otblink)
 
+## get help using the convenient listviewer
+listviewer::jsonedit(cmd$help)
 
 ## define the mandantory arguments all other will be default
-cmd$input  <- file.path(getwd(),"4490600_5321400.tif")
-cmd$filter <- "touzi"
-cmd$out <- paste0(getwd(),"/out",cmd$filter,".tif")
+cmd$input  <- file.path(tempdir(),"test.tif")
+cmd$out <- file.path(tempdir(),"test_otb_stat.tif")
+cmd$radius <- 7
 
 ## run algorithm
 retStack<-runOTB(cmd,gili = otblink)
 
 ## plot raster
 raster::plot(retStack)
+
+}
 }
 }

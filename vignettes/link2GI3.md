@@ -25,6 +25,7 @@ A typical example is the usage of an already existing project database in `GRASS
 
 ## Creating a GRASS project
 
+## Download Zensus Data
 First of all we need some real world data. In this this case the gridded [2011 micro zensus](https://www.zensus2011.de/EN/2011Census/2011_Census_node.html) [population data](https://www.zensus2011.de/SharedDocs/Downloads/DE/Pressemitteilung/DemografischeGrunddaten/csv_Bevoelkerung_100m_Gitter.zip;jsessionid=294313DDBB57914D6636DE373897A3F2.2_cid389?__blob=publicationFile&v=3) of Germany. It has some nice aspects:
 
   - It is provided in a typical authority format
@@ -61,6 +62,7 @@ We also have to download a [meta data description file](https://www.zensus2011.d
 fn <- list.files(pattern = "[.]csv$", path = getwd(), full.names = TRUE)
 ```
 
+### Preprocessing of the data
 After downloading the data we will use it for some demonstration stuff. If you have a look the data is nothing than x,y,z with assuming some projection information.
 
 
@@ -100,6 +102,8 @@ We can easy rasterize this data as it is intentionally gridded data.that means w
                   legend = TRUE)
 ```
 
+
+### Setup GRASS Project
 So far nothing new. Now we create a new but permanent `GRASS` gisbase using the spatial parameters from the raster object. As you know the `linkGRASS7` function performs a full search for one or more than one existing  `GRASS` installations. If a valid `GRASS` installation exists all parameter are setup und the package `rgrass7`  is linked.
 
 Due to the fact that the `gisdbase_exist` is by default set to FALSE it will create a new structure according to the `R` object. 
@@ -140,6 +144,7 @@ rgrass7::execGRASS('r.external',
 rgrass7::execGRASS('r.info',
                    map = "Zensus_Bevoelkerung_100m_Gitter") 
 ```
+
 Let's do now the same import as a vector data set. First we create a `sf` object. Please note this will take quite a while.
 
 

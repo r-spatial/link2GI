@@ -207,6 +207,8 @@ hr {
 
 <h2>Creating a GRASS project</h2>
 
+<h2>Download Zensus Data</h2>
+
 <p>First of all we need some real world data. In this this case the gridded <a href="https://www.zensus2011.de/EN/2011Census/2011_Census_node.html">2011 micro zensus</a> <a href="https://www.zensus2011.de/SharedDocs/Downloads/DE/Pressemitteilung/DemografischeGrunddaten/csv_Bevoelkerung_100m_Gitter.zip;jsessionid=294313DDBB57914D6636DE373897A3F2.2_cid389?__blob=publicationFile&amp;v=3">population data</a> of Germany. It has some nice aspects:</p>
 
 <ul>
@@ -242,6 +244,8 @@ hr {
 fn &lt;- list.files(pattern = &quot;[.]csv$&quot;, path = getwd(), full.names = TRUE)
 </code></pre>
 
+<h3>Preprocessing of the data</h3>
+
 <p>After downloading the data we will use it for some demonstration stuff. If you have a look the data is nothing than x,y,z with assuming some projection information.</p>
 
 <pre><code class="r"># get the filename
@@ -274,6 +278,8 @@ fn &lt;- list.files(pattern = &quot;[.]csv$&quot;, path = getwd(), full.names = 
                   at = c(-1,10,25,50,100,500,1000,2500), 
                   legend = TRUE)
 </code></pre>
+
+<h3>Setup GRASS Project</h3>
 
 <p>So far nothing new. Now we create a new but permanent <code>GRASS</code> gisbase using the spatial parameters from the raster object. As you know the <code>linkGRASS7</code> function performs a full search for one or more than one existing  <code>GRASS</code> installations. If a valid <code>GRASS</code> installation exists all parameter are setup und the package <code>rgrass7</code>  is linked.</p>
 

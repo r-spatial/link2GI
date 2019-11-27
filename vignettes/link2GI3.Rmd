@@ -1,6 +1,6 @@
 ---
 author: "Chris Reudenbach"
-title: "linkGRASS7 real world data usecases"
+title: "linkGRASS7 real world data usecase"
 date: "`r Sys.Date()`"
 editor_options:
   chunk_output_type: console
@@ -14,13 +14,13 @@ output:
     toc: yes
 urlcolor: blue
 vignette: >
-  %\VignetteIndexEntry{linkGRASS7 real world data usecases}
+  %\VignetteIndexEntry{linkGRASS7 real world data usecase}
   %\VignetteEncoding{UTF-8}{inputenc}\
   %\VignetteEngine{knitr::knitr}
 ---
 
 
-#  Advanced examples 
+#  Real world example
 A typical example is the usage of an already existing project database in `GRASS`. `GRASS` organizes all data in an internal file structure that is known as gisdbase folder, a mapset and one or more locations within this mapset. All raster and vector data is stored inside this structure and the organisation is performed by `GRASS`. So a typical task could be to work on data sets that are already stored in an existing `GRASS` structure
 
 ## Creating a GRASS project

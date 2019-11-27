@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
-<title>What is link2GI?</title>
+<title>Advanced examples</title>
 
 <script type="text/javascript">
 window.onload = function() {
@@ -201,60 +201,145 @@ hr {
 </head>
 
 <body>
-<h1>What is link2GI?</h1>
+<h1>Advanced examples</h1>
 
-<p>The <a href="https://CRAN.R-project.org/package=link2GI">link2GI</a> package provides a small linking tool to simplify the usage of <code>GRASS GIS</code>, <code>SAGA GIS</code>, <code>Orfeo Toolbox</code> (<code>OTB</code>) and <code>GDAL</code> binaries for R users. the focus is to simplify the the accessibility of this software for non operating system specialists or highly experienced GIS geeks.  Acutally it is a direct result of numerous graduate courses with R(-GIS) beginners in the hostile world of university computer pools running under extremely restricted Windows systems. </p>
+<p>A typical example is the usage of an already existing project database in <code>GRASS</code>. <code>GRASS</code> organizes all data in an internal file structure that is known as gisdbase folder, a mapset and one or more locations within this mapset. All raster and vector data is stored inside this structure and the organisation is performed by <code>GRASS</code>. So a typical task could be to work on data sets that are already stored in an existing <code>GRASS</code> structure</p>
 
-<p>This vignette:</p>
+<h2>Creating a GRASS project</h2>
+
+<p>First of all we need some real world data. In this this case the gridded <a href="https://www.zensus2011.de/EN/2011Census/2011_Census_node.html">2011 micro zensus</a> <a href="https://www.zensus2011.de/SharedDocs/Downloads/DE/Pressemitteilung/DemografischeGrunddaten/csv_Bevoelkerung_100m_Gitter.zip;jsessionid=294313DDBB57914D6636DE373897A3F2.2_cid389?__blob=publicationFile&amp;v=3">population data</a> of Germany. It has some nice aspects:</p>
 
 <ul>
-<li>shows how to use <code>link2GI</code> according to specific system requirements </li>
-<li>gives some hands on examples of how to use<br/></li>
-<li>give some applied examples for more efficient spatial analysis </li>
+<li>It is provided in a typical authority format</li>
+<li>It is big enough &gt;35 Mio points </li>
+<li>It is pretty instructive for a lot of spatial analysis. </li>
 </ul>
 
-<h1>Why link2GI now?</h1>
+<p>We also have to download a <a href="https://www.zensus2011.de/SharedDocs/Downloads/DE/Pressemitteilung/DemografischeGrunddaten/Datensatzbeschreibung_Bevoelkerung_100m_Gitter.xlsx;jsessionid=294313DDBB57914D6636DE373897A3F2.2_cid389?__blob=publicationFile&amp;v=2">meta data description file</a> (excel sheet) for informations about projection and data concepts and so on.</p>
 
-<p>R has quite a lot of classes for storing and dealing with spatial data. For vector data the <a href="https://CRAN.R-project.org/package=sp">sp</a> and recently the great <a href="https://CRAN.R-project.org/package=sf">sf</a> packages are well known and the raster data world is widely covered by the <a href="https://CRAN.R-project.org/package=raster">raster</a> package. Additionally external spatial data formats are interfaced by wrapping packages as <a href="https://CRAN.R-project.org/package=rgdal">rgdal</a> or <a href="https://CRAN.R-project.org/package=gdalUtils">gdalUtils</a>. For more specific links as needed for manipulating atmospheric modeling packages as <a href="https://CRAN.R-project.org/package=ncdf4">ncdf4</a> are very helpful.</p>
+<pre><code class="r"> # we need some additional packages
+ require(link2GI)
+ require(curl)
 
-<p>The spatial analysis itself is often supported by wrapper packages that integrate external libraries, command line tools or a mixture of both in an R-like syntax <a href="https://CRAN.R-project.org/package=rgeos">rgeos</a>, <a href="https://CRAN.R-project.org/package=geosphere">geosphere</a>, <a href="https://CRAN.R-project.org/package=Distance">Distance</a>, <a href="https://CRAN.R-project.org/package=maptools">maptools</a>, <a href="https://CRAN.R-project.org/package=igraph">igraph</a> or <a href="https://CRAN.R-project.org/package=spatstat">spatstat</a>. </p>
+# first of all we create  a project folder structure 
+  link2GI::initProj(projRootDir = paste0(tempdir(),&quot;/link2GI_examples&quot;), 
+                    projFolders =  c(&quot;run/&quot;),
+                    path_prefix = &quot;path_&quot;,
+                    global = TRUE)
 
-<p>A comprehensive introduction to the spatial R-biotope and its backgrounds is excellently treated in <a href="https://geocompr.robinlovelace.net">Geocomputation with R</a> wich is highly recommend as a reference textbook.</p>
+# set runtime directory
+  setwd(path_run)
 
-<p>Despite all this capabilities of spatial analysis and data handling in the world of <code>R</code>, it can be stated (at least from a non-R point of view), that there is still a enormous gap between R and the mature open source Geographic Information System (GIS) and even more Remote Sensing (RS) software community. <code>QGIS</code>, <code>GRASS GIS</code> and <code>SAGA GIS</code> are providing a comprehensive, growing and mature  collection of highly sophisticated algorithms. The provided algorithms are fast, stable and most of them are well proofed. Probably most of the <code>R</code> users who are somehow related to the GI community know that there are awesome good wrapper packages for bridging this gap. For <a href="https://grass.osgeo.org/">GRASS GIS 7</a> it is <a href="https://CRAN.R-project.org/package=rgrass7">rgrass7</a> and for <a href="http://www.saga-gis.org/">SAGA GIS</a>  the <a href="https://CRAN.R-project.org/package=RSAGA">RSAGA</a> package. The development of the <a href="https://CRAN.R-project.org/package=RQGIS">RQGIS</a> wrapper is the most recent outcome to provide a simple  usage of the powerful <a href="https://www.qgis.org/">QGIS</a> command line interface.
-In addition there is no wrapper for the great <code>OTB</code>. It seems to be at least convenient to provide a lightweight wrapping utility for the usage of <code>OTB</code> modules from <code>R</code>.</p>
+# get some typical authority generated data 
+  url&lt;-&quot;https://www.zensus2011.de/SharedDocs/Downloads/DE/Pressemitteilung/
+        DemografischeGrunddaten/csv_Bevoelkerung_100m_Gitter.zip;
+        jsessionid=294313DDBB57914D6636DE373897A3F2.2_cid389?__blob=publicationFile&amp;v=3&quot;
+ res &lt;- curl::curl_download(url, paste0(path_run,&quot;testdata.zip&quot;))
 
-<p>Unfortunately one will run into a lot of technical problems depending on the choosen operating system (OS) or library dependencies or GIS software versions. In case of e.g. <code>RSAGA</code> the main problem has been that the <code>SAGA</code> GIS developers are not only changing the syntax and strategy of the command line interface (CLI) but also within the same release the calls differ from OS to OS. So the maintenance of RSAGA is at least laborious (but thumbs up is running again).  Another example is  given by <code>GRASS GIS</code>  which is well known for a sophisticated setup of the environment and the spatial properties of the database. If you &ldquo;just&rdquo; want to use a specific <code>GRASS</code> algorithm from R, you will probablys get lost in setting up all OS-dependencies that are neccessary to set up a correct temporary or permanent <code>GRASS</code>-environment from “outside”. This is not only caused due to the strict spatial and projection requirements of <code>GRASS</code> but much more by challenging OS enviroments especially Windows. </p>
-
-<p>To make it short it is a bit cumbersome to deal with all this stuff if one just want to start e.g. <code>GRASS</code> from the R command line for e.g. a powerful random walk cost analysis (<code>r.walk</code>) call as provided by <code>GRASS</code>.</p>
-
-<h1>What means linking?</h1>
-
-<p>Linking means simply to provide all necessary environment settings that satisfy the existing wrapper packages as well as in addition the full access to the the command line (CLI) APIs of the mentioned software tools. <code>link2GI</code> tries to analyze which software is installed to set up an temporary enviroment meeting the above mentioned needs. </p>
-
-<h3>GRASS GIS</h3>
-
-<p><code>GRASS GIS</code> has the most challenging requirements. It needs a bunch of environment and path variables as <strong>and</strong> a correct setup of the geographical data parameters. The <code>linkGRASS7</code> function tries to find all installations let you (optionally) choose the one you want to use and generate the necessary variables. As a result you can use both the rgrass7 package  or the command line <code>API</code> of <code>GRASS</code>.</p>
-
-<h3>SAGA GIS</h3>
-
-<p><code>SAGA GIS</code> is a far easier to set up. Again the <code>linkSAGA</code> function tries to find all <code>SAGA</code> installations, let you (optionally) choose one and generate the necessary variables. You may also use <code>RSAGA</code> but you have to hand over the result of <code>linkSAGA</code> like <code>RSAGA::rsaga.env(path = saga$sagaPath)</code>. For a straightforward usage you may simply use the  <code>R</code> system() call to  interface <code>R</code> with the <code>saga_cmd</code> API. </p>
-
-<h3>Orfeo Toolbox (OTB)</h3>
-
-<p>The <code>Orfeo Toolbox</code> (OTB) is a very powerful remote sensing toolbox. It is widely used for classification, filtering and machine learning applications. You will find some of the implemented algorithm within different R packages but <strong>always</strong> much slower or only running on small data chunks. <code>link2GI</code> searches and connects all <code>OTB</code> installations of a given search path and provides the result as a clear list.  Due to a missing wrapper package, a list-based <code>OTB</code> module and function parser is also available, which can be piped into the function <code>runOTB</code> for a convenient function call.</p>
-
-<h3>GDAL</h3>
-
-<p>Notwithstanding that <code>GDAL</code> is perfectly integrated in R in some cases it is beneficial to use system calls and grab the binaries directly. In particular the evolution to <code>GDAL 3.x</code> and optionally various boxed versions of <code>GDAL</code> binaries working together with different <code>Python</code> and <code>proj4/proj6</code> libs makes it sometimes  difficult to grab the correct version of <code>GDAL</code>.  <code>link2GI</code> generates a list of all pathes and commands of all <code>GDAL</code> installation in the provided search path.  With this list, you can easily use all available API calls of each installation. </p>
-
-<p>So the most straightforward call to link temporary to <code>GRASS GIS</code> woud be:</p>
-
-<pre><code class="r"># find all SAGA GIS installations at the default search location
-require(link2GI)
-grass &lt;- link2GI::linkGRASS7()
-grass
+# unzip it
+ unzip(res,files = grep(&quot;.csv&quot;, unzip(res,list = TRUE)$Name,value = TRUE),
+       junkpaths = TRUE, overwrite = TRUE)
+fn &lt;- list.files(pattern = &quot;[.]csv$&quot;, path = getwd(), full.names = TRUE)
 </code></pre>
+
+<p>After downloading the data we will use it for some demonstration stuff. If you have a look the data is nothing than x,y,z with assuming some projection information.</p>
+
+<pre><code class="r"># get the filename
+
+# fast read with data.table 
+ xyz &lt;- data.table::fread(paste0(path_run,&quot;/Zensus_Bevoelkerung_100m-Gitter.csv&quot;))
+
+ head(xyz)
+</code></pre>
+
+<p>We can easy rasterize this data as it is intentionally gridded data.that means we have in at a grid size of 100 by 100 meters a value.</p>
+
+<pre><code class="r"> require(RColorBrewer)
+ require(raster)
+ require(mapview)
+
+
+# clean dataframe
+ xyz &lt;- xyz[,-1]
+
+# rasterize it according to the projection 
+ r &lt;- raster::rasterFromXYZ(xyz,crs = sp::CRS(&quot;+init=epsg:3035&quot;))
+
+
+# map it
+ p &lt;- colorRampPalette(brewer.pal(8, &quot;Reds&quot;))
+ # aet resolution to 1 sqkm
+ mapview::mapviewOptions(mapview.maxpixels = r@ncols*r@nrows/10)
+ mapview::mapview(r, col.regions = p, 
+                  at = c(-1,10,25,50,100,500,1000,2500), 
+                  legend = TRUE)
+</code></pre>
+
+<p>So far nothing new. Now we create a new but permanent <code>GRASS</code> gisbase using the spatial parameters from the raster object. As you know the <code>linkGRASS7</code> function performs a full search for one or more than one existing  <code>GRASS</code> installations. If a valid <code>GRASS</code> installation exists all parameter are setup und the package <code>rgrass7</code>  is linked.</p>
+
+<p>Due to the fact that the <code>gisdbase_exist</code> is by default set to FALSE it will create a new structure according to the <code>R</code> object. </p>
+
+<pre><code class="r">require(link2GI)
+# initialize GRASS and set up a permanent structure  
+link2GI::linkGRASS7(x = r, 
+                    gisdbase = paste0(tempdir(),&quot;/link2GI_examples&quot;),
+                    location = &quot;microzensus2011&quot;)   
+</code></pre>
+
+<p>Finally we can now import the data to the <code>GRASS</code> gisdbase using the <code>rgass7</code> package functionality. </p>
+
+<p>First we must convert the raster object to <code>GeoTIFF</code> file. Any <code>GDAL</code> format is possible but <code>GeoTIFF</code> is very common and stable.</p>
+
+<pre><code class="r">require(link2GI)
+require(raster)
+require(rgrass7)
+
+# write it to geotiff
+  raster::writeRaster(r, paste0(path_run,&quot;/Zensus_Bevoelkerung_100m-Gitter.tif&quot;), 
+                      overwrite = TRUE)
+
+# import raster to GRASS
+rgrass7::execGRASS(&#39;r.external&#39;,
+                   flags=c(&#39;o&#39;,&quot;overwrite&quot;,&quot;quiet&quot;),
+                   input=paste0(path_run,&quot;/Zensus_Bevoelkerung_100m-Gitter.tif&quot;),
+                   output=&quot;Zensus_Bevoelkerung_100m_Gitter&quot;,
+                   band=1)
+
+# check imported data set
+rgrass7::execGRASS(&#39;r.info&#39;,
+                   map = &quot;Zensus_Bevoelkerung_100m_Gitter&quot;) 
+</code></pre>
+
+<p>Let&#39;s do now the same import as a vector data set. First we create a <code>sf</code> object. Please note this will take quite a while.</p>
+
+<pre><code class="r"> xyz_sf = st_as_sf(xyz,
+                    coords = c(&quot;x_mp_100m&quot;, &quot;y_mp_100m&quot;),
+                    crs = 3035,
+                    agr = &quot;constant&quot;)
+
+#map points
+ sf::plot_sf(xyz_sf)
+</code></pre>
+
+<h3>Usecases presented on the GEOSTAT August 2018</h3>
+
+<p>During the <a href="http://opengeohub.org/node/146">GEOSTAT 2018</a> in Prague some more complex usescases have been presented.</p>
+
+<h4>Find slides and materials</h4>
+
+<ul>
+<li><a href="https://gisma.github.io/link2gi2018/link2gi2018.html#1">Presentation slides</a></li>
+<li><a href="https://github.com/gisma/link2gi2018">Github Repository</a></li>
+</ul>
+
+<h4>The examples</h4>
+
+<ul>
+<li>Basic usage of <code>SAGA</code> and <code>OTB</code> calls - <a href="https://github.com/gisma/link2gi2018/blob/master/R/usecases/saga-otb/useCaseSAGA-OTB.R">SAGA &amp; OTB basic usecase</a></li>
+<li>Wrapping a <a href="https://neteler.gitlab.io/grass-gis-analysis/02_grass-gis_ecad_analysis/">GRASS GIS example</a> of Markus Neteler as presented on GEOSTAT 2018 - <a href="https://github.com/gisma/link2gi2018/blob/master/R/usecases/grass/useCaseGRASS-Neteler2018.R">Analysing the ECA&amp;D climatic data - reloaded</a></li>
+<li>Performing a <code>GRASS</code> based cost analysis on a huge cost raster - <a href="https://github.com/gisma/link2gi2018/blob/master/R/usecases/cost-analysis/useCaseBeetle.R">Beetle spread over high asia</a></li>
+<li>Deriving a canopy height model using a mixed API approach - <a href="https://github.com/gisma/link2gi2018/blob/master/R/usecases/uav-pc/useCaseCHM.R">Canopy Height Model from UAV derived point clouds</a></li>
+</ul>
 
 </body>
 

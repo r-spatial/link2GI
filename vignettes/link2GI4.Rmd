@@ -1,7 +1,7 @@
 ---
 author: "Chris Reudenbach"
 title: "OTB Wrapper"
-date: "2019-11-27"
+date: "`r Sys.Date()`"
 editor_options:
   chunk_output_type: console
 output:
@@ -26,8 +26,7 @@ link2GI supports the use of the Orfeo Toolbox with a listbased simple wrapper fu
 Usually you have to get the module list first:
 
 
-
-```r
+```{r, eval=FALSE}
 # link to the installed OTB 
 otblink<-link2GI::linkOTB()
 
@@ -39,8 +38,7 @@ algo<-parseOTBAlgorithms(gili = otblink)
 Based on the modules of the current version of `OTB` you can then choose the module(s) you want to use.
 
 
-
-```r
+```{r, eval=FALSE}
 ## for the example we use the edge detection, 
 algoKeyword<- "EdgeExtraction"
 
@@ -54,8 +52,7 @@ print(cmd)
 Admittedly this is a very straightforward and preliminary approach. Nevertheless it provids you a valid list of all `OTB` API calls that can easily manipulated for your needs. The following working example will give you an idea how to use it.
 
 
-
-```r
+```{r eval=FALSE}
 require(link2GI)
 require(raster)
 require(listviewer)
@@ -88,5 +85,13 @@ retStack<-runOTB(cmd,gili = otblink)
 
 ## plot filter raster on the green channel
 plot(retStack)
+
+
+
+
+
+
+
+
 ```
 

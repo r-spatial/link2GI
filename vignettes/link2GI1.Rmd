@@ -65,11 +65,20 @@ The `Orfeo Toolbox` (OTB) is a very powerful remote sensing toolbox. It is widel
 ### GDAL
 Notwithstanding that `GDAL` is perfectly integrated in R in some cases it is beneficial to use system calls and grab the binaries directly. In particular the evolution to `GDAL 3.x` and optionally various boxed versions of `GDAL` binaries working together with different `Python` and `proj4/proj6` libs makes it sometimes  difficult to grab the correct version of `GDAL`.  `link2GI` generates a list of all pathes and commands of all `GDAL` installation in the provided search path.  With this list, you can easily use all available API calls of each installation. 
 
+
+
+# Usage of the link2GI package - Basic Examples 
+
+## Brute force search usage 
+Automatic search and find of the installed GIS software binaries is performed by the `find` functions. Depending of you OS and the number of installed versions you will get a dataframe providing the binary and module folders.
+
+
 So the most straightforward call to link temporary to `GRASS GIS` woud be:
 
 ```{r, eval=FALSE}
 # find all SAGA GIS installations at the default search location
 require(link2GI)
+
 grass <- link2GI::linkGRASS7()
 grass
 ```

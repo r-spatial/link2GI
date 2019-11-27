@@ -248,10 +248,17 @@ In addition there is no wrapper for the great <code>OTB</code>. It seems to be a
 
 <p>Notwithstanding that <code>GDAL</code> is perfectly integrated in R in some cases it is beneficial to use system calls and grab the binaries directly. In particular the evolution to <code>GDAL 3.x</code> and optionally various boxed versions of <code>GDAL</code> binaries working together with different <code>Python</code> and <code>proj4/proj6</code> libs makes it sometimes  difficult to grab the correct version of <code>GDAL</code>.  <code>link2GI</code> generates a list of all pathes and commands of all <code>GDAL</code> installation in the provided search path.  With this list, you can easily use all available API calls of each installation. </p>
 
+<h1>Usage of the link2GI package - Basic Examples</h1>
+
+<h2>Brute force search usage</h2>
+
+<p>Automatic search and find of the installed GIS software binaries is performed by the <code>find</code> functions. Depending of you OS and the number of installed versions you will get a dataframe providing the binary and module folders.</p>
+
 <p>So the most straightforward call to link temporary to <code>GRASS GIS</code> woud be:</p>
 
 <pre><code class="r"># find all SAGA GIS installations at the default search location
 require(link2GI)
+
 grass &lt;- link2GI::linkGRASS7()
 grass
 </code></pre>

@@ -5,12 +5,12 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>link2GI Advanced Usecases • link2GI</title>
+<title>linkGRASS7 real world data usecases • link2GI</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script><meta property="og:title" content="link2GI Advanced Usecases">
+<script src="../pkgdown.js"></script><meta property="og:title" content="linkGRASS7 real world data usecases">
 <meta property="og:description" content="">
 <meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -60,10 +60,13 @@
       <a href="../articles/link2GI2.html">link2GI Basic Examples</a>
     </li>
     <li>
-      <a href="../articles/link2GI3.html">link2GI Advanced Usecases</a>
+      <a href="../articles/link2GI3.html">linkGRASS7 real world data usecases</a>
     </li>
     <li>
       <a href="../articles/link2GI4.html">OTB Wrapper</a>
+    </li>
+    <li>
+      <a href="../articles/link2GI5.html">GEOSTAT 2018 Examples</a>
     </li>
   </ul>
 </li>
@@ -91,7 +94,7 @@
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1>link2GI Advanced Usecases</h1>
+      <h1>linkGRASS7 real world data usecases</h1>
                         <h4 class="author">Chris Reudenbach</h4>
             
             <h4 class="date">2019-11-27</h4>
@@ -213,33 +216,21 @@
 <a class="sourceLine" id="cb6-5" data-line-number="5"></a>
 <a class="sourceLine" id="cb6-6" data-line-number="6"><span class="co">#map points</span></a>
 <a class="sourceLine" id="cb6-7" data-line-number="7"> sf<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/sf/man/plot.html">plot_sf</a></span>(xyz_sf)</a></code></pre></div>
-</div>
-<div id="usecases-presented-on-the-geostat-august-2018" class="section level3">
-<h3 class="hasAnchor">
-<a href="#usecases-presented-on-the-geostat-august-2018" class="anchor"></a>Usecases presented on the GEOSTAT August 2018</h3>
-<p>During the <a href="http://opengeohub.org/node/146">GEOSTAT 2018</a> in Prague some more complex usescases have been presented.</p>
-<div id="find-slides-and-materials" class="section level4">
-<h4 class="hasAnchor">
-<a href="#find-slides-and-materials" class="anchor"></a>Find slides and materials</h4>
-<ul>
-<li><a href="https://gisma.github.io/link2gi2018/link2gi2018.html#1">Presentation slides</a></li>
-<li><a href="https://github.com/gisma/link2gi2018">Github Repository</a></li>
-</ul>
-</div>
-<div id="the-examples" class="section level4">
-<h4 class="hasAnchor">
-<a href="#the-examples" class="anchor"></a>The examples</h4>
-<ul>
-<li>Basic usage of <code>SAGA</code> and <code>OTB</code> calls - <a href="https://github.com/gisma/link2gi2018/blob/master/R/usecases/saga-otb/useCaseSAGA-OTB.R">SAGA &amp; OTB basic usecase</a>
-</li>
-<li>Wrapping a <a href="https://neteler.gitlab.io/grass-gis-analysis/02_grass-gis_ecad_analysis/">GRASS GIS example</a> of Markus Neteler as presented on GEOSTAT 2018 - <a href="https://github.com/gisma/link2gi2018/blob/master/R/usecases/grass/useCaseGRASS-Neteler2018.R">Analysing the ECA&amp;D climatic data - reloaded</a>
-</li>
-<li>Performing a <code>GRASS</code> based cost analysis on a huge cost raster - <a href="https://github.com/gisma/link2gi2018/blob/master/R/usecases/cost-analysis/useCaseBeetle.R">Beetle spread over high asia</a>
-</li>
-<li>Deriving a canopy height model using a mixed API approach - <a href="https://github.com/gisma/link2gi2018/blob/master/R/usecases/uav-pc/useCaseCHM.R">Canopy Height Model from UAV derived point clouds</a>
-</li>
-</ul>
-</div>
+<p>The <code>GRASS</code> gisdbase already exists. So we pass <code>linkGRASS7</code> the argument <code>gisdbase_exist=TRUE</code> and import the xyz data as generic GRASS vector points.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"> <span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span>(sf)</a>
+<a class="sourceLine" id="cb7-2" data-line-number="2"> <span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span>(sp)</a>
+<a class="sourceLine" id="cb7-3" data-line-number="3"> <span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span>(link2GI)</a>
+<a class="sourceLine" id="cb7-4" data-line-number="4"> </a>
+<a class="sourceLine" id="cb7-5" data-line-number="5">  <span class="kw"><a href="../reference/sf2gvec.html">sf2gvec</a></span>(<span class="dt">x =</span>  xyz_sf,</a>
+<a class="sourceLine" id="cb7-6" data-line-number="6">           <span class="dt">obj_name =</span> <span class="st">"Zensus_Bevoelkerung_100m_"</span>,</a>
+<a class="sourceLine" id="cb7-7" data-line-number="7">           <span class="dt">gisdbase =</span> <span class="kw"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span>(),<span class="st">"/link2GI_examples"</span>),</a>
+<a class="sourceLine" id="cb7-8" data-line-number="8">           <span class="dt">location =</span> <span class="st">"microzensus2011"</span>,</a>
+<a class="sourceLine" id="cb7-9" data-line-number="9">           <span class="dt">gisdbase_exist =</span> <span class="ot">TRUE</span></a>
+<a class="sourceLine" id="cb7-10" data-line-number="10">          </a>
+<a class="sourceLine" id="cb7-11" data-line-number="11">           )</a>
+<a class="sourceLine" id="cb7-12" data-line-number="12"> </a>
+<a class="sourceLine" id="cb7-13" data-line-number="13"><span class="co"># check imported data set</span></a>
+<a class="sourceLine" id="cb7-14" data-line-number="14">rgrass7<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/rgrass7/man/execGRASS.html">execGRASS</a></span>(<span class="st">'v.info'</span>, <span class="dt">map =</span> <span class="st">"Zensus_Bevoelkerung_100m_"</span>) </a></code></pre></div>
 </div>
 </div>
 </div>

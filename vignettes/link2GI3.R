@@ -91,3 +91,19 @@
 #  #map points
 #   sf::plot_sf(xyz_sf)
 
+## ---- eval=FALSE---------------------------------------------------------
+#   require(sf)
+#   require(sp)
+#   require(link2GI)
+#  
+#    sf2gvec(x =  xyz_sf,
+#             obj_name = "Zensus_Bevoelkerung_100m_",
+#             gisdbase = paste0(tempdir(),"/link2GI_examples"),
+#             location = "microzensus2011",
+#             gisdbase_exist = TRUE
+#  
+#             )
+#  
+#  # check imported data set
+#  rgrass7::execGRASS('v.info', map = "Zensus_Bevoelkerung_100m_")
+

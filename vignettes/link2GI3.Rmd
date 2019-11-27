@@ -1,6 +1,6 @@
 ---
 author: "Chris Reudenbach"
-title: "link2GI Advanced Usecases"
+title: "linkGRASS7 real world data usecases"
 date: "`r Sys.Date()`"
 editor_options:
   chunk_output_type: console
@@ -14,7 +14,7 @@ output:
     toc: yes
 urlcolor: blue
 vignette: >
-  %\VignetteIndexEntry{link2GI Advanced Usecases}
+  %\VignetteIndexEntry{linkGRASS7 real world data usecases}
   %\VignetteEncoding{UTF-8}{inputenc}\
   %\VignetteEngine{knitr::knitr}
 ---
@@ -158,18 +158,22 @@ Let's do now the same import as a vector data set. First we create a `sf` object
 
 
 
-### Usecases presented on the GEOSTAT August 2018
-
-During the [GEOSTAT 2018](http://opengeohub.org/node/146) in Prague some more complex usescases have been presented.
-
-#### Find slides and materials
-- [Presentation slides](https://gisma.github.io/link2gi2018/link2gi2018.html#1)
-- [Github Repository](https://github.com/gisma/link2gi2018)
+The `GRASS` gisdbase already exists. So we pass  `linkGRASS7` the argument `gisdbase_exist=TRUE` and import the xyz data as generic GRASS vector points.
 
 
-#### The examples
-
-- Basic usage of `SAGA` and `OTB` calls - [SAGA & OTB basic usecase](https://github.com/gisma/link2gi2018/blob/master/R/usecases/saga-otb/useCaseSAGA-OTB.R)
-- Wrapping a [GRASS GIS example](https://neteler.gitlab.io/grass-gis-analysis/02_grass-gis_ecad_analysis/) of Markus Neteler as presented on GEOSTAT 2018 - [Analysing the ECA&D climatic data - reloaded](https://github.com/gisma/link2gi2018/blob/master/R/usecases/grass/useCaseGRASS-Neteler2018.R)
-- Performing a `GRASS` based cost analysis on a huge cost raster - [Beetle spread over high asia](https://github.com/gisma/link2gi2018/blob/master/R/usecases/cost-analysis/useCaseBeetle.R)
-- Deriving a canopy height model using a mixed API approach - [Canopy Height Model from UAV derived point clouds](https://github.com/gisma/link2gi2018/blob/master/R/usecases/uav-pc/useCaseCHM.R)
+```{r, eval=FALSE}
+ require(sf)
+ require(sp)
+ require(link2GI)
+ 
+  sf2gvec(x =  xyz_sf,
+           obj_name = "Zensus_Bevoelkerung_100m_",
+           gisdbase = paste0(tempdir(),"/link2GI_examples"),
+           location = "microzensus2011",
+           gisdbase_exist = TRUE
+          
+           )
+ 
+# check imported data set
+rgrass7::execGRASS('v.info', map = "Zensus_Bevoelkerung_100m_") 
+```

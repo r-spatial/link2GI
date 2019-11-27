@@ -2,7 +2,7 @@
 
 [![Travis-CI Build Status](https://travis-ci.org/r-spatial/link2GI.svg?branch=master)](https://travis-ci.org/r-spatial/link2GI)
 <a href="https://cran.r-project.org/web/checks/check_results_link2GI.html"><img border="0" src="http://www.r-pkg.org/badges/version/link2GI" alt="CRAN version"></a>
-![](https://cranlogs.r-pkg.org/badges/grand-total/link2GI?color=green)
+  ![](https://cranlogs.r-pkg.org/badges/grand-total/link2GI?color=green)
 [![License](https://img.shields.io/badge/license-GPL%20%28%3E=%203%29-lightgrey.svg?style=flat)](http://www.gnu.org/licenses/gpl-3.0.html)
 
 Package website: [release]( https://r-spatial.github.io/link2GI) | [dev](https://r-spatial.github.io/link2GI/dev)
@@ -19,7 +19,7 @@ If you have several versions installed or if you want to use the full power of t
 `link2GI`is up to CRAN. For the installation of the stable version please use `install.packages("link2GI")`. 
 
 To install the  latest stable version use:
-```r
+  ```r
 # devtools package
 devtools::install_github("r-spatial/link2GI", ref = "master")
 # remotes package
@@ -30,8 +30,8 @@ remotes::install_github("r-spatial/link2GI",ref = "master")
 ### Updated OTB wrapper
 
 the OTB wrapper is updated for a more convinient usage. Please have a look at the usecase below:
-
-```r
+  
+  ```r
 
 ## link to OTB
 require(link2GI)
@@ -39,13 +39,13 @@ require(raster)
 require(listviewer)
 
 otblink<-link2GI::linkOTB()
- projRootDir<-tempdir()
- 
+projRootDir<-tempdir()
+
 data("rgb")
 raster::plotRGB(rgb)
 r<-raster::writeRaster(rgb, 
-              filename=file.path(projRootDir,"test.tif"),
-              format="GTiff", overwrite=TRUE)
+                       filename=file.path(projRootDir,"test.tif"),
+                       format="GTiff", overwrite=TRUE)
 ## for the example we use the edge detection, 
 algoKeyword<- "EdgeExtraction"
 
@@ -82,17 +82,18 @@ During the [GEOSTAT 2018](http://opengeohub.org/node/146) in Prague some more co
 
 #### Find slides and materials
 - [Presentation slides](https://gisma.github.io/link2gi2018/link2gi2018.html#1)
-- [Github Repository](https://github.com/gisma/link2gi2018)
-
-
-#### Basic usage of SAGA and OTB calls 
-- [SAGA & OTB basic usecase](https://github.com/gisma/link2gi2018/blob/master/R/usecases/saga-otb/useCaseSAGA-OTB.R)
-
-#### Wrapping  GRASS 
-- Wrapping a [GRASS GIS example](https://neteler.gitlab.io/grass-gis-analysis/02_grass-gis_ecad_analysis/) of Markus Neteler as presented on GEOSTAT 2018 - [Analysing the ECA&D climatic data - reloaded](https://github.com/gisma/link2gi2018/blob/master/R/usecases/grass/useCaseGRASS-Neteler2018.R)
-
-#### GRASS based cost analysis
-- Performing a GRASS based cost analysis on a huge cost raster - [Beetle spread over high asia](https://github.com/gisma/link2gi2018/blob/master/R/usecases/cost-analysis/useCaseBeetle.R)
-
-#### Deriving a Canopy height model
-- Deriving a canopy height model using a mixed API approach - [Canopy Height Model from UAV derived point clouds](https://github.com/gisma/link2gi2018/blob/master/R/usecases/uav-pc/useCaseCHM.R)
+                        - [Github Repository](https://github.com/gisma/link2gi2018)
+                        
+                        
+                        #### Basic usage of SAGA and OTB calls 
+                        - [SAGA & OTB basic usecase](https://github.com/gisma/link2gi2018/blob/master/R/usecases/saga-otb/useCaseSAGA-OTB.R)
+                        
+                        #### Wrapping  GRASS 
+                        - Wrapping a [GRASS GIS example](https://neteler.gitlab.io/grass-gis-analysis/02_grass-gis_ecad_analysis/) of Markus Neteler as presented on GEOSTAT 2018 - [Analysing the ECA&D climatic data - reloaded](https://github.com/gisma/link2gi2018/blob/master/R/usecases/grass/useCaseGRASS-Neteler2018.R)
+                        
+                        #### GRASS based cost analysis
+                        - Performing a GRASS based cost analysis on a huge cost raster - [Beetle spread over high asia](https://github.com/gisma/link2gi2018/blob/master/R/usecases/cost-analysis/useCaseBeetle.R)
+                        
+                        #### Deriving a Canopy height model
+                        - Deriving a canopy height model using a mixed API approach - [Canopy Height Model from UAV derived point clouds](https://github.com/gisma/link2gi2018/blob/master/R/usecases/uav-pc/useCaseCHM.R)
+                        

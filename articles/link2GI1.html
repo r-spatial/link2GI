@@ -148,11 +148,21 @@
 <h3 class="hasAnchor">
 <a href="#gdal" class="anchor"></a>GDAL</h3>
 <p>Notwithstanding that <code>GDAL</code> is perfectly integrated in R in some cases it is beneficial to use system calls and grab the binaries directly. In particular the evolution to <code>GDAL 3.x</code> and optionally various boxed versions of <code>GDAL</code> binaries working together with different <code>Python</code> and <code>proj4/proj6</code> libs makes it sometimes difficult to grab the correct version of <code>GDAL</code>. <code>link2GI</code> generates a list of all pathes and commands of all <code>GDAL</code> installation in the provided search path. With this list, you can easily use all available API calls of each installation.</p>
+</div>
+</div>
+<div id="usage-of-the-link2gi-package---basic-examples" class="section level1">
+<h1 class="hasAnchor">
+<a href="#usage-of-the-link2gi-package---basic-examples" class="anchor"></a>Usage of the link2GI package - Basic Examples</h1>
+<div id="brute-force-search-usage" class="section level2">
+<h2 class="hasAnchor">
+<a href="#brute-force-search-usage" class="anchor"></a>Brute force search usage</h2>
+<p>Automatic search and find of the installed GIS software binaries is performed by the <code>find</code> functions. Depending of you OS and the number of installed versions you will get a dataframe providing the binary and module folders.</p>
 <p>So the most straightforward call to link temporary to <code>GRASS GIS</code> woud be:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="co"># find all SAGA GIS installations at the default search location</span></a>
 <a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span>(link2GI)</a>
-<a class="sourceLine" id="cb1-3" data-line-number="3">grass &lt;-<span class="st"> </span>link2GI<span class="op">::</span><span class="kw"><a href="https://r-spatial.github.io/link2GI/reference/linkGRASS7.html">linkGRASS7</a></span>()</a>
-<a class="sourceLine" id="cb1-4" data-line-number="4">grass</a></code></pre></div>
+<a class="sourceLine" id="cb1-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb1-4" data-line-number="4">grass &lt;-<span class="st"> </span>link2GI<span class="op">::</span><span class="kw"><a href="https://r-spatial.github.io/link2GI/reference/linkGRASS7.html">linkGRASS7</a></span>()</a>
+<a class="sourceLine" id="cb1-5" data-line-number="5">grass</a></code></pre></div>
 </div>
 </div>
   </div>
@@ -166,6 +176,11 @@
 <li><a href="#what-is-link2gi">What is link2GI?</a></li>
       <li><a href="#why-link2gi-now">Why link2GI now?</a></li>
       <li><a href="#what-means-linking">What means linking?</a></li>
+      <li>
+<a href="#usage-of-the-link2gi-package---basic-examples">Usage of the link2GI package - Basic Examples</a><ul class="nav nav-pills nav-stacked">
+<li><a href="#brute-force-search-usage">Brute force search usage</a></li>
+      </ul>
+</li>
       </ul>
 </div>
       </div>

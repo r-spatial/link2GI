@@ -104,11 +104,7 @@
 <h1 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h1>
 <p><code>link2GI</code>is up to CRAN. For the installation of the stable version please use <code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages("link2GI")</a></code>.</p>
-<p>To install the latest stable version use:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="co"># devtools package</span></a>
-<a class="sourceLine" id="cb1-2" data-line-number="2">devtools<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/devtools/man/remote-reexports.html">install_github</a></span>(<span class="st">"r-spatial/link2GI"</span>, <span class="dt">ref =</span> <span class="st">"master"</span>)</a>
-<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="co"># remotes package</span></a>
-<a class="sourceLine" id="cb1-4" data-line-number="4">remotes<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/remotes/man/install_github.html">install_github</a></span>(<span class="st">"r-spatial/link2GI"</span>,<span class="dt">ref =</span> <span class="st">"master"</span>)</a></code></pre></div>
+<p>To install the latest stable version use: <code>r # devtools package devtools::install_github("r-spatial/link2GI", ref = "master") # remotes package remotes::install_github("r-spatial/link2GI",ref = "master")</code></p>
 </div>
 <div id="documentation" class="section level1">
 <h1 class="hasAnchor">
@@ -117,40 +113,40 @@
 <h3 class="hasAnchor">
 <a href="#updated-otb-wrapper" class="anchor"></a>Updated OTB wrapper</h3>
 <p>the OTB wrapper is updated for a more convinient usage. Please have a look at the usecase below:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"></a>
-<a class="sourceLine" id="cb2-2" data-line-number="2">## link to OTB</a>
-<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span>(link2GI)</a>
-<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span>(raster)</a>
-<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span>(listviewer)</a>
-<a class="sourceLine" id="cb2-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb2-7" data-line-number="7">otblink&lt;-link2GI<span class="op">::</span><span class="kw"><a href="https://r-spatial.github.io/link2GI/reference/linkOTB.html">linkOTB</a></span>()</a>
-<a class="sourceLine" id="cb2-8" data-line-number="8"> projRootDir&lt;-<span class="kw"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span>()</a>
-<a class="sourceLine" id="cb2-9" data-line-number="9"> </a>
-<a class="sourceLine" id="cb2-10" data-line-number="10"><span class="kw"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="st">"rgb"</span>)</a>
-<a class="sourceLine" id="cb2-11" data-line-number="11">raster<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/raster/man/plotRGB.html">plotRGB</a></span>(rgb)</a>
-<a class="sourceLine" id="cb2-12" data-line-number="12">r&lt;-raster<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/raster/man/writeRaster.html">writeRaster</a></span>(rgb, </a>
-<a class="sourceLine" id="cb2-13" data-line-number="13">              <span class="dt">filename=</span><span class="kw"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(projRootDir,<span class="st">"test.tif"</span>),</a>
-<a class="sourceLine" id="cb2-14" data-line-number="14">              <span class="dt">format=</span><span class="st">"GTiff"</span>, <span class="dt">overwrite=</span><span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb2-15" data-line-number="15">## for the example we use the edge detection, </a>
-<a class="sourceLine" id="cb2-16" data-line-number="16">algoKeyword&lt;-<span class="st"> "EdgeExtraction"</span></a>
-<a class="sourceLine" id="cb2-17" data-line-number="17"></a>
-<a class="sourceLine" id="cb2-18" data-line-number="18">## extract the command list for the choosen algorithm </a>
-<a class="sourceLine" id="cb2-19" data-line-number="19">cmd&lt;-<span class="kw"><a href="reference/parseOTBFunction.html">parseOTBFunction</a></span>(<span class="dt">algo =</span> algoKeyword, <span class="dt">gili =</span> otblink)</a>
-<a class="sourceLine" id="cb2-20" data-line-number="20"></a>
-<a class="sourceLine" id="cb2-21" data-line-number="21">## get help using the convenient listviewer</a>
-<a class="sourceLine" id="cb2-22" data-line-number="22">listviewer<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/listviewer/man/jsonedit.html">jsonedit</a></span>(cmd<span class="op">$</span>help)</a>
-<a class="sourceLine" id="cb2-23" data-line-number="23"></a>
-<a class="sourceLine" id="cb2-24" data-line-number="24">## define the mandantory arguments all other will be default</a>
-<a class="sourceLine" id="cb2-25" data-line-number="25">cmd<span class="op">$</span>input  &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(projRootDir,<span class="st">"test.tif"</span>)</a>
-<a class="sourceLine" id="cb2-26" data-line-number="26">cmd<span class="op">$</span>filter &lt;-<span class="st"> "touzi"</span></a>
-<a class="sourceLine" id="cb2-27" data-line-number="27">cmd<span class="op">$</span>channel &lt;-<span class="st"> </span><span class="dv">2</span></a>
-<a class="sourceLine" id="cb2-28" data-line-number="28">cmd<span class="op">$</span>out &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(projRootDir,<span class="kw"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(<span class="st">"out"</span>,cmd<span class="op">$</span>filter,<span class="st">".tif"</span>))</a>
-<a class="sourceLine" id="cb2-29" data-line-number="29"></a>
-<a class="sourceLine" id="cb2-30" data-line-number="30">## run algorithm</a>
-<a class="sourceLine" id="cb2-31" data-line-number="31">retStack&lt;-<span class="kw"><a href="reference/runOTB.html">runOTB</a></span>(cmd,<span class="dt">gili =</span> otblink)</a>
-<a class="sourceLine" id="cb2-32" data-line-number="32"></a>
-<a class="sourceLine" id="cb2-33" data-line-number="33">## plot filter raster on the green channel</a>
-<a class="sourceLine" id="cb2-34" data-line-number="34"><span class="kw"><a href="https://rdrr.io/pkg/raster/man/plot.html">plot</a></span>(retStack)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"></a>
+<a class="sourceLine" id="cb1-2" data-line-number="2">## link to OTB</a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span>(link2GI)</a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span>(raster)</a>
+<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span>(listviewer)</a>
+<a class="sourceLine" id="cb1-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb1-7" data-line-number="7">otblink&lt;-link2GI<span class="op">::</span><span class="kw"><a href="https://r-spatial.github.io/link2GI/reference/linkOTB.html">linkOTB</a></span>()</a>
+<a class="sourceLine" id="cb1-8" data-line-number="8">projRootDir&lt;-<span class="kw"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span>()</a>
+<a class="sourceLine" id="cb1-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb1-10" data-line-number="10"><span class="kw"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="st">"rgb"</span>)</a>
+<a class="sourceLine" id="cb1-11" data-line-number="11">raster<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/raster/man/plotRGB.html">plotRGB</a></span>(rgb)</a>
+<a class="sourceLine" id="cb1-12" data-line-number="12">r&lt;-raster<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/raster/man/writeRaster.html">writeRaster</a></span>(rgb, </a>
+<a class="sourceLine" id="cb1-13" data-line-number="13">                     <span class="dt">filename=</span><span class="kw"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(projRootDir,<span class="st">"test.tif"</span>),</a>
+<a class="sourceLine" id="cb1-14" data-line-number="14">                     <span class="dt">format=</span><span class="st">"GTiff"</span>, <span class="dt">overwrite=</span><span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb1-15" data-line-number="15">## for the example we use the edge detection, </a>
+<a class="sourceLine" id="cb1-16" data-line-number="16">algoKeyword&lt;-<span class="st"> "EdgeExtraction"</span></a>
+<a class="sourceLine" id="cb1-17" data-line-number="17"></a>
+<a class="sourceLine" id="cb1-18" data-line-number="18">## extract the command list for the choosen algorithm </a>
+<a class="sourceLine" id="cb1-19" data-line-number="19">cmd&lt;-<span class="kw"><a href="reference/parseOTBFunction.html">parseOTBFunction</a></span>(<span class="dt">algo =</span> algoKeyword, <span class="dt">gili =</span> otblink)</a>
+<a class="sourceLine" id="cb1-20" data-line-number="20"></a>
+<a class="sourceLine" id="cb1-21" data-line-number="21">## get help using the convenient listviewer</a>
+<a class="sourceLine" id="cb1-22" data-line-number="22">listviewer<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/listviewer/man/jsonedit.html">jsonedit</a></span>(cmd<span class="op">$</span>help)</a>
+<a class="sourceLine" id="cb1-23" data-line-number="23"></a>
+<a class="sourceLine" id="cb1-24" data-line-number="24">## define the mandantory arguments all other will be default</a>
+<a class="sourceLine" id="cb1-25" data-line-number="25">cmd<span class="op">$</span>input  &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(projRootDir,<span class="st">"test.tif"</span>)</a>
+<a class="sourceLine" id="cb1-26" data-line-number="26">cmd<span class="op">$</span>filter &lt;-<span class="st"> "touzi"</span></a>
+<a class="sourceLine" id="cb1-27" data-line-number="27">cmd<span class="op">$</span>channel &lt;-<span class="st"> </span><span class="dv">2</span></a>
+<a class="sourceLine" id="cb1-28" data-line-number="28">cmd<span class="op">$</span>out &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(projRootDir,<span class="kw"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(<span class="st">"out"</span>,cmd<span class="op">$</span>filter,<span class="st">".tif"</span>))</a>
+<a class="sourceLine" id="cb1-29" data-line-number="29"></a>
+<a class="sourceLine" id="cb1-30" data-line-number="30">## run algorithm</a>
+<a class="sourceLine" id="cb1-31" data-line-number="31">retStack&lt;-<span class="kw"><a href="reference/runOTB.html">runOTB</a></span>(cmd,<span class="dt">gili =</span> otblink)</a>
+<a class="sourceLine" id="cb1-32" data-line-number="32"></a>
+<a class="sourceLine" id="cb1-33" data-line-number="33">## plot filter raster on the green channel</a>
+<a class="sourceLine" id="cb1-34" data-line-number="34"><span class="kw"><a href="https://rdrr.io/pkg/raster/man/plot.html">plot</a></span>(retStack)</a></code></pre></div>
 </div>
 <div id="online-vignette" class="section level3">
 <h3 class="hasAnchor">
@@ -165,38 +161,19 @@
 <h4 class="hasAnchor">
 <a href="#find-slides-and-materials" class="anchor"></a>Find slides and materials</h4>
 <ul>
-<li><a href="https://gisma.github.io/link2gi2018/link2gi2018.html#1">Presentation slides</a></li>
-<li><a href="https://github.com/gisma/link2gi2018">Github Repository</a></li>
-</ul>
-</div>
-<div id="basic-usage-of-saga-and-otb-calls" class="section level4">
-<h4 class="hasAnchor">
-<a href="#basic-usage-of-saga-and-otb-calls" class="anchor"></a>Basic usage of SAGA and OTB calls</h4>
-<ul>
-<li><a href="https://github.com/gisma/link2gi2018/blob/master/R/usecases/saga-otb/useCaseSAGA-OTB.R">SAGA &amp; OTB basic usecase</a></li>
-</ul>
-</div>
-<div id="wrapping-grass" class="section level4">
-<h4 class="hasAnchor">
-<a href="#wrapping-grass" class="anchor"></a>Wrapping GRASS</h4>
-<ul>
-<li>Wrapping a <a href="https://neteler.gitlab.io/grass-gis-analysis/02_grass-gis_ecad_analysis/">GRASS GIS example</a> of Markus Neteler as presented on GEOSTAT 2018 - <a href="https://github.com/gisma/link2gi2018/blob/master/R/usecases/grass/useCaseGRASS-Neteler2018.R">Analysing the ECA&amp;D climatic data - reloaded</a>
-</li>
-</ul>
-</div>
-<div id="grass-based-cost-analysis" class="section level4">
-<h4 class="hasAnchor">
-<a href="#grass-based-cost-analysis" class="anchor"></a>GRASS based cost analysis</h4>
-<ul>
-<li>Performing a GRASS based cost analysis on a huge cost raster - <a href="https://github.com/gisma/link2gi2018/blob/master/R/usecases/cost-analysis/useCaseBeetle.R">Beetle spread over high asia</a>
-</li>
-</ul>
-</div>
-<div id="deriving-a-canopy-height-model" class="section level4">
-<h4 class="hasAnchor">
-<a href="#deriving-a-canopy-height-model" class="anchor"></a>Deriving a Canopy height model</h4>
-<ul>
-<li>Deriving a canopy height model using a mixed API approach - <a href="https://github.com/gisma/link2gi2018/blob/master/R/usecases/uav-pc/useCaseCHM.R">Canopy Height Model from UAV derived point clouds</a>
+<li>
+<p><a href="https://gisma.github.io/link2gi2018/link2gi2018.html#1">Presentation slides</a> - <a href="https://github.com/gisma/link2gi2018">Github Repository</a></p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">                  #### Basic usage of SAGA and OTB calls </a>
+<a class="sourceLine" id="cb2-2" data-line-number="2">                  <span class="op">-</span><span class="st"> </span>[SAGA <span class="op">&amp;</span><span class="st"> </span>OTB basic usecase](https<span class="op">:</span><span class="er">//</span>github.com<span class="op">/</span>gisma<span class="op">/</span>link2gi2018<span class="op">/</span>blob<span class="op">/</span>master<span class="op">/</span>R<span class="op">/</span>usecases<span class="op">/</span>saga<span class="op">-</span>otb<span class="op">/</span>useCaseSAGA<span class="op">-</span>OTB.R)</a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb2-4" data-line-number="4">                  #### Wrapping  GRASS </a>
+<a class="sourceLine" id="cb2-5" data-line-number="5">                  <span class="op">-</span><span class="st"> </span>Wrapping a [GRASS GIS example](https<span class="op">:</span><span class="er">//</span>neteler.gitlab.io<span class="op">/</span>grass<span class="op">-</span>gis<span class="op">-</span>analysis<span class="op">/</span><span class="dv">02</span>_grass<span class="op">-</span>gis_ecad_analysis<span class="op">/</span>) of Markus Neteler as presented on GEOSTAT <span class="dv">2018</span> <span class="op">-</span><span class="st"> </span>[Analysing the ECA<span class="op">&amp;</span>D climatic data <span class="op">-</span><span class="st"> </span>reloaded](https<span class="op">:</span><span class="er">//</span>github.com<span class="op">/</span>gisma<span class="op">/</span>link2gi2018<span class="op">/</span>blob<span class="op">/</span>master<span class="op">/</span>R<span class="op">/</span>usecases<span class="op">/</span>grass<span class="op">/</span>useCaseGRASS<span class="op">-</span>Neteler2018.R)</a>
+<a class="sourceLine" id="cb2-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb2-7" data-line-number="7">                  #### GRASS based cost analysis</a>
+<a class="sourceLine" id="cb2-8" data-line-number="8">                  <span class="op">-</span><span class="st"> </span>Performing a GRASS based cost analysis on a huge cost raster <span class="op">-</span><span class="st"> </span>[Beetle spread over high asia](https<span class="op">:</span><span class="er">//</span>github.com<span class="op">/</span>gisma<span class="op">/</span>link2gi2018<span class="op">/</span>blob<span class="op">/</span>master<span class="op">/</span>R<span class="op">/</span>usecases<span class="op">/</span>cost<span class="op">-</span>analysis<span class="op">/</span>useCaseBeetle.R)</a>
+<a class="sourceLine" id="cb2-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb2-10" data-line-number="10">                  #### Deriving a Canopy height model</a>
+<a class="sourceLine" id="cb2-11" data-line-number="11">                  <span class="op">-</span><span class="st"> </span>Deriving a canopy height model using a mixed API approach <span class="op">-</span><span class="st"> </span>[Canopy Height Model from UAV derived point clouds](https<span class="op">:</span><span class="er">//</span>github.com<span class="op">/</span>gisma<span class="op">/</span>link2gi2018<span class="op">/</span>blob<span class="op">/</span>master<span class="op">/</span>R<span class="op">/</span>usecases<span class="op">/</span>uav<span class="op">-</span>pc<span class="op">/</span>useCaseCHM.R)</a></code></pre></div>
 </li>
 </ul>
 </div>

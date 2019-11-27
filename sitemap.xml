@@ -22,6 +22,9 @@
     <loc>https://r-spatial.github.io/link2GI/reference/getSpatialClass.html</loc>
   </url>
   <url>
+    <loc>https://r-spatial.github.io/link2GI/reference/gvec2sf.html</loc>
+  </url>
+  <url>
     <loc>https://r-spatial.github.io/link2GI/reference/initProj.html</loc>
   </url>
   <url>
@@ -95,6 +98,9 @@
   </url>
   <url>
     <loc>https://r-spatial.github.io/link2GI/reference/setenvOTB.html</loc>
+  </url>
+  <url>
+    <loc>https://r-spatial.github.io/link2GI/reference/sf2gvec.html</loc>
   </url>
   <url>
     <loc>https://r-spatial.github.io/link2GI/articles/link2GI1.html</loc>

@@ -110,6 +110,10 @@
 <div id="creating-a-grass-project" class="section level2">
 <h2 class="hasAnchor">
 <a href="#creating-a-grass-project" class="anchor"></a>Creating a GRASS project</h2>
+</div>
+<div id="download-zensus-data" class="section level2">
+<h2 class="hasAnchor">
+<a href="#download-zensus-data" class="anchor"></a>Download Zensus Data</h2>
 <p>First of all we need some real world data. In this this case the gridded <a href="https://www.zensus2011.de/EN/2011Census/2011_Census_node.html">2011 micro zensus</a> <a href="https://www.zensus2011.de/SharedDocs/Downloads/DE/Pressemitteilung/DemografischeGrunddaten/csv_Bevoelkerung_100m_Gitter.zip;jsessionid=294313DDBB57914D6636DE373897A3F2.2_cid389?__blob=publicationFile&amp;v=3">population data</a> of Germany. It has some nice aspects:</p>
 <ul>
 <li>It is provided in a typical authority format</li>
@@ -140,6 +144,9 @@
 <a class="sourceLine" id="cb1-21" data-line-number="21"> <span class="kw"><a href="https://rdrr.io/r/utils/unzip.html">unzip</a></span>(res,<span class="dt">files =</span> <span class="kw"><a href="https://rdrr.io/r/base/grep.html">grep</a></span>(<span class="st">".csv"</span>, <span class="kw"><a href="https://rdrr.io/r/utils/unzip.html">unzip</a></span>(res,<span class="dt">list =</span> <span class="ot">TRUE</span>)<span class="op">$</span>Name,<span class="dt">value =</span> <span class="ot">TRUE</span>),</a>
 <a class="sourceLine" id="cb1-22" data-line-number="22">       <span class="dt">junkpaths =</span> <span class="ot">TRUE</span>, <span class="dt">overwrite =</span> <span class="ot">TRUE</span>)</a>
 <a class="sourceLine" id="cb1-23" data-line-number="23">fn &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span>(<span class="dt">pattern =</span> <span class="st">"[.]csv$"</span>, <span class="dt">path =</span> <span class="kw"><a href="https://rdrr.io/r/base/getwd.html">getwd</a></span>(), <span class="dt">full.names =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div id="preprocessing-of-the-data" class="section level3">
+<h3 class="hasAnchor">
+<a href="#preprocessing-of-the-data" class="anchor"></a>Preprocessing of the data</h3>
 <p>After downloading the data we will use it for some demonstration stuff. If you have a look the data is nothing than x,y,z with assuming some projection information.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="co"># get the filename</span></a>
 <a class="sourceLine" id="cb2-2" data-line-number="2"> </a>
@@ -167,6 +174,10 @@
 <a class="sourceLine" id="cb3-17" data-line-number="17"> mapview<span class="op">::</span><span class="kw">mapview</span>(r, <span class="dt">col.regions =</span> p, </a>
 <a class="sourceLine" id="cb3-18" data-line-number="18">                  <span class="dt">at =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="op">-</span><span class="dv">1</span>,<span class="dv">10</span>,<span class="dv">25</span>,<span class="dv">50</span>,<span class="dv">100</span>,<span class="dv">500</span>,<span class="dv">1000</span>,<span class="dv">2500</span>), </a>
 <a class="sourceLine" id="cb3-19" data-line-number="19">                  <span class="dt">legend =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+</div>
+<div id="setup-grass-project" class="section level3">
+<h3 class="hasAnchor">
+<a href="#setup-grass-project" class="anchor"></a>Setup GRASS Project</h3>
 <p>So far nothing new. Now we create a new but permanent <code>GRASS</code> gisbase using the spatial parameters from the raster object. As you know the <code>linkGRASS7</code> function performs a full search for one or more than one existing <code>GRASS</code> installations. If a valid <code>GRASS</code> installation exists all parameter are setup und the package <code>rgrass7</code> is linked.</p>
 <p>Due to the fact that the <code>gisdbase_exist</code> is by default set to FALSE it will create a new structure according to the <code>R</code> object.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span>(link2GI)</a>
@@ -202,6 +213,7 @@
 <a class="sourceLine" id="cb6-5" data-line-number="5"></a>
 <a class="sourceLine" id="cb6-6" data-line-number="6"><span class="co">#map points</span></a>
 <a class="sourceLine" id="cb6-7" data-line-number="7"> sf<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/sf/man/plot.html">plot_sf</a></span>(xyz_sf)</a></code></pre></div>
+</div>
 <div id="usecases-presented-on-the-geostat-august-2018" class="section level3">
 <h3 class="hasAnchor">
 <a href="#usecases-presented-on-the-geostat-august-2018" class="anchor"></a>Usecases presented on the GEOSTAT August 2018</h3>
@@ -242,6 +254,7 @@
 <li>
 <a href="#advanced-examples">Advanced examples</a><ul class="nav nav-pills nav-stacked">
 <li><a href="#creating-a-grass-project">Creating a GRASS project</a></li>
+      <li><a href="#download-zensus-data">Download Zensus Data</a></li>
       </ul>
 </li>
       </ul>

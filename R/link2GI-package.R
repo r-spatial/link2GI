@@ -34,4 +34,9 @@
 #'
 #' 
 NULL
-
+#' @docType data
+#' @name rgb
+#' @title RGB Orthoimagefrom an arbitray MOF plot
+#' @description Example data set containing a RGB Orthoimage of a small plot sampled in the Maburg University Forest (MOF). The resolution is 10 cm. ETRS89 UTM32
+#' @format \code{"raster::raster"}
+NULL

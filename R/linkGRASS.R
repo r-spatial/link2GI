@@ -120,7 +120,7 @@ linkGRASS7 <- function(x = NULL,
                        spatial_params=NULL,
                        resolution=NULL,
                        quiet =TRUE,
-                       returnPaths = FALSE) {
+                       returnPaths = TRUE) {
   # if no spatial object AND no extent AND no existing GRASS dbase is provided stop
   if (!use_home) home <- tempdir()
   if (class(x)[1]=="character")   x <- raster::raster(x)

@@ -16,7 +16,7 @@ linkGRASS7(
   spatial_params = NULL,
   resolution = NULL,
   quiet = TRUE,
-  returnPaths = FALSE
+  returnPaths = TRUE
 )
 }
 \arguments{

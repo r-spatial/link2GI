@@ -81,7 +81,8 @@ paramGRASSx <- function(set_default_GRASS7=NULL,
     grass<-list()
     grass$gisbase_GRASS<-gisbase_GRASS
     grass$installed <- params_GRASS
-  } else {grass <-FALSE}
+    grass$exist =TRUE
+  } else {grass$exist <-FALSE}
   return(grass)
   
   #return(gisbase_GRASS)

@@ -1,3 +1,11 @@
+## link2GI 0.4-1
+new feature
+* add linkall
+* re-add direct reading and writing of vector data to GRASS
+
+bugfixes:
+* smaller bugfixes
+
 ## link2GI 0.4-0
 new feature
 * parse and return OTB API help for interactive use in R

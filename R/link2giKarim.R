@@ -286,3 +286,69 @@ gvec2sf <- function(x, obj_name, gisdbase, location ,gisdbase_exist = TRUE){
   else 
     return(cat("Data not found"))
 }
+
+#'  convenient function to establish all link2GI links
+#' @description brute force search, find and linkl of all link2GI link functions. This is helpfull if yor system is well setup and the standard linkage procedure will provide the correct linkages. 
+#'
+#' @note You may also use the full list of arguments that is made available from the \code{link2GI} package, but it is strongly recommended in this case to use directly the single linkage functions from  \code{link2GI}.
+#' @param links character. links
+#' @param linkItems character. list of c("saga","grass7","otb","gdal")
+#' @param simple logical. true  make all
+#' @param sagaArgs character. full string of sagaArgs
+#' @param grassArgs character. grassArgs full string of grassArgs
+#' @param otbArgs character. full string of otbArgs
+#' @param gdalArgs character. full string of gdalArgs
+#' @param quiet supress all messages default is FALSE
+#'
+#'@examples
+#'\dontrun{
+#' # required packages
+#' require(uavRst)
+#' require(link2GI)
+#'
+#' # search, find and create the links to all supported  GI software
+#' giLinks<-uavRst::linkAll()
+#' 
+#' # search, find and create the links to all supported  GI software
+#' giLinks<-uavRst::linkAll(gdalArgs=c(ver_select=TRUE))
+#' )
+#'
+
+#'}
+
+#' @export
+linkAll <- function(links=NULL,
+                    simple = TRUE,
+                    linkItems = c("saga","grass7","otb","gdal"),
+                    sagaArgs = "default",
+                    grassArgs = "default",
+                    otbArgs =   "default",
+                    gdalArgs =  "default",
+                    quiet = FALSE)  {
+  
+  
+  if (!quiet )    cat("\n--- linking SAGA - GRASS - OTB - GDAL ---\n")
+  if (sagaArgs == "default") sagaArgs   <- "default_SAGA = NULL, searchLocation = 'default', ver_select=FALSE, quiet = TRUE, returnPaths = TRUE"
+  if (grassArgs == "default") grassArgs <- "x = NULL, default_GRASS7 = NULL, search_path = NULL, ver_select = FALSE, gisdbase_exist =FALSE, gisdbase = NULL, use_home =FALSE, location = NULL, spatial_params=NULL, resolution=NULL, quiet =TRUE, returnPaths = TRUE"
+  if (otbArgs == "default") otbArgs <- "bin_OTB=NULL, root_OTB= NULL, type_OTB=NULL, searchLocation=NULL, ver_select=FALSE, quiet = TRUE, returnPaths = TRUE"
+  if (gdalArgs == "default") gdalArgs <- "bin_GDAL=NULL, searchLocation=NULL, ver_select=FALSE, quiet = TRUE, returnPaths = TRUE"
+  if (is.null(links) && (simple)){
+    link<-list()
+    for (links in linkItems) {
+      cat("linking ", links,"\n")
+      if (links=="gdal") 
+        link[[links]]<-assign(links,eval(parse(text=paste("link2GI::link",toupper(links),"(returnPaths = T)",sep = ""))))
+      else
+        link[[links]]<-assign(links,eval(parse(text=paste("link2GI::link",toupper(links),"(returnPaths = T)",sep = ""))))
+      
+    }
+    
+  } else if (is.null(links)) {
+    link<-list()
+    for (links in linkItems) {
+      link[[links]]<-assign(links,eval(parse(text=paste("link2GI::link",toupper(links),"(",eval(parse(text=paste0(links,"Args"))),")",sep = ""))))
+    }
+    
+  }
+  return(link)
+}

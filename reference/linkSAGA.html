@@ -192,10 +192,10 @@ to the PATH variable only, otherwise all paths and versions of the installed SAG
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
     <p>The excellent 'SAGA GIS' wrapper <a href='https://CRAN.R-project.org/package=RSAGA'>RSAGA</a> 
-is in line for a major update however it covers currently (Feb 2018) only 'SAGA GIS' 
-versions from 2.0.4 - 2.2.3. The fast evolution of 'SAGA GIS' makes it highly impracticable
-to keep the wrapper adaptions in line. <code>RSAGA</code> will meet all linking needs perfectly if 
-you use 'SAGA GIS' versions from 2.0.4 - 2.2.3. <br />  <code>RSAGA</code> is not supporting the <code>SAGA_MLB</code> path variable. So if you use a SAGA GIS Version &gt;= 3.0.0 the module library is not recognized. You must call <code>rsaga.env</code> using the <code><a href='https://rdrr.io/pkg/RSAGA/man/rsaga.env.html'>rsaga.env(modules = saga$sagaModPath)</a></code> assuming that <code>saga</code> contains the returnPaths of <code>linkSAGA</code> 
+package was updated several times however it covers currently (Dec 2019) only 'SAGA GIS' 
+versions from 2.3.1 - 6.3.0 The fast evolution of 'SAGA GIS' makes it highly impracticable
+to keep the wrapper adaptions in line (currently 7.5). <code>RSAGA</code> will meet all linking needs perfectly if 
+you use 'SAGA GIS' versions from 2.0.4 - 7.5.0. <br />  However you must call <code>rsaga.env</code> using the <code><a href='https://rdrr.io/pkg/RSAGA/man/rsaga.env.html'>rsaga.env(modules = saga$sagaModPath)</a></code> assuming that <code>saga</code> contains the returnPaths of <code>linkSAGA</code> 
 In addition most recently  the very promising  <a href='https://github.com/stevenpawley/Rsagacmd'>Rsagacmd</a> wrapper package is providing a new list oriented wrapping tool.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>

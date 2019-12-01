@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Usually for internally usage get 'GRASS GIS' and <code>rgrass7</code> parameters on 'Windows' OS — paramGRASSw • link2GI</title>
+<title>convenient function to establish all link2GI links — linkAll • link2GI</title>
 
 
 <!-- jquery -->
@@ -35,9 +35,8 @@
 
 
 
-<meta property="og:title" content="Usually for internally usage get 'GRASS GIS' and <code>rgrass7</code> parameters on 'Windows' OS — paramGRASSw" />
-<meta property="og:description" content="Initialize the enviroment variables on a 'Windows' OS for using 
- 'GRASS GIS' via rgrass7" />
+<meta property="og:title" content="convenient function to establish all link2GI links — linkAll" />
+<meta property="og:description" content="brute force search, find and linkl of all link2GI link functions. This is helpfull if yor system is well setup and the standard linkage procedure will provide the correct linkages." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -133,67 +132,75 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Usually for internally usage get 'GRASS GIS' and <code>rgrass7</code> parameters on 'Windows' OS</h1>
-    <small class="dont-index">Source: <a href='https://github.com/r-spatial/link2GI/blob/master/R/grass7Control.R'><code>R/grass7Control.R</code></a></small>
-    <div class="hidden name"><code>paramGRASSw.Rd</code></div>
+    <h1>convenient function to establish all link2GI links</h1>
+    <small class="dont-index">Source: <a href='https://github.com/r-spatial/link2GI/blob/master/R/link2giKarim.R'><code>R/link2giKarim.R</code></a></small>
+    <div class="hidden name"><code>linkAll.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Initialize the enviroment variables on a 'Windows' OS for using 
- 'GRASS GIS' via <code>rgrass7</code></p>
+    <p>brute force search, find and linkl of all link2GI link functions. This is helpfull if yor system is well setup and the standard linkage procedure will provide the correct linkages.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>paramGRASSw</span>(
-  <span class='kw'>set_default_GRASS7</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>DL</span> <span class='kw'>=</span> <span class='st'>"C:"</span>,
-  <span class='kw'>ver_select</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>quiet</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
+    <pre class="usage"><span class='fu'>linkAll</span>(
+  <span class='kw'>links</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>simple</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>linkItems</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"saga"</span>, <span class='st'>"grass7"</span>, <span class='st'>"otb"</span>, <span class='st'>"gdal"</span>),
+  <span class='kw'>sagaArgs</span> <span class='kw'>=</span> <span class='st'>"default"</span>,
+  <span class='kw'>grassArgs</span> <span class='kw'>=</span> <span class='st'>"default"</span>,
+  <span class='kw'>otbArgs</span> <span class='kw'>=</span> <span class='st'>"default"</span>,
+  <span class='kw'>gdalArgs</span> <span class='kw'>=</span> <span class='st'>"default"</span>,
+  <span class='kw'>quiet</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>set_default_GRASS7</th>
-      <td><p>default = NULL forces a full search for 'GRASS GIS' binaries. You may
-alternatively provide a vector containing pathes and keywords. c("C:/OSGeo4W64","grass-7.0.5","osgeo4w") is valid for a typical osgeo4w installation.</p></td>
+      <th>links</th>
+      <td><p>character. links</p></td>
     </tr>
     <tr>
-      <th>DL</th>
-      <td><p>raster or sp object</p></td>
+      <th>simple</th>
+      <td><p>logical. true  make all</p></td>
     </tr>
     <tr>
-      <th>ver_select</th>
-      <td><p>boolean default is FALSE. If there is more than one 'SAGA GIS' installation and <code>ver_select</code> = TRUE the user can select interactively the preferred 'SAGA GIS' version</p></td>
+      <th>linkItems</th>
+      <td><p>character. list of c("saga","grass7","otb","gdal")</p></td>
+    </tr>
+    <tr>
+      <th>sagaArgs</th>
+      <td><p>character. full string of sagaArgs</p></td>
+    </tr>
+    <tr>
+      <th>grassArgs</th>
+      <td><p>character. grassArgs full string of grassArgs</p></td>
+    </tr>
+    <tr>
+      <th>otbArgs</th>
+      <td><p>character. full string of otbArgs</p></td>
+    </tr>
+    <tr>
+      <th>gdalArgs</th>
+      <td><p>character. full string of gdalArgs</p></td>
     </tr>
     <tr>
       <th>quiet</th>
-      <td><p>boolean  switch for supressing console messages default is TRUE</p></td>
+      <td><p>supress all messages default is FALSE</p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+    <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
-    <p>The concept is very straightforward but for an all days usage pretty
- helpful. You need to provide a <code>raster</code> or a <code>sp</code> object. The derived properties are used to initialize a temporary but static
- <a href='https://CRAN.R-project.org/package=rgrass7'>rgrass7</a> environment. During the rsession you will have full access to
- GRASS7 both via the wrapper package as well as the command line. paramGRASSw initializes the usage of GRASS7.</p>
+    <p>You may also use the full list of arguments that is made available from the <code>link2GI</code> package, but it is strongly recommended in this case to use directly the single linkage functions from  <code>link2GI</code>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='co'># automatic retrieval of valid 'GRASS GIS' environment settings </span>
-<span class='co'># if more than one is found the user has to choose.</span>
-<span class='fu'>paramGRASSw</span>()
-
-<span class='co'># typical OSGeo4W64 installation</span>
-<span class='fu'>paramGRASSw</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"C:/OSGeo4W64"</span>,<span class='st'>"grass-7.0.5"</span>,<span class='st'>"osgeo4W"</span>))
-}</div></pre>
+    <pre class="examples"></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#details">Details</a></li>
+      <li><a href="#note">Note</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>
 

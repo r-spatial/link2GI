@@ -47,9 +47,8 @@ require(link2GI)
 # search, find and create the links to all supported  GI software
 giLinks<-uavRst::linkAll()
 
-# search, find and create the links to all supported  GI software
-giLinks<-uavRst::linkAll(gdalArgs=c(ver_select=TRUE))
-)
+# makes the GDAL linkage verbose
+giLinks<-uavRst::linkAll(gdalArgs= "quiet = TRUE") 
 
 }
 }

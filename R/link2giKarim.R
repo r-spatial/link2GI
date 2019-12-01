@@ -309,11 +309,9 @@ gvec2sf <- function(x, obj_name, gisdbase, location ,gisdbase_exist = TRUE){
 #' # search, find and create the links to all supported  GI software
 #' giLinks<-uavRst::linkAll()
 #' 
-#' # search, find and create the links to all supported  GI software
-#' giLinks<-uavRst::linkAll(gdalArgs=c(ver_select=TRUE))
-#' )
+#' # makes the GDAL linkage verbose
+#' giLinks<-uavRst::linkAll(gdalArgs= "quiet = TRUE") 
 #'
-
 #'}
 
 #' @export

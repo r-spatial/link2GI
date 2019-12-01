@@ -73,7 +73,7 @@ linkOTB <- function(bin_OTB=NULL,
 
       pathOTB <- params_OTB$binDir[[ver]] 
       otbCmd <- params_OTB$otbCmd[[ver]]
-      cat("\nSelect: ",ver)
+      if (!quiet) {cat("\nSelect: ",ver)}
 
     } 
     else if (nrow(params_OTB) > 1 & ver_select ) {

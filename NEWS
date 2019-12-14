@@ -1,7 +1,7 @@
 ## link2GI 0.4-1
 new feature
 * add linkall
-* re-add direct reading and writing of vector data to GRASS
+* add direct reading and writing of vector data to GRASS sqlite
 
 bugfixes:
 * smaller bugfixes

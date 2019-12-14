@@ -12,7 +12,7 @@ Description: Functions to simplify the linking of open source GIS and remote sen
 URL: https://github.com/r-spatial/link2GI/, https://r-spatial.github.io/link2GI/
 BugReports: https://github.com/r-spatial/link2GI/issues/
 License: GPL (>= 3) | file LICENSE
-Depends: R (>= 3.1)
+Depends: R (>= 3.5.0)
 Imports: methods,tools, devtools, R.utils,roxygen2,sf,stringr
 SystemRequirements: GNU make 
 RoxygenNote: 7.0.1

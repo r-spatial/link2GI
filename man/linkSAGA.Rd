@@ -4,8 +4,13 @@
 \alias{linkSAGA}
 \title{Identifies SAGA GIS Installations and returns linking Informations}
 \usage{
-linkSAGA(default_SAGA = NULL, searchLocation = "default",
-  ver_select = FALSE, quiet = TRUE, returnPaths = TRUE)
+linkSAGA(
+  default_SAGA = NULL,
+  searchLocation = "default",
+  ver_select = FALSE,
+  quiet = TRUE,
+  returnPaths = TRUE
+)
 }
 \arguments{
 \item{default_SAGA}{string contains path to \code{RSAGA} binaries}
@@ -33,10 +38,10 @@ executables. If the file is found it is assumed to be a valid 'SAGA GIS' install
 }
 \note{
 The excellent 'SAGA GIS' wrapper \href{https://CRAN.R-project.org/package=RSAGA}{RSAGA} 
-is in line for a major update however it covers currently (Feb 2018) only 'SAGA GIS' 
-versions from 2.0.4 - 2.2.3. The fast evolution of 'SAGA GIS' makes it highly impracticable
-to keep the wrapper adaptions in line. \code{RSAGA} will meet all linking needs perfectly if 
-you use 'SAGA GIS' versions from 2.0.4 - 2.2.3. \cr  \code{RSAGA} is not supporting the \code{SAGA_MLB} path variable. So if you use a SAGA GIS Version >= 3.0.0 the module library is not recognized. You must call \code{rsaga.env} using the \code{rsaga.env(modules = saga$sagaModPath)} assuming that \code{saga} contains the returnPaths of \code{linkSAGA} 
+package was updated several times however it covers currently (Dec 2019) only 'SAGA GIS' 
+versions from 2.3.1 - 6.3.0 The fast evolution of 'SAGA GIS' makes it highly impracticable
+to keep the wrapper adaptions in line (currently 7.5). \code{RSAGA} will meet all linking needs perfectly if 
+you use 'SAGA GIS' versions from 2.0.4 - 7.5.0. \cr  However you must call \code{rsaga.env} using the \code{rsaga.env(modules = saga$sagaModPath)} assuming that \code{saga} contains the returnPaths of \code{linkSAGA} 
 In addition most recently  the very promising  \href{https://github.com/stevenpawley/Rsagacmd}{Rsagacmd} wrapper package is providing a new list oriented wrapping tool.
 }
 \examples{

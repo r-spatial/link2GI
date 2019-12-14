@@ -4,8 +4,13 @@
 \alias{setenvGRASSw}
 \title{Usually for internally usage, create valid 'GRASS GIS 7.xx' rsession environment settings according to the selected GRASS GIS 7.x and Windows Version}
 \usage{
-setenvGRASSw(root_GRASS = NULL, grass_version = NULL,
-  installation_type = NULL, jpgmem = 1e+06, quiet = TRUE)
+setenvGRASSw(
+  root_GRASS = NULL,
+  grass_version = NULL,
+  installation_type = NULL,
+  jpgmem = 1e+06,
+  quiet = TRUE
+)
 }
 \arguments{
 \item{root_GRASS}{grass root directory i.e. "C:\\OSGEO4~1",}
@@ -24,7 +29,7 @@ Initializes and set up  access to 'GRASS GIS 7.xx' via the \code{rgrass7} wrappe
 \examples{
 \dontrun{
 # set choosen'GRASS GIS' installation folders 
-setenvGRASSw(root_GRASS = "C:\\\\PROGRA~1\\\\QGIS2~1.18",
+setenvGRASSw(root_GRASS = "C:\\PROGRA~1\\QGIS2~1.18",
              grass_version =  "grass-7.2.1",
              installation_type =  "osgeo4W")
 }

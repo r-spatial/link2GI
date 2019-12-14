@@ -4,8 +4,7 @@
 \alias{findGRASS}
 \title{Search recursivly existing 'GRASS GIS' installation(s) at a given drive/mountpoint}
 \usage{
-findGRASS(searchLocation = "default", ver_select = FALSE,
-  quiet = TRUE)
+findGRASS(searchLocation = "default", ver_select = FALSE, quiet = TRUE)
 }
 \arguments{
 \item{searchLocation}{drive letter to be searched, for Windows systems default For Windows Systems it is mandatory to use Capitel letters with colon only

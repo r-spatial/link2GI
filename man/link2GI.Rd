@@ -3,7 +3,6 @@
 \docType{package}
 \name{link2GI}
 \alias{link2GI}
-\alias{link2GI-package}
 \title{Bridges to the GI-World}
 \description{
 A straightforward helper tool for linking  GI/RS functionality to R. The goal of the package 
@@ -22,17 +21,15 @@ Finally  there are some usefull functions for creating project folder structures
 Functions for linking  GI/RS functionality to R
 }
 \note{
-To utilize the power of the open source GI tools from within \code{R} you need to installthem first.
+To utilize the power of the open source GI tools from within \code{R} you need to install them first.
 The link2GI package just tries to generate correct environment settings as system and path variables
 for the most of the known issues. 
- As a first promising opportunity to do fullfil most of the requirements you may install \code{QGIS, GRASS GIS 7.x} 
- and \code{SAGA-GIS} following the excellent 
+ The installation of the \code{QGIS, GRASS GIS 7.x} 
+ and \code{SAGA-GIS} GIS software can performed by following the excellent 
  \href{https://github.com/jannes-m/RQGIS/blob/master/vignettes/install_guide.Rmd}{installation instructions}  
- of the \href{https://CRAN.R-project.org/package=RQGIS}{RQGIS} package will have a good first try to ensure
- a smooth working environment. \cr\cr 
- For a broad number of problems you may just use the \code{RQGIS} package as wrapper for the functionalitythat can 
- be reached via \code{QGIS}.
-\code{link2GI} is tested under Windows 7/10 as well as on the Ubuntu/Debian Linux distributions. 
+ of the \href{https://CRAN.R-project.org/package=RQGIS}{RQGIS} package. \cr\cr 
+ For a broad number of problems you may just use the \code{RQGIS} package as wrapper for the full \code{QGIS} functionality.
+\code{link2GI} is tested under Windows 7/10 as well as on the Ubuntu/Debian/Arch Linux distributions. 
 The OSX operation system should run but is not tested.
 }
 \author{

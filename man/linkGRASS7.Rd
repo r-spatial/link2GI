@@ -4,10 +4,20 @@
 \alias{linkGRASS7}
 \title{Locate and set up 'GRASS 7' API bindings}
 \usage{
-linkGRASS7(x = NULL, default_GRASS7 = NULL, search_path = NULL,
-  ver_select = FALSE, gisdbase_exist = FALSE, gisdbase = NULL,
-  use_home = FALSE, location = NULL, spatial_params = NULL,
-  resolution = NULL, quiet = TRUE, returnPaths = FALSE)
+linkGRASS7(
+  x = NULL,
+  default_GRASS7 = NULL,
+  search_path = NULL,
+  ver_select = FALSE,
+  gisdbase_exist = FALSE,
+  gisdbase = NULL,
+  use_home = FALSE,
+  location = NULL,
+  spatial_params = NULL,
+  resolution = NULL,
+  quiet = TRUE,
+  returnPaths = TRUE
+)
 }
 \arguments{
 \item{x}{raster or sp object}

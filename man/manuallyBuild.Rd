@@ -4,8 +4,7 @@
 \alias{manuallyBuild}
 \title{Build package manually}
 \usage{
-manuallyBuild(dsn = getwd(), pkgDir = "H:/Dokumente",
-  document = TRUE, ...)
+manuallyBuild(dsn = getwd(), pkgDir = "H:/Dokumente", document = TRUE, ...)
 }
 \arguments{
 \item{dsn}{'character'. Target folder containing source files; defaults to 

@@ -153,14 +153,14 @@ parseOTBFunction <- function(algo=NULL,gili=NULL) {
   for (arg in names(t)){
     if (arg =="input")  arg<-"in"
     if (arg != "progress")  {
-  system(paste0(path_OTB,"otbcli_",paste0(algo," -help ",arg ,paste0(" >> ",tempdir(),ocmd[[1]],"-",arg,".txt 2>&1"))))
-  helpList[[arg]]<-readLines(paste0(tempdir(),ocmd[[1]],"-",arg,".txt"))
-  file.remove(paste0(ocmd[[1]],"-",arg,".txt"))
-  drop <-grep(x = helpList[[arg]],pattern =  "\\w*no version information available\\w*")
-  drop<-append(drop,grep(x = helpList[[arg]],pattern =  '^$'))
-  helpList[[arg]]<-helpList[[arg]][-drop]
-  }
-  else if  (arg=="progress") helpList[["progress"]]<- "Report progress: It must be 0, 1, false or true"
+      system(paste0(path_OTB,"otbcli_",paste0(algo," -help ",arg ,paste0(" >> ",file.path(tempdir(),ocmd[[1]]),"-",arg,".txt 2>&1"))))
+      helpList[[arg]]<-readLines(paste0(file.path(tempdir(),ocmd[[1]]),"-",arg,".txt"))
+      #file.remove(paste0(file.path(tempdir(),ocmd[[1]]),"-",arg,".txt"),showWarnings = TRUE)
+      drop <-grep(x = helpList[[arg]],pattern =  "\\w*no version information available\\w*")
+      drop<-append(drop,grep(x = helpList[[arg]],pattern =  '^$'))
+      helpList[[arg]]<-helpList[[arg]][-drop]
+    }
+    else if  (arg=="progress") helpList[["progress"]]<- "Report progress: It must be 0, 1, false or true"
   }
   ocmd$help<-helpList
   return(ocmd)

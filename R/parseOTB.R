@@ -1,7 +1,7 @@
 #'@title Get OTB modules 
 #'@name parseOTBAlgorithms
 #'@description retrieve the OTB module folder content and parses the module names
-#'@param gili optional gis linkage as done by `linkOTB()``
+#'@param gili optional list of avalailable `OTB` binaries if not provided `linkOTB()` is called
 #'@export parseOTBAlgorithms
 #'
 #'@examples
@@ -35,9 +35,9 @@ parseOTBAlgorithms<- function(gili=NULL) {
 
 #'@title Get OTB function argument list
 #'@name parseOTBFunction
-#'@description retrieve the choosen function and parses all arguments with the defaults
-#'@param algo number or name of the algorithm as provided by `getOTBAlgorithm`
-#'@param gili optional gis linkage as done by `linkOTB()`
+#'@description retrieve the choosen function and returns a full argument list with the default settings
+#'@param algo either the number or the plain name of the `OTB` algorithm that is wanted. Note the correct (of current/choosen version) information is probided by `parseOTBAlgorithms()`
+#'@param gili optional list of avalailable `OTB` binaries if not provided `linkOTB()` is called
 #'@export parseOTBFunction
 #'
 #'@examples
@@ -64,7 +64,7 @@ parseOTBFunction <- function(algo=NULL,gili=NULL) {
     otb<-link2GI::linkOTB()
     path_OTB<- otb$pathOTB
   } else path_OTB<- gili$pathOTB
-  
+  otb<-gili
   ocmd<-tmp<-list()
   otbcmd <- list()
   otbhelp <- list()
@@ -72,15 +72,15 @@ parseOTBFunction <- function(algo=NULL,gili=NULL) {
   otbtype <- list()
   
   
-  if (algo != ""){
+  if (algo != "" & otb$exist){
     system("rm otb_module_dump.txt",intern = FALSE,ignore.stderr = TRUE)
     ifelse(Sys.info()["sysname"]=="Windows",
            system(paste0(path_OTB,"otbcli_",paste0(algo," -help >>" ,tempdir(),"otb_module_dump.txt 2>&1"))), 
-           system2(paste0(path_OTB,"otbcli"),paste0(algo," -help >>" ,tempdir(),"otb_module_dump.txt 2>&1"))
-    )
+           system(paste0(path_OTB,"otbcli_",paste0(algo," -help >>" ,tempdir(),"/otb_module_dump.txt 2>&1")))
+           )
     
-    txt<-readLines(paste0(tempdir(),"otb_module_dump.txt"))
-    file.remove(paste0(tempdir(),"otb_module_dump.txt"))
+    txt<-readLines(file.path(tempdir(),"otb_module_dump.txt"))
+    file.remove(file.path(tempdir(),"otb_module_dump.txt"))
     # Pull out the appropriate line
     args <- txt[grep("-", txt)]
     # obviously the format has changed. TODO
@@ -180,7 +180,7 @@ parseOTBFunction <- function(algo=NULL,gili=NULL) {
 #' require(listviewer)
 #' 
 #' ## link to OTB
-#' otblink<-link2GI::linkOTB()
+#' otbLink<-link2GI::linkOTB()
 #' 
 #' if (otblink$exist) {
 #'  projRootDir<-tempdir()
@@ -195,7 +195,7 @@ parseOTBFunction <- function(algo=NULL,gili=NULL) {
 #' algoKeyword<- "LocalStatisticExtraction"
 #' 
 #' ## extract the command list for the choosen algorithm 
-#' cmd<-parseOTBFunction(algo = algoKeyword, gili = otblink)
+#' cmd<-parseOTBFunction(algo = algoKeyword, gili = otbLink)
 #' 
 #' ## get help using the convenient listviewer
 #' listviewer::jsonedit(cmd$help)
@@ -206,7 +206,7 @@ parseOTBFunction <- function(algo=NULL,gili=NULL) {
 #' cmd$radius <- 7
 #' 
 #' ## run algorithm
-#' retStack<-runOTB(cmd,gili = otblink)
+#' retStack<-runOTB(cmd,gili = otbLink)
 #' 
 #' ## plot raster
 #' raster::plot(retStack)

@@ -25,7 +25,7 @@ require(raster)
 require(listviewer)
 
 ## link to OTB
-otblink<-link2GI::linkOTB()
+otbLink<-link2GI::linkOTB()
 
 if (otblink$exist) {
  projRootDir<-tempdir()
@@ -40,7 +40,7 @@ if (otblink$exist) {
 algoKeyword<- "LocalStatisticExtraction"
 
 ## extract the command list for the choosen algorithm 
-cmd<-parseOTBFunction(algo = algoKeyword, gili = otblink)
+cmd<-parseOTBFunction(algo = algoKeyword, gili = otbLink)
 
 ## get help using the convenient listviewer
 listviewer::jsonedit(cmd$help)
@@ -51,7 +51,7 @@ cmd$out <- file.path(tempdir(),"test_otb_stat.tif")
 cmd$radius <- 7
 
 ## run algorithm
-retStack<-runOTB(cmd,gili = otblink)
+retStack<-runOTB(cmd,gili = otbLink)
 
 ## plot raster
 raster::plot(retStack)

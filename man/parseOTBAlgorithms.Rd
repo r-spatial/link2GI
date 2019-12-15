@@ -7,7 +7,7 @@
 parseOTBAlgorithms(gili = NULL)
 }
 \arguments{
-\item{gili}{optional gis linkage as done by `linkOTB()``}
+\item{gili}{optional list of avalailable `OTB` binaries if not provided `linkOTB()` is called}
 }
 \description{
 retrieve the OTB module folder content and parses the module names

@@ -7,12 +7,12 @@
 parseOTBFunction(algo = NULL, gili = NULL)
 }
 \arguments{
-\item{algo}{number or name of the algorithm as provided by `getOTBAlgorithm`}
+\item{algo}{either the number or the plain name of the `OTB` algorithm that is wanted. Note the correct (of current/choosen version) information is probided by `parseOTBAlgorithms()`}
 
-\item{gili}{optional gis linkage as done by `linkOTB()`}
+\item{gili}{optional list of avalailable `OTB` binaries if not provided `linkOTB()` is called}
 }
 \description{
-retrieve the choosen function and parses all arguments with the defaults
+retrieve the choosen function and returns a full argument list with the default settings
 }
 \examples{
 \dontrun{

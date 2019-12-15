@@ -172,7 +172,7 @@
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='no'>listviewer</span>)
 
 <span class='co'>## link to OTB</span>
-<span class='no'>otblink</span><span class='kw'>&lt;-</span><span class='kw pkg'>link2GI</span><span class='kw ns'>::</span><span class='fu'><a href='https://r-spatial.github.io/link2GI/reference/linkOTB.html'>linkOTB</a></span>()
+<span class='no'>otbLink</span><span class='kw'>&lt;-</span><span class='kw pkg'>link2GI</span><span class='kw ns'>::</span><span class='fu'><a href='https://r-spatial.github.io/link2GI/reference/linkOTB.html'>linkOTB</a></span>()
 
 <span class='kw'>if</span> (<span class='no'>otblink</span>$<span class='no'>exist</span>) {
  <span class='no'>projRootDir</span><span class='kw'>&lt;-</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>()
@@ -187,7 +187,7 @@
 <span class='no'>algoKeyword</span><span class='kw'>&lt;-</span> <span class='st'>"LocalStatisticExtraction"</span>
 
 <span class='co'>## extract the command list for the choosen algorithm </span>
-<span class='no'>cmd</span><span class='kw'>&lt;-</span><span class='fu'><a href='parseOTBFunction.html'>parseOTBFunction</a></span>(<span class='kw'>algo</span> <span class='kw'>=</span> <span class='no'>algoKeyword</span>, <span class='kw'>gili</span> <span class='kw'>=</span> <span class='no'>otblink</span>)
+<span class='no'>cmd</span><span class='kw'>&lt;-</span><span class='fu'><a href='parseOTBFunction.html'>parseOTBFunction</a></span>(<span class='kw'>algo</span> <span class='kw'>=</span> <span class='no'>algoKeyword</span>, <span class='kw'>gili</span> <span class='kw'>=</span> <span class='no'>otbLink</span>)
 
 <span class='co'>## get help using the convenient listviewer</span>
 <span class='kw pkg'>listviewer</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/listviewer/man/jsonedit.html'>jsonedit</a></span>(<span class='no'>cmd</span>$<span class='no'>help</span>)
@@ -198,7 +198,7 @@
 <span class='no'>cmd</span>$<span class='no'>radius</span> <span class='kw'>&lt;-</span> <span class='fl'>7</span>
 
 <span class='co'>## run algorithm</span>
-<span class='no'>retStack</span><span class='kw'>&lt;-</span><span class='fu'>runOTB</span>(<span class='no'>cmd</span>,<span class='kw'>gili</span> <span class='kw'>=</span> <span class='no'>otblink</span>)
+<span class='no'>retStack</span><span class='kw'>&lt;-</span><span class='fu'>runOTB</span>(<span class='no'>cmd</span>,<span class='kw'>gili</span> <span class='kw'>=</span> <span class='no'>otbLink</span>)
 
 <span class='co'>## plot raster</span>
 <span class='kw pkg'>raster</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/raster/man/plot.html'>plot</a></span>(<span class='no'>retStack</span>)

@@ -36,7 +36,7 @@
 
 
 <meta property="og:title" content="Get OTB function argument list — parseOTBFunction" />
-<meta property="og:description" content="retrieve the choosen function and parses all arguments with the defaults" />
+<meta property="og:description" content="retrieve the choosen function and returns a full argument list with the default settings" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -138,7 +138,7 @@
     </div>
 
     <div class="ref-description">
-    <p>retrieve the choosen function and parses all arguments with the defaults</p>
+    <p>retrieve the choosen function and returns a full argument list with the default settings</p>
     </div>
 
     <pre class="usage"><span class='fu'>parseOTBFunction</span>(<span class='kw'>algo</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>gili</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
@@ -148,11 +148,11 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>algo</th>
-      <td><p>number or name of the algorithm as provided by `getOTBAlgorithm`</p></td>
+      <td><p>either the number or the plain name of the `OTB` algorithm that is wanted. Note the correct (of current/choosen version) information is probided by `parseOTBAlgorithms()`</p></td>
     </tr>
     <tr>
       <th>gili</th>
-      <td><p>optional gis linkage as done by `linkOTB()`</p></td>
+      <td><p>optional list of avalailable `OTB` binaries if not provided `linkOTB()` is called</p></td>
     </tr>
     </table>
 

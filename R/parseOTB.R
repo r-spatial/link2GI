@@ -75,8 +75,8 @@ parseOTBFunction <- function(algo=NULL,gili=NULL) {
   if (algo != "" & otb$exist){
     system("rm otb_module_dump.txt",intern = FALSE,ignore.stderr = TRUE)
     ifelse(Sys.info()["sysname"]=="Windows",
-           system(paste0(path_OTB,"otbcli_",paste0(algo," -help >>" ,tempdir(),"otb_module_dump.txt 2>&1"))), 
-           system(paste0(path_OTB,"otbcli_",paste0(algo," -help >>" ,tempdir(),"/otb_module_dump.txt 2>&1")))
+           system(paste0(file.path(R.utils::getAbsolutePath(path_OTB),paste0("otbcli_",algo,".bat"))," -help >> " ,file.path(R.utils::getAbsolutePath(tempdir()),paste0("otb_module_dump.txt 2>&1")))), 
+           system(paste0(R.utils::getAbsolutePath(path_OTB),"otbcli_",paste0(algo," -help >>" ,tempdir(),"/otb_module_dump.txt 2>&1")))
            )
     
     txt<-readLines(file.path(tempdir(),"otb_module_dump.txt"))

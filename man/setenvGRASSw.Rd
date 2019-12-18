@@ -29,7 +29,7 @@ Initializes and set up  access to 'GRASS GIS 7.xx' via the \code{rgrass7} wrappe
 \examples{
 \dontrun{
 # set choosen'GRASS GIS' installation folders 
-setenvGRASSw(root_GRASS = "C:\\PROGRA~1\\QGIS2~1.18",
+setenvGRASSw(root_GRASS = "C:\\\\PROGRA~1\\\\QGIS2~1.18",
              grass_version =  "grass-7.2.1",
              installation_type =  "osgeo4W")
 }

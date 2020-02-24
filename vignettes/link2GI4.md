@@ -1,7 +1,7 @@
 ---
 author: "Chris Reudenbach"
 title: "OTB Wrapper"
-date: "2019-11-27"
+date: "2020-02-24"
 editor_options:
   chunk_output_type: console
 output:
@@ -63,7 +63,7 @@ require(listviewer)
 otblink<-link2GI::linkOTB()
  projRootDir<-tempdir()
  
-data("rgb")
+data('rgb', package = 'link2GI')  
 raster::plotRGB(rgb)
 r<-raster::writeRaster(rgb, 
               filename=file.path(projRootDir,"test.tif"),

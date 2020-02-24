@@ -236,7 +236,7 @@ require(listviewer)
 otblink&lt;-link2GI::linkOTB()
  projRootDir&lt;-tempdir()
 
-data(&quot;rgb&quot;)
+data(&#39;rgb&#39;, package = &#39;link2GI&#39;)  
 raster::plotRGB(rgb)
 r&lt;-raster::writeRaster(rgb, 
               filename=file.path(projRootDir,&quot;test.tif&quot;),

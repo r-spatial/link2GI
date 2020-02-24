@@ -184,7 +184,7 @@ parseOTBFunction <- function(algo=NULL,gili=NULL) {
 #' 
 #' if (otblink$exist) {
 #'  projRootDir<-tempdir()
-#'  data("rgb")
+#'  data('rgb', package = 'link2GI')  
 #'  raster::plotRGB(rgb)
 #'  r<-raster::writeRaster(rgb, 
 #'                         filename=file.path(projRootDir,"test.tif"),

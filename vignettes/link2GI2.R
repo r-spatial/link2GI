@@ -1,10 +1,10 @@
-## ---- eval=FALSE---------------------------------------------------------
+## ---- eval=FALSE--------------------------------------------------------------
 #  # find all SAGA GIS installations at the default search location
 #  require(link2GI)
 #  saga <- link2GI::findSAGA()
 #  saga
 
-## ---- eval=FALSE---------------------------------------------------------
+## ---- eval=FALSE--------------------------------------------------------------
 #  # find all SAGA GIS installations at the default search location
 #  require(link2GI)
 #  grass <- link2GI::findGRASS()
@@ -12,7 +12,7 @@
 #  otb <- link2GI::findOTB()
 #  otb
 
-## ---- eval=FALSE---------------------------------------------------------
+## ---- eval=FALSE--------------------------------------------------------------
 #  # find all SAGA GIS installations at the default search location
 #  require(link2GI)
 #  link2GI::initProj(projRootDir = tempdir(),
@@ -25,17 +25,17 @@
 #                   path_prefix = "path_to_" ,
 #                   global =TRUE)
 
-## ----eval=FALSE, echo=FALSE, message=FALSE, warning=FALSE----------------
+## ----eval=FALSE, echo=FALSE, message=FALSE, warning=FALSE---------------------
 #  # find all SAGA GIS installations at the default search location
 #  require(link2GI)
 #  require(RSAGA)
 
-## ---- eval=FALSE---------------------------------------------------------
+## ---- eval=FALSE--------------------------------------------------------------
 #  saga1<-link2GI::linkSAGA(ver_select = 1)
 #  saga1
 #  sagaEnv1<- RSAGA::rsaga.env(path = saga1$sagaPath)
 
-## ---- eval=FALSE---------------------------------------------------------
+## ---- eval=FALSE--------------------------------------------------------------
 #  # get meuse data as sp object and link it temporary to GRASS
 #  require(link2GI)
 #  require(sp)
@@ -53,7 +53,7 @@
 #  
 #  linkGRASS7(meuse)
 
-## ---- eval=FALSE---------------------------------------------------------
+## ---- eval=FALSE--------------------------------------------------------------
 #   require(link2GI)
 #   require(sf)
 #  
@@ -67,7 +67,7 @@
 #  
 #   grass<-linkGRASS7(nc,returnPaths = TRUE)
 
-## ---- eval=FALSE---------------------------------------------------------
+## ---- eval=FALSE--------------------------------------------------------------
 #    library(link2GI)
 #   require(sf)
 #  
@@ -98,11 +98,11 @@
 #              spatial_params = c(-84.32385, 33.88199,-75.45698,36.58965,proj4_string))
 #  
 
-## ---- eval=FALSE---------------------------------------------------------
+## ---- eval=FALSE--------------------------------------------------------------
 #  # Link the GRASS installation and define the search location
 #   linkGRASS7(nc, search_path = "~")
 
-## ---- eval=FALSE---------------------------------------------------------
+## ---- eval=FALSE--------------------------------------------------------------
 #  findGRASS()
 #       instDir version installation_type
 #  1 /opt/grass   7.8.1           grass78
@@ -113,19 +113,19 @@
 #  # corresponding linkage running windows
 #  linkGRASS7(nc,c("C:/Program Files/GRASS GIS7.0.5","GRASS GIS 7.0.5","NSIS"))
 
-## ---- eval=FALSE---------------------------------------------------------
+## ---- eval=FALSE--------------------------------------------------------------
 #  linkGRASS7(nc, ver_select = TRUE)
 
-## ---- eval=FALSE---------------------------------------------------------
+## ---- eval=FALSE--------------------------------------------------------------
 #  linkGRASS7(x = nc,
 #                       gisdbase = "~/temp3",
 #                       location = "project1")
 
-## ---- eval=FALSE---------------------------------------------------------
+## ---- eval=FALSE--------------------------------------------------------------
 #  linkGRASS7(gisdbase = "~/temp3", location = "project1",
 #                       gisdbase_exist = TRUE)
 
-## ---- eval=FALSE---------------------------------------------------------
+## ---- eval=FALSE--------------------------------------------------------------
 #   linkGRASS7(spatial_params = c(178605,329714,181390,333611,
 #                                "+proj=sterea +lat_0=52.15616055555555
 #                                 +lon_0=5.38763888888889 +k=0.9999079
@@ -135,7 +135,7 @@
 #                                  -0.398957,0.343988,-1.8774,4.0725
 #                                 +to_meter=1"))
 
-## ---- eval=FALSE---------------------------------------------------------
+## ---- eval=FALSE--------------------------------------------------------------
 #  # link to the installed OTB
 #  otblink<-link2GI::linkOTB()
 #  
@@ -143,7 +143,7 @@
 #  # get the list of modules from the linked version
 #  algo<-parseOTBAlgorithms(gili = otblink)
 
-## ---- eval=FALSE---------------------------------------------------------
+## ---- eval=FALSE--------------------------------------------------------------
 #  ## for the example we use the edge detection,
 #  algoKeyword<- "EdgeExtraction"
 #  
@@ -153,7 +153,7 @@
 #  ## print the current command
 #  print(cmd)
 
-## ----eval=FALSE----------------------------------------------------------
+## ----eval=FALSE---------------------------------------------------------------
 #  require(link2GI)
 #  require(raster)
 #  require(listviewer)
@@ -161,7 +161,7 @@
 #  otblink<-link2GI::linkOTB()
 #   projRootDir<-tempdir()
 #  
-#  data("rgb")
+#  data('rgb', package = 'link2GI')
 #  raster::plotRGB(rgb)
 #  r<-raster::writeRaster(rgb,
 #                filename=file.path(projRootDir,"test.tif"),

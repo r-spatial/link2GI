@@ -4,16 +4,9 @@
 \alias{linkAll}
 \title{convenient function to establish all link2GI links}
 \usage{
-linkAll(
-  links = NULL,
-  simple = TRUE,
-  linkItems = c("saga", "grass7", "otb", "gdal"),
-  sagaArgs = "default",
-  grassArgs = "default",
-  otbArgs = "default",
-  gdalArgs = "default",
-  quiet = FALSE
-)
+linkAll(links = NULL, simple = TRUE, linkItems = c("saga", "grass7",
+  "otb", "gdal"), sagaArgs = "default", grassArgs = "default",
+  otbArgs = "default", gdalArgs = "default", quiet = FALSE)
 }
 \arguments{
 \item{links}{character. links}

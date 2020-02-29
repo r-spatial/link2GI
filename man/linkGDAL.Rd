@@ -4,13 +4,8 @@
 \alias{linkGDAL}
 \title{Locate and set up 'GDAL' API bindings}
 \usage{
-linkGDAL(
-  bin_GDAL = NULL,
-  searchLocation = NULL,
-  ver_select = FALSE,
-  quiet = TRUE,
-  returnPaths = TRUE
-)
+linkGDAL(bin_GDAL = NULL, searchLocation = NULL, ver_select = FALSE,
+  quiet = TRUE, returnPaths = TRUE)
 }
 \arguments{
 \item{bin_GDAL}{string contains path to where the gdal binaries are located}

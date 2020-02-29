@@ -4,13 +4,9 @@
 \alias{initProj}
 \title{Defines and creates folders and variables}
 \usage{
-initProj(
-  projRootDir = tempdir(),
-  GRASSlocation = "tmp/",
+initProj(projRootDir = tempdir(), GRASSlocation = "tmp/",
   projFolders = c("data/", "result/", "run/", "log/"),
-  path_prefix = "",
-  global = FALSE
-)
+  path_prefix = "", global = FALSE)
 }
 \arguments{
 \item{projRootDir}{project github root directory (your github name)}

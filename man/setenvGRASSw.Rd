@@ -4,13 +4,8 @@
 \alias{setenvGRASSw}
 \title{Usually for internally usage, create valid 'GRASS GIS 7.xx' rsession environment settings according to the selected GRASS GIS 7.x and Windows Version}
 \usage{
-setenvGRASSw(
-  root_GRASS = NULL,
-  grass_version = NULL,
-  installation_type = NULL,
-  jpgmem = 1e+06,
-  quiet = TRUE
-)
+setenvGRASSw(root_GRASS = NULL, grass_version = NULL,
+  installation_type = NULL, jpgmem = 1e+06, quiet = TRUE)
 }
 \arguments{
 \item{root_GRASS}{grass root directory i.e. "C:\\OSGEO4~1",}

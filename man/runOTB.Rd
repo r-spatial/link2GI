@@ -4,7 +4,8 @@
 \alias{runOTB}
 \title{Execute the OTB command list via system call}
 \usage{
-runOTB(otbCmdList = NULL, gili = NULL, retRaster = TRUE, quiet = TRUE)
+runOTB(otbCmdList = NULL, gili = NULL, retRaster = TRUE,
+  quiet = TRUE)
 }
 \arguments{
 \item{otbCmdList}{the OTB algorithm parameter list}

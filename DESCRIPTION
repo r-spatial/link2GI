@@ -13,7 +13,14 @@ URL: https://github.com/r-spatial/link2GI/, https://r-spatial.github.io/link2GI/
 BugReports: https://github.com/r-spatial/link2GI/issues/
 License: GPL (>= 3) | file LICENSE
 Depends: R (>= 3.5.0)
-Imports: devtools, R.utils,roxygen2,sf,stringr,raster, methods
+Imports: 
+  devtools, 
+  R.utils,
+  roxygen2,
+  sf,
+  stringr,
+  raster, 
+  methods
 SystemRequirements: GNU make 
 RoxygenNote: 7.0.2
 Suggests: knitr, 

@@ -17,12 +17,12 @@ Imports:
   devtools, 
   R.utils,
   roxygen2,
-  sf,
+  sf (>= 0.9),
   stringr,
   raster, 
   methods
 SystemRequirements: GNU make 
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.0
 Suggests: knitr, 
           rmarkdown,
           rgdal,

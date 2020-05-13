@@ -187,7 +187,7 @@ linkGRASS7 <- function(x = NULL,
           xmin <- corner[1]
           ymax <- corner[4]
           ymin <- corner[2]
-          proj4 <-  unlist(sf::st_crs(x)[2])
+          proj4 <-  sf::st_crs(x)$proj4string
           if (!is.null(resolution)) resolution<- resolution
           else resolution <- "1"
         } else {

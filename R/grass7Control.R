@@ -251,8 +251,8 @@ searchGRASSW <- function(DL = "C:",
     # trys to identify valid grass installation(s) & version number(s)
     installations_GRASS <- lapply(seq(length(raw_GRASS)), function(i){
       # convert codetable according to cmd.exe using type
-      batchfile_lines <- system(paste0("cmd.exe /c TYPE \"", raw_GRASS[i], "\""), 
-                                ignore.stdout = TRUE, intern = T)
+      batchfile_lines <- system(paste0("cmd.exe /C TYPE  ", shortPathName(raw_GRASS[i]) ) , 
+                                ignore.stdout = FALSE, intern = TRUE)
       osgeo4w <- FALSE
       stand_alone <- FALSE
       root_dir <- ''

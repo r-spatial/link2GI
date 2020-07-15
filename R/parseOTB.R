@@ -228,23 +228,29 @@ runOTB <- function(otbCmdList=NULL,
   otb_algorithm<-otbCmdList[1]  
   otbCmdList[1]<-NULL
   otbCmdList$help<-NULL
-  
-  if(Sys.info()["sysname"]=="Windows") otb_algorithm <- paste0(otb_algorithm,".bat")
-  if (names(otbCmdList)[1] =="input")  names(otbCmdList)[1]<-"in"
+  otbCmdList$out <-gsub(" ", "\\\\ ", R.utils::getAbsolutePath(otbCmdList$out))  
+  otbCmdList$input <- gsub(" ", "\\\\ ", R.utils::getAbsolutePath(otbCmdList$input))  
+  if(Sys.info()["sysname"]== "Windows") otb_algorithm <- paste0(otb_algorithm,".bat")
+  if (names(otbCmdList)[1] == "input")  {
+    names(otbCmdList)[1]<-"in"
+    }
   
   command<-paste(paste0(path_OTB,"otbcli_",otb_algorithm," "),
                  paste0("-",names(otbCmdList)," ",otbCmdList,collapse = " "))
   if (quiet){
     system(command,ignore.stdout = TRUE,ignore.stderr = TRUE,intern = FALSE)
     if (retRaster){
-      rStack <- assign(otbCmdList$out,raster::stack(otbCmdList$out))
+      outn=gsub("\\\\", "", path.expand(otbCmdList$out))
+      rStack <- assign(outn,raster::stack(outn))
       return(rStack)
     }
   }
   else {
     system(command,ignore.stdout = FALSE,ignore.stderr = FALSE,intern = TRUE)
     if (retRaster){
-      rStack<-assign(otbCmdList$out,raster::stack(otbCmdList$out))
+      outn=gsub("\\\\", "", path.expand(otbCmdList$out))
+      rStack <- assign(outn,raster::stack(outn))
+#      rStack<-assign(otbCmdList$out,raster::stack(otbCmdList$out))
       return(rStack)
     }
   }

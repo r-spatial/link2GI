@@ -353,9 +353,24 @@ searchGRASSX <- function(MP = "/usr",quiet =TRUE){
   #cat(raw_GRASS)
   if (length(raw_GRASS) > 0 ) {
     
+    
     installations_GRASS <- lapply(seq(length(raw_GRASS)), function(i){
       # grep line containing GISBASE and extract the substring 
       rg<- strsplit(raw_GRASS,split = "/")
+      if (rg[[i]][lengths(rg)] == "grass78") {
+      
+
+      
+      ver_char <- grep(readLines(raw_GRASS[[i]]),pattern = 'GRASS_VERSION = "',value = TRUE)        
+      ver_char <- substr(ver_char, gregexpr(pattern = '"', ver_char)[[1]][1] + 1, nchar(ver_char) - 1)
+      cmd <- grep(readLines(raw_GRASS[[i]]),pattern = 'CMD_NAME = "',value = TRUE)
+      cmd <- substr(cmd, gregexpr(pattern = '"', cmd)[[1]][1] + 1, nchar(cmd) - 1)
+      #rootdir<- grep(readLines(raw_GRASS[[i]]),pattern = 'GISBASE = os.path.normpath',value = TRUE)        
+      #rootdir <- substr(rootdir[2], gregexpr(pattern = '"', rootdir)[[1]][1] + 1, nchar(rootdir) - 1)
+      rd = file.exists(file.path(raw_GRASS,"v.clean"))  
+      if (rd)  root_dir = raw_GRASS
+      else root_dir =  "/opt/grass"
+    }
       if (rg[[i]][lengths(rg)] != "grass78") {
         
         root_dir <- try(grep(readLines(raw_GRASS[[i]]),pattern = 'gisbase = "',value = TRUE),silent = TRUE)
@@ -367,16 +382,7 @@ searchGRASSX <- function(MP = "/usr",quiet =TRUE){
           cmd <- grep(readLines(raw_GRASS[[i]]),pattern = 'cmd_name = "',value = TRUE)
           cmd <- substr(cmd, gregexpr(pattern = '"', cmd)[[1]][1] + 1, nchar(cmd) - 1)
         }
-      } else {
-        
-        ver_char <- grep(readLines(raw_GRASS[[i]]),pattern = 'GRASS_VERSION = "',value = TRUE)        
-        ver_char <- substr(ver_char, gregexpr(pattern = '"', ver_char)[[1]][1] + 1, nchar(ver_char) - 1)
-        cmd <- grep(readLines(raw_GRASS[[i]]),pattern = 'CMD_NAME = "',value = TRUE)
-        cmd <- substr(cmd, gregexpr(pattern = '"', cmd)[[1]][1] + 1, nchar(cmd) - 1)
-        #rootdir<- grep(readLines(raw_GRASS[[i]]),pattern = 'GISBASE = os.path.normpath',value = TRUE)        
-        #rootdir <- substr(rootdir[2], gregexpr(pattern = '"', rootdir)[[1]][1] + 1, nchar(rootdir) - 1)
-        root_dir<- "/opt/grass"
-      }
+      } 
       
       # put it in data frame
       data.frame(instDir = root_dir, version = ver_char, installation_type = cmd , stringsAsFactors = FALSE)

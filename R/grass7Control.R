@@ -367,8 +367,11 @@ searchGRASSX <- function(MP = "/usr",quiet =TRUE){
       cmd <- substr(cmd, gregexpr(pattern = '"', cmd)[[1]][1] + 1, nchar(cmd) - 1)
       #rootdir<- grep(readLines(raw_GRASS[[i]]),pattern = 'GISBASE = os.path.normpath',value = TRUE)        
       #rootdir <- substr(rootdir[2], gregexpr(pattern = '"', rootdir)[[1]][1] + 1, nchar(rootdir) - 1)
-      rd = file.exists(file.path(raw_GRASS,"v.clean"))  
-      if (rd)  root_dir = raw_GRASS
+      
+      grasslib <-system2("find", paste(MP," ! -readable -prune -o -type f -executable -iname 'v.clean' -print"),stdout = TRUE,stderr = FALSE)
+      
+      rd = file.exists(grasslib)  
+      if (rd)  root_dir <- substr(grasslib, 1, nchar(grasslib) - 12)
       else root_dir =  "/opt/grass"
     }
       if (rg[[i]][lengths(rg)] != "grass78") {

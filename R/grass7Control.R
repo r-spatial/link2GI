@@ -365,14 +365,11 @@ searchGRASSX <- function(MP = "/usr",quiet =TRUE){
       ver_char <- substr(ver_char, gregexpr(pattern = '"', ver_char)[[1]][1] + 1, nchar(ver_char) - 1)
       cmd <- grep(readLines(raw_GRASS[[i]]),pattern = 'CMD_NAME = "',value = TRUE)
       cmd <- substr(cmd, gregexpr(pattern = '"', cmd)[[1]][1] + 1, nchar(cmd) - 1)
-      #rootdir<- grep(readLines(raw_GRASS[[i]]),pattern = 'GISBASE = os.path.normpath',value = TRUE)        
-      #rootdir <- substr(rootdir[2], gregexpr(pattern = '"', rootdir)[[1]][1] + 1, nchar(rootdir) - 1)
       
-      grasslib <-system2("find", paste(MP," ! -readable -prune -o -type f -executable -iname 'v.clean' -print"),stdout = TRUE,stderr = FALSE)
+      rootdir<- grep(readLines(raw_GRASS[[i]]),pattern = 'GISBASE = os.path.normpath',value = TRUE)
+      root_dir <- substr(rootdir[2], gregexpr(pattern = '"', rootdir[2])[[1]][1] + 1, nchar(rootdir[2]) - 2)
       
-      rd = file.exists(grasslib)  
-      if (rd)  root_dir <- substr(grasslib, 1, nchar(grasslib) - 12)
-      else root_dir =  "/opt/grass"
+      if (!file.exists(root_dir)) root_dir  <-  "/opt/grass"
     }
       if (rg[[i]][lengths(rg)] != "grass78") {
         

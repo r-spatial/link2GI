@@ -325,11 +325,12 @@ searchGRASSW <- function(DL = "C:",
 
 
 
-#'@title Search recursivly valid 'GRASS GIS' installation(s) at a given 'Linux' mount point
+#'@title Return attributes of valid 'GRASS GIS' installation(s) in 'Linux'
 #'@name searchGRASSX
-#'@description Search for valid 'GRASS GIS' installations at a given 'Linux' mount point
-#'@param MP default is /usr
-#'@return A dataframe containing 'GRASS GIS' binary folder(s), version name(s) and installation type code(s)
+#'@description Searches recursively for valid 'GRASS GIS' installations at a given 'Linux' mount point.
+#'Returns attributes for each installation.
+#'@param MP default is /usr. This is the directory from which the grass executable file is searched, i.e. one executable for each GRASS installation on the system.
+#'@return A dataframe containing 'GRASS GIS' binary folder(s) (i.e. where the individual GRASS commands are installed), version name(s) and installation type code(s)
 #'@param quiet boolean  switch for supressing console messages default is TRUEs
 
 #'@author Chris Reudenbach
@@ -527,17 +528,22 @@ checkGisdbase <- function(x = NULL , gisdbase = NULL, location = NULL, gisdbase_
 }
 
 
-#'@title Search recursivly existing 'GRASS GIS' installation(s) at a given drive/mountpoint 
+#'@title Return attributes of valid 'GRASS GIS' installation(s) on the system
 #'@name findGRASS
-#'@description  Provides an  list of valid 'GRASS GIS' installation(s) 
-#'on your 'Windows' system. There is a major difference between osgeo4W and 
-#'stand_alone installations. The functions trys to find all valid 
+#'@description  Provides a list of valid 'GRASS GIS' installation(s) 
+#'on your system. There is a major difference between osgeo4W and 
+#'stand_alone installations. The functions tries to find all valid 
 #'installations by analysing the calling batch scripts.
-#'@param searchLocation drive letter to be searched, for Windows systems default For Windows Systems it is mandatory to use Capitel letters with colon only
+#'@param searchLocation location to be searched for the grass executable, 
+#'i.e. one executable for each GRASS installation on the system.
+#'For Windows systems
+#'it is mandatory to include an uppercase Windows drive letter and a colon.
+#' Default For Windows Systems 
 #' is \code{C:}, for Linux systems default is \code{/usr}.
 #'@param ver_select boolean default is FALSE. If there is more than one 'SAGA GIS' installation and \code{ver_select} = TRUE the user can select interactively the preferred 'SAGA GIS' version 
 #'@param quiet boolean  switch for supressing console messages default is TRUE
-#'@return A dataframe with the 'GRASS GIS' root folder(s), version name(s) and 
+#'@return A dataframe with the 'GRASS GIS' binary folder(s) (i.e. where the 
+#'individual GRASS commands are installed), version name(s) and 
 #'installation type code(s)
 #'@author Chris Reudenbach
 #'@export findGRASS

@@ -4,7 +4,7 @@
 #'@details During the rsession you will have full access to GRASS7 GIS via the \code{rgrass7} wrappe. Additionally you may use also use the API calls of GRASS7 via the command line.
 #'@param set_default_GRASS7 default = NULL will force a search for 'GRASS GIS' You may provide a valid combination as 
 #'                                    c("/usr/lib/grass74","7.4.1","grass74")
-#'@param MP mount point to be searched. default is "usr"
+#'@param MP mount point to be searched. default is "/usr/bin"
 #'@param quiet boolean  switch for supressing console messages default is TRUE
 #'@param ver_select if TRUE you must interactivley selcect between alternative installations
 #'@export paramGRASSx
@@ -23,7 +23,7 @@
 #' }
 
 paramGRASSx <- function(set_default_GRASS7=NULL, 
-                        MP = "/usr",
+                        MP = "/usr/bin",
                         ver_select = FALSE, 
                         quiet =TRUE){
   if (ver_select =='T') ver_select <- TRUE
@@ -339,15 +339,15 @@ searchGRASSW <- function(DL = "C:",
 #'
 #'@examples
 #' \dontrun{
-#' # get all valid 'GRASS GIS' installation folders in the /usr directory (typical location)
-#' searchGRASSX("/usr")
+#' # get all valid 'GRASS GIS' installation folders in the /usr/bin directory (typical location)
+#' searchGRASSX("/usr/bin")
 #' 
 #' # get all valid 'GRASS GIS' installation folders in the home directory
 #' searchGRASSX("~/")
 #' }
 
-searchGRASSX <- function(MP = "/usr",quiet =TRUE){
-  if (MP=="default") MP <- "/usr"
+searchGRASSX <- function(MP = "/usr/bin",quiet =TRUE){
+  if (MP=="default") MP <- "/usr/bin"
   raw_GRASS <- system2("find", paste(MP," ! -readable -prune -o -type f -executable -iname 'grass??' -print"),stdout = TRUE,stderr = FALSE)
   
   
@@ -539,7 +539,7 @@ checkGisdbase <- function(x = NULL , gisdbase = NULL, location = NULL, gisdbase_
 #'For Windows systems
 #'it is mandatory to include an uppercase Windows drive letter and a colon.
 #' Default For Windows Systems 
-#' is \code{C:}, for Linux systems default is \code{/usr}.
+#' is \code{C:}, for Linux systems default is \code{/usr/bin}.
 #'@param ver_select boolean default is FALSE. If there is more than one 'SAGA GIS' installation and \code{ver_select} = TRUE the user can select interactively the preferred 'SAGA GIS' version 
 #'@param quiet boolean  switch for supressing console messages default is TRUE
 #'@return A dataframe with the 'GRASS GIS' binary folder(s) (i.e. where the 
@@ -564,7 +564,7 @@ findGRASS <- function(searchLocation = "default",
       link = link2GI::searchGRASSW(DL = searchLocation)  
     else return(cat("You are running Windows - Please choose a suitable searchLocation argument that MUST include a Windows drive letter and colon"))
   } else {
-    if (searchLocation=="default") searchLocation <- "/usr"
+    if (searchLocation=="default") searchLocation <- "/usr/bin"
     if (grepl(searchLocation,pattern = ":"))  return(cat("You are running Linux - please choose a suitable searchLocation argument"))
     else link = link2GI::searchGRASSX(MP = searchLocation)
   }

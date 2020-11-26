@@ -131,7 +131,7 @@ linkGRASS7 <- function(x = NULL,
     grass <- paramGRASSw(default_GRASS7,search_path,ver_select)
   } else {
     if (use_home) home <- Sys.getenv("HOME")
-    if (is.null(search_path)) search_path <- "/usr"
+    if (is.null(search_path)) search_path <- "/usr/bin"
     grass <- paramGRASSx(default_GRASS7,search_path,ver_select)
   }
   if (grass[[1]][1] != FALSE) {

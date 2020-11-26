@@ -4,7 +4,7 @@
 \alias{searchGRASSX}
 \title{Return attributes of valid 'GRASS GIS' installation(s) in 'Linux'}
 \usage{
-searchGRASSX(MP = "/usr", quiet = TRUE)
+searchGRASSX(MP = "/usr/bin", quiet = TRUE)
 }
 \arguments{
 \item{MP}{default is /usr. This is the directory from which the grass executable file is searched, i.e. one executable for each GRASS installation on the system.}
@@ -20,8 +20,8 @@ Returns attributes for each installation.
 }
 \examples{
 \dontrun{
-# get all valid 'GRASS GIS' installation folders in the /usr directory (typical location)
-searchGRASSX("/usr")
+# get all valid 'GRASS GIS' installation folders in the /usr/bin directory (typical location)
+searchGRASSX("/usr/bin")
 
 # get all valid 'GRASS GIS' installation folders in the home directory
 searchGRASSX("~/")

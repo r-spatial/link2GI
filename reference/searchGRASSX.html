@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Search recursivly valid 'GRASS GIS' installation(s) at a given 'Linux' mount point — searchGRASSX • link2GI</title>
+<title>Return attributes of valid 'GRASS GIS' installation(s) in 'Linux' — searchGRASSX • link2GI</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,9 @@
 
 
 
-<meta property="og:title" content="Search recursivly valid 'GRASS GIS' installation(s) at a given 'Linux' mount point — searchGRASSX" />
-<meta property="og:description" content="Search for valid 'GRASS GIS' installations at a given 'Linux' mount point" />
+<meta property="og:title" content="Return attributes of valid 'GRASS GIS' installation(s) in 'Linux' — searchGRASSX" />
+<meta property="og:description" content="Searches recursively for valid 'GRASS GIS' installations at a given 'Linux' mount point.
+Returns attributes for each installation." />
 
 
 
@@ -135,23 +136,24 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Search recursivly valid 'GRASS GIS' installation(s) at a given 'Linux' mount point</h1>
+    <h1>Return attributes of valid 'GRASS GIS' installation(s) in 'Linux'</h1>
     <small class="dont-index">Source: <a href='https://github.com/r-spatial/link2GI/blob/master/R/grass7Control.R'><code>R/grass7Control.R</code></a></small>
     <div class="hidden name"><code>searchGRASSX.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Search for valid 'GRASS GIS' installations at a given 'Linux' mount point</p>
+    <p>Searches recursively for valid 'GRASS GIS' installations at a given 'Linux' mount point.
+Returns attributes for each installation.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>searchGRASSX</span>(<span class='kw'>MP</span> <span class='kw'>=</span> <span class='st'>"/usr"</span>, <span class='kw'>quiet</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>searchGRASSX</span><span class='op'>(</span>MP <span class='op'>=</span> <span class='st'>"/usr/bin"</span>, quiet <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>MP</th>
-      <td><p>default is /usr</p></td>
+      <td><p>default is /usr. This is the directory from which the grass executable file is searched, i.e. one executable for each GRASS installation on the system.</p></td>
     </tr>
     <tr>
       <th>quiet</th>
@@ -161,16 +163,20 @@
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A dataframe containing 'GRASS GIS' binary folder(s), version name(s) and installation type code(s)</p>
+    <p>A dataframe containing 'GRASS GIS' binary folder(s) (i.e. where the individual GRASS commands are installed), version name(s) and installation type code(s)</p>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Chris Reudenbach</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='co'># get all valid 'GRASS GIS' installation folders in the /usr directory (typical location)</span>
-<span class='fu'>searchGRASSX</span>(<span class='st'>"/usr"</span>)
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='co'># get all valid 'GRASS GIS' installation folders in the /usr/bin directory (typical location)</span>
+<span class='fu'>searchGRASSX</span><span class='op'>(</span><span class='st'>"/usr/bin"</span><span class='op'>)</span>
 
 <span class='co'># get all valid 'GRASS GIS' installation folders in the home directory</span>
-<span class='fu'>searchGRASSX</span>(<span class='st'>"~/"</span>)
-}</div></pre>
+<span class='fu'>searchGRASSX</span><span class='op'>(</span><span class='st'>"~/"</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -186,7 +192,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

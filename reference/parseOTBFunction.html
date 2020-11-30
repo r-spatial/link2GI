@@ -144,7 +144,7 @@
     <p>retrieve the choosen function and returns a full argument list with the default settings</p>
     </div>
 
-    <pre class="usage"><span class='fu'>parseOTBFunction</span>(<span class='kw'>algo</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>gili</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>parseOTBFunction</span><span class='op'>(</span>algo <span class='op'>=</span> <span class='cn'>NULL</span>, gili <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -161,21 +161,22 @@
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='no'>otbLink</span><span class='kw'>&lt;-</span><span class='kw pkg'>link2GI</span><span class='kw ns'>::</span><span class='fu'><a href='linkOTB.html'>linkOTB</a></span>()
-<span class='kw'>if</span> (<span class='no'>otbLink</span>$<span class='no'>exist</span>) {
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='va'>otbLink</span><span class='op'>&lt;-</span><span class='fu'>link2GI</span><span class='fu'>::</span><span class='fu'><a href='linkOTB.html'>linkOTB</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='kw'>if</span> <span class='op'>(</span><span class='va'>otbLink</span><span class='op'>$</span><span class='va'>exist</span><span class='op'>)</span> <span class='op'>{</span>
 
 <span class='co'>## parse all modules</span>
-<span class='no'>algos</span><span class='kw'>&lt;-</span><span class='fu'><a href='parseOTBAlgorithms.html'>parseOTBAlgorithms</a></span>(<span class='kw'>gili</span> <span class='kw'>=</span> <span class='no'>otbLink</span>)
+<span class='va'>algos</span><span class='op'>&lt;-</span><span class='fu'><a href='parseOTBAlgorithms.html'>parseOTBAlgorithms</a></span><span class='op'>(</span>gili <span class='op'>=</span> <span class='va'>otbLink</span><span class='op'>)</span>
 
 
 <span class='co'>## take edge detection</span>
-<span class='no'>cmdList</span><span class='kw'>&lt;-</span><span class='fu'>parseOTBFunction</span>(<span class='kw'>algo</span> <span class='kw'>=</span> <span class='no'>algos</span>[<span class='fl'>27</span>],<span class='kw'>gili</span> <span class='kw'>=</span> <span class='no'>otbLink</span>)
+<span class='va'>cmdList</span><span class='op'>&lt;-</span><span class='fu'>parseOTBFunction</span><span class='op'>(</span>algo <span class='op'>=</span> <span class='va'>algos</span><span class='op'>[</span><span class='fl'>27</span><span class='op'>]</span>,gili <span class='op'>=</span> <span class='va'>otbLink</span><span class='op'>)</span>
 <span class='co'>## print the current command</span>
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>cmdList</span>)
-}
-}
-<span class='co'>##+##</span></div></pre>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>cmdList</span><span class='op'>)</span>
+<span class='op'>}</span>
+<span class='op'>}</span>
+<span class='co'>##+##</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -191,7 +192,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

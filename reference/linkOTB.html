@@ -144,15 +144,15 @@
     <p>Locate and set up  <a href='https://www.orfeo-toolbox.org/'>'Orfeo ToolBox'</a> API bindings</p>
     </div>
 
-    <pre class="usage"><span class='fu'>linkOTB</span>(
-  <span class='kw'>bin_OTB</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>root_OTB</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>type_OTB</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>searchLocation</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>ver_select</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>quiet</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>returnPaths</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
-)</pre>
+    <pre class="usage"><span class='fu'>linkOTB</span><span class='op'>(</span>
+  bin_OTB <span class='op'>=</span> <span class='cn'>NULL</span>,
+  root_OTB <span class='op'>=</span> <span class='cn'>NULL</span>,
+  type_OTB <span class='op'>=</span> <span class='cn'>NULL</span>,
+  searchLocation <span class='op'>=</span> <span class='cn'>NULL</span>,
+  ver_select <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  quiet <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  returnPaths <span class='op'>=</span> <span class='cn'>TRUE</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -171,7 +171,7 @@
     </tr>
     <tr>
       <th>searchLocation</th>
-      <td><p>string hard drive letter (Windows) or mounting point (Linux) default for Windows is <code>C:</code>, default for Linux is <code>~</code></p></td>
+      <td><p>string hard drive letter (Windows) or mounting point (Linux) default for Windows is <code>C:</code>, default for Linux is <code><a href='https://rdrr.io/r/base/tilde.html'>~</a></code></p></td>
     </tr>
     <tr>
       <th>ver_select</th>
@@ -198,16 +198,20 @@ to the PATH variable only, otherwise all paths and versions of the installed GRA
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
     <p>You may also set the path manually. Using a 'OSGeo4W64' <a href='http://trac.osgeo.org/osgeo4w/'>http://trac.osgeo.org/osgeo4w/</a> installation it is typically <code>C:/OSGeo4W64/bin/</code></p>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Chris Reudenbach</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
 <span class='co'># call if you do not have any idea if and where OTB is installed</span>
-<span class='no'>otb</span><span class='kw'>&lt;-</span><span class='fu'>linkOTB</span>()
-<span class='kw'>if</span> (<span class='no'>otb</span>$<span class='no'>exist</span>) {
+<span class='va'>otb</span><span class='op'>&lt;-</span><span class='fu'>linkOTB</span><span class='op'>(</span><span class='op'>)</span>
+<span class='kw'>if</span> <span class='op'>(</span><span class='va'>otb</span><span class='op'>$</span><span class='va'>exist</span><span class='op'>)</span> <span class='op'>{</span>
 <span class='co'># call it for a default OSGeo4W installation of the OTB</span>
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>otb</span>)
-}
-}</div></pre>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>otb</span><span class='op'>)</span>
+<span class='op'>}</span>
+<span class='op'>}</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -223,7 +227,7 @@ to the PATH variable only, otherwise all paths and versions of the installed GRA
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

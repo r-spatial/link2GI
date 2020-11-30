@@ -144,7 +144,7 @@
     <p>retrieve the OTB module folder content and parses the module names</p>
     </div>
 
-    <pre class="usage"><span class='fu'>parseOTBAlgorithms</span>(<span class='kw'>gili</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>parseOTBAlgorithms</span><span class='op'>(</span>gili <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -157,20 +157,22 @@
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
 <span class='co'>## link to the OTB binaries</span>
-<span class='no'>otbLink</span><span class='kw'>&lt;-</span><span class='kw pkg'>link2GI</span><span class='kw ns'>::</span><span class='fu'><a href='linkOTB.html'>linkOTB</a></span>()
+<span class='va'>otbLink</span><span class='op'>&lt;-</span><span class='fu'>link2GI</span><span class='fu'>::</span><span class='fu'><a href='linkOTB.html'>linkOTB</a></span><span class='op'>(</span><span class='op'>)</span>
 
- <span class='kw'>if</span> (<span class='no'>otbLink</span>$<span class='no'>exist</span>) {
+ <span class='kw'>if</span> <span class='op'>(</span><span class='va'>otbLink</span><span class='op'>$</span><span class='va'>exist</span><span class='op'>)</span> <span class='op'>{</span>
 
  <span class='co'>## parse all modules</span>
- <span class='no'>moduleList</span><span class='kw'>&lt;-</span><span class='fu'>parseOTBAlgorithms</span>(<span class='kw'>gili</span> <span class='kw'>=</span> <span class='no'>otbLink</span>)
+ <span class='va'>moduleList</span><span class='op'>&lt;-</span><span class='fu'>parseOTBAlgorithms</span><span class='op'>(</span>gili <span class='op'>=</span> <span class='va'>otbLink</span><span class='op'>)</span>
 
  <span class='co'>## print the list</span>
- <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>moduleList</span>)
+ <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>moduleList</span><span class='op'>)</span>
+ 
+ <span class='op'>}</span> 
+<span class='op'>}</span>
 
- }
-}</div></pre>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -186,7 +188,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

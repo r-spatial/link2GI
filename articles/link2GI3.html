@@ -91,13 +91,14 @@
 
       
 
-      </header><div class="row">
+      </header><link href="link2GI3_files/anchor-sections-1.0/anchor-sections.css" rel="stylesheet">
+<script src="link2GI3_files/anchor-sections-1.0/anchor-sections.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>linkGRASS7 real world data usecase</h1>
                         <h4 class="author">Chris Reudenbach</h4>
             
-            <h4 class="date">2020-07-21</h4>
+            <h4 class="date">2020-11-30</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/r-spatial/link2GI/blob/master/vignettes/link2GI3.Rmd"><code>vignettes/link2GI3.Rmd</code></a></small>
       <div class="hidden name"><code>link2GI3.Rmd</code></div>
@@ -124,113 +125,120 @@
 <li>It is pretty instructive for a lot of spatial analysis.</li>
 </ul>
 <p>We also have to download a <a href="https://www.zensus2011.de/SharedDocs/Downloads/DE/Pressemitteilung/DemografischeGrunddaten/Datensatzbeschreibung_Bevoelkerung_100m_Gitter.xlsx;jsessionid=294313DDBB57914D6636DE373897A3F2.2_cid389?__blob=publicationFile&amp;v=2">meta data description file</a> (excel sheet) for informations about projection and data concepts and so on.</p>
-<div class="sourceCode" id="cb1"><html><body><pre class="r"> <span class="co"># we need some additional packages</span>
- <span class="fu"><a href="https://rdrr.io/r/base/library.html">require</a></span>(<span class="no">link2GI</span>)
- <span class="fu"><a href="https://rdrr.io/r/base/library.html">require</a></span>(<span class="no">curl</span>)
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"> <span class="co"># we need some additional packages</span>
+ <span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-spatial/link2GI/">link2GI</a></span><span class="op">)</span>
+ <span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="va"><a href="https://jeroen.cran.dev/curl">curl</a></span><span class="op">)</span>
 
 <span class="co"># first of all we create  a project folder structure </span>
-  <span class="kw pkg">link2GI</span><span class="kw ns">::</span><span class="fu"><a href="../reference/initProj.html">initProj</a></span>(<span class="kw">projRootDir</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span>(),<span class="st">"/link2GI_examples"</span>),
-                    <span class="kw">projFolders</span> <span class="kw">=</span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"run/"</span>),
-                    <span class="kw">path_prefix</span> <span class="kw">=</span> <span class="st">"path_"</span>,
-                    <span class="kw">global</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
+  <span class="fu">link2GI</span><span class="fu">::</span><span class="fu"><a href="../reference/initProj.html">initProj</a></span><span class="op">(</span>projRootDir <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span><span class="op">(</span><span class="op">)</span>,<span class="st">"/link2GI_examples"</span><span class="op">)</span>, 
+                    projFolders <span class="op">=</span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"run/"</span><span class="op">)</span>,
+                    path_prefix <span class="op">=</span> <span class="st">"path_"</span>,
+                    global <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 
 <span class="co"># set runtime directory</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/getwd.html">setwd</a></span>(<span class="no">path_run</span>)
+  <span class="fu"><a href="https://rdrr.io/r/base/getwd.html">setwd</a></span><span class="op">(</span><span class="va">path_run</span><span class="op">)</span>
 
 <span class="co"># get some typical authority generated data </span>
-  <span class="no">url</span><span class="kw">&lt;-</span><span class="st">"https://www.zensus2011.de/SharedDocs/Downloads/DE/Pressemitteilung/
+  <span class="va">url</span><span class="op">&lt;-</span><span class="st">"https://www.zensus2011.de/SharedDocs/Downloads/DE/Pressemitteilung/
         DemografischeGrunddaten/csv_Bevoelkerung_100m_Gitter.zip;
         jsessionid=294313DDBB57914D6636DE373897A3F2.2_cid389?__blob=publicationFile&amp;v=3"</span>
- <span class="no">res</span> <span class="kw">&lt;-</span> <span class="kw pkg">curl</span><span class="kw ns">::</span><span class="fu"><a href="https://jeroen.cran.dev/curl/reference/curl_download.html">curl_download</a></span>(<span class="no">url</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(<span class="no">path_run</span>,<span class="st">"testdata.zip"</span>))
+ <span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">curl</span><span class="fu">::</span><span class="fu"><a href="https://jeroen.cran.dev/curl/reference/curl_download.html">curl_download</a></span><span class="op">(</span><span class="va">url</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">path_run</span>,<span class="st">"testdata.zip"</span><span class="op">)</span><span class="op">)</span>
 
 <span class="co"># unzip it</span>
- <span class="fu"><a href="https://rdrr.io/r/utils/unzip.html">unzip</a></span>(<span class="no">res</span>,<span class="kw">files</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">grep</a></span>(<span class="st">".csv"</span>, <span class="fu"><a href="https://rdrr.io/r/utils/unzip.html">unzip</a></span>(<span class="no">res</span>,<span class="kw">list</span> <span class="kw">=</span> <span class="fl">TRUE</span>)$<span class="no">Name</span>,<span class="kw">value</span> <span class="kw">=</span> <span class="fl">TRUE</span>),
-       <span class="kw">junkpaths</span> <span class="kw">=</span> <span class="fl">TRUE</span>, <span class="kw">overwrite</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
-<span class="no">fn</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span>(<span class="kw">pattern</span> <span class="kw">=</span> <span class="st">"[.]csv$"</span>, <span class="kw">path</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/getwd.html">getwd</a></span>(), <span class="kw">full.names</span> <span class="kw">=</span> <span class="fl">TRUE</span>)</pre></body></html></div>
+ <span class="fu"><a href="https://rdrr.io/r/utils/unzip.html">unzip</a></span><span class="op">(</span><span class="va">res</span>,files <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">grep</a></span><span class="op">(</span><span class="st">".csv"</span>, <span class="fu"><a href="https://rdrr.io/r/utils/unzip.html">unzip</a></span><span class="op">(</span><span class="va">res</span>,list <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">$</span><span class="va">Name</span>,value <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,
+       junkpaths <span class="op">=</span> <span class="cn">TRUE</span>, overwrite <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="va">fn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="st">"[.]csv$"</span>, path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/getwd.html">getwd</a></span><span class="op">(</span><span class="op">)</span>, full.names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <div id="preprocessing-of-the-data" class="section level3">
 <h3 class="hasAnchor">
 <a href="#preprocessing-of-the-data" class="anchor"></a>Preprocessing of the data</h3>
 <p>After downloading the data we will use it for some demonstration stuff. If you have a look the data is nothing than x,y,z with assuming some projection information.</p>
-<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="co"># get the filename</span>
-
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># get the filename</span>
+ 
 <span class="co"># fast read with data.table </span>
- <span class="no">xyz</span> <span class="kw">&lt;-</span> <span class="kw pkg">data.table</span><span class="kw ns">::</span><span class="fu">fread</span>(<span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(<span class="no">path_run</span>,<span class="st">"/Zensus_Bevoelkerung_100m-Gitter.csv"</span>))
+ <span class="va">xyz</span> <span class="op">&lt;-</span> <span class="fu">data.table</span><span class="fu">::</span><span class="fu">fread</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">path_run</span>,<span class="st">"/Zensus_Bevoelkerung_100m-Gitter.csv"</span><span class="op">)</span><span class="op">)</span>
 
- <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">xyz</span>)</pre></body></html></div>
+ <span class="fu"><a href="https://rdrr.io/pkg/raster/man/headtail.html">head</a></span><span class="op">(</span><span class="va">xyz</span><span class="op">)</span></code></pre></div>
 <p>We can easy rasterize this data as it is intentionally gridded data.that means we have in at a grid size of 100 by 100 meters a value.</p>
-<div class="sourceCode" id="cb3"><html><body><pre class="r"> <span class="fu"><a href="https://rdrr.io/r/base/library.html">require</a></span>(<span class="no">RColorBrewer</span>)
- <span class="fu"><a href="https://rdrr.io/r/base/library.html">require</a></span>(<span class="no">raster</span>)
- <span class="fu"><a href="https://rdrr.io/r/base/library.html">require</a></span>(<span class="no">mapview</span>)
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"> <span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="va">RColorBrewer</span><span class="op">)</span>
+ <span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/raster">raster</a></span><span class="op">)</span>
+ <span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="va">mapview</span><span class="op">)</span>
 
 
 <span class="co"># clean dataframe</span>
- <span class="no">xyz</span> <span class="kw">&lt;-</span> <span class="no">xyz</span>[,-<span class="fl">1</span>]
+ <span class="va">xyz</span> <span class="op">&lt;-</span> <span class="va">xyz</span><span class="op">[</span>,<span class="op">-</span><span class="fl">1</span><span class="op">]</span>
 
 <span class="co"># rasterize it according to the projection </span>
- <span class="no">r</span> <span class="kw">&lt;-</span> <span class="kw pkg">raster</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/rasterFromXYZ.html">rasterFromXYZ</a></span>(<span class="no">xyz</span>,<span class="kw">crs</span> <span class="kw">=</span> <span class="kw pkg">sp</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/sp/man/CRS-class.html">CRS</a></span>(<span class="st">"+init=epsg:3035"</span>))
+ <span class="va">r</span> <span class="op">&lt;-</span> <span class="fu">raster</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/rasterFromXYZ.html">rasterFromXYZ</a></span><span class="op">(</span><span class="va">xyz</span>,crs <span class="op">=</span> <span class="fu">sp</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/sp/man/CRS-class.html">CRS</a></span><span class="op">(</span><span class="st">"+init=epsg:3035"</span><span class="op">)</span><span class="op">)</span>
 
 
 <span class="co"># map it</span>
- <span class="no">p</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/colorRamp.html">colorRampPalette</a></span>(<span class="fu">brewer.pal</span>(<span class="fl">8</span>, <span class="st">"Reds"</span>))
+ <span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/colorRamp.html">colorRampPalette</a></span><span class="op">(</span><span class="fu">brewer.pal</span><span class="op">(</span><span class="fl">8</span>, <span class="st">"Reds"</span><span class="op">)</span><span class="op">)</span>
  <span class="co"># aet resolution to 1 sqkm</span>
- <span class="kw pkg">mapview</span><span class="kw ns">::</span><span class="fu">mapviewOptions</span>(<span class="kw">mapview.maxpixels</span> <span class="kw">=</span> <span class="no">r</span>@<span class="kw">ncols</span>*<span class="no">r</span>@<span class="kw">nrows</span>/<span class="fl">10</span>)
- <span class="kw pkg">mapview</span><span class="kw ns">::</span><span class="fu">mapview</span>(<span class="no">r</span>, <span class="kw">col.regions</span> <span class="kw">=</span> <span class="no">p</span>,
-                  <span class="kw">at</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(-<span class="fl">1</span>,<span class="fl">10</span>,<span class="fl">25</span>,<span class="fl">50</span>,<span class="fl">100</span>,<span class="fl">500</span>,<span class="fl">1000</span>,<span class="fl">2500</span>),
-                  <span class="kw">legend</span> <span class="kw">=</span> <span class="fl">TRUE</span>)</pre></body></html></div>
+ <span class="fu">mapview</span><span class="fu">::</span><span class="fu">mapviewOptions</span><span class="op">(</span>mapview.maxpixels <span class="op">=</span> <span class="va">r</span><span class="op">@</span><span class="va">ncols</span><span class="op">*</span><span class="va">r</span><span class="op">@</span><span class="va">nrows</span><span class="op">/</span><span class="fl">10</span><span class="op">)</span>
+ <span class="fu">mapview</span><span class="fu">::</span><span class="fu">mapview</span><span class="op">(</span><span class="va">r</span>, col.regions <span class="op">=</span> <span class="va">p</span>, 
+                  at <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>,<span class="fl">10</span>,<span class="fl">25</span>,<span class="fl">50</span>,<span class="fl">100</span>,<span class="fl">500</span>,<span class="fl">1000</span>,<span class="fl">2500</span><span class="op">)</span>, 
+                  legend <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="setup-grass-project" class="section level3">
 <h3 class="hasAnchor">
 <a href="#setup-grass-project" class="anchor"></a>Setup GRASS Project</h3>
 <p>So far nothing new. Now we create a new but permanent <code>GRASS</code> gisbase using the spatial parameters from the raster object. As you know the <code>linkGRASS7</code> function performs a full search for one or more than one existing <code>GRASS</code> installations. If a valid <code>GRASS</code> installation exists all parameter are setup und the package <code>rgrass7</code> is linked.</p>
 <p>Due to the fact that the <code>gisdbase_exist</code> is by default set to FALSE it will create a new structure according to the <code>R</code> object.</p>
-<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">require</a></span>(<span class="no">link2GI</span>)
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-spatial/link2GI/">link2GI</a></span><span class="op">)</span>
 <span class="co"># initialize GRASS and set up a permanent structure  </span>
-<span class="kw pkg">link2GI</span><span class="kw ns">::</span><span class="fu"><a href="../reference/linkGRASS7.html">linkGRASS7</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">r</span>,
-                    <span class="kw">gisdbase</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span>(),<span class="st">"/link2GI_examples"</span>),
-                    <span class="kw">location</span> <span class="kw">=</span> <span class="st">"microzensus2011"</span>)</pre></body></html></div>
+<span class="fu">link2GI</span><span class="fu">::</span><span class="fu"><a href="../reference/linkGRASS7.html">linkGRASS7</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">r</span>, 
+                    gisdbase <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span><span class="op">(</span><span class="op">)</span>,<span class="st">"/link2GI_examples"</span><span class="op">)</span>,
+                    location <span class="op">=</span> <span class="st">"microzensus2011"</span><span class="op">)</span>   </code></pre></div>
 <p>Finally we can now import the data to the <code>GRASS</code> gisdbase using the <code>rgass7</code> package functionality.</p>
 <p>First we must convert the raster object to <code>GeoTIFF</code> file. Any <code>GDAL</code> format is possible but <code>GeoTIFF</code> is very common and stable.</p>
-<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">require</a></span>(<span class="no">link2GI</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">require</a></span>(<span class="no">raster</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">require</a></span>(<span class="no">rgrass7</span>)
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-spatial/link2GI/">link2GI</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/raster">raster</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="va"><a href="http://grass.osgeo.org/">rgrass7</a></span><span class="op">)</span>
 
 <span class="co"># write it to geotiff</span>
-  <span class="kw pkg">raster</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/writeRaster.html">writeRaster</a></span>(<span class="no">r</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(<span class="no">path_run</span>,<span class="st">"/Zensus_Bevoelkerung_100m-Gitter.tif"</span>),
-                      <span class="kw">overwrite</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
+  <span class="fu">raster</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/writeRaster.html">writeRaster</a></span><span class="op">(</span><span class="va">r</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">path_run</span>,<span class="st">"/Zensus_Bevoelkerung_100m-Gitter.tif"</span><span class="op">)</span>, 
+                      overwrite <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 
 <span class="co"># import raster to GRASS</span>
-<span class="kw pkg">rgrass7</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/rgrass7/man/execGRASS.html">execGRASS</a></span>(<span class="st">'r.external'</span>,
-                   <span class="kw">flags</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'o'</span>,<span class="st">"overwrite"</span>,<span class="st">"quiet"</span>),
-                   <span class="kw">input</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(<span class="no">path_run</span>,<span class="st">"/Zensus_Bevoelkerung_100m-Gitter.tif"</span>),
-                   <span class="kw">output</span><span class="kw">=</span><span class="st">"Zensus_Bevoelkerung_100m_Gitter"</span>,
-                   <span class="kw">band</span><span class="kw">=</span><span class="fl">1</span>)
+<span class="fu">rgrass7</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/rgrass7/man/execGRASS.html">execGRASS</a></span><span class="op">(</span><span class="st">'r.external'</span>,
+                   flags<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'o'</span>,<span class="st">"overwrite"</span>,<span class="st">"quiet"</span><span class="op">)</span>,
+                   input<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">path_run</span>,<span class="st">"/Zensus_Bevoelkerung_100m-Gitter.tif"</span><span class="op">)</span>,
+                   output<span class="op">=</span><span class="st">"Zensus_Bevoelkerung_100m_Gitter"</span>,
+                   band<span class="op">=</span><span class="fl">1</span><span class="op">)</span>
 
 <span class="co"># check imported data set</span>
-<span class="kw pkg">rgrass7</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/rgrass7/man/execGRASS.html">execGRASS</a></span>(<span class="st">'r.info'</span>,
-                   <span class="kw">map</span> <span class="kw">=</span> <span class="st">"Zensus_Bevoelkerung_100m_Gitter"</span>)</pre></body></html></div>
+<span class="fu">rgrass7</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/rgrass7/man/execGRASS.html">execGRASS</a></span><span class="op">(</span><span class="st">'r.info'</span>,
+                   map <span class="op">=</span> <span class="st">"Zensus_Bevoelkerung_100m_Gitter"</span><span class="op">)</span> </code></pre></div>
 <p>Let’s do now the same import as a vector data set. First we create a <code>sf</code> object. Please note this will take quite a while.</p>
-<div class="sourceCode" id="cb6"><html><body><pre class="r"> <span class="no">xyz_sf</span> <span class="kw">=</span> <span class="fu">st_as_sf</span>(<span class="no">xyz</span>,
-                    <span class="kw">coords</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"x_mp_100m"</span>, <span class="st">"y_mp_100m"</span>),
-                    <span class="kw">crs</span> <span class="kw">=</span> <span class="fl">3035</span>,
-                    <span class="kw">agr</span> <span class="kw">=</span> <span class="st">"constant"</span>)
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"> <span class="va">xyz_sf</span> <span class="op">=</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_as_sf.html">st_as_sf</a></span><span class="op">(</span><span class="va">xyz</span>,
+                    coords <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"x_mp_100m"</span>, <span class="st">"y_mp_100m"</span><span class="op">)</span>,
+                    crs <span class="op">=</span> <span class="fl">3035</span>,
+                    agr <span class="op">=</span> <span class="st">"constant"</span><span class="op">)</span>
 
 <span class="co">#map points</span>
- <span class="kw pkg">sf</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/sf/man/plot.html">plot_sf</a></span>(<span class="no">xyz_sf</span>)</pre></body></html></div>
+ <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/plot.html">plot_sf</a></span><span class="op">(</span><span class="va">xyz_sf</span><span class="op">)</span></code></pre></div>
 <p>The <code>GRASS</code> gisdbase already exists. So we pass <code>linkGRASS7</code> the argument <code>gisdbase_exist=TRUE</code> and import the xyz data as generic GRASS vector points.</p>
-<div class="sourceCode" id="cb7"><html><body><pre class="r"> <span class="fu"><a href="https://rdrr.io/r/base/library.html">require</a></span>(<span class="no">sf</span>)
- <span class="fu"><a href="https://rdrr.io/r/base/library.html">require</a></span>(<span class="no">sp</span>)
- <span class="fu"><a href="https://rdrr.io/r/base/library.html">require</a></span>(<span class="no">link2GI</span>)
-
-  <span class="fu"><a href="../reference/sf2gvec.html">sf2gvec</a></span>(<span class="kw">x</span> <span class="kw">=</span>  <span class="no">xyz_sf</span>,
-           <span class="kw">obj_name</span> <span class="kw">=</span> <span class="st">"Zensus_Bevoelkerung_100m_"</span>,
-           <span class="kw">gisdbase</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span>(),<span class="st">"/link2GI_examples"</span>),
-           <span class="kw">location</span> <span class="kw">=</span> <span class="st">"microzensus2011"</span>,
-           <span class="kw">gisdbase_exist</span> <span class="kw">=</span> <span class="fl">TRUE</span>
-
-           )
-
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"> <span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/">sf</a></span><span class="op">)</span>
+ <span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/edzer/sp/">sp</a></span><span class="op">)</span>
+ <span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-spatial/link2GI/">link2GI</a></span><span class="op">)</span>
+ 
+  <span class="fu"><a href="../reference/sf2gvec.html">sf2gvec</a></span><span class="op">(</span>x <span class="op">=</span>  <span class="va">xyz_sf</span>,
+           obj_name <span class="op">=</span> <span class="st">"Zensus_Bevoelkerung_100m_"</span>,
+           gisdbase <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span><span class="op">(</span><span class="op">)</span>,<span class="st">"/link2GI_examples"</span><span class="op">)</span>,
+           location <span class="op">=</span> <span class="st">"microzensus2011"</span>,
+           gisdbase_exist <span class="op">=</span> <span class="cn">TRUE</span>
+          
+           <span class="op">)</span>
+ 
 <span class="co"># check imported data set</span>
-<span class="kw pkg">rgrass7</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/rgrass7/man/execGRASS.html">execGRASS</a></span>(<span class="st">'v.info'</span>, <span class="kw">map</span> <span class="kw">=</span> <span class="st">"Zensus_Bevoelkerung_100m_"</span>)</pre></body></html></div>
+<span class="fu">rgrass7</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/rgrass7/man/execGRASS.html">execGRASS</a></span><span class="op">(</span><span class="st">'v.info'</span>, map <span class="op">=</span> <span class="st">"Zensus_Bevoelkerung_100m_"</span><span class="op">)</span> </code></pre></div>
 </div>
 </div>
 </div>
@@ -251,7 +259,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

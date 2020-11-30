@@ -91,13 +91,14 @@
 
       
 
-      </header><div class="row">
+      </header><link href="link2GI1_files/anchor-sections-1.0/anchor-sections.css" rel="stylesheet">
+<script src="link2GI1_files/anchor-sections-1.0/anchor-sections.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Link GI to R</h1>
                         <h4 class="author">Chris Reudenbach</h4>
             
-            <h4 class="date">2020-07-21</h4>
+            <h4 class="date">2020-11-30</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/r-spatial/link2GI/blob/master/vignettes/link2GI1.Rmd"><code>vignettes/link2GI1.Rmd</code></a></small>
       <div class="hidden name"><code>link2GI1.Rmd</code></div>
@@ -161,11 +162,12 @@
 <a href="#brute-force-search-usage" class="anchor"></a>Brute force search usage</h2>
 <p>Automatic search and find of the installed GIS software binaries is performed by the <code>find</code> functions. Depending of you OS and the number of installed versions you will get a dataframe providing the binary and module folders.</p>
 <p>So the most straightforward call to link temporary to <code>GRASS GIS</code> woud be:</p>
-<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="co"># find all SAGA GIS installations at the default search location</span>
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">require</a></span>(<span class="no">link2GI</span>)
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># find all SAGA GIS installations at the default search location</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-spatial/link2GI/">link2GI</a></span><span class="op">)</span>
 
-<span class="no">grass</span> <span class="kw">&lt;-</span> <span class="kw pkg">link2GI</span><span class="kw ns">::</span><span class="fu"><a href="../reference/linkGRASS7.html">linkGRASS7</a></span>()
-<span class="no">grass</span></pre></body></html></div>
+<span class="va">grass</span> <span class="op">&lt;-</span> <span class="fu">link2GI</span><span class="fu">::</span><span class="fu"><a href="../reference/linkGRASS7.html">linkGRASS7</a></span><span class="op">(</span><span class="op">)</span>
+<span class="va">grass</span></code></pre></div>
 </div>
 </div>
   </div>
@@ -185,7 +187,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

@@ -42,6 +42,7 @@ addons:
       - libgdal-dev
       - netcdf-bin 
       - libudunits2-dev
+      - libfribidi-dev
 
 env:
   global:

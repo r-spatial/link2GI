@@ -12,7 +12,7 @@ i.e. one executable for each GRASS installation on the system.
 For Windows systems
 it is mandatory to include an uppercase Windows drive letter and a colon.
 Default For Windows Systems 
-is \code{C:}, for Linux systems default is \code{/usr}.}
+is \code{C:}, for Linux systems default is \code{/usr/bin}.}
 
 \item{ver_select}{boolean default is FALSE. If there is more than one 'SAGA GIS' installation and \code{ver_select} = TRUE the user can select interactively the preferred 'SAGA GIS' version}
 

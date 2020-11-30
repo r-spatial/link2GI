@@ -6,7 +6,7 @@
 \usage{
 paramGRASSx(
   set_default_GRASS7 = NULL,
-  MP = "/usr",
+  MP = "/usr/bin",
   ver_select = FALSE,
   quiet = TRUE
 )
@@ -15,7 +15,7 @@ paramGRASSx(
 \item{set_default_GRASS7}{default = NULL will force a search for 'GRASS GIS' You may provide a valid combination as 
 c("/usr/lib/grass74","7.4.1","grass74")}
 
-\item{MP}{mount point to be searched. default is "usr"}
+\item{MP}{mount point to be searched. default is "/usr/bin"}
 
 \item{ver_select}{if TRUE you must interactivley selcect between alternative installations}
 

@@ -68,6 +68,9 @@
     <li>
       <a href="articles/link2GI5.html">GEOSTAT 2018 Examples</a>
     </li>
+    <li>
+      <a href="articles/link2GI_third_party_software_installation.html">Installation guide for 3rd party Software related to link2GI</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -100,7 +103,6 @@
 
 <p>Package website: <a href="https://r-spatial.github.io/link2GI">release</a> | <a href="https://r-spatial.github.io/link2GI/dev">dev</a></p>
 <p><code>link2GI</code> provide some functions which make it a bit easier to connect straightforward the common open source GI software packages to the R-biotop. It supports both the use of wrapper packages and the direct API-use via system calls. It focuses on <code>Linux</code> and <code>WindowsX</code> operating systems but nevertheless it should also work with <code>OSX</code>.</p>
-<p>To utilize the power of the open source GI tools from within <code>R</code> you need to install them first. As a first promising opportunity to do fullfil most of the requirements you may install <code>QGIS, GRASS</code>- and <code>SAGA-GIS</code> following the excellent <a href="https://github.com/jannes-m/RQGIS/blob/master/vignettes/install_guide.Rmd">installation instructions</a> of the <a href="https://CRAN.R-project.org/package=RQGIS">RQGIS</a> package will have a good first try to ensure a smooth working environment. Note: for most of the cases you may use just <code>RQGIS</code> as wrapper for the <code>QGIS</code> related functionality.</p>
 <p>If you have several versions installed or if you want to use the full power of the GI software it will be a nice and helpful tool to deal with some strange behaviours and requirements. Especially helpful is the support of <code>OTB</code>, the <code>GDAL-Python</code> functions and a simple support to use any <code>SAGA</code> version via the CLI. Hopefully <code>RSAGA</code> and <a href="https://github.com/stevenpawley/Rsagacmd"><code>Rsagacmd</code></a> will join forces in one package in the future. Anyway the brand new release 1.2.0 of <code>RSAGA</code> as well as the current <code>Rsagacmd</code> will work with the environment settings as provided by <code>linkSAGA</code>.</p>
 </div>
 <div id="installation" class="section level1">
@@ -108,6 +110,11 @@
 <a href="#installation" class="anchor"></a>Installation</h1>
 <p><code>link2GI</code>is up to CRAN. For the installation of the stable version please use <code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages("link2GI")</a></code>.</p>
 <p>To install the latest stable version use: <code>r # devtools package devtools::install_github("r-spatial/link2GI", ref = "master") # remotes package remotes::install_github("r-spatial/link2GI",ref = "master")</code></p>
+<div id="third-party-software" class="section level2">
+<h2 class="hasAnchor">
+<a href="#third-party-software" class="anchor"></a>Third Party software</h2>
+<p>To utilize the power of the open source GI tools from within <code>R</code> you need to install them first. As a first promising opportunity to do fulfill most of the requirements you may install <code>QGIS, GRASS</code>- and <code>SAGA-GIS</code> . The <a href="https://github.com/r-spatial/link2GI/blob/master/vignettes/link2GI_third_party_software_installation.md">Third-Party software installation guide</a> will support you doing so.</p>
+</div>
 </div>
 <div id="documentation" class="section level1">
 <h1 class="hasAnchor">

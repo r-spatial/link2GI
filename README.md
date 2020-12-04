@@ -26,7 +26,7 @@ remotes::install_github("r-spatial/link2GI",ref = "master")
 ```
 
 ## Third Party software
-To utilize the power of the open source GI tools from within `R` you need to install  them first. As a first promising opportunity to do fulfill most of the requirements you may install `QGIS, GRASS`- and `SAGA-GIS` . The [Third-Party software installation guide](https://github.com/r-spatial/link2GI/blob/master/vignettes/link2GI1.md) will support you doing so.
+To utilize the power of the open source GI tools from within `R` you need to install  them first. As a first promising opportunity to do fulfill most of the requirements you may install `QGIS, GRASS`- and `SAGA-GIS` . The [Third-Party software installation guide](link2GI_third_party_software_installation.md) will support you doing so.
 
 # Documentation
 

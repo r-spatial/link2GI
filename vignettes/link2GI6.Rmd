@@ -1,6 +1,12 @@
 ---
 author: "Chris Reudenbach"
-title: "Installation guide for link2GI related Software
+title: "Installation guide for link2GI related Software"
+date: "`r Sys.Date()`"
+editor_options:
+  chunk_output_type: console
+output:
+  html_document: 
+    theme: united
     toc: yes
   rmarkdown: default
   pdf_document:
@@ -87,7 +93,6 @@ If you additionally want to use the **LiDAR processing tools** (LAStools), pleas
 
 ## Ubuntu
 
-### QGIS (and GRASS)
 If you install QGIS with the built-in software managers, you will most likely get an outdated QGIS version. 
 To install more recent QGIS releases, we recommend to follow the installation instructions from the [QGIS installers website](https://www.qgis.org/en/site/forusers/alldownloads.html). 
 
@@ -148,18 +153,6 @@ Please note, however, that QGIS currently only supports the SAGA LTR 2.3.x as fa
 
 You can install various QGIS, SAGA and GRASS versions from the [Arch User Repository](https://aur.archlinux.org/). 
 We recommend to use the [yaourt](https://wiki.archlinux.de/title/Yaourt) package manager.
-
-A nice alternative is the trizen package manager. first install trizen from the github repository.
-```sh
-git clone https://aur.archlinux.org/trizen.git
-cd trizen
-makepkg -si
-```
-.
-Than you can easily search and install qgis and the other GI packages
-```sh
-trizen qgis
-```
 
 ## Fedora
 

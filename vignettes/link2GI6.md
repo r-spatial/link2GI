@@ -1,6 +1,6 @@
 ---
 author: "Chris Reudenbach"
-title: "Installation guide for link2GI related Software
+title: "Installation guide for link2GI related Software"
     toc: yes
   rmarkdown: default
   pdf_document:

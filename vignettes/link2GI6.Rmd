@@ -1,12 +1,6 @@
 ---
 author: "Chris Reudenbach"
-title: "Installation guide for 3rd party Software related to link2GI"
-date: "2020-12-04"
-editor_options:
-  chunk_output_type: console
-output:
-  html_document: 
-    theme: united
+title: "Installation guide for link2GI related Software
     toc: yes
   rmarkdown: default
   pdf_document:
@@ -18,7 +12,14 @@ vignette: >
   %\VignetteEncoding{UTF-8}{inputenc}\
   %\VignetteEngine{knitr::knitr}
 ---
-
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  #fig.path = "https://raw.githubusercontent.com/r-spatial/link2GI/master/figures/",
+  fig.align = "center",
+  collapse = TRUE,
+  comment = "#>"
+)
+```
 
 
 # Vignette info

@@ -270,8 +270,17 @@ searchGRASSW <- function(DL = "C:",
       
       ### if installation_type is osgeo4w
       if (osgeo4w) {
+        if (basename(shortPathName(raw_GRASS[i])) == "grass78.bat"|| basename(shortPathName(raw_GRASS[i])) == "grass79.bat"){
+          
+          # grep line with root directory and extract the substring defining GISBASE
+          root_dir <-dirname(shortPathName(raw_GRASS[i]))
+          # grep line with the version name and extract it
+          ver_char <- substr(basename(shortPathName(raw_GRASS[i])),6,7)
+          installerType <- "osgeo4W"
+        } else { 
+        if (length(grep("PREREM~1", shortPathName(raw_GRASS[i]))) == 0  && length(grep("extrabin", shortPathName(raw_GRASS[i]))) == 0 ){
         # grep line with root directory and extract the substring defining GISBASE
-        root_dir <- unique(grep(paste("SET OSGEO4W_ROOT=", collapse = "|"), batchfile_lines, value = TRUE))
+        root_dir <- unique(grep(paste("OSGEO4W_ROOT", collapse = "|"), batchfile_lines, value = TRUE))
         #if (substr(root_dir,1,1) == "\\" & length(root_dir) > 0) root_dir <- substr(root_dir,3,nchar(root_dir))
         if (length(root_dir) > 0) root_dir <- substr(root_dir, gregexpr(pattern = "=", root_dir)[[1]][1] + 1, nchar(root_dir))
         
@@ -280,9 +289,10 @@ searchGRASSW <- function(DL = "C:",
         if (length(root_dir) > 0) {
           ver_char <- substr(ver_char, gregexpr(pattern = "\\grass-", ver_char)[[1]][1], nchar(ver_char))
           ver_char <- substr(ver_char, 1, gregexpr(pattern = "\\\\", ver_char)[[1]][1] - 1)
-        }
+        }}
         installerType <- "osgeo4W"
-      }
+        }
+        }
       
       ### if installatationtype is stand_alone
       if (stand_alone) {
@@ -299,6 +309,7 @@ searchGRASSW <- function(DL = "C:",
       
       # check if the the folder really exists
       if (length(root_dir) > 0) {
+        root_dir = root_dir <- substr(root_dir, gregexpr(pattern = "=", root_dir)[[1]][1] + 1, nchar(root_dir))
         if (!file.exists(file.path(root_dir))) {
           exist <- FALSE
         } else {
@@ -316,6 +327,9 @@ searchGRASSW <- function(DL = "C:",
     
     # bind the df lines
     installations_GRASS <- do.call("rbind", installations_GRASS)
+    
+    installations_GRASS=installations_GRASS[- grep(installations_GRASS$instDir,pattern="env.bat"), ]
+    
     return(installations_GRASS)
   } else {
     if(!quiet) cat("Did not find any valid GRASS installation at mount point",DL)

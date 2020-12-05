@@ -69,7 +69,7 @@
       <a href="articles/link2GI5.html">GEOSTAT 2018 Examples</a>
     </li>
     <li>
-      <a href="articles/link2GI_third_party_software_installation.html">Installation guide for 3rd party Software related to link2GI</a>
+      <a href="articles/link2GI6.html">Installation guide for link2GI related Software</a>
     </li>
   </ul>
 </li>
@@ -136,8 +136,8 @@
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">'rgb'</span>, package <span class="op">=</span> <span class="st">'link2GI'</span><span class="op">)</span>  
 <span class="fu">raster</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/plotRGB.html">plotRGB</a></span><span class="op">(</span><span class="va">rgb</span><span class="op">)</span>
 <span class="va">r</span><span class="op">&lt;-</span><span class="fu">raster</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/writeRaster.html">writeRaster</a></span><span class="op">(</span><span class="va">rgb</span>, 
-                     filename<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="va">projRootDir</span>,<span class="st">"test.tif"</span><span class="op">)</span>,
-                     format<span class="op">=</span><span class="st">"GTiff"</span>, overwrite<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>
+                       filename<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="va">projRootDir</span>,<span class="st">"test.tif"</span><span class="op">)</span>,
+                       format<span class="op">=</span><span class="st">"GTiff"</span>, overwrite<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>
 <span class="co">## for the example we use the edge detection, </span>
 <span class="va">algoKeyword</span><span class="op">&lt;-</span> <span class="st">"EdgeExtraction"</span>
 
@@ -168,24 +168,42 @@
 <h3 class="hasAnchor">
 <a href="#usecases-presented-on-the-geostat-august-2018" class="anchor"></a>Usecases presented on the GEOSTAT August 2018</h3>
 <p>During the <a href="http://opengeohub.org/node/146">GEOSTAT 2018</a> in Prague some more complex usescases have been presented.</p>
-<div id="find-slides-and-materials" class="section level4">
+<div id="slides-and-materials" class="section level4">
 <h4 class="hasAnchor">
-<a href="#find-slides-and-materials" class="anchor"></a>Find slides and materials</h4>
+<a href="#slides-and-materials" class="anchor"></a>Slides and materials</h4>
 <ul>
-<li>
-<p><a href="https://gisma.github.io/link2gi2018/link2gi2018.html#1">Presentation slides</a> - <a href="https://github.com/gisma/link2gi2018">Github Repository</a></p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">                  #### Basic usage of SAGA and OTB calls </a>
-<a class="sourceLine" id="cb2-2" data-line-number="2">                  <span class="op">-</span><span class="st"> </span>[SAGA <span class="op">&amp;</span><span class="st"> </span>OTB basic usecase](https<span class="op">:</span><span class="er">//</span>github.com<span class="op">/</span>gisma<span class="op">/</span>link2gi2018<span class="op">/</span>blob<span class="op">/</span>master<span class="op">/</span>R<span class="op">/</span>usecases<span class="op">/</span>saga<span class="op">-</span>otb<span class="op">/</span>useCaseSAGA<span class="op">-</span>OTB.R)</a>
-<a class="sourceLine" id="cb2-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb2-4" data-line-number="4">                  #### Wrapping  GRASS </a>
-<a class="sourceLine" id="cb2-5" data-line-number="5">                  <span class="op">-</span><span class="st"> </span>Wrapping a [GRASS GIS example](https<span class="op">:</span><span class="er">//</span>neteler.gitlab.io<span class="op">/</span>grass<span class="op">-</span>gis<span class="op">-</span>analysis<span class="op">/</span><span class="dv">02</span>_grass<span class="op">-</span>gis_ecad_analysis<span class="op">/</span>) of Markus Neteler as presented on GEOSTAT <span class="dv">2018</span> <span class="op">-</span><span class="st"> </span>[Analysing the ECA<span class="op">&amp;</span>D climatic data <span class="op">-</span><span class="st"> </span>reloaded](https<span class="op">:</span><span class="er">//</span>github.com<span class="op">/</span>gisma<span class="op">/</span>link2gi2018<span class="op">/</span>blob<span class="op">/</span>master<span class="op">/</span>R<span class="op">/</span>usecases<span class="op">/</span>grass<span class="op">/</span>useCaseGRASS<span class="op">-</span>Neteler2018.R)</a>
-<a class="sourceLine" id="cb2-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb2-7" data-line-number="7">                  #### GRASS based cost analysis</a>
-<a class="sourceLine" id="cb2-8" data-line-number="8">                  <span class="op">-</span><span class="st"> </span>Performing a GRASS based cost analysis on a huge cost raster <span class="op">-</span><span class="st"> </span>[Beetle spread over high asia](https<span class="op">:</span><span class="er">//</span>github.com<span class="op">/</span>gisma<span class="op">/</span>link2gi2018<span class="op">/</span>blob<span class="op">/</span>master<span class="op">/</span>R<span class="op">/</span>usecases<span class="op">/</span>cost<span class="op">-</span>analysis<span class="op">/</span>useCaseBeetle.R)</a>
-<a class="sourceLine" id="cb2-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb2-10" data-line-number="10">                  #### Deriving a Canopy height model</a>
-<a class="sourceLine" id="cb2-11" data-line-number="11">                  <span class="op">-</span><span class="st"> </span>Deriving a canopy height model using a mixed API approach <span class="op">-</span><span class="st"> </span>[Canopy Height Model from UAV derived point clouds](https<span class="op">:</span><span class="er">//</span>github.com<span class="op">/</span>gisma<span class="op">/</span>link2gi2018<span class="op">/</span>blob<span class="op">/</span>master<span class="op">/</span>R<span class="op">/</span>usecases<span class="op">/</span>uav<span class="op">-</span>pc<span class="op">/</span>useCaseCHM.R)</a></code></pre></div>
-</li>
+<li><a href="https://gisma.github.io/link2gi2018/link2gi2018.html#1">Presentation slides</a></li>
+<li><a href="https://github.com/gisma/link2gi2018">Github Repository</a></li>
+</ul>
+</div>
+<div id="basic-usage-of-saga-and-otb-calls" class="section level4">
+<h4 class="hasAnchor">
+<a href="#basic-usage-of-saga-and-otb-calls" class="anchor"></a>Basic usage of SAGA and OTB calls</h4>
+<ul>
+<li><a href="https://github.com/gisma/link2gi2018/blob/master/R/usecases/saga-otb/useCaseSAGA-OTB.R">SAGA &amp; OTB basic usecase</a></li>
+</ul>
+</div>
+<div id="wrapping-grass" class="section level4">
+<h4 class="hasAnchor">
+<a href="#wrapping-grass" class="anchor"></a>Wrapping GRASS</h4>
+<ul>
+<li>Wrapping a <a href="https://neteler.gitlab.io/grass-gis-analysis/02_grass-gis_ecad_analysis/">GRASS GIS example</a> of Markus Neteler as presented on GEOSTAT 2018</li>
+<li><a href="https://github.com/gisma/link2gi2018/blob/master/R/usecases/grass/useCaseGRASS-Neteler2018.R">Analysing the ECA&amp;D climatic data - reloaded</a></li>
+</ul>
+</div>
+<div id="grass-based-cost-analysis" class="section level4">
+<h4 class="hasAnchor">
+<a href="#grass-based-cost-analysis" class="anchor"></a>GRASS based cost analysis</h4>
+<ul>
+<li>Performing a GRASS based cost analysis on a huge cost raster</li>
+<li><a href="https://github.com/gisma/link2gi2018/blob/master/R/usecases/cost-analysis/useCaseBeetle.R">Beetle spread over high asia</a></li>
+</ul>
+</div>
+<div id="apicli-mixed-approach" class="section level4">
+<h4 class="hasAnchor">
+<a href="#apicli-mixed-approach" class="anchor"></a>API/CLI mixed approach</h4>
+<ul>
+<li>Deriving a <a href="https://github.com/gisma/link2gi2018/blob/master/R/usecases/uav-pc/useCaseCHM.R">Canopy Height Model from UAV derived point clouds</a> a mixed API approach</li>
 </ul>
 </div>
 </div>

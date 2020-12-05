@@ -1,6 +1,12 @@
 ---
 author: "Chris Reudenbach"
 title: "Installation guide for link2GI related Software"
+date: "2020-12-05"
+editor_options:
+  chunk_output_type: console
+output:
+  html_document: 
+    theme: united
     toc: yes
   rmarkdown: default
   pdf_document:
@@ -8,7 +14,7 @@ title: "Installation guide for link2GI related Software"
     toc: yes
 urlcolor: blue
 vignette: >
-  %\VignetteIndexEntry{Installation guide for third party software related to link2GI}
+  %\VignetteIndexEntry{Installation guide for link2GI related Software}
   %\VignetteEncoding{UTF-8}{inputenc}\
   %\VignetteEngine{knitr::knitr}
 ---
@@ -80,7 +86,6 @@ If you additionally want to use the **LiDAR processing tools** (LAStools), pleas
 
 ## Ubuntu
 
-### QGIS (and GRASS)
 If you install QGIS with the built-in software managers, you will most likely get an outdated QGIS version. 
 To install more recent QGIS releases, we recommend to follow the installation instructions from the [QGIS installers website](https://www.qgis.org/en/site/forusers/alldownloads.html). 
 

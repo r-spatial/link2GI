@@ -251,7 +251,7 @@ searchGRASSW <- function(DL = "C:",
     # trys to identify valid grass installation(s) & version number(s)
     installations_GRASS <- lapply(seq(length(raw_GRASS)), function(i){
       # convert codetable according to cmd.exe using type
-      batchfile_lines <- system(paste0("cmd.exe /C TYPE  ", shortPathName(raw_GRASS[i]) ) , 
+      batchfile_lines <- system(paste0("cmd.exe /C TYPE  ", utils::shortPathName(raw_GRASS[i]) ) , 
                                 ignore.stdout = FALSE, intern = TRUE)
       osgeo4w <- FALSE
       stand_alone <- FALSE
@@ -270,15 +270,15 @@ searchGRASSW <- function(DL = "C:",
       
       ### if installation_type is osgeo4w
       if (osgeo4w) {
-        if (basename(shortPathName(raw_GRASS[i])) == "grass78.bat"|| basename(shortPathName(raw_GRASS[i])) == "grass79.bat"){
+        if (basename(utils::shortPathName(raw_GRASS[i])) == "grass78.bat"|| basename(utils::shortPathName(raw_GRASS[i])) == "grass79.bat"){
           
           # grep line with root directory and extract the substring defining GISBASE
-          root_dir <-dirname(shortPathName(raw_GRASS[i]))
+          root_dir <-dirname(utils::shortPathName(raw_GRASS[i]))
           # grep line with the version name and extract it
-          ver_char <- substr(basename(shortPathName(raw_GRASS[i])),6,7)
+          ver_char <- substr(basename(utils::shortPathName(raw_GRASS[i])),6,7)
           installerType <- "osgeo4W"
         } else { 
-        if (length(grep("PREREM~1", shortPathName(raw_GRASS[i]))) == 0  && length(grep("extrabin", shortPathName(raw_GRASS[i]))) == 0 ){
+        if (length(grep("PREREM~1", utils::shortPathName(raw_GRASS[i]))) == 0  && length(grep("extrabin", utils::shortPathName(raw_GRASS[i]))) == 0 ){
         # grep line with root directory and extract the substring defining GISBASE
         root_dir <- unique(grep(paste("OSGEO4W_ROOT", collapse = "|"), batchfile_lines, value = TRUE))
         #if (substr(root_dir,1,1) == "\\" & length(root_dir) > 0) root_dir <- substr(root_dir,3,nchar(root_dir))

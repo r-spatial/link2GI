@@ -4,7 +4,7 @@
 #'@details During the rsession you will have full access to GRASS7 GIS via the \code{rgrass7} wrappe. Additionally you may use also use the API calls of GRASS7 via the command line.
 #'@param set_default_GRASS7 default = NULL will force a search for 'GRASS GIS' You may provide a valid combination as 
 #'                                    c("/usr/lib/grass74","7.4.1","grass74")
-#'@param MP mount point to be searched. default is "usr"
+#'@param MP mount point to be searched. default is "/usr/bin"
 #'@param quiet boolean  switch for supressing console messages default is TRUE
 #'@param ver_select if TRUE you must interactivley selcect between alternative installations
 #'@export paramGRASSx
@@ -23,7 +23,7 @@
 #' }
 
 paramGRASSx <- function(set_default_GRASS7=NULL, 
-                        MP = "/usr",
+                        MP = "/usr/bin",
                         ver_select = FALSE, 
                         quiet =TRUE){
   if (ver_select =='T') ver_select <- TRUE
@@ -251,8 +251,8 @@ searchGRASSW <- function(DL = "C:",
     # trys to identify valid grass installation(s) & version number(s)
     installations_GRASS <- lapply(seq(length(raw_GRASS)), function(i){
       # convert codetable according to cmd.exe using type
-      batchfile_lines <- system(paste0("cmd.exe /c TYPE \"", raw_GRASS[i], "\""), 
-                                ignore.stdout = TRUE, intern = T)
+      batchfile_lines <- system(paste0("cmd.exe /C TYPE  ", shortPathName(raw_GRASS[i]) ) , 
+                                ignore.stdout = FALSE, intern = TRUE)
       osgeo4w <- FALSE
       stand_alone <- FALSE
       root_dir <- ''
@@ -325,11 +325,12 @@ searchGRASSW <- function(DL = "C:",
 
 
 
-#'@title Search recursivly valid 'GRASS GIS' installation(s) at a given 'Linux' mount point
+#'@title Return attributes of valid 'GRASS GIS' installation(s) in 'Linux'
 #'@name searchGRASSX
-#'@description Search for valid 'GRASS GIS' installations at a given 'Linux' mount point
-#'@param MP default is /usr
-#'@return A dataframe containing 'GRASS GIS' binary folder(s), version name(s) and installation type code(s)
+#'@description Searches recursively for valid 'GRASS GIS' installations at a given 'Linux' mount point.
+#'Returns attributes for each installation.
+#'@param MP default is /usr. This is the directory from which the grass executable file is searched, i.e. one executable for each GRASS installation on the system.
+#'@return A dataframe containing 'GRASS GIS' binary folder(s) (i.e. where the individual GRASS commands are installed), version name(s) and installation type code(s)
 #'@param quiet boolean  switch for supressing console messages default is TRUEs
 
 #'@author Chris Reudenbach
@@ -338,24 +339,39 @@ searchGRASSW <- function(DL = "C:",
 #'
 #'@examples
 #' \dontrun{
-#' # get all valid 'GRASS GIS' installation folders in the /usr directory (typical location)
-#' searchGRASSX("/usr")
+#' # get all valid 'GRASS GIS' installation folders in the /usr/bin directory (typical location)
+#' searchGRASSX("/usr/bin")
 #' 
 #' # get all valid 'GRASS GIS' installation folders in the home directory
 #' searchGRASSX("~/")
 #' }
 
-searchGRASSX <- function(MP = "/usr",quiet =TRUE){
-  if (MP=="default") MP <- "/usr"
+searchGRASSX <- function(MP = "/usr/bin",quiet =TRUE){
+  if (MP=="default") MP <- "/usr/bin"
   raw_GRASS <- system2("find", paste(MP," ! -readable -prune -o -type f -executable -iname 'grass??' -print"),stdout = TRUE,stderr = FALSE)
   
   
   #cat(raw_GRASS)
   if (length(raw_GRASS) > 0 ) {
     
+    
     installations_GRASS <- lapply(seq(length(raw_GRASS)), function(i){
       # grep line containing GISBASE and extract the substring 
       rg<- strsplit(raw_GRASS,split = "/")
+      if (rg[[i]][lengths(rg)] == "grass78") {
+      
+
+      
+      ver_char <- grep(readLines(raw_GRASS[[i]]),pattern = 'GRASS_VERSION = "',value = TRUE)        
+      ver_char <- substr(ver_char, gregexpr(pattern = '"', ver_char)[[1]][1] + 1, nchar(ver_char) - 1)
+      cmd <- grep(readLines(raw_GRASS[[i]]),pattern = 'CMD_NAME = "',value = TRUE)
+      cmd <- substr(cmd, gregexpr(pattern = '"', cmd)[[1]][1] + 1, nchar(cmd) - 1)
+      
+      rootdir<- grep(readLines(raw_GRASS[[i]]),pattern = 'GISBASE = os.path.normpath',value = TRUE)
+      root_dir <- substr(rootdir[2], gregexpr(pattern = '"', rootdir[2])[[1]][1] + 1, nchar(rootdir[2]) - 2)
+      
+      if (!file.exists(root_dir)) root_dir  <-  "/opt/grass"
+    }
       if (rg[[i]][lengths(rg)] != "grass78") {
         
         root_dir <- try(grep(readLines(raw_GRASS[[i]]),pattern = 'gisbase = "',value = TRUE),silent = TRUE)
@@ -367,16 +383,7 @@ searchGRASSX <- function(MP = "/usr",quiet =TRUE){
           cmd <- grep(readLines(raw_GRASS[[i]]),pattern = 'cmd_name = "',value = TRUE)
           cmd <- substr(cmd, gregexpr(pattern = '"', cmd)[[1]][1] + 1, nchar(cmd) - 1)
         }
-      } else {
-        
-        ver_char <- grep(readLines(raw_GRASS[[i]]),pattern = 'GRASS_VERSION = "',value = TRUE)        
-        ver_char <- substr(ver_char, gregexpr(pattern = '"', ver_char)[[1]][1] + 1, nchar(ver_char) - 1)
-        cmd <- grep(readLines(raw_GRASS[[i]]),pattern = 'CMD_NAME = "',value = TRUE)
-        cmd <- substr(cmd, gregexpr(pattern = '"', cmd)[[1]][1] + 1, nchar(cmd) - 1)
-        #rootdir<- grep(readLines(raw_GRASS[[i]]),pattern = 'GISBASE = os.path.normpath',value = TRUE)        
-        #rootdir <- substr(rootdir[2], gregexpr(pattern = '"', rootdir)[[1]][1] + 1, nchar(rootdir) - 1)
-        root_dir<- "/opt/grass"
-      }
+      } 
       
       # put it in data frame
       data.frame(instDir = root_dir, version = ver_char, installation_type = cmd , stringsAsFactors = FALSE)
@@ -521,17 +528,22 @@ checkGisdbase <- function(x = NULL , gisdbase = NULL, location = NULL, gisdbase_
 }
 
 
-#'@title Search recursivly existing 'GRASS GIS' installation(s) at a given drive/mountpoint 
+#'@title Return attributes of valid 'GRASS GIS' installation(s) on the system
 #'@name findGRASS
-#'@description  Provides an  list of valid 'GRASS GIS' installation(s) 
-#'on your 'Windows' system. There is a major difference between osgeo4W and 
-#'stand_alone installations. The functions trys to find all valid 
+#'@description  Provides a list of valid 'GRASS GIS' installation(s) 
+#'on your system. There is a major difference between osgeo4W and 
+#'stand_alone installations. The functions tries to find all valid 
 #'installations by analysing the calling batch scripts.
-#'@param searchLocation drive letter to be searched, for Windows systems default For Windows Systems it is mandatory to use Capitel letters with colon only
-#' is \code{C:}, for Linux systems default is \code{/usr}.
+#'@param searchLocation location to be searched for the grass executable, 
+#'i.e. one executable for each GRASS installation on the system.
+#'For Windows systems
+#'it is mandatory to include an uppercase Windows drive letter and a colon.
+#' Default For Windows Systems 
+#' is \code{C:}, for Linux systems default is \code{/usr/bin}.
 #'@param ver_select boolean default is FALSE. If there is more than one 'SAGA GIS' installation and \code{ver_select} = TRUE the user can select interactively the preferred 'SAGA GIS' version 
 #'@param quiet boolean  switch for supressing console messages default is TRUE
-#'@return A dataframe with the 'GRASS GIS' root folder(s), version name(s) and 
+#'@return A dataframe with the 'GRASS GIS' binary folder(s) (i.e. where the 
+#'individual GRASS commands are installed), version name(s) and 
 #'installation type code(s)
 #'@author Chris Reudenbach
 #'@export findGRASS
@@ -552,7 +564,7 @@ findGRASS <- function(searchLocation = "default",
       link = link2GI::searchGRASSW(DL = searchLocation)  
     else return(cat("You are running Windows - Please choose a suitable searchLocation argument that MUST include a Windows drive letter and colon"))
   } else {
-    if (searchLocation=="default") searchLocation <- "/usr"
+    if (searchLocation=="default") searchLocation <- "/usr/bin"
     if (grepl(searchLocation,pattern = ":"))  return(cat("You are running Linux - please choose a suitable searchLocation argument"))
     else link = link2GI::searchGRASSX(MP = searchLocation)
   }

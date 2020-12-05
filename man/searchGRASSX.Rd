@@ -2,25 +2,26 @@
 % Please edit documentation in R/grass7Control.R
 \name{searchGRASSX}
 \alias{searchGRASSX}
-\title{Search recursivly valid 'GRASS GIS' installation(s) at a given 'Linux' mount point}
+\title{Return attributes of valid 'GRASS GIS' installation(s) in 'Linux'}
 \usage{
-searchGRASSX(MP = "/usr", quiet = TRUE)
+searchGRASSX(MP = "/usr/bin", quiet = TRUE)
 }
 \arguments{
-\item{MP}{default is /usr}
+\item{MP}{default is /usr. This is the directory from which the grass executable file is searched, i.e. one executable for each GRASS installation on the system.}
 
 \item{quiet}{boolean  switch for supressing console messages default is TRUEs}
 }
 \value{
-A dataframe containing 'GRASS GIS' binary folder(s), version name(s) and installation type code(s)
+A dataframe containing 'GRASS GIS' binary folder(s) (i.e. where the individual GRASS commands are installed), version name(s) and installation type code(s)
 }
 \description{
-Search for valid 'GRASS GIS' installations at a given 'Linux' mount point
+Searches recursively for valid 'GRASS GIS' installations at a given 'Linux' mount point.
+Returns attributes for each installation.
 }
 \examples{
 \dontrun{
-# get all valid 'GRASS GIS' installation folders in the /usr directory (typical location)
-searchGRASSX("/usr")
+# get all valid 'GRASS GIS' installation folders in the /usr/bin directory (typical location)
+searchGRASSX("/usr/bin")
 
 # get all valid 'GRASS GIS' installation folders in the home directory
 searchGRASSX("~/")

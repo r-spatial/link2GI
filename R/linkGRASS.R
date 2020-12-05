@@ -131,7 +131,7 @@ linkGRASS7 <- function(x = NULL,
     grass <- paramGRASSw(default_GRASS7,search_path,ver_select)
   } else {
     if (use_home) home <- Sys.getenv("HOME")
-    if (is.null(search_path)) search_path <- "/usr"
+    if (is.null(search_path)) search_path <- "/usr/bin"
     grass <- paramGRASSx(default_GRASS7,search_path,ver_select)
   }
   if (grass[[1]][1] != FALSE) {
@@ -187,7 +187,7 @@ linkGRASS7 <- function(x = NULL,
           xmin <- corner[1]
           ymax <- corner[4]
           ymin <- corner[2]
-          proj4 <-  unlist(sf::st_crs(x)[2])
+          proj4 <-  sf::st_crs(x)$proj4string
           if (!is.null(resolution)) resolution<- resolution
           else resolution <- "1"
         } else {

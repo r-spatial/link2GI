@@ -75,7 +75,7 @@ parseOTBFunction <- function(algo=NULL,gili=NULL) {
   if (algo != "" & otb$exist){
     system("rm otb_module_dump.txt",intern = FALSE,ignore.stderr = TRUE)
     ifelse(Sys.info()["sysname"]=="Windows",
-           system(paste0(file.path(R.utils::getAbsolutePath(path_OTB),paste0("otbcli_",algo,".bat"))," -help >> " ,file.path(R.utils::getAbsolutePath(tempdir()),paste0("otb_module_dump.txt 2>&1")))), 
+           system(paste0(file.path(R.utils::getAbsolutePath(path_OTB),paste0("otbcli_",algo))," -help >> " ,file.path(R.utils::getAbsolutePath(tempdir()),paste0("otb_module_dump.txt 2>&1")))), 
            system(paste0(file.path(R.utils::getAbsolutePath(path_OTB),paste0("otbcli_",algo))," -help >> " ,file.path(R.utils::getAbsolutePath(tempdir()),paste0("otb_module_dump.txt 2>&1"))))
            )
     
@@ -228,23 +228,29 @@ runOTB <- function(otbCmdList=NULL,
   otb_algorithm<-otbCmdList[1]  
   otbCmdList[1]<-NULL
   otbCmdList$help<-NULL
-  
-  if(Sys.info()["sysname"]=="Windows") otb_algorithm <- paste0(otb_algorithm,".bat")
-  if (names(otbCmdList)[1] =="input")  names(otbCmdList)[1]<-"in"
+  otbCmdList$out <-gsub(" ", "\\\\ ", R.utils::getAbsolutePath(otbCmdList$out))  
+  otbCmdList$input <- gsub(" ", "\\\\ ", R.utils::getAbsolutePath(otbCmdList$input))  
+  if(Sys.info()["sysname"]== "Windows") otb_algorithm <- paste0(otb_algorithm,".bat")
+  if (names(otbCmdList)[1] == "input")  {
+    names(otbCmdList)[1]<-"in"
+    }
   
   command<-paste(paste0(path_OTB,"otbcli_",otb_algorithm," "),
                  paste0("-",names(otbCmdList)," ",otbCmdList,collapse = " "))
   if (quiet){
     system(command,ignore.stdout = TRUE,ignore.stderr = TRUE,intern = FALSE)
     if (retRaster){
-      rStack <- assign(otbCmdList$out,raster::stack(otbCmdList$out))
+      outn=gsub("\\\\", "", path.expand(otbCmdList$out))
+      rStack <- assign(outn,raster::stack(outn))
       return(rStack)
     }
   }
   else {
     system(command,ignore.stdout = FALSE,ignore.stderr = FALSE,intern = TRUE)
     if (retRaster){
-      rStack<-assign(otbCmdList$out,raster::stack(otbCmdList$out))
+      outn=gsub("\\\\", "", path.expand(otbCmdList$out))
+      rStack <- assign(outn,raster::stack(outn))
+#      rStack<-assign(otbCmdList$out,raster::stack(otbCmdList$out))
       return(rStack)
     }
   }

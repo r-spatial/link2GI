@@ -119,6 +119,7 @@ searchGDALW <- function(DL = "C:",
           if (file.exists(file.path(root_dir,"gdalinfo.exe"))) installerType <- "GDAL"
           else installerType <- "unknown"
           
+          
           installDir <- substr(root_dir,1, gregexpr(pattern = "bin", root_dir)[[1]][1] - 2)
           
         }        # if the the tag "GRASS-" exists set installation_type
@@ -139,7 +140,30 @@ searchGDALW <- function(DL = "C:",
           else installerType <- "unknown"
           
         }
-        
+        else if (length(unique(grep(paste("conda", collapse = "|"), batchfile_lines, value = TRUE))) > 0){
+          root_dir <- unique(grep(paste("conda", collapse = "|"), raw_GDAL[i], value = TRUE))
+          root_dir <- substr(root_dir,1, gregexpr(pattern = "gdalinfo.exe", root_dir)[[1]][1] - 1)
+          installDir <- substr(root_dir,1, gregexpr(pattern = "bin", root_dir)[[1]][1] - 2)
+          if (file.exists(file.path(root_dir,"gdalinfo.exe"))) installerType <- "Conda_Miniconda"
+          else installerType <- "unknown"
+          
+        }
+        else if (length(unique(grep(paste("Progra~1", collapse = "|"), batchfile_lines, value = TRUE))) > 0){
+          root_dir <- unique(grep(paste("GRASS", collapse = "|"), raw_GDAL[i], value = TRUE))
+          root_dir <- substr(root_dir,1, gregexpr(pattern = "gdalinfo.exe", root_dir)[[1]][1] - 1)
+          installDir <- substr(root_dir,1, gregexpr(pattern = "bin", root_dir)[[1]][1] - 2)
+          if (file.exists(file.path(root_dir,"gdalinfo.exe"))) installerType <- "GRASS_standalone"
+          else installerType <- "unknown"
+          
+        }
+        else {
+          root_dir <-  raw_GDAL[i]
+          root_dir <- substr(root_dir,1, gregexpr(pattern = "gdalinfo.exe", root_dir)[[1]][1] - 1)
+          installDir <- substr(root_dir,1, gregexpr(pattern = "bin", root_dir)[[1]][1] - 2)
+          if (file.exists(file.path(root_dir,"gdalinfo.exe"))) installerType <- "Miniconda"
+          else installerType <- "unknown"
+          
+        }
         # put the existing GISBASE directory, version number  and installation type in a data frame
         data.frame(binDir = root_dir, baseDir = installDir, installation_type = installerType, stringsAsFactors = FALSE)
       }) # end lapply

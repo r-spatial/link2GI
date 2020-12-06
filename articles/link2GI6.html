@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">link2GI</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Version">0.4.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Version">0.4-5</span>
       </span>
     </div>
 
@@ -101,7 +101,7 @@
       <h1 data-toc-skip>Installation guide for link2GI related Software</h1>
                         <h4 class="author">Chris Reudenbach</h4>
             
-            <h4 class="date">2020-12-05</h4>
+            <h4 class="date">2020-12-06</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/r-spatial/link2GI/blob/master/vignettes/link2GI6.Rmd"><code>vignettes/link2GI6.Rmd</code></a></small>
       <div class="hidden name"><code>link2GI6.Rmd</code></div>
@@ -222,7 +222,7 @@
 <p>You can install GRASS6 and GRASS7 via <code>homebrew</code>:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="co"># brew tap osgeo4mac</span></a>
 <a class="sourceLine" id="cb6-2" data-line-number="2"><span class="ex">brew</span> install grass6 grass7</a></code></pre></div>
-<p>The binary GRASS installation can be found <a href="https://grass.osgeo.org/download/software/mac-osx/">here</a>. However, we recommend to use the <code>homebrew</code> approach.</p>
+<p>The binary GRASS installation can be found <a href="https://grass.osgeo.org/download/mac/">here</a>. However, we recommend to use the <code>homebrew</code> approach.</p>
 <p>When installing GRASS7 independently of QGIS via <code>homebrew</code>, please make sure to install it <strong>before</strong> you have installed QGIS. Only this way, the path for the QGIS processing plugin will be updated. Otherwise, the GRASS installation will work, however, <code>GRASS7Utils.grassPath()</code>, a QGIS function that links to the GRASS installation, gives back a non-existing path such as <code>/Applications/Grass-7.0.app/Contents/MacOS</code> which in turn prevents GRASS algorithms from working from within QGIS.</p>
 </div>
 <div id="qgis" class="section level2">
@@ -248,7 +248,6 @@ QSqlDatabase: available drivers:
 QSqlQuery::prepare: database not open
 [1] "ERROR: Opening of authentication db FAILED"
 [2] "WARNING: Auth db query exec() FAILED"</code></pre>
-<p>These messages <strong>DO NOT affect link2GI usage</strong>.</p>
 </div>
 </div>
   </div>

@@ -309,7 +309,7 @@ searchGRASSW <- function(DL = "C:",
       
       # check if the the folder really exists
       if (length(root_dir) > 0) {
-        root_dir = root_dir <- substr(root_dir, gregexpr(pattern = "=", root_dir)[[1]][1] + 1, nchar(root_dir))
+        root_dir = root_dir <- substr(root_dir[[1]], gregexpr(pattern = "=", root_dir)[[1]][1] + 1, nchar(root_dir))
         if (!file.exists(file.path(root_dir))) {
           exist <- FALSE
         } else {
@@ -327,7 +327,7 @@ searchGRASSW <- function(DL = "C:",
     
     # bind the df lines
     installations_GRASS <- do.call("rbind", installations_GRASS)
-    
+    # get rid of artifacts
     installations_GRASS=installations_GRASS[- grep(installations_GRASS$instDir,pattern="env.bat"), ]
     
     return(installations_GRASS)

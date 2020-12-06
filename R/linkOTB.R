@@ -17,7 +17,7 @@ if (!isGeneric('linkOTB')) {
 #' to the PATH variable only, otherwise all paths and versions of the installed GRASS versions ae returned.
 
 #'
-#'@note You may also set the path manually. Using a 'OSGeo4W64' \url{http://trac.osgeo.org/osgeo4w/} installation it is typically \code{C:/OSGeo4W64/bin/}
+#'@note You may also set the path manually. Using a 'OSGeo4W64' \url{https://trac.osgeo.org/osgeo4w/} installation it is typically \code{C:/OSGeo4W64/bin/}
 #'@author Chris Reudenbach
 #'@return add otb pathes to the enviroment and creates global variables path_OTB
 #'@details if called without any parameter \code{linkOTB()} it performs a full search over the hardrive \code{C:}. If it finds one or more 'OTB' binaries it will take the first hit. You have to set \code{ver_select = TRUE} for an interactive selection of the preferred version.

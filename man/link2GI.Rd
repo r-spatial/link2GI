@@ -25,12 +25,9 @@ To utilize the power of the open source GI tools from within \code{R} you need t
 The link2GI package just tries to generate correct environment settings as system and path variables
 for the most of the known issues. 
  The installation of the \code{QGIS, GRASS GIS 7.x} 
- and \code{SAGA-GIS} GIS software can performed by following the excellent 
- \href{https://github.com/jannes-m/RQGIS/blob/master/vignettes/install_guide.Rmd}{installation instructions}  
- of the \href{https://CRAN.R-project.org/package=RQGIS}{RQGIS} package. \cr\cr 
- For a broad number of problems you may just use the \code{RQGIS} package as wrapper for the full \code{QGIS} functionality.
+ and \code{SAGA-GIS} GIS software is described in the vignettes.\cr\cr 
 \code{link2GI} is tested under Windows 7/10 as well as on the Ubuntu/Debian/Arch Linux distributions. 
-The OSX operation system should run but is not tested.
+The OSX operation system should run but is not tested (Any help is highly appreciated).
 }
 \author{
 Chris Reudenbach Tim Appelhans

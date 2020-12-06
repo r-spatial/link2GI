@@ -38,7 +38,7 @@ However, please note that the number of geoalgorithms you can use linking with l
 There are at least two options to install QGIS on Windows. The first option is the Standalone Installer from the [QGIS installer page](https://www.qgis.org/en/site/forusers/download.html). 
 This will install QGIS along with the third-party providers GRASS and SAGA. 
 However, if you would like to use even more third-party providers (e.g., GDAL, GEOS, Taudem, OTB, PostGIS, etc.), it is strongly recommended to use the OSGeo4W Network installer. 
-This installer is available on the [QGIS installer page](https://www.qgis.org/en/site/forusers/download.html) as well as on the [OSGeo4W-website](http://trac.osgeo.org/osgeo4w/). 
+This installer is available on the [QGIS installer page](https://www.qgis.org/en/site/forusers/download.html) as well as on the [OSGeo4W-website](https://trac.osgeo.org/osgeo4w/). 
 
 To install OSGeo4W, the easiest way is to to use the Express installation:
 
@@ -78,7 +78,7 @@ Additionally, we choose the Desktop-GIS GRASS 7, the Orfeo Toolbox, SAGA, and QG
 Clicking "Next" once more will start the download and installation process which might take a while.
 
 If you wish to to modify, uninstall or update some of the installed components, you might do so later on by running `../OSGeo4W/bin/osgeo4w-setup.exe`. 
-Alternatively, you can download and run again the latest [OSGeo4W-executable](http://trac.osgeo.org/osgeo4w/).
+Alternatively, you can download and run again the latest [OSGeo4W-executable](https://trac.osgeo.org/osgeo4w/).
 
 If you additionally want to use the **LiDAR processing tools** (LAStools), please follow the steps found [here](https://rapidlasso.com/2013/09/29/how-to-install-lastools-toolbox-in-qgis/).
 

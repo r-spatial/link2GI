@@ -1,7 +1,7 @@
 ---
 author: "Chris Reudenbach"
 title: "GEOSTAT 2018 Examples"
-date: "2019-11-28"
+date: "2020-12-06"
 editor_options:
   chunk_output_type: console
 output:
@@ -23,7 +23,7 @@ vignette: >
 
 ### Usecases presented on the GEOSTAT August 2018
 
-During the [GEOSTAT 2018](http://opengeohub.org/node/146) in Prague some more complex usescases have been presented.
+During the [GEOSTAT 2018](https://www.opengeohub.org/node/146) in Prague some more complex usescases have been presented.
 
 #### Find slides and materials
 - [Presentation slides](https://gisma.github.io/link2gi2018/link2gi2018.html#1)

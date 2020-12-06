@@ -17,8 +17,8 @@ if (!isGeneric('linkGRASS7')) {
 #'  If one knows what to do the \code{rgrass7} package setup function \code{rgrass7::initGRASS} works fine under Linux. 
 #'  This is also valid for well known configurations under the 'Windows' operation system. 
 #'  Nevertheless on university lab or on company computers with restriced privileges and/or using different releases
-#'  like the  \href{http://trac.osgeo.org/osgeo4w/}{'OSGeo4W'} distribution and the  
-#'  \href{https://grass.osgeo.org/download/software/ms-windows/#stand-alone}{'GRASS 7' stand-alone} installation, 
+#'  like the  \href{https://trac.osgeo.org/osgeo4w/}{'OSGeo4W'} distribution and the  
+#'  \href{https://grass.osgeo.org/download/windows/}{'GRASS 7' stand-alone} installation, 
 #'  or different software releases (e.g. 'GRASS 7.0.5 and GRASS 7.2.0), it becomes often cumbersome or even impossible to get the correct linkages. \cr 
 #'  The function \code{linkGRASS7} tries to find all valid 'GRASS GIS' binaries by analyzing
 #'  the startup script files of 'GRASS GIS'. After identifying the 'GRASS GIS' binaries all

@@ -4,7 +4,7 @@
 ![](https://cranlogs.r-pkg.org/badges/grand-total/link2GI?color=green)
 [![License](https://img.shields.io/badge/license-GPL%20%28%3E=%203%29-lightgrey.svg?style=flat)](http://www.gnu.org/licenses/gpl-3.0.html)
 
-Package website: [release]( https://r-spatial.github.io/link2GI) | [dev](https://r-spatial.github.io/link2GI/dev)
+Package website: [release](https://r-spatial.github.io/link2GI/) | [dev](https://r-spatial.github.io/link2GI/dev/)
 
 `link2GI` provide some functions which make it a bit easier to connect straightforward the common open source GI software packages to the R-biotop. It supports both the use of wrapper packages and the direct API-use via system calls. It focuses on `Linux` and `WindowsX` operating systems but nevertheless it should also work with `OSX`.
 
@@ -81,7 +81,7 @@ plot(retStack)
 
 
 
-During the [GEOSTAT 2018](http://opengeohub.org/node/146) in Prague some more complex usescases have been presented.
+During the [GEOSTAT 2018](https://www.opengeohub.org/node/146) in Prague some more complex usescases have been presented.
 
 #### Slides and materials
 - [Presentation slides](https://gisma.github.io/link2gi2018/link2gi2018.html#1)

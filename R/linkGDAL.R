@@ -5,7 +5,7 @@ if (!isGeneric('linkGDAL')) {
 
 #'@title Locate and set up 'GDAL' API bindings
 #'@name linkGDAL
-#'@description  Locate and set up  \href{https://www.gdal.org/}{'GDAL - Geospatial Data Abstraction Librar'} API bindings
+#'@description  Locate and set up  \href{https://gdal.org/}{'GDAL - Geospatial Data Abstraction Librar'} API bindings
 #'@details It looks for the \code{gdalinfo(.exe)} file. If the file is found in a \code{bin} folder it is assumed to be a valid 'GDAL' binary installation.
 #'@param bin_GDAL string contains path to where the gdal binaries are located
 #'@param ver_select boolean default is FALSE. If there is more than one 'GDAL' installation and \code{ver_select} = TRUE the user can select interactively the preferred 'GDAL' version 

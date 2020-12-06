@@ -327,9 +327,7 @@ searchGRASSW <- function(DL = "C:",
     
     # bind the df lines
     installations_GRASS <- do.call("rbind", installations_GRASS)
-    # get rid of artifacts
-    installations_GRASS=installations_GRASS[- grep(installations_GRASS$instDir,pattern="env.bat"), ]
-    
+
     return(installations_GRASS)
   } else {
     if(!quiet) cat("Did not find any valid GRASS installation at mount point",DL)

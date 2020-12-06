@@ -7,6 +7,7 @@
 #'@return Adds 'GDAL' pathes to the enviroment and creates the variable global string variable \code{gdalCmd}, that contains the path to the 'GDAL' binaries.
 #'@export setenvGDAL
 #'  
+#'  
 #'@examples
 #' \dontrun{
 #'## example for the most common default OSGeo4W64 installation of GDAL

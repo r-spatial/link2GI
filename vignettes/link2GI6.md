@@ -1,7 +1,7 @@
 ---
 author: "Chris Reudenbach"
 title: "Installation guide for link2GI related Software"
-date: "2020-12-05"
+date: "2020-12-06"
 editor_options:
   chunk_output_type: console
 output:
@@ -182,7 +182,7 @@ You can install GRASS6 and GRASS7 via `homebrew`:
 brew install grass6 grass7
 ```
 
-The binary GRASS installation can be found [here](https://grass.osgeo.org/download/software/mac-osx/). 
+The binary GRASS installation can be found [here](https://grass.osgeo.org/download/mac/). 
 However, we recommend to use the `homebrew` approach.
 
 When installing GRASS7 independently of QGIS via `homebrew`, please make sure to install it **before** you have installed QGIS.
@@ -229,4 +229,3 @@ QSqlQuery::prepare: database not open
 [2] "WARNING: Auth db query exec() FAILED"
 ```
 
-These messages **DO NOT affect link2GI usage**. 

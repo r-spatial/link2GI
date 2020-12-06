@@ -189,7 +189,7 @@ You can install GRASS6 and GRASS7 via `homebrew`:
 brew install grass6 grass7
 ```
 
-The binary GRASS installation can be found [here](https://grass.osgeo.org/download/mac-osx/). 
+The binary GRASS installation can be found [here](https://grass.osgeo.org/download/mac/). 
 However, we recommend to use the `homebrew` approach.
 
 When installing GRASS7 independently of QGIS via `homebrew`, please make sure to install it **before** you have installed QGIS.

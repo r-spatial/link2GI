@@ -1,7 +1,7 @@
 Package: link2GI
 Type: Package
 Title: Linking Geographic Information Systems, Remote Sensing and Other Command Line Tools
-Version: 0.4.5
+Version: 0.4-5
 Date: 2020-12-05
 Authors@R: c(person("Chris", "Reudenbach", email = "reudenbach@uni-marburg.de", role = c("cre", "aut")),
              person("Tim", "Appelhans", email = "tim.appelhans@gmail.com>", role = c("ctb"))
@@ -30,5 +30,6 @@ Suggests: knitr,
           RSAGA,
           rgrass7,
           curl,
-          listviewer
+          listviewer,
+          markdown
 VignetteBuilder: knitr

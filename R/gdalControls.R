@@ -83,6 +83,9 @@ searchGDALW <- function(DL = "C:",
         # convert codetable according to cmd.exe using type
         batchfile_lines <- raw_GDAL[i]
         installerType <- ""
+        installDir = ""
+        root_dir=""
+
         # if the the tag "OSGEO4W64" exists set installation_type
         if (length(unique(grep(paste("OSGeo4W64", collapse = "|"), raw_GDAL[i], value = TRUE))) > 0) {
           root_dir <- unique(grep(paste("OSGeo4W64", collapse = "|"), raw_GDAL[i], value = TRUE))

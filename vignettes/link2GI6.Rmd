@@ -29,31 +29,33 @@ knitr::opts_chunk$set(
 
 
 # Vignette info
-The vignette is a slighly adapted version of the installation guide of the archived RQGIS package. Big thanks to [Patrick Schratz](https://github.com/pat-s) and [Jannis Muenchow](https://github.com/jannes-m).
+The vignette is a slightly adapted version of the installation guide of the archived RQGIS package. Big thanks to [Patrick Schratz](https://github.com/pat-s) and [Jannis Muenchow](https://github.com/jannes-m).
 
 
-This vignette guides you through the installation process of QGIS, GRASS- and SAGA-GIS as well as Orfeo Toolbox on three different platforms (Windows, Mac, Linux). 
+This vignette guides you through the installation process of QGIS, GRASS- and SAGA-GIS as well as Orfeo Toolbox and GDAL on three different platforms (Windows, Mac, Linux). 
 Following the instructions should ensure that link2GI will work properly. 
-With the exception of SAGA, we recommend to use the latest stable version of all software packages.
+With the exception of SAGA (SAGA is pretty idiosyncratic in questions of interface conformity), we recommend to use the latest stable version of all software packages.
 
 
-Overall,link2GI allows access to more than some thousands of reliable and well known geoalgorithms.
-However, please note that the number of geoalgorithms you can use linking with link2GI depends on the platform, the system architecture, the selection of installed third-party providers and software package versions.
+Overall, link2GI allows access to more than some thousands of reliable and well known geo-algorithms. However, please note that the number of geo-algorithms you can use linking with link2GI depends on the platform, the system architecture, the selection of installed third-party providers and software package versions.
+
 
 # Windows
 
+## QGIS, GRASS and SAGA
 There are at least two options to install QGIS on Windows. The first option is the Standalone Installer from the [QGIS installer page](https://www.qgis.org/en/site/forusers/download.html). 
 This will install QGIS along with the third-party providers GRASS and SAGA. 
 However, if you would like to use even more third-party providers (e.g., GDAL, GEOS, Taudem, OTB, PostGIS, etc.), it is strongly recommended to use the OSGeo4W Network installer. 
 This installer is available on the [QGIS installer page](https://www.qgis.org/en/site/forusers/download.html) as well as on the [OSGeo4W-website](https://trac.osgeo.org/osgeo4w/). 
+
+**NOTE: Do not install QGIS 2.x**
 
 To install OSGeo4W, the easiest way is to to use the Express installation:
 
 ![](https://raw.githubusercontent.com/r-spatial/link2GI/master/figures/00_express.PNG)
 
 
-We are sorry, that our installer uses a German dialog.
-Apparently, OSGeo4w automatically uses the language in accordance with the system locale. Nevertheless, it should be easy enough to follow our steps.
+Sorry for the German dialogues.  Nevertheless, it should be easy enough to follow our steps.
 
 1. Select "Express Installation" 
 2. Next check "QGIS, GRASS and GDAL"
@@ -76,7 +78,7 @@ However, to have the full choice of available geoalgorithms provided by QGIS, we
 
 Additionally, we choose the Desktop-GIS GRASS 7, the Orfeo Toolbox, SAGA, and QGIS (even if not directly supported by link2GI right now). Here, we install both the most recent QGIS 3.x version as well as the long-term release. 
 
-**NOTE: Do not install QGIS 2.x**
+
 
 4. We leave the rest as is, click "Next" and wait for the OSGeo4W-suggestions which we accept.
 
@@ -88,6 +90,13 @@ If you wish to to modify, uninstall or update some of the installed components, 
 Alternatively, you can download and run again the latest [OSGeo4W-executable](https://trac.osgeo.org/osgeo4w/).
 
 If you additionally want to use the **LiDAR processing tools** (LAStools), please follow the steps found [here](https://rapidlasso.com/2013/09/29/how-to-install-lastools-toolbox-in-qgis/).
+
+## Orfeo Toolbox
+
+Please [download](https://www.orfeo-toolbox.org/download/) the current (at this point OTB-7.2.0-Win64) or appropriate version of the Orfeo Toolbox software. Then follow the advice of the OTB team:
+
+"We provide standalone binaries for Windows which do not require administrative privileges. Download the archive below (32 or 64 bits), and extract it somewhere. Double-click on the monteverdi.bat to launch Monteverdi, or mapla.bat for the OTB application browser. Please see the [CookBook](https://www.orfeo-toolbox.org/CookBook/Installation.html#windows) for detailed installation instructions."
+
 
 # Linux
 

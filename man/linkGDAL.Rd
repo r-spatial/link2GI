@@ -28,7 +28,7 @@ to the PATH variable only, otherwise all paths and versions of the installed GRA
 add gdal pathes to the enviroment and creates global variables path_GDAL
 }
 \description{
-Locate and set up  \href{https://www.gdal.org/}{'GDAL - Geospatial Data Abstraction Librar'} API bindings
+Locate and set up  \href{https://gdal.org/}{'GDAL - Geospatial Data Abstraction Librar'} API bindings
 }
 \details{
 It looks for the \code{gdalinfo(.exe)} file. If the file is found in a \code{bin} folder it is assumed to be a valid 'GDAL' binary installation.

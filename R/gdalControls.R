@@ -303,14 +303,19 @@ getrowGDALVer<- function (paths){
   #tmp<-c()
   scmd = ifelse(Sys.info()["sysname"]=="Windows", "gdalinfo.exe", "gdalinfo")
   sep = ifelse(Sys.info()["sysname"]=="Windows", "\\", "/")
-  highestVer<-"1.4.0"
+  highestVer<-"1.2.0"
+  options(show.error.messages = FALSE)
+  options(warn=-1)  
   for (i in 1:nrow(paths)){
-    
-    ret<- system(paste0(paste0(shQuote(paths$binDir[i]),sep,scmd)," --version"),intern = TRUE)
-    
-    tmp<-  strsplit(x = ret ,split = "GDAL ")[[1]][2]
-    tmp2<- strsplit(x = tmp,split = ", released ")[[1]][1]
-    highestVer <- max(tmp2,highestVer)
+   
+
+    ret<-  try(system(paste0(paste0(shQuote(paths$binDir[i]),sep,scmd)," --version"),intern = TRUE))
+
+      if( substr(ret,1,4) == "GDAL" && length(ret) > 0){ 
+        tmp<-  strsplit(x = ret ,split = "GDAL ")[[1]][2]
+        tmp2<- strsplit(x = tmp,split = ", released ")[[1]][1]
+        highestVer <- max(tmp2,highestVer)}
+
     pathI <- i
   }
   return (pathI)

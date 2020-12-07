@@ -1,7 +1,7 @@
 ## link2GI 0.4-5
 
 bugfixes:
-* fix issue #42, #44, #46, #48
+* fix issue #42, #44, #46, #48, #49
 
 new feature:
 * add installation vignette

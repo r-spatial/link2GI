@@ -318,6 +318,8 @@ getrowGDALVer<- function (paths){
 
     pathI <- i
   }
+  options(show.error.messages = TRUE)
+  options(warn=0)
   return (pathI)
 }
 

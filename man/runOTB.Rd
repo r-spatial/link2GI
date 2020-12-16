@@ -18,6 +18,9 @@ runOTB(otbCmdList = NULL, gili = NULL, retRaster = TRUE, quiet = TRUE)
 \description{
 Wrapper function which paste the OTB command list into a system call compatible string and execute this command.
 }
+\details{
+Please note that you must check the help if the input argument is set with $inputi or $inputl
+}
 \examples{
 \dontrun{
 require(link2GI)
@@ -36,7 +39,7 @@ if (otblink$exist) {
                         format="GTiff", 
                         overwrite=TRUE)
 
-## for the example we use the Statistic Extraction, 
+## for an image output example we use the Statistic Extraction, 
 algoKeyword<- "LocalStatisticExtraction"
 
 ## extract the command list for the choosen algorithm 
@@ -46,7 +49,7 @@ cmd<-parseOTBFunction(algo = algoKeyword, gili = otbLink)
 listviewer::jsonedit(cmd$help)
 
 ## define the mandantory arguments all other will be default
-cmd$input  <- file.path(tempdir(),"test.tif")
+cmd$inputi  <- file.path(tempdir(),"test.tif")
 cmd$out <- file.path(tempdir(),"test_otb_stat.tif")
 cmd$radius <- 7
 
@@ -55,6 +58,27 @@ retStack<-runOTB(cmd,gili = otbLink)
 
 ## plot raster
 raster::plot(retStack)
+
+## for a data output example we use the 
+
+algoKeyword<- "ComputeImagesStatistics"
+
+## extract the command list for the choosen algorithm 
+cmd<-parseOTBFunction(algo = algoKeyword, gili = otbLink)
+
+## get help using the convenient listviewer
+listviewer::jsonedit(cmd$help)
+
+## define the mandantory arguments all other will be default
+cmd$inputl  <- file.path(tempdir(),"test.tif")
+cmd$ram <- 4096
+cmd$out <- file.path(tempdir(),"test_otb_stat.xml")
+
+## run algorithm
+retStack<-runOTB(cmd,gili = otbLink)
+
+## plot raster
+cat(file.path(tempdir(),"test_otb_stat.xml"))
 
 }
 }

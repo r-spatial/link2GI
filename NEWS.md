@@ -1,3 +1,8 @@
+## link2GI 0.4-6
+
+bugfixes:
+* issue #52
+
 ## link2GI 0.4-5
 
 bugfixes:

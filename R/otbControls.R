@@ -112,8 +112,9 @@ searchOTBW <- function(DL = "default",
           installDir <- substr(root_dir,1, gregexpr(pattern = "bin", root_dir)[[1]][1] - 2)
           installerType <- "OTB"
         }
-        # put the existing GISBASE directory, version number  and installation type in a data frame
-        data.frame(binDir = root_dir, baseDir = installDir, installation_type = installerType, stringsAsFactors = FALSE)
+        # put the existing binary root directory in a data frame
+        #data.frame(binDir = root_dir, baseDir = installDir, installation_type = installerType, stringsAsFactors = FALSE)
+        data.frame(binDir = root_dir, baseDir = installDir, otbCmd = paste0(root_dir,"otbcli"), stringsAsFactors = FALSE)
       }) # end lapply
       # bind the df lines
       otbInstallations <- do.call("rbind", otbInstallations)

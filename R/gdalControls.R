@@ -164,7 +164,7 @@ searchGDALW <- function(DL = "C:",
           else installerType <- "unknown"
           
         }
-        # put the existing GISBASE directory, version number  and installation type in a data frame
+        # put the existing binary directory, version number  and installation type in a data frame
         data.frame(binDir = root_dir, baseDir = installDir, installation_type = installerType, stringsAsFactors = FALSE)
       }) # end lapply
       # bind the df lines

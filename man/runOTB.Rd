@@ -80,7 +80,7 @@ cmd$progress <- 1
 ## run algorithm
 ret <- runOTB(cmd,gili = otblink, quiet = F)
 
-## as simple text lines
+## as vector
 print(ret)
 
 ## as xml

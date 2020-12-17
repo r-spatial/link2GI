@@ -15,12 +15,12 @@ retrieve the OTB module folder content and parses the module names
 \examples{
 \dontrun{
 ## link to the OTB binaries
-otbLink<-link2GI::linkOTB()
+otblink<-link2GI::linkOTB()
 
- if (otbLink$exist) {
+ if (otblink$exist) {
 
  ## parse all modules
- moduleList<-parseOTBAlgorithms(gili = otbLink)
+ moduleList<-parseOTBAlgorithms(gili = otblink)
 
  ## print the list
  print(moduleList)

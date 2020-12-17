@@ -16,15 +16,15 @@ retrieve the choosen function and returns a full argument list with the default 
 }
 \examples{
 \dontrun{
-otbLink<-link2GI::linkOTB()
-if (otbLink$exist) {
+otblink<-link2GI::linkOTB()
+if (otblink$exist) {
 
 ## parse all modules
-algos<-parseOTBAlgorithms(gili = otbLink)
+algos<-parseOTBAlgorithms(gili = otblink)
 
 
 ## take edge detection
-cmdList<-parseOTBFunction(algo = algos[27],gili = otbLink)
+cmdList<-parseOTBFunction(algo = algos[27],gili = otblink)
 ## print the current command
 print(cmdList)
 }

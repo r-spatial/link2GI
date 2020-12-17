@@ -20,7 +20,8 @@ Imports:
   sf (>= 0.9),
   stringr,
   raster, 
-  methods
+  methods,
+  utils
 SystemRequirements: GNU make 
 RoxygenNote: 7.1.1
 Suggests: knitr, 

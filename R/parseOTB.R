@@ -230,10 +230,17 @@ parseOTBFunction <- function(algo=NULL,gili=NULL) {
 #' cmd$input_il  <- file.path(tempdir(),"test.tif")
 #' cmd$ram <- 4096
 #' cmd$out <- file.path(tempdir(),"test_otb_stat.xml")
+#' cmd$progress <- 1
 #' 
 #' ## run algorithm
-#' retStack<-runOTB(cmd,gili = otblink)
+#' ret <- runOTB(cmd,gili = otblink, quiet = F)
 #' 
+#' ## as simple text lines
+#' print(ret)
+#' 
+#' ## as xml
+#' XML::xmlParse(cmd$out)
+#'  
 #' }
 #'}
 #'@export

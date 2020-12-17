@@ -25,7 +25,7 @@ parseOTBAlgorithms<- function(gili=NULL) {
     otb<-link2GI::linkOTB()
     path_OTB<- otb$pathOTB
   } else path_OTB<- gili$pathOTB
-  
+  path_OTB=shortPathName(path_OTB)
   if (substr(path_OTB,nchar(path_OTB) - 1,nchar(path_OTB)) == "n/")   path_OTB <- substr(path_OTB,1,nchar(path_OTB)-1)
   
   algorithms <-list.files(pattern="otbcli", path=path_OTB, full.names=FALSE)
@@ -70,12 +70,12 @@ parseOTBFunction <- function(algo=NULL,gili=NULL) {
   otbhelp <- list()
   
   otbtype <- list()
-  
+  path_OTB=shortPathName(path_OTB)
   
   if (algo != "" & otb$exist){
     system("rm otb_module_dump.txt",intern = FALSE,ignore.stderr = TRUE)
     ifelse(Sys.info()["sysname"]=="Windows",
-           system(paste0(file.path(R.utils::getAbsolutePath(path_OTB),paste0("otbcli_",algo))," -help >> " ,file.path(R.utils::getAbsolutePath(tempdir()),paste0("otb_module_dump.txt 2>&1")))), 
+           system(paste0(file.path(R.utils::getAbsolutePath(shortPathName(path_OTB)),paste0("otbcli_",algo))," -help >> " ,file.path(R.utils::getAbsolutePath(tempdir()),paste0("otb_module_dump.txt 2>&1")))), 
            system(paste0(file.path(R.utils::getAbsolutePath(path_OTB),paste0("otbcli_",algo))," -help >> " ,file.path(R.utils::getAbsolutePath(tempdir()),paste0("otb_module_dump.txt 2>&1"))))
            )
     
@@ -155,7 +155,7 @@ parseOTBFunction <- function(algo=NULL,gili=NULL) {
 #    if (arg =="inputi")  arg<-"in"
 #    if (arg =="inputl")  arg<-"il"
     if (arg != "progress")  {
-      system(paste0(path_OTB,"otbcli_",paste0(algo," -help ",arg ,paste0(" >> ",file.path(tempdir(),ocmd[[1]]),"-",arg,".txt 2>&1"))))
+      system(paste0(shortPathName(path_OTB),"otbcli_",paste0(algo," -help ",arg ,paste0(" >> ",file.path(tempdir(),ocmd[[1]]),"-",arg,".txt 2>&1"))))
       helpList[[arg]]<-unique(readLines(paste0(file.path(tempdir(),ocmd[[1]]),"-",arg,".txt")))
       #file.remove(paste0(file.path(tempdir(),ocmd[[1]]),"-",arg,".txt"),showWarnings = TRUE)
       drop <-grep(x = helpList[[arg]],pattern =  "\\w*no version information available\\w*")
@@ -265,7 +265,7 @@ runOTB <- function(otbCmdList=NULL,
     names(otbCmdList)[1]<-"il"
   }
   
-  command<-paste(paste0(path_OTB,"otbcli_",otb_algorithm," "),
+  command<-paste(paste0(shortPathName(path_OTB),"otbcli_",otb_algorithm," "),
                  paste0("-",unique(names(otbCmdList))," ",unique(otbCmdList),collapse = " "))
   if (quiet){
     system(command,ignore.stdout = TRUE,ignore.stderr = TRUE,intern = FALSE)

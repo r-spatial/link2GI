@@ -252,40 +252,48 @@ runOTB <- function(otbCmdList=NULL,
   otb_algorithm<-unlist(otbCmdList[1])  
   otbCmdList[1]<-NULL
   otbCmdList$help<-NULL
-  otbCmdList$out <-gsub(" ", "\\\\ ", R.utils::getAbsolutePath(otbCmdList$out))  
-
+  otbCmdList$out <-gsub(" ", "\\/ ", R.utils::getAbsolutePath(otbCmdList$out))  
+  
   
   if(Sys.info()["sysname"]== "Windows") otb_algorithm <- paste0(otb_algorithm,".bat")
   if (names(otbCmdList)[1] == "inputi")  {
-    otbCmdList$inputi <- gsub(" ", "\\\\ ", R.utils::getAbsolutePath(otbCmdList$inputi))  
+    otbCmdList$inputi <- gsub(" ", "\\/ ", R.utils::getAbsolutePath(otbCmdList$inputi))  
     names(otbCmdList)[1]<-"in"
   }
   else if (names(otbCmdList)[1] == "inputl")  {
-    otbCmdList$il <- gsub(" ", "\\\\ ", R.utils::getAbsolutePath(otbCmdList$inputl))  
+    otbCmdList$inputl <- gsub(" ", "\\/ ", R.utils::getAbsolutePath(otbCmdList$inputl))  
     names(otbCmdList)[1]<-"il"
   }
   
   command<-paste(paste0(shortPathName(path_OTB),"otbcli_",otb_algorithm," "),
                  paste0("-",unique(names(otbCmdList))," ",unique(otbCmdList),collapse = " "))
+  outn = otbCmdList$out
   if (quiet){
     system(command,ignore.stdout = TRUE,ignore.stderr = TRUE,intern = FALSE)
     if (retRaster ){
-      outn=gsub("\\\\", "", path.expand(otbCmdList$out))
+      #outn=gsub("\\/", "", path.expand(otbCmdList$out))
       if (length(grep("xml", outn)) == 0) {
-        rStack <- assign(outn,raster::stack(outn))
+        rStack <- assign(tools::file_path_sans_ext(basename(outn)),raster::stack(outn))
         return(rStack)}
-      else cat("the output ",outn," is not a raster\n")
+      else {
+        warning("NOTE: ", outn," is not a raster\n")
+        return(readLines(outn)) 
+      }
+      
     }
   }
   else {
-    system(command,ignore.stdout = FALSE,ignore.stderr = FALSE,intern = TRUE)
+    ret=system(command,ignore.stdout = FALSE,ignore.stderr = FALSE,intern = TRUE)
+    lapply(ret, print)
     if (retRaster){
-      outn=gsub("\\\\", "", path.expand(otbCmdList$out))
+      #outn=gsub("\\/", "", path.expand(otbCmdList$out))
       if (length(grep("xml", outn)) == 0) {
-        rStack <- assign(outn,raster::stack(outn))
+        rStack <- assign(tools::file_path_sans_ext(basename(outn)),raster::stack(outn))
         return(rStack)}
-      else cat("the output ",outn," is not a raster\n")
-#      rStack<-assign(otbCmdList$out,raster::stack(otbCmdList$out))
+      else {
+        warning("NOTE: ", outn," is not a raster\n")
+       return(readLines(outn)) 
+      }
       
     }
   }

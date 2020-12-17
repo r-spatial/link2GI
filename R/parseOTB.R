@@ -275,7 +275,7 @@ runOTB <- function(otbCmdList=NULL,
         rStack <- assign(tools::file_path_sans_ext(basename(outn)),raster::stack(outn))
         return(rStack)}
       else {
-        warning("NOTE: ", outn," is not a raster\n")
+        #warning("NOTE: ", outn," is not a raster\n")
         return(readLines(outn)) 
       }
       
@@ -290,7 +290,7 @@ runOTB <- function(otbCmdList=NULL,
         rStack <- assign(tools::file_path_sans_ext(basename(outn)),raster::stack(outn))
         return(rStack)}
       else {
-        warning("NOTE: ", outn," is not a raster\n")
+        #warning("NOTE: ", outn," is not a raster\n")
        return(readLines(outn)) 
       }
       

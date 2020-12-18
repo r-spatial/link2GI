@@ -273,6 +273,7 @@ runOTB <- function(otbCmdList=NULL,
   
   command<-paste(paste0(utils::shortPathName(path_OTB),"otbcli_",otb_algorithm," "),
                  paste0("-",unique(names(otbCmdList))," ",unique(otbCmdList),collapse = " "))
+  command = gsub("\\\\", "/", command)
   outn = otbCmdList$out
   if (quiet){
     system(command,ignore.stdout = TRUE,ignore.stderr = TRUE,intern = FALSE)
@@ -282,6 +283,7 @@ runOTB <- function(otbCmdList=NULL,
         rStack <- assign(tools::file_path_sans_ext(basename(outn)),raster::stack(outn))
         return(rStack)}
       else {
+
         #warning("NOTE: ", outn," is not a raster\n")
         return(readLines(outn)) 
       }
@@ -294,11 +296,12 @@ runOTB <- function(otbCmdList=NULL,
     if (retRaster){
       #outn=gsub("\\/", "", path.expand(otbCmdList$out))
       if (length(grep("xml", outn)) == 0) {
+        message(command)
         rStack <- assign(tools::file_path_sans_ext(basename(outn)),raster::stack(outn))
         return(rStack)}
       else {
         #warning("NOTE: ", outn," is not a raster\n")
-       return(readLines(outn)) 
+       return(list(data=readLines(outn),cmd=command) )
       }
       
     }

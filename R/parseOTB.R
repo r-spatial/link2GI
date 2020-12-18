@@ -25,7 +25,8 @@ parseOTBAlgorithms<- function(gili=NULL) {
     otb<-link2GI::linkOTB()
     path_OTB<- otb$pathOTB
   } else path_OTB<- gili$pathOTB
-  path_OTB=utils::shortPathName(path_OTB)
+  path_OTB = ifelse(Sys.info()["sysname"]=="Windows", utils::shortPathName(path_OTB),path_OTB)
+  
   if (substr(path_OTB,nchar(path_OTB) - 1,nchar(path_OTB)) == "n/")   path_OTB <- substr(path_OTB,1,nchar(path_OTB)-1)
   
   algorithms <-list.files(pattern="otbcli", path=path_OTB, full.names=FALSE)
@@ -70,7 +71,7 @@ parseOTBFunction <- function(algo=NULL,gili=NULL) {
   otbhelp <- list()
   
   otbtype <- list()
-  path_OTB=utils::shortPathName(path_OTB)
+  path_OTB = ifelse(Sys.info()["sysname"]=="Windows", utils::shortPathName(path_OTB),path_OTB)
   
   if (algo != "" & otb$exist){
     system("rm otb_module_dump.txt",intern = FALSE,ignore.stderr = TRUE)
@@ -155,7 +156,7 @@ parseOTBFunction <- function(algo=NULL,gili=NULL) {
 #    if (arg =="input_in")  arg<-"in"
 #    if (arg =="input_il")  arg<-"il"
     if (arg != "progress")  {
-      system(paste0(utils::shortPathName(path_OTB),"otbcli_",paste0(algo," -help ",arg ,paste0(" >> ",file.path(tempdir(),ocmd[[1]]),"-",arg,".txt 2>&1"))))
+      system(paste0(path_OTB,"otbcli_",paste0(algo," -help ",arg ,paste0(" >> ",file.path(tempdir(),ocmd[[1]]),"-",arg,".txt 2>&1"))))
       helpList[[arg]]<-unique(readLines(paste0(file.path(tempdir(),ocmd[[1]]),"-",arg,".txt")))
       #file.remove(paste0(file.path(tempdir(),ocmd[[1]]),"-",arg,".txt"),showWarnings = TRUE)
       drop <-grep(x = helpList[[arg]],pattern =  "\\w*no version information available\\w*")
@@ -271,8 +272,8 @@ runOTB <- function(otbCmdList=NULL,
     names(otbCmdList)[1]<-"il"
   }
   
-  command<-paste(paste0(utils::shortPathName(path_OTB),"otbcli_",otb_algorithm," "),
-                 paste0("-",unique(names(otbCmdList))," ",unique(otbCmdList),collapse = " "))
+  command<-paste(paste0(path_OTB,"otbcli_",otb_algorithm," "),
+                 paste0("-",names(otbCmdList)," ",otbCmdList,collapse = " "))
   command = gsub("\\\\", "/", command)
   outn = otbCmdList$out
   if (quiet){

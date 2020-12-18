@@ -293,15 +293,15 @@ runOTB <- function(otbCmdList=NULL,
   else {
     ret=system(command,ignore.stdout = FALSE,ignore.stderr = FALSE,intern = TRUE)
     lapply(ret, print)
+    message(command)
     if (retRaster){
       #outn=gsub("\\/", "", path.expand(otbCmdList$out))
       if (length(grep("xml", outn)) == 0) {
-        message(command)
         rStack <- assign(tools::file_path_sans_ext(basename(outn)),raster::stack(outn))
         return(rStack)}
       else {
         #warning("NOTE: ", outn," is not a raster\n")
-       return(list(data=readLines(outn),cmd=command) )
+       return(data=readLines(outn))
       }
       
     }

@@ -128,6 +128,7 @@ linkOTB <- function(bin_OTB=NULL,
 
   # if a setDefaultOTB was provided take this 
   otb<-list()
+  names(pathOTB)=NULL
   otb$pathOTB<-pathOTB
   otb$version<-params_OTB
   otb$exist<-TRUE

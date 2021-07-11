@@ -259,10 +259,9 @@ runOTB <- function(otbCmdList=NULL,
   otb_algorithm<-unlist(otbCmdList[1])  
   otbCmdList[1]<-NULL
   otbCmdList$help<-NULL
-  otbCmdList$out <-gsub(" ", "\\/ ", R.utils::getAbsolutePath(otbCmdList$out))  
-  
   
   if(Sys.info()["sysname"]== "Windows") otb_algorithm <- paste0(otb_algorithm,".bat")
+  
   if (names(otbCmdList)[1] == "input_in")  {
     otbCmdList$input_in <- gsub(" ", "\\/ ", R.utils::getAbsolutePath(otbCmdList$input_in))  
     names(otbCmdList)[1]<-"in"
@@ -271,11 +270,23 @@ runOTB <- function(otbCmdList=NULL,
     otbCmdList$input_il <- gsub(" ", "\\/ ", R.utils::getAbsolutePath(otbCmdList$input_il))  
     names(otbCmdList)[1]<-"il"
   }
+  else if (names(otbCmdList)[1] == "io.il")  {
+    otbCmdList$io.il <- gsub(" ", "\\/ ", R.utils::getAbsolutePath(otbCmdList$io.il))
+  }
+  
+  if(!is.null(otbCmdList$out)){
+    otbCmdList$out <-gsub(" ", "\\/ ", R.utils::getAbsolutePath(otbCmdList$out))  
+    outn = otbCmdList$out
+  } else {
+    otbCmdList$io.out <-gsub(" ", "\\/ ", R.utils::getAbsolutePath(otbCmdList$io.out))
+    outn = otbCmdList$io.out
+  }
   
   command<-paste(paste0(path_OTB,"otbcli_",otb_algorithm," "),
                  paste0("-",names(otbCmdList)," ",otbCmdList,collapse = " "))
+  
   command = gsub("\\\\", "/", command)
-  outn = otbCmdList$out
+  
   if (quiet){
     system(command,ignore.stdout = TRUE,ignore.stderr = TRUE,intern = FALSE)
     if (retRaster ){
@@ -284,11 +295,10 @@ runOTB <- function(otbCmdList=NULL,
         rStack <- assign(tools::file_path_sans_ext(basename(outn)),raster::stack(outn))
         return(rStack)}
       else {
-
+        
         #warning("NOTE: ", outn," is not a raster\n")
         return(readLines(outn)) 
       }
-      
     }
   }
   else {
@@ -302,7 +312,7 @@ runOTB <- function(otbCmdList=NULL,
         return(rStack)}
       else {
         #warning("NOTE: ", outn," is not a raster\n")
-       return(data=readLines(outn))
+        return(data=readLines(outn))
       }
       
     }

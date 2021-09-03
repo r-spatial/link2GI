@@ -3,6 +3,10 @@
 [![Travis-CI Build Status](https://travis-ci.org/r-spatial/link2GI.svg?branch=master)](https://travis-ci.org/r-spatial/link2GI)
 ![](https://cranlogs.r-pkg.org/badges/grand-total/link2GI?color=green)
 [![License](https://img.shields.io/badge/license-GPL%20%28%3E=%203%29-lightgrey.svg?style=flat)](http://www.gnu.org/licenses/gpl-3.0.html)
+![](https://cranlogs.r-pkg.org/badges/grand-total/link2Gi?color=green)
+![](https://cranlogs.r-pkg.org/badges/ink2Gi?color=green)
+![](https://cranlogs.r-pkg.org/badges/last-week/ink2Gi?color=green)
+
 
 Package website: [release](https://r-spatial.github.io/link2GI/) | [dev](https://r-spatial.github.io/link2GI/dev/)
 

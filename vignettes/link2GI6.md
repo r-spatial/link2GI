@@ -1,7 +1,7 @@
 ---
 author: "Chris Reudenbach"
 title: "Installation guide for link2GI related Software"
-date: "2020-12-07"
+date: "2021-09-03"
 editor_options:
   chunk_output_type: console
 output:
@@ -154,7 +154,6 @@ Please note, however, that QGIS currently only supports the SAGA LTR 2.3.x as fa
 ## Arch Linux
 
 You can install various QGIS, SAGA and GRASS versions from the [Arch User Repository](https://aur.archlinux.org/). 
-We recommend to use the [yaourt](https://wiki.archlinux.de/title/Yaourt) package manager.
 
 ## Fedora
 

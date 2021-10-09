@@ -161,7 +161,6 @@ Please note, however, that QGIS currently only supports the SAGA LTR 2.3.x as fa
 ## Arch Linux
 
 You can install various QGIS, SAGA and GRASS versions from the [Arch User Repository](https://aur.archlinux.org/). 
-We recommend to use the [yaourt](https://wiki.archlinux.de/title/Yaourt) package manager.
 
 ## Fedora
 

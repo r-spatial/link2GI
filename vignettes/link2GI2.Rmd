@@ -132,7 +132,7 @@ Now do the same with  `sf` based data.
  # NOTE: if more than one GRASS installation is found the highest version will be choosed
  
  grass<-linkGRASS7(nc,returnPaths = TRUE)
- ```
+```
  
  The second most common situation is the usage of an existing `GRASS` location and project either with existing data sets or manually provided parameters. 
 

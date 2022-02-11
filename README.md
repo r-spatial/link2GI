@@ -1,6 +1,6 @@
 # link2GI
 
-[![](https://img.shields.io/stars/link2GI/r-spatial/link2GI?style=for-the-badge)](https://github.com/r-spatial/link2GI)
+[![](https://img.shields.io/github/stars/r-spatial/link2GI?style=for-the-badge)](https://github.com/r-spatial/link2GI)
 ![](https://cranlogs.r-pkg.org/badges/grand-total/link2GI?color=green)
 [![License](https://img.shields.io/badge/license-GPL%20%28%3E=%203%29-lightgrey.svg?style=flat)](http://www.gnu.org/licenses/gpl-3.0.html)
 

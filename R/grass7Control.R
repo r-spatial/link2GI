@@ -361,7 +361,7 @@ searchGRASSW <- function(DL = "C:",
 searchGRASSX <- function(MP = "/usr/bin",quiet =TRUE){
   if (MP=="default") MP <- "/usr/bin"
   raw_GRASS <- system2("find", paste(MP," ! -readable -prune -o -type f -executable -iname 'grass??' -print"),stdout = TRUE,stderr = FALSE)
-  
+  if (length(raw_GRASS) == 0) raw_GRASS <- system2("find", paste(MP," ! -readable -prune -o -type f -executable -iname 'grass' -print"),stdout = TRUE,stderr = FALSE)
   
   #cat(raw_GRASS)
   if (length(raw_GRASS) > 0 ) {
@@ -370,7 +370,7 @@ searchGRASSX <- function(MP = "/usr/bin",quiet =TRUE){
     installations_GRASS <- lapply(seq(length(raw_GRASS)), function(i){
       # grep line containing GISBASE and extract the substring 
       rg<- strsplit(raw_GRASS,split = "/")
-      if (rg[[i]][lengths(rg)] == "grass78") {
+      if (rg[[i]][lengths(rg)] == "grass78" | rg[[i]][lengths(rg)] == "grass" ) {
       
 
       
@@ -384,7 +384,7 @@ searchGRASSX <- function(MP = "/usr/bin",quiet =TRUE){
       
       if (!file.exists(root_dir)) root_dir  <-  "/opt/grass"
     }
-      if (rg[[i]][lengths(rg)] != "grass78") {
+      else  {
         
         root_dir <- try(grep(readLines(raw_GRASS[[i]]),pattern = 'gisbase = "',value = TRUE),silent = TRUE)
         if(!class(root_dir)[1] == "try-error" ) {

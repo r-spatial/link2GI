@@ -68,7 +68,7 @@ searchGDALW <- function(DL = "C:",
     options(warn=-1)
     raw_GDAL  <- try(system(paste0("cmd.exe"," /c dir /B /S ",DL,"\\","gdalinfo.exe"),intern=TRUE))
     if (identical(raw_GDAL, character(0))) raw_GDAL <- "File not found"
-    if (grepl(raw_GDAL,pattern = "File not found") | grepl(raw_GDAL,pattern = "Datei nicht gefunden")) {
+    if (any(grepl(raw_GDAL,pattern = "File not found")) | any(grepl(raw_GDAL,pattern = "Datei nicht gefunden"))) {
       
       class(raw_GDAL) <- c("try-error", class(raw_GDAL))
     }

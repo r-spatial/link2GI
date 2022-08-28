@@ -1,40 +1,40 @@
-if (!isGeneric('linkGRASS7')) {
-  setGeneric('linkGRASS7', function(x, ...)
-    standardGeneric('linkGRASS7'))
+if (!isGeneric('linkGRASS')) {
+  setGeneric('linkGRASS', function(x, ...)
+    standardGeneric('linkGRASS'))
 }
 
-#'@title 	Locate and set up 'GRASS 7' API bindings 
-#'@name linkGRASS7
+#'@title 	Locate and set up 'GRASS' API bindings 
+#'@name linkGRASS
 #'@description Initializes the session environment and the system pathes for an easy acces to 
-#' \href{https://grass.osgeo.org/}{'GRASS GIS 7.x'}.  The correct setup of the spatial and projection parameters is
+#' \href{https://grass.osgeo.org/}{'GRASS GIS 7.x/8.x'}.  The correct setup of the spatial and projection parameters is
 #'  automatically performed by using either an existing and valid \code{raster}, \code{sp} or \code{sf} object, 
 #'  or manually by providing a list containing the minimum parameters needed.\cr
-#'@note 'GRASS GIS 7' is excellently supported by the
-#'  \code{rgrass7} wrapper package. Nevertheless 'GRASS GIS' is well known for
+#'@note 'GRASS GIS' is excellently supported by the
+#'  \code{rgrass} wrapper package. Nevertheless 'GRASS GIS' is well known for
 #'  its high demands regarding the correct spatial and reference setup  
 #'  of workspace and environment requirements. This becomes even worse on 'Windows' 
 #'  platforms or if several alternative 'GRASS GIS' installations are available.
-#'  If one knows what to do the \code{rgrass7} package setup function \code{rgrass7::initGRASS} works fine under Linux. 
+#'  If one knows what to do the \code{rgrass} package setup function \code{rgrass::initGRASS} works fine under Linux. 
 #'  This is also valid for well known configurations under the 'Windows' operation system. 
 #'  Nevertheless on university lab or on company computers with restriced privileges and/or using different releases
 #'  like the  \href{https://trac.osgeo.org/osgeo4w/}{'OSGeo4W'} distribution and the  
-#'  \href{https://grass.osgeo.org/download/windows/}{'GRASS 7' stand-alone} installation, 
-#'  or different software releases (e.g. 'GRASS 7.0.5 and GRASS 7.2.0), it becomes often cumbersome or even impossible to get the correct linkages. \cr 
-#'  The function \code{linkGRASS7} tries to find all valid 'GRASS GIS' binaries by analyzing
+#'  \href{https://grass.osgeo.org/download/windows/}{'GRASS 7/8' stand-alone} installation, 
+#'  or different software releases (e.g. 'GRASS 7.0.5 and GRASS 8.1.0), it becomes often cumbersome or even impossible to get the correct linkages. \cr 
+#'  The function \code{linkGRASS} tries to find all valid 'GRASS GIS' binaries by analyzing
 #'  the startup script files of 'GRASS GIS'. After identifying the 'GRASS GIS' binaries all
 #'  necessary system variables and settings will be generated and passed to a temporary R enviroment.
 #'@details The concept is straightforward but for an all days usage helpful. Either you need to 
 #' provide a \code{raster} or \code{sp} \code{sf} spatial object
 #'  which has correct spatial and projection properties or you may link directlxy to an existing 'GRASS' gisdbase and mapset. 
 #'  If you choose an spatial object to initialize a correct 'GRASS' mapset it is used to create either a temporary or a permanent 
-#'  \href{https://CRAN.R-project.org/package=rgrass7}{rgrass7} environment including the correct 'GRASS 7' structure.\cr\cr
+#'  \href{https://CRAN.R-project.org/package=rgrass}{rgrass} environment including the correct 'GRASS 7/8' structure.\cr\cr
 #'  The most time consuming part on 'Windows' Systems is the search process. This can easily take 10 or more minutes. 
 #'  To speed up this process you can also provide a correct parameter set. Best way to do so is to call \code{searchGRASSW} or for 'Linux' \code{searchGRASSX} manually. 
-#'  and call \code{linkGRASS7} with the version arguments of your choice. linkGRASS7 initializes the usage of GRASS7.
-#'@note If you have more than one valid installation and run \code{linkGRASS7()} without arguments, you will be ask to select one.
+#'  and call \code{linkGRASS} with the version arguments of your choice. linkGRASS initializes the usage of GRASS7.
+#'@note If you have more than one valid installation and run \code{linkGRASS()} without arguments, you will be ask to select one.
 #'@param search_path path or mounting point that will be searched
 #'@param x raster or sp object
-#'@param default_GRASS7 default is \code{NULL} If is \code{NULL} an automatic search for all installed versions is performed. 
+#'@param default_GRASS default is \code{NULL} If is \code{NULL} an automatic search for all installed versions is performed. 
 #'                    If you provide a valid list the corresponding version is initialized. An example for OSGeo4W64 is: \code{c("C:/OSGeo4W64","grass-7.0.5","osgeo4w")}
 #'@param gisdbase default is \code{NULL}, invoke \code{tempdir()} to the 'GRASS' database. Alternativeley you can provide a individual path.
 #'@param location default is \code{NULL}, invoke \code{basename(tempfile())} for defining the 'GRASS' location. Alternativeley you can provide a individual path.
@@ -49,10 +49,11 @@ if (!isGeneric('linkGRASS7')) {
 
 #'@author Chris Reudenbach
 
-#'@export linkGRASS7
+#'@export linkGRASS
 #' @importFrom sf st_as_sf
 #' @importFrom sf st_crs 
 #' @importFrom sf st_bbox
+#' @import methods
 #'@examples 
 #'
 #'\dontrun{
@@ -71,24 +72,24 @@ if (!isGeneric('linkGRASS7')) {
 #' # using the nc sf data object for spatial referencing
 #' # This is the highly recommended linking procedure for on the fly jobs
 #' # NOTE: if more than one GRASS installation is found you have to choose. 
-#' grass<-linkGRASS7(nc,returnPaths = TRUE)
+#' grass<-linkGRASS(nc,returnPaths = TRUE)
 #' if (grass$exist){
 #' 
 #' # CREATE and link to a permanent GRASS folder at "projRootDir", location named "project1" 
-#' linkGRASS7(nc, gisdbase = projRootDir, location = "project1")   
+#' linkGRASS(nc, gisdbase = projRootDir, location = "project1")   
 #' 
 #' # ONLY LINK to a permanent GRASS folder at "projRootDir", location named "project1" 
-#' linkGRASS7(gisdbase = projRootDir, location = "project1", gisdbase_exist = TRUE )   
+#' linkGRASS(gisdbase = projRootDir, location = "project1", gisdbase_exist = TRUE )   
 #' 
 #'
 #' # setting up GRASS manually with spatial parameters of the nc data
 #' proj4_string <- as.character(sp::CRS("+init=epsg:28992"))
-#' linkGRASS7(spatial_params = c(178605,329714,181390,333611,proj4_string)) 
+#' linkGRASS(spatial_params = c(178605,329714,181390,333611,proj4_string)) 
 #' 
 #' # creating a GRASS gisdbase manually with spatial parameters of the nc data 
 #' # additionally using a peramanent directory "projRootDir" and the location "nc_spatial_params "
 #' proj4_string <- as.character(sp::CRS("+init=epsg:4267"))
-#' linkGRASS7(gisdbase = projRootDir,
+#' linkGRASS(gisdbase = projRootDir,
 #'            location = "nc_spatial_params",
 #'            spatial_params = c(-84.32385, 33.88199,-75.45698,36.58965,proj4_string))
 #' }
@@ -96,21 +97,21 @@ if (!isGeneric('linkGRASS7')) {
 #' ## Some more examples related to interactive selection or OS specific settings
 #' 
 #' # SELECT the GRASS installation and define the search location
-#' linkGRASS7(nc, ver_select = TRUE, search_path = "~")
+#' linkGRASS(nc, ver_select = TRUE, search_path = "~")
 #' 
 #' # SELECT the GRASS installation 
-#' linkGRASS7(nc, ver_select = TRUE)
+#' linkGRASS(nc, ver_select = TRUE)
 #' 
 #' # Typical osge4W installation (QGIS), using the meuse sp data object for spatial referencing
-#' linkGRASS7(nc,c("C:/Program Files/QGIS 2.18","grass-7.2.1","osgeo4W")) 
+#' linkGRASS(nc,c("C:/Program Files/QGIS 2.18","grass-7.2.1","osgeo4W")) 
 #' 
 #' # Typical osgeo4W installation (rootdir), using the meuse sp data object for spatial referencing 
-#' linkGRASS7(nc,c("C:/OSGeo4W64/","grass-7.2.2","osgeo4W"))
+#' linkGRASS(nc,c("C:/OSGeo4W64/","grass-7.2.2","osgeo4W"))
 #' 
 #' }
 
-linkGRASS7 <- function(x = NULL,
-                       default_GRASS7 = NULL, 
+linkGRASS <- function(x = NULL,
+                       default_GRASS = NULL, 
                        search_path = NULL,
                        ver_select = FALSE,
                        gisdbase_exist =FALSE,
@@ -128,16 +129,16 @@ linkGRASS7 <- function(x = NULL,
   if (Sys.info()["sysname"] == "Windows") {
    if (use_home) home <- Sys.getenv("USERPROFILE")
     if (is.null(search_path)) search_path <- "C:"
-    grass <- paramGRASSw(default_GRASS7,search_path,ver_select)
+    grass <- paramGRASSw(default_GRASS,search_path,ver_select)
   } else {
     if (use_home) home <- Sys.getenv("HOME")
     if (is.null(search_path)) search_path <- "/usr/bin"
-    grass <- paramGRASSx(default_GRASS7,search_path,ver_select)
+    grass <- paramGRASSx(default_GRASS,search_path,ver_select)
   }
   if (grass[[1]][1] != FALSE) {
     # if an existing gdbase is provided link it  
     if (!is.null(location) & !is.null(gisdbase) & gisdbase_exist ) {
-      rgrass7::initGRASS(gisBase  = grass$gisbase_GRASS,
+      rgrass::initGRASS(gisBase  = grass$gisbase_GRASS,
                          home = home,
                          gisDbase = path.expand(gisdbase),
                          mapset = "PERMANENT",
@@ -233,7 +234,7 @@ linkGRASS7 <- function(x = NULL,
     #################### start with GRASS setup ------------------------------------
     # create the TEMPORARY GRASS location
     returnPaths<-TRUE
-    rgrass7::initGRASS(gisBase  = grass$gisbase_GRASS,
+    rgrass::initGRASS(gisBase  = grass$gisbase_GRASS,
                        home = home,
                        gisDbase = gisdbase,
                        mapset = "PERMANENT",
@@ -242,7 +243,7 @@ linkGRASS7 <- function(x = NULL,
     )
     
     # assign GRASS projection according to data set
-    rgrass7::execGRASS('g.proj',
+    rgrass::execGRASS('g.proj',
                        flags 
                        = c('c','quiet'),
                        proj4 = proj4
@@ -250,7 +251,7 @@ linkGRASS7 <- function(x = NULL,
     
     # assign GRASS extent
     if (getSpatialClass(x) == "rst") {
-      rgrass7::execGRASS('g.region',
+      rgrass::execGRASS('g.region',
                          flags = c('quiet','d'),
                          n = as.character(ymax),
                          s = as.character(ymin),
@@ -259,7 +260,7 @@ linkGRASS7 <- function(x = NULL,
                          res = as.character(resolution)
       )
     } else if (getSpatialClass(x) == "vec") {
-      rgrass7::execGRASS('g.region',
+      rgrass::execGRASS('g.region',
                          flags = c('quiet'),
                          n = as.character(ymax),
                          s = as.character(ymin),
@@ -268,7 +269,7 @@ linkGRASS7 <- function(x = NULL,
                          res=as.character(resolution)
       )
     } else if (getSpatialClass(x) == "paramList") {
-      rgrass7::execGRASS('g.region',
+      rgrass::execGRASS('g.region',
                          flags = c('quiet'),
                          n = as.character(ymax),
                          s = as.character(ymin),
@@ -287,7 +288,115 @@ linkGRASS7 <- function(x = NULL,
     grass$exist  <-FALSE
     returnPaths <- TRUE
     }
-  if(!quiet) return(rgrass7::gmeta())
+  if(!quiet) return(rgrass::gmeta())
   if (returnPaths) return(grass)
 }
 
+#'@title 	Deprecated only for backwards compatibility Locate and set up 'GRASS' API bindings 
+#' @rdname linkGRASS7
+#'@description Initializes the session environment and the system paths for an easy access to 
+#' \href{https://grass.osgeo.org/}{'GRASS GIS 7.x/8.x'}.  The correct setup of the spatial and projection parameters is
+#'  automatically performed by using either an existing and valid \code{raster}, \code{sp} or \code{sf} object, 
+#'  or manually by providing a list containing the minimum parameters needed.\cr
+#'@note 'GRASS GIS 7/8' is excellently supported by the
+#'  \code{rgrass} wrapper package. Nevertheless 'GRASS GIS' is well known for
+#'  its high demands regarding the correct spatial and reference setup  
+#'  of workspace and environment requirements. This becomes even worse on 'Windows' 
+#'  platforms or if several alternative 'GRASS GIS' installations are available.
+#'  If one knows what to do the \code{rgrass} package setup function \code{rgrass::initGRASS} works fine under Linux. 
+#'  This is also valid for well known configurations under the 'Windows' operation system. 
+#'  Nevertheless on university lab or on company computers with restriced privileges and/or using different releases
+#'  like the  \href{https://trac.osgeo.org/osgeo4w/}{'OSGeo4W'} distribution and the  
+#'  \href{https://grass.osgeo.org/download/windows/}{'GRASS 7/8' stand-alone} installation, 
+#'  or different software releases (e.g. 'GRASS 7.0.5 and GRASS 8.1.0), it becomes often cumbersome or even impossible to get the correct linkages. \cr 
+#'  The function \code{linkGRASS} tries to find all valid 'GRASS GIS' binaries by analyzing
+#'  the startup script files of 'GRASS GIS'. After identifying the 'GRASS GIS' binaries all
+#'  necessary system variables and settings will be generated and passed to a temporary R enviroment.
+#'@details The concept is straightforward but for an all days usage helpful. Either you need to 
+#' provide a \code{raster} or \code{sp} \code{sf} spatial object
+#'  which has correct spatial and projection properties or you may link directlxy to an existing 'GRASS' gisdbase and mapset. 
+#'  If you choose an spatial object to initialize a correct 'GRASS' mapset it is used to create either a temporary or a permanent 
+#'  \href{https://CRAN.R-project.org/package=rgrass}{rgrass} environment including the correct 'GRASS 7/8' structure.\cr\cr
+#'  The most time consuming part on 'Windows' Systems is the search process. This can easily take 10 or more minutes. 
+#'  To speed up this process you can also provide a correct parameter set. Best way to do so is to call \code{searchGRASSW} or for 'Linux' \code{searchGRASSX} manually. 
+#'  and call \code{linkGRASS} with the version arguments of your choice. linkGRASS initializes the usage of GRASS7/8.
+#'@note If you have more than one valid installation and run \code{linkGRASS()} without arguments, you will be ask to select one.
+#'@param search_path path or mounting point that will be searched
+#'@param x raster or sp object
+#'@param default_GRASS default is \code{NULL} If is \code{NULL} an automatic search for all installed versions is performed. 
+#'                    If you provide a valid list the corresponding version is initialized. An example for OSGeo4W64 is: \code{c("C:/OSGeo4W64","grass-7.0.5","osgeo4w")}
+#'@param gisdbase default is \code{NULL}, invoke \code{tempdir()} to the 'GRASS' database. Alternativeley you can provide a individual path.
+#'@param location default is \code{NULL}, invoke \code{basename(tempfile())} for defining the 'GRASS' location. Alternativeley you can provide a individual path.
+#'@param use_home default is \code{FALSE}, set the GISRC path to tempdir(), if TRUE the HOME or USERPROFILE setting is used for writing the GISRC file
+#'@param gisdbase_exist default is FALSE if set to TRUE the arguments gisdbase and location are expected to be an existing GRASS gisdbase
+#'@param spatial_params default is \code{NULL}. Instead of a spatial object you may provide the geometry as a list. E.g. c(xmin,ymin,xmax,ymax,proj4_string)
+#'@param resolution resolution in map units for the GRASS raster cells
+#'@param ver_select boolean if TRUE you may choose interactively the binary version (if found  more than one),  by default FALSE
+#'@param quiet boolean  switch for supressing console messages default is TRUE
+#'@param returnPaths boolean if set to FALSE the pathes of the selected version are written 
+#' to the PATH variable only, otherwise all paths and versions of the installed GRASS versions ae returned.
+
+#'@author Chris Reudenbach
+
+
+#' @importFrom sf st_as_sf
+#' @importFrom sf st_crs 
+#' @importFrom sf st_bbox
+#' @import methods
+#'@examples 
+#'
+#'\dontrun{
+#' library(link2GI)
+#' require(sf)
+#' 
+#' # proj folders
+#' projRootDir<-tempdir()
+#' paths<-link2GI::initProj(projRootDir = projRootDir,
+#'                          projFolders = c("project1/"))
+#'                          
+#' # get  data                         
+#' nc <- st_read(system.file("shape/nc.shp", package="sf"))
+#' 
+#' # Automatic search and find of GRASS binaries 
+#' # using the nc sf data object for spatial referencing
+#' # This is the highly recommended linking procedure for on the fly jobs
+#' # NOTE: if more than one GRASS installation is found you have to choose. 
+#' grass<-linkGRASS(nc,returnPaths = TRUE)
+#' if (grass$exist){
+#' 
+#' # CREATE and link to a permanent GRASS folder at "projRootDir", location named "project1" 
+#' linkGRASS(nc, gisdbase = projRootDir, location = "project1")   
+#' 
+#' # ONLY LINK to a permanent GRASS folder at "projRootDir", location named "project1" 
+#' linkGRASS(gisdbase = projRootDir, location = "project1", gisdbase_exist = TRUE )   
+#' 
+#'
+#' # setting up GRASS manually with spatial parameters of the nc data
+#' proj4_string <- as.character(sp::CRS("+init=epsg:28992"))
+#' linkGRASS(spatial_params = c(178605,329714,181390,333611,proj4_string)) 
+#' 
+#' # creating a GRASS gisdbase manually with spatial parameters of the nc data 
+#' # additionally using a peramanent directory "projRootDir" and the location "nc_spatial_params "
+#' proj4_string <- as.character(sp::CRS("+init=epsg:4267"))
+#' linkGRASS(gisdbase = projRootDir,
+#'            location = "nc_spatial_params",
+#'            spatial_params = c(-84.32385, 33.88199,-75.45698,36.58965,proj4_string))
+#' }
+#' 
+#' ## Some more examples related to interactive selection or OS specific settings
+#' 
+#' # SELECT the GRASS installation and define the search location
+#' linkGRASS(nc, ver_select = TRUE, search_path = "~")
+#' 
+#' # SELECT the GRASS installation 
+#' linkGRASS(nc, ver_select = TRUE)
+#' 
+#' # Typical osge4W installation (QGIS), using the meuse sp data object for spatial referencing
+#' linkGRASS(nc,c("C:/Program Files/QGIS 2.18","grass-7.2.1","osgeo4W")) 
+#' 
+#' # Typical osgeo4W installation (rootdir), using the meuse sp data object for spatial referencing 
+#' linkGRASS(nc,c("C:/OSGeo4W64/","grass-7.2.2","osgeo4W"))
+#' 
+#' }
+#'@export 
+linkGRASS7 <- linkGRASS

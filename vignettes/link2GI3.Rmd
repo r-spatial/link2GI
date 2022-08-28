@@ -1,6 +1,6 @@
 ---
 author: "Chris Reudenbach"
-title: "linkGRASS7 real world data usecase"
+title: "linkGRASS real world data usecase"
 date: "`r Sys.Date()`"
 editor_options:
   chunk_output_type: console
@@ -14,7 +14,7 @@ output:
     toc: yes
 urlcolor: blue
 vignette: >
-  %\VignetteIndexEntry{linkGRASS7 real world data usecase}
+  %\VignetteIndexEntry{linkGRASS real world data usecase}
   %\VignetteEncoding{UTF-8}{inputenc}\
   %\VignetteEngine{knitr::knitr}
 ---
@@ -103,7 +103,7 @@ We can easy rasterize this data as it is intentionally gridded data.that means w
 
 
 ### Setup GRASS Project
-So far nothing new. Now we create a new but permanent `GRASS` gisbase using the spatial parameters from the raster object. As you know the `linkGRASS7` function performs a full search for one or more than one existing  `GRASS` installations. If a valid `GRASS` installation exists all parameter are setup und the package `rgrass7`  is linked.
+So far nothing new. Now we create a new but permanent `GRASS` gisbase using the spatial parameters from the raster object. As you know the `linkGRASS` function performs a full search for one or more than one existing  `GRASS` installations. If a valid `GRASS` installation exists all parameter are setup und the package `rgrass7`  is linked.
 
 Due to the fact that the `gisdbase_exist` is by default set to FALSE it will create a new structure according to the `R` object. 
 
@@ -111,7 +111,7 @@ Due to the fact that the `gisdbase_exist` is by default set to FALSE it will cre
 ```{r, eval=FALSE}
 require(link2GI)
 # initialize GRASS and set up a permanent structure  
-link2GI::linkGRASS7(x = r, 
+link2GI::linkGRASS(x = r, 
                     gisdbase = paste0(tempdir(),"/link2GI_examples"),
                     location = "microzensus2011")   
 ```
@@ -124,21 +124,21 @@ First we must convert the raster object to `GeoTIFF` file. Any `GDAL` format is 
 ```{r, eval=FALSE}
 require(link2GI)
 require(raster)
-require(rgrass7)
+require(rgrass)
 
 # write it to geotiff
   raster::writeRaster(r, paste0(path_run,"/Zensus_Bevoelkerung_100m-Gitter.tif"), 
                       overwrite = TRUE)
 
 # import raster to GRASS
-rgrass7::execGRASS('r.external',
+rgrass::execGRASS('r.external',
                    flags=c('o',"overwrite","quiet"),
                    input=paste0(path_run,"/Zensus_Bevoelkerung_100m-Gitter.tif"),
                    output="Zensus_Bevoelkerung_100m_Gitter",
                    band=1)
 
 # check imported data set
-rgrass7::execGRASS('r.info',
+rgrass::execGRASS('r.info',
                    map = "Zensus_Bevoelkerung_100m_Gitter") 
 ```
 
@@ -158,7 +158,7 @@ Let's do now the same import as a vector data set. First we create a `sf` object
 
 
 
-The `GRASS` gisdbase already exists. So we pass  `linkGRASS7` the argument `gisdbase_exist=TRUE` and import the xyz data as generic GRASS vector points.
+The `GRASS` gisdbase already exists. So we pass  `linkGRASS` the argument `gisdbase_exist=TRUE` and import the xyz data as generic GRASS vector points.
 
 
 ```{r, eval=FALSE}
@@ -175,5 +175,5 @@ The `GRASS` gisdbase already exists. So we pass  `linkGRASS7` the argument `gisd
            )
  
 # check imported data set
-rgrass7::execGRASS('v.info', map = "Zensus_Bevoelkerung_100m_") 
+rgrass::execGRASS('v.info', map = "Zensus_Bevoelkerung_100m_") 
 ```

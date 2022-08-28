@@ -167,7 +167,7 @@ if ( !isGeneric("sf2gvec") ) {
     standardGeneric("sf2gvec"))
 }
 
-#' Write sf object to GRASS 7 vector utilising an existing or creating a new GRASS7 environment
+#' Write sf object to GRASS 7/8 vector utilising an existing or creating a new GRASS environment
 #' @param x  \code{sf} object corresponding to the settings of the corresponding GRASS container
 #' @param obj_name name of GRASS layer
 #' @param gisdbase  GRASS gisDbase folder
@@ -203,9 +203,9 @@ if ( !isGeneric("sf2gvec") ) {
 sf2gvec <- function(x, obj_name, gisdbase, location , gisdbase_exist=FALSE){
   
   if (gisdbase_exist)
-    linkGRASS7(gisdbase = gisdbase, location = location, gisdbase_exist = TRUE)  
+    linkGRASS(gisdbase = gisdbase, location = location, gisdbase_exist = TRUE)  
   else 
-    linkGRASS7(x = x, gisdbase = gisdbase, location = location)  
+    linkGRASS(x = x, gisdbase = gisdbase, location = location)  
   path <- Sys.getenv("GISDBASE")
   sq_name <- gsub(tolower(paste0(obj_name,".sqlite")),pattern = "\\-",replacement = "_")
   if (!inherits(x, "sf")) sf::st_as_sf(x,x_sf)
@@ -213,7 +213,7 @@ sf2gvec <- function(x, obj_name, gisdbase, location , gisdbase_exist=FALSE){
     x_sf <- x 
   sf::st_write(x_sf,file.path(path,sq_name),quiet = TRUE)
   
-  ret <- try(rgrass7::execGRASS('v.import',  
+  ret <- try(rgrass::execGRASS('v.import',  
                                 flags  = c("overwrite", "quiet", "o"),
                                 extent = "region",
                                 input  = file.path(path,sq_name),
@@ -223,7 +223,7 @@ sf2gvec <- function(x, obj_name, gisdbase, location , gisdbase_exist=FALSE){
                                 ignore.stderr = TRUE,
                                 intern = TRUE),silent = TRUE)
   
-  if (class(ret) == "try-error")  return(cat("Data not found"))
+  if (methods::is(ret, "try-error"))  return(cat("Data not found"))
 }
 
 if ( !isGeneric("gvec2sf") ) {
@@ -231,7 +231,7 @@ if ( !isGeneric("gvec2sf") ) {
     standardGeneric("gvec2sf"))
 }
 
-#' Converts from an existing GRASS 7 environment an arbitrary vector dataset  into a  sf object
+#' Converts from an existing GRASS 7/8 environment an arbitrary vector dataset  into a  sf object
 #' @param x  \code{\link{sf}} object corresponding to the settings of the corresponding GRASS container
 #' @param obj_name name of GRASS layer
 #' @param gisdbase  GRASS gisDbase folder
@@ -267,21 +267,22 @@ if ( !isGeneric("gvec2sf") ) {
 gvec2sf <- function(x, obj_name, gisdbase, location ,gisdbase_exist = TRUE){
   
   if (gisdbase_exist)
-    linkGRASS7(gisdbase = gisdbase, location = location, gisdbase_exist = TRUE)  
+    linkGRASS(gisdbase = gisdbase, location = location, gisdbase_exist = TRUE)  
   else 
-    linkGRASS7(x, gisdbase = gisdbase, location = location)  
+    linkGRASS(x, gisdbase = gisdbase, location = location)  
   path <- Sys.getenv("GISDBASE")
   sq_name <- gsub(tolower(paste0(obj_name,".sqlite")),pattern = "\\-",replacement = "_")
   
   
-  ret <- try(rgrass7::execGRASS('v.out.ogr',  
+  ret <- try(rgrass::execGRASS('v.out.ogr',  
                                 flags = c("overwrite","quiet"),
                                 input = gsub(tolower(sq_name),pattern = "\\.",replacement = "_"),
                                 output = file.path(path,paste0(obj_name,"_new.sqlite")),
                                 format = "SQLite",
                                 ignore.stderr = TRUE,
                                 intern = TRUE),silent = TRUE)
-  if(!class(ret) == "try-error") 
+ 
+  if(!methods::is(ret, "try-error")) 
     return(sf::st_read(file.path(path,paste0(obj_name,"_new.sqlite")),quiet = TRUE))
   else 
     return(cat("Data not found"))
@@ -327,7 +328,7 @@ linkAll <- function(links=NULL,
   
   if (!quiet )    cat("\n--- linking SAGA - GRASS - OTB - GDAL ---\n")
   if (sagaArgs == "default") sagaArgs   <- "default_SAGA = NULL, searchLocation = 'default', ver_select=FALSE, quiet = TRUE, returnPaths = TRUE"
-  if (grassArgs == "default") grassArgs <- "x = NULL, default_GRASS7 = NULL, search_path = NULL, ver_select = FALSE, gisdbase_exist =FALSE, gisdbase = NULL, use_home =FALSE, location = NULL, spatial_params=NULL, resolution=NULL, quiet =TRUE, returnPaths = TRUE"
+  if (grassArgs == "default") grassArgs <- "x = NULL, default_GRASS = NULL, search_path = NULL, ver_select = FALSE, gisdbase_exist =FALSE, gisdbase = NULL, use_home =FALSE, location = NULL, spatial_params=NULL, resolution=NULL, quiet =TRUE, returnPaths = TRUE"
   if (otbArgs == "default") otbArgs <- "bin_OTB=NULL, root_OTB= NULL, type_OTB=NULL, searchLocation=NULL, ver_select=FALSE, quiet = TRUE, returnPaths = TRUE"
   if (gdalArgs == "default") gdalArgs <- "bin_GDAL=NULL, searchLocation=NULL, ver_select=FALSE, quiet = TRUE, returnPaths = TRUE"
   if (is.null(links) && (simple)){

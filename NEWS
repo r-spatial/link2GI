@@ -1,3 +1,11 @@
+## link2GI 0.5-0
+
+bugfixes:
+* prelim fix of issue #56
+
+new feature:
+* changing to linkGRASS for both GRASS 7.x/8.x - keeping linkGRASS7for backwards compatibility 
+
 ## link2GI 0.4-7
 bugfixes:
 * issue #52

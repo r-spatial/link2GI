@@ -1,4 +1,4 @@
-## ---- eval=FALSE---------------------------------------------------------
+## ---- eval=FALSE--------------------------------------------------------------
 #   # we need some additional packages
 #   require(link2GI)
 #   require(curl)
@@ -24,7 +24,7 @@
 #  fn <- list.files(pattern = "[.]csv$", path = getwd(), full.names = TRUE)
 #  
 
-## ---- eval=FALSE---------------------------------------------------------
+## ---- eval=FALSE--------------------------------------------------------------
 #  # get the filename
 #  
 #  # fast read with data.table
@@ -32,7 +32,7 @@
 #  
 #   head(xyz)
 
-## ---- eval=FALSE---------------------------------------------------------
+## ---- eval=FALSE--------------------------------------------------------------
 #   require(RColorBrewer)
 #   require(raster)
 #   require(mapview)
@@ -54,34 +54,34 @@
 #                    legend = TRUE)
 #  
 
-## ---- eval=FALSE---------------------------------------------------------
+## ---- eval=FALSE--------------------------------------------------------------
 #  require(link2GI)
 #  # initialize GRASS and set up a permanent structure
-#  link2GI::linkGRASS7(x = r,
+#  link2GI::linkGRASS(x = r,
 #                      gisdbase = paste0(tempdir(),"/link2GI_examples"),
 #                      location = "microzensus2011")
 
-## ---- eval=FALSE---------------------------------------------------------
+## ---- eval=FALSE--------------------------------------------------------------
 #  require(link2GI)
 #  require(raster)
-#  require(rgrass7)
+#  require(rgrass)
 #  
 #  # write it to geotiff
 #    raster::writeRaster(r, paste0(path_run,"/Zensus_Bevoelkerung_100m-Gitter.tif"),
 #                        overwrite = TRUE)
 #  
 #  # import raster to GRASS
-#  rgrass7::execGRASS('r.external',
+#  rgrass::execGRASS('r.external',
 #                     flags=c('o',"overwrite","quiet"),
 #                     input=paste0(path_run,"/Zensus_Bevoelkerung_100m-Gitter.tif"),
 #                     output="Zensus_Bevoelkerung_100m_Gitter",
 #                     band=1)
 #  
 #  # check imported data set
-#  rgrass7::execGRASS('r.info',
+#  rgrass::execGRASS('r.info',
 #                     map = "Zensus_Bevoelkerung_100m_Gitter")
 
-## ---- eval=FALSE---------------------------------------------------------
+## ---- eval=FALSE--------------------------------------------------------------
 #  
 #   xyz_sf = st_as_sf(xyz,
 #                      coords = c("x_mp_100m", "y_mp_100m"),
@@ -91,7 +91,7 @@
 #  #map points
 #   sf::plot_sf(xyz_sf)
 
-## ---- eval=FALSE---------------------------------------------------------
+## ---- eval=FALSE--------------------------------------------------------------
 #   require(sf)
 #   require(sp)
 #   require(link2GI)
@@ -105,5 +105,5 @@
 #             )
 #  
 #  # check imported data set
-#  rgrass7::execGRASS('v.info', map = "Zensus_Bevoelkerung_100m_")
+#  rgrass::execGRASS('v.info', map = "Zensus_Bevoelkerung_100m_")
 

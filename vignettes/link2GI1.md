@@ -1,7 +1,7 @@
 ---
 author: "Chris Reudenbach"
 title: "Link GI to R"
-date: "2020-12-06"
+date: "2022-08-28"
 editor_options:
   chunk_output_type: console
 output:
@@ -52,7 +52,7 @@ Linking means simply to provide all necessary environment settings that satisfy 
 
 ### GRASS GIS
 
-`GRASS GIS` has the most challenging requirements. It needs a bunch of environment and path variables as **and** a correct setup of the geographical data parameters. The `linkGRASS7` function tries to find all installations let you (optionally) choose the one you want to use and generate the necessary variables. As a result you can use both the rgrass7 package  or the command line `API` of `GRASS`.
+`GRASS GIS` has the most challenging requirements. It needs a bunch of environment and path variables as **and** a correct setup of the geographical data parameters. The `linkGRASS` function tries to find all installations let you (optionally) choose the one you want to use and generate the necessary variables. As a result you can use both the rgrass7 package  or the command line `API` of `GRASS`.
 
 ### SAGA GIS
 
@@ -80,7 +80,7 @@ So the most straightforward call to link temporary to `GRASS GIS` woud be:
 # find all SAGA GIS installations at the default search location
 require(link2GI)
 
-grass <- link2GI::linkGRASS7()
+grass <- link2GI::linkGRASS()
 grass
 ```
 

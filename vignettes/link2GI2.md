@@ -1,7 +1,7 @@
 ---
 author: "Chris Reudenbach"
 title: "link2GI Basic Examples"
-date: "2020-02-24"
+date: "2022-08-29"
 editor_options:
   chunk_output_type: console
 output:
@@ -79,15 +79,15 @@ saga1
 sagaEnv1<- RSAGA::rsaga.env(path = saga1$sagaPath)
 ```
 
-##  linkGRASS7 - Locate and set up 'GRASS 7' API bindings
+##  linkGRASS - Locate and set up 'GRASS 7/8' API bindings
 
-`linkGRASS7` Initializes the session environment and the system paths for an easy access to `GRASS GIS 7.x.` The correct setup of the spatial and projection parameters is automatically performed by using either an existing and valid `raster`, `sp` or `sf` object, or manually by providing a list containing the minimum parameters needed. These properties are used to initialize either a temporary or a permanent `rgrass7` environment including the correct `GRASS 7` database structure. If you provide none of the before mentioned objects `linkGRASS` will create a EPSG:4326 world wide location.
+`linkGRASS` Initializes the session environment and the system paths for an easy access to `GRASS GIS 7.x./8.x` The correct setup of the spatial and projection parameters is automatically performed by using either an existing and valid `raster`, `sp` or `sf` object, or manually by providing a list containing the minimum parameters needed. These properties are used to initialize either a temporary or a permanent `rgrass` environment including the correct `GRASS 7/8` database structure. If you provide none of the before mentioned objects `linkGRASS` will create a EPSG:4326 world wide location.
 
-The most time consuming part on 'Windows' Systems is the search process. This can easily take 10 or more minutes. To speed up this process you can also provide a correct parameter set. Best way to do so is to call manually `findGRASS`. Then call `linkGRASS7` with the returned version arguments of your choice.
+The most time consuming part on 'Windows' Systems is the search process. This can easily take 10 or more minutes. To speed up this process you can also provide a correct parameter set. Best way to do so is to call manually `findGRASS`. Then call `linkGRASS` with the returned version arguments of your choice.
 
-The function `linkGRASS7` tries to find all valid  `GRASS GIS` binaries by analyzing the startup script files of `GRASS GIS`. After identifying the `GRASS GIS` binaries all necessary system variables and settings will be generated and passed to a temporary `R` environment.
+The function `linkGRASS` tries to find all valid  `GRASS GIS` binaries by analyzing the startup script files of `GRASS GIS`. After identifying the `GRASS GIS` binaries all necessary system variables and settings will be generated and passed to a temporary `R` environment.
 
-If you have more than one valid installation and run `linkGRASS7` with the  arguments `select_ver = TRUE`, then you will be ask to select one.
+If you have more than one valid installation and run `linkGRASS` with the  arguments `select_ver = TRUE`, then you will be ask to select one.
 
 
 
@@ -116,7 +116,7 @@ proj4string(meuse) <-CRS("+init=epsg:28992")
 # This is the highly recommended linking procedure for on the fly jobs
 # NOTE: if more than one GRASS installation is found the highest version will be choosed
 
-linkGRASS7(meuse)
+linkGRASS(meuse)
 ```
 Now do the same with  `sf` based data.
 
@@ -133,7 +133,7 @@ Now do the same with  `sf` based data.
  # This is the highly recommended linking procedure for on the fly jobs
  # NOTE: if more than one GRASS installation is found the highest version will be choosed
  
- grass<-linkGRASS7(nc,returnPaths = TRUE)
+ grass<-linkGRASS(nc,returnPaths = TRUE)
 ```
  
  The second most common situation is the usage of an existing `GRASS` location and project either with existing data sets or manually provided parameters. 
@@ -152,20 +152,20 @@ Now do the same with  `sf` based data.
  nc <- st_read(system.file("shape/nc.shp", package="sf"))
 
  # CREATE and link to a permanent GRASS folder at "projRootDir", location named "project1"
- linkGRASS7(nc, gisdbase = projRootDir, location = "project1")
+ linkGRASS(nc, gisdbase = projRootDir, location = "project1")
 
  # ONLY LINK to a permanent GRASS folder at "projRootDir", location named "project1"
- linkGRASS7(gisdbase = projRootDir, location = "project1", gisdbase_exist = TRUE )
+ linkGRASS(gisdbase = projRootDir, location = "project1", gisdbase_exist = TRUE )
 
 
  # setting up GRASS manually with spatial parameters of the nc data
  proj4_string <- as.character(sp::CRS("+init=epsg:28992"))
- linkGRASS7(spatial_params = c(178605,329714,181390,333611,proj4_string))
+ linkGRASS(spatial_params = c(178605,329714,181390,333611,proj4_string))
 
  # creating a GRASS gisdbase manually with spatial parameters of the nc data
  # additionally using a peramanent directory "projRootDir" and the location "nc_spatial_params "
  proj4_string <- as.character(sp::CRS("+init=epsg:4267"))
- linkGRASS7(gisdbase = projRootDir,
+ linkGRASS(gisdbase = projRootDir,
             location = "nc_spatial_params",
             spatial_params = c(-84.32385, 33.88199,-75.45698,36.58965,proj4_string))
 ```
@@ -181,7 +181,7 @@ The full disk search can be cumbersome especially running Windos it can easily t
 
 ```r
 # Link the GRASS installation and define the search location
- linkGRASS7(nc, search_path = "~")
+ linkGRASS(nc, search_path = "~")
 ```
 
 If  you already did a full search and kow your installation fo example using the command `findGRASS` you can use the result directly for linking.
@@ -193,10 +193,10 @@ findGRASS()
 1 /opt/grass   7.8.1           grass78
 
 # now linking it 
-linkGRASS7(nc,c("/opt/grass","7.8.15","grass78")) 
+linkGRASS(nc,c("/opt/grass","7.8.15","grass78")) 
 
 # corresponding linkage running windows
-linkGRASS7(nc,c("C:/Program Files/GRASS GIS7.0.5","GRASS GIS 7.0.5","NSIS")) 
+linkGRASS(nc,c("C:/Program Files/GRASS GIS7.0.5","GRASS GIS 7.0.5","NSIS")) 
 ```
 
 
@@ -207,7 +207,7 @@ Choose manually the `GRASS` installation  additionally using the meuse `sf` obje
 
 
 ```r
-linkGRASS7(nc, ver_select = TRUE)
+linkGRASS(nc, ver_select = TRUE)
 ```
 
 
@@ -219,7 +219,7 @@ Creating and linking a  permanent `GRASS` gisdbase (folder structure) at "~/temp
 
 
 ```r
-linkGRASS7(x = nc, 
+linkGRASS(x = nc, 
                      gisdbase = "~/temp3",
                      location = "project1")   
 ```
@@ -231,7 +231,7 @@ Link to the permanent `GRASS` gisdbase (folder structure) at "~/temp3" with the 
 
 
 ```r
-linkGRASS7(gisdbase = "~/temp3", location = "project1", 
+linkGRASS(gisdbase = "~/temp3", location = "project1", 
                      gisdbase_exist = TRUE)   
 ```
 
@@ -241,7 +241,7 @@ Setting up `GRASS` manually with spatial parameters of the meuse data
 
 
 ```r
- linkGRASS7(spatial_params = c(178605,329714,181390,333611,
+ linkGRASS(spatial_params = c(178605,329714,181390,333611,
                               "+proj=sterea +lat_0=52.15616055555555 
                                +lon_0=5.38763888888889 +k=0.9999079 
                                +x_0=155000 +y_0=463000 +no_defs 

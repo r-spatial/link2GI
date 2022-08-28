@@ -234,7 +234,7 @@ In addition there is no wrapper for the great <code>OTB</code>. It seems to be a
 
 <h3>GRASS GIS</h3>
 
-<p><code>GRASS GIS</code> has the most challenging requirements. It needs a bunch of environment and path variables as <strong>and</strong> a correct setup of the geographical data parameters. The <code>linkGRASS7</code> function tries to find all installations let you (optionally) choose the one you want to use and generate the necessary variables. As a result you can use both the rgrass7 package  or the command line <code>API</code> of <code>GRASS</code>.</p>
+<p><code>GRASS GIS</code> has the most challenging requirements. It needs a bunch of environment and path variables as <strong>and</strong> a correct setup of the geographical data parameters. The <code>linkGRASS</code> function tries to find all installations let you (optionally) choose the one you want to use and generate the necessary variables. As a result you can use both the rgrass7 package  or the command line <code>API</code> of <code>GRASS</code>.</p>
 
 <h3>SAGA GIS</h3>
 
@@ -259,7 +259,7 @@ In addition there is no wrapper for the great <code>OTB</code>. It seems to be a
 <pre><code class="r"># find all SAGA GIS installations at the default search location
 require(link2GI)
 
-grass &lt;- link2GI::linkGRASS7()
+grass &lt;- link2GI::linkGRASS()
 grass
 </code></pre>
 

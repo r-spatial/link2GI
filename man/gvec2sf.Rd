@@ -2,7 +2,7 @@
 % Please edit documentation in R/link2giKarim.R
 \name{gvec2sf}
 \alias{gvec2sf}
-\title{Converts from an existing GRASS 7 environment an arbitrary vector dataset  into a  sf object}
+\title{Converts from an existing GRASS 7/8 environment an arbitrary vector dataset  into a  sf object}
 \usage{
 gvec2sf(x, obj_name, gisdbase, location, gisdbase_exist = TRUE)
 }
@@ -18,7 +18,7 @@ gvec2sf(x, obj_name, gisdbase, location, gisdbase_exist = TRUE)
 \item{gisdbase_exist}{logical switch if the GRASS gisdbase folder exist default is TRUE}
 }
 \description{
-Converts from an existing GRASS 7 environment an arbitrary vector dataset  into a  sf object
+Converts from an existing GRASS 7/8 environment an arbitrary vector dataset  into a  sf object
 }
 \note{
 have a look at the \code{\link{sf}} capabilities to read direct from sqlite

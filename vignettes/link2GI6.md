@@ -1,7 +1,7 @@
 ---
 author: "Chris Reudenbach"
 title: "Installation guide for link2GI related Software"
-date: "2021-09-03"
+date: "2022-08-29"
 editor_options:
   chunk_output_type: console
 output:
@@ -69,7 +69,7 @@ However, to have the full choice of available geoalgorithms provided by QGIS, we
 
 ![](https://raw.githubusercontent.com/r-spatial/link2GI/master/figures/05_command_line_utilties.PNG)
 
-Additionally, we choose the Desktop-GIS GRASS 7, the Orfeo Toolbox, SAGA, and QGIS (even if not directly supported by link2GI right now). Here, we install both the most recent QGIS 3.x version as well as the long-term release. 
+Additionally, we choose the Desktop-GIS GRASS 7/8, the Orfeo Toolbox, SAGA, and QGIS (even if not directly supported by link2GI right now). Here, we install both the most recent QGIS 3.x version as well as the long-term release. 
 
 
 

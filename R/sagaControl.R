@@ -40,7 +40,7 @@ searchSAGAX <- function(MP = "/usr",
     }
     options(show.error.messages = TRUE)
     options(warn=0)
-    if(!class(rawSAGA) == "try-error") { 
+    if(!methods::is(rawSAGA, "try-error")) { 
     
     # split the search returns of existing SAGA GIS installation(s
     sagaPath <- lapply(seq(length(rawSAGA)), function(i){

@@ -2,7 +2,7 @@
 % Please edit documentation in R/grassControl.R
 \name{paramGRASSx}
 \alias{paramGRASSx}
-\title{Usually for internally usage, get 'GRASS GIS' and \code{rgrass7} parameters on 'Linux' OS}
+\title{Usually for internally usage, get 'GRASS GIS' and \code{rgrass} parameters on 'Linux' OS}
 \usage{
 paramGRASSx(
   set_default_GRASS = NULL,
@@ -22,10 +22,10 @@ c("/usr/lib/grass74","7.4.1","grass74")}
 \item{quiet}{boolean  switch for supressing console messages default is TRUE}
 }
 \description{
-Initialize and set up \code{rgrass7}  for 'Linux'
+Initialize and set up \code{rgrass}  for 'Linux'
 }
 \details{
-During the rsession you will have full access to GRASS7 GIS via the \code{rgrass7} wrappe. Additionally you may use also use the API calls of GRASS7 via the command line.
+During the rsession you will have full access to GRASS7 GIS via the \code{rgrass} wrappe. Additionally you may use also use the API calls of GRASS7 via the command line.
 }
 \examples{
 \dontrun{

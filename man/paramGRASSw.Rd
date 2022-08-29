@@ -2,7 +2,7 @@
 % Please edit documentation in R/grassControl.R
 \name{paramGRASSw}
 \alias{paramGRASSw}
-\title{Usually for internally usage get 'GRASS GIS' and \code{rgrass7} parameters on 'Windows' OS}
+\title{Usually for internally usage get 'GRASS GIS' and \code{rgrass} parameters on 'Windows' OS}
 \usage{
 paramGRASSw(
   set_default_GRASS = NULL,
@@ -23,12 +23,12 @@ alternatively provide a vector containing pathes and keywords. c("C:/OSGeo4W64",
 }
 \description{
 Initialize the enviroment variables on a 'Windows' OS for using 
- 'GRASS GIS' via \code{rgrass7}
+ 'GRASS GIS' via \code{rgrass}
 }
 \details{
 The concept is very straightforward but for an all days usage pretty
  helpful. You need to provide a \code{raster} or a \code{sp} object. The derived properties are used to initialize a temporary but static
- \href{https://CRAN.R-project.org/package=rgrass7}{rgrass7} environment. During the rsession you will have full access to
+ \href{https://CRAN.R-project.org/package=rgrass}{rgrass} environment. During the rsession you will have full access to
  GRASS7 both via the wrapper package as well as the command line. paramGRASSw initializes the usage of GRASS7.
 }
 \examples{

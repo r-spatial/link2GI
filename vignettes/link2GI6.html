@@ -354,29 +354,6 @@ Otherwise, pre-built bottles (= binaries) will be used which speeds up the insta
 
 <p><strong>Note:</strong> Make sure to install SAGA and GRASS before QGIS so that QGIS finds the correct paths.</p>
 
-<ol>
-<li>Install QGIS binary from Kyngchaos</li>
-</ol>
-
-<p>Homebrew also supports <a href="https://caskroom.github.io/">GUI installations</a>. 
-QGIS can be installed using </p>
-
-<pre><code class="sh">brew cask install qgis
-</code></pre>
-
-<p>from the command line if homebrew is installed and configured correctly. 
-If you do not (want to) use <code>homebrew</code>, you can install the QGIS binary from <a href="https://www.qgis.org/en/site/forusers/download.html">https://www.qgis.org/en/site/forusers/download.html</a>. 
-This is exactly the same as calling <code>brew cask install qgis</code>.</p>
-
-<p>If you choose this option, you will get the following error messages during QGIS processing</p>
-
-<pre><code>QSqlDatabase: QSQLITE driver not loaded
-QSqlDatabase: available drivers:
-QSqlQuery::prepare: database not open
-[1] &quot;ERROR: Opening of authentication db FAILED&quot;
-[2] &quot;WARNING: Auth db query exec() FAILED&quot;
-</code></pre>
-
 </body>
 
 </html>

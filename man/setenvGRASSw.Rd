@@ -24,7 +24,7 @@ setenvGRASSw(
 \item{quiet}{boolean  switch for supressing console messages default is TRUE}
 }
 \description{
-Initializes and set up  access to 'GRASS GIS 7.xx' via the \code{rgrass7} wrapper or command line packages. Set and returns all necessary environment variables and additionally returns the GISBASE directory as string.
+Initializes and set up  access to 'GRASS GIS 7.xx' via the \code{rgrass} wrapper or command line packages. Set and returns all necessary environment variables and additionally returns the GISBASE directory as string.
 }
 \examples{
 \dontrun{

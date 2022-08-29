@@ -214,26 +214,5 @@ Otherwise, pre-built bottles (= binaries) will be used which speeds up the insta
 
 **Note:** Make sure to install SAGA and GRASS before QGIS so that QGIS finds the correct paths.
 
-2. Install QGIS binary from Kyngchaos
 
-Homebrew also supports [GUI installations](https://caskroom.github.io/). 
-QGIS can be installed using 
-
-```sh
-brew cask install qgis
-```
-
-from the command line if homebrew is installed and configured correctly. 
-If you do not (want to) use `homebrew`, you can install the QGIS binary from [https://www.qgis.org/en/site/forusers/download.html](https://www.qgis.org/en/site/forusers/download.html). 
-This is exactly the same as calling `brew cask install qgis`.
-
-If you choose this option, you will get the following error messages during QGIS processing
-
-```
-QSqlDatabase: QSQLITE driver not loaded
-QSqlDatabase: available drivers:
-QSqlQuery::prepare: database not open
-[1] "ERROR: Opening of authentication db FAILED"
-[2] "WARNING: Auth db query exec() FAILED"
-```
 

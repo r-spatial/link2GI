@@ -209,7 +209,13 @@ hr {
 
 <h2>Download Zensus Data</h2>
 
-<p>First of all we need some real world data. In this this case the gridded <a href="https://www.zensus2011.de/EN/2011Census/2011_Census_node.html">2011 micro zensus</a> <a href="https://www.zensus2011.de/SharedDocs/Downloads/DE/Pressemitteilung/DemografischeGrunddaten/csv_Bevoelkerung_100m_Gitter.zip;jsessionid=294313DDBB57914D6636DE373897A3F2.2_cid389?__blob=publicationFile&amp;v=3">population data</a> of Germany. It has some nice aspects:</p>
+<p>First of all we need some real world data. In this this case the gridded German 2011 micro zensus data (see <a href="https://www.zensus2011.de/EN/Home/">https://www.zensus2011.de/EN/Home/</a>). Download the data:</p>
+
+<pre><code class="sh">wget https://www.zensus2011.de/SharedDocs/Downloads/DE/Pressemitteilung/DemografischeGrunddaten/csv_Bevoelkerung_100m_Gitter.zip?__blob=publicationFile&amp;v=3
+
+</code></pre>
+
+<p>of Germany. It has some nice aspects:</p>
 
 <ul>
 <li>It is provided in a typical authority format</li>
@@ -217,7 +223,7 @@ hr {
 <li>It is pretty instructive for a lot of spatial analysis. </li>
 </ul>
 
-<p>We also have to download a <a href="https://www.zensus2011.de/SharedDocs/Downloads/DE/Pressemitteilung/DemografischeGrunddaten/Datensatzbeschreibung_Bevoelkerung_100m_Gitter.xlsx;jsessionid=294313DDBB57914D6636DE373897A3F2.2_cid389?__blob=publicationFile&amp;v=2">meta data description file</a> (excel sheet) for informations about projection and data concepts and so on.</p>
+<p>We also have to download the meta data description file from the above website for informations about projection and data concepts and so on.</p>
 
 <pre><code class="r"> # we need some additional packages
  require(link2GI)
@@ -281,7 +287,7 @@ fn &lt;- list.files(pattern = &quot;[.]csv$&quot;, path = getwd(), full.names = 
 
 <h3>Setup GRASS Project</h3>
 
-<p>So far nothing new. Now we create a new but permanent <code>GRASS</code> gisbase using the spatial parameters from the raster object. As you know the <code>linkGRASS</code> function performs a full search for one or more than one existing  <code>GRASS</code> installations. If a valid <code>GRASS</code> installation exists all parameter are setup und the package <code>rgrass7</code>  is linked.</p>
+<p>So far nothing new. Now we create a new but permanent <code>GRASS</code> gisbase using the spatial parameters from the raster object. As you know the <code>linkGRASS</code> function performs a full search for one or more than one existing  <code>GRASS</code> installations. If a valid <code>GRASS</code> installation exists all parameter are setup und the package <code>rgrass</code>  is linked.</p>
 
 <p>Due to the fact that the <code>gisdbase_exist</code> is by default set to FALSE it will create a new structure according to the <code>R</code> object. </p>
 

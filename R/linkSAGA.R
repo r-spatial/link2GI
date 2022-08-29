@@ -5,7 +5,7 @@ if ( !isGeneric("linkSAGA") ) {
 
 #'@title Identifies SAGA GIS Installations and returns linking Informations 
 #'@name linkSAGA
-#'@description Finds the existing \href{http://www.saga-gis.org/}{SAGA GIS} installation(s), 
+#'@description Finds the existing \href{https://saga-gis.sourceforge.io/}{SAGA GIS} installation(s), 
 #'generates and sets the necessary path and system variables for a seamless use of the command 
 #'line calls of the 'SAGA GIS' CLI API, setup valid system variables for calling a default 
 #'\code{rsaga.env} and by this makes available the \code{RSAGA} wrapper functions.\cr

@@ -82,7 +82,7 @@ plot(retStack)
 
 
 
-During the [GEOSTAT 2018](https://www.opengeohub.org/node/146) in Prague some more complex usescases have been presented.
+During the GEOSTAT 2018 (see https://opengeohub.org) in Prague some more complex usescases have been presented.
 
 #### Slides and materials
 - [Presentation slides](https://gisma.github.io/link2gi2018/link2gi2018.html#1)

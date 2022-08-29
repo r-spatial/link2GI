@@ -1,9 +1,9 @@
 #' Functions for linking  GI/RS functionality to R
 #'
 #' @description A straightforward helper tool for linking  GI/RS functionality to R. The goal of the package 
-#' is to correctly initialize both the existing wrapper packages \code{rgrass7} and \code{RSAGA} and
+#' is to correctly initialize both the existing wrapper packages \code{rgrass} and \code{RSAGA} and
 #' to smoothly enable the necessary system variables and path parameters for a direct access of the binaries 
-#' via direct system calls on all operating systems. In particular, \code{rgrass7} and \code{RSAGA} can cause severe 
+#' via direct system calls on all operating systems. In particular, \code{rgrass} and \code{RSAGA} can cause severe 
 #' problems during initialization of parallel installations of \code{GRASS GIS} or \code{SAGA GIS} under the
 #' Windows operating system(s). \code{link2GI} tries to set the correct system settings and returns if system 
 #' calls are required the necessary paths and command strings. \cr

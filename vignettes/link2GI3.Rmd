@@ -179,8 +179,7 @@ microbenchmark::microbenchmark(
   rgrass::write_VECT(terra::vect(xyz_sf),
                      flags = c("o","overwrite"),
                      vname = "Bevoelkerung100m-gpgk",
-                     ignore.stderr = FALSE,
-                     gisdbase_exist = TRUE), 
+                     ignore.stderr = FALSE), 
   times =  1)
 # import point vector vector via sqlite 
 microbenchmark::microbenchmark(

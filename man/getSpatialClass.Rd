@@ -2,7 +2,7 @@
 % Please edit documentation in R/link2giKarim.R
 \name{getSpatialClass}
 \alias{getSpatialClass}
-\title{Checks if x is of type raster,sf or sp}
+\title{Checks if x is of type raster,terra,sf or sp}
 \usage{
 getSpatialClass(obj)
 }

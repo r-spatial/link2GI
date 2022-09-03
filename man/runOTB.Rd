@@ -24,7 +24,7 @@ Wrapper function which paste the OTB command list into a system call compatible 
 \examples{
 \dontrun{
 require(link2GI)
-require(raster)
+require(terra)
 require(listviewer)
 rgdal::set_thin_PROJ6_warnings(TRUE)
 
@@ -34,10 +34,9 @@ otblink<-link2GI::linkOTB()
 if (otblink$exist) {
  projRootDir<-tempdir()
  data('rgb', package = 'link2GI')  
- raster::plotRGB(rgb)
- r<-raster::writeRaster(rgb, 
+ terra::plotRGB(rgb)
+ r<-terra::writeRaster(rgb, 
                         filename=file.path(projRootDir,"test.tif"),
-                        format="GTiff", 
                         overwrite=TRUE)
 
 ## for an image output example we use the Statistic Extraction, 
@@ -59,7 +58,7 @@ cmd$radius <- 7
 retStack<-runOTB(cmd,gili = otblink)
 
 ## plot raster
-raster::plot(retStack)
+terra::plot(retStack)
 
 ## for a data output example we use the 
 

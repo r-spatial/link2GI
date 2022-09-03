@@ -15,7 +15,7 @@ paramGRASSw(
 \item{set_default_GRASS}{default = NULL forces a full search for 'GRASS GIS' binaries. You may
 alternatively provide a vector containing pathes and keywords. c("C:/OSGeo4W64","grass-7.0.5","osgeo4w") is valid for a typical osgeo4w installation.}
 
-\item{DL}{raster or sp object}
+\item{DL}{terra or sp object}
 
 \item{ver_select}{boolean default is FALSE. If there is more than one 'SAGA GIS' installation and \code{ver_select} = TRUE the user can select interactively the preferred 'SAGA GIS' version}
 

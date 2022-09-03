@@ -1,3 +1,13 @@
+## link2GI 0.5-1
+
+bugfixes:
+* fix of issue #56
+* minor fixes
+
+new feature:
+* integration of stars and terra raster objects for linking GRASS
+* update of documentation
+
 ## link2GI 0.5-0
 
 bugfixes:

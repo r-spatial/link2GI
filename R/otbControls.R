@@ -149,7 +149,7 @@ searchOTBW <- function(DL = "default",
 
 searchOTBX <- function(MP = "default",
                        quiet=TRUE) {
-  if (MP=="default") MP <- "~"
+  if (MP=="default") MP <- "/usr/bin"
     if (!exists("GiEnv")) GiEnv <- new.env(parent=globalenv()) 
       # trys to find a osgeo4w installation at the mounting point  disk returns root directory and version name
       # recursive dir for otb*.bat returns all version of otb bat files
@@ -160,8 +160,8 @@ searchOTBX <- function(MP = "default",
       options(show.error.messages = FALSE)
       options(warn=-1)
       raw_OTB  <- try(system2("find", paste(MP," ! -readable -prune -o -type f -executable -iname 'otbcli' -print"),stdout = TRUE))
-      if (identical(raw_OTB, character(0))) raw_OTB <- "File not found"
-      if (grepl(raw_OTB,pattern = "File not found") | grepl(raw_OTB,pattern = "Datei nicht gefunden")) {
+      if (identical(raw_OTB, character(0))){ # raw_OTB <- "File not found"
+      #if (grepl(raw_OTB,pattern = "File not found") | grepl(raw_OTB,pattern = "Datei nicht gefunden")) {
 
         class(raw_OTB) <- c("try-error", class(raw_OTB))
       }
@@ -219,7 +219,7 @@ findOTB <- function(searchLocation = "default",
                                  quiet=TRUE)  
     else stop("You are running Windows - Please choose a suitable searchLocation argument that MUST include a Windows drive letter and colon" )
   } else {
-    if (searchLocation=="default") searchLocation <- "~"
+    if (searchLocation=="default") searchLocation <- "/usr/bin/"
     if (grepl(searchLocation,pattern = ":"))  stop("You are running Linux - please choose a suitable searchLocation argument" )
     else link = link2GI::searchOTBX(MP = searchLocation,
                                     quiet=TRUE)

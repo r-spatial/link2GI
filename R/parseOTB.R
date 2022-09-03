@@ -180,7 +180,7 @@ parseOTBFunction <- function(algo=NULL,gili=NULL) {
 #'@examples
 #'\dontrun{
 #' require(link2GI)
-#' require(raster)
+#' require(terra)
 #' require(listviewer)
 #' rgdal::set_thin_PROJ6_warnings(TRUE)
 #' 
@@ -190,10 +190,9 @@ parseOTBFunction <- function(algo=NULL,gili=NULL) {
 #' if (otblink$exist) {
 #'  projRootDir<-tempdir()
 #'  data('rgb', package = 'link2GI')  
-#'  raster::plotRGB(rgb)
-#'  r<-raster::writeRaster(rgb, 
+#'  terra::plotRGB(rgb)
+#'  r<-terra::writeRaster(rgb, 
 #'                         filename=file.path(projRootDir,"test.tif"),
-#'                         format="GTiff", 
 #'                         overwrite=TRUE)
 #' 
 #' ## for an image output example we use the Statistic Extraction, 
@@ -215,7 +214,7 @@ parseOTBFunction <- function(algo=NULL,gili=NULL) {
 #' retStack<-runOTB(cmd,gili = otblink)
 #' 
 #' ## plot raster
-#' raster::plot(retStack)
+#' terra::plot(retStack)
 #' 
 #' ## for a data output example we use the 
 #' 

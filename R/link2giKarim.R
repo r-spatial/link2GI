@@ -1,5 +1,5 @@
 
-#'@title Checks if x is of type raster,sf or sp
+#'@title Checks if x is of type raster,terra,sf or sp
 #'@name getSpatialClass
 #'@description  Checks if x is a raster or sp object
 #'@param obj R raster* or sp object
@@ -14,8 +14,9 @@
 getSpatialClass <- function(obj) {
   if (class(obj)[1] %in% c("RasterLayer", "RasterStack",
                            "RasterBrick", "Satellite",
-                           "SpatialGridDataFrame",
-                           "SpatialPixelsDataFrame")) {"rst"} 
+                           "SpatialGridDataFrame","stars",
+                           "SpatialPixelsDataFrame",
+                           "SpatRaster")) {"rst"} 
   else if (class(obj)[1] %in% c("SpatialPointsDataFrame", "SpatialPoints",
                                 "SpatialPolygonsDataFrame",
                                 "SpatialPolygons",
@@ -167,7 +168,7 @@ if ( !isGeneric("sf2gvec") ) {
     standardGeneric("sf2gvec"))
 }
 
-#' Write sf object to GRASS 7/8 vector utilising an existing or creating a new GRASS environment
+#' Write sf object directly to GRASS 7/8 vector utilising an existing or creating a new GRASS environment
 #' @param x  \code{sf} object corresponding to the settings of the corresponding GRASS container
 #' @param obj_name name of GRASS layer
 #' @param gisdbase  GRASS gisDbase folder
@@ -200,7 +201,7 @@ if ( !isGeneric("sf2gvec") ) {
 #'           location = "project1")
 #' }
 
-sf2gvec <- function(x, obj_name, gisdbase, location , gisdbase_exist=FALSE){
+sf2gvec <- function(x, epsg, obj_name, gisdbase, location , gisdbase_exist=FALSE){
   
   if (gisdbase_exist)
     linkGRASS(gisdbase = gisdbase, location = location, gisdbase_exist = TRUE)  
@@ -211,17 +212,23 @@ sf2gvec <- function(x, obj_name, gisdbase, location , gisdbase_exist=FALSE){
   if (!inherits(x, "sf")) sf::st_as_sf(x,x_sf)
   else
     x_sf <- x 
-  sf::st_write(x_sf,file.path(path,sq_name),quiet = TRUE)
+  #if (!file.exists(file.path(path,sq_name)))
+  sf::st_write(x_sf,file.path(path,sq_name),append = FALSE)
+  
+  epsg = sf::st_crs(x)$epsg
   
   ret <- try(rgrass::execGRASS('v.import',  
-                                flags  = c("overwrite", "quiet", "o"),
-                                extent = "region",
+                                flags  = c("overwrite", "o"),
+                                #extent = "region",
                                 input  = file.path(path,sq_name),
+                               epsg = as.numeric(epsg),
                                 
                                 
-                                output = gsub(tolower(sq_name),pattern = "\\.",replacement = "_"),
-                                ignore.stderr = TRUE,
-                                intern = TRUE),silent = TRUE)
+                                output = gsub(tolower(sq_name),
+                                              pattern = "\\.",
+                                              replacement = ""),
+                               ignore.stderr = TRUE,
+                                intern = TRUE),silent = FALSE)
   
   if (methods::is(ret, "try-error"))  return(cat("Data not found"))
 }

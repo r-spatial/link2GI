@@ -7,7 +7,7 @@ if (!isGeneric('linkGRASS')) {
 #'@name linkGRASS
 #'@description Initializes the session environment and the system pathes for an easy acces to 
 #' \href{https://grass.osgeo.org/}{'GRASS GIS 7.x/8.x'}.  The correct setup of the spatial and projection parameters is
-#'  automatically performed by using either an existing and valid \code{raster}, \code{sp} or \code{sf} object, 
+#'  automatically performed by using either an existing and valid \code{raster},\code{terra}, \code{sp} or \code{sf} object, 
 #'  or manually by providing a list containing the minimum parameters needed.\cr
 #'@note 'GRASS GIS' is excellently supported by the
 #'  \code{rgrass} wrapper package. Nevertheless 'GRASS GIS' is well known for
@@ -33,7 +33,7 @@ if (!isGeneric('linkGRASS')) {
 #'  and call \code{linkGRASS} with the version arguments of your choice. linkGRASS initializes the usage of GRASS7.
 #'@note If you have more than one valid installation and run \code{linkGRASS()} without arguments, you will be ask to select one.
 #'@param search_path path or mounting point that will be searched
-#'@param x raster or sp object
+#'@param x raster/terra or sf/sp object
 #'@param default_GRASS default is \code{NULL} If is \code{NULL} an automatic search for all installed versions is performed. 
 #'                    If you provide a valid list the corresponding version is initialized. An example for OSGeo4W64 is: \code{c("C:/OSGeo4W64","grass-7.0.5","osgeo4w")}
 #'@param gisdbase default is \code{NULL}, invoke \code{tempdir()} to the 'GRASS' database. Alternativeley you can provide a individual path.
@@ -61,18 +61,18 @@ if (!isGeneric('linkGRASS')) {
 #' require(sf)
 #' 
 #' # proj folders
-#' projRootDir<-tempdir()
-#' paths<-link2GI::initProj(projRootDir = projRootDir,
+#' projRootDir = tempdir()
+#' paths = link2GI::initProj(projRootDir = projRootDir,
 #'                          projFolders = c("project1/"))
 #'                          
 #' # get  data                         
-#' nc <- st_read(system.file("shape/nc.shp", package="sf"))
+#' nc = st_read(system.file("shape/nc.shp", package="sf"))
 #' 
 #' # Automatic search and find of GRASS binaries 
 #' # using the nc sf data object for spatial referencing
 #' # This is the highly recommended linking procedure for on the fly jobs
 #' # NOTE: if more than one GRASS installation is found you have to choose. 
-#' grass<-linkGRASS(nc,returnPaths = TRUE)
+#' grass = linkGRASS(nc,returnPaths = TRUE)
 #' if (grass$exist){
 #' 
 #' # CREATE and link to a permanent GRASS folder at "projRootDir", location named "project1" 
@@ -83,12 +83,12 @@ if (!isGeneric('linkGRASS')) {
 #' 
 #'
 #' # setting up GRASS manually with spatial parameters of the nc data
-#' proj4_string <- as.character(sp::CRS("+init=epsg:28992"))
+#' proj4_string = as.character(sp::CRS("+init=epsg:28992"))
 #' linkGRASS(spatial_params = c(178605,329714,181390,333611,proj4_string)) 
 #' 
 #' # creating a GRASS gisdbase manually with spatial parameters of the nc data 
 #' # additionally using a peramanent directory "projRootDir" and the location "nc_spatial_params "
-#' proj4_string <- as.character(sp::CRS("+init=epsg:4267"))
+#' proj4_string = as.character(sp::CRS("+init=epsg:4267"))
 #' linkGRASS(gisdbase = projRootDir,
 #'            location = "nc_spatial_params",
 #'            spatial_params = c(-84.32385, 33.88199,-75.45698,36.58965,proj4_string))
@@ -110,42 +110,69 @@ if (!isGeneric('linkGRASS')) {
 #' 
 #' }
 
-linkGRASS <- function(x = NULL,
-                       default_GRASS = NULL, 
-                       search_path = NULL,
-                       ver_select = FALSE,
-                       gisdbase_exist =FALSE,
-                       gisdbase = NULL,
-                       use_home =FALSE,
-                       location = NULL,
+linkGRASS = function(x = NULL,
+                       default_GRASS=NULL, 
+                       search_path=NULL,
+                       ver_select=FALSE,
+                       gisdbase_exist=FALSE,
+                       gisdbase=NULL,
+                       use_home=FALSE,
+                       location=NULL,
                        spatial_params=NULL,
                        resolution=NULL,
-                       quiet =TRUE,
-                       returnPaths = TRUE) {
+                       quiet=TRUE,
+                       returnPaths=TRUE) {
   # if no spatial object AND no extent AND no existing GRASS dbase is provided stop
-  if (!use_home) home <- tempdir()
-  if (class(x)[1]=="character")   x <- raster::raster(x)
+  if (!use_home) home = tempdir()
+  epsg = sf::st_crs(x)$epsg
+  if (class(x)[1]=="character")   {
+    x = terra::rast(x)
+    terra::crs(x)  = sf::st_crs(as.numeric(epsg))$wkt
+    #terra::writeRaster(x,"o.tif",overwrite=TRUE)
+    
+    }
+  else if (class(x)[1]=="SpatRaster") {
+    x = terra::rast(x)
+    terra::crs(x)  = sf::st_crs(as.numeric(epsg))$wkt
+    #terra::writeRaster(x,"o.tif",overwrite=TRUE)
+    
+  }
+  else if (class(x)[1] %in% c("RasterLayer", "RasterStack",
+                                "RasterBrick", "Satellite",
+                                "SpatialGridDataFrame",
+                                "SpatialPixelsDataFrame")){
+    x = terra::rast(x)
+    terra::crs(x)  = sf::st_crs(as.numeric(epsg))$wkt
+    #terra::writeRaster(x,"o.tif",overwrite=TRUE)
+    
+  }
+  else if (class(x)[1]=="stars") {
+    epsg = attributes(x)$dimensions[[1]]$refsys$epsg
+    #stars::write_stars(x,"o.tif",overwrite=TRUE)
+    
+  }
+  
   # search for GRASS on your system
   if (Sys.info()["sysname"] == "Windows") {
-   if (use_home) home <- Sys.getenv("USERPROFILE")
-    if (is.null(search_path)) search_path <- "C:"
-    grass <- paramGRASSw(default_GRASS,search_path,ver_select)
+   if (use_home) home = Sys.getenv("USERPROFILE")
+    if (is.null(search_path)) search_path = "C:"
+    grass = paramGRASSw(default_GRASS,search_path,ver_select)
   } else {
-    if (use_home) home <- Sys.getenv("HOME")
-    if (is.null(search_path)) search_path <- "/usr/bin"
-    grass <- paramGRASSx(default_GRASS,search_path,ver_select)
+    if (use_home) home = Sys.getenv("HOME")
+    if (is.null(search_path)) search_path = "/usr/bin"
+    grass = paramGRASSx(default_GRASS,search_path,ver_select)
   }
   if (grass[[1]][1] != FALSE) {
     # if an existing gdbase is provided link it  
     if (!is.null(location) & !is.null(gisdbase) & gisdbase_exist ) {
-      rgrass::initGRASS(gisBase  = grass$gisbase_GRASS,
+      rgrass::initGRASS(gisBase = grass$gisbase_GRASS,
                          home = home,
                          gisDbase = path.expand(gisdbase),
                          mapset = "PERMANENT",
                          location = location,
                          override = TRUE
       ) 
-      grass$exist <- TRUE
+      grass$exist = TRUE
     }
     
     ### if not do the temp linking procedure
@@ -153,15 +180,15 @@ linkGRASS <- function(x = NULL,
     # create temporary location if not provided
     else {
       if (is.null(location)) {
-      location <-  basename(tempfile())
+      location =  basename(tempfile())
     } else {
-      location <- location  
+      location = location  
     }
     # create temporary gsdbase if not provided
     if (is.null(gisdbase)) {
-      gisdbase <-  tempdir()
+      gisdbase =  tempdir()
     } else { 
-      gisdbase <- path.expand(gisdbase)
+      gisdbase = path.expand(gisdbase)
     }
     
     if (!file.exists(file.path(gisdbase))) {
@@ -174,56 +201,57 @@ linkGRASS <- function(x = NULL,
     
     if (!is.null(x) & is.null(spatial_params)) {
       if (getSpatialClass(x) == "rst") {
-        resolution <- raster::res(x)[1]
-        proj4 <- as.character(x@crs)
-        ymax <- x@extent@ymax
-        ymin <- x@extent@ymin
-        xmax <- x@extent@xmax
-        xmin <- x@extent@xmin
+        x=terra::rast(x)
+        resolution = terra::res(x)[1]
+        proj4 = as.character(terra::crs(x))
+        ymax = terra::ext(x)[4]
+        ymin = terra::ext(x)[3]
+        xmax = terra::ext(x)[2]
+        xmin = terra::ext(x)[1]
       } else if (getSpatialClass(x) == "vec") {
         # i do not understand all this class stuff :-(
         if (class(x)[1] == "sf" ) {
-          corner <- sf::st_bbox(x) 
-          xmax <- corner[3]
-          xmin <- corner[1]
-          ymax <- corner[4]
-          ymin <- corner[2]
-          proj4 <-  sf::st_crs(x)$proj4string
-          if (!is.null(resolution)) resolution<- resolution
-          else resolution <- "1"
+          corner = sf::st_bbox(x) 
+          xmax = corner[3]
+          xmin = corner[1]
+          ymax = corner[4]
+          ymin = corner[2]
+          proj4 =  sf::st_crs(x)$proj4string
+          if (!is.null(resolution)) resolution = resolution
+          else resolution = "1"
         } else {
-          s <- x@proj4string
-          s <- s@projargs
-          s2 <- (strsplit(s,split = " "))
-          proj4 <- paste(s2[[1]][2:length(unlist(s2))], collapse = ' ')
-          xmax <- x@bbox[3]
-          xmin <- x@bbox[1]
-          ymax <- x@bbox[4]
-          ymin <- x@bbox[2]
-          if (!is.null(resolution)) resolution<- resolution
-          else resolution <- "1"
+          s = x@proj4string
+          s = s@projargs
+          s2 = (strsplit(s,split = " "))
+          proj4 = paste(s2[[1]][2:length(unlist(s2))], collapse = ' ')
+          xmax = x@bbox[3]
+          xmin = x@bbox[1]
+          ymax = x@bbox[4]
+          ymin = x@bbox[2]
+          if (!is.null(resolution)) resolution = resolution
+          else resolution = "1"
         }
       } 
     } else if  (!is.null(spatial_params)) {
       if (getSpatialClass(x) == "paramList") {
-        proj4 <- spatial_params[5]
-        xmax <- spatial_params[3]
-        xmin <- spatial_params[1]
-        ymax <- spatial_params[4]
-        ymin <- spatial_params[2]
-        if (!is.null(resolution)) resolution<- resolution
-        else resolution <- "1"
+        proj4 = spatial_params[5]
+        xmax = spatial_params[3]
+        xmin = spatial_params[1]
+        ymax = spatial_params[4]
+        ymin = spatial_params[2]
+        if (!is.null(resolution)) resolution = resolution
+        else resolution = "1"
       } 
     } else if  (is.null(x) & is.null(spatial_params) &   !gisdbase_exist ) {
-      if (!quiet) cat("WARNING\n It is strongly recommended that you provide a raster*, sp* object or manually add the extent, resolution and projection information.\n These informations are obligatory to setup  the GRASS loccation...\n. Did not found any of them so lat WGS84 EPSG 4326 is assumed.\n")
+      if (!quiet) cat("WARNING\n It is strongly recommended that you provide a raster/terra*, sf/sp* object or manually add the extent, resolution and projection information.\n These informations are obligatory to setup  the GRASS loccation...\n. Did not found any of them so lat WGS84 EPSG 4326 is assumed.\n")
       
-      proj4 <- "+proj=longlat +datum=WGS84 +no_defs"
-      xmax <- 180
-      xmin <- -180
-      ymax <- 90
-      ymin <- -90
-      if (!is.null(resolution)) resolution<- resolution
-      else resolution <- "1"
+      proj4 = "+proj=longlat +datum=WGS84 +no_defs"
+      xmax = 180
+      xmin = -180
+      ymax = 90
+      ymin = -90
+      if (!is.null(resolution)) resolution = resolution
+      else resolution = "1"
     }
     
     
@@ -233,8 +261,8 @@ linkGRASS <- function(x = NULL,
     #Sys.setenv(.GRASS_CACHE = paste(Sys.getenv("HOME"), "\\.grass_cache",sep = "")) 
     #################### start with GRASS setup ------------------------------------
     # create the TEMPORARY GRASS location
-    returnPaths<-TRUE
-    rgrass::initGRASS(gisBase  = grass$gisbase_GRASS,
+    returnPaths = TRUE
+    rgrass::initGRASS(gisBase = grass$gisbase_GRASS,
                        home = home,
                        gisDbase = gisdbase,
                        mapset = "PERMANENT",
@@ -245,10 +273,11 @@ linkGRASS <- function(x = NULL,
     # assign GRASS projection according to data set
     rgrass::execGRASS('g.proj',
                        flags 
-                       = c('c','quiet'),
-                       proj4 = proj4
+                      = c('c','f','quiet'),
+                      epsg = as.numeric(epsg)
+
     )
-    
+    #file.remove("o.tif",showWarnings = FALSE)
     # assign GRASS extent
     if (getSpatialClass(x) == "rst") {
       rgrass::execGRASS('g.region',
@@ -279,14 +308,14 @@ linkGRASS <- function(x = NULL,
       )
     }
     else {
-      stop("Currently only raster* or sf* objects are supported - have to stop.")
+      stop("Currently only raster*/terra or sf* objects are supported - have to stop.")
     }
     
     
     }
     } else {
-    grass$exist  <-FALSE
-    returnPaths <- TRUE
+    grass$exist  = FALSE
+    returnPaths = TRUE
     }
   if(!quiet) return(rgrass::gmeta())
   if (returnPaths) return(grass)
@@ -296,7 +325,7 @@ linkGRASS <- function(x = NULL,
 #' @rdname linkGRASS7
 #'@description Initializes the session environment and the system paths for an easy access to 
 #' \href{https://grass.osgeo.org/}{'GRASS GIS 7.x/8.x'}.  The correct setup of the spatial and projection parameters is
-#'  automatically performed by using either an existing and valid \code{raster}, \code{sp} or \code{sf} object, 
+#'  automatically performed by using either an existing and valid \code{raster}, \code{terra}, \code{sp} or \code{sf} object, 
 #'  or manually by providing a list containing the minimum parameters needed.\cr
 #'@note 'GRASS GIS 7/8' is excellently supported by the
 #'  \code{rgrass} wrapper package. Nevertheless 'GRASS GIS' is well known for
@@ -322,7 +351,7 @@ linkGRASS <- function(x = NULL,
 #'  and call \code{linkGRASS} with the version arguments of your choice. linkGRASS initializes the usage of GRASS7/8.
 #'@note If you have more than one valid installation and run \code{linkGRASS()} without arguments, you will be ask to select one.
 #'@param search_path path or mounting point that will be searched
-#'@param x raster or sp object
+#'@param x raster/terra or sp/sf object
 #'@param default_GRASS default is \code{NULL} If is \code{NULL} an automatic search for all installed versions is performed. 
 #'                    If you provide a valid list the corresponding version is initialized. An example for OSGeo4W64 is: \code{c("C:/OSGeo4W64","grass-7.0.5","osgeo4w")}
 #'@param gisdbase default is \code{NULL}, invoke \code{tempdir()} to the 'GRASS' database. Alternativeley you can provide a individual path.
@@ -350,18 +379,18 @@ linkGRASS <- function(x = NULL,
 #' require(sf)
 #' 
 #' # proj folders
-#' projRootDir<-tempdir()
-#' paths<-link2GI::initProj(projRootDir = projRootDir,
+#' projRootDir = tempdir()
+#' paths = link2GI::initProj(projRootDir = projRootDir,
 #'                          projFolders = c("project1/"))
 #'                          
 #' # get  data                         
-#' nc <- st_read(system.file("shape/nc.shp", package="sf"))
+#' nc = st_read(system.file("shape/nc.shp", package="sf"))
 #' 
 #' # Automatic search and find of GRASS binaries 
 #' # using the nc sf data object for spatial referencing
 #' # This is the highly recommended linking procedure for on the fly jobs
 #' # NOTE: if more than one GRASS installation is found you have to choose. 
-#' grass<-linkGRASS(nc,returnPaths = TRUE)
+#' grass = linkGRASS(nc,returnPaths = TRUE)
 #' if (grass$exist){
 #' 
 #' # CREATE and link to a permanent GRASS folder at "projRootDir", location named "project1" 
@@ -372,12 +401,12 @@ linkGRASS <- function(x = NULL,
 #' 
 #'
 #' # setting up GRASS manually with spatial parameters of the nc data
-#' proj4_string <- as.character(sp::CRS("+init=epsg:28992"))
+#' proj4_string = as.character(sp::CRS("+init=epsg:28992"))
 #' linkGRASS(spatial_params = c(178605,329714,181390,333611,proj4_string)) 
 #' 
 #' # creating a GRASS gisdbase manually with spatial parameters of the nc data 
 #' # additionally using a peramanent directory "projRootDir" and the location "nc_spatial_params "
-#' proj4_string <- as.character(sp::CRS("+init=epsg:4267"))
+#' proj4_string = as.character(sp::CRS("+init=epsg:4267"))
 #' linkGRASS(gisdbase = projRootDir,
 #'            location = "nc_spatial_params",
 #'            spatial_params = c(-84.32385, 33.88199,-75.45698,36.58965,proj4_string))
@@ -399,4 +428,4 @@ linkGRASS <- function(x = NULL,
 #' 
 #' }
 #'@export 
-linkGRASS7 <- linkGRASS
+linkGRASS7 = linkGRASS

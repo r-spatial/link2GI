@@ -252,34 +252,33 @@ ggis_fn = paste0(tempdir(),&quot;/link2GI_examples&quot;)
 fn &lt;- list.files(pattern = &quot;[.]csv$&quot;, path = getwd(), full.names = TRUE)
 </code></pre>
 
-<h3>Preprocessing of the data</h3>
+<h2>Rasterize the point data with R</h2>
 
-<p>After downloading the data we will use it for some demonstration stuff. If you have a look the data is nothing than x,y,z with assuming some projection information. Actually the projection of the data set is EPSG 3035. We will change it to EPSG 4313.</p>
+<p>After downloading the data we will use it for some demonstration stuff. If you have a look, the data is nothing than x,y,z with assuming some projection information. Actually the projection of the data is EPSG 3035. </p>
 
-<p>We can easily rasterize this data as it is intentionally gridded data.that means we have in at a grid size of 100 by 100 meters a value.</p>
+<p>We can easily rasterize this data as it is intentionally gridded data. That means we have a point value which represents the number of residents living in an area of 100 by 100 meters (1ha).</p>
 
 <pre><code class="r"> require(RColorBrewer)
  require(stars)
  require(terra)
  require(sf)
+
 # fast read with data.table 
  xyz &lt;- data.table::fread(paste0(path_run,&quot;/Zensus_Bevoelkerung_100m-Gitter.csv&quot;))
 
+# check the structure
  head(xyz)
 
-# clean dataframe
+# drop first col
  xyz &lt;- xyz[,-1]
 
 # rasterize it according to the projection 
  r =    stars::st_as_stars(terra::rast(xyz,type = &quot;xyz&quot;,crs= sf::st_crs(3035)$wkt))
 
-# reprojection to DHDN/Bessel system using st_warp for a regular grid (https://epsg.io/4314)
-# r2 = stars::st_warp(r, crs = sf::st_crs(4314))
-
-# map it
+# get some colors
  p &lt;- colorRampPalette(RColorBrewer::brewer.pal(9, &quot;OrRd&quot;))
 
-# resolution is downsampled to 1 sqkm
+# map it with a downsampled resolkution of 1 sqkm
  tmap::tm_shape(r)+
  tmap::tm_raster(&quot;Einwohner&quot;, breaks = c(-1,0,1,5,10,50,100,200,300,Inf),  
         palette = p(9), title=&quot;Residents/ha&quot;, midpoint = NA) 
@@ -287,7 +286,7 @@ fn &lt;- list.files(pattern = &quot;[.]csv$&quot;, path = getwd(), full.names = 
 
 <p><img src="https://raw.githubusercontent.com/r-spatial/link2GI/master/figures/residents.png" alt=""/></p>
 
-<h3>Setup GRASS Project</h3>
+<h2>Setup a temporary GRASS project using the above data</h2>
 
 <p>So far nothing new. Now we create a new but permanent <code>GRASS</code> gisbase using the spatial parameters from the raster object. As you know the <code>linkGRASS</code> function performs a full search for one or more than one existing  <code>GRASS</code> installations. If a valid <code>GRASS</code> installation exists all parameter are setup und the package <code>rgrass</code>  is linked.</p>
 
@@ -295,37 +294,44 @@ fn &lt;- list.files(pattern = &quot;[.]csv$&quot;, path = getwd(), full.names = 
 
 <pre><code class="r">require(link2GI)
 require(sf)
-# initialize GRASS and set up a permanent structure  
+# initialize GRASS 
 link2GI::linkGRASS(x = rast(r), 
                     gisdbase = ggis_fn,
                     location = &quot;microzensus2011&quot;)   
 </code></pre>
 
-<p>Finally we can now import the data to the <code>GRASS</code> gisdbase using the <code>rgass</code> package functionality. </p>
+<h2>Importing the raster to GRASS</h2>
 
-<p>First we must save the raster/terra object to a <code>GeoTIFF</code> file. Any <code>GDAL</code> format is possible but <code>GeoTIFF</code> is very common and stable.</p>
+<p>It seems to be convinient to use the above raster/terra object for the import. <code>rgrass</code> is providing a convenient function to do so. The more general approach is writing it to a <code>GDAL</code> conform file. Any <code>GDAL</code> format is possible but <code>GeoTIFF</code> is very common and stable.</p>
 
 <pre><code class="r">require(link2GI)
 require(stars)
 require(rgrass)
 
+# convenient function provided by rgrass 
+ rgrass::write_RAST(x = rast(r),vname =c(&quot;Zensus_Bevoelkerung_100m_Gitter&quot;), flags=c(&quot;o&quot;, &quot;overwrite&quot;))
+
+# common way using execGRASS  
 # write it to geotiff
 stars::write_stars(r, paste0(path_run,&quot;/Zensus_Bevoelkerung_100m-Gitter.tif&quot;), 
-                      overwrite = TRUE)
+                   overwrite = TRUE)
 
 # import raster to GRASS
-rgrass::execGRASS(&#39;r.external&#39;,
+ rgrass::execGRASS(&#39;r.external&#39;,
                    flags=c(&#39;a&#39;,&#39;o&#39;,&quot;overwrite&quot;,&quot;quiet&quot;),
                    input=paste0(path_run,&quot;/Zensus_Bevoelkerung_100m-Gitter.tif&quot;),
                    output=&quot;Zensus_Bevoelkerung_100m_Gitter&quot;,
                    band=1)
 
+
 # check imported data set
-rgrass::execGRASS(&#39;r.info&#39;,
+ rgrass::execGRASS(&#39;r.info&#39;,
                    map = &quot;Zensus_Bevoelkerung_100m_Gitter&quot;) 
 </code></pre>
 
-<p>Let&#39;s do now the same import as a vector data set. First we create and reproject from the original table a <code>sf</code> object. Please note this will take quite a while.</p>
+<h2>Import the vector data to GRASS</h2>
+
+<p>Let&#39;s do now the same import as a vector data set. First we create from the original table a <code>sf</code> object. Please note that depending on your hardware this will take quite a while.</p>
 
 <pre><code class="r"> xyz_sf = sf::st_as_sf(xyz,
                     coords = c(&quot;x_mp_100m&quot;, &quot;y_mp_100m&quot;),
@@ -335,12 +341,13 @@ rgrass::execGRASS(&#39;r.info&#39;,
 #xyz_sf = sf::st_transform(xyz_sf,4314)
 </code></pre>
 
-<p>The <code>GRASS</code> gisdbase already exists. So we pass  <code>linkGRASS</code> the argument <code>gisdbase_exist=TRUE</code> and import the xyz data as generic GRASS vector points.</p>
+<h3>Linking an existing GRASS gisdbase</h3>
+
+<p>The <code>GRASS</code> gisdbase already exists. So we pass <code>linkGRASS</code> the argument <code>gisdbase_exist=TRUE</code> and import the xyz data as generic GRASS vector points. Again first the convenient function of <code>rgrass</code> and second the convenient function of <code>link2GI</code> which is fairly faster due to utilizing the <code>sqlite</code> driver. </p>
 
 <pre><code class="r"> require(rgrass)
  require(terra)
 # import point data to GRASS via gpgk and rgrass
-
   rgrass::write_VECT(terra::vect(xyz_sf),
                      flags = c(&quot;o&quot;,&quot;overwrite&quot;),
                      vname = &quot;Bevoelkerung100m_gpgk&quot;,
@@ -355,16 +362,15 @@ sf2gvec(x = xyz_sf,
         location = &quot;microzensus2011&quot;,
         epsg = 3035,
         gisdbase_exist = TRUE)
+
+# check imported data set
+rgrass::execGRASS(&#39;v.info&#39;, map = &quot;bevoelkerung100m_sqlite@PERMANENT&quot;)   
 </code></pre>
 
 <pre><code class="r"># microbenchmark  
- sf2gvec     write_VECT
+# sf2gvec     write_VECT
  mean        mean   
  1163.185    1930.099
-</code></pre>
-
-<pre><code class="r"># check imported data set
-rgrass::execGRASS(&#39;v.info&#39;, map = &quot;bevoelkerung100m_sqlite@PERMANENT&quot;) 
 </code></pre>
 
 </body>

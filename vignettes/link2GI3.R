@@ -91,6 +91,7 @@
 #                      coords = c("x_mp_100m", "y_mp_100m"),
 #                      crs = 3035,
 #                      agr = "constant")
+#   sf_crs(xyz_sf)  = sf::st_crs(xyz_sf)$wkt
 #  #xyz_sf = sf::st_transform(xyz_sf,4314)
 #  
 
@@ -98,17 +99,30 @@
 #   require(rgrass)
 #   require(terra)
 #  # import point data to GRASS via gpgk and rgrass
-#   rgrass::write_VECT(terra::vect(xyz_sf),vname = "Bevoelkerung100m-gpgk")
+#  
+#    rgrass::write_VECT(terra::vect(xyz_sf),
+#                       flags = c("o","overwrite"),
+#                       vname = "Bevoelkerung100m_gpgk",
+#                       ignore.stderr = FALSE),
+#  
 #  
 #  # import point vector vector via sqlite
+#  
 #  sf2gvec(x = xyz_sf,
 #          obj_name = "Bevoelkerung100m-",
 #          gisdbase = ggis_fn,
 #          location = "microzensus2011",
 #          epsg = 3035,
-#          gisdbase_exist = TRUE)
+#          gisdbase_exist = TRUE),
 #  
-#  
+
+## ---- eval=FALSE--------------------------------------------------------------
+#  # microbenchmark
+#   sf2gvec     write_VECT
+#   mean        mean
+#   1163.185    1930.099
+
+## ---- eval=FALSE--------------------------------------------------------------
 #  # check imported data set
 #  rgrass::execGRASS('v.info', map = "bevoelkerung100m_sqlite@PERMANENT")
 

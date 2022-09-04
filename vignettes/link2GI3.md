@@ -1,7 +1,7 @@
 ---
 author: "Chris Reudenbach"
 title: "linkGRASS real world data usecase"
-date: "2022-09-03"
+date: "2022-09-04"
 editor_options:
   chunk_output_type: console
 output:
@@ -164,6 +164,7 @@ Let's do now the same import as a vector data set. First we create and reproject
                     coords = c("x_mp_100m", "y_mp_100m"),
                     crs = 3035,
                     agr = "constant")
+ sf_crs(xyz_sf)  = sf::st_crs(xyz_sf)$wkt
 #xyz_sf = sf::st_transform(xyz_sf,4314)
 ```
 
@@ -177,17 +178,31 @@ The `GRASS` gisdbase already exists. So we pass  `linkGRASS` the argument `gisdb
  require(rgrass)
  require(terra)
 # import point data to GRASS via gpgk and rgrass
- rgrass::write_VECT(terra::vect(xyz_sf),vname = "Bevoelkerung100m-gpgk")
+
+  rgrass::write_VECT(terra::vect(xyz_sf),
+                     flags = c("o","overwrite"),
+                     vname = "Bevoelkerung100m_gpgk",
+                     ignore.stderr = FALSE), 
+
 
 # import point vector vector via sqlite 
+
 sf2gvec(x = xyz_sf,
         obj_name = "Bevoelkerung100m-",
         gisdbase = ggis_fn,
         location = "microzensus2011",
         epsg = 3035,
-        gisdbase_exist = TRUE)
+        gisdbase_exist = TRUE),
+```
 
+```r
+# microbenchmark  
+ sf2gvec     write_VECT
+ mean        mean   
+ 1163.185    1930.099
+```
 
+```r
 # check imported data set
 rgrass::execGRASS('v.info', map = "bevoelkerung100m_sqlite@PERMANENT") 
 ```

@@ -175,22 +175,29 @@ The `GRASS` gisdbase already exists. So we pass  `linkGRASS` the argument `gisdb
  require(rgrass)
  require(terra)
 # import point data to GRASS via gpgk and rgrass
-microbenchmark::microbenchmark(
+
   rgrass::write_VECT(terra::vect(xyz_sf),
                      flags = c("o","overwrite"),
-                     vname = "Bevoelkerung100m-gpgk",
+                     vname = "Bevoelkerung100m_gpgk",
                      ignore.stderr = FALSE), 
-  times =  1)
+
+
 # import point vector vector via sqlite 
-microbenchmark::microbenchmark(
+
 sf2gvec(x = xyz_sf,
         obj_name = "Bevoelkerung100m-",
         gisdbase = ggis_fn,
         location = "microzensus2011",
         epsg = 3035,
         gisdbase_exist = TRUE),
-times =  1)
 
+```{r, eval=FALSE}
+# microbenchmark  
+ sf2gvec     write_VECT
+ mean        mean   
+ 1163.185    1930.099
+```
+```{r, eval=FALSE}
 # check imported data set
 rgrass::execGRASS('v.info', map = "bevoelkerung100m_sqlite@PERMANENT") 
 ```

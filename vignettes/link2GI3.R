@@ -26,3 +26,99 @@
 #  fn <- list.files(pattern = "[.]csv$", path = getwd(), full.names = TRUE)
 #  
 
+## ----eval=FALSE---------------------------------------------------------------
+#   require(RColorBrewer)
+#   require(stars)
+#   require(terra)
+#   require(sf)
+#  # fast read with data.table
+#   xyz <- data.table::fread(paste0(path_run,"/Zensus_Bevoelkerung_100m-Gitter.csv"))
+#  
+#   head(xyz)
+#  
+#  # clean dataframe
+#   xyz <- xyz[,-1]
+#  
+#  # rasterize it according to the projection
+#   r =	stars::st_as_stars(terra::rast(xyz,type = "xyz",crs= sf::st_crs(3035)$wkt))
+#  
+#  # reprojection to DHDN/Bessel system using st_warp for a regular grid (https://epsg.io/4314)
+#  # r2 = stars::st_warp(r, crs = sf::st_crs(4314))
+#  
+#  # map it
+#   p <- colorRampPalette(RColorBrewer::brewer.pal(9, "OrRd"))
+#  
+#  # resolution is downsampled to 1 sqkm
+#   tmap::tm_shape(r)+
+#   tmap::tm_raster("Einwohner", breaks = c(-1,0,1,5,10,50,100,200,300,Inf),
+#  		palette = p(9), title="Residents/ha", midpoint = NA)
+#  
+
+## ---- eval=FALSE--------------------------------------------------------------
+#  require(link2GI)
+#  require(sf)
+#  # initialize GRASS and set up a permanent structure
+#  link2GI::linkGRASS(x = rast(r),
+#                      gisdbase = ggis_fn,
+#                      location = "microzensus2011")
+
+## ---- eval=FALSE--------------------------------------------------------------
+#  require(link2GI)
+#  require(stars)
+#  require(rgrass)
+#  
+#  # write it to geotiff
+#  stars::write_stars(r, paste0(path_run,"/Zensus_Bevoelkerung_100m-Gitter.tif"),
+#                        overwrite = TRUE)
+#  
+#  # import raster to GRASS
+#  rgrass::execGRASS('r.external',
+#                     flags=c('a','o',"overwrite","quiet"),
+#                     input=paste0(path_run,"/Zensus_Bevoelkerung_100m-Gitter.tif"),
+#                     output="Zensus_Bevoelkerung_100m_Gitter",
+#                     band=1)
+#  
+#  # check imported data set
+#  rgrass::execGRASS('r.info',
+#                     map = "Zensus_Bevoelkerung_100m_Gitter")
+
+## ---- eval=FALSE--------------------------------------------------------------
+#  
+#   xyz_sf = sf::st_as_sf(xyz,
+#                      coords = c("x_mp_100m", "y_mp_100m"),
+#                      crs = 3035,
+#                      agr = "constant")
+#   sf_crs(xyz_sf)  = sf::st_crs(xyz_sf)$wkt
+#  #xyz_sf = sf::st_transform(xyz_sf,4314)
+#  
+
+## ---- eval=FALSE--------------------------------------------------------------
+#   require(rgrass)
+#   require(terra)
+#  # import point data to GRASS via gpgk and rgrass
+#  
+#    rgrass::write_VECT(terra::vect(xyz_sf),
+#                       flags = c("o","overwrite"),
+#                       vname = "Bevoelkerung100m_gpgk",
+#                       ignore.stderr = FALSE),
+#  
+#  
+#  # import point vector vector via sqlite
+#  
+#  sf2gvec(x = xyz_sf,
+#          obj_name = "Bevoelkerung100m-",
+#          gisdbase = ggis_fn,
+#          location = "microzensus2011",
+#          epsg = 3035,
+#          gisdbase_exist = TRUE)
+
+## ---- eval=FALSE--------------------------------------------------------------
+#  # microbenchmark
+#   sf2gvec     write_VECT
+#   mean        mean
+#   1163.185    1930.099
+
+## ---- eval=FALSE--------------------------------------------------------------
+#  # check imported data set
+#  rgrass::execGRASS('v.info', map = "bevoelkerung100m_sqlite@PERMANENT")
+

@@ -76,7 +76,7 @@ After downloading the data we will use it for some demonstration stuff. If you h
 We can easily rasterize this data as it is intentionally gridded data.that means we have in at a grid size of 100 by 100 meters a value.
 
 
-```{r echo=TRUE, message=FALSE, warning=FALSE, paged.print=TRUE}
+```{r eval=FALSE}
  require(RColorBrewer)
  require(stars)
  require(terra)

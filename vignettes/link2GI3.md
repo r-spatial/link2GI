@@ -77,15 +77,128 @@ We can easily rasterize this data as it is intentionally gridded data.that means
 
 
 
+```r
+ require(RColorBrewer)
+ require(stars)
+ require(terra)
+ require(sf)
+# fast read with data.table 
+ xyz <- data.table::fread(paste0(path_run,"/Zensus_Bevoelkerung_100m-Gitter.csv"))
+ 
+ head(xyz)
+
+# clean dataframe
+ xyz <- xyz[,-1]
+
+# rasterize it according to the projection 
+ r =	stars::st_as_stars(terra::rast(xyz,type = "xyz",crs= sf::st_crs(3035)$wkt))
+ 
+# reprojection to DHDN/Bessel system using st_warp for a regular grid (https://epsg.io/4314)
+# r2 = stars::st_warp(r, crs = sf::st_crs(4314))
+
+# map it
+ p <- colorRampPalette(RColorBrewer::brewer.pal(9, "OrRd"))
+
+# resolution is downsampled to 1 sqkm
+ tmap::tm_shape(r)+
+ tmap::tm_raster("Einwohner", breaks = c(-1,0,1,5,10,50,100,200,300,Inf),  
+		palette = p(9), title="Residents/ha", midpoint = NA) 
+```
+
+![](https://raw.githubusercontent.com/r-spatial/link2GI/master/figures/residents.png)
+### Setup GRASS Project
+So far nothing new. Now we create a new but permanent `GRASS` gisbase using the spatial parameters from the raster object. As you know the `linkGRASS` function performs a full search for one or more than one existing  `GRASS` installations. If a valid `GRASS` installation exists all parameter are setup und the package `rgrass`  is linked.
+
+Due to the fact that the `gisdbase_exist` is by default set to FALSE it will create a new structure according to the `R` object. 
 
 
 
+```r
+require(link2GI)
+require(sf)
+# initialize GRASS and set up a permanent structure  
+link2GI::linkGRASS(x = rast(r), 
+                    gisdbase = ggis_fn,
+                    location = "microzensus2011")   
+```
+
+Finally we can now import the data to the `GRASS` gisdbase using the `rgass` package functionality. 
+
+First we must save the raster/terra object to a `GeoTIFF` file. Any `GDAL` format is possible but `GeoTIFF` is very common and stable.
 
 
 
+```r
+require(link2GI)
+require(stars)
+require(rgrass)
+
+# write it to geotiff
+stars::write_stars(r, paste0(path_run,"/Zensus_Bevoelkerung_100m-Gitter.tif"), 
+                      overwrite = TRUE)
+
+# import raster to GRASS
+rgrass::execGRASS('r.external',
+                   flags=c('a','o',"overwrite","quiet"),
+                   input=paste0(path_run,"/Zensus_Bevoelkerung_100m-Gitter.tif"),
+                   output="Zensus_Bevoelkerung_100m_Gitter",
+                   band=1)
+
+# check imported data set
+rgrass::execGRASS('r.info',
+                   map = "Zensus_Bevoelkerung_100m_Gitter") 
+```
+
+Let's do now the same import as a vector data set. First we create and reproject from the original table a `sf` object. Please note this will take quite a while.
 
 
 
+```r
+ xyz_sf = sf::st_as_sf(xyz,
+                    coords = c("x_mp_100m", "y_mp_100m"),
+                    crs = 3035,
+                    agr = "constant")
+ sf_crs(xyz_sf)  = sf::st_crs(xyz_sf)$wkt
+#xyz_sf = sf::st_transform(xyz_sf,4314)
+```
 
 
 
+The `GRASS` gisdbase already exists. So we pass  `linkGRASS` the argument `gisdbase_exist=TRUE` and import the xyz data as generic GRASS vector points.
+
+
+
+```r
+ require(rgrass)
+ require(terra)
+# import point data to GRASS via gpgk and rgrass
+
+  rgrass::write_VECT(terra::vect(xyz_sf),
+                     flags = c("o","overwrite"),
+                     vname = "Bevoelkerung100m_gpgk",
+                     ignore.stderr = FALSE), 
+
+
+# import point vector vector via sqlite 
+
+sf2gvec(x = xyz_sf,
+        obj_name = "Bevoelkerung100m-",
+        gisdbase = ggis_fn,
+        location = "microzensus2011",
+        epsg = 3035,
+        gisdbase_exist = TRUE)
+```
+
+
+```r
+# microbenchmark  
+ sf2gvec     write_VECT
+ mean        mean   
+ 1163.185    1930.099
+```
+
+
+```r
+# check imported data set
+rgrass::execGRASS('v.info', map = "bevoelkerung100m_sqlite@PERMANENT") 
+```

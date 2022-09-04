@@ -256,19 +256,16 @@ fn &lt;- list.files(pattern = &quot;[.]csv$&quot;, path = getwd(), full.names = 
 
 <p>After downloading the data we will use it for some demonstration stuff. If you have a look the data is nothing than x,y,z with assuming some projection information. Actually the projection of the data set is EPSG 3035. We will change it to EPSG 4313.</p>
 
-<pre><code class="r"># fast read with data.table 
- xyz &lt;- data.table::fread(paste0(path_run,&quot;/Zensus_Bevoelkerung_100m-Gitter.csv&quot;))
-
- head(xyz)
-</code></pre>
-
 <p>We can easily rasterize this data as it is intentionally gridded data.that means we have in at a grid size of 100 by 100 meters a value.</p>
 
 <pre><code class="r"> require(RColorBrewer)
  require(stars)
  require(terra)
  require(sf)
+# fast read with data.table 
+ xyz &lt;- data.table::fread(paste0(path_run,&quot;/Zensus_Bevoelkerung_100m-Gitter.csv&quot;))
 
+ head(xyz)
 
 # clean dataframe
  xyz &lt;- xyz[,-1]
@@ -285,8 +282,10 @@ fn &lt;- list.files(pattern = &quot;[.]csv$&quot;, path = getwd(), full.names = 
 # resolution is downsampled to 1 sqkm
  tmap::tm_shape(r)+
  tmap::tm_raster(&quot;Einwohner&quot;, breaks = c(-1,0,1,5,10,50,100,200,300,Inf),  
-        palette = p(9), title=&quot;Einwohne/ha&quot;, midpoint = NA) 
+        palette = p(9), title=&quot;Residents/ha&quot;, midpoint = NA) 
 </code></pre>
+
+<p><img src="https://raw.githubusercontent.com/r-spatial/link2GI/master/figures/residents.png" alt=""/></p>
 
 <h3>Setup GRASS Project</h3>
 

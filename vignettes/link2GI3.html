@@ -205,10 +205,6 @@ hr {
 
 <p>A typical example is the usage of an already existing project database in <code>GRASS</code>. <code>GRASS</code> organizes all data in an internal file structure that is known as gisdbase folder, a mapset and one or more locations within this mapset. All raster and vector data is stored inside this structure and the organisation is performed by <code>GRASS</code>. So a typical task could be to work on data sets that are already stored in an existing <code>GRASS</code> structure</p>
 
-<h2>Creating a GRASS project</h2>
-
-<h2>Download Zensus Data</h2>
-
 <p>First of all we need some real world data. In this this case the gridded German 2011 micro zensus data (see <a href="https://www.zensus2011.de/EN/Home/">https://www.zensus2011.de/EN/Home/</a>). <em>NOTE:</em> This is a real big data file organised as an <code>csv</code> ASCII file. You may download the data e.g. using <code>wget</code>:</p>
 
 <pre><code class="sh">wget https://www.zensus2011.de/SharedDocs/Downloads/DE/Pressemitteilung/DemografischeGrunddaten/csv_Bevoelkerung_100m_Gitter.zip?__blob=publicationFile&amp;v=3
@@ -224,6 +220,8 @@ hr {
 </ul>
 
 <p>We also have to download the meta data description file from the above website for information about projection, data concepts and so on.</p>
+
+<h1>Creating a project structure</h1>
 
 <pre><code class="r"> # we need some additional packages
  require(link2GI)
@@ -341,7 +339,7 @@ stars::write_stars(r, paste0(path_run,&quot;/Zensus_Bevoelkerung_100m-Gitter.tif
 #xyz_sf = sf::st_transform(xyz_sf,4314)
 </code></pre>
 
-<h3>Linking an existing GRASS gisdbase</h3>
+<h2>Linking an existing GRASS gisdbase</h2>
 
 <p>The <code>GRASS</code> gisdbase already exists. So we pass <code>linkGRASS</code> the argument <code>gisdbase_exist=TRUE</code> and import the xyz data as generic GRASS vector points. Again first the convenient function of <code>rgrass</code> and second the convenient function of <code>link2GI</code> which is fairly faster due to utilizing the <code>sqlite</code> driver. </p>
 
@@ -352,9 +350,11 @@ stars::write_stars(r, paste0(path_run,&quot;/Zensus_Bevoelkerung_100m-Gitter.tif
                      flags = c(&quot;o&quot;,&quot;overwrite&quot;),
                      vname = &quot;Bevoelkerung100m_gpgk&quot;,
                      ignore.stderr = FALSE), 
+</code></pre>
 
+<h2>Importing the vector data to GRASS</h2>
 
-# import point vector vector via sqlite 
+<pre><code class="r"># import point vector vector via sqlite 
 
 sf2gvec(x = xyz_sf,
         obj_name = &quot;Bevoelkerung100m-&quot;,

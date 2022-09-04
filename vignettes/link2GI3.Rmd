@@ -23,9 +23,6 @@ vignette: >
 #  Real world example
 A typical example is the usage of an already existing project database in `GRASS`. `GRASS` organizes all data in an internal file structure that is known as gisdbase folder, a mapset and one or more locations within this mapset. All raster and vector data is stored inside this structure and the organisation is performed by `GRASS`. So a typical task could be to work on data sets that are already stored in an existing `GRASS` structure
 
-## Creating a GRASS project
-
-## Download Zensus Data
 First of all we need some real world data. In this this case the gridded German 2011 micro zensus data (see https://www.zensus2011.de/EN/Home/). *NOTE:* This is a real big data file organised as an `csv` ASCII file. You may download the data e.g. using `wget`:
 
 ```sh
@@ -40,6 +37,7 @@ The data set has some nice aspects:
 
 We also have to download the meta data description file from the above website for information about projection, data concepts and so on.
 
+# Creating a project structure
 
 ```{r, eval=FALSE}
  # we need some additional packages
@@ -70,7 +68,9 @@ fn <- list.files(pattern = "[.]csv$", path = getwd(), full.names = TRUE)
 
 ```
 
+
 ## Rasterize the point data with R
+
 After downloading the data we will use it for some demonstration stuff. If you have a look, the data is nothing than x,y,z with assuming some projection information. Actually the projection of the data is EPSG 3035. 
 
 We can easily rasterize this data as it is intentionally gridded data. That means we have a point value which represents the number of residents living in an area of 100 by 100 meters (1ha).
@@ -106,7 +106,9 @@ We can easily rasterize this data as it is intentionally gridded data. That mean
 
 ![](https://raw.githubusercontent.com/r-spatial/link2GI/master/figures/residents.png)
 
+
 ## Setup a temporary GRASS project using the above data
+
 So far nothing new. Now we create a new but permanent `GRASS` gisbase using the spatial parameters from the raster object. As you know the `linkGRASS` function performs a full search for one or more than one existing  `GRASS` installations. If a valid `GRASS` installation exists all parameter are setup und the package `rgrass`  is linked.
 
 Due to the fact that the `gisdbase_exist` is by default set to FALSE it will create a new structure according to the `R` object. 
@@ -169,7 +171,7 @@ Let's do now the same import as a vector data set. First we create from the orig
 
 ```
 
-### Linking an existing GRASS gisdbase
+## Linking an existing GRASS gisdbase
 
 The `GRASS` gisdbase already exists. So we pass `linkGRASS` the argument `gisdbase_exist=TRUE` and import the xyz data as generic GRASS vector points. Again first the convenient function of `rgrass` and second the convenient function of `link2GI` which is fairly faster due to utilizing the `sqlite` driver. 
 
@@ -182,7 +184,12 @@ The `GRASS` gisdbase already exists. So we pass `linkGRASS` the argument `gisdba
                      flags = c("o","overwrite"),
                      vname = "Bevoelkerung100m_gpgk",
                      ignore.stderr = FALSE), 
+```
 
+
+## Importing the vector data to GRASS
+
+```{r, eval=FALSE}  
 
 # import point vector vector via sqlite 
 

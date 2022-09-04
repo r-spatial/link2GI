@@ -105,7 +105,8 @@
 #                       flags = c("o","overwrite"),
 #                       vname = "Bevoelkerung100m_gpgk",
 #                       ignore.stderr = FALSE),
-#  
+
+## ---- eval=FALSE--------------------------------------------------------------
 #  
 #  # import point vector vector via sqlite
 #  

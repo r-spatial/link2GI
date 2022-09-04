@@ -116,13 +116,6 @@ and one or more locations within this mapset. All raster and vector data
 is stored inside this structure and the organisation is performed by
 <code>GRASS</code>. So a typical task could be to work on data sets that
 are already stored in an existing <code>GRASS</code> structure</p>
-<div class="section level3">
-<h3 id="creating-a-grass-project">Creating a GRASS project<a class="anchor" aria-label="anchor" href="#creating-a-grass-project"></a>
-</h3>
-</div>
-<div class="section level3">
-<h3 id="download-zensus-data">Download Zensus Data<a class="anchor" aria-label="anchor" href="#download-zensus-data"></a>
-</h3>
 <p>First of all we need some real world data. In this this case the
 gridded German 2011 micro zensus data (see <a href="https://www.zensus2011.de/EN/Home/" class="external-link uri">https://www.zensus2011.de/EN/Home/</a>). <em>NOTE:</em> This
 is a real big data file organised as an <code>csv</code> ASCII file. You
@@ -138,6 +131,10 @@ format</li>
 <p>We also have to download the meta data description file from the
 above website for information about projection, data concepts and so
 on.</p>
+</div>
+<div class="section level2">
+<h2 id="creating-a-project-structure">Creating a project structure<a class="anchor" aria-label="anchor" href="#creating-a-project-structure"></a>
+</h2>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span> <span class="co"># we need some additional packages</span></span>
 <span> <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-spatial/link2GI/" class="external-link">link2GI</a></span><span class="op">)</span></span>
@@ -164,47 +161,46 @@ on.</p>
 <span></span>
 <span> <span class="co"># get the filename </span></span>
 <span><span class="va">fn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="st">"[.]csv$"</span>, path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">getwd</a></span><span class="op">(</span><span class="op">)</span>, full.names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<div class="section level4">
-<h4 id="preprocessing-of-the-data">Preprocessing of the data<a class="anchor" aria-label="anchor" href="#preprocessing-of-the-data"></a>
-</h4>
+<div class="section level3">
+<h3 id="rasterize-the-point-data-with-r">Rasterize the point data with R<a class="anchor" aria-label="anchor" href="#rasterize-the-point-data-with-r"></a>
+</h3>
 <p>After downloading the data we will use it for some demonstration
-stuff. If you have a look the data is nothing than x,y,z with assuming
-some projection information. Actually the projection of the data set is
-EPSG 3035. We will change it to EPSG 4313.</p>
+stuff. If you have a look, the data is nothing than x,y,z with assuming
+some projection information. Actually the projection of the data is EPSG
+3035.</p>
 <p>We can easily rasterize this data as it is intentionally gridded
-data.that means we have in at a grid size of 100 by 100 meters a
-value.</p>
+data. That means we have a point value which represents the number of
+residents living in an area of 100 by 100 meters (1ha).</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span> <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va">RColorBrewer</span><span class="op">)</span></span>
 <span> <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/stars/" class="external-link">stars</a></span><span class="op">)</span></span>
 <span> <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/terra/" class="external-link">terra</a></span><span class="op">)</span></span>
 <span> <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/" class="external-link">sf</a></span><span class="op">)</span></span>
+<span></span>
 <span><span class="co"># fast read with data.table </span></span>
 <span> <span class="va">xyz</span> <span class="op">&lt;-</span> <span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/fread.html" class="external-link">fread</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">path_run</span>,<span class="st">"/Zensus_Bevoelkerung_100m-Gitter.csv"</span><span class="op">)</span><span class="op">)</span></span>
 <span> </span>
+<span><span class="co"># check the structure</span></span>
 <span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/headtail.html" class="external-link">head</a></span><span class="op">(</span><span class="va">xyz</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># clean dataframe</span></span>
+<span><span class="co"># drop first col</span></span>
 <span> <span class="va">xyz</span> <span class="op">&lt;-</span> <span class="va">xyz</span><span class="op">[</span>,<span class="op">-</span><span class="fl">1</span><span class="op">]</span></span>
 <span></span>
 <span><span class="co"># rasterize it according to the projection </span></span>
 <span> <span class="va">r</span> <span class="op">=</span>    <span class="fu">stars</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/stars/reference/st_as_stars.html" class="external-link">st_as_stars</a></span><span class="op">(</span><span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">rast</a></span><span class="op">(</span><span class="va">xyz</span>,type <span class="op">=</span> <span class="st">"xyz"</span>,crs<span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html" class="external-link">st_crs</a></span><span class="op">(</span><span class="fl">3035</span><span class="op">)</span><span class="op">$</span><span class="va">wkt</span><span class="op">)</span><span class="op">)</span></span>
-<span> </span>
-<span><span class="co"># reprojection to DHDN/Bessel system using st_warp for a regular grid (https://epsg.io/4314)</span></span>
-<span><span class="co"># r2 = stars::st_warp(r, crs = sf::st_crs(4314))</span></span>
 <span></span>
-<span><span class="co"># map it</span></span>
+<span><span class="co"># get some colors</span></span>
 <span> <span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/colorRamp.html" class="external-link">colorRampPalette</a></span><span class="op">(</span><span class="fu">RColorBrewer</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/RColorBrewer/man/ColorBrewer.html" class="external-link">brewer.pal</a></span><span class="op">(</span><span class="fl">9</span>, <span class="st">"OrRd"</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># resolution is downsampled to 1 sqkm</span></span>
+<span><span class="co"># map it with a downsampled resolkution of 1 sqkm</span></span>
 <span> <span class="fu">tmap</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/tmap/man/tm_shape.html" class="external-link">tm_shape</a></span><span class="op">(</span><span class="va">r</span><span class="op">)</span><span class="op">+</span></span>
 <span> <span class="fu">tmap</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/tmap/man/tm_raster.html" class="external-link">tm_raster</a></span><span class="op">(</span><span class="st">"Einwohner"</span>, breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">1</span>,<span class="fl">5</span>,<span class="fl">10</span>,<span class="fl">50</span>,<span class="fl">100</span>,<span class="fl">200</span>,<span class="fl">300</span>,<span class="cn">Inf</span><span class="op">)</span>,  </span>
 <span>        palette <span class="op">=</span> <span class="fu">p</span><span class="op">(</span><span class="fl">9</span><span class="op">)</span>, title<span class="op">=</span><span class="st">"Residents/ha"</span>, midpoint <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span> </span></code></pre></div>
 <p><img src="https://raw.githubusercontent.com/r-spatial/link2GI/master/figures/residents.png"></p>
 </div>
-<div class="section level4">
-<h4 id="setup-grass-project">Setup GRASS Project<a class="anchor" aria-label="anchor" href="#setup-grass-project"></a>
-</h4>
+<div class="section level3">
+<h3 id="setup-a-temporary-grass-project-using-the-above-data">Setup a temporary GRASS project using the above data<a class="anchor" aria-label="anchor" href="#setup-a-temporary-grass-project-using-the-above-data"></a>
+</h3>
 <p>So far nothing new. Now we create a new but permanent
 <code>GRASS</code> gisbase using the spatial parameters from the raster
 object. As you know the <code>linkGRASS</code> function performs a full
@@ -217,37 +213,50 @@ set to FALSE it will create a new structure according to the
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-spatial/link2GI/" class="external-link">link2GI</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/" class="external-link">sf</a></span><span class="op">)</span></span>
-<span><span class="co"># initialize GRASS and set up a permanent structure  </span></span>
+<span><span class="co"># initialize GRASS </span></span>
 <span><span class="fu">link2GI</span><span class="fu">::</span><span class="fu"><a href="../reference/linkGRASS.html">linkGRASS</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">rast</a></span><span class="op">(</span><span class="va">r</span><span class="op">)</span>, </span>
 <span>                    gisdbase <span class="op">=</span> <span class="va">ggis_fn</span>,</span>
 <span>                    location <span class="op">=</span> <span class="st">"microzensus2011"</span><span class="op">)</span>   </span></code></pre></div>
-<p>Finally we can now import the data to the <code>GRASS</code> gisdbase
-using the <code>rgass</code> package functionality.</p>
-<p>First we must save the raster/terra object to a <code>GeoTIFF</code>
-file. Any <code>GDAL</code> format is possible but <code>GeoTIFF</code>
-is very common and stable.</p>
+</div>
+<div class="section level3">
+<h3 id="importing-the-raster-to-grass">Importing the raster to GRASS<a class="anchor" aria-label="anchor" href="#importing-the-raster-to-grass"></a>
+</h3>
+<p>It seems to be convinient to use the above raster/terra object for
+the import. <code>rgrass</code> is providing a convenient function to do
+so. The more general approach is writing it to a <code>GDAL</code>
+conform file. Any <code>GDAL</code> format is possible but
+<code>GeoTIFF</code> is very common and stable.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-spatial/link2GI/" class="external-link">link2GI</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/stars/" class="external-link">stars</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://rsbivand.github.io/rgrass/" class="external-link">rgrass</a></span><span class="op">)</span></span>
 <span></span>
+<span><span class="co"># convenient function provided by rgrass </span></span>
+<span> <span class="fu">rgrass</span><span class="fu">::</span><span class="fu"><a href="https://rsbivand.github.io/rgrass/reference/readRAST.html" class="external-link">write_RAST</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">rast</a></span><span class="op">(</span><span class="va">r</span><span class="op">)</span>,vname <span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Zensus_Bevoelkerung_100m_Gitter"</span><span class="op">)</span>, flags<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"o"</span>, <span class="st">"overwrite"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># common way using execGRASS  </span></span>
 <span><span class="co"># write it to geotiff</span></span>
 <span><span class="fu">stars</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/stars/reference/write_stars.html" class="external-link">write_stars</a></span><span class="op">(</span><span class="va">r</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">path_run</span>,<span class="st">"/Zensus_Bevoelkerung_100m-Gitter.tif"</span><span class="op">)</span>, </span>
-<span>                      overwrite <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span>                   overwrite <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># import raster to GRASS</span></span>
-<span><span class="fu">rgrass</span><span class="fu">::</span><span class="fu"><a href="https://rsbivand.github.io/rgrass/reference/execGRASS.html" class="external-link">execGRASS</a></span><span class="op">(</span><span class="st">'r.external'</span>,</span>
+<span> <span class="fu">rgrass</span><span class="fu">::</span><span class="fu"><a href="https://rsbivand.github.io/rgrass/reference/execGRASS.html" class="external-link">execGRASS</a></span><span class="op">(</span><span class="st">'r.external'</span>,</span>
 <span>                   flags<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'a'</span>,<span class="st">'o'</span>,<span class="st">"overwrite"</span>,<span class="st">"quiet"</span><span class="op">)</span>,</span>
 <span>                   input<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">path_run</span>,<span class="st">"/Zensus_Bevoelkerung_100m-Gitter.tif"</span><span class="op">)</span>,</span>
 <span>                   output<span class="op">=</span><span class="st">"Zensus_Bevoelkerung_100m_Gitter"</span>,</span>
 <span>                   band<span class="op">=</span><span class="fl">1</span><span class="op">)</span></span>
-<span></span>
+<span> </span>
+<span>  </span>
 <span><span class="co"># check imported data set</span></span>
-<span><span class="fu">rgrass</span><span class="fu">::</span><span class="fu"><a href="https://rsbivand.github.io/rgrass/reference/execGRASS.html" class="external-link">execGRASS</a></span><span class="op">(</span><span class="st">'r.info'</span>,</span>
+<span> <span class="fu">rgrass</span><span class="fu">::</span><span class="fu"><a href="https://rsbivand.github.io/rgrass/reference/execGRASS.html" class="external-link">execGRASS</a></span><span class="op">(</span><span class="st">'r.info'</span>,</span>
 <span>                   map <span class="op">=</span> <span class="st">"Zensus_Bevoelkerung_100m_Gitter"</span><span class="op">)</span> </span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="import-the-vector-data-to-grass">Import the vector data to GRASS<a class="anchor" aria-label="anchor" href="#import-the-vector-data-to-grass"></a>
+</h3>
 <p>Let’s do now the same import as a vector data set. First we create
-and reproject from the original table a <code>sf</code> object. Please
-note this will take quite a while.</p>
+from the original table a <code>sf</code> object. Please note that
+depending on your hardware this will take quite a while.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span> <span class="va">xyz_sf</span> <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_as_sf.html" class="external-link">st_as_sf</a></span><span class="op">(</span><span class="va">xyz</span>,</span>
 <span>                    coords <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x_mp_100m"</span>, <span class="st">"y_mp_100m"</span><span class="op">)</span>,</span>
@@ -255,35 +264,43 @@ note this will take quite a while.</p>
 <span>                    agr <span class="op">=</span> <span class="st">"constant"</span><span class="op">)</span></span>
 <span> <span class="fu">sf_crs</span><span class="op">(</span><span class="va">xyz_sf</span><span class="op">)</span>  <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html" class="external-link">st_crs</a></span><span class="op">(</span><span class="va">xyz_sf</span><span class="op">)</span><span class="op">$</span><span class="va">wkt</span></span>
 <span><span class="co">#xyz_sf = sf::st_transform(xyz_sf,4314)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="linking-an-existing-grass-gisdbase">Linking an existing GRASS gisdbase<a class="anchor" aria-label="anchor" href="#linking-an-existing-grass-gisdbase"></a>
+</h3>
 <p>The <code>GRASS</code> gisdbase already exists. So we pass
 <code>linkGRASS</code> the argument <code>gisdbase_exist=TRUE</code> and
-import the xyz data as generic GRASS vector points.</p>
+import the xyz data as generic GRASS vector points. Again first the
+convenient function of <code>rgrass</code> and second the convenient
+function of <code>link2GI</code> which is fairly faster due to utilizing
+the <code>sqlite</code> driver.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a> <span class="fu">require</span>(rgrass)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a> <span class="fu">require</span>(terra)</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"># import point data to GRASS via gpgk and rgrass</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  rgrass<span class="sc">::</span><span class="fu">write_VECT</span>(terra<span class="sc">::</span><span class="fu">vect</span>(xyz_sf),</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>                     <span class="at">flags =</span> <span class="fu">c</span>(<span class="st">"o"</span>,<span class="st">"overwrite"</span>),</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>                     <span class="at">vname =</span> <span class="st">"Bevoelkerung100m_gpgk"</span>,</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>                     <span class="at">ignore.stderr =</span> <span class="cn">FALSE</span>), </span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="co"># import point vector vector via sqlite </span></span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="fu">sf2gvec</span>(<span class="at">x =</span> xyz_sf,</span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>        <span class="at">obj_name =</span> <span class="st">"Bevoelkerung100m-"</span>,</span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>        <span class="at">gisdbase =</span> ggis_fn,</span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>        <span class="at">location =</span> <span class="st">"microzensus2011"</span>,</span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>        <span class="at">epsg =</span> <span class="dv">3035</span>,</span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>        <span class="at">gisdbase_exist =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># microbenchmark  </span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a> sf2gvec     write_VECT</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a> mean        mean   </span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a> <span class="fl">1163.185</span>    <span class="fl">1930.099</span></span></code></pre></div>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># check imported data set</span></span>
-<span><span class="fu">rgrass</span><span class="fu">::</span><span class="fu"><a href="https://rsbivand.github.io/rgrass/reference/execGRASS.html" class="external-link">execGRASS</a></span><span class="op">(</span><span class="st">'v.info'</span>, map <span class="op">=</span> <span class="st">"bevoelkerung100m_sqlite@PERMANENT"</span><span class="op">)</span> </span></code></pre></div>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  rgrass<span class="sc">::</span><span class="fu">write_VECT</span>(terra<span class="sc">::</span><span class="fu">vect</span>(xyz_sf),</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>                     <span class="at">flags =</span> <span class="fu">c</span>(<span class="st">"o"</span>,<span class="st">"overwrite"</span>),</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>                     <span class="at">vname =</span> <span class="st">"Bevoelkerung100m_gpgk"</span>,</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>                     <span class="at">ignore.stderr =</span> <span class="cn">FALSE</span>), </span></code></pre></div>
 </div>
+<div class="section level3">
+<h3 id="importing-the-vector-data-to-grass">Importing the vector data to GRASS<a class="anchor" aria-label="anchor" href="#importing-the-vector-data-to-grass"></a>
+</h3>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># import point vector vector via sqlite </span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/sf2gvec.html">sf2gvec</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">xyz_sf</span>,</span>
+<span>        obj_name <span class="op">=</span> <span class="st">"Bevoelkerung100m-"</span>,</span>
+<span>        gisdbase <span class="op">=</span> <span class="va">ggis_fn</span>,</span>
+<span>        location <span class="op">=</span> <span class="st">"microzensus2011"</span>,</span>
+<span>        epsg <span class="op">=</span> <span class="fl">3035</span>,</span>
+<span>        gisdbase_exist <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span>  </span>
+<span><span class="co"># check imported data set</span></span>
+<span><span class="fu">rgrass</span><span class="fu">::</span><span class="fu"><a href="https://rsbivand.github.io/rgrass/reference/execGRASS.html" class="external-link">execGRASS</a></span><span class="op">(</span><span class="st">'v.info'</span>, map <span class="op">=</span> <span class="st">"bevoelkerung100m_sqlite@PERMANENT"</span><span class="op">)</span>   </span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># microbenchmark  </span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co"># sf2gvec     write_VECT</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a> mean        mean   </span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a> <span class="fl">1163.185</span>    <span class="fl">1930.099</span></span></code></pre></div>
 </div>
 </div>
   </div>

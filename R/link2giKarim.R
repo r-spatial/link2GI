@@ -283,7 +283,7 @@ gvec2sf <- function(x, obj_name, gisdbase, location ,gisdbase_exist = TRUE){
   
   ret <- try(rgrass::execGRASS('v.out.ogr',  
                                 flags = c("overwrite","quiet"),
-                                input = gsub(tolower(sq_name),pattern = "\\.",replacement = "_"),
+                                input = gsub(tolower(sq_name),pattern = "\\.",replacement = ""),
                                 output = file.path(path,paste0(obj_name,"_new.sqlite")),
                                 format = "SQLite",
                                 ignore.stderr = TRUE,

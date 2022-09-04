@@ -1,7 +1,7 @@
 ---
 author: "Chris Reudenbach"
 title: "Link GI to R"
-date: "2022-08-29"
+date: "2022-09-04"
 editor_options:
   chunk_output_type: console
 output:
@@ -52,15 +52,15 @@ Linking means simply to provide all necessary environment settings that satisfy 
 
 ### GRASS GIS
 
-`GRASS GIS` has the most challenging requirements. It needs a bunch of environment and path variables as **and** a correct setup of the geographical data parameters. The `linkGRASS` function tries to find all installations, let you (optionally) choose the one you want to use, and generate the necessary variables. As a result you can use both the `rgrass` package  or the command line `API` of `GRASS`.
+`GRASS GIS` has the most challenging requirements. It needs a bunch of environment and path variables as **and** a correct setup of the geographical data parameters. The `linkGRASS` function tries to find all installations let you (optionally) choose the one you want to use and generate the necessary variables. As a result you can use both the `rgrass` package  or the command line `API` of `GRASS`.
 
 ### SAGA GIS
 
-`SAGA GIS` is a far easier to set up. Again the `linkSAGA` function tries to find all `SAGA` installations, let you (optionally) choose one, and generate the necessary variables. You may also use `RSAGA` but you have to hand over the result of `linkSAGA` like `RSAGA::rsaga.env(path = saga$sagaPath)`. For a straightforward usage you may simply use the  `R` system() call to  interface `R` with the `saga_cmd` API. 
+`SAGA GIS` is a far easier to set up. Again the `linkSAGA` function tries to find all `SAGA` installations, let you (optionally) choose one and generate the necessary variables. You may also use `RSAGA` but you have to hand over the result of `linkSAGA` like `RSAGA::rsaga.env(path = saga$sagaPath)`. For a straightforward usage you may simply use the  `R` system() call to  interface `R` with the `saga_cmd` API. 
 
 ### Orfeo Toolbox (OTB)
 
-The `Orfeo Toolbox` (OTB) is a very powerful remote sensing toolbox. It is widely used for classification, filtering and machine learning applications. You will find some of the implemented algorithm within different R packages but **always** much slower or only running on small data chunks. `link2GI` searches and connects all `OTB` installations of a given search path and provides the result as a clear list.  Due to a missing standalone wrapper package, a list-based `OTB` module and function parser is provided, which can be piped into the function `runOTB` for a convenient `OTB` function call.
+The `Orfeo Toolbox` (OTB) is a very powerful remote sensing toolbox. It is widely used for classification, filtering and machine learning applications. You will find some of the implemented algorithm within different R packages but **always** much slower or only running on small data chunks. `link2GI` searches and connects all `OTB` installations of a given search path and provides the result as a clear list.  Due to a missing wrapper package, a list-based `OTB` module and function parser is also available, which can be piped into the function `runOTB` for a convenient function call.
 
 ### GDAL
 Notwithstanding that `GDAL` is perfectly integrated in R in some cases it is beneficial to use system calls and grab the binaries directly. In particular the evolution to `GDAL 3.x` and optionally various boxed versions of `GDAL` binaries working together with different `Python` and `proj4/proj6` libs makes it sometimes  difficult to grab the correct version of `GDAL`.  `link2GI` generates a list of all pathes and commands of all `GDAL` installation in the provided search path.  With this list, you can easily use all available API calls of each installation. 

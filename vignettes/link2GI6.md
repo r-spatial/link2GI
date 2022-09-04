@@ -1,7 +1,7 @@
 ---
 author: "Chris Reudenbach"
 title: "Installation guide for link2GI related Software"
-date: "2022-08-29"
+date: "2022-09-04"
 editor_options:
   chunk_output_type: console
 output:

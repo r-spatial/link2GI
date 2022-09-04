@@ -73,23 +73,18 @@ fn <- list.files(pattern = "[.]csv$", path = getwd(), full.names = TRUE)
 ### Preprocessing of the data
 After downloading the data we will use it for some demonstration stuff. If you have a look the data is nothing than x,y,z with assuming some projection information. Actually the projection of the data set is EPSG 3035. We will change it to EPSG 4313.
 
-
-```{r, eval=FALSE}
-# fast read with data.table 
- xyz <- data.table::fread(paste0(path_run,"/Zensus_Bevoelkerung_100m-Gitter.csv"))
- 
- head(xyz)
-```
-
 We can easily rasterize this data as it is intentionally gridded data.that means we have in at a grid size of 100 by 100 meters a value.
 
 
-```{r, eval=FALSE}
+```{r echo=TRUE, message=FALSE, warning=FALSE, paged.print=TRUE}
  require(RColorBrewer)
  require(stars)
  require(terra)
  require(sf)
-
+# fast read with data.table 
+ xyz <- data.table::fread(paste0(path_run,"/Zensus_Bevoelkerung_100m-Gitter.csv"))
+ 
+ head(xyz)
 
 # clean dataframe
  xyz <- xyz[,-1]
@@ -106,11 +101,11 @@ We can easily rasterize this data as it is intentionally gridded data.that means
 # resolution is downsampled to 1 sqkm
  tmap::tm_shape(r)+
  tmap::tm_raster("Einwohner", breaks = c(-1,0,1,5,10,50,100,200,300,Inf),  
-		palette = p(9), title="Einwohne/ha", midpoint = NA) 
+		palette = p(9), title="Residents/ha", midpoint = NA) 
 
 ```
 
-
+![](https://raw.githubusercontent.com/r-spatial/link2GI/master/figures/residents.png)
 ### Setup GRASS Project
 So far nothing new. Now we create a new but permanent `GRASS` gisbase using the spatial parameters from the raster object. As you know the `linkGRASS` function performs a full search for one or more than one existing  `GRASS` installations. If a valid `GRASS` installation exists all parameter are setup und the package `rgrass`  is linked.
 

@@ -20,6 +20,7 @@ Imports:
   sf (>= 0.9),
   stringr,
   raster, 
+  terra,
   methods,
   utils
 SystemRequirements: GNU make 
@@ -28,9 +29,9 @@ Suggests: knitr,
           rmarkdown,
           rgdal,
           sp,
-          RSAGA,
           rgrass7,
           rgrass,
+          stars,
           curl,
           listviewer,
           markdown

@@ -32,7 +32,9 @@ The concept is very straightforward but for an all days usage pretty
  GRASS7 both via the wrapper package as well as the command line. paramGRASSw initializes the usage of GRASS7.
 }
 \examples{
-\dontrun{ 
+
+run = FALSE
+if (run) {
 # automatic retrieval of valid 'GRASS GIS' environment settings 
 # if more than one is found the user has to choose.
 paramGRASSw()

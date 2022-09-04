@@ -18,7 +18,9 @@ A dataframe with the 'GDAL' root folder(s) the version name(s) and the installat
 Search for valid 'GDAL' installations on a 'Windows' OS
 }
 \examples{
-\dontrun{
+
+run = FALSE
+if (run) {
 # get all valid GDAL installation folders and params
 searchGDALX()
 }

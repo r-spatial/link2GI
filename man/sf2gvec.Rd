@@ -9,6 +9,8 @@ sf2gvec(x, epsg, obj_name, gisdbase, location, gisdbase_exist = FALSE)
 \arguments{
 \item{x}{\code{sf} object corresponding to the settings of the corresponding GRASS container}
 
+\item{epsg}{numeric epsg code}
+
 \item{obj_name}{name of GRASS layer}
 
 \item{gisdbase}{GRASS gisDbase folder}
@@ -24,23 +26,32 @@ Write sf object directly to GRASS 7/8 vector utilising an existing or creating a
 have a look at the \code{sf} capabilities to write direct to sqlite
 }
 \examples{
-\dontrun{
+
+run = FALSE
+if (run) {
 ## example 
-# get meuse data as sf object
 require(sf)
-nc <- st_read(system.file("shape/nc.shp", package="sf"))
-    
+require(sp)
+require(link2GI)
+data(meuse)
+meuse_sf = st_as_sf(meuse, 
+                    coords = c("x", "y"), 
+                    crs = 28992, 
+                    agr = "constant")
+
+
 # write data to GRASS and create gisdbase
-sf2gvec(x = nc,
-          obj_name = "nc_R-G",
-          gisdbase = "~/temp3",
-          location = "project1")
- 
+sf2gvec(x = meuse_sf,
+        obj_name = "meuse_R-G",
+        gisdbase = "~/temp3/",
+        location = "project1")
+
 # read from existing GRASS          
-gvec2sf(x = nc_R-G,
-          obj_name = "nc_R-G",
-          gisdbase = "~/temp3",
-          location = "project1")
+gvec2sf(x = meuse_sf,
+        obj_name = "meuse_r_g",
+        gisdbase = "~/temp3",       
+        location = "project1")
+
 }
 }
 \author{

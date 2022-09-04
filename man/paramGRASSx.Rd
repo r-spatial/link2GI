@@ -28,7 +28,9 @@ Initialize and set up \code{rgrass}  for 'Linux'
 During the rsession you will have full access to GRASS7 GIS via the \code{rgrass} wrappe. Additionally you may use also use the API calls of GRASS7 via the command line.
 }
 \examples{
-\dontrun{
+
+run = FALSE
+if (run) {
 # automatic retrieval of the GRASS7 enviroment settings
 paramGRASSx()
 

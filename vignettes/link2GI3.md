@@ -202,6 +202,7 @@ sf2gvec(x = xyz_sf,
  1163.185    1930.099
 ```
 
+
 ```r
 # check imported data set
 rgrass::execGRASS('v.info', map = "bevoelkerung100m_sqlite@PERMANENT") 

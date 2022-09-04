@@ -16,7 +16,9 @@ Adds 'GDAL' pathes to the enviroment and creates the variable global string vari
 Initializes and set up  access to the 'GDAL' command line interface
 }
 \examples{
-\dontrun{
+
+run = FALSE
+if (run) {
 ## example for the most common default OSGeo4W64 installation of GDAL
 setenvGDAL(bin_GDAL = "C:/OSGeo4W64/bin/",
           root_GDAL = "C:/OSGeo4W64")

@@ -22,7 +22,9 @@ stand_alone installations. The functions trys to find all valid
 installations by analysing the calling batch scripts.
 }
 \examples{
-\dontrun{
+
+run = FALSE
+if (run) {
 # find recursively all existing 'GDAL' installations folders starting 
 # at the default search location
 findGDAL()

@@ -9,8 +9,10 @@
 #'@param ver_select if TRUE you must interactivley selcect between alternative installations
 #'@export paramGRASSx
 #'
-#'@examples
-#' \dontrun{
+#' @examples
+#' 
+#' run = FALSE
+#' if (run) {
 #' # automatic retrieval of the GRASS7 enviroment settings
 #' paramGRASSx()
 #' 
@@ -103,8 +105,10 @@ paramGRASSx <- function(set_default_GRASS=NULL,
 #'@param quiet boolean  switch for supressing console messages default is TRUE
 #'@export paramGRASSw
 #'  
-#'@examples
-#' \dontrun{ 
+#' @examples
+#' 
+#' run = FALSE
+#' if (run) {
 #' # automatic retrieval of valid 'GRASS GIS' environment settings 
 #' # if more than one is found the user has to choose.
 #' paramGRASSw()

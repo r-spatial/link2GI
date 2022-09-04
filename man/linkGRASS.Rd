@@ -82,7 +82,8 @@ If you have more than one valid installation and run \code{linkGRASS()} without 
 }
 \examples{
 
-\dontrun{
+run = FALSE
+if (run) {
 library(link2GI)
 require(sf)
 

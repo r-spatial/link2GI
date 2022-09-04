@@ -8,7 +8,9 @@
 #'@export setenvGDAL
 #'  
 #'@examples
-#' \dontrun{
+#'
+#' run = FALSE
+#' if (run) {
 #'## example for the most common default OSGeo4W64 installation of GDAL
 #'setenvGDAL(bin_GDAL = "C:/OSGeo4W64/bin/",
 #'           root_GDAL = "C:/OSGeo4W64")
@@ -47,7 +49,9 @@ setenvGDAL <- function(bin_GDAL = NULL){
 #'@keywords internal
 #'
 #'@examples
-#' \dontrun{
+#'
+#' run = FALSE
+#' if (run) {
 #' # get all valid GDAL installation folders and params
 #' searchGDALW()
 #' }
@@ -206,7 +210,9 @@ searchGDALW <- function(DL = "C:",
 #'@keywords internal
 #'
 #'@examples
-#' \dontrun{
+#'
+#' run = FALSE
+#' if (run) {
 #' # get all valid GDAL installation folders and params
 #' searchGDALX()
 #' }
@@ -276,7 +282,9 @@ searchGDALX <- function(MP = "/usr",
 #'@export findGDAL
 #'
 #'@examples
-#' \dontrun{
+#'
+#' run = FALSE
+#' if (run) {
 #' # find recursively all existing 'GDAL' installations folders starting 
 #' # at the default search location
 #' findGDAL()

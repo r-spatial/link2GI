@@ -54,9 +54,10 @@ if (!isGeneric('linkGRASS')) {
 #' @importFrom sf st_crs 
 #' @importFrom sf st_bbox
 #' @import methods
-#'@examples 
-#'
-#'\dontrun{
+#' @examples 
+#' 
+#' run = FALSE
+#' if (run) {
 #' library(link2GI)
 #' require(sf)
 #' 

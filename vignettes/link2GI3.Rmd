@@ -36,7 +36,7 @@ The data set has some nice aspects:
 
 We also have to download the meta data description file from the above website for information about projection, data concepts and so on.
 
-## Creating a project structure
+## Creating a project structure and download the data 
 
 ```{r, eval=FALSE}
  # we need some additional packages

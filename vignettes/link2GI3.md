@@ -106,6 +106,7 @@ We can easily rasterize this data as it is intentionally gridded data.that means
 ```
 
 ![](https://raw.githubusercontent.com/r-spatial/link2GI/master/figures/residents.png)
+
 ### Setup GRASS Project
 So far nothing new. Now we create a new but permanent `GRASS` gisbase using the spatial parameters from the raster object. As you know the `linkGRASS` function performs a full search for one or more than one existing  `GRASS` installations. If a valid `GRASS` installation exists all parameter are setup und the package `rgrass`  is linked.
 

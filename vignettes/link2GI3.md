@@ -20,7 +20,7 @@ vignette: >
 ---
 
 
-#  Real world example
+#  Big data real world example
 A typical example is the usage of an already existing project database in `GRASS`. `GRASS` organizes all data in an internal file structure that is known as gisdbase folder, a mapset and one or more locations within this mapset. All raster and vector data is stored inside this structure and the organisation is performed by `GRASS`. So a typical task could be to work on data sets that are already stored in an existing `GRASS` structure
 
 First of all we need some real world data. In this this case the gridded German 2011 micro zensus data (see https://www.zensus2011.de/EN/Home/). *NOTE:* This is a real big data file organised as an `csv` ASCII file. You may download the data e.g. using `wget`:
@@ -37,7 +37,7 @@ The data set has some nice aspects:
 
 We also have to download the meta data description file from the above website for information about projection, data concepts and so on.
 
-# Creating a project structure
+## Creating a project structure
 
 
 ```r

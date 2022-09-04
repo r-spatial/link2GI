@@ -107,7 +107,7 @@ Reudenbach</h4>
     
     
 <div class="section level2">
-<h2 id="real-world-example">Real world example<a class="anchor" aria-label="anchor" href="#real-world-example"></a>
+<h2 id="big-data-real-world-example">Big data real world example<a class="anchor" aria-label="anchor" href="#big-data-real-world-example"></a>
 </h2>
 <p>A typical example is the usage of an already existing project
 database in <code>GRASS</code>. <code>GRASS</code> organizes all data in
@@ -131,10 +131,9 @@ format</li>
 <p>We also have to download the meta data description file from the
 above website for information about projection, data concepts and so
 on.</p>
-</div>
-<div class="section level2">
-<h2 id="creating-a-project-structure">Creating a project structure<a class="anchor" aria-label="anchor" href="#creating-a-project-structure"></a>
-</h2>
+<div class="section level3">
+<h3 id="creating-a-project-structure">Creating a project structure<a class="anchor" aria-label="anchor" href="#creating-a-project-structure"></a>
+</h3>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span> <span class="co"># we need some additional packages</span></span>
 <span> <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-spatial/link2GI/" class="external-link">link2GI</a></span><span class="op">)</span></span>
@@ -161,6 +160,7 @@ on.</p>
 <span></span>
 <span> <span class="co"># get the filename </span></span>
 <span><span class="va">fn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="st">"[.]csv$"</span>, path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">getwd</a></span><span class="op">(</span><span class="op">)</span>, full.names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+</div>
 <div class="section level3">
 <h3 id="rasterize-the-point-data-with-r">Rasterize the point data with R<a class="anchor" aria-label="anchor" href="#rasterize-the-point-data-with-r"></a>
 </h3>

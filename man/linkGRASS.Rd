@@ -23,7 +23,8 @@ linkGRASS(
 \item{x}{raster/terra or sf/sp object}
 
 \item{default_GRASS}{default is \code{NULL} If is \code{NULL} an automatic search for all installed versions is performed. 
-If you provide a valid list the corresponding version is initialized. An example for OSGeo4W64 is: \code{c("C:/OSGeo4W64","grass-7.0.5","osgeo4w")}}
+If you provide a valid list the corresponding version is initialized. An example for OSGeo4W64 is:
+\code{c("C:/OSGeo4W64","grass-7.0.5","osgeo4w")}}
 
 \item{search_path}{path or mounting point that will be searched}
 
@@ -31,11 +32,11 @@ If you provide a valid list the corresponding version is initialized. An example
 
 \item{gisdbase_exist}{default is FALSE if set to TRUE the arguments gisdbase and location are expected to be an existing GRASS gisdbase}
 
-\item{gisdbase}{default is \code{NULL}, invoke \code{tempdir()} to the 'GRASS' database. Alternativeley you can provide a individual path.}
+\item{gisdbase}{default is \code{NULL}, invoke \code{tempdir()} to the 'GRASS' database. Alternatively you can provide a individual path.}
 
 \item{use_home}{default is \code{FALSE}, set the GISRC path to tempdir(), if TRUE the HOME or USERPROFILE setting is used for writing the GISRC file}
 
-\item{location}{default is \code{NULL}, invoke \code{basename(tempfile())} for defining the 'GRASS' location. Alternativeley you can provide a individual path.}
+\item{location}{default is \code{NULL}, invoke \code{basename(tempfile())} for defining the 'GRASS' location. Alternatively you can provide a individual path.}
 
 \item{spatial_params}{default is \code{NULL}. Instead of a spatial object you may provide the geometry as a list. E.g. c(xmin,ymin,xmax,ymax,proj4_string)}
 
@@ -47,9 +48,10 @@ If you provide a valid list the corresponding version is initialized. An example
 to the PATH variable only, otherwise all paths and versions of the installed GRASS versions ae returned.}
 }
 \description{
-Initializes the session environment and the system pathes for an easy acces to 
-\href{https://grass.osgeo.org/}{'GRASS GIS 7.x/8.x'}.  The correct setup of the spatial and projection parameters is
- automatically performed by using either an existing and valid \code{raster},\code{terra}, \code{sp} or \code{sf} object, 
+Initializes the session environment and the system paths for an easy access to
+\href{https://grass.osgeo.org/}{'GRASS GIS 7.x/8.x'}.  The correct setup of the spatial and
+ projection parameters is automatically performed by using either an existing and valid 
+ \code{raster}, \code{terra}, \code{sp} or \code{sf} object, 
  or manually by providing a list containing the minimum parameters needed.\cr
 }
 \details{
@@ -57,7 +59,7 @@ The concept is straightforward but for an all days usage helpful. Either you nee
 provide a \code{raster} or \code{sp} \code{sf} spatial object
  which has correct spatial and projection properties or you may link directlxy to an existing 'GRASS' gisdbase and mapset. 
  If you choose an spatial object to initialize a correct 'GRASS' mapset it is used to create either a temporary or a permanent 
- \href{https://CRAN.R-project.org/package=rgrass}{rgrass} environment including the correct 'GRASS 7/8' structure.\cr\cr
+ \href{https://CRAN.R-project.org/package=rgrass}{rgrass} environment including the correct 'GRASS ' structure.\cr\cr
  The most time consuming part on 'Windows' Systems is the search process. This can easily take 10 or more minutes. 
  To speed up this process you can also provide a correct parameter set. Best way to do so is to call \code{searchGRASSW} or for 'Linux' \code{searchGRASSX} manually. 
  and call \code{linkGRASS} with the version arguments of your choice. linkGRASS initializes the usage of GRASS7.
@@ -66,14 +68,16 @@ provide a \code{raster} or \code{sp} \code{sf} spatial object
 'GRASS GIS' is excellently supported by the
  \code{rgrass} wrapper package. Nevertheless 'GRASS GIS' is well known for
  its high demands regarding the correct spatial and reference setup  
- of workspace and environment requirements. This becomes even worse on 'Windows' 
+ of work space and environment requirements. This becomes even worse on 'Windows' 
  platforms or if several alternative 'GRASS GIS' installations are available.
- If one knows what to do the \code{rgrass} package setup function \code{rgrass::initGRASS} works fine under Linux. 
+ If one knows what to do the \code{rgrass} package setup function 
+ \code{rgrass::initGRASS} works fine under Linux. 
  This is also valid for well known configurations under the 'Windows' operation system. 
- Nevertheless on university lab or on company computers with restriced privileges and/or using different releases
+ Nevertheless on university labs or on company computers with restricted privileges and/or using different releases
  like the  \href{https://trac.osgeo.org/osgeo4w/}{'OSGeo4W'} distribution and the  
- \href{https://grass.osgeo.org/download/windows/}{'GRASS 7/8' stand-alone} installation, 
- or different software releases (e.g. 'GRASS 7.0.5 and GRASS 8.1.0), it becomes often cumbersome or even impossible to get the correct linkages. \cr 
+ \href{https://grass.osgeo.org/download/windows/}{'GRASS ' stand-alone} installation, 
+ or different software releases (e.g. 'GRASS 7.0.5 and GRASS 8.1.0), it becomes often cumbersome or even 
+ impossible to get the correct linkages. \cr 
  The function \code{linkGRASS} tries to find all valid 'GRASS GIS' binaries by analyzing
  the startup script files of 'GRASS GIS'. After identifying the 'GRASS GIS' binaries all
  necessary system variables and settings will be generated and passed to a temporary R enviroment.
@@ -136,6 +140,7 @@ linkGRASS(nc,c("C:/Program Files/QGIS 2.18","grass-7.2.1","osgeo4W"))
 linkGRASS(nc,c("C:/OSGeo4W64/","grass-7.2.2","osgeo4W"))
 
 }
+
 }
 \author{
 Chris Reudenbach

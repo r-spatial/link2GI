@@ -255,7 +255,7 @@ sagaEnv1&lt;- RSAGA::rsaga.env(path = saga1$sagaPath)
 
 <h2>linkGRASS - Locate and set up &#39;GRASS 7/8&#39; API bindings</h2>
 
-<p><code>linkGRASS</code> Initializes the session environment and the system paths for an easy access to <code>GRASS GIS 7.x./8.x</code> The correct setup of the spatial and projection parameters is automatically performed by using either an existing and valid <code>raster</code>, <code>sp</code> or <code>sf</code> object, or manually by providing a list containing the minimum parameters needed. These properties are used to initialize either a temporary or a permanent <code>rgrass</code> environment including the correct <code>GRASS 7/8</code> database structure. If you provide none of the before mentioned objects <code>linkGRASS</code> will create a EPSG:4326 world wide location.</p>
+<p><code>linkGRASS</code> Initializes the session environment and the system paths for an easy access to <code>GRASS GIS 7.x./8.x</code> The correct setup of the spatial and projection parameters is automatically performed by using either an existing and valid <code>raster</code> or <code>terra</code> , <code>sp</code> or <code>sf</code> object, or manually by providing a list containing the minimum parameters needed. These properties are used to initialize either a temporary or a permanent <code>rgrass</code> environment including the correct <code>GRASS 7/8</code> database structure. If you provide none of the before mentioned objects <code>linkGRASS</code> will create a EPSG:4326 world wide location.</p>
 
 <p>The most time consuming part on &#39;Windows&#39; Systems is the search process. This can easily take 10 or more minutes. To speed up this process you can also provide a correct parameter set. Best way to do so is to call manually <code>findGRASS</code>. Then call <code>linkGRASS</code> with the returned version arguments of your choice.</p>
 
@@ -427,15 +427,15 @@ print(cmd)
 <p>Admittedly this is a very straightforward and preliminary approach. Nevertheless it provids you a valid list of all <code>OTB</code> API calls that can easily manipulated for your needs. The following working example will give you an idea how to use it.</p>
 
 <pre><code class="r">require(link2GI)
-require(raster)
+require(terra)
 require(listviewer)
 
 otblink&lt;-link2GI::linkOTB()
  projRootDir&lt;-tempdir()
 
 data(&#39;rgb&#39;, package = &#39;link2GI&#39;)  
-raster::plotRGB(rgb)
-r&lt;-raster::writeRaster(rgb, 
+terra::plotRGB(rgb)
+r&lt;-terra::writeRaster(rgb, 
               filename=file.path(projRootDir,&quot;test.tif&quot;),
               format=&quot;GTiff&quot;, overwrite=TRUE)
 ## for the example we use the edge detection, 

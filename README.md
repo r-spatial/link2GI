@@ -39,15 +39,15 @@ the OTB wrapper is updated for a more convinient usage. Please have a look at th
 
 ## link to OTB
 require(link2GI)
-require(raster)
+require(terra)
 require(listviewer)
 
 otblink<-link2GI::linkOTB()
 projRootDir<-tempdir()
 
 data('rgb', package = 'link2GI')  
-raster::plotRGB(rgb)
-r<-raster::writeRaster(rgb, 
+terra::plotRGB(rgb)
+r<-terra::writeRaster(rgb, 
                        filename=file.path(projRootDir,"test.tif"),
                        format="GTiff", overwrite=TRUE)
 ## for the example we use the edge detection, 

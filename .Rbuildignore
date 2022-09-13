@@ -6,4 +6,5 @@
 ^pkgdown$
 ^tic\.R$
 ^figures$
+docs/
 

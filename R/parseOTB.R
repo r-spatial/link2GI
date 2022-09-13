@@ -213,7 +213,7 @@ parseOTBFunction <- function(algo=NULL,gili=NULL) {
 #' ## run algorithm
 #' retStack<-runOTB(cmd,gili = otblink)
 #' 
-#' ## plot raster
+#' ## plot image
 #' terra::plot(retStack)
 #' 
 #' ## for a data output example we use the 
@@ -291,7 +291,7 @@ runOTB <- function(otbCmdList=NULL,
     if (retRaster ){
       #outn=gsub("\\/", "", path.expand(otbCmdList$out))
       if (length(grep("xml", outn)) == 0) {
-        rStack <- assign(tools::file_path_sans_ext(basename(outn)),raster::stack(outn))
+        rStack <- assign(tools::file_path_sans_ext(basename(outn)),terra::stack(outn))
         return(rStack)}
       else {
         
@@ -307,7 +307,7 @@ runOTB <- function(otbCmdList=NULL,
     if (retRaster){
       #outn=gsub("\\/", "", path.expand(otbCmdList$out))
       if (length(grep("xml", outn)) == 0) {
-        rStack <- assign(tools::file_path_sans_ext(basename(outn)),raster::stack(outn))
+        rStack <- assign(tools::file_path_sans_ext(basename(outn)),terra::rast(outn))
         return(rStack)}
       else {
         #warning("NOTE: ", outn," is not a raster\n")

@@ -57,13 +57,13 @@ The concept is straightforward but for an all days usage helpful. Either you nee
 provide a \code{raster} or \code{sp} \code{sf} spatial object
  which has correct spatial and projection properties or you may link directlxy to an existing 'GRASS' gisdbase and mapset. 
  If you choose an spatial object to initialize a correct 'GRASS' mapset it is used to create either a temporary or a permanent 
- \href{https://CRAN.R-project.org/package=rgrass}{rgrass} environment including the correct 'GRASS 7/8' structure.\cr\cr
+ \href{https://CRAN.R-project.org/package=rgrass}{rgrass} environment including the correct 'GRASS ' structure.\cr\cr
  The most time consuming part on 'Windows' Systems is the search process. This can easily take 10 or more minutes. 
  To speed up this process you can also provide a correct parameter set. Best way to do so is to call \code{searchGRASSW} or for 'Linux' \code{searchGRASSX} manually. 
- and call \code{linkGRASS} with the version arguments of your choice. linkGRASS initializes the usage of GRASS7/8.
+ and call \code{linkGRASS} with the version arguments of your choice. linkGRASS initializes the usage of GRASS.
 }
 \note{
-'GRASS GIS 7/8' is excellently supported by the
+'GRASS GIS ' is excellently supported by the
  \code{rgrass} wrapper package. Nevertheless 'GRASS GIS' is well known for
  its high demands regarding the correct spatial and reference setup  
  of workspace and environment requirements. This becomes even worse on 'Windows' 
@@ -72,7 +72,7 @@ provide a \code{raster} or \code{sp} \code{sf} spatial object
  This is also valid for well known configurations under the 'Windows' operation system. 
  Nevertheless on university lab or on company computers with restriced privileges and/or using different releases
  like the  \href{https://trac.osgeo.org/osgeo4w/}{'OSGeo4W'} distribution and the  
- \href{https://grass.osgeo.org/download/windows/}{'GRASS 7/8' stand-alone} installation, 
+ \href{https://grass.osgeo.org/download/windows/}{'GRASS ' stand-alone} installation, 
  or different software releases (e.g. 'GRASS 7.0.5 and GRASS 8.1.0), it becomes often cumbersome or even impossible to get the correct linkages. \cr 
  The function \code{linkGRASS} tries to find all valid 'GRASS GIS' binaries by analyzing
  the startup script files of 'GRASS GIS'. After identifying the 'GRASS GIS' binaries all

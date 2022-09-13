@@ -81,7 +81,7 @@ sagaEnv1<- RSAGA::rsaga.env(path = saga1$sagaPath)
 
 ##  linkGRASS - Locate and set up 'GRASS 7/8' API bindings
 
-`linkGRASS` Initializes the session environment and the system paths for an easy access to `GRASS GIS 7.x./8.x` The correct setup of the spatial and projection parameters is automatically performed by using either an existing and valid `raster`, `sp` or `sf` object, or manually by providing a list containing the minimum parameters needed. These properties are used to initialize either a temporary or a permanent `rgrass` environment including the correct `GRASS 7/8` database structure. If you provide none of the before mentioned objects `linkGRASS` will create a EPSG:4326 world wide location.
+`linkGRASS` Initializes the session environment and the system paths for an easy access to `GRASS GIS 7.x./8.x` The correct setup of the spatial and projection parameters is automatically performed by using either an existing and valid `raster` or `terra` , `sp` or `sf` object, or manually by providing a list containing the minimum parameters needed. These properties are used to initialize either a temporary or a permanent `rgrass` environment including the correct `GRASS 7/8` database structure. If you provide none of the before mentioned objects `linkGRASS` will create a EPSG:4326 world wide location.
 
 The most time consuming part on 'Windows' Systems is the search process. This can easily take 10 or more minutes. To speed up this process you can also provide a correct parameter set. Best way to do so is to call manually `findGRASS`. Then call `linkGRASS` with the returned version arguments of your choice.
 
@@ -277,15 +277,15 @@ Admittedly this is a very straightforward and preliminary approach. Nevertheless
 
 ```{r eval=FALSE}
 require(link2GI)
-require(raster)
+require(terra)
 require(listviewer)
 
 otblink<-link2GI::linkOTB()
  projRootDir<-tempdir()
  
 data('rgb', package = 'link2GI')  
-raster::plotRGB(rgb)
-r<-raster::writeRaster(rgb, 
+terra::plotRGB(rgb)
+r<-terra::writeRaster(rgb, 
               filename=file.path(projRootDir,"test.tif"),
               format="GTiff", overwrite=TRUE)
 ## for the example we use the edge detection, 

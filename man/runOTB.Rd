@@ -57,7 +57,7 @@ cmd$radius <- 7
 ## run algorithm
 retStack<-runOTB(cmd,gili = otblink)
 
-## plot raster
+## plot image
 terra::plot(retStack)
 
 ## for a data output example we use the 

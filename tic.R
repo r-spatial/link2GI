@@ -1,3 +1,3 @@
 do_package_checks(error_on = "warning")
 
-do_pkgdown()
+pkgdown::build_site_github_pages(clean = T)

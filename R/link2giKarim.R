@@ -168,7 +168,7 @@ if ( !isGeneric("sf2gvec") ) {
     standardGeneric("sf2gvec"))
 }
 
-#' Write sf object directly to GRASS 7/8 vector utilising an existing or creating a new GRASS environment
+#' Write sf object directly to `GRASS` vector utilising an existing or creating a new GRASS environment
 #' @param x  \code{sf} object corresponding to the settings of the corresponding GRASS container
 #' @param obj_name name of GRASS layer
 #' @param epsg numeric epsg code
@@ -248,7 +248,7 @@ if ( !isGeneric("gvec2sf") ) {
     standardGeneric("gvec2sf"))
 }
 
-#' Converts from an existing GRASS 7/8 environment an arbitrary vector dataset  into a  sf object
+#' Converts from an existing `GRASS` environment an arbitrary vector dataset  into a  sf object
 #' @param x  \code{\link{sf}} object corresponding to the settings of the corresponding GRASS container
 #' @param obj_name name of GRASS layer
 #' @param gisdbase  GRASS gisDbase folder

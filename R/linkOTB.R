@@ -3,6 +3,7 @@ if (!isGeneric('linkOTB')) {
     standardGeneric('linkOTB'))
 }
 
+
 #'@title Locate and set up 'Orfeo ToolBox' API bindings
 #'@name linkOTB
 #'@description  Locate and set up  \href{https://www.orfeo-toolbox.org/}{'Orfeo ToolBox'} API bindings

@@ -75,7 +75,7 @@ parseOTBFunction <- function(algo=NULL,gili=NULL) {
 
   if (algo != "" & otb$exist){
     system("rm otb_module_dump.txt",intern = FALSE,ignore.stderr = TRUE)
-    if (grep(path_OTB,pattern = "OTB-8.")>0){
+    if (is.null(grep(path_OTB,pattern = "OTB-8."))){
       system(file.path(dirname(path_OTB),"otbenv.profile")) 
       system(paste0("otbcli_",algo," -help >> " ,file.path(R.utils::getAbsolutePath(tempdir()),paste0("otb_module_dump.txt 2>&1")))) 
       } else {
@@ -291,7 +291,7 @@ runOTB <- function(otbCmdList=NULL,
     outn = otbCmdList$io.out
    # xml2::read_xml(outn)
   }
-  if (grep(path_OTB,pattern = "OTB-8.")>0){
+  if (is.null(grep(path_OTB,pattern = "OTB-8."))){
     command<-paste(paste0("otbcli_",otb_algorithm," "),
                    paste0("-",names(otbCmdList)," ",otbCmdList,collapse = " "))
     

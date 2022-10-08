@@ -25,6 +25,7 @@ Wrapper function which paste the OTB command list into a system call compatible 
 \dontrun{
 require(link2GI)
 require(terra)
+require(raster)
 require(listviewer)
 rgdal::set_thin_PROJ6_warnings(TRUE)
 
@@ -73,7 +74,7 @@ listviewer::jsonedit(cmd$help)
 ## define the mandatory arguments all other will be default
 cmd$input_il  <- file.path(tempdir(),"test.tif")
 cmd$ram <- 4096
-cmd$out <- file.path(tempdir(),"test_otb_stat.xml")
+cmd$out.xml <- file.path(tempdir(),"test_otb_stat.xml")
 cmd$progress <- 1
 
 ## run algorithm

@@ -181,6 +181,7 @@ parseOTBFunction <- function(algo=NULL,gili=NULL) {
 #'\dontrun{
 #' require(link2GI)
 #' require(terra)
+#' require(raster)
 #' require(listviewer)
 #' rgdal::set_thin_PROJ6_warnings(TRUE)
 #' 
@@ -229,7 +230,7 @@ parseOTBFunction <- function(algo=NULL,gili=NULL) {
 #' ## define the mandatory arguments all other will be default
 #' cmd$input_il  <- file.path(tempdir(),"test.tif")
 #' cmd$ram <- 4096
-#' cmd$out <- file.path(tempdir(),"test_otb_stat.xml")
+#' cmd$out.xml <- file.path(tempdir(),"test_otb_stat.xml")
 #' cmd$progress <- 1
 #' 
 #' ## run algorithm
@@ -273,12 +274,17 @@ runOTB <- function(otbCmdList=NULL,
     otbCmdList$io.il <- gsub(" ", "\\/ ", R.utils::getAbsolutePath(otbCmdList$io.il))
   }
   
-  if(!is.null(otbCmdList$out)){
+  if(!is.null(otbCmdList$out.xml)){
+    otbCmdList$out.xml <-gsub(" ", "\\/ ", R.utils::getAbsolutePath(otbCmdList$out.xml))  
+    outn = otbCmdList$out.xml
+  } 
+  else if(!is.null(otbCmdList$out)){
     otbCmdList$out <-gsub(" ", "\\/ ", R.utils::getAbsolutePath(otbCmdList$out))  
     outn = otbCmdList$out
-  } else {
+  }else {
     otbCmdList$io.out <-gsub(" ", "\\/ ", R.utils::getAbsolutePath(otbCmdList$io.out))
     outn = otbCmdList$io.out
+   # xml2::read_xml(outn)
   }
   
   command<-paste(paste0(path_OTB,"otbcli_",otb_algorithm," "),
@@ -287,16 +293,17 @@ runOTB <- function(otbCmdList=NULL,
   command = gsub("\\\\", "/", command)
   
   if (quiet){
-    system(command,ignore.stdout = TRUE,ignore.stderr = TRUE,intern = FALSE)
+    res = system(command,ignore.stdout =TRUE,ignore.stderr = TRUE,intern = FALSE)
     if (retRaster ){
       #outn=gsub("\\/", "", path.expand(otbCmdList$out))
       if (length(grep("xml", outn)) == 0) {
-        rStack <- assign(tools::file_path_sans_ext(basename(outn)),terra::stack(outn))
+        rStack <- assign(tools::file_path_sans_ext(basename(outn)),c(outn))
+        rStack <- terra::rast(outn)
         return(rStack)}
       else {
         
         #warning("NOTE: ", outn," is not a raster\n")
-        return(readLines(outn)) 
+        return(xml2::read_xml(outn)) 
       }
     }
   }
@@ -311,10 +318,14 @@ runOTB <- function(otbCmdList=NULL,
         return(rStack)}
       else {
         #warning("NOTE: ", outn," is not a raster\n")
-        return(data=readLines(outn))
+        return(xml2::read_xml(outn)) 
       }
       
+    } else {
+      #warning("NOTE: ", outn," is not a raster\n")
+      return(xml2::read_xml(outn)) 
     }
+    
   }
 }
 

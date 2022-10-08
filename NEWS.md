@@ -1,6 +1,7 @@
 ## link2GI 0.5-1
 
 bugfixes:
+* prelim fix of issue #57
 * fix of issue #56
 * minor fixes
 

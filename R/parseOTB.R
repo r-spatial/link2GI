@@ -321,7 +321,7 @@ runOTB <- function(otbCmdList=NULL,
     }
   }
   else {
-    if (!is.null(grep(path_OTB,pattern = "OTB-8.")))
+    if (!identical(grep(path_OTB,pattern = "OTB-8."), integer(0) ))
       system(file.path(dirname(path_OTB),"otbenv.profile"))
     
     ret=system(command,ignore.stdout = FALSE,ignore.stderr = FALSE,intern = TRUE)

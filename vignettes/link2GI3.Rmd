@@ -9,6 +9,10 @@ output:
     theme: united
     toc: yes
   rmarkdown: default
+   rmarkdown::html_vignette:
+    md_extensions: [ 
+      "-autolink_bare_uris" 
+    ]
   pdf_document:
     latex_engine: xelatex
     toc: yes
@@ -26,7 +30,7 @@ A typical example is the usage of an already existing project database in `GRASS
 ## Creating a GRASS project
 
 ## Download Zensus Data
-First of all we need some real world data. In this this case the gridded German 2011 micro zensus data (see https://www.zensus2011.de/EN/Home/). Download the data:
+First of all we need some real world data. In this this case the gridded German 2011 micro zensus data (https://www.zensus2011.de/EN/Service/Contact/contact_node.html). Download the data:
 
 ```sh
 wget https://www.zensus2011.de/SharedDocs/Downloads/DE/Pressemitteilung/DemografischeGrunddaten/csv_Bevoelkerung_100m_Gitter.zip?__blob=publicationFile&v=3

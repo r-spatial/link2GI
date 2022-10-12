@@ -1,7 +1,7 @@
 ---
 author: "Chris Reudenbach"
 title: "Installation guide for link2GI related Software"
-date: "2022-09-04"
+date: "2022-10-12"
 editor_options:
   chunk_output_type: console
 output:
@@ -96,7 +96,7 @@ Please [download](https://www.orfeo-toolbox.org/download/) the current (at this 
 ## Ubuntu
 
 If you install QGIS with the built-in software managers, you will most likely get an outdated QGIS version. 
-To install more recent QGIS releases, we recommend to follow the installation instructions from the [QGIS installers website](https://www.qgis.org/en/site/forusers/alldownloads.html). 
+To install more recent QGIS releases, we recommend to follow the installation instructions from the [QGIS installers website](https://www.qgis.org/en/site/forusers/download.html). 
 
 Here, we just describe exemplarily the QGIS installation procedure under Debian/Ubuntu following the description found [here](https://www.qgis.org/en/site/forusers/alldownloads.html#debian-ubuntu).
 link2GI should work as well with Linux derivatives other than Ubuntu. However, just Ubuntu , Debian and Manjaro are tested.

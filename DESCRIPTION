@@ -21,7 +21,8 @@ Imports:
   stringr,
   terra,
   methods,
-  utils
+  utils,
+  xml2
 SystemRequirements: GNU make 
 RoxygenNote: 7.2.1
 Suggests: knitr, 

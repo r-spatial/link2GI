@@ -97,7 +97,7 @@
                         <h4 data-toc-skip class="author">Chris
 Reudenbach</h4>
             
-            <h4 data-toc-skip class="date">2022-10-08</h4>
+            <h4 data-toc-skip class="date">2022-10-13</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/r-spatial/link2GI/blob/HEAD/vignettes/link2GI2.Rmd" class="external-link"><code>vignettes/link2GI2.Rmd</code></a></small>
       <div class="hidden name"><code>link2GI2.Rmd</code></div>
@@ -165,7 +165,7 @@ strings.</p>
 <p>In earlier times it has been pretty cumbersome to link the correct
 <code>SAGA GIS</code> version. Since the version 1.x.x of
 <code>RSAGA</code> things turned much better. The new
-<code><a href="https://rdrr.io/pkg/RSAGA/man/rsaga.env.html" class="external-link">RSAGA::rsaga.env()</a></code> function is at getting the first
+<code>RSAGA::rsaga.env()</code> function is at getting the first
 <code>RSAGA</code> version in the search path. For using
 <code>RSAGA</code> with <code>link2GI</code> it is strongly recommended
 to call <code>RSAGA.env()</code> with the preferred path as provided by
@@ -176,7 +176,7 @@ will then even give the opportunity to easyly switch between different
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">saga1</span><span class="op">&lt;-</span><span class="fu">link2GI</span><span class="fu">::</span><span class="fu"><a href="../reference/linkSAGA.html">linkSAGA</a></span><span class="op">(</span>ver_select <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> </span>
 <span><span class="va">saga1</span></span>
-<span><span class="va">sagaEnv1</span><span class="op">&lt;-</span> <span class="fu">RSAGA</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/RSAGA/man/rsaga.env.html" class="external-link">rsaga.env</a></span><span class="op">(</span>path <span class="op">=</span> <span class="va">saga1</span><span class="op">$</span><span class="va">sagaPath</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">sagaEnv1</span><span class="op">&lt;-</span> <span class="fu">RSAGA</span><span class="fu">::</span><span class="fu">rsaga.env</span><span class="op">(</span>path <span class="op">=</span> <span class="va">saga1</span><span class="op">$</span><span class="va">sagaPath</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="linkgrass---locate-and-set-up-grass-78-api-bindings">linkGRASS - Locate and set up ‘GRASS 7/8’ API bindings<a class="anchor" aria-label="anchor" href="#linkgrass---locate-and-set-up-grass-78-api-bindings"></a>

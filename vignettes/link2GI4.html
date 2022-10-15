@@ -237,8 +237,8 @@ otblink&lt;-link2GI::linkOTB()
  projRootDir&lt;-tempdir()
 
 data(&#39;rgb&#39;, package = &#39;link2GI&#39;)  
-raster::plotRGB(rgb)
-r&lt;-raster::writeRaster(rgb, 
+terra::plotRGB(rgb)
+r&lt;-terra::writeRaster(rgb, 
               filename=file.path(projRootDir,&quot;test.tif&quot;),
               format=&quot;GTiff&quot;, overwrite=TRUE)
 ## for the example we use the edge detection, 

@@ -1,7 +1,7 @@
 ---
 author: "Chris Reudenbach"
 title: "OTB Wrapper"
-date: "2022-09-04"
+date: "2022-10-13"
 editor_options:
   chunk_output_type: console
 output:
@@ -64,8 +64,8 @@ otblink<-link2GI::linkOTB()
  projRootDir<-tempdir()
  
 data('rgb', package = 'link2GI')  
-raster::plotRGB(rgb)
-r<-raster::writeRaster(rgb, 
+terra::plotRGB(rgb)
+r<-terra::writeRaster(rgb, 
               filename=file.path(projRootDir,"test.tif"),
               format="GTiff", overwrite=TRUE)
 ## for the example we use the edge detection, 

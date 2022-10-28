@@ -30,9 +30,10 @@ A typical example is the usage of an already existing project database in `GRASS
 ## Creating a GRASS project
 
 ## Download Zensus Data
-First of all we need some real world data. In this this case the gridded German 2011 micro zensus data (https://www.zensus2011.de/EN/Service/Contact/contact_node.html). Download the data:
+First of all we need some real world data. In this this case the gridded German 2011 micro zensus data. Download the data:
 
 ```sh
+# (https://www.zensus2011.de/EN/Service/Contact/contact_node.html)
 wget https://www.zensus2011.de/SharedDocs/Downloads/DE/Pressemitteilung/DemografischeGrunddaten/csv_Bevoelkerung_100m_Gitter.zip?__blob=publicationFile&v=3
 
 ```

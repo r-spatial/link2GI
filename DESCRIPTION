@@ -1,7 +1,7 @@
 Package: link2GI
 Type: Package
 Title: Linking Geographic Information Systems, Remote Sensing and Other Command Line Tools
-Version: 0.5-1
+Version: 0.5-2
 Date: 2022-10-4
 Authors@R: c(person("Chris", "Reudenbach", email = "reudenbach@uni-marburg.de", role = c("cre", "aut")),
              person("Tim", "Appelhans", email = "tim.appelhans@gmail.com>", role = c("ctb"))
@@ -24,7 +24,7 @@ Imports:
   utils,
   xml2
 SystemRequirements: GNU make 
-RoxygenNote: 7.2.1
+RoxygenNote: 7.2.3
 Suggests: knitr, 
           rmarkdown,
           rgdal,

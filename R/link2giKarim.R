@@ -316,7 +316,7 @@ gvec2sf <- function(x, obj_name, gisdbase, location ,gisdbase_exist = TRUE){
 #'
 #' @note You may also use the full list of arguments that is made available from the \code{link2GI} package, but it is strongly recommended in this case to use directly the single linkage functions from  \code{link2GI}.
 #' @param links character. links
-#' @param linkItems character. list of c("saga","grass7","otb","gdal")
+#' @param linkItems character. list of c("saga","grass","otb","gdal")
 #' @param simple logical. true  make all
 #' @param sagaArgs character. full string of sagaArgs
 #' @param grassArgs character. grassArgs full string of grassArgs
@@ -327,21 +327,20 @@ gvec2sf <- function(x, obj_name, gisdbase, location ,gisdbase_exist = TRUE){
 #'@examples
 #'\dontrun{
 #' # required packages
-#' require(uavRst)
 #' require(link2GI)
 #'
 #' # search, find and create the links to all supported  GI software
-#' giLinks<-uavRst::linkAll()
+#' giLinks<-linkAll()
 #' 
 #' # makes the GDAL linkage verbose
-#' giLinks<-uavRst::linkAll(gdalArgs= "quiet = TRUE") 
+#' giLinks<-linkAll(gdalArgs= "quiet = TRUE") 
 #'
 #'}
 
 #' @export
 linkAll <- function(links=NULL,
                     simple = TRUE,
-                    linkItems = c("saga","grass7","otb","gdal"),
+                    linkItems = c("saga","grass","otb","gdal"),
                     sagaArgs = "default",
                     grassArgs = "default",
                     otbArgs =   "default",

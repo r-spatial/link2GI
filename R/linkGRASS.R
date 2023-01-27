@@ -132,6 +132,7 @@ linkGRASS = function(x = NULL,
   # if no spatial object AND no extent AND no existing GRASS dbase is provided stop
   if (!use_home) home = tempdir()
   epsg = sf::st_crs(x)$epsg
+  if (is.na(epsg)) epsg = 4326
   if (class(x)[1]=="character")   {
     x = terra::rast(x)
     terra::crs(x)  = sf::st_crs(as.numeric(epsg))$wkt
@@ -254,6 +255,7 @@ linkGRASS = function(x = NULL,
       xmin = -180
       ymax = 90
       ymin = -90
+      epsg=4326
       if (!is.null(resolution)) resolution = resolution
       else resolution = "1"
     }

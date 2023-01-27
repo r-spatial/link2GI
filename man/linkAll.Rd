@@ -7,7 +7,7 @@
 linkAll(
   links = NULL,
   simple = TRUE,
-  linkItems = c("saga", "grass7", "otb", "gdal"),
+  linkItems = c("saga", "grass", "otb", "gdal"),
   sagaArgs = "default",
   grassArgs = "default",
   otbArgs = "default",
@@ -20,7 +20,7 @@ linkAll(
 
 \item{simple}{logical. true  make all}
 
-\item{linkItems}{character. list of c("saga","grass7","otb","gdal")}
+\item{linkItems}{character. list of c("saga","grass","otb","gdal")}
 
 \item{sagaArgs}{character. full string of sagaArgs}
 
@@ -41,14 +41,13 @@ You may also use the full list of arguments that is made available from the \cod
 \examples{
 \dontrun{
 # required packages
-require(uavRst)
 require(link2GI)
 
 # search, find and create the links to all supported  GI software
-giLinks<-uavRst::linkAll()
+giLinks<-linkAll()
 
 # makes the GDAL linkage verbose
-giLinks<-uavRst::linkAll(gdalArgs= "quiet = TRUE") 
+giLinks<-linkAll(gdalArgs= "quiet = TRUE") 
 
 }
 }

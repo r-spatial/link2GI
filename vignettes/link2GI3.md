@@ -9,10 +9,6 @@ output:
     theme: united
     toc: yes
   rmarkdown: default
-   rmarkdown::html_vignette:
-    md_extensions: [ 
-      "-autolink_bare_uris" 
-    ]
   pdf_document:
     latex_engine: xelatex
     toc: yes

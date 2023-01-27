@@ -64,7 +64,7 @@
 #  
 #  # write it to geotiff
 #    terra::writeRaster(r, paste0(path_run,"/Zensus_Bevoelkerung_100m-Gitter.tif"),
-#                        overwrite = TRUE)
+#         x               overwrite = TRUE)
 #  
 #  # import raster to GRASS
 #  rgrass::execGRASS('r.external',

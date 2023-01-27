@@ -33,9 +33,7 @@ Wrapper function which paste the OTB command list into a system call compatible 
 \dontrun{
 require(link2GI)
 require(terra)
-require(raster)
 require(listviewer)
-rgdal::set_thin_PROJ6_warnings(TRUE)
 
 ## link to OTB
 otblink<-link2GI::linkOTB()

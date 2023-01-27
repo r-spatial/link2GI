@@ -189,9 +189,7 @@ parseOTBFunction <- function(algo=NULL,gili=NULL) {
 #'\dontrun{
 #' require(link2GI)
 #' require(terra)
-#' require(raster)
 #' require(listviewer)
-#' rgdal::set_thin_PROJ6_warnings(TRUE)
 #' 
 #' ## link to OTB
 #' otblink<-link2GI::linkOTB()
@@ -337,10 +335,10 @@ runOTB <- function(otbCmdList=NULL,
     else {
       if (!identical(grep(path_OTB,pattern = "OTB-8."), integer(0) ))
         system(file.path(dirname(path_OTB),"otbenv.profile"))
-      
+      message(command)
       ret=system(command,ignore.stdout = FALSE,ignore.stderr = FALSE,intern = TRUE)
       lapply(ret, print)
-      message(command)
+      
       if (retRaster){
         #outn=gsub("\\/", "", path.expand(otbCmdList$out))
         if (length(grep("xml", outn)) == 0 & otbCmdList$mode != "vector") {

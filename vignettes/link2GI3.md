@@ -1,7 +1,7 @@
 ---
 author: "Chris Reudenbach"
 title: "linkGRASS real world data usecase"
-date: "2022-10-13"
+date: "2023-01-27"
 editor_options:
   chunk_output_type: console
 output:
@@ -97,8 +97,8 @@ We can easy rasterize this data as it is intentionally gridded data.that means w
  xyz <- xyz[,-1]
 
 # rasterize it according to the projection 
- r <- raster::rasterFromXYZ(xyz)
- raster::crs(r) <- 3035
+  r <- terra::rast(xyz, type="xyz")
+ terra::crs(r) <- 3035
 
 # map it
  p <- colorRampPalette(brewer.pal(8, "Reds"))
@@ -137,7 +137,7 @@ require(raster)
 require(rgrass)
 
 # write it to geotiff
-  raster::writeRaster(r, paste0(path_run,"/Zensus_Bevoelkerung_100m-Gitter.tif"), 
+  terra::writeRaster(r, paste0(path_run,"/Zensus_Bevoelkerung_100m-Gitter.tif"), 
                       overwrite = TRUE)
 
 # import raster to GRASS

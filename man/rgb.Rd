@@ -3,7 +3,7 @@
 \docType{data}
 \name{rgb}
 \alias{rgb}
-\title{RGB ortho-image from an arbitray Marburg Open Forest (MOF) plot}
+\title{RGB ortho-image from an arbitrary Marburg Open Forest (MOF) plot}
 \format{
 \code{"terra::rast"}
 }

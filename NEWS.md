@@ -1,4 +1,11 @@
 ## link2GI 0.5-1
+## link2GI 0.5-2
+new feature:
+* add return of vector data in OTB calls
+
+bugfixes:
+* issue #58
+* minor fixes in runOTB
 
 bugfixes:
 * prelim fix of issue #57

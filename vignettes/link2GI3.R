@@ -38,8 +38,8 @@
 #   xyz <- xyz[,-1]
 #  
 #  # rasterize it according to the projection
-#   r <- raster::rasterFromXYZ(xyz)
-#   raster::crs(r) <- 3035
+#    r <- terra::rast(xyz, type="xyz")
+#   terra::crs(r) <- 3035
 #  
 #  # map it
 #   p <- colorRampPalette(brewer.pal(8, "Reds"))
@@ -63,7 +63,7 @@
 #  require(rgrass)
 #  
 #  # write it to geotiff
-#    raster::writeRaster(r, paste0(path_run,"/Zensus_Bevoelkerung_100m-Gitter.tif"),
+#    terra::writeRaster(r, paste0(path_run,"/Zensus_Bevoelkerung_100m-Gitter.tif"),
 #                        overwrite = TRUE)
 #  
 #  # import raster to GRASS

@@ -31,7 +31,7 @@
 NULL
 #' @docType data
 #' @name rgb
-#' @title RGB ortho-image from an arbitray Marburg Open Forest (MOF) plot
+#' @title RGB ortho-image from an arbitrary Marburg Open Forest (MOF) plot
 #' @description Example data set containing a RGB ortho-image of a small plot sampled in the Maburg University Forest aka Marburg Open Forest (MOF). The resolution is 10 cm, projection ETRS89 UTM32
 #' @format \code{"terra::rast"}
 NULL

@@ -135,13 +135,11 @@ linkGRASS = function(x = NULL,
   if (class(x)[1]=="character")   {
     x = terra::rast(x)
     terra::crs(x)  = sf::st_crs(as.numeric(epsg))$wkt
-    #terra::writeRaster(x,"o.tif",overwrite=TRUE)
-    
+
     }
   else if (class(x)[1]=="SpatRaster") {
     x = terra::rast(x)
     terra::crs(x)  = sf::st_crs(as.numeric(epsg))$wkt
-    #terra::writeRaster(x,"o.tif",overwrite=TRUE)
     
   }
   else if (class(x)[1] %in% c("RasterLayer", "RasterStack",
@@ -150,8 +148,7 @@ linkGRASS = function(x = NULL,
                                 "SpatialPixelsDataFrame")){
     x = terra::rast(x)
     terra::crs(x)  = sf::st_crs(as.numeric(epsg))$wkt
-    #terra::writeRaster(x,"o.tif",overwrite=TRUE)
-    
+
   }
   else if (class(x)[1]=="stars") {
     epsg = attributes(x)$dimensions[[1]]$refsys$epsg

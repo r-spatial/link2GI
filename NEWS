@@ -1,3 +1,8 @@
+## link2GI 0.5-3
+bugfixes:
+* issue #59
+* fix rgrass7 dependencies
+
 ## link2GI 0.5-2
 new feature:
 * add return of vector data in OTB calls

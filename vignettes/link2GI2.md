@@ -1,7 +1,7 @@
 ---
 author: "Chris Reudenbach"
 title: "link2GI Basic Examples"
-date: "2022-09-13"
+date: "2023-10-30"
 editor_options:
   chunk_output_type: console
 output:
@@ -294,11 +294,8 @@ require(listviewer)
 otblink<-link2GI::linkOTB()
  projRootDir<-tempdir()
  
-data('rgb', package = 'link2GI')  
-terra::plotRGB(rgb)
-r<-terra::writeRaster(rgb, 
-              filename=file.path(projRootDir,"test.tif"),
-              format="GTiff", overwrite=TRUE)
+fn <- system.file("ex/elev.tif", package = "terra")
+
 ## for the example we use the edge detection, 
 algoKeyword<- "EdgeExtraction"
 
@@ -309,7 +306,7 @@ cmd<-parseOTBFunction(algo = algoKeyword, gili = otblink)
 listviewer::jsonedit(cmd$help)
 
 ## define the mandantory arguments all other will be default
-cmd$input  <- file.path(projRootDir,"test.tif")
+cmd$input  <- fn
 cmd$filter <- "touzi"
 cmd$channel <- 2
 cmd$out <- file.path(projRootDir,paste0("out",cmd$filter,".tif"))

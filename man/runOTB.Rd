@@ -40,11 +40,7 @@ otblink<-link2GI::linkOTB()
 
 if (otblink$exist) {
  projRootDir<-tempdir()
- data('rgb', package = 'link2GI')  
- terra::plotRGB(rgb)
- r<-terra::writeRaster(rgb, 
-                        filename=file.path(projRootDir,"test.tif"),
-                        overwrite=TRUE)
+ fn <- system.file("ex/elev.tif", package = "terra")
 
 ## for an image output example we use the Statistic Extraction, 
 algoKeyword<- "LocalStatisticExtraction"
@@ -57,7 +53,7 @@ cmd<-parseOTBFunction(algo = algoKeyword, gili = otblink)
 listviewer::jsonedit(cmd$help)
 
 ## define the mandatory arguments all other will be default
-cmd$input_in  <- file.path(tempdir(),"test.tif")
+cmd$input_in  <- fn
 cmd$out <- file.path(tempdir(),"test_otb_stat.tif")
 cmd$radius <- 7
 

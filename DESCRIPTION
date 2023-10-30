@@ -1,8 +1,8 @@
 Package: link2GI
 Type: Package
 Title: Linking Geographic Information Systems, Remote Sensing and Other Command Line Tools
-Version: 0.5-2
-Date: 2023-01-27
+Version: 0.5-3
+Date: 2023-10-30
 Authors@R: c(person("Chris", "Reudenbach", email = "reudenbach@uni-marburg.de", role = c("cre", "aut")),
              person("Tim", "Appelhans", email = "tim.appelhans@gmail.com>", role = c("ctb"))
              )
@@ -22,13 +22,13 @@ Imports:
   terra,
   methods,
   utils,
-  xml2
+  xml2,
+  xfun
 SystemRequirements: GNU make 
 RoxygenNote: 7.2.3
 Suggests: knitr, 
           rmarkdown,
           sp,
-          rgrass7,
           rgrass,
           stars,
           curl,

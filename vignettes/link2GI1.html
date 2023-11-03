@@ -1,88 +1,153 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <title>Link GI to R</title>
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.6.0/build/styles/github.min.css">
-<script src="https://cdn.jsdelivr.net/combine/gh/highlightjs/cdn-release@11.6.0/build/highlight.min.js,npm/@xiee/utils/js/load-highlight.js" async></script>
-
-
-
 <style type="text/css">
-body, td {
-  font-family: sans-serif;
-  background-color: white;
-  font-size: 13px;
+/**
+ * Prism.s theme ported from highlight.js's xcode style
+ */
+pre code {
+  padding: 1em;
 }
+.token.comment {
+  color: #007400;
+}
+.token.punctuation {
+  color: #999;
+}
+.token.tag,
+.token.selector {
+  color: #aa0d91;
+}
+.token.boolean,
+.token.number,
+.token.constant,
+.token.symbol {
+  color: #1c00cf;
+}
+.token.property,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin {
+  color: #c41a16;
+}
+.token.inserted {
+  background-color: #ccffd8;
+}
+.token.deleted {
+  background-color: #ffebe9;
+}
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string {
+  color: #9a6e3a;
+}
+.token.atrule,
+.token.attr-value,
+.token.keyword {
+  color: #836c28;
+}
+.token.function,
+.token.class-name {
+  color: #DD4A68;
+}
+.token.regex,
+.token.important,
+.token.variable {
+  color: #5c2699;
+}
+.token.important,
+.token.bold {
+  font-weight: bold;
+}
+.token.italic {
+  font-style: italic;
+}
+</style>
+<style type="text/css">
 body {
+  font-family: sans-serif;
   max-width: 800px;
   margin: auto;
   padding: 1em;
   line-height: 1.5;
+  box-sizing: border-box;
 }
-tt, code, pre {
-  font-family: 'DejaVu Sans Mono', 'Droid Sans Mono', 'Lucida Console', Consolas, Monaco, monospace;
+body, .footnotes, code { font-size: .9em; }
+li li { font-size: .95em; }
+*, *:before, *:after {
+  box-sizing: inherit;
 }
-a:visited { color: #80007f; }
 pre, img { max-width: 100%; }
-code {
-  font-size: 92%;
-  border: 1px solid #ccc;
+pre, pre:hover {
+  white-space: pre-wrap;
+  word-break: break-all;
 }
-code[class] { background-color: #F8F8F8; }
-code.language-undefined { background-color: inherit; }
+pre code {
+  display: block;
+  overflow-x: auto;
+}
+code { font-family: 'DejaVu Sans Mono', 'Droid Sans Mono', 'Lucida Console', Consolas, Monaco, monospace; }
+:not(pre) > code, code[class] { background-color: #F8F8F8; }
+code.language-undefined, pre > code:not([class]) {
+  background-color: inherit;
+  border: 1px solid #eee;
+}
 table {
   margin: auto;
   border-top: 1px solid #666;
-  border-bottom: 1px solid #666;
 }
 table thead th { border-bottom: 1px solid #ddd; }
 th, td { padding: 5px; }
 thead, tfoot, tr:nth-child(even) { background: #eee; }
 blockquote {
-  color:#666;
-  margin:0;
+  color: #666;
+  margin: 0;
   padding-left: 1em;
-  border-left: 0.5em #eee solid;
+  border-left: 0.5em solid #eee;
 }
-hr { border: 1px #ddd dashed; }
+hr, .footnotes::before { border: 1px dashed #ddd; }
+.frontmatter { text-align: center; }
+#TOC .numbered li { list-style: none; }
+#TOC .numbered { padding-left: 0; }
+#TOC .numbered ul { padding-left: 1em; }
+table, .body h2 { border-bottom: 1px solid #666; }
+.body .appendix, .appendix ~ h2 { border-bottom-style: dashed; }
+.footnote-ref a::before { content: "["; }
+.footnote-ref a::after { content: "]"; }
+.footnotes::before {
+  content: "";
+  display: block;
+  max-width: 20em;
+}
 
 @media print {
-  * {
-    background: transparent !important;
-    color: black !important;
-    filter:none !important;
-  }
   body {
     font-size: 12pt;
     max-width: 100%;
   }
-  a, a:visited { text-decoration: underline; }
-  hr {
-    visibility: hidden;
-    page-break-before: always;
-  }
-  pre, blockquote {
-    padding-right: 1em;
-    page-break-inside: avoid;
-  }
   tr, img { page-break-inside: avoid; }
-  img { max-width: 100% !important; }
-  @page :left { margin: 15mm 20mm 15mm 10mm; }
-  @page :right { margin: 15mm 10mm 15mm 20mm; }
-  p, h2, h3 { orphans: 3; widows: 3; }
-  h2, h3 { page-break-after: avoid; }
+}
+@media only screen and (min-width: 992px) {
+  pre { white-space: pre; }
 }
 </style>
-
-
-
 </head>
-
 <body>
-<h1>What is link2GI?</h1>
+<div class="include-before">
+</div>
+<div class="frontmatter">
+<div class="title"><h1>Link GI to R</h1></div>
+<div class="author"><h2>Chris Reudenbach</h2></div>
+<div class="date"><h3>2023-10-30</h3></div>
+</div>
+<div class="body">
+<h1 id="what-is-link2gi">What is link2GI?</h1>
 <p>The <a href="https://CRAN.R-project.org/package=link2GI">link2GI</a> package provides a small linking tool to simplify the usage of <code>GRASS GIS</code>, <code>SAGA GIS</code>, <code>Orfeo Toolbox</code> (<code>OTB</code>) and <code>GDAL</code> binaries for R users. the focus is to simplify the the accessibility of this software for non operating system specialists or highly experienced GIS geeks.  Acutally it is a direct result of numerous graduate courses with R(-GIS) beginners in the hostile world of university computer pools running under extremely restricted Windows systems.</p>
 <p>This vignette:</p>
 <ul>
@@ -90,26 +155,26 @@ hr { border: 1px #ddd dashed; }
 <li>gives some hands on examples of how to use</li>
 <li>give some applied examples for more efficient spatial analysis</li>
 </ul>
-<h1>Why link2GI now?</h1>
+<h1 id="why-link2gi-now">Why link2GI now?</h1>
 <p>R has quite a lot of classes for storing and dealing with spatial data. For vector data in the past the <a href="https://CRAN.R-project.org/package=sp">sp</a> and at present the great <a href="https://CRAN.R-project.org/package=sf">sf</a> packages are well known and the raster data world is widely covered by the <a href="https://CRAN.R-project.org/package=raster">raster</a> and currently the <a href="https://CRAN.R-project.org/package=terra">terra</a> package. For more specific links as needed for manipulating atmospheric modeling packages as <a href="https://CRAN.R-project.org/package=ncdf4">ncdf4</a> are very helpful.</p>
-<p>The spatial analysis itself is often supported by wrapper packages that integrate external libraries, command line tools or a mixture of both in an R-like syntax <a href="https://CRAN.R-project.org/package=rgeos">rgeos</a>, <a href="https://CRAN.R-project.org/package=geosphere">geosphere</a>, <a href="https://CRAN.R-project.org/package=Distance">Distance</a>, <a href="https://CRAN.R-project.org/package=maptools">maptools</a>, <a href="https://CRAN.R-project.org/package=igraph">igraph</a> or <a href="https://CRAN.R-project.org/package=spatstat">spatstat</a>.</p>
-<p>A comprehensive introduction to the spatial R-biotope and its backgrounds is excellently treated in <a href="https://geocompr.robinlovelace.net">Geocomputation with R</a> wich is highly recommend as a reference textbook.</p>
+<p>The spatial analysis itself is often supported by wrapper packages that integrate external libraries, command line tools or a mixture of both in an R-like syntax  <a href="https://CRAN.R-project.org/package=geosphere">geosphere</a>, <a href="https://CRAN.R-project.org/package=Distance">Distance</a>,  <a href="https://CRAN.R-project.org/package=igraph">igraph</a> or <a href="https://CRAN.R-project.org/package=spatstat">spatstat</a>.</p>
+<p>A comprehensive introduction to the spatial R-biotope and its backgrounds is excellently treated in <a href="https://r.geocompx.org/">Geocomputation with R</a> wich is highly recommend as a reference textbook.</p>
 <p>Despite all this capabilities of spatial analysis and data handling in the world of <code>R</code>, it can be stated (at least from a non-R point of view), that there is still a enormous gap between R and the mature open source Geographic Information System (GIS) and even more Remote Sensing (RS) software community. <code>QGIS</code>, <code>GRASS GIS</code> and <code>SAGA GIS</code> are providing a comprehensive, growing and mature  collection of highly sophisticated algorithms. The provided algorithms are fast, stable and most of them are well proofed. Probably most of the <code>R</code> users who are somehow related to the GI community know that there are awesome good wrapper packages for bridging this gap. For <a href="https://grass.osgeo.org/">GRASS GIS ⅞</a> it is <a href="https://CRAN.R-project.org/package=rgrass">rgrass</a> and for <a href="https://saga-gis.sourceforge.io/">SAGA GIS</a>  the <a href="https://CRAN.R-project.org/package=RSAGA">RSAGA</a> package.
 In addition there is no wrapper for the great <code>OTB</code>. It seems to be at least convenient to provide a lightweight wrapping utility for the usage of <code>OTB</code> modules from <code>R</code>.</p>
 <p>Unfortunately one will run into a lot of technical problems depending on the choosen operating system (OS) or library dependencies or GIS software versions. In case of e.g. <code>RSAGA</code> the main problem has been that the <code>SAGA</code> GIS developers are not only changing the syntax and strategy of the command line interface (CLI) but also within the same release the calls differ from OS to OS. So the maintenance of RSAGA is at least laborious (but thumbs up is running again).  Another example is  given by <code>GRASS GIS</code>  which is well known for a sophisticated setup of the environment and the spatial properties of the database. If you “just” want to use a specific <code>GRASS</code> algorithm from R, you will probablys get lost in setting up all OS-dependencies that are neccessary to set up a correct temporary or permanent <code>GRASS</code>-environment from “outside”. This is not only caused due to the strict spatial and projection requirements of <code>GRASS</code> but much more by challenging OS enviroments especially Windows.</p>
 <p>To make it short it is a bit cumbersome to deal with all this stuff if one just want to start e.g. <code>GRASS</code> from the R command line for e.g. a powerful random walk cost analysis (<code>r.walk</code>) call as provided by <code>GRASS</code>.</p>
-<h1>What means linking?</h1>
+<h1 id="what-means-linking">What means linking?</h1>
 <p>Linking means simply to provide all necessary environment settings that satisfy the existing wrapper packages as well as in addition the full access to the the command line (CLI) APIs of the mentioned software tools. <code>link2GI</code> tries to analyze which software is installed to set up an temporary enviroment meeting the above mentioned needs.</p>
-<h3>GRASS GIS</h3>
+<h3 id="grass-gis">GRASS GIS</h3>
 <p><code>GRASS GIS</code> has the most challenging requirements. It needs a bunch of environment and path variables as <strong>and</strong> a correct setup of the geographical data parameters. The <code>linkGRASS</code> function tries to find all installations let you (optionally) choose the one you want to use and generate the necessary variables. As a result you can use both the <code>rgrass</code> package  or the command line <code>API</code> of <code>GRASS</code>.</p>
-<h3>SAGA GIS</h3>
+<h3 id="saga-gis">SAGA GIS</h3>
 <p><code>SAGA GIS</code> is a far easier to set up. Again the <code>linkSAGA</code> function tries to find all <code>SAGA</code> installations, let you (optionally) choose one and generate the necessary variables. You may also use <code>RSAGA</code> but you have to hand over the result of <code>linkSAGA</code> like <code>RSAGA::rsaga.env(path = saga$sagaPath)</code>. For a straightforward usage you may simply use the  <code>R</code> system() call to  interface <code>R</code> with the <code>saga_cmd</code> API.</p>
-<h3>Orfeo Toolbox (OTB)</h3>
+<h3 id="orfeo-toolbox-otb">Orfeo Toolbox (OTB)</h3>
 <p>The <code>Orfeo Toolbox</code> (OTB) is a very powerful remote sensing toolbox. It is widely used for classification, filtering and machine learning applications. You will find some of the implemented algorithm within different R packages but <strong>always</strong> much slower or only running on small data chunks. <code>link2GI</code> searches and connects all <code>OTB</code> installations of a given search path and provides the result as a clear list.  Due to a missing wrapper package, a list-based <code>OTB</code> module and function parser is also available, which can be piped into the function <code>runOTB</code> for a convenient function call.</p>
-<h3>GDAL</h3>
+<h3 id="gdal">GDAL</h3>
 <p>Notwithstanding that <code>GDAL</code> is perfectly integrated in R in some cases it is beneficial to use system calls and grab the binaries directly. In particular the evolution to <code>GDAL 3.x</code> and optionally various boxed versions of <code>GDAL</code> binaries working together with different <code>Python</code> and <code>proj4/proj6</code> libs makes it sometimes  difficult to grab the correct version of <code>GDAL</code>.  <code>link2GI</code> generates a list of all pathes and commands of all <code>GDAL</code> installation in the provided search path.  With this list, you can easily use all available API calls of each installation.</p>
-<h1>Usage of the link2GI package - Basic Examples</h1>
-<h2>Brute force search usage</h2>
+<h1 id="usage-of-the-link2gi-package-basic-examples">Usage of the link2GI package - Basic Examples</h1>
+<h2 id="brute-force-search-usage">Brute force search usage</h2>
 <p>Automatic search and find of the installed GIS software binaries is performed by the <code>find</code> functions. Depending of you OS and the number of installed versions you will get a dataframe providing the binary and module folders.</p>
 <p>So the most straightforward call to link temporary to <code>GRASS GIS</code> woud be:</p>
 <pre><code class="language-r"># find all SAGA GIS installations at the default search location
@@ -118,9 +183,10 @@ require(link2GI)
 grass &lt;- link2GI::linkGRASS()
 grass
 </code></pre>
-
-
-<script src="https://cdn.jsdelivr.net/combine/npm/@xiee/utils/js/center-img.min.js" async></script>
+</div>
+<div class="include-after">
+</div>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js" defer></script>
 </body>
-
 </html>

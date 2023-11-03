@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">link2GI</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5-2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5-3</span>
       </span>
     </div>
 
@@ -97,7 +97,7 @@
                         <h4 data-toc-skip class="author">Chris
 Reudenbach</h4>
             
-            <h4 data-toc-skip class="date">2023-01-27</h4>
+            <h4 data-toc-skip class="date">2023-11-03</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/r-spatial/link2GI/blob/HEAD/vignettes/link2GI2.Rmd" class="external-link"><code>vignettes/link2GI2.Rmd</code></a></small>
       <div class="hidden name"><code>link2GI2.Rmd</code></div>
@@ -300,15 +300,15 @@ following command.</p>
 <p>If you already did a full search and kow your installation fo example
 using the command <code>findGRASS</code> you can use the result directly
 for linking.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">findGRASS</span>()</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>     instDir version installation_type</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">/</span>opt<span class="sc">/</span>grass   <span class="dv">7</span>.<span class="fl">8.1</span>           grass78</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co"># now linking it </span></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="fu">linkGRASS</span>(nc,<span class="fu">c</span>(<span class="st">"/opt/grass"</span>,<span class="st">"7.8.15"</span>,<span class="st">"grass78"</span>)) </span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="co"># corresponding linkage running windows</span></span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="fu">linkGRASS</span>(nc,<span class="fu">c</span>(<span class="st">"C:/Program Files/GRASS GIS7.0.5"</span>,<span class="st">"GRASS GIS 7.0.5"</span>,<span class="st">"NSIS"</span>)) </span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">findGRASS</span>()</span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>     instDir version installation_type</span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a><span class="dv">1</span> <span class="sc">/</span>opt<span class="sc">/</span>grass   <span class="dv">7</span>.<span class="fl">8.1</span>           grass78</span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a><span class="co"># now linking it </span></span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a><span class="fu">linkGRASS</span>(nc,<span class="fu">c</span>(<span class="st">"/opt/grass"</span>,<span class="st">"7.8.15"</span>,<span class="st">"grass78"</span>)) </span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a></span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a><span class="co"># corresponding linkage running windows</span></span>
+<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a><span class="fu">linkGRASS</span>(nc,<span class="fu">c</span>(<span class="st">"C:/Program Files/GRASS GIS7.0.5"</span>,<span class="st">"GRASS GIS 7.0.5"</span>,<span class="st">"NSIS"</span>)) </span></code></pre></div>
 </div>
 <div class="section level5">
 <h5 id="manual-choosing-the-version">Manual choosing the version<a class="anchor" aria-label="anchor" href="#manual-choosing-the-version"></a>
@@ -391,17 +391,14 @@ calls that can easily manipulated for your needs. The following working
 example will give you an idea how to use it.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-spatial/link2GI/" class="external-link">link2GI</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/terra/" class="external-link">terra</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/" class="external-link">terra</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/timelyportfolio/listviewer" class="external-link">listviewer</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">otblink</span><span class="op">&lt;-</span><span class="fu">link2GI</span><span class="fu">::</span><span class="fu"><a href="../reference/linkOTB.html">linkOTB</a></span><span class="op">(</span><span class="op">)</span></span>
 <span> <span class="va">projRootDir</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span></span>
 <span> </span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">'rgb'</span>, package <span class="op">=</span> <span class="st">'link2GI'</span><span class="op">)</span>  </span>
-<span><span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/plotRGB.html" class="external-link">plotRGB</a></span><span class="op">(</span><span class="va">rgb</span><span class="op">)</span></span>
-<span><span class="va">r</span><span class="op">&lt;-</span><span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/writeRaster.html" class="external-link">writeRaster</a></span><span class="op">(</span><span class="va">rgb</span>, </span>
-<span>              filename<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">projRootDir</span>,<span class="st">"test.tif"</span><span class="op">)</span>,</span>
-<span>              format<span class="op">=</span><span class="st">"GTiff"</span>, overwrite<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">fn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"ex/elev.tif"</span>, package <span class="op">=</span> <span class="st">"terra"</span><span class="op">)</span></span>
+<span></span>
 <span><span class="co">## for the example we use the edge detection, </span></span>
 <span><span class="va">algoKeyword</span><span class="op">&lt;-</span> <span class="st">"EdgeExtraction"</span></span>
 <span></span>
@@ -412,7 +409,7 @@ example will give you an idea how to use it.</p>
 <span><span class="fu">listviewer</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/listviewer/man/jsonedit.html" class="external-link">jsonedit</a></span><span class="op">(</span><span class="va">cmd</span><span class="op">$</span><span class="va">help</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co">## define the mandantory arguments all other will be default</span></span>
-<span><span class="va">cmd</span><span class="op">$</span><span class="va">input</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">projRootDir</span>,<span class="st">"test.tif"</span><span class="op">)</span></span>
+<span><span class="va">cmd</span><span class="op">$</span><span class="va">input</span>  <span class="op">&lt;-</span> <span class="va">fn</span></span>
 <span><span class="va">cmd</span><span class="op">$</span><span class="va">filter</span> <span class="op">&lt;-</span> <span class="st">"touzi"</span></span>
 <span><span class="va">cmd</span><span class="op">$</span><span class="va">channel</span> <span class="op">&lt;-</span> <span class="fl">2</span></span>
 <span><span class="va">cmd</span><span class="op">$</span><span class="va">out</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">projRootDir</span>,<span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"out"</span>,<span class="va">cmd</span><span class="op">$</span><span class="va">filter</span>,<span class="st">".tif"</span><span class="op">)</span><span class="op">)</span></span>

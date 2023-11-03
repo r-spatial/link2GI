@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">link2GI</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5-2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5-3</span>
       </span>
     </div>
 
@@ -98,7 +98,7 @@ Software</h1>
                         <h4 data-toc-skip class="author">Chris
 Reudenbach</h4>
             
-            <h4 data-toc-skip class="date">2023-01-27</h4>
+            <h4 data-toc-skip class="date">2023-11-03</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/r-spatial/link2GI/blob/HEAD/vignettes/link2GI6.Rmd" class="external-link"><code>vignettes/link2GI6.Rmd</code></a></small>
       <div class="hidden name"><code>link2GI6.Rmd</code></div>
@@ -184,7 +184,7 @@ components, you might do so later on by running
 <code>../OSGeo4W/bin/osgeo4w-setup.exe</code>. Alternatively, you can
 download and run again the latest <a href="https://trac.osgeo.org/osgeo4w/" class="external-link">OSGeo4W-executable</a>.</p>
 <p>If you additionally want to use the <strong>LiDAR processing
-tools</strong> (LAStools), please follow the steps found <a href="https://rapidlasso.com/2013/09/29/how-to-install-lastools-toolbox-in-qgis/" class="external-link">here</a>.</p>
+tools</strong> (LAStools), please follow the steps found <a href="https://rapidlasso.de/how-to-install-lastools-toolbox-in-qgis/" class="external-link">here</a>.</p>
 </div>
 <div class="section level3">
 <h3 id="orfeo-toolbox">Orfeo Toolbox<a class="anchor" aria-label="anchor" href="#orfeo-toolbox"></a>
@@ -219,36 +219,36 @@ However, just Ubuntu , Debian and Manjaro are tested.</p>
 GRASS packages you may have installed before from other
 repositories:</p>
 <!--http://gis.stackexchange.com/questions/167472/qgis-2-8-ubuntu-14-04-installation-issues-terminal-command-attempts-to-install-->
-<div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt-get <span class="at">--purge</span> remove qgis</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt autoremove <span class="at">--purge-remove</span> </span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt autoremove</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt-get update</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">sudo</span> apt-get <span class="at">--purge</span> remove qgis</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">sudo</span> apt autoremove <span class="at">--purge-remove</span> </span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="fu">sudo</span> apt autoremove</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="fu">sudo</span> apt-get update</span></code></pre></div>
 <p>Next add the correct repository to
 <code>/etc/apt/sources.list</code>. Here, we use the current long-term
 release (3.10):</p>
 <p><strong>QGIS 3.10.x for Ubuntu 20.04</strong></p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install necessary tools</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt install gnupg software-properties-common</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co">#add the required keys</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> <span class="at">-qO</span> <span class="at">-</span> https://qgis.org/downloads/qgis-2020.gpg.key <span class="kw">|</span> <span class="fu">sudo</span> gpg <span class="at">--no-default-keyring</span> <span class="at">--keyring</span> gnupg-ring:/etc/apt/trusted.gpg.d/qgis-archive.gpg <span class="at">--import</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co"># verify the key </span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="ex">gpg</span> <span class="at">--fingerprint</span> 51F523511C7028C3</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co"># add the repository</span></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="co"># if there are problems </span></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> add-apt-repository <span class="st">"deb https://qgis.org/debian lsb_release -c -s main"</span></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="co"># if there are problems use the hard-wired "focal" release</span></span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> add-apt-repository <span class="st">"deb https://qgis.org/debian focal main"</span></span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a></span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co"># install necessary tools</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">sudo</span> apt install gnupg software-properties-common</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="co">#add the required keys</span></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="fu">wget</span> <span class="at">-qO</span> <span class="at">-</span> https://qgis.org/downloads/qgis-2020.gpg.key <span class="kw">|</span> <span class="fu">sudo</span> gpg <span class="at">--no-default-keyring</span> <span class="at">--keyring</span> gnupg-ring:/etc/apt/trusted.gpg.d/qgis-archive.gpg <span class="at">--import</span></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="co"># verify the key </span></span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="ex">gpg</span> <span class="at">--fingerprint</span> 51F523511C7028C3</span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a><span class="co"># add the repository</span></span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a><span class="co"># if there are problems </span></span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a><span class="fu">sudo</span> add-apt-repository <span class="st">"deb https://qgis.org/debian lsb_release -c -s main"</span></span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a></span>
+<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a><span class="co"># if there are problems use the hard-wired "focal" release</span></span>
+<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a><span class="fu">sudo</span> add-apt-repository <span class="st">"deb https://qgis.org/debian focal main"</span></span>
+<span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a></span></code></pre></div>
 <p>After that, we can install QGIS and GRASS saga and Orfeo Toolbox as
 follows:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install qgis grass otb saga</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt update</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt install qgis python-qgis qgis-plugin-grass grass saga otb-bin</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co"># install qgis grass otb saga</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="fu">sudo</span> apt update</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="fu">sudo</span> apt install qgis python-qgis qgis-plugin-grass grass saga otb-bin</span></code></pre></div>
 <p>If you would like to use another SAGA version, you need to compile it
 yourself (see <a href="https://sourceforge.net/p/saga-gis/wiki/Compiling%20SAGA%20on%20Linux/" class="external-link">here</a>).
 Please note, however, that QGIS currently only supports the SAGA LTR
@@ -264,7 +264,7 @@ Please note, however, that QGIS currently only supports the SAGA LTR
 </h3>
 <p>You can install current stable QGIS, SAGA and GRASS GIS versions via
 the standard software package manager:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> dnf install qgis-python qgis qgis-grass saga grass-gui grass-libs</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">sudo</span> dnf install qgis-python qgis qgis-grass saga grass-gui grass-libs</span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
@@ -275,9 +275,9 @@ the standard software package manager:</p>
 </h3>
 <p>There is no binary install of SAGA for macOS. We recommend to use the
 bottle installation from <code>homebrew</code>:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># brew tap osgeo4mac</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="ex">brew</span> install saga-gis-lts</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="ex">brew</span> link saga-gis-lts <span class="at">--force</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="co"># brew tap osgeo4mac</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="ex">brew</span> install saga-gis-lts</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="ex">brew</span> link saga-gis-lts <span class="at">--force</span></span></code></pre></div>
 <p>If you do not link SAGA with force, QGIS will not be able to detect
 SAGA.</p>
 <p>Alternatively, you can compile SAGA from source from the <a href="https://sourceforge.net/projects/saga-gis/files/" class="external-link">SAGA
@@ -288,8 +288,8 @@ LTS version.</p>
 <h3 id="grass">GRASS<a class="anchor" aria-label="anchor" href="#grass"></a>
 </h3>
 <p>You can install GRASS6 and GRASS7 via <code>homebrew</code>:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># brew tap osgeo4mac</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="ex">brew</span> install grass6 grass7</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="co"># brew tap osgeo4mac</span></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="ex">brew</span> install grass6 grass7</span></code></pre></div>
 <p>The binary GRASS installation can be found <a href="https://grass.osgeo.org/download/mac/" class="external-link">here</a>. However, we
 recommend to use the <code>homebrew</code> approach.</p>
 <p>When installing GRASS7 independently of QGIS via

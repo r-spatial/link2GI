@@ -1,6 +1,6 @@
 ## link2GI 0.5-3
 bugfixes:
-* issue #59
+* issue #59 , #58
 * fix rgrass7 dependencies
 
 ## link2GI 0.5-2

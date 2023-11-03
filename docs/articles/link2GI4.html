@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">link2GI</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5-2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5-3</span>
       </span>
     </div>
 
@@ -97,7 +97,7 @@
                         <h4 data-toc-skip class="author">Chris
 Reudenbach</h4>
             
-            <h4 data-toc-skip class="date">2023-01-27</h4>
+            <h4 data-toc-skip class="date">2023-11-03</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/r-spatial/link2GI/blob/HEAD/vignettes/link2GI4.Rmd" class="external-link"><code>vignettes/link2GI4.Rmd</code></a></small>
       <div class="hidden name"><code>link2GI4.Rmd</code></div>
@@ -144,11 +144,8 @@ example will give you an idea how to use it.</p>
 <span><span class="va">otblink</span><span class="op">&lt;-</span><span class="fu">link2GI</span><span class="fu">::</span><span class="fu"><a href="../reference/linkOTB.html">linkOTB</a></span><span class="op">(</span><span class="op">)</span></span>
 <span> <span class="va">projRootDir</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span></span>
 <span> </span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">'rgb'</span>, package <span class="op">=</span> <span class="st">'link2GI'</span><span class="op">)</span>  </span>
-<span><span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/plotRGB.html" class="external-link">plotRGB</a></span><span class="op">(</span><span class="va">rgb</span><span class="op">)</span></span>
-<span><span class="va">r</span><span class="op">&lt;-</span><span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/writeRaster.html" class="external-link">writeRaster</a></span><span class="op">(</span><span class="va">rgb</span>, </span>
-<span>              filename<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">projRootDir</span>,<span class="st">"test.tif"</span><span class="op">)</span>,</span>
-<span>              format<span class="op">=</span><span class="st">"GTiff"</span>, overwrite<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">fn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"ex/elev.tif"</span>, package <span class="op">=</span> <span class="st">"terra"</span><span class="op">)</span></span>
+<span></span>
 <span><span class="co">## for the example we use the edge detection, </span></span>
 <span><span class="va">algoKeyword</span><span class="op">&lt;-</span> <span class="st">"EdgeExtraction"</span></span>
 <span></span>
@@ -159,7 +156,7 @@ example will give you an idea how to use it.</p>
 <span><span class="fu">listviewer</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/listviewer/man/jsonedit.html" class="external-link">jsonedit</a></span><span class="op">(</span><span class="va">cmd</span><span class="op">$</span><span class="va">help</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co">## define the mandantory arguments all other will be default</span></span>
-<span><span class="va">cmd</span><span class="op">$</span><span class="va">input</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">projRootDir</span>,<span class="st">"test.tif"</span><span class="op">)</span></span>
+<span><span class="va">cmd</span><span class="op">$</span><span class="va">input</span>  <span class="op">&lt;-</span> <span class="va">fn</span></span>
 <span><span class="va">cmd</span><span class="op">$</span><span class="va">filter</span> <span class="op">&lt;-</span> <span class="st">"touzi"</span></span>
 <span><span class="va">cmd</span><span class="op">$</span><span class="va">channel</span> <span class="op">&lt;-</span> <span class="fl">2</span></span>
 <span><span class="va">cmd</span><span class="op">$</span><span class="va">out</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">projRootDir</span>,<span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"out"</span>,<span class="va">cmd</span><span class="op">$</span><span class="va">filter</span>,<span class="st">".tif"</span><span class="op">)</span><span class="op">)</span></span>

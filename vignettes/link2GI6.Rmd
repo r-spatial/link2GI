@@ -89,7 +89,7 @@ Clicking "Next" once more will start the download and installation process which
 If you wish to to modify, uninstall or update some of the installed components, you might do so later on by running `../OSGeo4W/bin/osgeo4w-setup.exe`. 
 Alternatively, you can download and run again the latest [OSGeo4W-executable](https://trac.osgeo.org/osgeo4w/).
 
-If you additionally want to use the **LiDAR processing tools** (LAStools), please follow the steps found [here](https://rapidlasso.com/2013/09/29/how-to-install-lastools-toolbox-in-qgis/).
+If you additionally want to use the **LiDAR processing tools** (LAStools), please follow the steps found [here](https://rapidlasso.de/how-to-install-lastools-toolbox-in-qgis/).
 
 ## Orfeo Toolbox
 

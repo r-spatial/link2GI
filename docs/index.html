@@ -105,7 +105,12 @@
 <h1 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h1>
 <p><code>link2GI</code>is up to CRAN. For the installation of the stable version please use <code>install.packages("link2GI")</code>.</p>
-<p>To install the latest stable version use: <code>r # devtools package devtools::install_github("r-spatial/link2GI", ref = "master") # remotes package remotes::install_github("r-spatial/link2GI",ref = "master")</code></p>
+<p>To install the latest stable version use:</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># devtools package</span></span>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"r-spatial/link2GI"</span>, ref <span class="op">=</span> <span class="st">"master"</span><span class="op">)</span></span>
+<span><span class="co"># remotes package</span></span>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"r-spatial/link2GI"</span>,ref <span class="op">=</span> <span class="st">"master"</span><span class="op">)</span></span></code></pre></div>
 <div class="section level2">
 <h2 id="third-party-software">Third Party software<a class="anchor" aria-label="anchor" href="#third-party-software"></a>
 </h2>
@@ -119,7 +124,7 @@
 <h3 id="updated-otb-wrapper">Updated OTB wrapper<a class="anchor" aria-label="anchor" href="#updated-otb-wrapper"></a>
 </h3>
 <p>the OTB wrapper is updated for a more convinient usage. Please have a look at the usecase below:</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co">## link to OTB</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-spatial/link2GI/" class="external-link">link2GI</a></span><span class="op">)</span></span>

@@ -79,7 +79,7 @@ searchGDALW <- function(DL = "C:",
     options(show.error.messages = TRUE)
     options(warn=0)
     gdal1<-gdal_py<-gdal_bin<-list()
-    if(!class(raw_GDAL)[1] == "try-error")  {
+    if(class(raw_GDAL)[1] != "try-error")  {
       #if (!grepl(DL,raw_GDAL)) stop("\n At ",DL," no GDAL installation found")
       
       # trys to identify valid gdal installations and their version numbers
@@ -238,7 +238,7 @@ searchGDALX <- function(MP = "/usr",
   options(show.error.messages = TRUE)
   options(warn=0)
   gdal1<-gdal_py<-gdal_bin<-list()
-  if(!class(raw_GDAL)[1] == "try-error") {
+  if(class(raw_GDAL)[1] != "try-error") {
     #if (!grepl(MP,raw_GDAL)) stop("\n At ",MP," no GDAL installation found")
     # trys to identify valid gdal installations and their version numbers
     gdalInstallations <- lapply(seq(length(raw_GDAL)), function(i){

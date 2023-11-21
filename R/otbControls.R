@@ -75,7 +75,7 @@ searchOTBW <- function(DL = "default",
       options(show.error.messages = TRUE)
       options(warn=0)
       
-      if(!class(raw_OTB)[1] == "try-error")  {
+      if(class(raw_OTB)[1] != "try-error")  {
       #if (!grepl(DL,raw_OTB)) stop("\n At ",DL," no OTB installation found")
       
       # trys to identify valid otb installations and their version numbers
@@ -168,7 +168,7 @@ searchOTBX <- function(MP = "default",
       options(show.error.messages = TRUE)
       options(warn=0)
       
-      if(!class(raw_OTB)[1] == "try-error") {
+      if(class(raw_OTB)[1] != "try-error") {
       #if (!grepl(MP,raw_OTB)) stop("\n At ",MP," no OTB installation found")
       # trys to identify valid otb installations and their version numbers
       otbInstallations <- lapply(seq(length(raw_OTB)), function(i){

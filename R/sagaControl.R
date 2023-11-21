@@ -85,7 +85,8 @@ searchSAGAX <- function(MP = "/usr",
 #' searchSAGAW()
 #' }
 
-searchSAGAW <- function(DL = "C:",
+
+ searchSAGAW <- function(DL = "C:",
                         quiet = TRUE) {
   if (DL=="default") DL <- "C:"
   if (Sys.info()["sysname"] == "Windows") {  
@@ -96,21 +97,56 @@ searchSAGAW <- function(DL = "C:",
       # recursive dir for saga_cmd.exe returns all version of otb bat files
       if (!quiet) cat("\nsearching for SAGA GIS installations - this may take a while\n")
       if (!quiet) cat("For providing the path manually see ?searchSAGAW \n")
-      
+      cmd ="saga_cmd.exe"
       # for a straightforward use of a correct codetable using the cmd command "dir" is used
       
       options(show.error.messages = FALSE)
       options(warn=-1)
-      rawSAGA <- try(system(paste0("cmd.exe /c dir /B /S ",DL,"\\","saga_cmd.exe"),intern = TRUE))
+     
+        # Windows defaults paths
+        # windows.defaults.paths =  c("C:/Progra~1/SAGA", "C:/Progra~2/SAGA",
+        #                             "C:/Progra~1/SAGA-GIS", "C:/Progra~2/SAGA-GIS",
+        #                             "C:/SAGA-GIS", "C:/OSGeo4W/apps/saga",
+        #                             "C:/OSGeo4W64/apps/saga", "C:/OSGeo4W64/apps/saga-ltr")
+        # 
+        # # Check if one path is valid
+        # for (pa in windows.defaults.paths) {
+        #   if (file.exists(file.path(pa, cmd))) {
+        #     rawSAGA = pa
+        #     break
+        #   }
+        # }
+        
+        # If no default path is correct, search for SAGA GIS on entire drive
+       # if (is.null(rawSAGA)) {
+           
+          # cat("SAGA command line program not found in the following default paths:\n",
+          #     paste0(windows.defaults.paths, collapse = "\n"),
+          #     "\nSearch on the entire hard drive...\n", sep="")
+          # 
+          # Search starts in root directory
+          #path.list = list.files(path = "C:/", pattern = "saga_cmd.exe", recursive = TRUE, full.names = TRUE)
+          rawSAGA <- try(system(paste0("cmd.exe /c dir /B /s ",DL,"\\",cmd),intern = TRUE))
+          
+          
+          # Remove cmd name from path
+         # path.list = gsub(paste0(".{",nchar(cmd),"}$"), "", path.list)
+          
+          # Stop if no saga_cmd.exe is found
+          if (length(rawSAGA) == 0) {
+            print("No Saga installation found")
+            return()
+          }
+        
       
-      if (grepl(rawSAGA,pattern = "File not found") | grepl(rawSAGA,pattern = "Datei nicht gefunden")) {
+      if (grepl(rawSAGA,pattern = "File not found")[1] | grepl(rawSAGA,pattern = "Datei nicht gefunden")[1]) {
         rawSAGA<- "message"
         class(rawSAGA) <- c("try-error", class(rawSAGA))
       }
       options(show.error.messages = TRUE)
       options(warn=0)
       
-      if(!class(rawSAGA)[1] == "try-error") {
+      if(class(rawSAGA)[1] != "try-error") {
       # trys to identify valid SAGA GIS installation(s) & version number(s)
       sagaPath <- lapply(seq(length(rawSAGA)), function(i){
         cmdfileLines <- rawSAGA[i]
@@ -148,7 +184,8 @@ searchSAGAW <- function(DL = "C:",
       # bind df 
       sagaPath <- do.call("rbind", sagaPath)
       
-      }else {
+      }
+      else {
         if (!quiet) cat(paste("Did not find any valid SAGA installation at mount point",DL))
         sagaPath <- FALSE}
     }  #  end of is.null(sagaPath)
@@ -197,13 +234,22 @@ findSAGA <- function(searchLocation = "default",
   return(link)
 }
 
+split_path <- function(x) if (dirname(x)==x) x else c(basename(x),split_path(dirname(x)))
+
+
+
 getrowSagaVer<- function (paths){
   #tmp<-c()
   scmd = ifelse(Sys.info()["sysname"]=="Windows", "saga_cmd.exe", "saga_cmd")
   sep = ifelse(Sys.info()["sysname"]=="Windows", "\\", "/")
   highestVer<-"2.0.8"
   for (i in 1:nrow(paths)){
-  tmp<-  strsplit(x = system(paste0(paste0(shQuote(paths$binDir[i]),sep,scmd)," --version"),intern = TRUE),split = "SAGA Version: ")[[1]][2]
+    if (grepl(paths[i,i],pattern="OSGeo")){
+   sp= split_path(paths[i,i])  
+   #batfileFN = paste0(sp[length(sp)],file.path(sp[length(sp)-1],"bin","o4w_env.bat"))
+   batfileFN= "C:\\OSGeo4W\\OSGeo4W.bat"  
+   }
+  tmp<-  strsplit(x = system(paste0(paste0(batfileFN, " ; ",paths$binDir[i],sep,scmd)," --version"),intern = TRUE),split = "SAGA Version: ")[[1]][2]
   highestVer <- max(tmp,highestVer)
   pathI <- i
   }
@@ -214,6 +260,11 @@ getrowSagaVer<- function (paths){
 getSagaVer<- function (paths){
   sep = ifelse(Sys.info()["sysname"]=="Windows", "\\", "/")
   scmd = ifelse(Sys.info()["sysname"]=="Windows", "saga_cmd.exe", "saga_cmd")
-  sagaVersion<-  strsplit(x = system(paste0(paste0(shQuote(paths),sep,scmd)," --version"),intern = TRUE),split = "SAGA Version: ")[[1]][2]
+  if (grepl(paths,pattern="OSGeo")){
+    batfileFN= "C:\\OSGeo4W\\OSGeo4W.bat"  
+  }
+  sagaVersion<-  strsplit(x = system(paste0(paste0(batfileFN, " ; ",paths,sep,scmd)," --version"),intern = TRUE),split = "SAGA Version: ")[[1]][2]
+  
+  #sagaVersion<-  strsplit(x = system(paste0paths,sep,scmd)," --version"),intern = TRUE),split = "SAGA Version: ")[[1]][2]
   return (sagaVersion)
 }

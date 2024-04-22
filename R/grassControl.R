@@ -275,7 +275,7 @@ searchGRASSW <- function(DL = "C:",
       
       ### if installation_type is osgeo4w
       if (osgeo4w) {
-        if (basename(utils::shortPathName(raw_GRASS[i])) == "grass78.bat"|| basename(utils::shortPathName(raw_GRASS[i])) == "grass79.bat"){
+        if (basename(utils::shortPathName(raw_GRASS[i])) == "grass78.bat"|| basename(utils::shortPathName(raw_GRASS[i])) == "grass79.bat" || basename(utils::shortPathName(raw_GRASS[i])) == "grass83.bat"){
           
           # grep line with root directory and extract the substring defining GISBASE
           root_dir <-dirname(utils::shortPathName(raw_GRASS[i]))
@@ -453,7 +453,7 @@ setenvGRASSw <- function(root_GRASS=NULL,
     if (installation_type == "osgeo4W" || installation_type == "OSGeo4W64") {
       Sys.setenv(OSGEO4W_ROOT = root_GRASS)
       # define GISBASE
-      gisbase_GRASS <- paste0(root_GRASS,"\\apps\\grass\\",grass_version)
+      gisbase_GRASS <- paste0(root_GRASS,"\\apps\\grass\\grass",grass_version)
       Sys.setenv(GISBASE = gisbase_GRASS,envir = GiEnv)
       assign("SYS", "WinNat", envir = GiEnv)
       assign("addEXE", ".exe", envir = GiEnv)

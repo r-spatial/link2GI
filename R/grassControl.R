@@ -1,12 +1,12 @@
 #'@title Usually for internally usage, get 'GRASS GIS' and \code{rgrass} parameters on 'Linux' OS
 #'@name paramGRASSx
 #'@description Initialize and set up \code{rgrass}  for 'Linux'
-#'@details During the rsession you will have full access to GRASS7 GIS via the \code{rgrass} wrappe. Additionally you may use also use the API calls of GRASS7 via the command line.
+#'@details During the rsession you will have full access to GRASS7 GIS via the \code{rgrass} wrapper. Additionally you may use also use the API calls of GRASS7 via the command line.
 #'@param set_default_GRASS default = NULL will force a search for 'GRASS GIS' You may provide a valid combination as 
 #'                                    c("/usr/lib/grass74","7.4.1","grass74")
 #'@param MP mount point to be searched. default is "/usr/bin"
-#'@param quiet boolean  switch for supressing console messages default is TRUE
-#'@param ver_select if TRUE you must interactivley selcect between alternative installations
+#'@param quiet Boolean  switch for suppressing console messages default is TRUE
+#'@param ver_select if TRUE you must interactively select between alternative installations
 #'@export paramGRASSx
 #'
 #' @examples

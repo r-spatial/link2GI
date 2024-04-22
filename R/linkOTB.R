@@ -10,18 +10,18 @@ if (!isGeneric('linkOTB')) {
 #'@details It looks for the \code{otb_cli.bat} file. If the file is found in a \code{bin} folder it is assumed to be a valid 'OTB' binary installation.
 #'@param bin_OTB string contains path to where the otb binaries are located
 #'@param root_OTB string provides the root folder of the \code{bin_OTB}
-#'@param ver_select boolean default is FALSE. If there is more than one 'OTB' installation and \code{ver_select} = TRUE the user can select interactively the preferred 'OTB' version In opposite if FALSE the newest version is automatically choosen.
+#'@param ver_select Boolean default is FALSE. If there is more than one 'OTB' installation and \code{ver_select} = TRUE the user can select interactively the preferred 'OTB' version In opposite if FALSE the newest version is automatically choosen.
 #'@param searchLocation string hard drive letter (Windows) or mounting point (Linux) default for Windows is \code{C:}, default for Linux is \code{~}
 #'@param type_OTB string 
-#'@param quiet boolean  switch for supressing messages default is TRUE
-#'@param returnPaths boolean if set to FALSE the pathes of the selected version are written 
+#'@param quiet Boolean  switch for suppressing messages default is TRUE
+#'@param returnPaths Boolean if set to FALSE the pathes of the selected version are written 
 #' to the PATH variable only, otherwise all paths and versions of the installed GRASS versions ae returned.
 
 #'
 #'@note You may also set the path manually. Using a 'OSGeo4W64' \url{https://trac.osgeo.org/osgeo4w/} installation it is typically \code{C:/OSGeo4W64/bin/}
 #'@author Chris Reudenbach
-#'@return add otb pathes to the enviroment and creates global variables path_OTB
-#'@details if called without any parameter \code{linkOTB()} it performs a full search over the hardrive \code{C:}. If it finds one or more 'OTB' binaries it will take the first hit. You have to set \code{ver_select = TRUE} for an interactive selection of the preferred version.
+#'@return add otb pathes to the environment and creates global variables path_OTB
+#'@details if called without any parameter \code{linkOTB()} it performs a full search over the hard drive \code{C:}. If it finds one or more 'OTB' binaries it will take the first hit. You have to set \code{ver_select = TRUE} for an interactive selection of the preferred version.
 #'@export linkOTB
 #'  
 #'@examples

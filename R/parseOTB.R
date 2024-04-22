@@ -1,7 +1,7 @@
 #'@title Get OTB modules 
 #'@name parseOTBAlgorithms
 #'@description retrieve the OTB module folder content and parses the module names
-#'@param gili optional list of avalailable `OTB` binaries if not provided `linkOTB()` is called
+#'@param gili optional list of available `OTB` binaries if not provided `linkOTB()` is called
 #'@export parseOTBAlgorithms
 #'
 #'@examples
@@ -71,23 +71,32 @@ parseOTBFunction <- function(algo=NULL,gili=NULL) {
   otbhelp <- list()
   
   otbtype <- list()
-  path_OTB = ifelse(Sys.info()["sysname"]=="Windows", utils::shortPathName(path_OTB),path_OTB)
+  #path_OTB = ifelse(Sys.info()["sysname"]=="Windows", utils::shortPathName(path_OTB))
   
   if (algo != "" & otb$exist){
     system("rm otb_module_dump.txt",intern = FALSE,ignore.stderr = TRUE)
-    if (!identical(grep(path_OTB,pattern = "OTB-8."), integer(0) )){
-      system(file.path(dirname(path_OTB[[1]]),"otbenv.profile")) 
-      system(paste0("otbcli_",algo," -help >> " ,file.path(R.utils::getAbsolutePath(tempdir()),paste0("otb_module_dump.txt 2>&1")))) 
+    if (!identical(grep(path_OTB,pattern = "OTB-8."), integer(0) ) | !identical(grep(path_OTB,pattern = "OTB-9"), integer(0) )){
+      if(Sys.info()["sysname"]=="Windows"){
+        system(file.path(dirname(path_OTB[[1]]),"otbenv.bat"))
+        system2(paste0(file.path(R.utils::getAbsolutePath(path_OTB),paste0("otbcli_",algo))), paste0(" -help >> " ,file.path(R.utils::getAbsolutePath(tempdir()),paste0("otb_module_dump.txt 2>&1"))))
+      } else {
+        system(paste0(dirname(path_OTB[[1]]),"/otbenv.profile")) 
+        system(paste0("env -i ", path_OTB, "otbcli ", algo, " -help >> ", file.path(R.utils::getAbsolutePath(tempdir()), paste0("otb_module_dump.txt 2>&1"))))
+      }
     } else {
       
       ifelse(Sys.info()["sysname"]=="Windows",
-             system(paste0("env -i ", path_OTB, "otbcli ", algo, " -help >> ", file.path(R.utils::getAbsolutePath(tempdir()), paste0("otb_module_dump.txt 2>&1")))),
              #system(paste0(file.path(R.utils::getAbsolutePath(utils::shortPathName(path_OTB)),paste0("otbcli_",algo))," -help >> " ,file.path(R.utils::getAbsolutePath(tempdir()),paste0("otb_module_dump.txt 2>&1")))), 
              #system(paste0("env -i ", path_OTB, "otbcli ", algo, " -help >> ", file.path(R.utils::getAbsolutePath(tempdir()), paste0("otb_module_dump.txt 2>&1"))))
-             system(paste0(file.path(R.utils::getAbsolutePath(path_OTB),paste0("otbcli_",algo))," -help >> " ,file.path(R.utils::getAbsolutePath(tempdir()),paste0("otb_module_dump.txt 2>&1"))))
+             system2(paste0(file.path(R.utils::getAbsolutePath(path_OTB),paste0("otbcli_",algo))), paste0(" -help >> " ,file.path(R.utils::getAbsolutePath(tempdir()),paste0("otb_module_dump.txt 2>&1")))),
+             system(paste0("env -i ", path_OTB, "otbcli ", algo, " -help >> ", file.path(R.utils::getAbsolutePath(tempdir()), paste0("otb_module_dump.txt 2>&1"))))
       )}
-    system(paste0("env -i ", path_OTB, "otbcli ", algo, " -help >> ", file.path(R.utils::getAbsolutePath(tempdir()), paste0("otb_module_dump.txt 2>&1"))))
-    txt <-readLines(file.path(tempdir(),"otb_module_dump.txt"))
+    #system(paste0("env -i ", path_OTB, "otbcli ", algo, " -help >> ", file.path(R.utils::getAbsolutePath(tempdir()), paste0("otb_module_dump.txt 2>&1"))))
+    ifelse(Sys.info()["sysname"]=="Windows",
+           txt <-readLines(paste0(tempdir(),"\\otb_module_dump.txt")),
+           txt <-readLines(paste0(tempdir(),"/otb_module_dump.txt"))
+    )
+    
     file.remove(file.path(tempdir(),"otb_module_dump.txt"))
     # Pull out the appropriate line
     args <- txt[grep("-", txt)]

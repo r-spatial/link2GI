@@ -4,7 +4,7 @@
 #'@description  Initializes and set up  access to the 'GDAL' command line interface
 #'  
 #'@param bin_GDAL  string contains the path to the 'GDAL' binaries
-#'@return Adds 'GDAL' pathes to the enviroment and creates the variable global string variable \code{gdalCmd}, that contains the path to the 'GDAL' binaries.
+#'@return Adds 'GDAL' pathes to the environment and creates the variable global string variable \code{gdalCmd}, that contains the path to the 'GDAL' binaries.
 #'@export setenvGDAL
 #'  
 #'@examples

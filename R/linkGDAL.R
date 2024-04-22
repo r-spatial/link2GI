@@ -8,17 +8,17 @@ if (!isGeneric('linkGDAL')) {
 #'@description  Locate and set up  \href{https://gdal.org/}{'GDAL - Geospatial Data Abstraction Librar'} API bindings
 #'@details It looks for the \code{gdalinfo(.exe)} file. If the file is found in a \code{bin} folder it is assumed to be a valid 'GDAL' binary installation.
 #'@param bin_GDAL string contains path to where the gdal binaries are located
-#'@param ver_select boolean default is FALSE. If there is more than one 'GDAL' installation and \code{ver_select} = TRUE the user can select interactively the preferred 'GDAL' version 
+#'@param ver_select Boolean default is FALSE. If there is more than one 'GDAL' installation and \code{ver_select} = TRUE the user can select interactively the preferred 'GDAL' version 
 #'@param searchLocation string hard drive letter default is \code{C:}
-#'@param quiet boolean  switch for supressing messages default is TRUE
-#'@param returnPaths boolean if set to FALSE the pathes of the selected version are written 
+#'@param quiet Boolean  switch for suppressing messages default is TRUE
+#'@param returnPaths Boolean if set to FALSE the pathes of the selected version are written 
 #' to the PATH variable only, otherwise all paths and versions of the installed GRASS versions ae returned.
 
 #'
 #'@note You may also set the path manually. Using a 'OSGeo4W64' \url{https://trac.osgeo.org/osgeo4w/} installation it is typically \code{C:/OSGeo4W64/bin/}
 #'@author Chris Reudenbach
-#'@return add gdal pathes to the enviroment and creates global variables path_GDAL
-#'@details if called without any parameter \code{linkGDAL()} it performs a full search over the hardrive \code{C:}. If it finds one or more 'GDAL' binaries it will take the first hit. You have to set \code{ver_select = TRUE} for an interactive selection of the preferred version.
+#'@return add gdal pathes to the environment and creates global variables path_GDAL
+#'@details if called without any parameter \code{linkGDAL()} it performs a full search over the hard drive \code{C:}. If it finds one or more 'GDAL' binaries it will take the first hit. You have to set \code{ver_select = TRUE} for an interactive selection of the preferred version.
 #'@export linkGDAL
 #'  
 #'@examples

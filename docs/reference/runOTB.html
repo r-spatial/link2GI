@@ -136,7 +136,7 @@
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Please NOTE:</span></span></span>
 <span class="r-in"><span><span class="co">## You must check the help to identify the correct argument codewort ($input_in or $input_il)</span></span></span>
-<span class="r-in"><span><span class="fu">listviewer</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/listviewer/man/jsonedit.html" class="external-link">jsonedit</a></span><span class="op">(</span><span class="va">cmd</span><span class="op">$</span><span class="va">help</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">listviewer</span><span class="fu">::</span><span class="fu">jsonedit</span><span class="op">(</span><span class="va">cmd</span><span class="op">$</span><span class="va">help</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## define the mandatory arguments all other will be default</span></span></span>
 <span class="r-in"><span><span class="va">cmd</span><span class="op">$</span><span class="va">input_in</span>  <span class="op">&lt;-</span> <span class="va">fn</span></span></span>
@@ -147,7 +147,7 @@
 <span class="r-in"><span><span class="va">retStack</span><span class="op">&lt;-</span><span class="fu">runOTB</span><span class="op">(</span><span class="va">cmd</span>,gili <span class="op">=</span> <span class="va">otblink</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## plot image</span></span></span>
-<span class="r-in"><span><span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">retStack</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rspatial.github.io/terra/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">retStack</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## for a data output example we use the </span></span></span>
 <span class="r-in"><span></span></span>
@@ -157,7 +157,7 @@
 <span class="r-in"><span><span class="va">cmd</span><span class="op">&lt;-</span><span class="fu"><a href="parseOTBFunction.html">parseOTBFunction</a></span><span class="op">(</span>algo <span class="op">=</span> <span class="va">algoKeyword</span>, gili <span class="op">=</span> <span class="va">otblink</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## get help using the convenient listviewer</span></span></span>
-<span class="r-in"><span><span class="fu">listviewer</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/listviewer/man/jsonedit.html" class="external-link">jsonedit</a></span><span class="op">(</span><span class="va">cmd</span><span class="op">$</span><span class="va">help</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">listviewer</span><span class="fu">::</span><span class="fu">jsonedit</span><span class="op">(</span><span class="va">cmd</span><span class="op">$</span><span class="va">help</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## define the mandatory arguments all other will be default</span></span></span>
 <span class="r-in"><span><span class="va">cmd</span><span class="op">$</span><span class="va">input_il</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,<span class="st">"test.tif"</span><span class="op">)</span></span></span>

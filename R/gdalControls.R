@@ -67,10 +67,11 @@ searchGDALW <- function(DL = "C:",
     if (!quiet) cat("\nsearching for GDAL installations - this may take a while\n")
     if (!quiet) cat("For providing the path manually see ?searchGDALW \n")
     
-    
+    DL = gsub("\\\\", "/", DL)
+    DL = gsub("/", "\\\\", DL)
     options(show.error.messages = FALSE)
     options(warn=-1)
-    raw_GDAL  <- try(system(paste0("cmd.exe"," /c dir /B /S ",DL,"\\","gdalinfo.exe"),intern=TRUE))
+    raw_GDAL  <- try(system(paste0("cmd.exe /c dir /B /S ",DL,"gdalinfo.exe"),intern=TRUE))
     if (identical(raw_GDAL, character(0))) raw_GDAL <- "File not found"
     if (any(grepl(raw_GDAL,pattern = "File not found")) | any(grepl(raw_GDAL,pattern = "Datei nicht gefunden"))) {
       

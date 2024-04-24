@@ -4,15 +4,15 @@
 \alias{searchSAGAX}
 \title{Searches recursively for existing 'Windows' 'SAGA GIS' installation(s)}
 \usage{
-searchSAGAX(MP = "/usr", quiet = TRUE)
+searchSAGAX(MP = "/usr/bin", quiet = TRUE)
 }
 \arguments{
-\item{MP}{default mount point is \code{/usr}}
+\item{MP}{default mount point is \code{/usr/bin}}
 
-\item{quiet}{boolean  switch for supressing console messages default is TRUE}
+\item{quiet}{Boolean  switch for suppressing console messages default is TRUE}
 }
 \value{
-A dataframe contasining the 'SAGA GIS' root folder(s), the version name(s) and the installation type(s)
+A data frame containing the 'SAGA GIS' root folder(s), the version name(s) and the installation type(s)
 }
 \description{
 Search for valid 'GRASS GIS' installations at a given 'Linux' mount point

@@ -37,7 +37,7 @@ setenvOTB <- function(bin_OTB = NULL, root_OTB = NULL){
 #'@title Search recursively for valid 'OTB' installation(s) on a 'Windows' OS
 #'@name searchOTBW
 #'@description  Search for valid 'OTB' installations on a 'Windows' OS
-#'@param DL drive letter default is "C:"
+#'@param DL drive letter default is \code{C:/}
 #'@param quiet boolean  switch for supressing console messages default is TRUE
 #'@return A dataframe with the 'OTB' root folder(s) the version name(s) and the installation type(s).
 #'@author Chris Reudenbach
@@ -52,7 +52,7 @@ setenvOTB <- function(bin_OTB = NULL, root_OTB = NULL){
 
 searchOTBW <- function(DL = "default",
                        quiet=TRUE) {
-  if (DL=="default") DL <- "C:"
+  if (DL=="default") DL <- "C:/"
   if (Sys.info()["sysname"] == "Windows") {
     if (!exists("GiEnv")) GiEnv <- new.env(parent=globalenv()) 
 
@@ -196,8 +196,7 @@ searchOTBX <- function(MP = "default",
 #'on your 'Windows' system. There is a major difference between osgeo4W and 
 #'stand_alone installations. The functions trys to find all valid 
 #'installations by analysing the calling batch scripts.
-#'@param searchLocation drive letter to be searched, for Windows systems default
-#' is \code{C:}, for Linux systems default is \code{/usr}.
+#'@param searchLocation drive letter to be searched, for Windows systems default is \code{C:/}, for Linux systems default is \code{/usr/bin}.
 #'@param quiet boolean  switch for supressing console messages default is TRUE
 #'@return A dataframe with the 'OTB' root folder(s),  and command line executable(s)
 #'@author Chris Reudenbach
@@ -213,7 +212,7 @@ findOTB <- function(searchLocation = "default",
                     quiet=TRUE) {
   
   if (Sys.info()["sysname"] == "Windows") {
-    if (searchLocation=="default") searchLocation <- "C:"
+    if (searchLocation=="default") searchLocation <- "C:/"
     if (grepl(paste0(LETTERS, ":", collapse="|"), searchLocation))
       link = link2GI::searchOTBW(DL = searchLocation,                     
                                  quiet=TRUE)  

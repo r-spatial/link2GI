@@ -6,7 +6,7 @@
 \usage{
 paramGRASSw(
   set_default_GRASS = NULL,
-  DL = "C:",
+  DL = "C:/",
   ver_select = FALSE,
   quiet = TRUE
 )
@@ -40,6 +40,6 @@ if (run) {
 paramGRASSw()
 
 # typical OSGeo4W64 installation
-paramGRASSw(c("C:/OSGeo4W64","grass-7.0.5","osgeo4W"))
+paramGRASSw(c("C:/OSGeo4","grass7.8","osgeo4W"))
 }
 }

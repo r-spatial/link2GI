@@ -4,10 +4,10 @@
 \alias{searchSAGAW}
 \title{Searches recursively for existing 'Windows' 'SAGA GIS' installation(s)}
 \usage{
-searchSAGAW(DL = "C:", quiet = TRUE)
+searchSAGAW(DL = "C:/", quiet = TRUE)
 }
 \arguments{
-\item{DL}{drive letter default is "C:"}
+\item{DL}{drive letter default is \code{C:/}}
 
 \item{quiet}{boolean  switch for supressing messages default is TRUE}
 }

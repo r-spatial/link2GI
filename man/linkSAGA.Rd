@@ -16,7 +16,7 @@ linkSAGA(
 \item{default_SAGA}{string contains path to \code{RSAGA} binaries}
 
 \item{searchLocation}{drive letter to be searched, for Windows systems default
-is \code{C:}, for Linux systems default is \code{/usr}.}
+is \code{C:}, for Linux systems default is \code{/usr/bin}.}
 
 \item{ver_select}{boolean default is FALSE. If there is more than one 'SAGA GIS' installation and \code{ver_select} = TRUE the user can select interactively the preferred 'SAGA GIS' version}
 

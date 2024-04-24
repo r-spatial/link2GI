@@ -28,7 +28,7 @@ If you provide a valid list the corresponding version is initialized. An example
 
 \item{search_path}{path or mounting point that will be searched}
 
-\item{ver_select}{boolean if TRUE you may choose interactively the binary version (if found  more than one),  by default FALSE}
+\item{ver_select}{Boolean if TRUE you may choose interactively the binary version (if found  more than one),  by default FALSE}
 
 \item{gisdbase_exist}{default is FALSE if set to TRUE the arguments gisdbase and location are expected to be an existing GRASS gisdbase}
 
@@ -42,9 +42,9 @@ If you provide a valid list the corresponding version is initialized. An example
 
 \item{resolution}{resolution in map units for the GRASS raster cells}
 
-\item{quiet}{boolean  switch for supressing console messages default is TRUE}
+\item{quiet}{Boolean  switch for suppressing console messages default is TRUE}
 
-\item{returnPaths}{boolean if set to FALSE the pathes of the selected version are written 
+\item{returnPaths}{Boolean if set to FALSE the pathes of the selected version are written 
 to the PATH variable only, otherwise all paths and versions of the installed GRASS versions ae returned.}
 }
 \description{
@@ -57,8 +57,8 @@ Initializes the session environment and the system paths for an easy access to
 \details{
 The concept is straightforward but for an all days usage helpful. Either you need to 
 provide a \code{raster} or \code{sp} \code{sf} spatial object
- which has correct spatial and projection properties or you may link directlxy to an existing 'GRASS' gisdbase and mapset. 
- If you choose an spatial object to initialize a correct 'GRASS' mapset it is used to create either a temporary or a permanent 
+ which has correct spatial and projection properties or you may link directly to an existing 'GRASS' gisdbase and mapset. 
+ If you choose an spatial object to initialize a correct 'GRASS' map set it is used to create either a temporary or a permanent 
  \href{https://CRAN.R-project.org/package=rgrass}{rgrass} environment including the correct 'GRASS ' structure.\cr\cr
  The most time consuming part on 'Windows' Systems is the search process. This can easily take 10 or more minutes. 
  To speed up this process you can also provide a correct parameter set. Best way to do so is to call \code{searchGRASSW} or for 'Linux' \code{searchGRASSX} manually. 
@@ -79,8 +79,8 @@ provide a \code{raster} or \code{sp} \code{sf} spatial object
  or different software releases (e.g. 'GRASS 7.0.5 and GRASS 8.1.0), it becomes often cumbersome or even 
  impossible to get the correct linkages. \cr 
  The function \code{linkGRASS} tries to find all valid 'GRASS GIS' binaries by analyzing
- the startup script files of 'GRASS GIS'. After identifying the 'GRASS GIS' binaries all
- necessary system variables and settings will be generated and passed to a temporary R enviroment.
+ the start up script files of 'GRASS GIS'. After identifying the 'GRASS GIS' binaries all
+ necessary system variables and settings will be generated and passed to a temporary R environment.
 
 If you have more than one valid installation and run \code{linkGRASS()} without arguments, you will be ask to select one.
 }

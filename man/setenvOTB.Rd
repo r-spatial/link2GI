@@ -13,7 +13,7 @@ setenvOTB(bin_OTB = NULL, root_OTB = NULL)
 containing the 'OTB' installation'}
 }
 \value{
-Adds 'OTB' pathes to the enviroment and creates the variable global string variable \code{otbCmd}, that contains the path to the 'OTB' binaries.
+Adds 'OTB' pathes to the environment and creates the variable global string variable \code{otbCmd}, that contains the path to the 'OTB' binaries.
 }
 \description{
 Initializes and set up  access to the 'OTB' command line interface

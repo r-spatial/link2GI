@@ -17,15 +17,15 @@ c("/usr/lib/grass74","7.4.1","grass74")}
 
 \item{MP}{mount point to be searched. default is "/usr/bin"}
 
-\item{ver_select}{if TRUE you must interactivley selcect between alternative installations}
+\item{ver_select}{if TRUE you must interactively select between alternative installations}
 
-\item{quiet}{boolean  switch for supressing console messages default is TRUE}
+\item{quiet}{Boolean  switch for suppressing console messages default is TRUE}
 }
 \description{
 Initialize and set up \code{rgrass}  for 'Linux'
 }
 \details{
-During the rsession you will have full access to GRASS7 GIS via the \code{rgrass} wrappe. Additionally you may use also use the API calls of GRASS7 via the command line.
+During the rsession you will have full access to GRASS7 GIS via the \code{rgrass} wrapper. Additionally you may use also use the API calls of GRASS7 via the command line.
 }
 \examples{
 

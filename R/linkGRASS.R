@@ -160,7 +160,7 @@ linkGRASS = function(x = NULL,
   # search for GRASS on your system
   if (Sys.info()["sysname"] == "Windows") {
    if (use_home) home = Sys.getenv("USERPROFILE")
-    if (is.null(search_path)) search_path = "C:"
+    if (is.null(search_path)) search_path = "C:/"
     grass = paramGRASSw(default_GRASS,search_path,ver_select)
   } else {
     if (use_home) home = Sys.getenv("HOME")

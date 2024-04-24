@@ -4,10 +4,10 @@
 \alias{searchGDALW}
 \title{Search recursively for valid 'GDAL' installation(s) on a 'Windows' OS}
 \usage{
-searchGDALW(DL = "C:", quiet = TRUE)
+searchGDALW(DL = "C:/", quiet = TRUE)
 }
 \arguments{
-\item{DL}{drive letter default is "C:"}
+\item{DL}{drive letter default is "C:/"}
 
 \item{quiet}{boolean  switch for supressing console messages default is TRUE}
 }

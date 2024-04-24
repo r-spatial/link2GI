@@ -2,7 +2,7 @@
 #'@title Searches recursively for existing 'Windows' 'SAGA GIS' installation(s)
 #'@name searchSAGAX
 #'@description  Search for valid 'GRASS GIS' installations at a given 'Linux' mount point
-#'@param MP default mount point is \code{/usr}
+#'@param MP default mount point is \code{/usr/bin}
 #'@param quiet Boolean  switch for suppressing console messages default is TRUE
 #'@return A data frame containing the 'SAGA GIS' root folder(s), the version name(s) and the installation type(s)
 #'@author Chris Reudenbach
@@ -17,9 +17,9 @@
 #' searchSAGAX()
 #' }
 
-searchSAGAX <- function(MP = "/usr",
+searchSAGAX <- function(MP = "/usr/bin",
                         quiet = TRUE) {
-  if (MP=="default") MP <- "/usr"
+  if (MP=="default") MP <- "/usr/bin"
   
   if (Sys.info()["sysname"] == "Linux") {  
     
@@ -70,7 +70,7 @@ searchSAGAX <- function(MP = "/usr",
 #'@title Searches recursively for existing 'Windows' 'SAGA GIS' installation(s)
 #'@name searchSAGAW
 #'@description  Searches recursivley for existing 'SAGA GIS' installation(s) on a given 'Windows' drive 
-#'@param DL drive letter default is "C:"
+#'@param DL drive letter default is \code{C:/}
 #'@param quiet boolean  switch for supressing messages default is TRUE
 #'@return A dataframe contasining the 'SAGA GIS' root folder(s), the version name(s) and the installation type(s)
 #'@author Chris Reudenbach
@@ -86,9 +86,9 @@ searchSAGAX <- function(MP = "/usr",
 #' }
 
 
- searchSAGAW <- function(DL = "C:",
+ searchSAGAW <- function(DL = "C:/",
                         quiet = TRUE) {
-  if (DL=="default") DL <- "C:"
+  if (DL=="default") DL <- "C:/"
   if (Sys.info()["sysname"] == "Windows") {  
     sagaPath <- NULL #checkPCDomain("saga")  
     if (is.null(sagaPath)) {
@@ -204,7 +204,7 @@ searchSAGAX <- function(MP = "/usr",
 #'stand_alone installations. The functions trys to find all valid 
 #'installations by analysing the calling batch scripts.
 #'@param searchLocation drive letter to be searched, for Windows systems default
-#' is \code{C:}, for Linux systems default is \code{/usr}.
+#' is \code{C:/}, for Linux systems default is \code{/usr/bin}.
 #'@param quiet boolean  switch for supressing console messages default is TRUE
 
 #'@return A dataframe with the 'SAGA GIS' root folder(s), version name(s) and 
@@ -222,12 +222,12 @@ findSAGA <- function(searchLocation = "default",
                      quiet = TRUE) {
   
   if (Sys.info()["sysname"] == "Windows") {
-    if (searchLocation=="default") searchLocation <- "C:"
+    if (searchLocation=="default") searchLocation <- "C:/"
     if (grepl(paste0(LETTERS, ":", collapse="|"), searchLocation))
       link = link2GI::searchSAGAW(DL = searchLocation,quiet = quiet)  
     else stop("You are running Windows - Please choose a suitable searchLocation argument that MUST include a Windows drive letter and colon" )
   } else {
-    if (searchLocation=="default") searchLocation <- "/usr"
+    if (searchLocation=="default") searchLocation <- "/usr/bin"
     if (grepl(searchLocation,pattern = ":"))  stop("You are running Linux - please choose a suitable searchLocation argument" )
     else link = link2GI::searchSAGAX(MP = searchLocation,quiet = quiet)
   }

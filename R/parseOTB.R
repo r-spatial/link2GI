@@ -65,7 +65,7 @@ parseOTBFunction <- function(algo=NULL,gili=NULL) {
     otb<-link2GI::linkOTB()
     path_OTB<- otb$pathOTB
   } else path_OTB<- gili$pathOTB
-  if (identical(grep(path_OTB,pattern = "OTB-9"), integer(0) )) stop("OTB 9 due to unsolved errors calling 'otbenv.profile'  currently not supported")
+  if (identical(grep(path_OTB[[1]],pattern = "OTB-9"), !integer(0) )) stop("OTB 9 due to unsolved errors calling 'otbenv.profile'  currently not supported")
   otb<-gili
   ocmd<-tmp<-list()
   otbcmd <- list()

@@ -126,8 +126,14 @@ searchSAGAX <- function(MP = "/usr/bin",
           # 
           # Search starts in root directory
           #path.list = list.files(path = "C:/", pattern = "saga_cmd.exe", recursive = TRUE, full.names = TRUE)
-          rawSAGA <- try(system(paste0("cmd.exe /c dir /B /s ",DL,"\\",cmd),intern = TRUE))
-          
+      DL = gsub("\\\\", "/", DL)
+      DL = gsub("/", "\\\\", DL)
+      DL = shortPathName(DL)
+      
+      
+         # rawSAGA <- try(system(paste0("cmd.exe /c dir /B /s ",DL,"\\",cmd),intern = TRUE))
+          rawSAGA  <- try(system(paste0("cmd.exe /c WHERE /R ",DL, " ",cmd),intern=TRUE))
+          rawSAGA= shortPathName(rawSAGA)
           
           # Remove cmd name from path
          # path.list = gsub(paste0(".{",nchar(cmd),"}$"), "", path.list)
@@ -262,9 +268,14 @@ getSagaVer<- function (paths){
   scmd = ifelse(Sys.info()["sysname"]=="Windows", "saga_cmd.exe", "saga_cmd")
   if (grepl(paths,pattern="OSGeo")){
     batfileFN= "C:\\OSGeo4W\\OSGeo4W.bat"  
-  }
-  sagaVersion<-  strsplit(x = system(paste0(paste0(batfileFN, " ; ",paths,sep,scmd)," --version"),intern = TRUE),split = "SAGA Version: ")[[1]][2]
+    sagaVersion<-  strsplit(x = system(paste0(paste0(batfileFN, " ; ",paths,sep,scmd)," --version"),intern = TRUE),split = "SAGA Version: ")[[1]][2]
+    
+  } else {
+    psplit=strsplit(paths ,split = "\\\\" )
+    batfileFN= paste0(psplit[[1]][1],"/",psplit[[1]][2],"/",psplit[[1]][3],"/OSGeo4W.bat")  
   
+    sagaVersion<-  strsplit(x = system(paste0(paste0(batfileFN, " ; ",paths,sep,scmd)," --version"),intern = TRUE),split = "SAGA Version: ")[[1]][2]
+  }
   #sagaVersion<-  strsplit(x = system(paste0paths,sep,scmd)," --version"),intern = TRUE),split = "SAGA Version: ")[[1]][2]
   return (sagaVersion)
 }

@@ -248,11 +248,19 @@ searchGRASSW <- function(DL = "C:/",
   raw_GRASS  <- try(system(paste0("cmd.exe /c WHERE /R ",DL, " ","grass*.bat"),intern=TRUE))
   
   #raw_GRASS <- try(system(paste0("cmd.exe /c dir /B /S ", DL, "\\","grass*.bat"), intern = TRUE,ignore.stderr = TRUE))
-  
-  
-  if (unique(grepl(raw_GRASS,pattern = "File not found") | grepl(raw_GRASS,pattern = "Datei nicht gefunden"))) {
+
+
+  if (unique(
+    (grepl(raw_GRASS,pattern = "File not found") |
+     grepl(raw_GRASS,pattern = "Datei nicht gefunden") |
+     grepl(raw_GRASS,pattern = "INFORMATION:") |
+     grepl(raw_GRASS,pattern = "FEHLER:") |
+     grepl(raw_GRASS,pattern = "ERROR:"))
+    )) {
+    message("::: NO GRASS installation found at: '",DL,"'")
+    message("::: NOTE:  Links or symbolic links like 'C:/Documents' are not searched...")
+    stop()
     
-    class(raw_GRASS) <- c("try-error", class(raw_GRASS))
   }
   options(show.error.messages = TRUE)
   options(warn=0)

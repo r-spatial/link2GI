@@ -97,7 +97,7 @@
                         <h4 data-toc-skip class="author">Chris
 Reudenbach</h4>
             
-            <h4 data-toc-skip class="date">2024-04-24</h4>
+            <h4 data-toc-skip class="date">2024-04-30</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/r-spatial/link2GI/blob/HEAD/vignettes/link2GI3.Rmd" class="external-link"><code>vignettes/link2GI3.Rmd</code></a></small>
       <div class="hidden name"><code>link2GI3.Rmd</code></div>
@@ -168,7 +168,7 @@ some projection information.</p>
 <code class="sourceCode R"><span><span class="co"># fast read with data.table </span></span>
 <span> <span class="va">xyz</span> <span class="op">&lt;-</span> <span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/fread.html" class="external-link">fread</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">path_run</span>,<span class="st">"/Zensus_Bevoelkerung_100m-Gitter.csv"</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
-<span> <span class="fu"><a href="https://rspatial.github.io/terra/reference/headtail.html" class="external-link">head</a></span><span class="op">(</span><span class="va">xyz</span><span class="op">)</span></span></code></pre></div>
+<span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/headtail.html" class="external-link">head</a></span><span class="op">(</span><span class="va">xyz</span><span class="op">)</span></span></code></pre></div>
 <p>We can easy rasterize this data as it is intentionally gridded
 data.that means we have in at a grid size of 100 by 100 meters a
 value.</p>
@@ -182,8 +182,8 @@ value.</p>
 <span> <span class="va">xyz</span> <span class="op">&lt;-</span> <span class="va">xyz</span><span class="op">[</span>,<span class="op">-</span><span class="fl">1</span><span class="op">]</span></span>
 <span></span>
 <span><span class="co"># rasterize it according to the projection </span></span>
-<span>  <span class="va">r</span> <span class="op">&lt;-</span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rspatial.github.io/terra/reference/rast.html" class="external-link">rast</a></span><span class="op">(</span><span class="va">xyz</span>, type<span class="op">=</span><span class="st">"xyz"</span><span class="op">)</span></span>
-<span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rspatial.github.io/terra/reference/crs.html" class="external-link">crs</a></span><span class="op">(</span><span class="va">r</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fl">3035</span></span>
+<span>  <span class="va">r</span> <span class="op">&lt;-</span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">rast</a></span><span class="op">(</span><span class="va">xyz</span>, type<span class="op">=</span><span class="st">"xyz"</span><span class="op">)</span></span>
+<span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/crs.html" class="external-link">crs</a></span><span class="op">(</span><span class="va">r</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fl">3035</span></span>
 <span></span>
 <span><span class="co"># map it</span></span>
 <span> <span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/colorRamp.html" class="external-link">colorRampPalette</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/RColorBrewer/man/ColorBrewer.html" class="external-link">brewer.pal</a></span><span class="op">(</span><span class="fl">8</span>, <span class="st">"Reds"</span><span class="op">)</span><span class="op">)</span></span>

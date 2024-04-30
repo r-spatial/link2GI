@@ -4,9 +4,6 @@
     <loc>https://r-spatial.github.io/link2GI/404.html</loc>
   </url>
   <url>
-    <loc>https://r-spatial.github.io/link2GI/LICENSE-text.html</loc>
-  </url>
-  <url>
     <loc>https://r-spatial.github.io/link2GI/articles/index.html</loc>
   </url>
   <url>
@@ -32,6 +29,9 @@
   </url>
   <url>
     <loc>https://r-spatial.github.io/link2GI/index.html</loc>
+  </url>
+  <url>
+    <loc>https://r-spatial.github.io/link2GI/LICENSE-text.html</loc>
   </url>
   <url>
     <loc>https://r-spatial.github.io/link2GI/news/index.html</loc>

@@ -73,15 +73,19 @@ searchOTBW <- function(DL = "default",
       
       #raw_OTB  <- try(system(paste0("cmd.exe"," /c dir /B /S ",DL,"\\","otbcli.bat"),intern=TRUE))
       if (identical(raw_OTB, character(0))) raw_OTB <- "File not found"
-      if (grepl(raw_OTB[1],pattern = "File not found") | grepl(raw_OTB[1],pattern = "Datei nicht gefunden")) {
+      if (grepl(raw_OTB[1],pattern = "File not found") |
+          grepl(raw_OTB[1],pattern = "Datei nicht gefunden") |
+          grepl(raw_OTB[1],pattern = "INFORMATION:")) {
 
         class(raw_OTB) <- c("try-error", class(raw_OTB))
+        message("\n::: NO OTB installation found at: '",DL,"'")
+        stop()
+        
       }
       options(show.error.messages = TRUE)
       options(warn=0)
       
       if(class(raw_OTB)[1] != "try-error")  {
-      #if (!grepl(DL,raw_OTB)) stop("\n At ",DL," no OTB installation found")
       
       # trys to identify valid otb installations and their version numbers
       otbInstallations <- lapply(seq(length(raw_OTB)), function(i){

@@ -234,6 +234,9 @@ searchGRASSW <- function(DL = "C:/",
                          quiet =TRUE){
   
   if (DL=="default") DL <- "C:/"
+  DL = gsub("\\\\", "/", DL)
+  DL = gsub("/", "\\\\", DL)
+  DL = shortPathName(DL)
   
   # trys to find a osgeo4w installation on the whole C: disk returns root directory and version name
   # recursive dir for grass*.bat returns all version of grass bat files
@@ -242,7 +245,9 @@ searchGRASSW <- function(DL = "C:/",
   options(show.error.messages = FALSE)
   options(warn=-1)
   
-  raw_GRASS <- try(system(paste0("cmd.exe /c dir /B /S ", DL, "\\","grass*.bat"), intern = TRUE,ignore.stderr = TRUE))
+  raw_GRASS  <- try(system(paste0("cmd.exe /c WHERE /R ",DL, " ","grass*.bat"),intern=TRUE))
+  
+  #raw_GRASS <- try(system(paste0("cmd.exe /c dir /B /S ", DL, "\\","grass*.bat"), intern = TRUE,ignore.stderr = TRUE))
   
   
   if (unique(grepl(raw_GRASS,pattern = "File not found") | grepl(raw_GRASS,pattern = "Datei nicht gefunden"))) {

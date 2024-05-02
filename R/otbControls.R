@@ -71,7 +71,7 @@ searchOTBW <- function(DL = "default",
       DL = shortPathName(DL)
       raw_OTB  <- try(system(paste0("cmd.exe /c WHERE /R ",DL, " ","otbcli.bat"),intern=TRUE))
       
-      raw_OTB  <- try(system(paste0("cmd.exe"," /c dir /B /S ",DL,"\\","otbcli.bat"),intern=TRUE))
+      #raw_OTB  <- try(system(paste0("cmd.exe"," /c dir /B /S ",DL,"\\","otbcli.bat"),intern=TRUE))
       if (identical(raw_OTB, character(0))) raw_OTB <- "File not found"
       if (grepl(raw_OTB[1],pattern = "File not found") |
           grepl(raw_OTB[1],pattern = "Datei nicht gefunden") |

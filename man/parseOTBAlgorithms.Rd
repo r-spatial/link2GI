@@ -7,7 +7,7 @@
 parseOTBAlgorithms(gili = NULL)
 }
 \arguments{
-\item{gili}{optional list of avalailable `OTB` binaries if not provided `linkOTB()` is called}
+\item{gili}{optional list of available `OTB` binaries if not provided `linkOTB()` is called}
 }
 \description{
 retrieve the OTB module folder content and parses the module names

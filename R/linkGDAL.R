@@ -9,7 +9,7 @@ if (!isGeneric('linkGDAL')) {
 #'@details It looks for the \code{gdalinfo(.exe)} file. If the file is found in a \code{bin} folder it is assumed to be a valid 'GDAL' binary installation.
 #'@param bin_GDAL string contains path to where the gdal binaries are located
 #'@param ver_select Boolean default is FALSE. If there is more than one 'GDAL' installation and \code{ver_select} = TRUE the user can select interactively the preferred 'GDAL' version 
-#'@param searchLocation string hard drive letter default is \code{C:}
+#'@param searchLocation string hard drive letter default is \code{C:/}
 #'@param quiet Boolean  switch for suppressing messages default is TRUE
 #'@param returnPaths Boolean if set to FALSE the pathes of the selected version are written 
 #' to the PATH variable only, otherwise all paths and versions of the installed GRASS versions ae returned.
@@ -39,14 +39,14 @@ linkGDAL <- function(bin_GDAL=NULL,
    gdal<-list()
   if (is.null(searchLocation)){
     if (Sys.info()["sysname"] == "Windows") {
-      searchLocation<-"C:"
+      searchLocation<-"C:/"
     } else 
     {searchLocation<-"/usr"}
   }
   params_GDAL <- findGDAL(searchLocation = searchLocation,quiet = quiet)
   # if no path is provided  we have to search
   #cat(nrow(params_GDAL))
-  #params_GDAL <- system2("find", paste("/usr"," ! -readable -prune -o -type f -executable -iname 'gdalinfo' -print"),stdout = TRUE)
+  #params_GDAL <- system2("find", paste("/usr/bin"," ! -readable -prune -o -type f -executable -iname 'gdalinfo' -print"),stdout = TRUE)
   #bin_GDAL <- substr(params_GDAL,1,nchar(params_GDAL) - 6)  
   #pathGDAL <- bin_GDAL
   #params_GDAL <- searchGDALW()
@@ -103,7 +103,7 @@ linkGDAL <- function(bin_GDAL=NULL,
   #  } 
     
     # else {    
-    #   # if (is.null(searchLocation)) searchLocation<-"C:"
+    #   # if (is.null(searchLocation)) searchLocation<-"C:/"
     #   # params_GDAL <- findGDAL(searchLocation = searchLocation,quiet = quiet)
     #   #if ( params_GDAL != FALSE)
     #   if (nrow(params_GDAL$gdalInstallations) == 1) {  

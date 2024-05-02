@@ -37,7 +37,7 @@ setenvOTB <- function(bin_OTB = NULL, root_OTB = NULL){
 #'@title Search recursively for valid 'OTB' installation(s) on a 'Windows' OS
 #'@name searchOTBW
 #'@description  Search for valid 'OTB' installations on a 'Windows' OS
-#'@param DL drive letter default is "C:"
+#'@param DL drive letter default is \code{C:/}
 #'@param quiet boolean  switch for supressing console messages default is TRUE
 #'@return A dataframe with the 'OTB' root folder(s) the version name(s) and the installation type(s).
 #'@author Chris Reudenbach
@@ -52,7 +52,7 @@ setenvOTB <- function(bin_OTB = NULL, root_OTB = NULL){
 
 searchOTBW <- function(DL = "default",
                        quiet=TRUE) {
-  if (DL=="default") DL <- "C:"
+  if (DL=="default") DL <- "C:/"
   if (Sys.info()["sysname"] == "Windows") {
     if (!exists("GiEnv")) GiEnv <- new.env(parent=globalenv()) 
 
@@ -65,18 +65,31 @@ searchOTBW <- function(DL = "default",
       options(show.error.messages = FALSE)
       options(warn=-1)
       # switch backslash to slash and expand path to full path
-      DL <- gsub("/","\\\\" ,DL)  
-      raw_OTB  <- try(system(paste0("cmd.exe"," /c dir /B /S ",DL,"\\","otbcli.bat"),intern=TRUE))
+      
+      DL = gsub("\\\\", "/", DL)
+      DL = gsub("/", "\\\\", DL)
+      DL = shortPathName(DL)
+      raw_OTB  <- try(system(paste0("cmd.exe /c WHERE /R ",DL, " ","otbcli.bat"),intern=TRUE))
+      
+      #raw_OTB  <- try(system(paste0("cmd.exe"," /c dir /B /S ",DL,"\\","otbcli.bat"),intern=TRUE))
       if (identical(raw_OTB, character(0))) raw_OTB <- "File not found"
-      if (grepl(raw_OTB,pattern = "File not found") | grepl(raw_OTB,pattern = "Datei nicht gefunden")) {
+      if (grepl(raw_OTB[1],pattern = "File not found") |
+          grepl(raw_OTB[1],pattern = "Datei nicht gefunden") |
+          grepl(raw_OTB[1],pattern = "INFORMATION:") |
+          grepl(raw_OTB[1],pattern = "FEHLER:") |
+          grepl(raw_OTB[1],pattern = "ERROR:"))
+         {
 
         class(raw_OTB) <- c("try-error", class(raw_OTB))
+        message("::: NO OTB installation found at: '",DL,"'")
+        message("::: NOTE: Links or symbolic links like 'C:/Documents' are searched...")
+        stop()
+        
       }
       options(show.error.messages = TRUE)
       options(warn=0)
       
       if(class(raw_OTB)[1] != "try-error")  {
-      #if (!grepl(DL,raw_OTB)) stop("\n At ",DL," no OTB installation found")
       
       # trys to identify valid otb installations and their version numbers
       otbInstallations <- lapply(seq(length(raw_OTB)), function(i){
@@ -196,8 +209,7 @@ searchOTBX <- function(MP = "default",
 #'on your 'Windows' system. There is a major difference between osgeo4W and 
 #'stand_alone installations. The functions trys to find all valid 
 #'installations by analysing the calling batch scripts.
-#'@param searchLocation drive letter to be searched, for Windows systems default
-#' is \code{C:}, for Linux systems default is \code{/usr}.
+#'@param searchLocation drive letter to be searched, for Windows systems default is \code{C:/}, for Linux systems default is \code{/usr/bin}.
 #'@param quiet boolean  switch for supressing console messages default is TRUE
 #'@return A dataframe with the 'OTB' root folder(s),  and command line executable(s)
 #'@author Chris Reudenbach
@@ -213,7 +225,7 @@ findOTB <- function(searchLocation = "default",
                     quiet=TRUE) {
   
   if (Sys.info()["sysname"] == "Windows") {
-    if (searchLocation=="default") searchLocation <- "C:"
+    if (searchLocation=="default") searchLocation <- "C:/"
     if (grepl(paste0(LETTERS, ":", collapse="|"), searchLocation))
       link = link2GI::searchOTBW(DL = searchLocation,                     
                                  quiet=TRUE)  

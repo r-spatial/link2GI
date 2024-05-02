@@ -4,10 +4,10 @@
 \alias{searchGRASSW}
 \title{Search recursivly valid 'GRASS GIS' installation(s) on a given 'Windows' drive}
 \usage{
-searchGRASSW(DL = "C:", quiet = TRUE)
+searchGRASSW(DL = "C:/", quiet = TRUE)
 }
 \arguments{
-\item{DL}{drive letter to be searched, default is "C:"}
+\item{DL}{drive letter to be searched, default is \code{C:/}}
 
 \item{quiet}{boolean  switch for supressing console messages default is TRUEs}
 }
@@ -19,7 +19,7 @@ Provides an  list of valid 'GRASS GIS' installation(s) on your 'Windows' system.
 }
 \examples{
 \dontrun{
-# get all valid 'GRASS GIS' installation folders and params at "C:"
+# get all valid 'GRASS GIS' installation folders and params at "C:/"
 searchGRASSW()
 }
 }

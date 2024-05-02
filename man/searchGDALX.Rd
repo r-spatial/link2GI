@@ -2,12 +2,12 @@
 % Please edit documentation in R/gdalControls.R
 \name{searchGDALX}
 \alias{searchGDALX}
-\title{Search recursively for valid 'GDAL' installation(s) on a 'Windows' OS}
+\title{Search recursively for valid 'GDAL' installation(s) on a 'X-based' OS}
 \usage{
-searchGDALX(MP = "/usr", quiet = TRUE)
+searchGDALX(MP = "/usr/bin", quiet = TRUE)
 }
 \arguments{
-\item{MP}{drive letter default is "C:"}
+\item{MP}{drive letter default is "/usr/bin"}
 
 \item{quiet}{boolean  switch for supressing messages default is TRUE}
 }
@@ -15,7 +15,7 @@ searchGDALX(MP = "/usr", quiet = TRUE)
 A dataframe with the 'GDAL' root folder(s) the version name(s) and the installation type(s).
 }
 \description{
-Search for valid 'GDAL' installations on a 'Windows' OS
+Search for valid 'GDAL' installations on a 'X-based' OS
 }
 \examples{
 

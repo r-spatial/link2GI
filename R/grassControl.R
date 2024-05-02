@@ -118,7 +118,7 @@ paramGRASSx <- function(set_default_GRASS=NULL,
 #' }
 
 paramGRASSw <- function(set_default_GRASS=NULL, 
-                        DL="C:", 
+                        DL="C:/", 
                         ver_select =FALSE,
                         quiet = TRUE) {
   if (ver_select =='T') ver_select <- TRUE
@@ -126,7 +126,7 @@ paramGRASSw <- function(set_default_GRASS=NULL,
   if (Sys.info()["sysname"]=="Linux") return(cat("You are running Linux - please choose a suitable searchLocation argument"))
   # (R) set pathes  of 'GRASS' binaries depending on 'WINDOWS'
   if (is.null(set_default_GRASS)) {
-    if (DL=="default" || is.null(DL)) DL <- "C:"
+    if (DL=="default" || is.null(DL)) DL <- "C:/"
     # if no path is provided  we have to search
     params_GRASS <- findGRASS(searchLocation = DL,
                               quiet = quiet)
@@ -218,7 +218,7 @@ paramGRASSw <- function(set_default_GRASS=NULL,
 #'@name searchGRASSW
 #'@title Search for valid OSGeo4W 'GRASS GIS' installation(s) on a given 'Windows' drive 
 #'@description  Provides an  list of valid 'GRASS GIS' installation(s) on your 'Windows' system. There is a major difference between osgeo4W and stand_alone installations. The functions trys to find all valid installations by analysing the calling batch scripts.
-#'@param DL drive letter to be searched, default is "C:"
+#'@param DL drive letter to be searched, default is \code{C:/}
 #'@param quiet boolean  switch for supressing console messages default is TRUEs
 #'@return A dataframe with the 'GRASS GIS' root folder(s), version name(s) and installation type code(s)
 #'@author Chris Reudenbach
@@ -226,14 +226,17 @@ paramGRASSw <- function(set_default_GRASS=NULL,
 #'@keywords internal
 #'@examples
 #' \dontrun{
-#' # get all valid 'GRASS GIS' installation folders and params at "C:"
+#' # get all valid 'GRASS GIS' installation folders and params at "C:/"
 #' searchGRASSW()
 #' }
 
-searchGRASSW <- function(DL = "C:",
+searchGRASSW <- function(DL = "C:/",
                          quiet =TRUE){
   
-  if (DL=="default") DL <- "C:"
+  if (DL=="default") DL <- "C:/"
+  DL = gsub("\\\\", "/", DL)
+  DL = gsub("/", "\\\\", DL)
+  DL = shortPathName(DL)
   
   # trys to find a osgeo4w installation on the whole C: disk returns root directory and version name
   # recursive dir for grass*.bat returns all version of grass bat files
@@ -242,12 +245,22 @@ searchGRASSW <- function(DL = "C:",
   options(show.error.messages = FALSE)
   options(warn=-1)
   
-  raw_GRASS <- try(system(paste0("cmd.exe /c dir /B /S ", DL, "\\","grass*.bat"), intern = TRUE,ignore.stderr = TRUE))
+  raw_GRASS  <- try(system(paste0("cmd.exe /c WHERE /R ",DL, " ","grass*.bat"),intern=TRUE))
   
-  
-  if (unique(grepl(raw_GRASS,pattern = "File not found") | grepl(raw_GRASS,pattern = "Datei nicht gefunden"))) {
+  #raw_GRASS <- try(system(paste0("cmd.exe /c dir /B /S ", DL, "\\","grass*.bat"), intern = TRUE,ignore.stderr = TRUE))
+
+
+  if (unique(
+    (grepl(raw_GRASS,pattern = "File not found") |
+     grepl(raw_GRASS,pattern = "Datei nicht gefunden") |
+     grepl(raw_GRASS,pattern = "INFORMATION:") |
+     grepl(raw_GRASS,pattern = "FEHLER:") |
+     grepl(raw_GRASS,pattern = "ERROR:"))
+    )) {
+    message("::: NO GRASS installation found at: '",DL,"'")
+    message("::: NOTE:  Links or symbolic links like 'C:/Documents' are not searched...")
+    stop()
     
-    class(raw_GRASS) <- c("try-error", class(raw_GRASS))
   }
   options(show.error.messages = TRUE)
   options(warn=0)
@@ -556,7 +569,7 @@ checkGisdbase <- function(x = NULL , gisdbase = NULL, location = NULL, gisdbase_
 #'For Windows systems
 #'it is mandatory to include an uppercase Windows drive letter and a colon.
 #' Default For Windows Systems 
-#' is \code{C:}, for Linux systems default is \code{/usr/bin}.
+#' is \code{C:/}, for Linux systems default is \code{/usr/bin}.
 #'@param ver_select boolean default is FALSE. If there is more than one 'SAGA GIS' installation and \code{ver_select} = TRUE the user can select interactively the preferred 'SAGA GIS' version 
 #'@param quiet boolean  switch for supressing console messages default is TRUE
 #'@return A dataframe with the 'GRASS GIS' binary folder(s) (i.e. where the 
@@ -576,7 +589,7 @@ findGRASS <- function(searchLocation = "default",
                       quiet=TRUE) {
   
   if (Sys.info()["sysname"] == "Windows") {
-    if (searchLocation=="default") searchLocation <- "C:"
+    if (searchLocation=="default") searchLocation <- "C:/"
     if (grepl(paste0(LETTERS, ":", collapse="|"), searchLocation) )
       link = link2GI::searchGRASSW(DL = searchLocation)  
     else return(cat("You are running Windows - Please choose a suitable searchLocation argument that MUST include a Windows drive letter and colon"))

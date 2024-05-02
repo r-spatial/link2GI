@@ -44,7 +44,7 @@ linkOTB <- function(bin_OTB=NULL,
   
   if (is.null(searchLocation)){
   if (Sys.info()["sysname"] == "Windows") {
-     searchLocation<-"C:"
+     searchLocation<-"C:/"
     } else 
     {searchLocation<-"/usr/bin/"}
     }

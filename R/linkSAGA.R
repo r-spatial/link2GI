@@ -20,7 +20,7 @@ if ( !isGeneric("linkSAGA") ) {
 #'@return A list containing the selected \code{RSAGA} path variables \code{$sagaPath},\code{$sagaModPath},\code{$sagaCmd} and potentially other installations \code{$installed}  
 #'@param default_SAGA string contains path to \code{RSAGA} binaries
 #'@param searchLocation drive letter to be searched, for Windows systems default
-#' is \code{C:}, for Linux systems default is \code{/usr}.
+#' is \code{C:}, for Linux systems default is \code{/usr/bin}.
 #'@param ver_select boolean default is FALSE. If there is more than one 'SAGA GIS' installation and \code{ver_select} = TRUE the user can select interactively the preferred 'SAGA GIS' version 
 #'@param quiet boolean  switch for supressing console messages default is TRUE
 #'@param returnPaths boolean if set to FALSE the pathes of the selected version are written 

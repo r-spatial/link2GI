@@ -2,7 +2,7 @@
 #'@title Searches recursively for existing 'Windows' 'SAGA GIS' installation(s)
 #'@name searchSAGAX
 #'@description  Search for valid 'GRASS GIS' installations at a given 'Linux' mount point
-#'@param MP default mount point is \code{/usr}
+#'@param MP default mount point is \code{/usr/bin}
 #'@param quiet Boolean  switch for suppressing console messages default is TRUE
 #'@return A data frame containing the 'SAGA GIS' root folder(s), the version name(s) and the installation type(s)
 #'@author Chris Reudenbach
@@ -17,9 +17,9 @@
 #' searchSAGAX()
 #' }
 
-searchSAGAX <- function(MP = "/usr",
+searchSAGAX <- function(MP = "/usr/bin",
                         quiet = TRUE) {
-  if (MP=="default") MP <- "/usr"
+  if (MP=="default") MP <- "/usr/bin"
   
   if (Sys.info()["sysname"] == "Linux") {  
     
@@ -70,7 +70,7 @@ searchSAGAX <- function(MP = "/usr",
 #'@title Searches recursively for existing 'Windows' 'SAGA GIS' installation(s)
 #'@name searchSAGAW
 #'@description  Searches recursivley for existing 'SAGA GIS' installation(s) on a given 'Windows' drive 
-#'@param DL drive letter default is "C:"
+#'@param DL drive letter default is \code{C:/}
 #'@param quiet boolean  switch for supressing messages default is TRUE
 #'@return A dataframe contasining the 'SAGA GIS' root folder(s), the version name(s) and the installation type(s)
 #'@author Chris Reudenbach
@@ -86,9 +86,9 @@ searchSAGAX <- function(MP = "/usr",
 #' }
 
 
- searchSAGAW <- function(DL = "C:",
+ searchSAGAW <- function(DL = "C:/",
                         quiet = TRUE) {
-  if (DL=="default") DL <- "C:"
+  if (DL=="default") DL <- "C:/"
   if (Sys.info()["sysname"] == "Windows") {  
     sagaPath <- NULL #checkPCDomain("saga")  
     if (is.null(sagaPath)) {
@@ -126,8 +126,14 @@ searchSAGAX <- function(MP = "/usr",
           # 
           # Search starts in root directory
           #path.list = list.files(path = "C:/", pattern = "saga_cmd.exe", recursive = TRUE, full.names = TRUE)
-          rawSAGA <- try(system(paste0("cmd.exe /c dir /B /s ",DL,"\\",cmd),intern = TRUE))
-          
+      DL = gsub("\\\\", "/", DL)
+      DL = gsub("/", "\\\\", DL)
+      DL = shortPathName(DL)
+      
+      
+         # rawSAGA <- try(system(paste0("cmd.exe /c dir /B /s ",DL,"\\",cmd),intern = TRUE))
+          rawSAGA  <- try(system(paste0("cmd.exe /c WHERE /R ",DL, " ",cmd),intern=TRUE))
+          rawSAGA= shortPathName(rawSAGA)
           
           # Remove cmd name from path
          # path.list = gsub(paste0(".{",nchar(cmd),"}$"), "", path.list)
@@ -204,7 +210,7 @@ searchSAGAX <- function(MP = "/usr",
 #'stand_alone installations. The functions trys to find all valid 
 #'installations by analysing the calling batch scripts.
 #'@param searchLocation drive letter to be searched, for Windows systems default
-#' is \code{C:}, for Linux systems default is \code{/usr}.
+#' is \code{C:/}, for Linux systems default is \code{/usr/bin}.
 #'@param quiet boolean  switch for supressing console messages default is TRUE
 
 #'@return A dataframe with the 'SAGA GIS' root folder(s), version name(s) and 
@@ -222,12 +228,12 @@ findSAGA <- function(searchLocation = "default",
                      quiet = TRUE) {
   
   if (Sys.info()["sysname"] == "Windows") {
-    if (searchLocation=="default") searchLocation <- "C:"
+    if (searchLocation=="default") searchLocation <- "C:/"
     if (grepl(paste0(LETTERS, ":", collapse="|"), searchLocation))
       link = link2GI::searchSAGAW(DL = searchLocation,quiet = quiet)  
     else stop("You are running Windows - Please choose a suitable searchLocation argument that MUST include a Windows drive letter and colon" )
   } else {
-    if (searchLocation=="default") searchLocation <- "/usr"
+    if (searchLocation=="default") searchLocation <- "/usr/bin"
     if (grepl(searchLocation,pattern = ":"))  stop("You are running Linux - please choose a suitable searchLocation argument" )
     else link = link2GI::searchSAGAX(MP = searchLocation,quiet = quiet)
   }
@@ -262,9 +268,14 @@ getSagaVer<- function (paths){
   scmd = ifelse(Sys.info()["sysname"]=="Windows", "saga_cmd.exe", "saga_cmd")
   if (grepl(paths,pattern="OSGeo")){
     batfileFN= "C:\\OSGeo4W\\OSGeo4W.bat"  
-  }
-  sagaVersion<-  strsplit(x = system(paste0(paste0(batfileFN, " ; ",paths,sep,scmd)," --version"),intern = TRUE),split = "SAGA Version: ")[[1]][2]
+    sagaVersion<-  strsplit(x = system(paste0(paste0(batfileFN, " ; ",paths,sep,scmd)," --version"),intern = TRUE),split = "SAGA Version: ")[[1]][2]
+    
+  } else {
+    psplit=strsplit(paths ,split = "\\\\" )
+    batfileFN= paste0(psplit[[1]][1],"/",psplit[[1]][2],"/",psplit[[1]][3],"/OSGeo4W.bat")  
   
+    sagaVersion<-  strsplit(x = system(paste0(paste0(batfileFN, " ; ",paths,sep,scmd)," --version"),intern = TRUE),split = "SAGA Version: ")[[1]][2]
+  }
   #sagaVersion<-  strsplit(x = system(paste0paths,sep,scmd)," --version"),intern = TRUE),split = "SAGA Version: ")[[1]][2]
   return (sagaVersion)
 }

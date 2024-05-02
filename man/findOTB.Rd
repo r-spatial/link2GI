@@ -7,8 +7,7 @@
 findOTB(searchLocation = "default", quiet = TRUE)
 }
 \arguments{
-\item{searchLocation}{drive letter to be searched, for Windows systems default
-is \code{C:}, for Linux systems default is \code{/usr}.}
+\item{searchLocation}{drive letter to be searched, for Windows systems default is \code{C:/}, for Linux systems default is \code{/usr/bin}.}
 
 \item{quiet}{boolean  switch for supressing console messages default is TRUE}
 }

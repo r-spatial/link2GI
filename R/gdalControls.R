@@ -41,7 +41,7 @@ setenvGDAL <- function(bin_GDAL = NULL){
 #'@title Search recursively for valid 'GDAL' installation(s) on a 'Windows' OS
 #'@name searchGDALW
 #'@description  Search for valid 'GDAL' installations on a 'Windows' OS
-#'@param DL drive letter default is "C:"
+#'@param DL drive letter default is "C:/"
 #'@param quiet boolean  switch for supressing console messages default is TRUE
 #'@return A dataframe with the 'GDAL' root folder(s) the version name(s) and the installation type(s).
 #'@author Chris Reudenbach
@@ -202,10 +202,10 @@ searchGDALW <- function(DL = "C:/",
   return(gdal1)
 }
 
-#'@title Search recursively for valid 'GDAL' installation(s) on a 'Windows' OS
+#'@title Search recursively for valid 'GDAL' installation(s) on a 'X-based' OS
 #'@name searchGDALX
-#'@description  Search for valid 'GDAL' installations on a 'Windows' OS
-#'@param MP drive letter default is "C:"
+#'@description  Search for valid 'GDAL' installations on a 'X-based' OS
+#'@param MP drive letter default is "/usr/bin"
 #'@param quiet boolean  switch for supressing messages default is TRUE
 #'@return A dataframe with the 'GDAL' root folder(s) the version name(s) and the installation type(s).
 #'@author Chris Reudenbach
@@ -220,9 +220,9 @@ searchGDALW <- function(DL = "C:/",
 #' searchGDALX()
 #' }
 
-searchGDALX <- function(MP = "/usr",
+searchGDALX <- function(MP = "/usr/bin",
                         quiet=TRUE) {
-  if (MP=="default") MP <- "/usr"
+  if (MP=="default") MP <- "/usr/bin"
   if (!exists("GiEnv")) GiEnv <- new.env(parent=globalenv()) 
   # trys to find a osgeo4w installation at the mounting point  disk returns root directory and version name
   # recursive dir for gdal*.bat returns all version of gdal bat files
@@ -278,7 +278,7 @@ searchGDALX <- function(MP = "/usr",
 #'stand_alone installations. The functions trys to find all valid 
 #'installations by analysing the calling batch scripts.
 #'@param searchLocation drive letter to be searched, for Windows systems default
-#' is \code{C:}, for Linux systems default is \code{/usr}.
+#' is \code{C:/}, for Linux systems default is \code{/usr/bin}.
 #'@param quiet boolean  switch for supressing console messages default is TRUE
 #'@return A dataframe with the 'GDAL' root folder(s),  and command line executable(s)
 #'@author Chris Reudenbach
@@ -296,13 +296,13 @@ findGDAL <- function(searchLocation = "default",
                      quiet=TRUE) {
   
   if (Sys.info()["sysname"] == "Windows") {
-    if (searchLocation=="default") searchLocation <- "C:"
+    if (searchLocation=="default") searchLocation <- "C:/"
     if (grepl(paste0(LETTERS, ":", collapse="|"), searchLocation))
       link = link2GI::searchGDALW(DL = searchLocation,                     
                                   quiet=TRUE)  
     else stop("You are running Windows - Please choose a suitable searchLocation argument that MUST include a Windows drive letter and colon" )
   } else {
-    if (searchLocation=="default") searchLocation <- "/usr"
+    if (searchLocation=="default") searchLocation <- "/usr/bin"
     if (grepl(searchLocation,pattern = ":"))  stop("You are running Linux - please choose a suitable searchLocation argument" )
     else link = link2GI::searchGDALX(MP = searchLocation,
                                      quiet=TRUE)

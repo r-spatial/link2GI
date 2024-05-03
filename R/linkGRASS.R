@@ -67,8 +67,8 @@ if (!isGeneric('linkGRASS')) {
 #' require(sf)
 #' 
 #' # proj folders
-#' projRootDir = tempdir()
-#' paths = link2GI::initProj(projRootDir = projRootDir,
+#' root_folder = tempdir()
+#' paths = link2GI::initProj(root_folder = root_folder,
 #'                          projFolders = c("project1/"))
 #'                          
 #' # get  data                         
@@ -81,11 +81,11 @@ if (!isGeneric('linkGRASS')) {
 #' grass = linkGRASS(nc,returnPaths = TRUE)
 #' if (grass$exist){
 #' 
-#' # CREATE and link to a permanent GRASS folder at "projRootDir", location named "project1" 
-#' linkGRASS(nc, gisdbase = projRootDir, location = "project1")   
+#' # CREATE and link to a permanent GRASS folder at "root_folder", location named "project1" 
+#' linkGRASS(nc, gisdbase = root_folder, location = "project1")   
 #' 
-#' # ONLY LINK to a permanent GRASS folder at "projRootDir", location named "project1" 
-#' linkGRASS(gisdbase = projRootDir, location = "project1", gisdbase_exist = TRUE )   
+#' # ONLY LINK to a permanent GRASS folder at "root_folder", location named "project1" 
+#' linkGRASS(gisdbase = root_folder, location = "project1", gisdbase_exist = TRUE )   
 #' 
 #'
 #' # setting up GRASS manually with spatial parameters of the nc data
@@ -93,9 +93,9 @@ if (!isGeneric('linkGRASS')) {
 #' linkGRASS(spatial_params = c(178605,329714,181390,333611,proj4_string)) 
 #' 
 #' # creating a GRASS gisdbase manually with spatial parameters of the nc data 
-#' # additionally using a peramanent directory "projRootDir" and the location "nc_spatial_params "
+#' # additionally using a peramanent directory "root_folder" and the location "nc_spatial_params "
 #' proj4_string = as.character(sp::CRS("+init=epsg:4267"))
-#' linkGRASS(gisdbase = projRootDir,
+#' linkGRASS(gisdbase = root_folder,
 #'            location = "nc_spatial_params",
 #'            spatial_params = c(-84.32385, 33.88199,-75.45698,36.58965,proj4_string))
 #' }
@@ -385,8 +385,8 @@ linkGRASS = function(x = NULL,
 #' require(sf)
 #' 
 #' # proj folders
-#' projRootDir = tempdir()
-#' paths = link2GI::initProj(projRootDir = projRootDir,
+#' root_folder = tempdir()
+#' paths = link2GI::initProj(root_folder = root_folder,
 #'                          projFolders = c("project1/"))
 #'                          
 #' # get  data                         
@@ -399,11 +399,11 @@ linkGRASS = function(x = NULL,
 #' grass = linkGRASS(nc,returnPaths = TRUE)
 #' if (grass$exist){
 #' 
-#' # CREATE and link to a permanent GRASS folder at "projRootDir", location named "project1" 
-#' linkGRASS(nc, gisdbase = projRootDir, location = "project1")   
+#' # CREATE and link to a permanent GRASS folder at "root_folder", location named "project1" 
+#' linkGRASS(nc, gisdbase = root_folder, location = "project1")   
 #' 
-#' # ONLY LINK to a permanent GRASS folder at "projRootDir", location named "project1" 
-#' linkGRASS(gisdbase = projRootDir, location = "project1", gisdbase_exist = TRUE )   
+#' # ONLY LINK to a permanent GRASS folder at "root_folder", location named "project1" 
+#' linkGRASS(gisdbase = root_folder, location = "project1", gisdbase_exist = TRUE )   
 #' 
 #'
 #' # setting up GRASS manually with spatial parameters of the nc data
@@ -411,9 +411,9 @@ linkGRASS = function(x = NULL,
 #' linkGRASS(spatial_params = c(178605,329714,181390,333611,proj4_string)) 
 #' 
 #' # creating a GRASS gisdbase manually with spatial parameters of the nc data 
-#' # additionally using a peramanent directory "projRootDir" and the location "nc_spatial_params "
+#' # additionally using a peramanent directory "root_folder" and the location "nc_spatial_params "
 #' proj4_string = as.character(sp::CRS("+init=epsg:4267"))
-#' linkGRASS(gisdbase = projRootDir,
+#' linkGRASS(gisdbase = root_folder,
 #'            location = "nc_spatial_params",
 #'            spatial_params = c(-84.32385, 33.88199,-75.45698,36.58965,proj4_string))
 #' }

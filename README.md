@@ -7,6 +7,7 @@ checks](https://badges.cranchecks.info/worst/link2GI.svg)](https://cran.r-projec
 [![CRAN](https://www.r-pkg.org/badges/version/link2GI?color=009999)](https://cran.r-project.org/package=link2GI)
 [![](https://img.shields.io/github/stars/r-spatial/link2GI?style=flat)](https://github.com/r-spatial/link2GI)
 [![License](https://img.shields.io/badge/license-GPL%20%28%3E=%203%29-lightgrey.svg?style=flat)](https://www.gnu.org/licenses/gpl-3.0.html)
+
 ` `
 
 Package website: [release](https://r-spatial.github.io/link2GI/)
@@ -35,7 +36,21 @@ To utilize the power of the open source GI tools from within `R` you need to ins
 
 # Documentation
 
-### Updated OTB wrapper
+## Updated `initProj` functionnality
+`initProj` sets up a project environment complete with a defined folder structure, an RStudio project, initial scripts and setup templates, and optionally git repositories. Parameters include the root folder, and subfolders for data documentation and scripts. It supports automatic loading of required libraries, a standard setup option for simplified project initialization, and options to open the project immediately in a new or existing session. The function manages configurations through the src/functions/000_settings.R script, and maintains easy access to paths through the envrmt variable, facilitating efficient project management and data handling.
+
+```r
+require(link2GI)
+
+initProj(root_folder = tempdir(), standard_setup = "baseproj", newsession = TRUE)
+  
+```
+
+In addition you may use the `File -> New Project -> New directory -> New Wizard ` dialogue choosing the Create Project with link2GI template to create a new project via the Rstudio Menu.
+
+![](https://raw.githubusercontent.com/r-spatial/link2GI/master/figures/initproj2.png)
+
+## Updated OTB wrapper
 
 the OTB wrapper is updated for a more convinient usage. Please have a look at the usecase below:
   

@@ -48,7 +48,7 @@ We also have to download the meta data description file from the above website f
  require(curl)
 
 # first of all we create  a project folder structure 
-  link2GI::initProj(projRootDir = paste0(tempdir(),"/link2GI_examples"), 
+  link2GI::initProj(root_folder = paste0(tempdir(),"/link2GI_examples"), 
                     projFolders =  c("run/"),
                     path_prefix = "path_",
                     global = TRUE)

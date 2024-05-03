@@ -1,7 +1,7 @@
 ---
 author: "Chris Reudenbach"
 title: "OTB Wrapper"
-date: "2023-10-30"
+date: "2024-05-03"
 editor_options:
   chunk_output_type: console
 output:
@@ -61,7 +61,7 @@ require(raster)
 require(listviewer)
 
 otblink<-link2GI::linkOTB()
- projRootDir<-tempdir()
+ root_dir<-tempdir()
  
 fn <- system.file("ex/elev.tif", package = "terra")
 
@@ -75,10 +75,10 @@ cmd<-parseOTBFunction(algo = algoKeyword, gili = otblink)
 listviewer::jsonedit(cmd$help)
 
 ## define the mandantory arguments all other will be default
-cmd$input  <- fn
+cmd$input_in  <- fn
 cmd$filter <- "touzi"
-cmd$channel <- 2
-cmd$out <- file.path(projRootDir,paste0("out",cmd$filter,".tif"))
+cmd$channel <- 1
+cmd$out <- paste0(root_dir,paste0("\\out",cmd$filter,".tif"))
 
 ## run algorithm
 retStack<-runOTB(cmd,gili = otblink)

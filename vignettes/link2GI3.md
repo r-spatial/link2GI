@@ -1,7 +1,7 @@
 ---
 author: "Chris Reudenbach"
 title: "linkGRASS real world data usecase"
-date: "2023-01-27"
+date: "2024-05-03"
 editor_options:
   chunk_output_type: console
 output:
@@ -49,7 +49,7 @@ We also have to download the meta data description file from the above website f
  require(curl)
 
 # first of all we create  a project folder structure 
-  link2GI::initProj(projRootDir = paste0(tempdir(),"/link2GI_examples"), 
+  link2GI::initProj(root_folder = paste0(tempdir(),"/link2GI_examples"), 
                     projFolders =  c("run/"),
                     path_prefix = "path_",
                     global = TRUE)

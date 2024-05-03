@@ -4,6 +4,9 @@
     <loc>https://r-spatial.github.io/link2GI/404.html</loc>
   </url>
   <url>
+    <loc>https://r-spatial.github.io/link2GI/LICENSE-text.html</loc>
+  </url>
+  <url>
     <loc>https://r-spatial.github.io/link2GI/articles/index.html</loc>
   </url>
   <url>
@@ -31,13 +34,34 @@
     <loc>https://r-spatial.github.io/link2GI/index.html</loc>
   </url>
   <url>
-    <loc>https://r-spatial.github.io/link2GI/LICENSE-text.html</loc>
-  </url>
-  <url>
     <loc>https://r-spatial.github.io/link2GI/news/index.html</loc>
   </url>
   <url>
     <loc>https://r-spatial.github.io/link2GI/reference/add2Path.html</loc>
+  </url>
+  <url>
+    <loc>https://r-spatial.github.io/link2GI/reference/addGitFolders.html</loc>
+  </url>
+  <url>
+    <loc>https://r-spatial.github.io/link2GI/reference/createEnvi.html</loc>
+  </url>
+  <url>
+    <loc>https://r-spatial.github.io/link2GI/reference/createFolder.html</loc>
+  </url>
+  <url>
+    <loc>https://r-spatial.github.io/link2GI/reference/createFolders.html</loc>
+  </url>
+  <url>
+    <loc>https://r-spatial.github.io/link2GI/reference/createMeta.html</loc>
+  </url>
+  <url>
+    <loc>https://r-spatial.github.io/link2GI/reference/createScript.html</loc>
+  </url>
+  <url>
+    <loc>https://r-spatial.github.io/link2GI/reference/enviLoad.html</loc>
+  </url>
+  <url>
+    <loc>https://r-spatial.github.io/link2GI/reference/enviSave.html</loc>
   </url>
   <url>
     <loc>https://r-spatial.github.io/link2GI/reference/findGDAL.html</loc>
@@ -64,9 +88,6 @@
     <loc>https://r-spatial.github.io/link2GI/reference/initProj.html</loc>
   </url>
   <url>
-    <loc>https://r-spatial.github.io/link2GI/reference/link2GI.html</loc>
-  </url>
-  <url>
     <loc>https://r-spatial.github.io/link2GI/reference/linkAll.html</loc>
   </url>
   <url>
@@ -85,7 +106,13 @@
     <loc>https://r-spatial.github.io/link2GI/reference/linkSAGA.html</loc>
   </url>
   <url>
+    <loc>https://r-spatial.github.io/link2GI/reference/loadLibraries.html</loc>
+  </url>
+  <url>
     <loc>https://r-spatial.github.io/link2GI/reference/makGlobalVar.html</loc>
+  </url>
+  <url>
+    <loc>https://r-spatial.github.io/link2GI/reference/makeGlobalVariable.html</loc>
   </url>
   <url>
     <loc>https://r-spatial.github.io/link2GI/reference/manuallyBuild.html</loc>
@@ -101,9 +128,6 @@
   </url>
   <url>
     <loc>https://r-spatial.github.io/link2GI/reference/parseOTBFunction.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatial.github.io/link2GI/reference/rgb.html</loc>
   </url>
   <url>
     <loc>https://r-spatial.github.io/link2GI/reference/runOTB.html</loc>
@@ -142,6 +166,12 @@
     <loc>https://r-spatial.github.io/link2GI/reference/setenvOTB.html</loc>
   </url>
   <url>
+    <loc>https://r-spatial.github.io/link2GI/reference/setup_default.html</loc>
+  </url>
+  <url>
     <loc>https://r-spatial.github.io/link2GI/reference/sf2gvec.html</loc>
+  </url>
+  <url>
+    <loc>https://r-spatial.github.io/link2GI/reference/sourceFunctions.html</loc>
   </url>
 </urlset>

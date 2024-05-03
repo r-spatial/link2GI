@@ -120,7 +120,7 @@ table, .body h2 { border-bottom: 1px solid #666; }
 .body .appendix, .appendix ~ h2 { border-bottom-style: dashed; }
 .footnote-ref a::before { content: "["; }
 .footnote-ref a::after { content: "]"; }
-.footnotes::before {
+section.footnotes::before {
   content: "";
   display: block;
   max-width: 20em;
@@ -139,12 +139,10 @@ table, .body h2 { border-bottom: 1px solid #666; }
 </style>
 </head>
 <body>
-<div class="include-before">
-</div>
 <div class="frontmatter">
 <div class="title"><h1>OTB Wrapper</h1></div>
 <div class="author"><h2>Chris Reudenbach</h2></div>
-<div class="date"><h3>2023-10-30</h3></div>
+<div class="date"><h3>2024-05-03</h3></div>
 </div>
 <div class="body">
 <h1 id="a-typical-usecase-for-the-orfeo-toolbox-wrapper">A typical usecase for the Orfeo Toolbox wrapper</h1>
@@ -173,7 +171,7 @@ require(raster)
 require(listviewer)
 
 otblink&lt;-link2GI::linkOTB()
- projRootDir&lt;-tempdir()
+ root_dir&lt;-tempdir()
  
 fn &lt;- system.file(&quot;ex/elev.tif&quot;, package = &quot;terra&quot;)
 
@@ -187,10 +185,10 @@ cmd&lt;-parseOTBFunction(algo = algoKeyword, gili = otblink)
 listviewer::jsonedit(cmd$help)
 
 ## define the mandantory arguments all other will be default
-cmd$input  &lt;- fn
+cmd$input_in  &lt;- fn
 cmd$filter &lt;- &quot;touzi&quot;
-cmd$channel &lt;- 2
-cmd$out &lt;- file.path(projRootDir,paste0(&quot;out&quot;,cmd$filter,&quot;.tif&quot;))
+cmd$channel &lt;- 1
+cmd$out &lt;- paste0(root_dir,paste0(&quot;\\out&quot;,cmd$filter,&quot;.tif&quot;))
 
 ## run algorithm
 retStack&lt;-runOTB(cmd,gili = otblink)
@@ -198,8 +196,6 @@ retStack&lt;-runOTB(cmd,gili = otblink)
 ## plot filter raster on the green channel
 plot(retStack)
 </code></pre>
-</div>
-<div class="include-after">
 </div>
 <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js" defer></script>

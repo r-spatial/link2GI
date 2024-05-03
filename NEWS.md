@@ -1,3 +1,10 @@
+## link2GI 0.6-0
+
+new feature:
+
+* extension of initProj to a lightweight project setup tool
+
+
 ## link2GI 0.5-4
 
 bugfixes:

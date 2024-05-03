@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Linking Geographic Information Systems, Remote Sensing and Other Command Line Tools • link2GI</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="bootstrap-toc.css">
 <script src="bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">link2GI</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5-4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6-0</span>
       </span>
     </div>
 
@@ -96,7 +96,8 @@
 <div class="section level1">
 <div class="page-header"><h1 id="link2gi">link2GI<a class="anchor" aria-label="anchor" href="#link2gi"></a>
 </h1></div>
-<p><code></code> <a href="https://cran.r-project.org/web/checks/check_results_link2GI.html" class="external-link"><img src="https://badges.cranchecks.info/worst/link2GI.svg" alt="cran checks"></a> <img src="https://cranlogs.r-pkg.org/badges/link2GI" alt="monthly"><img src="https://cranlogs.r-pkg.org/badges/grand-total/link2GI" alt="total"><a href="https://cran.r-project.org/package=link2GI" class="external-link"><img src="https://www.r-pkg.org/badges/version/link2GI?color=009999" alt="CRAN"></a> <a href="https://github.com/r-spatial/link2GI" class="external-link"><img src="https://img.shields.io/github/stars/r-spatial/link2GI?style=flat"></a> <a href="https://www.gnu.org/licenses/gpl-3.0.html" class="external-link"><img src="https://img.shields.io/badge/license-GPL%20%28%3E=%203%29-lightgrey.svg?style=flat" alt="License"></a> <code></code></p>
+<p><code></code> <a href="https://cran.r-project.org/web/checks/check_results_link2GI.html" class="external-link"><img src="https://badges.cranchecks.info/worst/link2GI.svg" alt="cran checks"></a> <img src="https://cranlogs.r-pkg.org/badges/link2GI" alt="monthly"><img src="https://cranlogs.r-pkg.org/badges/grand-total/link2GI" alt="total"><a href="https://cran.r-project.org/package=link2GI" class="external-link"><img src="https://www.r-pkg.org/badges/version/link2GI?color=009999" alt="CRAN"></a> <a href="https://github.com/r-spatial/link2GI" class="external-link"><img src="https://img.shields.io/github/stars/r-spatial/link2GI?style=flat"></a> <a href="https://www.gnu.org/licenses/gpl-3.0.html" class="external-link"><img src="https://img.shields.io/badge/license-GPL%20%28%3E=%203%29-lightgrey.svg?style=flat" alt="License"></a></p>
+<p><code></code></p>
 <p>Package website: <a href="https://r-spatial.github.io/link2GI/">release</a></p>
 <p><code>link2GI</code> provide some functions which make it a bit easier to connect straightforward the common open source GI software packages to the R-biotop. It supports both the use of wrapper packages and the direct API-use via system calls. It focuses on <code>Linux</code> and <code>WindowsX</code> operating systems but nevertheless it should also work with <code>OSX</code>.</p>
 <p>If you have several versions installed or if you want to use the full power of the GI software it will be a nice and helpful tool to deal with some strange behaviours and requirements. Especially helpful is the support of <code>OTB</code>, the <code>GDAL-Python</code> functions and a simple support to use any <code>SAGA</code> version via the CLI. Hopefully <code>RSAGA</code> and <a href="https://github.com/stevenpawley/Rsagacmd" class="external-link"><code>Rsagacmd</code></a> will join forces in one package in the future. Anyway the current releases (1.4.0) of <code>RSAGA</code> as well as <code>Rsagacmd</code> will work with the environment settings as provided by <code>linkSAGA</code>.</p>
@@ -120,11 +121,23 @@
 <div class="section level1">
 <h1 id="documentation">Documentation<a class="anchor" aria-label="anchor" href="#documentation"></a>
 </h1>
-<div class="section level3">
-<h3 id="updated-otb-wrapper">Updated OTB wrapper<a class="anchor" aria-label="anchor" href="#updated-otb-wrapper"></a>
-</h3>
-<p>the OTB wrapper is updated for a more convinient usage. Please have a look at the usecase below:</p>
+<div class="section level2">
+<h2 id="updated-initproj-functionnality">Updated <code>initProj</code> functionnality<a class="anchor" aria-label="anchor" href="#updated-initproj-functionnality"></a>
+</h2>
+<p><code>initProj</code> sets up a project environment complete with a defined folder structure, an RStudio project, initial scripts and setup templates, and optionally git repositories. Parameters include the root folder, and subfolders for data documentation and scripts. It supports automatic loading of required libraries, a standard setup option for simplified project initialization, and options to open the project immediately in a new or existing session. The function manages configurations through the src/functions/000_settings.R script, and maintains easy access to paths through the envrmt variable, facilitating efficient project management and data handling.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-spatial/link2GI/" class="external-link">link2GI</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="reference/initProj.html">initProj</a></span><span class="op">(</span>root_folder <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, standard_setup <span class="op">=</span> <span class="st">"baseproj"</span>, newsession <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span>  </span></code></pre></div>
+<p>In addition you may use the <code>File -&gt; New Project -&gt; New directory -&gt; New Wizard</code> dialogue choosing the Create Project with link2GI template to create a new project via the Rstudio Menu.</p>
+<p><img src="https://raw.githubusercontent.com/r-spatial/link2GI/master/figures/initproj2.png"></p>
+</div>
+<div class="section level2">
+<h2 id="updated-otb-wrapper">Updated OTB wrapper<a class="anchor" aria-label="anchor" href="#updated-otb-wrapper"></a>
+</h2>
+<p>the OTB wrapper is updated for a more convinient usage. Please have a look at the usecase below:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co">## link to OTB</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-spatial/link2GI/" class="external-link">link2GI</a></span><span class="op">)</span></span>
@@ -157,7 +170,6 @@
 <span></span>
 <span><span class="co">## plot filter raster on the green channel</span></span>
 <span><span class="fu"><a href="https://rspatial.github.io/terra/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">retStack</span><span class="op">)</span></span></code></pre></div>
-</div>
 <div class="section level3">
 <h3 id="online-vignette">Online Vignette<a class="anchor" aria-label="anchor" href="#online-vignette"></a>
 </h3>
@@ -204,6 +216,7 @@
 <ul>
 <li>Deriving a <a href="https://github.com/gisma/link2gi2018/blob/master/R/usecases/uav-pc/useCaseCHM.R" class="external-link">Canopy Height Model from UAV derived point clouds</a> a mixed API approach</li>
 </ul>
+</div>
 </div>
 </div>
 </div>
@@ -257,7 +270,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>

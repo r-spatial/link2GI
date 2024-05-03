@@ -1,8 +1,8 @@
 Package: link2GI
 Type: Package
 Title: Linking Geographic Information Systems, Remote Sensing and Other Command Line Tools
-Version: 0.5-4
-Date: 2024-04-23
+Version: 0.6-0
+Date: 2024-05-03
 Authors@R: c(person("Chris", "Reudenbach", email = "reudenbach@uni-marburg.de", role = c("cre", "aut")),
              person("Tim", "Appelhans", email = "tim.appelhans@gmail.com>", role = c("ctb"))
              )
@@ -18,12 +18,15 @@ Imports:
   R.utils,
   roxygen2,
   sf (>= 0.9),
+  brew,
+  yaml,
   stringr,
   terra,
   methods,
   utils,
   xml2,
-  xfun
+  xfun,
+  rstudioapi
 SystemRequirements: GNU make 
 RoxygenNote: 7.3.1
 Suggests: knitr, 
@@ -32,6 +35,5 @@ Suggests: knitr,
           rgrass,
           stars,
           curl,
-          listviewer,
           markdown
 VignetteBuilder: knitr

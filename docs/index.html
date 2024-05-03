@@ -122,15 +122,15 @@
 <h1 id="documentation">Documentation<a class="anchor" aria-label="anchor" href="#documentation"></a>
 </h1>
 <div class="section level2">
-<h2 id="updated-initproj-functionnality">Updated <code>initProj</code> functionnality<a class="anchor" aria-label="anchor" href="#updated-initproj-functionnality"></a>
+<h2 id="updated-initproj-functionality">Updated initProj functionality<a class="anchor" aria-label="anchor" href="#updated-initproj-functionality"></a>
 </h2>
-<p><code>initProj</code> sets up a project environment complete with a defined folder structure, an RStudio project, initial scripts and setup templates, and optionally git repositories. Parameters include the root folder, and subfolders for data documentation and scripts. It supports automatic loading of required libraries, a standard setup option for simplified project initialization, and options to open the project immediately in a new or existing session. The function manages configurations through the src/functions/000_settings.R script, and maintains easy access to paths through the envrmt variable, facilitating efficient project management and data handling.</p>
+<p>initProj sets up a project environment complete with a defined folder structure, an RStudio project, initial scripts and setup templates, and optionally git repositories. Parameters include the root folder and subfolders for data documentation and scripts. It supports automatic loading of required libraries, a default setup option to simplify project initialisation, and options to open the project immediately in a new or existing session. The function manages configurations through the src/functions/000_settings.R script and maintains easy access to paths through the envrmt variable, facilitating efficient project management and data handling.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-spatial/link2GI/" class="external-link">link2GI</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="reference/initProj.html">initProj</a></span><span class="op">(</span>root_folder <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, standard_setup <span class="op">=</span> <span class="st">"baseproj"</span>, newsession <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span>  </span></code></pre></div>
-<p>In addition you may use the <code>File -&gt; New Project -&gt; New directory -&gt; New Wizard</code> dialogue choosing the Create Project with link2GI template to create a new project via the Rstudio Menu.</p>
+<p>In addition you may use the <code>File -&gt; New Project -&gt; New directory -&gt; New Wizard</code> dialogue choosing the <em>Create Project structure with link2GI</em> template to create a new project via the Rstudio Menu.</p>
 <p><img src="https://raw.githubusercontent.com/r-spatial/link2GI/master/figures/initproj2.png"></p>
 </div>
 <div class="section level2">

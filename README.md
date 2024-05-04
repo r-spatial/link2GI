@@ -36,30 +36,17 @@ To utilize the power of the open source GI tools from within `R` you need to ins
 
 # Documentation
 
-## Updated initProj functionality
-initProj sets up a project environment complete with a defined folder structure, an RStudio project, initial scripts and setup templates, and optionally git repositories. Parameters include the root folder and subfolders for data documentation and scripts. It supports automatic loading of required libraries, a default setup option to simplify project initialisation, and options to open the project immediately in a new or existing session. The function manages configurations through the src/functions/000_settings.R script and maintains easy access to paths through the envrmt variable, facilitating efficient project management and data handling.
 
-```r
-require(link2GI)
 
-initProj(root_folder = tempdir(), standard_setup = "baseSpatial_git", newsession = TRUE)
-  
-```
+## OTB wrapper
 
-In addition you may use the `File -> New Project -> New directory -> New Wizard ` dialogue choosing the ***Create Project structure with link2GI*** template to create a new project via the Rstudio menu.
-
-![](https://raw.githubusercontent.com/r-spatial/link2GI/master/figures/initproj2.png)
-
-## Updated OTB wrapper
-
-the OTB wrapper is updated for a more convinient usage. Please have a look at the usecase below:
+the OTB wrapper is updated for a more convenient usage. Please have a look at the use case below:
   
 ```r
 
 ## link to OTB
 require(link2GI)
 require(terra)
-require(listviewer)
 
 otblink<-link2GI::linkOTB()
 projRootDir<-tempdir()
@@ -73,13 +60,12 @@ algoKeyword<- "EdgeExtraction"
 ## extract the command list for the choosen algorithm 
 cmd<-parseOTBFunction(algo = algoKeyword, gili = otblink)
 
-## get help using the convenient listviewer
-listviewer::jsonedit(cmd$help)
 
 ## define the mandantory arguments all other will be default
-cmd$input  <- fn
+cmd$help = NULL
+cmd$input_in  <- fn
 cmd$filter <- "touzi"
-cmd$channel <- 2
+cmd$channel <- 1
 cmd$out <- file.path(projRootDir,paste0("out",cmd$filter,".tif"))
 
 ## run algorithm
@@ -88,6 +74,19 @@ retStack<-runOTB(cmd,gili = otblink)
 ## plot filter raster on the green channel
 plot(retStack)
 ```
+##  `initProj` for reproducible projects
+initProj sets up a project environment complete with a defined folder structure, an RStudio project, initial scripts and setup templates, and optionally git repositories. Parameters include the root folder and subfolders for data documentation and scripts. It supports automatic loading of required libraries, a default setup option to simplify project initialisation, and options to open the project immediately in a new or existing session. The function manages configurations through the src/functions/000_settings.R script and maintains easy access to paths through the envrmt variable, facilitating efficient project management and data handling.
+
+```r
+require(link2GI)
+
+initProj(root_folder = tempdir(), standard_setup = "baseSpatial_git", newsession = TRUE)
+  
+```
+
+In addition you may use the `File -> New Project -> New directory -> New Wizard ` dialogue choosing the ***Create Project structure with link2GI*** template to create a new project via the Rstudio menu.
+
+![](https://raw.githubusercontent.com/r-spatial/link2GI/master/figures/initproj2.png)
 
 
 ### Online Vignette

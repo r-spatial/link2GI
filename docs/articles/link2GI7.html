@@ -121,18 +121,23 @@ individual projects structures to getting in an easy way the necessary
 pathes. Furthermore there are quite alot of packages dealing with
 project structures and templates for creating easy to use and
 transparent project structures. Namely <a href="https://cran.r-project.org/package=tinyProject" class="external-link"><code>tinProjects</code></a>,
-[<code>prodigenr](https://cran.r-project.org/package=prodigenr) or [</code>workflowr<code>](https://cran.r-project.org/package=workflowr).</code>Workflowr<code>,</code>tinyProjects<code>, and</code>prodigenr<code>are R packages designed to facilitate reproducible research through automated project structuring and standardization. They all promote organized project directories, emphasize reproducibility by integrating with tools like</code>Git<code>and</code>renv`,
-and reduce manual setup efforts to ensure consistent and error-free
-project initialization. These packages help build a solid foundation for
+<a href="https://cran.r-project.org/package=prodigenr" class="external-link"><code>prodigenr</code></a>
+or <a href="https://cran.r-project.org/package=workflowr" class="external-link"><code>workflowr</code></a>
+are R packages designed to facilitate reproducible research through
+automated project structuring and standardization. They all promote
+organized project directories, emphasize reproducibility by integrating
+with tools like <code>Git</code> and <code>renv</code>, and reduce
+manual setup efforts to ensure consistent and error-free project
+initialization. These packages help build a solid foundation for
 research and ensure that best practices include using separate scripts
 for data processing, analysis, and reporting, and combining code with
 narrative in R Markdown documents from start. This organized setup
 improves reproducibility by making it easier to maintain, share, and
 replicate research. For a more comprenesive overwiew have a look at CRAN
-overview <a href="https://cran.r-project.org/web/views/ReproducibleResearch.html" class="external-link">Repoducible
-Research</a>.</p>
+<a href="https://cran.r-project.org/web/views/ReproducibleResearch.html" class="external-link">Repoducible
+Research View</a>.</p>
 <div class="section level3">
-<h3 id="why-initproj">Why initProj?<a class="anchor" aria-label="anchor" href="#why-initproj"></a>
+<h3 id="why-initproj-then">Why initProj then?<a class="anchor" aria-label="anchor" href="#why-initproj-then"></a>
 </h3>
 <p>In the context of link2GI, which relies heavily on third-party
 command-line APIs and requires complex and stable folder and file
@@ -141,26 +146,29 @@ integration of OS command-line tools into spatial workflows by:</p>
 <ol style="list-style-type: decimal">
 <li>
 <strong>Streamlining integration</strong>: Simplifies the
-integration of essential command-line tools such as GDAL or OGR for
-advanced geospatial processing.</li>
+integration of essential command-line tools such as GDAL or the
+sophisticated Orfeo Toolbox (OTB) and the growing universe of
+r(-)spatial packages for advanced geospatial processing.</li>
 <li>
-<strong>Improving Data Exchange</strong>: Organized variable and
+<strong>Improving data exchange</strong>: Organized variable and
 metadata management ensures accurate and efficient data transfer between
-different processes and tools.</li>
+different and especially command-line based processes and APIs.</li>
 <li>
 <strong>Enhanced Cross-Platform Compatibility</strong>: Facilitates
 adaptability across operating systems, which is critical when using
-multiple spatial analysis tools.</li>
+multiple spatial analysis tools, even more so when using different
+shells.</li>
 <li>
-<strong>Performance Optimization</strong>: Leverages the speed and
-efficiency of command-line tools, especially beneficial when handling
-large spatial data sets.</li>
+<strong>Performance Optimization</strong>: Switching between generic
+R and command-line tools takes advantage of the speed and efficiency of
+command-line tools, which is especially beneficial when handling large
+spatial datasets.</li>
 </ol>
-<p>For this reason, a lightweight approach that integrates
-<code>git</code> <code>renv</code> and flexible folder and package
-setups is included in the link2GI package, as it is more suitable than
-the existing approaches and increases efficiency, accuracy, and
-performance in geospatial workflows.</p>
+<p>For this reason, the link2GI package includes a lean and lightweight
+but focused approach that integrates <code>git',</code>renv’, and a
+flexible folder and package setup process that is simpler than existing
+approaches and increases efficiency, accuracy, and performance in
+geospatial workflows.</p>
 <div class="section level4">
 <h4 id="using-the-rstudio-gui">Using the RStudio GUI<a class="anchor" aria-label="anchor" href="#using-the-rstudio-gui"></a>
 </h4>

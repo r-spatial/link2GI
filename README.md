@@ -75,7 +75,7 @@ retStack<-runOTB(cmd,gili = otblink)
 plot(retStack)
 ```
 ##  `initProj` for reproducible projects
-initProj sets up a project environment complete with a defined folder structure, an RStudio project, initial scripts and setup templates, and optionally git repositories. Parameters include the root folder and subfolders for data documentation and scripts. It supports automatic loading of required libraries, a default setup option to simplify project initialisation, and options to open the project immediately in a new or existing session. The function manages configurations through the src/functions/000_settings.R script and maintains easy access to paths through the envrmt variable, facilitating efficient project management and data handling.
+`initProj` sets up a reproducible project environment complete with a defined folder structure, an RStudio project, initial scripts and setup templates, and optionally `git` repositories and `renv` environment. Most important parameters are the project root folder and subfolders for data documentation and scripts. It supports automatic loading and if possible installation of required libraries, a default setup option to simplify project initialisation. The function creates a skeleton of the main control script `main.R`, manages variable configurations through the `src/functions/000_settings.R script` and maintains easy access to paths through the `envrmt` list variable, facilitating an light weighted efficient and reproducible project management and data handling.
 
 ```r
 require(link2GI)
@@ -89,9 +89,7 @@ In addition you may use the `File -> New Project -> New directory -> New Wizard 
 ![](https://raw.githubusercontent.com/r-spatial/link2GI/master/figures/initproj2.png)
 
 
-### Online Vignette
-
-[Online Vignettes](https://r-spatial.github.io/link2GI/)
+## Further examples
 
 
 ### Usecases presented on the GEOSTAT August 2018

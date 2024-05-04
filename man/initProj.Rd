@@ -10,12 +10,13 @@ initProj(
   folder_names = NULL,
   path_prefix = NULL,
   init_git = TRUE,
+  init_renv = TRUE,
   code_subfolders = c("src", "src/functions"),
   global = FALSE,
   libs = NULL,
   openproject = TRUE,
   newsession = FALSE,
-  standard_setup = c("baseproj", "baseproj_no_git")
+  standard_setup = c("baseSpatial_git", "baseproj_no_git")
 )
 }
 \arguments{
@@ -29,6 +30,8 @@ provided, the base paths of the folders is used.}
 \item{path_prefix}{a prefix for the variable values that point to the created folders.}
 
 \item{init_git}{logical: init git repository in the project directory.}
+
+\item{init_renv}{logical: init renv in the project directory.}
 
 \item{code_subfolders}{subfolders for scripts and functions within the project directory that will be created. The
 folders src and src/functions are mandatory.}
@@ -51,21 +54,18 @@ Set up the project environment with a defined folder structure, an RStudio proje
 settings templates and git and dvc repository, if necessary.
 }
 \details{
-The function uses [createEnvi] for setting up the folders. Once the project is creaeted, manage the overall
+The function uses [setupProj] for setting up the folders. Once the project is creaeted, manage the overall
 configuration of the project by the src/functions/000_settings.R script. It is sourced at the begining of the
 template scripts that are created by default. Define additional constans, required libraries etc. in the
 000_settings.R at any time. If additonal folders are required later, just add them manually. They will be parsed as
 part of the 000_settings.R and added to a variable called envrmt that allows easy acces to any of the folders. Use
 this variable to load/save data to avoid any hard coded links in the scripts except the top-level root folder which
-is defined once in the main control script located at src/control.R.
+is defined once in the main control script located at src/main.R.
 }
 \examples{
 \dontrun{
 root_folder <- tempdir() # Mandatory, variable must be in the R environment.
-envrmt <- initProj(root_folder = root_folder, standard_setup = "baseproj")
+envrmt <- initProj(root_folder = root_folder, standard_setup = "baseSpatial_git")
 }
 
-}
-\seealso{
-[createProj()]
 }

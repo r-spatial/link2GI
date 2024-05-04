@@ -9,7 +9,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' # Standard setup for baseproj
+#' # Standard setup for baseSpatial_git
 #' setup_default()
 #' }
 #' @name setup_default
@@ -18,7 +18,7 @@
 
 setup_default = function(new_envrmt_list=NULL,new_envrmt_list_name=NULL)
 {
-  baseproj <- list(
+  baseSpatial_git <- list(
     folders = c("docs", "docs/figures","tmp","data/source", "data/results", "data/level0","data/level1"),
     folder_names = NULL,
     init_git = TRUE,
@@ -27,8 +27,8 @@ setup_default = function(new_envrmt_list=NULL,new_envrmt_list_name=NULL)
     global = FALSE,
     libs = NULL,
     lut_mode = FALSE,
-    create_folders = TRUE,
-    git_repository = "." # Historic reasons, remove once var git_repository in createEnvi is deprecated.
+    create_folders = TRUE
+    #git_repository = "." # Historic reasons, remove once var git_repository in setupProj is deprecated.
   )
   
   baseproj_no_git <- list(
@@ -40,106 +40,72 @@ setup_default = function(new_envrmt_list=NULL,new_envrmt_list_name=NULL)
     global = FALSE,
     libs = NULL,
     lut_mode = FALSE,
-    create_folders = TRUE,
-    git_repository = "." # Historic reasons, remove once var git_repository in createEnvi is deprecated.
+    create_folders = TRUE
+    #git_repository = "." # Historic reasons, remove once var git_repository in setupProj is deprecated.
   )
   if (is.null(new_envrmt_list)){
     setup_dflt <- list(
-      baseproj = baseproj, baseproj_no_git = baseproj_no_git)
+      baseSpatial_git = baseSpatial_git, baseproj_no_git = baseproj_no_git)
   } else {
-    setup_dflt <- list(baseproj = baseproj, baseproj_no_git = baseproj_no_git)
+    setup_dflt <- list(baseSpatial_git = baseSpatial_git, baseproj_no_git = baseproj_no_git)
     setup_dflt[[new_envrmt_list_name]] = new_envrmt_list
   }
   return(setup_dflt )
 }
 
 
-
-
-#'@title Defines and creates folders and variables
-#'@name createFolder
-#'@description Defines and creates (if necessary) all folders variables. Returns a list with the project folder pathes. Optionally exports all pathes to a global sub environment.
+#' Compile folder list and create folders
 #'
-#'@param root_folder  project github root directory (your github name)
-#'@param projFolders list of subfolders in project
-#'@param GRASSlocation folder for GRASS data
-#'@param global boolean esport path strings as global variables default is false
-#'@param path_prefix character a prefix for the path variables names default is ""
+#' @description  Compile folder list with absolut paths and create folders if
+#' necessary.
 #'
-#'@export createFolder
-#'@examples 
-#'\dontrun{
+#' @param root_folder root directory of the project.
+#' @param folders list of subfolders within the project directory.
+#' @param folder_names names of the variables that point to subfolders. If not
+#' provided, the base paths of the folders is used.
+#' @param path_prefix a prefix for the folder names.
+#' @param create_folders create folders if not existing already.
 #'
-#'link2GI::createFolder(root_folder = tempdir(),
-#'                  projFolders = c("data/",
-#'                                  "data/level0/",
-#'                                  "data/level1/",
-#'                                   "output/",
-#'                                   "run/",
-#'                                   "fun/") )
-#'}   
-
-
-createFolder <- function(root_folder=tempdir(), 
-                     GRASSlocation = "tmp/", 
-                     projFolders=c("data/","result/","run/","log/"),
-                     path_prefix="",
-                     global = FALSE) {
+#' @return  List with folder paths and names.
+#'
+#' @keywords internal
+#'
+#' @examples
+#' \dontrun{
+#' # createFolders(root_folder = "~/edu", folders = c("data/", "data/tmp/"))
+#' }
+#' # Create folder list and set variable names pointing to the path values
+createFolders <- function(root_folder, folders,
+                          folder_names = NULL, path_prefix = "p_",
+                          create_folders = FALSE) {
+  folders <- lapply(folders, function(f) {
+    file.path(root_folder, f)
+  })
+  folders <- folders[!duplicated(folders)]
   
-  # switch backslash to slash and expand path to full path
-  root_folder <- gsub("\\\\", "/", path.expand(root_folder))  
-  root_folder <- gsub("///", "/", path.expand(root_folder))  
-  
-  pth<-list()
-  # check  tailing / and if not existing append
-  if (substr(root_folder,nchar(root_folder) - 1,nchar(root_folder)) != "/") {
-    root_folder <- paste0(root_folder,"/")
-    #name = ifelse(Sys.info()["sysname"]=="Windows", sub("/$", "",root_folder),root_folder)
-  }
-
-    # create directories if needed
-    for (folder in projFolders) {
-      if (!file.exists(file.path(root_folder,folder))) {
-        dir.create(file.path(root_folder,folder), recursive = TRUE)
-        p<-gsub("/", "_", substr(folder,1,nchar(folder) - 1))
-        name <- paste0(path_prefix,p)
-        value <- paste0(root_folder,folder)
-       # value = ifelse(Sys.info()["sysname"]=="Windows", sub("/$", "",value),value)
-        assign(name, value)
-        pth[[name]]<- value
-        if (global) makGlobalVar(name, value)
-        } else {
-        p<-gsub("/", "_", substr(folder,1,nchar(folder) - 1))
-        name <- paste0(path_prefix,p)          
-        value <- paste0(root_folder,folder)
-       # value = ifelse(Sys.info()["sysname"]=="Windows", sub("/$", "",value),value)
-        assign(name, value)
-        pth[[name]]<- value
-        if (global) makGlobalVar(name, value)
-        } 
-    }
-  if (!file.exists(file.path(root_folder,GRASSlocation))) {
-    dir.create(file.path(root_folder,GRASSlocation), recursive = TRUE)
-    p<-gsub("/", "_", substr(GRASSlocation,1,nchar(GRASSlocation) - 1))
-    name <- paste0(path_prefix,p)
-    value <- paste0(root_folder,GRASSlocation)
-    #value = ifelse(Sys.info()["sysname"]=="Windows", sub("/$", "",value),value)
-    assign(name, value)
-    pth[[name]]<- value
-    if (global) makGlobalVar(name, value)
-  } else {
-    p<-gsub("/", "_", substr(GRASSlocation,1,nchar(GRASSlocation) - 1))
-    name <- paste0(path_prefix,p)
-    value <- paste0(root_folder,GRASSlocation)
-    #value = ifelse(Sys.info()["sysname"]=="Windows", sub("/$", "",value),value)
-    assign(name, value)
-    pth[[name]]<- value
+  if (is.null(folder_names)) {
+    names(folders) <- basename(unlist(folders))
+    tmplt <- unlist(folders)
     
-    if (global) makGlobalVar(name, value)
-  } 
+    while (any(duplicated(names(folders)))) {
+      tmplt <- dirname(tmplt)
+      dplcts <- which(duplicated(names(folders), fromLast = FALSE) |
+                        duplicated(names(folders), fromLast = TRUE))
+      names(folders)[dplcts] <-
+        paste(basename(tmplt)[dplcts], names(folders[dplcts]), sep = "_")
+    }
+  } else {
+    names(folders) <- folder_names
+  }
   
-  if(Sys.info()["sysname"]=="Windows")  pth <-stringr::str_replace(pth, "/$", "")
-  return(pth) 
+  if (!is.null(path_prefix)) names(folders) <- paste0(path_prefix, names(folders))
+  
+  # Check paths for existance and create if necessary
+  for (f in folders) {
+    if (!file.exists(f)) dir.create(f, recursive = TRUE)
+  }
+  
+  return(folders)
 }
 
 
@@ -154,6 +120,7 @@ createFolder <- function(root_folder=tempdir(),
 #' provided, the base paths of the folders is used.
 #' @param path_prefix a prefix for the variable values that point to the created folders.
 #' @param init_git logical: init git repository in the project directory.
+#' @param init_renv logical: init renv in the project directory.
 #' @param code_subfolders subfolders for scripts and functions within the project directory that will be created. The
 #' folders src and src/functions are mandatory.
 #' @param global logical: export path strings as global variables?
@@ -161,7 +128,7 @@ createFolder <- function(root_folder=tempdir(),
 #' @param standard_setup use predefined settings. In this case, only the name of the root folder is required.
 #' @param openproject open project after creating it, d default = TRUE
 #' @param newsession open project in a new session? default is FALSE
-#' @details The function uses [createEnvi] for setting up the folders. Once the project is creaeted, manage the overall
+#' @details The function uses [setupProj] for setting up the folders. Once the project is creaeted, manage the overall
 #' configuration of the project by the src/functions/000_settings.R script. It is sourced at the begining of the
 #' template scripts that are created by default. Define additional constans, required libraries etc. in the
 #' 000_settings.R at any time. If additonal folders are required later, just add them manually. They will be parsed as
@@ -172,26 +139,27 @@ createFolder <- function(root_folder=tempdir(),
 #' @return envrmt, i.e. a list containing the project settings.
 #'
 #' @name initProj
+#' 
 #' @export initProj
 #'
 #' @examples
 #' \dontrun{
 #' root_folder <- tempdir() # Mandatory, variable must be in the R environment.
-#' envrmt <- initProj(root_folder = root_folder, standard_setup = "baseproj")
+#' envrmt <- initProj(root_folder = root_folder, standard_setup = "baseSpatial_git")
 #' }
 #'
 initProj <- function(root_folder = ".", folders = NULL, folder_names = NULL, path_prefix = NULL,
-                        init_git = TRUE, code_subfolders = c("src", "src/functions"),
+                        init_git = TRUE, init_renv = TRUE, code_subfolders = c("src", "src/functions"),
                         global = FALSE, libs = NULL, openproject =TRUE, newsession=FALSE,
-                        standard_setup = c("baseproj", "baseproj_no_git")) {
+                        standard_setup = c("baseSpatial_git", "baseproj_no_git")) {
 
   # Setup project directory structure
   if (is.null(folders)) {
     use_standard_setup <- TRUE
-    envrmt <- createEnvi(root_folder = root_folder, standard_setup = standard_setup[1])
+    envrmt <- setupProj(root_folder = root_folder, standard_setup = standard_setup[1])
   } else {
     use_standard_setup <- FALSE
-    envrmt <- createEnvi(
+    envrmt <- setupProj(
       root_folder = root_folder, folders = folders, folder_names = folder_names, path_prefix = path_prefix,
       code_subfolders = code_subfolders,
       global = global, libs = libs,
@@ -207,14 +175,17 @@ initProj <- function(root_folder = ".", folders = NULL, folder_names = NULL, pat
   createScript(new_file = file.path(root_folder, "README.md"), template = "readme", notes = TRUE)
   
   # Init git
-  if (use_standard_setup) init_git <- setup_default()[[standard_setup[1]]]$init_git
+ # if (use_standard_setup) init_git <- setup_default()[[standard_setup[1]]]$init_git
   if (init_git) {
     if (!file.exists(file.path(root_folder, ".git"))) {
-      system(paste("git init", root_folder))
+      git2r::init(root_folder) #system(paste("git init", root_folder))
     }
     template_path <- system.file(sprintf("templates/%s.brew", "gitignore"), package = "link2GI")
     brew::brew(template_path, file.path(root_folder, ".gitignore"))
   }
+
+  if (init_renv) renv::init(root_folder)
+  
   # ppath=yaml::as.yaml(envrmt)
   #yaml::write_yaml(ppath,file = file.path("pPath.yaml"))
   #envrmt2 = createFolders(root_folder = here::here(root_folder),folders = envrmt,create_folders = FALSE)
@@ -248,20 +219,20 @@ initProj <- function(root_folder = ".", folders = NULL, folder_names = NULL, pat
 #'
 #' @return A list containing the project settings.
 #'
-#' @name createEnvi
-#' @export createEnvi
+#' @name setupProj
+#' 
+#' @export setupProj
 #'
-#' @seealso [alternativeEnvi()]
 #'
 #' @examples
 #' \dontrun{
-#' createEnvi(
+#' setupProj(
 #'   root_folder = "~/edu", folders = c("data/", "data/tmp/"),
 #'   libs = c("link2GI")
 #' )
 #' }
 #'
-createEnvi <- function(root_folder = tempdir(), folders = c("data", "data/tmp"), folder_names = NULL,
+setupProj <- function(root_folder = tempdir(), folders = c("data", "data/tmp"), folder_names = NULL,
                        path_prefix = NULL, code_subfolders = NULL, 
                        global = FALSE, libs = NULL, setup_script = "000_setup.R", fcts_folder = NULL,
                        source_functions = !is.null(fcts_folder),
@@ -362,64 +333,6 @@ addGitFolders <- function(folders, git_repository = NULL, git_subfolders = NULL,
 }
 
 
-
-#' Compile folder list and create folders
-#'
-#' @description  Compile folder list with absolut paths and create folders if
-#' necessary.
-#'
-#' @param root_folder root directory of the project.
-#' @param folders list of subfolders within the project directory.
-#' @param folder_names names of the variables that point to subfolders. If not
-#' provided, the base paths of the folders is used.
-#' @param path_prefix a prefix for the folder names.
-#' @param create_folders create folders if not existing already.
-#'
-#' @return  List with folder paths and names.
-#'
-#' @keywords internal
-#'
-#' @examples
-#' \dontrun{
-#' # createFolders(root_folder = "~/edu", folders = c("data/", "data/tmp/"))
-#' }
-#' # Create folder list and set variable names pointing to the path values
-createFolders <- function(root_folder, folders,
-                          folder_names = NULL, path_prefix = "p_",
-                          create_folders = FALSE) {
-  folders <- lapply(folders, function(f) {
-    file.path(root_folder, f)
-  })
-  folders <- folders[!duplicated(folders)]
-  
-  if (is.null(folder_names)) {
-    names(folders) <- basename(unlist(folders))
-    tmplt <- unlist(folders)
-    
-    while (any(duplicated(names(folders)))) {
-      tmplt <- dirname(tmplt)
-      dplcts <- which(duplicated(names(folders), fromLast = FALSE) |
-                        duplicated(names(folders), fromLast = TRUE))
-      names(folders)[dplcts] <-
-        paste(basename(tmplt)[dplcts], names(folders[dplcts]), sep = "_")
-    }
-  } else {
-    names(folders) <- folder_names
-  }
-  
-  if (!is.null(path_prefix)) names(folders) <- paste0(path_prefix, names(folders))
-  
-  # Check paths for existance and create if necessary
-  for (f in folders) {
-    if (!file.exists(f)) dir.create(f, recursive = TRUE)
-  }
-  
-  return(folders)
-}
-
-
-
-
 #' Load libraries and try to install missing ones
 #'
 #' @description  Load libaries in the R environment and try to install misssing
@@ -489,17 +402,17 @@ sourceFunctions <- function(fcts_folder, setup_script) {
 #'
 #' @return NULL
 #'
-#' @name enviSave
-#' @export enviSave
+#' @name saveEnvi
+#' @export saveEnvi
 #'
 #' @examples
 #' \dontrun{
 #' a <- 1
 #' meta <- list(a = "a is a variable")
-#' enviSave(a, file.path(tempdir(), "test.rds"), meta)
+#' saveEnvi(a, file.path(tempdir(), "test.rds"), meta)
 #' }
 #'
-enviSave <- function(variable, file_path, meta) {
+saveEnvi <- function(variable, file_path, meta) {
   saveRDS(variable, file_path)
   yaml::write_yaml(meta, paste0(tools::file_path_sans_ext(file_path), ".yaml"))
 }
@@ -514,7 +427,7 @@ enviSave <- function(variable, file_path, meta) {
 #' @return list of metadata.
 #'
 #' @name createMeta
-#' @export createMeta
+#' @keywords internal
 #'
 #' @examples
 #' \dontrun{
@@ -535,18 +448,18 @@ createMeta <- function(prj_name) {
 #'
 #' @return list of 2 containing data and metadata.
 #'
-#' @name enviLoad
-#' @export enviLoad
+#' @name loadEnvi
+#' @export loadEnvi
 #'
 #' @examples
 #' \dontrun{
 #' a <- 1
 #' meta <- list(a = "a is a variable")
-#' enviSave(a, file.path(tempdir(), "test.rds"), meta)
-#' b <- enviLoad(file.path(tempdir(), "test.rds"))
+#' saveEnvi(a, file.path(tempdir(), "test.rds"), meta)
+#' b <- loadEnvi(file.path(tempdir(), "test.rds"))
 #' }
 #'
-enviLoad <- function(file_path) {
+loadEnvi <- function(file_path) {
   dat <- readRDS(file_path)
   meta <- yaml::read_yaml(paste0(tools::file_path_sans_ext(file_path), ".yaml"))
   return(list(dat = dat, meta = meta))
@@ -564,7 +477,7 @@ enviLoad <- function(file_path) {
 #' @return NULL
 #'
 #' @name createScript
-#' @export createScript
+#' @keywords internal
 #'
 #' @examples
 #' \dontrun{

@@ -8,7 +8,7 @@ Authors@R: c(person("Chris", "Reudenbach", email = "reudenbach@uni-marburg.de", 
              )
 Encoding: UTF-8
 Maintainer: Chris Reudenbach <reudenbach@uni-marburg.de>
-Description: Functions to simplify the linking of open source GIS and remote sensing related command line interfaces.
+Description: Functions for straightforward use of open GIS and remote sensing command line interfaces in a reproducible project environment.
 URL: https://github.com/r-spatial/link2GI/, https://r-spatial.github.io/link2GI/
 BugReports: https://github.com/r-spatial/link2GI/issues/
 License: GPL (>= 3) | file LICENSE
@@ -20,13 +20,14 @@ Imports:
   sf (>= 0.9),
   brew,
   yaml,
-  stringr,
   terra,
   methods,
   utils,
   xml2,
   xfun,
-  rstudioapi
+  rstudioapi,
+  git2r,
+  renv
 SystemRequirements: GNU make 
 RoxygenNote: 7.3.1
 Suggests: knitr, 

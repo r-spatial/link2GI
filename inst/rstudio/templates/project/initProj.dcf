@@ -1,16 +1,17 @@
 Binding: initProj
 Title: Project structure with link2GI
-OpenFiles: README.md
+OpenFiles: README.md, src/main.R, src/functions/000_setup.R
 
 Parameter: init_git
 Widget: CheckboxInput
-Label: Init git
-Default: on
-Position: left
+Label: Create a git repository
 
+Parameter: init_renv
+Widget: CheckboxInput
+Label: Initialize a project-local library
 
 Parameter: standard_setup
 Widget: SelectInput
 Label: Select Options
-Fields: baseproj, baseproj_no_git
+Fields: baseSpatial_git, baseproj_no_git
 

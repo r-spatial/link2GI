@@ -61,8 +61,8 @@ linkSAGA <- function(default_SAGA = NULL,
   
   # if no default_SAGA is given search for SAGA installations
   if (is.null(default_SAGA)) 
-    default_SAGA <- findSAGA(searchLocation = searchLocation,
-                             quiet = quiet) 
+    default_SAGA <- as.data.frame(findSAGA(searchLocation = searchLocation,
+                             quiet = quiet))
   if (default_SAGA[[1]][1] != FALSE) {
   # only one SAGA installation found/given
   if (nrow(default_SAGA) == 1) {  

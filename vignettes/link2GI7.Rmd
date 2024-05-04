@@ -28,12 +28,12 @@ Reproducible projects in R emphasize streamlined project setup and efficient wor
 ## Why initProj then?
 In the context of link2GI, which relies heavily on third-party command-line APIs and requires complex and stable folder and file structures, a flexible, lightweight R project setup greatly enhances the integration of OS command-line tools into spatial workflows by:
 
-1. **Streamlining integration**: Simplifies the integration of essential command-line tools such as GDAL or the sophisticated Orfeo Toolbox (OTB) and the growing universe of r(-)spatial packages for advanced geospatial processing.
+1. **Streamlining integration**: Simplifies the integration of essential command-line tools such as `GDAL` or the sophisticated `Orfeo Toolbox` (OTB) and the growing universe of r(-)spatial packages for advanced geospatial processing.
 2. **Improving data exchange**: Organized variable and metadata management ensures accurate and efficient data transfer between different and especially command-line based processes and APIs.
 3. **Enhanced Cross-Platform Compatibility**: Facilitates adaptability across operating systems, which is critical when using multiple spatial analysis tools, even more so when using different shells.
 4. **Performance Optimization**: Switching between generic R and command-line tools takes advantage of the speed and efficiency of command-line tools, which is especially beneficial when handling large spatial datasets.
 
-For this reason, the link2GI package includes a lean and lightweight but focused approach that integrates `git', `renv', and a flexible folder and package setup process that is simpler than existing approaches and increases efficiency, accuracy, and performance in geospatial workflows.
+For this reason, the link2GI package includes a lean and lightweight but focused approach that integrates `git`, `renv`, and a highly flexible folder and package setup process that is simpler than existing approaches, increasing efficiency, accuracy, and performance in geospatial workflows.
 
 ### Using the RStudio GUI
 

@@ -39,7 +39,7 @@ For this reason, a lightweight approach that integrates `git` `renv` and flexibl
 
 ![Use the RStudio Template Option](https://raw.githubusercontent.com/r-spatial/link2GI/master/figures/usegui.gif)
 
-## Using the Console
+### Using the Console
 
 The basic setup of a default project initializing Git and renv is performed with the following call. 
 

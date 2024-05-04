@@ -18,7 +18,7 @@ settings templates and git and dvc repository, if necessary."><!-- mathjax --><s
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">link2GI</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6-0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6-1</span>
       </span>
     </div>
 
@@ -49,6 +49,9 @@ settings templates and git and dvc repository, if necessary."><!-- mathjax --><s
     </li>
     <li>
       <a href="../articles/link2GI6.html">Installation guide for link2GI related Software</a>
+    </li>
+    <li>
+      <a href="../articles/link2GI7.html">Reproducible projects</a>
     </li>
   </ul></li>
 <li>
@@ -92,7 +95,7 @@ settings templates and git and dvc repository, if necessary.</p>
 <span>  libs <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  openproject <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  newsession <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  standard_setup <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"baseSpatial_git"</span>, <span class="st">"baseproj_no_git"</span><span class="op">)</span></span>
+<span>  standard_setup <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"baseSpatial"</span>, <span class="st">"baseproj_no_git"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -169,7 +172,7 @@ is defined once in the main control script located at src/main.R.</p>
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span><span class="va">root_folder</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># Mandatory, variable must be in the R environment.</span></span></span>
-<span class="r-in"><span><span class="va">envrmt</span> <span class="op">&lt;-</span> <span class="fu">initProj</span><span class="op">(</span>root_folder <span class="op">=</span> <span class="va">root_folder</span>, standard_setup <span class="op">=</span> <span class="st">"baseSpatial_git"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">envrmt</span> <span class="op">&lt;-</span> <span class="fu">initProj</span><span class="op">(</span>root_folder <span class="op">=</span> <span class="va">root_folder</span>, standard_setup <span class="op">=</span> <span class="st">"baseSpatial"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>

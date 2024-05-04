@@ -70,7 +70,7 @@ searchGDALW <- function(DL = "C:/",
     
     DL = gsub("\\\\", "/", DL)
     DL = gsub("/", "\\\\", DL)
-    DL = shortPathName(DL)
+    DL = utils::shortPathName(DL)
     options(show.error.messages = FALSE)
     options(warn=-1)
     raw_GDAL  <- try(system(paste0("cmd.exe /c WHERE /R ",DL, " ","gdalinfo.exe"),intern=TRUE))

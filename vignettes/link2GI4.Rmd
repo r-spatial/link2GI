@@ -58,7 +58,7 @@ require(raster)
 require(listviewer)
 
 otblink<-link2GI::linkOTB()
- projRootDir<-tempdir()
+ root_dir<-tempdir()
  
 fn <- system.file("ex/elev.tif", package = "terra")
 
@@ -75,7 +75,7 @@ listviewer::jsonedit(cmd$help)
 cmd$input_in  <- fn
 cmd$filter <- "touzi"
 cmd$channel <- 1
-cmd$out <- paste0(projRootDir,paste0("\\out",cmd$filter,".tif"))
+cmd$out <- paste0(root_dir,paste0("\\out",cmd$filter,".tif"))
 
 ## run algorithm
 retStack<-runOTB(cmd,gili = otblink)

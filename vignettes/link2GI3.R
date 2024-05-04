@@ -1,10 +1,10 @@
-## ---- eval=FALSE--------------------------------------------------------------
+## ----eval=FALSE---------------------------------------------------------------
 #   # we need some additional packages
 #   require(link2GI)
 #   require(curl)
 #  
 #  # first of all we create  a project folder structure
-#    link2GI::initProj(projRootDir = paste0(tempdir(),"/link2GI_examples"),
+#    link2GI::initProj(root_folder = paste0(tempdir(),"/link2GI_examples"),
 #                      projFolders =  c("run/"),
 #                      path_prefix = "path_",
 #                      global = TRUE)
@@ -22,13 +22,13 @@
 #  fn <- list.files(pattern = "[.]csv$", path = getwd(), full.names = TRUE)
 #  
 
-## ---- eval=FALSE--------------------------------------------------------------
+## ----eval=FALSE---------------------------------------------------------------
 #  # fast read with data.table
 #   xyz <- data.table::fread(paste0(path_run,"/Zensus_Bevoelkerung_100m-Gitter.csv"))
 #  
 #   head(xyz)
 
-## ---- eval=FALSE--------------------------------------------------------------
+## ----eval=FALSE---------------------------------------------------------------
 #   require(RColorBrewer)
 #   require(terra)
 #   require(mapview)
@@ -50,14 +50,14 @@
 #                    legend = TRUE)
 #  
 
-## ---- eval=FALSE--------------------------------------------------------------
+## ----eval=FALSE---------------------------------------------------------------
 #  require(link2GI)
 #  # initialize GRASS and set up a permanent structure
 #  link2GI::linkGRASS(x = r,
 #                      gisdbase = paste0(tempdir(),"/link2GI_examples"),
 #                      location = "microzensus2011")
 
-## ---- eval=FALSE--------------------------------------------------------------
+## ----eval=FALSE---------------------------------------------------------------
 #  require(link2GI)
 #  require(raster)
 #  require(rgrass)
@@ -77,7 +77,7 @@
 #  rgrass::execGRASS('r.info',
 #                     map = "Zensus_Bevoelkerung_100m_Gitter")
 
-## ---- eval=FALSE--------------------------------------------------------------
+## ----eval=FALSE---------------------------------------------------------------
 #  
 #   xyz_sf = st_as_sf(xyz,
 #                      coords = c("x_mp_100m", "y_mp_100m"),
@@ -87,7 +87,7 @@
 #  #map points
 #   sf::plot_sf(xyz_sf)
 
-## ---- eval=FALSE--------------------------------------------------------------
+## ----eval=FALSE---------------------------------------------------------------
 #   require(sf)
 #   require(sp)
 #   require(link2GI)

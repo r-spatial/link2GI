@@ -128,12 +128,12 @@ searchSAGAX <- function(MP = "/usr/bin",
           #path.list = list.files(path = "C:/", pattern = "saga_cmd.exe", recursive = TRUE, full.names = TRUE)
       DL = gsub("\\\\", "/", DL)
       DL = gsub("/", "\\\\", DL)
-      DL = shortPathName(DL)
+      DL = utils::shortPathName(DL)
       
       
          # rawSAGA <- try(system(paste0("cmd.exe /c dir /B /s ",DL,"\\",cmd),intern = TRUE))
           rawSAGA  <- try(system(paste0("cmd.exe /c WHERE /R ",DL, " ",cmd),intern=TRUE))
-          rawSAGA= shortPathName(rawSAGA)
+          rawSAGA= utils::shortPathName(rawSAGA)
           
           # Remove cmd name from path
          # path.list = gsub(paste0(".{",nchar(cmd),"}$"), "", path.list)

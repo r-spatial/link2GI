@@ -39,7 +39,7 @@ require(listviewer)
 otblink<-link2GI::linkOTB()
 
 if (otblink$exist) {
- projRootDir<-tempdir()
+ root_folder<-tempdir()
  fn <- system.file("ex/elev.tif", package = "terra")
 
 ## for an image output example we use the Statistic Extraction, 

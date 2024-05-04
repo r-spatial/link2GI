@@ -373,3 +373,4 @@ linkAll <- function(links=NULL,
   }
   return(link)
 }
+

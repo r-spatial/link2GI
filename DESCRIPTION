@@ -14,7 +14,8 @@ BugReports: https://github.com/r-spatial/link2GI/issues/
 License: GPL (>= 3) | file LICENSE
 Depends: R (>= 3.5.0)
 Imports: 
-  devtools, 
+  devtools,
+  utils,
   R.utils,
   roxygen2,
   sf (>= 0.9),

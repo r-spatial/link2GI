@@ -149,10 +149,10 @@ createFolders <- function(root_folder, folders,
 #' }
 #'
 initProj <- function(root_folder = ".", folders = NULL, folder_names = NULL, path_prefix = NULL,
-                        init_git = TRUE, init_renv = TRUE, code_subfolders = c("src", "src/functions"),
-                        global = FALSE, libs = NULL, openproject =TRUE, newsession=FALSE,
-                        standard_setup = c("baseSpatial_git", "baseproj_no_git")) {
-
+                     init_git = TRUE, init_renv = TRUE, code_subfolders = c("src", "src/functions"),
+                     global = FALSE, libs = NULL, openproject =TRUE, newsession=FALSE,
+                     standard_setup = c("baseSpatial_git", "baseproj_no_git")) {
+  
   # Setup project directory structure
   if (is.null(folders)) {
     use_standard_setup <- TRUE
@@ -175,7 +175,7 @@ initProj <- function(root_folder = ".", folders = NULL, folder_names = NULL, pat
   createScript(new_file = file.path(root_folder, "README.md"), template = "readme", notes = TRUE)
   
   # Init git
- # if (use_standard_setup) init_git <- setup_default()[[standard_setup[1]]]$init_git
+  # if (use_standard_setup) init_git <- setup_default()[[standard_setup[1]]]$init_git
   if (init_git) {
     if (!file.exists(file.path(root_folder, ".git"))) {
       git2r::init(root_folder) #system(paste("git init", root_folder))
@@ -183,7 +183,7 @@ initProj <- function(root_folder = ".", folders = NULL, folder_names = NULL, pat
     template_path <- system.file(sprintf("templates/%s.brew", "gitignore"), package = "link2GI")
     brew::brew(template_path, file.path(root_folder, ".gitignore"))
   }
-
+  
   if (init_renv) renv::init(root_folder)
   
   # ppath=yaml::as.yaml(envrmt)
@@ -233,15 +233,15 @@ initProj <- function(root_folder = ".", folders = NULL, folder_names = NULL, pat
 #' }
 #'
 setupProj <- function(root_folder = tempdir(), folders = c("data", "data/tmp"), folder_names = NULL,
-                       path_prefix = NULL, code_subfolders = NULL, 
-                       global = FALSE, libs = NULL, setup_script = "000_setup.R", fcts_folder = NULL,
-                       source_functions = !is.null(fcts_folder),
-                       standard_setup = NULL, lut_mode = NULL, create_folders = TRUE ){
+                      path_prefix = NULL, code_subfolders = NULL, 
+                      global = FALSE, libs = NULL, setup_script = "000_setup.R", fcts_folder = NULL,
+                      source_functions = !is.null(fcts_folder),
+                      standard_setup = NULL, lut_mode = NULL, create_folders = TRUE ){
   #setup_default() # new_envrmt_list=NULL,new_envrmt_list_name=NULL
-
   
   
- if (!is.null(standard_setup)) {
+  
+  if (!is.null(standard_setup)) {
     dflt <- setup_default()[[standard_setup]]
     for (i in seq(length(dflt))) {
       assign(names(dflt[i]), dflt[[i]])

@@ -42,11 +42,11 @@ initProj sets up a project environment complete with a defined folder structure,
 ```r
 require(link2GI)
 
-initProj(root_folder = tempdir(), standard_setup = "baseproj", newsession = TRUE)
+initProj(root_folder = tempdir(), standard_setup = "baseSpatial_git", newsession = TRUE)
   
 ```
 
-In addition you may use the `File -> New Project -> New directory -> New Wizard ` dialogue choosing the *Create Project structure with link2GI* template to create a new project via the Rstudio Menu.
+In addition you may use the `File -> New Project -> New directory -> New Wizard ` dialogue choosing the ***Create Project structure with link2GI*** template to create a new project via the Rstudio menu.
 
 ![](https://raw.githubusercontent.com/r-spatial/link2GI/master/figures/initproj2.png)
 

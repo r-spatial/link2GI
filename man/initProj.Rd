@@ -16,7 +16,7 @@ initProj(
   libs = NULL,
   openproject = TRUE,
   newsession = FALSE,
-  standard_setup = c("baseSpatial_git", "baseproj_no_git")
+  standard_setup = c("baseSpatial", "baseproj_no_git")
 )
 }
 \arguments{
@@ -65,7 +65,7 @@ is defined once in the main control script located at src/main.R.
 \examples{
 \dontrun{
 root_folder <- tempdir() # Mandatory, variable must be in the R environment.
-envrmt <- initProj(root_folder = root_folder, standard_setup = "baseSpatial_git")
+envrmt <- initProj(root_folder = root_folder, standard_setup = "baseSpatial")
 }
 
 }

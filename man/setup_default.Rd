@@ -22,7 +22,7 @@ After adding new project settings run [setup_default()] to update and savew the 
 }
 \examples{
 \dontrun{
-# Standard setup for baseSpatial_git
+# Standard setup for baseSpatial
 setup_default()
 }
 }

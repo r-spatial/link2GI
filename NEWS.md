@@ -1,3 +1,10 @@
+## link2GI 0.6-1
+
+bugfixes:
+
+* fix cran issues
+
+
 ## link2GI 0.6-0
 
 bugfixes:

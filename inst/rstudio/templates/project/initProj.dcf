@@ -13,5 +13,5 @@ Label: Initialize a project-local library
 Parameter: standard_setup
 Widget: SelectInput
 Label: Select Options
-Fields: baseSpatial_git, baseproj_no_git
+Fields: baseSpatial, baseproj_no_git
 

@@ -236,7 +236,7 @@ searchGRASSW <- function(DL = "C:/",
   if (DL=="default") DL <- "C:/"
   DL = gsub("\\\\", "/", DL)
   DL = gsub("/", "\\\\", DL)
-  DL = shortPathName(DL)
+  DL = utils::shortPathName(DL)
   
   # trys to find a osgeo4w installation on the whole C: disk returns root directory and version name
   # recursive dir for grass*.bat returns all version of grass bat files

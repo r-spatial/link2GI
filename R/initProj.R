@@ -9,7 +9,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' # Standard setup for baseSpatial_git
+#' # Standard setup for baseSpatial
 #' setup_default()
 #' }
 #' @name setup_default
@@ -18,7 +18,7 @@
 
 setup_default = function(new_envrmt_list=NULL,new_envrmt_list_name=NULL)
 {
-  baseSpatial_git <- list(
+  baseSpatial <- list(
     folders = c("docs", "docs/figures","tmp","data/source", "data/results", "data/level0","data/level1"),
     folder_names = NULL,
     init_git = TRUE,
@@ -30,7 +30,19 @@ setup_default = function(new_envrmt_list=NULL,new_envrmt_list_name=NULL)
     create_folders = TRUE
     #git_repository = "." # Historic reasons, remove once var git_repository in setupProj is deprecated.
   )
-  
+  baseSpatial <- list(
+    folders = c("docs", "docs/figures","tmp","data/source", "data/results", "data/level0","data/level1"),
+    folder_names = NULL,
+    #init_git = TRUE,
+    code_subfolders = c("src", "src/functions"),
+    path_prefix = NULL,
+    global = FALSE,
+    libs = NULL,
+    lut_mode = FALSE,
+    create_folders = TRUE
+    #git_repository = "." # Historic reasons, remove once var git_repository in setupProj is deprecated.
+  )
+
   baseproj_no_git <- list(
     folders = c("docs", "docs/figures","tmp","data/source", "data/results", "data/level0","data/level1"),
     folder_names = NULL,
@@ -45,9 +57,9 @@ setup_default = function(new_envrmt_list=NULL,new_envrmt_list_name=NULL)
   )
   if (is.null(new_envrmt_list)){
     setup_dflt <- list(
-      baseSpatial_git = baseSpatial_git, baseproj_no_git = baseproj_no_git)
+      baseSpatial = baseSpatial, baseproj_no_git = baseproj_no_git)
   } else {
-    setup_dflt <- list(baseSpatial_git = baseSpatial_git, baseproj_no_git = baseproj_no_git)
+    setup_dflt <- list(baseSpatial = baseSpatial, baseproj_no_git = baseproj_no_git)
     setup_dflt[[new_envrmt_list_name]] = new_envrmt_list
   }
   return(setup_dflt )
@@ -145,13 +157,13 @@ createFolders <- function(root_folder, folders,
 #' @examples
 #' \dontrun{
 #' root_folder <- tempdir() # Mandatory, variable must be in the R environment.
-#' envrmt <- initProj(root_folder = root_folder, standard_setup = "baseSpatial_git")
+#' envrmt <- initProj(root_folder = root_folder, standard_setup = "baseSpatial")
 #' }
 #'
 initProj <- function(root_folder = ".", folders = NULL, folder_names = NULL, path_prefix = NULL,
                      init_git = TRUE, init_renv = TRUE, code_subfolders = c("src", "src/functions"),
                      global = FALSE, libs = NULL, openproject =TRUE, newsession=FALSE,
-                     standard_setup = c("baseSpatial_git", "baseproj_no_git")) {
+                     standard_setup = c("baseSpatial", "baseproj_no_git")) {
   
   # Setup project directory structure
   if (is.null(folders)) {
@@ -182,7 +194,7 @@ initProj <- function(root_folder = ".", folders = NULL, folder_names = NULL, pat
     }
     template_path <- system.file(sprintf("templates/%s.brew", "gitignore"), package = "link2GI")
     brew::brew(template_path, file.path(root_folder, ".gitignore"))
-  }
+  } 
   
   if (init_renv) renv::init(root_folder)
   

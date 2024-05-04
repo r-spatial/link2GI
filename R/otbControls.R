@@ -68,7 +68,7 @@ searchOTBW <- function(DL = "default",
       
       DL = gsub("\\\\", "/", DL)
       DL = gsub("/", "\\\\", DL)
-      DL = shortPathName(DL)
+      DL = utils::shortPathName(DL)
       raw_OTB  <- try(system(paste0("cmd.exe /c WHERE /R ",DL, " ","otbcli.bat"),intern=TRUE))
       
       #raw_OTB  <- try(system(paste0("cmd.exe"," /c dir /B /S ",DL,"\\","otbcli.bat"),intern=TRUE))

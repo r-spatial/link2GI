@@ -2,6 +2,7 @@
 % Please edit documentation in R/initProj.R
 \name{createFolders}
 \alias{createFolders}
+\alias{createFolder}
 \title{Compile folder list and create folders}
 \usage{
 createFolders(
@@ -37,4 +38,3 @@ necessary.
 }
 # Create folder list and set variable names pointing to the path values
 }
-\keyword{internal}

@@ -20,11 +20,10 @@ vignette: >
 ---
 
 
-# Usage of the link2GI package - Basic Examples 
+# Using the link2GI package - Basic examples 
 
 ## Brute force search usage 
-Automatic search and find of the installed GIS software binaries is performed by the `find` functions. Depending of you OS and the number of installed versions you will get a dataframe providing the binary and module folders.
-
+Automatic searching and finding of installed GIS software binaries is done by the `find` functions. Depending on your operating system and the number of installed versions you will get a data frame with the binary and module folders.
 
 
 ```r
@@ -46,13 +45,13 @@ otb <- link2GI::findOTB()
 otb
 ```
 
-The `find` functions are providing an overview of the installed software. This functions are not establishing any linkages or changing settings.
+The `find' functions provide an overview of the installed software. These functions do not create links or change settings.
 
 ## Setting up project structures
 
-If you just call link2GI on the fly , that means for a single temporary operation, there will be no need for setting up folders and project structures. If you work on a more complex project it is seems to be helpful to support this by a fixed structure. Same with existing `GRASS` projects wich need to be in specific mapsets and locations. 
+If you are just calling link2GI on the fly, i.e. for a single temporary operation, there is no need to set up folders and project structures. If you are working on a more complex project, it might be helpful to have a fixed structure. The same goes for existing `GRASS` projects that need to be in specific mapsets and locations. 
 
-A straightforward  (you may call it also dirty) approach is the ìnitProj`function that creates folder structures (if not existing) and establishes (if wanted) global variables containing the pathes as strings.
+A simple (you can call it dirty) approach is the ìnitProjî function, which creates folder structures (if not existing) and sets global variables (if desired) containing the paths as strings.
 
 ```r
 # find all SAGA GIS installations at the default search location
@@ -68,9 +67,8 @@ link2GI::initProj(root_folder = tempdir(),
                  global =TRUE)
 ```
 
-##  linkSAGA - Locate and set up 'SAGA' API bindings
-In earlier times it has been pretty cumbersome to link the correct `SAGA GIS` version. Since the version 1.x.x  of `RSAGA` things turned much better. The new `RSAGA::rsaga.env()` function is at getting the first `RSAGA` version in the search path. For using `RSAGA` with `link2GI` it is strongly recommended to call `RSAGA.env()` with the preferred path as provided by a '  `findSAGA()` call. It is also possible to provide the version number as shown below. Storing the result in adequate variables will then even give  the opportunity to easyly switch  between different `SAGA GIS` installations.
-
+## linkSAGA - Find and set up 'SAGA' API bindings
+In the past it was quite tedious to link the correct `SAGA GIS` version. Since version 1.x.x of `RSAGA` things are much better. The new `RSAGA::rsaga.env()` function is to get the first `RSAGA` version in the search path. For using `RSAGA` with `link2GI` it is strongly recommended to call `RSAGA.env()` with the preferred path as returned by a `findSAGA()` call. It is also possible to pass the version number as shown below. Storing the result in appropriate variables will even allow you to easily switch between different `SAGA GIS` installations.
 
 
 ```r
@@ -79,26 +77,25 @@ saga1
 sagaEnv1<- RSAGA::rsaga.env(path = saga1$sagaPath)
 ```
 
-##  linkGRASS - Locate and set up 'GRASS 7/8' API bindings
+## linkGRASS - Find and set up GRASS 7/8 API bindings
 
-`linkGRASS` Initializes the session environment and the system paths for an easy access to `GRASS GIS 7.x./8.x` The correct setup of the spatial and projection parameters is automatically performed by using either an existing and valid `raster` or `terra` , `sp` or `sf` object, or manually by providing a list containing the minimum parameters needed. These properties are used to initialize either a temporary or a permanent `rgrass` environment including the correct `GRASS 7/8` database structure. If you provide none of the before mentioned objects `linkGRASS` will create a EPSG:4326 world wide location.
+linkGRASS` initializes the session environment and system paths for easy access to `GRASS GIS 7.x./8.x`. The correct setting of spatial and projection parameters is done automatically either by using an existing and valid `raster` or `terra`, `sp` or `sf` object or manually by providing a list of minimum required parameters. These properties are used to initialize either a temporary or a permanent `rgrass` environment, including the correct `GRASS 7/8` database structure. If you do not specify any of the above, `linkGRASS` will create an EPSG:4326 worldwide site.
 
-The most time consuming part on 'Windows' Systems is the search process. This can easily take 10 or more minutes. To speed up this process you can also provide a correct parameter set. Best way to do so is to call manually `findGRASS`. Then call `linkGRASS` with the returned version arguments of your choice.
+The most time consuming part on Windows systems is the search process. This can easily take 10 minutes or more. To speed up this process, you can also provide a correct parameter set. The best way to do this is to call `findGRASS` manually. Then call `linkGRASS` with the returned version arguments of your choice.
 
-The function `linkGRASS` tries to find all valid  `GRASS GIS` binaries by analyzing the startup script files of `GRASS GIS`. After identifying the `GRASS GIS` binaries all necessary system variables and settings will be generated and passed to a temporary `R` environment.
+The `linkGRASS` function tries to find all valid `GRASS GIS` binaries by analyzing the `GRASS GIS` startup script files. After identifying the `GRASS GIS` binaries, all necessary system variables and settings are generated and passed to a temporary `R` environment.
 
-If you have more than one valid installation and run `linkGRASS` with the  arguments `select_ver = TRUE`, then you will be ask to select one.
+If you have more than one valid installation and run `linkGRASS` with the arguments `select_ver = TRUE`, you will be asked to select one.
 
 
 
-#### Standard Full Search Usage 
-The most common way to use `GRASS` is just for one call or algorithm. So the user is not interested in the cumbersome setting up of all parameters. `linGRASS7(georeferenced-dataset)` does an automatic search and find all `GRASS` binaries using the georeferenced-dataset object for spatial referencing and the necessary other settings. 
-**NOTE:** This is the highly recommended linking procedure for all on the fly calls of `GRASS`. Please note also: If more than one `GRASS` installation is found the one with the highest version number is selected automatically. 
+#### Standard full search usage 
+The most common use of `GRASS` is for a single call or algorithm. The user is not interested in setting all the parameters. linGRASS7(georeferenced-dataset)` does an automatic search and finds all the `GRASS` binaries using the georeferenced-dataset object for spatial referencing and other necessary settings. 
+**NOTE:** This is the highly recommended linking procedure for all on-the-fly invocations of `GRASS`. Please also note that if more than one `GRASS` installation is found, the one with the highest version number is automatically selected. 
 
-Have a look at the following examples which show a typical call for  the well known `sp`and `sf` vector data objects.
+Take a look at the following examples, which show a typical call for the well-known `sp` and `sf` vector data objects.
 
 Starting with `sp`.
-
 
 ```r
 # get meuse data as sp object and link it temporary to GRASS
@@ -129,15 +126,14 @@ Now do the same with  `sf` based data.
  nc <- st_read(system.file("shape/nc.shp", package="sf"))
 
  # Automatic search and find of GRASS binaries
- # using the nc sf data object for spatial referencing
- # This is the highly recommended linking procedure for on the fly jobs
- # NOTE: if more than one GRASS installation is found the highest version will be choosed
+ # Use the nc sf data object for spatial referencing
+ # This is the highly recommended linking procedure for on-the-fly jobs.
+ # NOTE: if more than one GRASS installation is found, the first of the highest version will be selected.
  
- grass<-linkGRASS(nc,returnPaths = TRUE)
+ grass<-linkGRASS(nc)
 ```
  
- The second most common situation is the usage of an existing `GRASS` location and project either with existing data sets or manually provided parameters. 
-
+ The second most common situation is to use an existing `GRASS` site and project, either with existing data sets or manually provided parameters. 
 
 ```r
   library(link2GI)
@@ -174,10 +170,9 @@ Now do the same with  `sf` based data.
 
 
 
-#### Typical for specified search pathes and OS
+#### Typical for specified search paths and OS
  
-The full disk search can be cumbersome especially running Windos it can easily take 10 minutes and more. So it is helpful to provide a searchpath for narrowing down the search. Searching for `GRASS` installations in the home directory you may use the following command. 
-
+The full disk search can be tedious, especially on Windows it can easily take 10 minutes or more. So it is helpful to specify a search path to narrow down the search. To search for `GRASS` installations in the home directory, you can use the following command. 
 
 ```r
 # Link the GRASS installation and define the search location
@@ -200,10 +195,9 @@ linkGRASS(nc,c("C:/Program Files/GRASS GIS7.0.5","GRASS GIS 7.0.5","NSIS"))
 ```
 
 
-#### Manual choosing the version
-Finally some more specific examples related to interactive selection or OS specific settings.
-Choose manually the `GRASS` installation  additionally using the meuse `sf` object for spatial referencing
-
+#### Manual version selection
+Finally, some more specific examples related to interactive selection or OS-specific settings.
+Manually select the `GRASS` installation and use the meuse `sf` object for spatial referencing
 
 
 ```r
@@ -211,10 +205,9 @@ linkGRASS(nc, ver_select = TRUE)
 ```
 
 
-#### Creating a permanent gisbase folder
+#### Creating a permanent gisdbase folder
 
-Creating and linking a  permanent `GRASS` gisdbase (folder structure) at "~/temp3" with the standard mapset "PERMANENT"" and the location named "project1". For all spatial attributes use the the meuse `sf` object.
-
+Create and link a permanent `GRASS` gisdbase (folder structure) in "~/temp3" with the default mapset "PERMANENT"" and the location "project1". Use the `sf` object for all spatial attributes.
 
 
 
@@ -225,9 +218,8 @@ linkGRASS(x = nc,
 ```
 
 
-#### Using a Permanent gisbase folder
-Link to the permanent `GRASS` gisdbase (folder structure) at "~/temp3" with the standard mapset "PERMANENT" and the location named "project1". For all spatial attributes use the formerly referencend nc `sf` object parameter.
-
+#### Using a permanent gisdbase folder
+Link to the permanent `GRASS` gisdbase (folder structure) in "~/temp3" with the default mapset "PERMANENT" and the location named "project1". Use the formerly referencend nc `sf` object parameter for all spatial attributes.
 
 
 ```r
@@ -251,11 +243,10 @@ Setting up `GRASS` manually with spatial parameters of the meuse data
                                +to_meter=1")) 
 ```
 
-## A typical usecase for the Orfeo Toolbox wrapper
-link2GI supports the use of the Orfeo Toolbox with a listbased simple wrapper function. Actually two functions parse the modules and functions syntax dumps and generate a command list that is easy to modify with the necessary arguments.
+## A typical use case for the Orfeo Toolbox wrapper
+link2GI supports the use of the Orfeo Toolbox with a simple list-based wrapper function. Actually, two functions parse the module and function syntax dumps and generate a command list that can be easily modified with the necessary arguments.
 
 Usually you have to get the module list first:
-
 
 
 ```r
@@ -267,8 +258,7 @@ otblink<-link2GI::linkOTB()
 algo<-parseOTBAlgorithms(gili = otblink)
 ```
 
-Based on the modules of the current version of `OTB` you can then choose the module(s) you want to use.
-
+Based on the modules of the current version of `OTB', you can then select the module(s) you want to use.
 
 
 ```r
@@ -282,8 +272,7 @@ cmd<-parseOTBFunction(algo = algoKeyword, gili = otblink)
 print(cmd)
 ```
 
-Admittedly this is a very straightforward and preliminary approach. Nevertheless it provids you a valid list of all `OTB` API calls that can easily manipulated for your needs. The following working example will give you an idea how to use it.
-
+Admittedly, this is a very simple and preliminary approach. Nevertheless, it will give you a valid list of all `OTB` API calls that you can easily manipulate to suit your needs. The following working example will give you an idea of how to use it.
 
 
 ```r

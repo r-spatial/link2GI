@@ -21,87 +21,86 @@ vignette: >
 
 
 
-# Vignette info
-The vignette is a slightly adapted version of the installation guide of the archived RQGIS package. Big thanks to [Patrick Schratz](https://github.com/pat-s) and [Jannis Muenchow](https://github.com/jannes-m).
+# Vignette Info
+The vignette is a slightly modified version of the installation guide of the archived RQGIS package. Many thanks to [Patrick Schratz](https://github.com/pat-s) and [Jannis Muenchow](https://github.com/jannes-m).
 
 
-This vignette guides you through the installation process of QGIS, GRASS- and SAGA-GIS as well as Orfeo Toolbox and GDAL on three different platforms (Windows, Mac, Linux). 
-Following the instructions should ensure that link2GI will work properly. 
-With the exception of SAGA (SAGA is pretty idiosyncratic in questions of interface conformity), we recommend to use the latest stable version of all software packages.
+This vignette guides you through the installation process of QGIS, GRASS and SAGA-GIS as well as Orfeo Toolbox and GDAL on three different platforms (Windows, Mac, Linux). 
+Following the instructions should ensure that link2GI works properly. 
+With the exception of SAGA (SAGA is quite idiosyncratic in terms of interface compatibility), we recommend using the latest stable version of all software packages.
 
 
-Overall, link2GI allows access to more than some thousands of reliable and well known geo-algorithms. However, please note that the number of geo-algorithms you can use linking with link2GI depends on the platform, the system architecture, the selection of installed third-party providers and software package versions.
+Overall, link2GI provides access to more than a few thousand reliable and well-known geoalgorithms. Please note, however, that the number of geoalgorithms you can use with link2GI depends on the platform, the system architecture, the selection of installed third-party providers, and the software package versions.
 
 
 # Windows
 
 ## QGIS, GRASS and SAGA
-There are at least two options to install QGIS on Windows. The first option is the Standalone Installer from the [QGIS installer page](https://www.qgis.org/en/site/forusers/download.html). 
-This will install QGIS along with the third-party providers GRASS and SAGA. 
-However, if you would like to use even more third-party providers (e.g., GDAL, GEOS, Taudem, OTB, PostGIS, etc.), it is strongly recommended to use the OSGeo4W Network installer. 
-This installer is available on the [QGIS installer page](https://www.qgis.org/en/site/forusers/download.html) as well as on the [OSGeo4W-website](https://trac.osgeo.org/osgeo4w/). 
+There are at least two ways to install QGIS on Windows. The first option is the standalone installer from the [QGIS installer page] (https://www.qgis.org/en/site/forusers/download.html). 
+This will install QGIS along with the third party GRASS and SAGA. 
+If you want to use even more third party applications (e.g. GDAL, GEOS, Taudem, OTB, PostGIS, etc.) it is strongly recommended to use the OSGeo4W network installer. 
+This installer is available on the [QGIS installer page](https://www.qgis.org/en/site/forusers/download.html) as well as on the [OSGeo4W website](https://trac.osgeo.org/osgeo4w/). 
 
-**NOTE: Do not install QGIS 2.x**
+**NOTE: Do not install QGIS 2.x**.
 
-To install OSGeo4W, the easiest way is to to use the Express installation:
+The easiest way to install OSGeo4W is to use the express installation:
 
 ![](https://raw.githubusercontent.com/r-spatial/link2GI/master/figures/00_express.PNG)
 
 
-Sorry for the German dialogues.  Nevertheless, it should be easy enough to follow our steps.
+Sorry for the German dialogs.  However, it should be easy enough to follow our steps.
 
-1. Select "Express Installation" 
-2. Next check "QGIS, GRASS and GDAL"
+1. Select "Express Installation 
+2. Next select "QGIS, GRASS and GDAL
 3. Start the installation.
 
-This installation is more or less equivalent to the standalone QGIS-installation.
-However, to have the full choice of available geoalgorithms provided by QGIS, we recommend to use the  advanced settings of the OSGeo4W Network installer:
+This installation is more or less the same as the standalone QGIS installation.
+However, to get the full range of geoalgorithms available in QGIS, we recommend using the advanced settings of the OSGeo4W Network installer:
 
-1. Run the OSGeo4W setup and choose the advanced installation. 
+1. Run the OSGeo4W setup and select the advanced installation. 
 
 ![](https://raw.githubusercontent.com/r-spatial/link2GI/master/figures/01_initial_setup.PNG)
 
-2. Subsequently, accept the default settings until you reach the “Select Packages” window.
+2. Accept the default settings until you reach the "Select Packages" window.
 
 ![](https://raw.githubusercontent.com/r-spatial/link2GI/master/figures/04_select_packages.PNG)
 
-3. After expanding the command line utilities, we choose several commandline tools such as gdal and python-core (of course, you can select other components as well):
+3. After expanding the command line utilities, we select several command line tools such as gdal and python-core (of course, you can select other components as well):
 
 ![](https://raw.githubusercontent.com/r-spatial/link2GI/master/figures/05_command_line_utilties.PNG)
 
-Additionally, we choose the Desktop-GIS GRASS, the Orfeo Toolbox, SAGA, and QGIS (even if not directly supported by link2GI right now). Here, we install both the most recent QGIS 3.x version as well as the long-term release. 
+Additionally we choose the Desktop-GIS GRASS, the Orfeo Toolbox, SAGA and QGIS (even if they are not directly supported by link2GI at the moment). We install the latest QGIS 3.x version as well as the long term release. 
 
 
 
-4. We leave the rest as is, click "Next" and wait for the OSGeo4W-suggestions which we accept.
+4. Leave the rest as it is, click "Next" and wait for the OSGeo4W suggestions, which we accept.
 
 ![](https://raw.githubusercontent.com/r-spatial/link2GI/master/figures/08_suggestions.PNG)
 
-Clicking "Next" once more will start the download and installation process which might take a while.
+Clicking "Next" again will start the download and installation process, which may take a while.
 
-If you wish to to modify, uninstall or update some of the installed components, you might do so later on by running `../OSGeo4W/bin/osgeo4w-setup.exe`. 
-Alternatively, you can download and run again the latest [OSGeo4W-executable](https://trac.osgeo.org/osgeo4w/).
+If you want to change, uninstall or update some of the installed components, you can do so later by running `../OSGeo4W/bin/osgeo4w-setup.exe`. 
+Alternatively, you can download the latest [OSGeo4W-executable] (https://trac.osgeo.org/osgeo4w/) and run it again.
 
-If you additionally want to use the **LiDAR processing tools** (LAStools), please follow the steps found [here](https://rapidlasso.de/how-to-install-lastools-toolbox-in-qgis/).
+If you also want to use the **LiDAR processing tools** (LAStools), please follow the steps found [here](https://rapidlasso.de/how-to-install-lastools-toolbox-in-qgis/).
 
 ## Orfeo Toolbox
 
-Please [download](https://www.orfeo-toolbox.org/download/) the current (at this point OTB-7.2.0-Win64) or appropriate version of the Orfeo Toolbox software. Then follow the advice of the OTB team:
+Please [download](https://www.orfeo-toolbox.org/download/) the latest (currently OTB-7.2.0-Win64) or a suitable version of the Orfeo Toolbox software. Then follow the OTB team's advice:
 
-"We provide standalone binaries for Windows which do not require administrative privileges. Download the archive below (32 or 64 bits), and extract it somewhere. Double-click on the monteverdi.bat to launch Monteverdi, or mapla.bat for the OTB application browser. Please see the [CookBook](https://www.orfeo-toolbox.org/CookBook/Installation.html#windows) for detailed installation instructions."
-
+"We provide standalone binaries for Windows that do not require administrative privileges. Download the archive below (32 or 64 bit) and extract it to a location of your choice. Double-click monteverdi.bat to start Monteverdi, or mapla.bat for the OTB application browser. Please refer to the [CookBook](https://www.orfeo-toolbox.org/CookBook/Installation.html#windows) for detailed installation instructions.
 
 # Linux
 
 ## Ubuntu
 
-If you install QGIS with the built-in software managers, you will most likely get an outdated QGIS version. 
-To install more recent QGIS releases, we recommend to follow the installation instructions from the [QGIS installers website](https://www.qgis.org/en/site/forusers/download.html). 
+If you install QGIS using the built-in software managers, you will most likely end up with an outdated version of QGIS. 
+To install more recent versions of QGIS, we recommend following the installation instructions from the [QGIS installers website] (https://www.qgis.org/en/site/forusers/download.html). 
 
-Here, we just describe exemplarily the QGIS installation procedure under Debian/Ubuntu following the description found [here](https://www.qgis.org/en/site/forusers/alldownloads.html#debian-ubuntu).
-link2GI should work as well with Linux derivatives other than Ubuntu. However, just Ubuntu , Debian and Manjaro are tested.
+Here we only describe the installation of QGIS on Debian/Ubuntu as described [here](https://www.qgis.org/en/site/forusers/alldownloads.html#debian-ubuntu).
+link2GI should also work on Linux distributions other than Ubuntu. However, only Ubuntu, Debian and Manjaro have been tested.
 
-Open a terminal window. First of all, make sure to remove QGIS and GRASS packages you may have installed before from other repositories:
+Open a terminal window. First, make sure to remove any QGIS and GRASS packages you may have previously installed from other repositories:
 
 <!--http://gis.stackexchange.com/questions/167472/qgis-2-8-ubuntu-14-04-installation-issues-terminal-command-attempts-to-install-->
 ```sh 

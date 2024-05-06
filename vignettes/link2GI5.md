@@ -21,9 +21,9 @@ vignette: >
 
 
 
-### Usecases presented on the GEOSTAT August 2018
+### Use cases presented at GEOSTAT August 2018
 
-During the GEOSTAT 2018 (see https://opengeohub.org) in Prague some more complex use cases have been presented.
+During the GEOSTAT 2018 (see https://opengeohub.org) in Prague, some more complex use cases were presented.
 
 #### Find slides and materials
 - [Presentation slides](https://gisma.github.io/link2gi2018/link2gi2018.html#1)

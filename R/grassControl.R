@@ -7,7 +7,7 @@
 #'@param MP mount point to be searched. default is "/usr/bin"
 #'@param quiet Boolean  switch for suppressing console messages default is TRUE
 #'@param ver_select if TRUE you must interactively select between alternative installations
-#'@export paramGRASSx
+#'@keywords internal
 #'
 #' @examples
 #' 
@@ -103,7 +103,7 @@ paramGRASSx <- function(set_default_GRASS=NULL,
 #'  alternatively provide a vector containing pathes and keywords. c("C:/OSGeo4W64","grass-7.0.5","osgeo4w") is valid for a typical osgeo4w installation.
 #'  
 #'@param quiet boolean  switch for supressing console messages default is TRUE
-#'@export paramGRASSw
+#'@keywords internal
 #'  
 #' @examples
 #' 
@@ -439,7 +439,7 @@ searchGRASSX <- function(MP = "/usr/bin",quiet =TRUE){
 #'@param quiet boolean  switch for supressing console messages default is TRUE
 #'@param jpgmem jpeg2000 memory allocation size. Default is 1000000
 #'@author Chris Reudenbach
-#'@export setenvGRASSw
+#'@keywords internal
 #'
 #'@examples
 #' \dontrun{
@@ -555,21 +555,15 @@ checkGisdbase <- function(x = NULL , gisdbase = NULL, location = NULL, gisdbase_
 }
 
 
-#'@title Return attributes of valid 'GRASS GIS' installation(s) on the system
+#'@title Returns attributes of valid 'GRASS GIS' installation(s) on the system.
 #'@name findGRASS
-#'@description  Provides a list of valid 'GRASS GIS' installation(s) 
-#'on your system. There is a major difference between osgeo4W and 
-#'stand_alone installations. The functions tries to find all valid 
-#'installations by analysing the calling batch scripts.
-#'@param searchLocation location to be searched for the grass executable, 
-#'i.e. one executable for each GRASS installation on the system.
-#'For Windows systems
-#'it is mandatory to include an uppercase Windows drive letter and a colon.
-#' Default For Windows Systems 
-#' is \code{C:/}, for Linux systems default is \code{/usr/bin}.
-#'@param ver_select boolean default is FALSE. If there is more than one 'SAGA GIS' installation and \code{ver_select} = TRUE the user can select interactively the preferred 'SAGA GIS' version 
-#'@param quiet boolean  switch for supressing console messages default is TRUE
-#'@return A dataframe with the 'GRASS GIS' binary folder(s) (i.e. where the 
+#'@description Retrieve a list of valid 'GRASS GIS' installation(s) on your system. There is a big difference between osgeo4W and stand_alone installations. The function tries to find all valid installations by analyzing the calling batch scripts.
+#'@param searchLocation Location to search for the grass executable, i.e. one executable for each GRASS installation on the system. For Windows systems it is mandatory to include an uppercase Windows drive letter and a colon.
+#'Default for Windows systems 
+#'is \code{C:/}, for Linux systems the default is \code{/usr/bin}.
+#'@param ver_select boolean Default is FALSE. If there is more than one 'GRASS GIS' installation and \code{ver_select} = TRUE, the user can interactively select the preferred 'GRASS GIS' version. 
+#'@param quiet boolean switch to suppress console messages, default is TRUE
+#'@return A dataframe with the 'GRASS GIS' binary folder(s) (i.e. where the individual 
 #'individual GRASS commands are installed), version name(s) and 
 #'installation type code(s)
 #'@author Chris Reudenbach

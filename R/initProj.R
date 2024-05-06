@@ -3,8 +3,8 @@
 #'@details After adding new project settings run [setup_default()] to update and savew the default settings. For compatibility reasons you may also run [lutUpdate()].
 #'
 #'@return  A list containing the default project settings
-#'@param  new_envrmt_list containing a list of arbitrary folders to be generated
-#'@param  new_envrmt_list_name name of this list
+#'@param  new_folder_list containing a list of arbitrary folders to be generated
+#'@param  new_folder_list_name name of this list
 #'
 #'
 #' @examples
@@ -16,7 +16,7 @@
 #' @export setup_default
 
 
-setup_default = function(new_envrmt_list=NULL,new_envrmt_list_name=NULL)
+setup_default = function(new_folder_list=NULL,new_folder_list_name=NULL)
 {
   baseSpatial <- list(
     folders = c("docs", "docs/figures","tmp","data/source", "data/results", "data/level0","data/level1"),
@@ -55,12 +55,12 @@ setup_default = function(new_envrmt_list=NULL,new_envrmt_list_name=NULL)
     create_folders = TRUE
     #git_repository = "." # Historic reasons, remove once var git_repository in setupProj is deprecated.
   )
-  if (is.null(new_envrmt_list)){
+  if (is.null(new_folder_list)){
     setup_dflt <- list(
       baseSpatial = baseSpatial, baseproj_no_git = baseproj_no_git)
   } else {
     setup_dflt <- list(baseSpatial = baseSpatial, baseproj_no_git = baseproj_no_git)
-    setup_dflt[[new_envrmt_list_name]] = new_envrmt_list
+    setup_dflt[[new_folder_list_name]] = new_folder_list
   }
   return(setup_dflt )
 }
@@ -80,7 +80,8 @@ setup_default = function(new_envrmt_list=NULL,new_envrmt_list_name=NULL)
 #'
 #' @return  List with folder paths and names.
 #'
-#' @keywords internal
+#' @export createFolders
+#' @aliases createFolder
 #'
 #' @examples
 #' \dontrun{
@@ -249,7 +250,7 @@ setupProj <- function(root_folder = tempdir(), folders = c("data", "data/tmp"), 
                       global = FALSE, libs = NULL, setup_script = "000_setup.R", fcts_folder = NULL,
                       source_functions = !is.null(fcts_folder),
                       standard_setup = NULL, lut_mode = NULL, create_folders = TRUE ){
-  #setup_default() # new_envrmt_list=NULL,new_envrmt_list_name=NULL
+  #setup_default() # new_folder_list=NULL,new_folder_list_name=NULL
   
   
   

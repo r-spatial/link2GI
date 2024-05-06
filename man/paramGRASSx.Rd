@@ -42,3 +42,4 @@ paramGRASSx("/usr/bin/grass72")
 paramGRASSx("/usr/local/bin/grass72")
 }
 }
+\keyword{internal}

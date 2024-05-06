@@ -51,3 +51,4 @@ giLinks<-linkAll(gdalArgs= "quiet = TRUE")
 
 }
 }
+\keyword{internal}

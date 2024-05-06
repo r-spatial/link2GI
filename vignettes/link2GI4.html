@@ -142,11 +142,11 @@ section.footnotes::before {
 <div class="frontmatter">
 <div class="title"><h1>OTB Wrapper</h1></div>
 <div class="author"><h2>Chris Reudenbach</h2></div>
-<div class="date"><h3>2024-05-03</h3></div>
+<div class="date"><h3>2024-05-06</h3></div>
 </div>
 <div class="body">
-<h1 id="a-typical-usecase-for-the-orfeo-toolbox-wrapper">A typical usecase for the Orfeo Toolbox wrapper</h1>
-<p>link2GI supports the use of the Orfeo Toolbox with a listbased simple wrapper function. Actually two functions parse the modules and functions syntax dumps and generate a command list that is easy to modify with the necessary arguments.</p>
+<h1 id="a-typical-use-case-for-the-orfeo-toolbox-wrapper">A typical use case for the Orfeo Toolbox wrapper</h1>
+<p>link2GI supports the use of the Orfeo Toolbox with a simple list-based wrapper function. Actually, two functions parse the module and function syntax dumps and generate a command list that can be easily modified with the necessary arguments.</p>
 <p>Usually you have to get the module list first:</p>
 <pre><code class="language-r"># link to the installed OTB 
 otblink&lt;-link2GI::linkOTB()
@@ -155,7 +155,7 @@ otblink&lt;-link2GI::linkOTB()
 # get the list of modules from the linked version
 algo&lt;-parseOTBAlgorithms(gili = otblink)
 </code></pre>
-<p>Based on the modules of the current version of <code>OTB</code> you can then choose the module(s) you want to use.</p>
+<p>Based on the modules of the current version of `OTB’, you can then select the module(s) you want to use.</p>
 <pre><code class="language-r">## for the example we use the edge detection, 
 algoKeyword&lt;- &quot;EdgeExtraction&quot;
 

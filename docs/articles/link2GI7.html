@@ -100,7 +100,7 @@
                         <h4 data-toc-skip class="author">Chris
 Reudenbach</h4>
             
-            <h4 data-toc-skip class="date">2024-05-04</h4>
+            <h4 data-toc-skip class="date">2024-05-06</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/r-spatial/link2GI/blob/HEAD/vignettes/link2GI7.Rmd" class="external-link"><code>vignettes/link2GI7.Rmd</code></a></small>
       <div class="hidden name"><code>link2GI7.Rmd</code></div>
@@ -113,63 +113,56 @@ Reudenbach</h4>
 <h2 id="reproducible-project-structure">Reproducible Project Structure<a class="anchor" aria-label="anchor" href="#reproducible-project-structure"></a>
 </h2>
 <p>Reproducible projects in R emphasize streamlined project setup and
-efficient workflows. There are quite a lot of very helpful tools in the
-R-universe like <a href="https://cran.r-project.org/package=renv" class="external-link"><code>renv</code></a>, <a href="https://cran.r-project.org/package=usethis" class="external-link"><code>usethis</code></a>
-or <a href="https://cran.r-project.org/package=here" class="external-link"><code>here</code></a>
-which range from setting up a stable R environment, to generating
-individual project structures, to getting the necessary paths in an easy
-way. In addition, there are a number of project structure packages and
-templates for creating easy-to-use and transparent project structures.
-Namely <a href="https://cran.r-project.org/package=tinyProject" class="external-link"><code>tinProjects</code></a>,
+efficient workflows. There are a number of very helpful tools in the R
+universe, such as <a href="https://cran.r-project.org/package=renv" class="external-link"><code>renv</code></a>, <a href="https://cran.r-project.org/package=usethis" class="external-link"><code>usethis</code></a>,
+or <a href="https://cran.r-project.org/package=here" class="external-link"><code>here</code></a>,
+that range from setting up a stable R environment to generating custom
+project structures to getting the necessary paths in an easy way. In
+addition, there are a number of project structure packages and templates
+for creating easy-to-use and transparent project structures. Namely, <a href="https://cran.r-project.org/package=tinyProject" class="external-link"><code>tinProjects</code></a>,
 <a href="https://cran.r-project.org/package=prodigenr" class="external-link"><code>prodigenr</code></a>
 or <a href="https://cran.r-project.org/package=workflowr" class="external-link"><code>workflowr</code></a>
 are R packages designed to facilitate reproducible research through
 automated project structuring and standardization. They all promote
 organized project directories, emphasize reproducibility by integrating
-with tools like <code>Git</code> and <code>renv</code>, and reduce
-manual setup efforts to ensure consistent and error-free project
-initialization. These packages help build a solid foundation for
-research and ensure that best practices include using separate scripts
-for data processing, analysis, and reporting, and combining code with
-narrative in R Markdown documents from start. This organized setup
-improves reproducibility by making it easier to maintain, share, and
-replicate research. For a more comprenesive overwiew have a look at CRAN
-<a href="https://cran.r-project.org/web/views/ReproducibleResearch.html" class="external-link">Repoducible
-Research View</a>.</p>
+with tools like <code>Git' and</code>renv’, and reduce manual setup
+efforts to ensure consistent and error-free project initialization.
+These packages help build a solid foundation for research and ensure
+that best practices include using separate scripts for data processing,
+analysis, and reporting, and combining code with narrative in R Markdown
+documents from the start. This organized setup improves reproducibility
+by making it easier to maintain, share, and replicate research. For a
+more comprehensive overview, have a look at the <a href="https://CRAN.R-project.org/view=ReproducibleResearch" class="external-link">CRAN Task
+View Reproducible Research</a>.</p>
 <div class="section level3">
 <h3 id="why-initproj-then">Why initProj then?<a class="anchor" aria-label="anchor" href="#why-initproj-then"></a>
 </h3>
 <p>In the context of link2GI, which relies heavily on third-party
 command-line APIs and requires complex and stable folder and file
-structures, a flexible, lightweight R project setup greatly enhances the
-integration of OS command-line tools into spatial workflows by:</p>
+structures, a flexible, lightweight R project setup greatly improves the
+integration of OS command-line tools into spatial workflows by</p>
 <ol style="list-style-type: decimal">
+<li>**Streamlining integration: Simplifies the integration of essential
+command-line tools such as <code>GDAL' or the sophisticated</code>Orfeo
+Toolbox’ (OTB) and the growing universe of r(-)spatial packages for
+advanced geospatial processing.</li>
 <li>
-<strong>Streamlining integration</strong>: Simplifies the
-integration of essential command-line tools such as <code>GDAL</code> or
-the sophisticated <code>Orfeo Toolbox</code> (OTB) and the growing
-universe of r(-)spatial packages for advanced geospatial
-processing.</li>
-<li>
-<strong>Improving data exchange</strong>: Organized variable and
+<strong>Improve data exchange</strong>: Organized variable and
 metadata management ensures accurate and efficient data transfer between
 different and especially command-line based processes and APIs.</li>
-<li>
-<strong>Enhanced Cross-Platform Compatibility</strong>: Facilitates
-adaptability across operating systems, which is critical when using
-multiple spatial analysis tools, even more so when using different
-shells.</li>
-<li>
-<strong>Performance Optimization</strong>: Switching between generic
-R and command-line tools takes advantage of the speed and efficiency of
+<li>**Enhanced Cross-Platform Compatibility: Facilitates cross-platform
+adaptability, which is critical when using multiple spatial analysis
+tools, even more so when using different shells.</li>
+<li>**Performance Optimization: Switching between generic R and
+command-line tools takes advantage of the speed and efficiency of
 command-line tools, which is especially beneficial when handling large
 spatial datasets.</li>
 </ol>
 <p>For this reason, the link2GI package includes a lean and lightweight
-but focused approach that integrates <code>git</code>,
-<code>renv</code>, and a highly flexible folder and package setup
-process that is simpler than existing approaches, increasing efficiency,
-accuracy, and performance in geospatial workflows.</p>
+but focused approach that integrates <code>git',</code>renv’, and a
+highly flexible folder and package setup process that is simpler than
+existing approaches, increasing efficiency, accuracy, and performance in
+geospatial workflows.</p>
 <div class="section level4">
 <h4 id="using-the-rstudio-gui">Using the RStudio GUI<a class="anchor" aria-label="anchor" href="#using-the-rstudio-gui"></a>
 </h4>
@@ -180,12 +173,12 @@ accuracy, and performance in geospatial workflows.</p>
 <div class="section level4">
 <h4 id="using-the-console">Using the Console<a class="anchor" aria-label="anchor" href="#using-the-console"></a>
 </h4>
-<p>The basic setup of a default project initializing Git and renv is
-performed with the following call.</p>
+<p>The basic setup of a default project, which initializes Git and renv,
+is done with the following call.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">root_folder</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># Mandatory, variable must be in the R environment.</span></span>
 <span><span class="va">envrmt</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/initProj.html">initProj</a></span><span class="op">(</span>root_folder <span class="op">=</span> <span class="va">root_folder</span>, standard_setup <span class="op">=</span> <span class="st">"baseSpatial"</span><span class="op">)</span></span></code></pre></div>
-<p>It is easy to adapt the folder structure. By default you will
+<p>It is easy to customize the folder structure. By default you will
 create</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">link2GI</span><span class="fu">::</span><span class="fu"><a href="../reference/setup_default.html">setup_default</a></span><span class="op">(</span><span class="op">)</span><span class="op">$</span><span class="va">baseSpatial</span><span class="op">$</span><span class="va">folders</span></span></code></pre></div>
@@ -194,7 +187,7 @@ create</p>
 <code class="sourceCode R"><span></span>
 <span><span class="fu">link2GI</span><span class="fu">::</span><span class="fu"><a href="../reference/setup_default.html">setup_default</a></span><span class="op">(</span><span class="op">)</span><span class="op">$</span><span class="va">baseSpatial</span><span class="op">$</span><span class="va">code_subfolders</span></span></code></pre></div>
 <p><code>[1] "src"           "src/functions"</code></p>
-<p>Use the argument <code>folders</code> to create a specific structure
+<p>Use the <code>folders</code> argument to create a specific structure
 or subfolder structure of your project.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">root_folder</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># Mandatory, variable must be in the R environment.</span></span>

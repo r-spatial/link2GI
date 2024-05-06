@@ -68,8 +68,8 @@ if (!isGeneric('linkGRASS')) {
 #' 
 #' # proj folders
 #' root_folder = tempdir()
-#' paths = link2GI::initProj(root_folder = root_folder,
-#'                          projFolders = c("project1/"))
+#' paths = link2GI::createFolder(root_folder = root_folder,
+#'                          folders = c("project1/"))
 #'                          
 #' # get  data                         
 #' nc = st_read(system.file("shape/nc.shp", package="sf"))
@@ -387,8 +387,8 @@ linkGRASS = function(x = NULL,
 #' 
 #' # proj folders
 #' root_folder = tempdir()
-#' paths = link2GI::initProj(root_folder = root_folder,
-#'                          projFolders = c("project1/"))
+#' paths = link2GI::createFolders(root_folder = root_folder,
+#'                          folders = c("project1/"))
 #'                          
 #' # get  data                         
 #' nc = st_read(system.file("shape/nc.shp", package="sf"))

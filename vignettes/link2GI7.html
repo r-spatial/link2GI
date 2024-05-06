@@ -142,29 +142,29 @@ section.footnotes::before {
 <div class="frontmatter">
 <div class="title"><h1>Reproducible projects</h1></div>
 <div class="author"><h2>Chris Reudenbach</h2></div>
-<div class="date"><h3>2024-05-04</h3></div>
+<div class="date"><h3>2024-05-06</h3></div>
 </div>
 <div class="body">
 <h1 id="reproducible-project-structure">Reproducible Project Structure</h1>
-<p>Reproducible projects in R emphasize streamlined project setup and efficient workflows. There are quite a lot of very helpful tools in the R-universe like <a href="https://cran.r-project.org/package=renv"><code>renv</code></a>, <a href="https://cran.r-project.org/package=usethis"><code>usethis</code></a> or <a href="https://cran.r-project.org/package=here"><code>here</code></a> which range from setting up a stable R environment, to generating individual project structures, to getting the necessary paths in an easy way. In addition, there are a number of project structure packages and templates for creating easy-to-use and transparent project structures. Namely <a href="https://cran.r-project.org/package=tinyProject"><code>tinProjects</code></a>, <a href="https://cran.r-project.org/package=prodigenr"><code>prodigenr</code></a> or <a href="https://cran.r-project.org/package=workflowr"><code>workflowr</code></a> are R packages designed to facilitate reproducible research through automated project structuring and standardization. They all promote organized project directories, emphasize reproducibility by integrating with tools like <code>Git</code> and <code>renv</code>, and reduce manual setup efforts to ensure consistent and error-free project initialization. These packages help build a solid foundation for research and ensure that best practices include using separate scripts for data processing, analysis, and reporting, and combining code with narrative in R Markdown documents from start. This organized setup improves reproducibility by making it easier to maintain, share, and replicate research. For a more comprenesive overwiew have a look at CRAN <a href="https://cran.r-project.org/web/views/ReproducibleResearch.html">Repoducible Research View </a>.</p>
+<p>Reproducible projects in R emphasize streamlined project setup and efficient workflows. There are a number of very helpful tools in the R universe, such as <a href="https://cran.r-project.org/package=renv"><code>renv</code></a>, <a href="https://cran.r-project.org/package=usethis"><code>usethis</code></a>, or <a href="https://cran.r-project.org/package=here"><code>here</code></a>, that range from setting up a stable R environment to generating custom project structures to getting the necessary paths in an easy way. In addition, there are a number of project structure packages and templates for creating easy-to-use and transparent project structures. Namely, <a href="https://cran.r-project.org/package=tinyProject"><code>tinProjects</code></a>, <a href="https://cran.r-project.org/package=prodigenr"><code>prodigenr</code></a> or <a href="https://cran.r-project.org/package=workflowr"><code>workflowr</code></a> are R packages designed to facilitate reproducible research through automated project structuring and standardization. They all promote organized project directories, emphasize reproducibility by integrating with tools like <code>Git' and </code>renv’, and reduce manual setup efforts to ensure consistent and error-free project initialization. These packages help build a solid foundation for research and ensure that best practices include using separate scripts for data processing, analysis, and reporting, and combining code with narrative in R Markdown documents from the start. This organized setup improves reproducibility by making it easier to maintain, share, and replicate research. For a more comprehensive overview, have a look at the <a href="https://CRAN.R-project.org/view=ReproducibleResearch"> CRAN Task View Reproducible Research</a>.</p>
 <h2 id="why-initproj-then">Why initProj then?</h2>
-<p>In the context of link2GI, which relies heavily on third-party command-line APIs and requires complex and stable folder and file structures, a flexible, lightweight R project setup greatly enhances the integration of OS command-line tools into spatial workflows by:</p>
+<p>In the context of link2GI, which relies heavily on third-party command-line APIs and requires complex and stable folder and file structures, a flexible, lightweight R project setup greatly improves the integration of OS command-line tools into spatial workflows by</p>
 <ol>
-<li><strong>Streamlining integration</strong>: Simplifies the integration of essential command-line tools such as <code>GDAL</code> or the sophisticated <code>Orfeo Toolbox</code> (OTB) and the growing universe of r(-)spatial packages for advanced geospatial processing.</li>
-<li><strong>Improving data exchange</strong>: Organized variable and metadata management ensures accurate and efficient data transfer between different and especially command-line based processes and APIs.</li>
-<li><strong>Enhanced Cross-Platform Compatibility</strong>: Facilitates adaptability across operating systems, which is critical when using multiple spatial analysis tools, even more so when using different shells.</li>
-<li><strong>Performance Optimization</strong>: Switching between generic R and command-line tools takes advantage of the speed and efficiency of command-line tools, which is especially beneficial when handling large spatial datasets.</li>
+<li>**Streamlining integration: Simplifies the integration of essential command-line tools such as <code>GDAL' or the sophisticated </code>Orfeo Toolbox’ (OTB) and the growing universe of r(-)spatial packages for advanced geospatial processing.</li>
+<li><strong>Improve data exchange</strong>: Organized variable and metadata management ensures accurate and efficient data transfer between different and especially command-line based processes and APIs.</li>
+<li>**Enhanced Cross-Platform Compatibility: Facilitates cross-platform adaptability, which is critical when using multiple spatial analysis tools, even more so when using different shells.</li>
+<li>**Performance Optimization: Switching between generic R and command-line tools takes advantage of the speed and efficiency of command-line tools, which is especially beneficial when handling large spatial datasets.</li>
 </ol>
-<p>For this reason, the link2GI package includes a lean and lightweight but focused approach that integrates <code>git</code>, <code>renv</code>, and a highly flexible folder and package setup process that is simpler than existing approaches, increasing efficiency, accuracy, and performance in geospatial workflows.</p>
+<p>For this reason, the link2GI package includes a lean and lightweight but focused approach that integrates <code>git', </code>renv’, and a highly flexible folder and package setup process that is simpler than existing approaches, increasing efficiency, accuracy, and performance in geospatial workflows.</p>
 <h3 id="using-the-rstudio-gui">Using the RStudio GUI</h3>
 <p><img src="https://raw.githubusercontent.com/r-spatial/link2GI/master/figures/usegui.gif" alt="Use the RStudio Template Option" /></p>
 <h3 id="using-the-console">Using the Console</h3>
-<p>The basic setup of a default project initializing Git and renv is performed with the following call.</p>
+<p>The basic setup of a default project, which initializes Git and renv, is done with the following call.</p>
 <pre><code class="language-R">root_folder &lt;- tempdir() # Mandatory, variable must be in the R environment.
 envrmt &lt;- initProj(root_folder = root_folder, standard_setup = &quot;baseSpatial&quot;)
 
 </code></pre>
-<p>It is easy to adapt the folder structure. By default you will create</p>
+<p>It is easy to customize the folder structure. By default you will create</p>
 <pre><code class="language-R">link2GI::setup_default()$baseSpatial$folders
 </code></pre>
 <p><code>[1] &quot;docs&quot;         &quot;docs/figures&quot; &quot;tmp&quot;          &quot;data/source&quot;  &quot;data/results&quot; &quot;data/level0&quot;  &quot;data/level1&quot; </code></p>
@@ -173,7 +173,7 @@ link2GI::setup_default()$baseSpatial$code_subfolders
 
 </code></pre>
 <p><code>[1] &quot;src&quot;           &quot;src/functions&quot;</code></p>
-<p>Use the argument <code>folders</code> to create a specific structure or subfolder structure of your project.</p>
+<p>Use the <code>folders</code> argument to create a specific structure or subfolder structure of your project.</p>
 <pre><code class="language-R">root_folder &lt;- tempdir() # Mandatory, variable must be in the R environment.
 envrmt &lt;- initProj(root_folder = root_folder, standard_setup = &quot;baseSpatial&quot;,folders = c(&quot;data/rawdata/provider1/&quot;, &quot;docs/quarto/&quot;))
 </code></pre>

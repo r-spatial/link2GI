@@ -4,12 +4,12 @@
 \alias{setup_default}
 \title{Define working environment default settings}
 \usage{
-setup_default(new_envrmt_list = NULL, new_envrmt_list_name = NULL)
+setup_default(new_folder_list = NULL, new_folder_list_name = NULL)
 }
 \arguments{
-\item{new_envrmt_list}{containing a list of arbitrary folders to be generated}
+\item{new_folder_list}{containing a list of arbitrary folders to be generated}
 
-\item{new_envrmt_list_name}{name of this list}
+\item{new_folder_list_name}{name of this list}
 }
 \value{
 A list containing the default project settings

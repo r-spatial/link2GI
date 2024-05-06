@@ -337,7 +337,7 @@ gvec2sf <- function(x, obj_name, gisdbase, location ,gisdbase_exist = TRUE){
 #'
 #'}
 
-#' @export
+#' @keywords internal
 linkAll <- function(links=NULL,
                     simple = TRUE,
                     linkItems = c("saga","grass","otb","gdal"),
@@ -374,3 +374,10 @@ linkAll <- function(links=NULL,
   return(link)
 }
 
+bf_wpath = function(path){
+  if (path=="default") path <- "C:/"
+  path = gsub("\\\\", "/", path)
+  path = gsub("/", "\\\\", path)
+  path = utils::shortPathName(path)
+  return(path)
+}

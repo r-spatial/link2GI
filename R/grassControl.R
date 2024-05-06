@@ -61,10 +61,10 @@ paramGRASSx <- function(set_default_GRASS=NULL,
     else if (nrow(params_GRASS) > 1 & !ver_select ) {
       if (!quiet) {
         cat("You have more than one valid GRASS version installed!\n")
-        cat("The latest installed version (",which(params_GRASS$version == max(params_GRASS$version)),")has been selected \n")
+        cat("The latest installed version (",which(params_GRASS$version == max(params_GRASS$version))[1],")has been selected \n")
         print(params_GRASS)
         cat("\n")}
-      gisbase_GRASS <- params_GRASS$instDir[[which(params_GRASS$version == max(params_GRASS$version))]]
+      gisbase_GRASS <- params_GRASS$instDir[[which(params_GRASS$version == max(params_GRASS$version))[1]]]
     }
     # if ver_select is TRUE manually select a version
     else if (nrow(params_GRASS) > 1 & ver_select ) {
@@ -164,14 +164,14 @@ paramGRASSw <- function(set_default_GRASS=NULL,
     } else if (nrow(params_GRASS) > 1 & !ver_select) {  
       if (!quiet) {
         cat("You have more than one valid GRASS version installed!\n")
-        cat("The latest installed version (",which(params_GRASS$version == max(params_GRASS$version)),")has been selected \n")
+        cat("The latest installed version (",which(params_GRASS$version == max(params_GRASS$version))[1],")has been selected \n")
       }
-      gisbase_GRASS <- setenvGRASSw(root_GRASS = params_GRASS$instDir[[which(params_GRASS$version == max(params_GRASS$version))]],
-                                    grass_version = params_GRASS$version[[which(params_GRASS$version == max(params_GRASS$version))]], 
-                                    installation_type = params_GRASS$installation_type[[which(params_GRASS$version == max(params_GRASS$version))]] ,
+      gisbase_GRASS <- setenvGRASSw(root_GRASS = params_GRASS$instDir[[which(params_GRASS$version == max(params_GRASS$version))[1]]],
+                                    grass_version = params_GRASS$version[[which(params_GRASS$version == max(params_GRASS$version))[1]]], 
+                                    installation_type = params_GRASS$installation_type[[which(params_GRASS$version == max(params_GRASS$version))[1]]] ,
                                     quiet=quiet)
-      grass_version = params_GRASS$version[[which(params_GRASS$version == max(params_GRASS$version))]]
-      installation_type = params_GRASS$installation_type[[which(params_GRASS$version == max(params_GRASS$version))]]
+      grass_version = params_GRASS$version[[which(params_GRASS$version == max(params_GRASS$version))[1]]]
+      installation_type = params_GRASS$installation_type[[which(params_GRASS$version == max(params_GRASS$version))[1]]]
       # if ver_selct is true  one has to select
     } else if (nrow(params_GRASS) > 1 & ver_select) {
       cat("You have more than one valid GRASS GIS version\n")
@@ -233,10 +233,7 @@ paramGRASSw <- function(set_default_GRASS=NULL,
 searchGRASSW <- function(DL = "C:/",
                          quiet =TRUE){
   
-  if (DL=="default") DL <- "C:/"
-  DL = gsub("\\\\", "/", DL)
-  DL = gsub("/", "\\\\", DL)
-  DL = utils::shortPathName(DL)
+  DL = bf_wpath(DL)
   
   # trys to find a osgeo4w installation on the whole C: disk returns root directory and version name
   # recursive dir for grass*.bat returns all version of grass bat files
@@ -589,6 +586,8 @@ findGRASS <- function(searchLocation = "default",
                       quiet=TRUE) {
   
   if (Sys.info()["sysname"] == "Windows") {
+    message("PLEASE NOTE: if you use GRASS version > 7.8 and/or the OSGeo4W installation you must:\n 1) start the OSGeo4W shell\n 2) start grassxx --gtext\n 3) start Rstudio\n Then both link2GI and rgrass should work.")
+    invisible(readline(prompt="Press [enter] to continue"))
     if (searchLocation=="default") searchLocation <- "C:/"
     if (grepl(paste0(LETTERS, ":", collapse="|"), searchLocation) )
       link = link2GI::searchGRASSW(DL = searchLocation)  

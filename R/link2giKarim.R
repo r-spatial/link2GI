@@ -374,3 +374,10 @@ linkAll <- function(links=NULL,
   return(link)
 }
 
+bf_wpath = function(path){
+  if (path=="default") path <- "C:/"
+  path = gsub("\\\\", "/", path)
+  path = gsub("/", "\\\\", path)
+  path = utils::shortPathName(path)
+  return(path)
+}

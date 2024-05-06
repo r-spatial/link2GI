@@ -52,7 +52,7 @@ setenvOTB <- function(bin_OTB = NULL, root_OTB = NULL){
 
 searchOTBW <- function(DL = "default",
                        quiet=TRUE) {
-  if (DL=="default") DL <- "C:/"
+   DL = bf_wpath(DL)
   if (Sys.info()["sysname"] == "Windows") {
     if (!exists("GiEnv")) GiEnv <- new.env(parent=globalenv()) 
 
@@ -66,9 +66,6 @@ searchOTBW <- function(DL = "default",
       options(warn=-1)
       # switch backslash to slash and expand path to full path
       
-      DL = gsub("\\\\", "/", DL)
-      DL = gsub("/", "\\\\", DL)
-      DL = utils::shortPathName(DL)
       raw_OTB  <- try(system(paste0("cmd.exe /c WHERE /R ",DL, " ","otbcli.bat"),intern=TRUE))
       
       #raw_OTB  <- try(system(paste0("cmd.exe"," /c dir /B /S ",DL,"\\","otbcli.bat"),intern=TRUE))

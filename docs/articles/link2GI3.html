@@ -170,7 +170,7 @@ stuff. If you have a look, the data is nothing but x,y,z with some
 projection information assumed.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># fast read with data.table </span></span>
-<span> <span class="va">xyz</span> <span class="op">&lt;-</span> <span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/fread.html" class="external-link">fread</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">path_run</span>,<span class="st">"/Zensus_Bevoelkerung_100m-Gitter.csv"</span><span class="op">)</span><span class="op">)</span></span>
+<span> <span class="va">xyz</span> <span class="op">&lt;-</span> <span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/data.table/man/fread.html" class="external-link">fread</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">path_run</span>,<span class="st">"/Zensus_Bevoelkerung_100m-Gitter.csv"</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span> <span class="fu"><a href="https://rspatial.github.io/terra/reference/headtail.html" class="external-link">head</a></span><span class="op">(</span><span class="va">xyz</span><span class="op">)</span></span></code></pre></div>
 <p>We can easily rasterize this data because it is intentionally gridded

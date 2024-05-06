@@ -75,12 +75,6 @@ In the past it was quite tedious to link the correct `SAGA GIS` version. Since v
 
 
 
-```r
-saga1<-link2GI::linkSAGA(ver_select = 1) 
-saga1
-sagaEnv1<- RSAGA::rsaga.env(path = saga1$sagaPath)
-```
-
 ## linkGRASS - Find and set up GRASS 7/8 API bindings
 
 linkGRASS` initializes the session environment and system paths for easy access to `GRASS GIS 7.x./8.x`. The correct setting of spatial and projection parameters is done automatically either by using an existing and valid `raster` or `terra`, `sp` or `sf` object or manually by providing a list of minimum required parameters. These properties are used to initialize either a temporary or a permanent `rgrass` environment, including the correct `GRASS 7/8` database structure. If you do not specify any of the above, `linkGRASS` will create an EPSG:4326 worldwide site.

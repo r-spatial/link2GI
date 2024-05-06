@@ -1,7 +1,7 @@
 ---
 author: "Chris Reudenbach"
 title: "GEOSTAT 2018 Examples"
-date: "2024-05-04"
+date: "2024-05-06"
 editor_options:
   chunk_output_type: console
 output:
@@ -21,9 +21,9 @@ vignette: >
 
 
 
-### Use cases presented at GEOSTAT August 2018
+### Usecases presented on the GEOSTAT August 2018
 
-During the GEOSTAT 2018 (see https://opengeohub.org) in Prague, some more complex use cases were presented.
+During the GEOSTAT 2018 (see https://opengeohub.org) in Prague some more complex use cases have been presented.
 
 #### Find slides and materials
 - [Presentation slides](https://gisma.github.io/link2gi2018/link2gi2018.html#1)

@@ -1,7 +1,7 @@
 ---
 author: "Chris Reudenbach"
 title: "Link GI to R"
-date: "2023-10-30"
+date: "2024-05-06"
 editor_options:
   chunk_output_type: console
 output:

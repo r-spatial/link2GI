@@ -120,7 +120,7 @@ table, .body h2 { border-bottom: 1px solid #666; }
 .body .appendix, .appendix ~ h2 { border-bottom-style: dashed; }
 .footnote-ref a::before { content: "["; }
 .footnote-ref a::after { content: "]"; }
-.footnotes::before {
+section.footnotes::before {
   content: "";
   display: block;
   max-width: 20em;
@@ -139,12 +139,10 @@ table, .body h2 { border-bottom: 1px solid #666; }
 </style>
 </head>
 <body>
-<div class="include-before">
-</div>
 <div class="frontmatter">
 <div class="title"><h1>Installation guide for link2GI related Software</h1></div>
 <div class="author"><h2>Chris Reudenbach</h2></div>
-<div class="date"><h3>2023-10-30</h3></div>
+<div class="date"><h3>2024-05-06</h3></div>
 </div>
 <div class="body">
 <h1 id="vignette-info">Vignette info</h1>
@@ -275,8 +273,6 @@ brew install qgis3
 However, if you use them, QGIS will be compiled from source which may take &gt; 30 min (depending on your system).
 Otherwise, pre-built bottles (= binaries) will be used which speeds up the installation process a lot.</p>
 <p><strong>Note:</strong> Make sure to install SAGA and GRASS before QGIS so that QGIS finds the correct paths.</p>
-</div>
-<div class="include-after">
 </div>
 <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js" defer></script>

@@ -142,7 +142,7 @@ section.footnotes::before {
 <div class="frontmatter">
 <div class="title"><h1>linkGRASS real world data usecase</h1></div>
 <div class="author"><h2>Chris Reudenbach</h2></div>
-<div class="date"><h3>2024-05-03</h3></div>
+<div class="date"><h3>2024-05-06</h3></div>
 </div>
 <div class="body">
 <h1 id="real-world-example">Real world example</h1>
@@ -166,13 +166,12 @@ wget https://www.zensus2011.de/SharedDocs/Downloads/DE/Pressemitteilung/Demograf
  require(curl)
 
 # first of all we create  a project folder structure 
-  link2GI::initProj(root_folder = paste0(tempdir(),&quot;/link2GI_examples&quot;), 
-                    projFolders =  c(&quot;run/&quot;),
-                    path_prefix = &quot;path_&quot;,
-                    global = TRUE)
+  envrmt = link2GI::createFolders(root_folder = paste0(tempdir(),&quot;/link2GI_examples&quot;), 
+                                  folders =  c(&quot;run/&quot;),
+                                  path_prefix = &quot;path_&quot;)
 
 # set runtime directory
-  setwd(path_run)
+  setwd(envrmt$path_run)
 
 # get some typical authority generated data 
   url&lt;-&quot;https://www.zensus2011.de/SharedDocs/Downloads/DE/Pressemitteilung/DemografischeGrunddaten/csv_Bevoelkerung_100m_Gitter.zip;jsessionid=294313DDBB57914D6636DE373897A3F2.2_cid389?__blob=publicationFile&amp;v=3&quot;

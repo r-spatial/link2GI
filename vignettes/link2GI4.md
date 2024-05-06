@@ -1,7 +1,7 @@
 ---
 author: "Chris Reudenbach"
 title: "OTB Wrapper"
-date: "2024-05-03"
+date: "2024-05-06"
 editor_options:
   chunk_output_type: console
 output:
@@ -20,10 +20,11 @@ vignette: >
 ---
 
 
-# A typical use case for the Orfeo Toolbox wrapper
-link2GI supports the use of the Orfeo Toolbox with a simple list-based wrapper function. Actually, two functions parse the module and function syntax dumps and generate a command list that can be easily modified with the necessary arguments.
+# A typical usecase for the Orfeo Toolbox wrapper
+link2GI supports the use of the Orfeo Toolbox with a listbased simple wrapper function. Actually two functions parse the modules and functions syntax dumps and generate a command list that is easy to modify with the necessary arguments.
 
 Usually you have to get the module list first:
+
 
 
 ```r
@@ -35,7 +36,8 @@ otblink<-link2GI::linkOTB()
 algo<-parseOTBAlgorithms(gili = otblink)
 ```
 
-Based on the modules of the current version of `OTB', you can then select the module(s) you want to use.
+Based on the modules of the current version of `OTB` you can then choose the module(s) you want to use.
+
 
 
 ```r

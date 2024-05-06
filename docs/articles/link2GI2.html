@@ -100,7 +100,7 @@
                         <h4 data-toc-skip class="author">Chris
 Reudenbach</h4>
             
-            <h4 data-toc-skip class="date">2024-05-04</h4>
+            <h4 data-toc-skip class="date">2024-05-06</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/r-spatial/link2GI/blob/HEAD/vignettes/link2GI2.Rmd" class="external-link"><code>vignettes/link2GI2.Rmd</code></a></small>
       <div class="hidden name"><code>link2GI2.Rmd</code></div>
@@ -146,21 +146,20 @@ be helpful to support this by a fixed structure. Same with existing
 <code>GRASS</code> projects wich need to be in specific mapsets and
 locations.</p>
 <p>A straightforward (you may call it also dirty) approach is the
-ìnitProj`function that creates folder structures (if not existing) and
-establishes (if wanted) global variables containing the pathes as
-strings.</p>
+<code>createFolders</code>function that creates folder structures (if
+not existing) and establishes (if wanted) global variables containing
+the pathes as strings.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># find all SAGA GIS installations at the default search location</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-spatial/link2GI/" class="external-link">link2GI</a></span><span class="op">)</span></span>
-<span><span class="fu">link2GI</span><span class="fu">::</span><span class="fu"><a href="../reference/initProj.html">initProj</a></span><span class="op">(</span>root_folder <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>                 projFolders <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"data/"</span>,</span>
-<span>                                 <span class="st">"data/level0/"</span>,</span>
-<span>                                 <span class="st">"data/level1/"</span>,</span>
-<span>                                  <span class="st">"output/"</span>,</span>
-<span>                                  <span class="st">"run/"</span>,</span>
-<span>                                  <span class="st">"fun/"</span><span class="op">)</span>,</span>
-<span>                 path_prefix <span class="op">=</span> <span class="st">"path_to_"</span> ,</span>
-<span>                 global <span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-spatial/link2GI/" class="external-link">link2GI</a></span><span class="op">)</span></span>
+<span><span class="va">envrmt</span> <span class="op">=</span> <span class="fu">link2GI</span><span class="fu">::</span><span class="fu"><a href="../reference/createFolders.html">createFolders</a></span><span class="op">(</span>root_folder <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>                                folders <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"data/"</span>,</span>
+<span>                                            <span class="st">"data/level0/"</span>,</span>
+<span>                                            <span class="st">"data/level1/"</span>,</span>
+<span>                                            <span class="st">"output/"</span>,</span>
+<span>                                            <span class="st">"run/"</span>,</span>
+<span>                                            <span class="st">"fun/"</span><span class="op">)</span>,</span>
+<span>                                path_prefix <span class="op">=</span> <span class="st">"path"</span><span class="op">)</span></span>
+<span><span class="va">envrmt</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="linksaga---locate-and-set-up-saga-api-bindings">linkSAGA - Locate and set up ‘SAGA’ API bindings<a class="anchor" aria-label="anchor" href="#linksaga---locate-and-set-up-saga-api-bindings"></a>
@@ -265,8 +264,8 @@ or manually provided parameters.</p>
 <span></span>
 <span> <span class="co"># proj folders</span></span>
 <span> <span class="va">root_folder</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span></span>
-<span> <span class="va">paths</span><span class="op">&lt;-</span><span class="fu">link2GI</span><span class="fu">::</span><span class="fu"><a href="../reference/initProj.html">initProj</a></span><span class="op">(</span>root_folder <span class="op">=</span> <span class="va">root_folder</span>,</span>
-<span>                          projFolders <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"project1/"</span><span class="op">)</span><span class="op">)</span></span>
+<span> <span class="va">paths</span><span class="op">&lt;-</span><span class="fu">link2GI</span><span class="fu">::</span><span class="fu"><a href="../reference/createFolders.html">createFolders</a></span><span class="op">(</span>root_folder <span class="op">=</span> <span class="va">root_folder</span>,</span>
+<span>                          folders <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"project1/"</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span> <span class="co"># get  data</span></span>
 <span> <span class="va">nc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"shape/nc.shp"</span>, package<span class="op">=</span><span class="st">"sf"</span><span class="op">)</span><span class="op">)</span></span>

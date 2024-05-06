@@ -142,7 +142,7 @@ section.footnotes::before {
 <div class="frontmatter">
 <div class="title"><h1>link2GI Basic Examples</h1></div>
 <div class="author"><h2>Chris Reudenbach</h2></div>
-<div class="date"><h3>2024-05-03</h3></div>
+<div class="date"><h3>2024-05-06</h3></div>
 </div>
 <div class="body">
 <h1 id="usage-of-the-link2gi-package-basic-examples">Usage of the link2GI package - Basic Examples</h1>
@@ -164,18 +164,17 @@ otb
 <p>The <code>find</code> functions are providing an overview of the installed software. This functions are not establishing any linkages or changing settings.</p>
 <h2 id="setting-up-project-structures">Setting up project structures</h2>
 <p>If you just call link2GI on the fly , that means for a single temporary operation, there will be no need for setting up folders and project structures. If you work on a more complex project it is seems to be helpful to support this by a fixed structure. Same with existing <code>GRASS</code> projects wich need to be in specific mapsets and locations.</p>
-<p>A straightforward  (you may call it also dirty) approach is the ìnitProj`function that creates folder structures (if not existing) and establishes (if wanted) global variables containing the pathes as strings.</p>
-<pre><code class="language-r"># find all SAGA GIS installations at the default search location
-require(link2GI)
-link2GI::initProj(root_folder = tempdir(),
-                 projFolders = c(&quot;data/&quot;,
-                                 &quot;data/level0/&quot;,
-                                 &quot;data/level1/&quot;,
-                                  &quot;output/&quot;,
-                                  &quot;run/&quot;,
-                                  &quot;fun/&quot;),
-                 path_prefix = &quot;path_to_&quot; ,
-                 global =TRUE)
+<p>A straightforward  (you may call it also dirty) approach is the <code>createFolders</code>function that creates folder structures (if not existing) and establishes (if wanted) global variables containing the pathes as strings.</p>
+<pre><code class="language-r">require(link2GI)
+envrmt = link2GI::createFolders(root_folder = tempdir(),
+                                folders = c(&quot;data/&quot;,
+                                            &quot;data/level0/&quot;,
+                                            &quot;data/level1/&quot;,
+                                            &quot;output/&quot;,
+                                            &quot;run/&quot;,
+                                            &quot;fun/&quot;),
+                                path_prefix = &quot;path&quot;)
+envrmt
 </code></pre>
 <h2 id="linksaga-locate-and-set-up-saga-api-bindings">linkSAGA - Locate and set up ‘SAGA’ API bindings</h2>
 <p>In earlier times it has been pretty cumbersome to link the correct <code>SAGA GIS</code> version. Since the version 1.x.x  of <code>RSAGA</code> things turned much better. The new <code>RSAGA::rsaga.env()</code> function is at getting the first <code>RSAGA</code> version in the search path. For using <code>RSAGA</code> with <code>link2GI</code> it is strongly recommended to call <code>RSAGA.env()</code> with the preferred path as provided by a ’  <code>findSAGA()</code> call. It is also possible to provide the version number as shown below. Storing the result in adequate variables will then even give  the opportunity to easyly switch  between different <code>SAGA GIS</code> installations.</p>
@@ -230,8 +229,8 @@ linkGRASS(meuse)
 
  # proj folders
  root_folder&lt;-tempdir()
- paths&lt;-link2GI::initProj(root_folder = root_folder,
-                          projFolders = c(&quot;project1/&quot;))
+ paths&lt;-link2GI::createFolders(root_folder = root_folder,
+                          folders = c(&quot;project1/&quot;))
 
  # get  data
  nc &lt;- st_read(system.file(&quot;shape/nc.shp&quot;, package=&quot;sf&quot;))

@@ -110,12 +110,12 @@ Reudenbach</h4>
     
     
 <div class="section level2">
-<h2 id="a-typical-usecase-for-the-orfeo-toolbox-wrapper">A typical usecase for the Orfeo Toolbox wrapper<a class="anchor" aria-label="anchor" href="#a-typical-usecase-for-the-orfeo-toolbox-wrapper"></a>
+<h2 id="a-typical-use-case-for-the-orfeo-toolbox-wrapper">A typical use case for the Orfeo Toolbox wrapper<a class="anchor" aria-label="anchor" href="#a-typical-use-case-for-the-orfeo-toolbox-wrapper"></a>
 </h2>
-<p>link2GI supports the use of the Orfeo Toolbox with a listbased simple
-wrapper function. Actually two functions parse the modules and functions
-syntax dumps and generate a command list that is easy to modify with the
-necessary arguments.</p>
+<p>link2GI supports the use of the Orfeo Toolbox with a simple
+list-based wrapper function. Actually, two functions parse the module
+and function syntax dumps and generate a command list that can be easily
+modified with the necessary arguments.</p>
 <p>Usually you have to get the module list first:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># link to the installed OTB </span></span>
@@ -124,8 +124,8 @@ necessary arguments.</p>
 <span></span>
 <span><span class="co"># get the list of modules from the linked version</span></span>
 <span><span class="va">algo</span><span class="op">&lt;-</span><span class="fu"><a href="../reference/parseOTBAlgorithms.html">parseOTBAlgorithms</a></span><span class="op">(</span>gili <span class="op">=</span> <span class="va">otblink</span><span class="op">)</span></span></code></pre></div>
-<p>Based on the modules of the current version of <code>OTB</code> you
-can then choose the module(s) you want to use.</p>
+<p>Based on the modules of the current version of `OTB’, you can then
+select the module(s) you want to use.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## for the example we use the edge detection, </span></span>
 <span><span class="va">algoKeyword</span><span class="op">&lt;-</span> <span class="st">"EdgeExtraction"</span></span>

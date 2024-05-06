@@ -146,21 +146,22 @@ section.footnotes::before {
 </div>
 <div class="body">
 <h1 id="real-world-example">Real world example</h1>
-<p>A typical example is the usage of an already existing project database in <code>GRASS</code>. <code>GRASS</code> organizes all data in an internal file structure that is known as gisdbase folder, a mapset and one or more locations within this mapset. All raster and vector data is stored inside this structure and the organisation is performed by <code>GRASS</code>. So a typical task could be to work on data sets that are already stored in an existing <code>GRASS</code> structure</p>
-<h2 id="creating-a-grass-project">Creating a GRASS project</h2>
-<h2 id="download-zensus-data">Download Zensus Data</h2>
-<p>First of all we need some real world data. In this this case the gridded German 2011 micro zensus data. Download the data:</p>
+<p>A typical example is the use of an existing project database in <code>GRASS</code>. GRASS organizes all data into an internal file structure known as a gisdbase folder, a mapset, and one or more locations within that mapset. All raster and vector data is stored within this structure and is organized by <code>GRASS</code>. So a typical task might be to work on datasets that are already stored in an existing <code>GRASS</code> structure.</p>
+<h2 id="create-grass-project">Create GRASS project</h2>
+<h2 id="downloading-census-data">Downloading census data</h2>
+<p>First, we need data from the real world. In this case, it’s the 2011 German microcensus data, which, with over 35 million points and several dozen characteristics, can definitely be called Big Data.</p>
+<p>Download the data:</p>
 <pre><code class="language-sh"># (https://www.zensus2011.de/EN/Service/Contact/contact_node.html)
 wget https://www.zensus2011.de/SharedDocs/Downloads/DE/Pressemitteilung/DemografischeGrunddaten/csv_Bevoelkerung_100m_Gitter.zip?__blob=publicationFile&amp;v=3
 
 </code></pre>
-<p>of Germany. It has some nice aspects:</p>
+<p>The presentation of a real example has some interesting aspects:</p>
 <ul>
-<li>It is provided in a typical authority format</li>
-<li>It is big enough &gt;35 Mio points</li>
-<li>It is pretty instructive for a lot of spatial analysis.</li>
+<li>It is provided in a typical government format</li>
+<li>It is large enough (&gt;35 million points)</li>
+<li>It is very informative for many spatial analyses.</li>
 </ul>
-<p>We also have to download the meta data description file from the above website for informations about projection and data concepts and so on.</p>
+<p>We also need to download the metadata description file from the website mentioned above to get information about projection, data concepts, etc.</p>
 <pre><code class="language-r"> # we need some additional packages
  require(link2GI)
  require(curl)
@@ -182,14 +183,14 @@ wget https://www.zensus2011.de/SharedDocs/Downloads/DE/Pressemitteilung/Demograf
        junkpaths = TRUE, overwrite = TRUE)
 fn &lt;- list.files(pattern = &quot;[.]csv$&quot;, path = getwd(), full.names = TRUE)
 </code></pre>
-<h3 id="preprocessing-of-the-data">Preprocessing of the data</h3>
-<p>After downloading the data we will use it for some demonstration stuff. If you have a look the data is nothing than x,y,z with assuming some projection information.</p>
+<h3 id="preprocessing-the-data">Preprocessing the data</h3>
+<p>After downloading the data, we will use it for some demonstration stuff. If you have a look, the data is nothing but x,y,z with some projection information assumed.</p>
 <pre><code class="language-r"># fast read with data.table 
  xyz &lt;- data.table::fread(paste0(path_run,&quot;/Zensus_Bevoelkerung_100m-Gitter.csv&quot;))
 
  head(xyz)
 </code></pre>
-<p>We can easy rasterize this data as it is intentionally gridded data.that means we have in at a grid size of 100 by 100 meters a value.</p>
+<p>We can easily rasterize this data because it is intentionally gridded data. that means we have a value in at a grid size of 100 by 100 meters.</p>
 <pre><code class="language-r"> require(RColorBrewer)
  require(terra)
  require(mapview)
@@ -210,17 +211,17 @@ fn &lt;- list.files(pattern = &quot;[.]csv$&quot;, path = getwd(), full.names = 
                   at = c(-1,10,25,50,100,500,1000,2500), 
                   legend = TRUE)
 </code></pre>
-<h3 id="setup-grass-project">Setup GRASS Project</h3>
-<p>So far nothing new. Now we create a new but permanent <code>GRASS</code> gisbase using the spatial parameters from the raster object. As you know the <code>linkGRASS</code> function performs a full search for one or more than one existing  <code>GRASS</code> installations. If a valid <code>GRASS</code> installation exists all parameter are setup und the package <code>rgrass</code>  is linked.</p>
-<p>Due to the fact that the <code>gisdbase_exist</code> is by default set to FALSE it will create a new structure according to the <code>R</code> object.</p>
+<h3 id="setting-up-a-grass-project">Setting up a GRASS project</h3>
+<p>Nothing new so far. Now we create a new but permanent <code>GRASS</code> gisbase using the spatial parameters from the raster object. As you know, the <code>linkGRASS</code> function performs a full search for one or more existing <code>GRASS</code> installations. If a valid <code>GRASS</code> installation exists, all parameters are set and the <code>rgrass</code> package is linked.</p>
+<p>Due to the fact that <code>gisdbase_exist</code> is set to FALSE by default, it will create a new structure according to the <code>R</code> object.</p>
 <pre><code class="language-r">require(link2GI)
 # initialize GRASS and set up a permanent structure  
 link2GI::linkGRASS(x = r, 
                     gisdbase = paste0(tempdir(),&quot;/link2GI_examples&quot;),
                     location = &quot;microzensus2011&quot;)   
 </code></pre>
-<p>Finally we can now import the data to the <code>GRASS</code> gisdbase using the <code>rgass</code> package functionality.</p>
-<p>First we must convert the raster/terra object to a <code>GeoTIFF</code> file. Any <code>GDAL</code> format is possible but <code>GeoTIFF</code> is very common and stable.</p>
+<p>Finally, we can import the data into the <code>GRASS</code> gisdbase using the functionality of the <code>rgass</code> package.</p>
+<p>First we need to convert the raster/terra object into a <code>GeoTIFF</code> file. Any <code>GDAL</code> format is possible, but <code>GeoTIFF</code> is very common and stable.</p>
 <pre><code class="language-r">require(link2GI)
 require(raster)
 require(rgrass)
@@ -240,7 +241,7 @@ rgrass::execGRASS('r.external',
 rgrass::execGRASS('r.info',
                    map = &quot;Zensus_Bevoelkerung_100m_Gitter&quot;) 
 </code></pre>
-<p>Let’s do now the same import as a vector data set. First we create a <code>sf</code> object. Please note this will take quite a while.</p>
+<p>Let’s do now the same import as a vector data set. First we create a <code>sf</code> object.</p>
 <pre><code class="language-r"> xyz_sf = st_as_sf(xyz,
                     coords = c(&quot;x_mp_100m&quot;, &quot;y_mp_100m&quot;),
                     crs = 3035,
@@ -249,7 +250,7 @@ rgrass::execGRASS('r.info',
 #map points
  sf::plot_sf(xyz_sf)
 </code></pre>
-<p>The <code>GRASS</code> gisdbase already exists. So we pass  <code>linkGRASS</code> the argument <code>gisdbase_exist=TRUE</code> and import the xyz data as generic GRASS vector points.</p>
+<p>The GRASS gisdbase already exists. So we pass <code>linkGRASS</code> the argument <code>gisdbase_exist=TRUE</code> and import the xyz data as generic GRASS vector points. Note that this will take some time.</p>
 <pre><code class="language-r"> require(sf)
  require(sp)
  require(link2GI)

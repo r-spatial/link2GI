@@ -110,15 +110,15 @@ Reudenbach</h4>
     
     
 <div class="section level2">
-<h2 id="usage-of-the-link2gi-package---basic-examples">Usage of the link2GI package - Basic Examples<a class="anchor" aria-label="anchor" href="#usage-of-the-link2gi-package---basic-examples"></a>
+<h2 id="using-the-link2gi-package---basic-examples">Using the link2GI package - Basic examples<a class="anchor" aria-label="anchor" href="#using-the-link2gi-package---basic-examples"></a>
 </h2>
 <div class="section level3">
 <h3 id="brute-force-search-usage">Brute force search usage<a class="anchor" aria-label="anchor" href="#brute-force-search-usage"></a>
 </h3>
-<p>Automatic search and find of the installed GIS software binaries is
-performed by the <code>find</code> functions. Depending of you OS and
-the number of installed versions you will get a dataframe providing the
-binary and module folders.</p>
+<p>Automatic searching and finding of installed GIS software binaries is
+done by the <code>find</code> functions. Depending on your operating
+system and the number of installed versions you will get a data frame
+with the binary and module folders.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># find all SAGA GIS installations at the default search location</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-spatial/link2GI/" class="external-link">link2GI</a></span><span class="op">)</span></span>
@@ -126,29 +126,26 @@ binary and module folders.</p>
 <span><span class="va">saga</span></span></code></pre></div>
 <p>Same with <code>GRASS</code> and <code>OTB</code></p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># find all SAGA GIS installations at the default search location</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-spatial/link2GI/" class="external-link">link2GI</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-spatial/link2GI/" class="external-link">link2GI</a></span><span class="op">)</span></span>
 <span><span class="va">grass</span> <span class="op">&lt;-</span> <span class="fu">link2GI</span><span class="fu">::</span><span class="fu"><a href="../reference/findGRASS.html">findGRASS</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">grass</span></span>
 <span><span class="va">otb</span> <span class="op">&lt;-</span> <span class="fu">link2GI</span><span class="fu">::</span><span class="fu"><a href="../reference/findOTB.html">findOTB</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">otb</span></span></code></pre></div>
-<p>The <code>find</code> functions are providing an overview of the
-installed software. This functions are not establishing any linkages or
-changing settings.</p>
+<p>The `find’ functions provide an overview of the installed software.
+These functions do not create links or change settings.</p>
 </div>
 <div class="section level3">
 <h3 id="setting-up-project-structures">Setting up project structures<a class="anchor" aria-label="anchor" href="#setting-up-project-structures"></a>
 </h3>
-<p>If you just call link2GI on the fly , that means for a single
-temporary operation, there will be no need for setting up folders and
-project structures. If you work on a more complex project it is seems to
-be helpful to support this by a fixed structure. Same with existing
-<code>GRASS</code> projects wich need to be in specific mapsets and
+<p>If you are just calling link2GI on the fly, i.e. for a single
+temporary operation, there is no need to set up folders and project
+structures. If you are working on a more complex project, it might be
+helpful to have a fixed structure. The same goes for existing
+<code>GRASS</code> projects that need to be in specific mapsets and
 locations.</p>
-<p>A straightforward (you may call it also dirty) approach is the
-<code>createFolders</code>function that creates folder structures (if
-not existing) and establishes (if wanted) global variables containing
-the pathes as strings.</p>
+<p>A simple (you can call it dirty) approach is the ìnitProjî function,
+which creates folder structures (if not existing) and sets global
+variables (if desired) containing the paths as strings.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-spatial/link2GI/" class="external-link">link2GI</a></span><span class="op">)</span></span>
 <span><span class="va">envrmt</span> <span class="op">=</span> <span class="fu">link2GI</span><span class="fu">::</span><span class="fu"><a href="../reference/createFolders.html">createFolders</a></span><span class="op">(</span>root_folder <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,</span>
@@ -162,18 +159,17 @@ the pathes as strings.</p>
 <span><span class="va">envrmt</span></span></code></pre></div>
 </div>
 <div class="section level3">
-<h3 id="linksaga---locate-and-set-up-saga-api-bindings">linkSAGA - Locate and set up ‘SAGA’ API bindings<a class="anchor" aria-label="anchor" href="#linksaga---locate-and-set-up-saga-api-bindings"></a>
+<h3 id="linksaga---find-and-set-up-saga-api-bindings">linkSAGA - Find and set up ‘SAGA’ API bindings<a class="anchor" aria-label="anchor" href="#linksaga---find-and-set-up-saga-api-bindings"></a>
 </h3>
-<p>In earlier times it has been pretty cumbersome to link the correct
-<code>SAGA GIS</code> version. Since the version 1.x.x of
-<code>RSAGA</code> things turned much better. The new
-<code>RSAGA::rsaga.env()</code> function is at getting the first
-<code>RSAGA</code> version in the search path. For using
-<code>RSAGA</code> with <code>link2GI</code> it is strongly recommended
-to call <code>RSAGA.env()</code> with the preferred path as provided by
-a ’ <code><a href="../reference/findSAGA.html">findSAGA()</a></code> call. It is also possible to provide the
-version number as shown below. Storing the result in adequate variables
-will then even give the opportunity to easyly switch between different
+<p>In the past it was quite tedious to link the correct
+<code>SAGA GIS</code> version. Since version 1.x.x of <code>RSAGA</code>
+things are much better. The new <code>RSAGA::rsaga.env()</code> function
+is to get the first <code>RSAGA</code> version in the search path. For
+using <code>RSAGA</code> with <code>link2GI</code> it is strongly
+recommended to call <code>RSAGA.env()</code> with the preferred path as
+returned by a <code><a href="../reference/findSAGA.html">findSAGA()</a></code> call. It is also possible to pass
+the version number as shown below. Storing the result in appropriate
+variables will even allow you to easily switch between different
 <code>SAGA GIS</code> installations.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">saga1</span><span class="op">&lt;-</span><span class="fu">link2GI</span><span class="fu">::</span><span class="fu"><a href="../reference/linkSAGA.html">linkSAGA</a></span><span class="op">(</span>ver_select <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> </span>
@@ -181,47 +177,37 @@ will then even give the opportunity to easyly switch between different
 <span><span class="va">sagaEnv1</span><span class="op">&lt;-</span> <span class="fu">RSAGA</span><span class="fu">::</span><span class="fu">rsaga.env</span><span class="op">(</span>path <span class="op">=</span> <span class="va">saga1</span><span class="op">$</span><span class="va">sagaPath</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
-<h3 id="linkgrass---locate-and-set-up-grass-78-api-bindings">linkGRASS - Locate and set up ‘GRASS 7/8’ API bindings<a class="anchor" aria-label="anchor" href="#linkgrass---locate-and-set-up-grass-78-api-bindings"></a>
+<h3 id="linkgrass---find-and-set-up-grass-78-api-bindings">linkGRASS - Find and set up GRASS 7/8 API bindings<a class="anchor" aria-label="anchor" href="#linkgrass---find-and-set-up-grass-78-api-bindings"></a>
 </h3>
-<p><code>linkGRASS</code> Initializes the session environment and the
-system paths for an easy access to <code>GRASS GIS 7.x./8.x</code> The
-correct setup of the spatial and projection parameters is automatically
-performed by using either an existing and valid <code>raster</code> or
-<code>terra</code> , <code>sp</code> or <code>sf</code> object, or
-manually by providing a list containing the minimum parameters needed.
-These properties are used to initialize either a temporary or a
-permanent <code>rgrass</code> environment including the correct
-<code>GRASS 7/8</code> database structure. If you provide none of the
-before mentioned objects <code>linkGRASS</code> will create a EPSG:4326
-world wide location.</p>
-<p>The most time consuming part on ‘Windows’ Systems is the search
-process. This can easily take 10 or more minutes. To speed up this
-process you can also provide a correct parameter set. Best way to do so
-is to call manually <code>findGRASS</code>. Then call
+<p>linkGRASS<code>initializes the session environment and system paths for easy access to</code>GRASS
+GIS
+7.x./8.x<code>. The correct setting of spatial and projection parameters is done automatically either by using an existing and valid</code>raster<code>or</code>terra<code>,</code>sp<code>or</code>sf<code>object or manually by providing a list of minimum required parameters. These properties are used to initialize either a temporary or a permanent</code>rgrass<code>environment, including the correct</code>GRASS
+7/8<code>database structure. If you do not specify any of the above,</code>linkGRASS`
+will create an EPSG:4326 worldwide site.</p>
+<p>The most time consuming part on Windows systems is the search
+process. This can easily take 10 minutes or more. To speed up this
+process, you can also provide a correct parameter set. The best way to
+do this is to call <code>findGRASS</code> manually. Then call
 <code>linkGRASS</code> with the returned version arguments of your
 choice.</p>
-<p>The function <code>linkGRASS</code> tries to find all valid
-<code>GRASS GIS</code> binaries by analyzing the startup script files of
-<code>GRASS GIS</code>. After identifying the <code>GRASS GIS</code>
-binaries all necessary system variables and settings will be generated
-and passed to a temporary <code>R</code> environment.</p>
+<p>The <code>linkGRASS</code> function tries to find all valid
+<code>GRASS GIS</code> binaries by analyzing the <code>GRASS GIS</code>
+startup script files. After identifying the <code>GRASS GIS</code>
+binaries, all necessary system variables and settings are generated and
+passed to a temporary <code>R</code> environment.</p>
 <p>If you have more than one valid installation and run
 <code>linkGRASS</code> with the arguments
-<code>select_ver = TRUE</code>, then you will be ask to select one.</p>
+<code>select_ver = TRUE</code>, you will be asked to select one.</p>
 <div class="section level5">
-<h5 id="standard-full-search-usage">Standard Full Search Usage<a class="anchor" aria-label="anchor" href="#standard-full-search-usage"></a>
+<h5 id="standard-full-search-usage">Standard full search usage<a class="anchor" aria-label="anchor" href="#standard-full-search-usage"></a>
 </h5>
-<p>The most common way to use <code>GRASS</code> is just for one call or
-algorithm. So the user is not interested in the cumbersome setting up of
-all parameters. <code>linGRASS7(georeferenced-dataset)</code> does an
-automatic search and find all <code>GRASS</code> binaries using the
-georeferenced-dataset object for spatial referencing and the necessary
-other settings. <strong>NOTE:</strong> This is the highly recommended
-linking procedure for all on the fly calls of <code>GRASS</code>. Please
-note also: If more than one <code>GRASS</code> installation is found the
-one with the highest version number is selected automatically.</p>
-<p>Have a look at the following examples which show a typical call for
-the well known <code>sp</code>and <code>sf</code> vector data
+<p>The most common use of <code>GRASS</code> is for a single call or
+algorithm. The user is not interested in setting all the parameters.
+linGRASS7(georeferenced-dataset)<code>does an automatic search and finds all the</code>GRASS<code>binaries using the georeferenced-dataset object for spatial referencing and other necessary settings.  **NOTE:** This is the highly recommended linking procedure for all on-the-fly invocations of</code>GRASS<code>. Please also note that if more than one</code>GRASS`
+installation is found, the one with the highest version number is
+automatically selected.</p>
+<p>Take a look at the following examples, which show a typical call for
+the well-known <code>sp</code> and <code>sf</code> vector data
 objects.</p>
 <p>Starting with <code>sp</code>.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
@@ -255,9 +241,9 @@ objects.</p>
 <span> <span class="co"># NOTE: if more than one GRASS installation is found the highest version will be choosed</span></span>
 <span> </span>
 <span> <span class="va">grass</span><span class="op">&lt;-</span><span class="fu"><a href="../reference/linkGRASS.html">linkGRASS</a></span><span class="op">(</span><span class="va">nc</span>,returnPaths <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p>The second most common situation is the usage of an existing
-<code>GRASS</code> location and project either with existing data sets
-or manually provided parameters.</p>
+<p>The second most common situation is to use an existing
+<code>GRASS</code> site and project, either with existing data sets or
+manually provided parameters.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span>  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-spatial/link2GI/" class="external-link">link2GI</a></span><span class="op">)</span></span>
 <span> <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/" class="external-link">sf</a></span><span class="op">)</span></span>
@@ -289,13 +275,13 @@ or manually provided parameters.</p>
 <span>            spatial_params <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">84.32385</span>, <span class="fl">33.88199</span>,<span class="op">-</span><span class="fl">75.45698</span>,<span class="fl">36.58965</span>,<span class="va">proj4_string</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level5">
-<h5 id="typical-for-specified-search-pathes-and-os">Typical for specified search pathes and OS<a class="anchor" aria-label="anchor" href="#typical-for-specified-search-pathes-and-os"></a>
+<h5 id="typical-for-specified-search-paths-and-os">Typical for specified search paths and OS<a class="anchor" aria-label="anchor" href="#typical-for-specified-search-paths-and-os"></a>
 </h5>
-<p>The full disk search can be cumbersome especially running Windos it
-can easily take 10 minutes and more. So it is helpful to provide a
-searchpath for narrowing down the search. Searching for
-<code>GRASS</code> installations in the home directory you may use the
-following command.</p>
+<p>The full disk search can be tedious, especially on Windows it can
+easily take 10 minutes or more. So it is helpful to specify a search
+path to narrow down the search. To search for <code>GRASS</code>
+installations in the home directory, you can use the following
+command.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Link the GRASS installation and define the search location</span></span>
 <span> <span class="fu"><a href="../reference/linkGRASS.html">linkGRASS</a></span><span class="op">(</span><span class="va">nc</span>, search_path <span class="op">=</span> <span class="st">"~"</span><span class="op">)</span></span></code></pre></div>
@@ -313,34 +299,34 @@ for linking.</p>
 <span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a><span class="fu">linkGRASS</span>(nc,<span class="fu">c</span>(<span class="st">"C:/Program Files/GRASS GIS7.0.5"</span>,<span class="st">"GRASS GIS 7.0.5"</span>,<span class="st">"NSIS"</span>)) </span></code></pre></div>
 </div>
 <div class="section level5">
-<h5 id="manual-choosing-the-version">Manual choosing the version<a class="anchor" aria-label="anchor" href="#manual-choosing-the-version"></a>
+<h5 id="manual-version-selection">Manual version selection<a class="anchor" aria-label="anchor" href="#manual-version-selection"></a>
 </h5>
-<p>Finally some more specific examples related to interactive selection
-or OS specific settings. Choose manually the <code>GRASS</code>
-installation additionally using the meuse <code>sf</code> object for
-spatial referencing</p>
+<p>Finally, some more specific examples related to interactive selection
+or OS-specific settings. Manually select the <code>GRASS</code>
+installation and use the meuse <code>sf</code> object for spatial
+referencing</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/linkGRASS.html">linkGRASS</a></span><span class="op">(</span><span class="va">nc</span>, ver_select <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level5">
-<h5 id="creating-a-permanent-gisbase-folder">Creating a permanent gisbase folder<a class="anchor" aria-label="anchor" href="#creating-a-permanent-gisbase-folder"></a>
+<h5 id="creating-a-permanent-gisdbase-folder">Creating a permanent gisdbase folder<a class="anchor" aria-label="anchor" href="#creating-a-permanent-gisdbase-folder"></a>
 </h5>
-<p>Creating and linking a permanent <code>GRASS</code> gisdbase (folder
-structure) at “~/temp3” with the standard mapset “PERMANENT”” and the
-location named “project1”. For all spatial attributes use the the meuse
-<code>sf</code> object.</p>
+<p>Create and link a permanent <code>GRASS</code> gisdbase (folder
+structure) in “~/temp3” with the default mapset “PERMANENT”” and the
+location “project1”. Use the <code>sf</code> object for all spatial
+attributes.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/linkGRASS.html">linkGRASS</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">nc</span>, </span>
 <span>                     gisdbase <span class="op">=</span> <span class="st">"~/temp3"</span>,</span>
 <span>                     location <span class="op">=</span> <span class="st">"project1"</span><span class="op">)</span>   </span></code></pre></div>
 </div>
 <div class="section level5">
-<h5 id="using-a-permanent-gisbase-folder">Using a Permanent gisbase folder<a class="anchor" aria-label="anchor" href="#using-a-permanent-gisbase-folder"></a>
+<h5 id="using-a-permanent-gisdbase-folder">Using a permanent gisdbase folder<a class="anchor" aria-label="anchor" href="#using-a-permanent-gisdbase-folder"></a>
 </h5>
 <p>Link to the permanent <code>GRASS</code> gisdbase (folder structure)
-at “~/temp3” with the standard mapset “PERMANENT” and the location named
-“project1”. For all spatial attributes use the formerly referencend nc
-<code>sf</code> object parameter.</p>
+in “~/temp3” with the default mapset “PERMANENT” and the location named
+“project1”. Use the formerly referencend nc <code>sf</code> object
+parameter for all spatial attributes.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/linkGRASS.html">linkGRASS</a></span><span class="op">(</span>gisdbase <span class="op">=</span> <span class="st">"~/temp3"</span>, location <span class="op">=</span> <span class="st">"project1"</span>, </span>
 <span>                     gisdbase_exist <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>   </span></code></pre></div>
@@ -362,12 +348,12 @@ meuse data</p>
 </div>
 </div>
 <div class="section level3">
-<h3 id="a-typical-usecase-for-the-orfeo-toolbox-wrapper">A typical usecase for the Orfeo Toolbox wrapper<a class="anchor" aria-label="anchor" href="#a-typical-usecase-for-the-orfeo-toolbox-wrapper"></a>
+<h3 id="a-typical-use-case-for-the-orfeo-toolbox-wrapper">A typical use case for the Orfeo Toolbox wrapper<a class="anchor" aria-label="anchor" href="#a-typical-use-case-for-the-orfeo-toolbox-wrapper"></a>
 </h3>
-<p>link2GI supports the use of the Orfeo Toolbox with a listbased simple
-wrapper function. Actually two functions parse the modules and functions
-syntax dumps and generate a command list that is easy to modify with the
-necessary arguments.</p>
+<p>link2GI supports the use of the Orfeo Toolbox with a simple
+list-based wrapper function. Actually, two functions parse the module
+and function syntax dumps and generate a command list that can be easily
+modified with the necessary arguments.</p>
 <p>Usually you have to get the module list first:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># link to the installed OTB </span></span>
@@ -376,8 +362,8 @@ necessary arguments.</p>
 <span></span>
 <span><span class="co"># get the list of modules from the linked version</span></span>
 <span><span class="va">algo</span><span class="op">&lt;-</span><span class="fu"><a href="../reference/parseOTBAlgorithms.html">parseOTBAlgorithms</a></span><span class="op">(</span>gili <span class="op">=</span> <span class="va">otblink</span><span class="op">)</span></span></code></pre></div>
-<p>Based on the modules of the current version of <code>OTB</code> you
-can then choose the module(s) you want to use.</p>
+<p>Based on the modules of the current version of `OTB’, you can then
+select the module(s) you want to use.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## for the example we use the edge detection, </span></span>
 <span><span class="va">algoKeyword</span><span class="op">&lt;-</span> <span class="st">"EdgeExtraction"</span></span>
@@ -387,10 +373,10 @@ can then choose the module(s) you want to use.</p>
 <span></span>
 <span><span class="co">## print the current command</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">cmd</span><span class="op">)</span></span></code></pre></div>
-<p>Admittedly this is a very straightforward and preliminary approach.
-Nevertheless it provids you a valid list of all <code>OTB</code> API
-calls that can easily manipulated for your needs. The following working
-example will give you an idea how to use it.</p>
+<p>Admittedly, this is a very simple and preliminary approach.
+Nevertheless, it will give you a valid list of all <code>OTB</code> API
+calls that you can easily manipulate to suit your needs. The following
+working example will give you an idea of how to use it.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-spatial/link2GI/" class="external-link">link2GI</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/" class="external-link">terra</a></span><span class="op">)</span></span>

@@ -337,7 +337,7 @@ gvec2sf <- function(x, obj_name, gisdbase, location ,gisdbase_exist = TRUE){
 #'
 #'}
 
-#' @export
+#' @keywords internal
 linkAll <- function(links=NULL,
                     simple = TRUE,
                     linkItems = c("saga","grass","otb","gdal"),

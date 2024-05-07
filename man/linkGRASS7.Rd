@@ -6,6 +6,7 @@
 \usage{
 linkGRASS7(
   x = NULL,
+  epsg = NULL,
   default_GRASS = NULL,
   search_path = NULL,
   ver_select = FALSE,

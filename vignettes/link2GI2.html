@@ -142,7 +142,7 @@ section.footnotes::before {
 <div class="frontmatter">
 <div class="title"><h1>link2GI Basic Examples</h1></div>
 <div class="author"><h2>Chris Reudenbach</h2></div>
-<div class="date"><h3>2024-05-06</h3></div>
+<div class="date"><h3>2024-05-07</h3></div>
 </div>
 <div class="body">
 <h1 id="using-the-link2gi-package-basic-examples">Using the link2GI package - Basic examples</h1>
@@ -157,7 +157,7 @@ saga
 <pre><code class="language-r">require(link2GI)
 grass &lt;- link2GI::findGRASS()
 grass
-otb &lt;- link2GI::findOTB()
+otb &lt;- link2GI::findOTB(searchLocation = &quot;~/&quot;)
 otb
 </code></pre>
 <p>The `find’ functions provide an overview of the installed software. These functions do not create links or change settings.</p>
@@ -171,8 +171,8 @@ envrmt = link2GI::createFolders(root_folder = tempdir(),
                                             &quot;data/level1/&quot;,
                                             &quot;output/&quot;,
                                             &quot;run/&quot;,
-                                            &quot;fun/&quot;),
-                                path_prefix = &quot;path&quot;)
+                                            &quot;fun/&quot;)
+                                )
 envrmt
 </code></pre>
 <h2 id="linksaga-find-and-set-up-saga-api-bindings">linkSAGA - Find and set up ‘SAGA’ API bindings</h2>
@@ -188,20 +188,19 @@ envrmt
 <p>Starting with <code>sp</code>.</p>
 <pre><code class="language-r"># get meuse data as sp object and link it temporary to GRASS
 require(link2GI)
+require(sf)
 require(sp)
-
+crs = 28992
 # get data 
 data(meuse) 
-# add georeference
-coordinates(meuse) &lt;- ~x+y 
-proj4string(meuse) &lt;-CRS(&quot;+init=epsg:28992&quot;) 
+meuse_sf = st_as_sf(meuse, coords = c(&quot;x&quot;, &quot;y&quot;), crs = crs, agr = &quot;constant&quot;)
 
 # Automatic search and find of GRASS binaries
 # using the meuse sp data object for spatial referencing
 # This is the highly recommended linking procedure for on the fly jobs
-# NOTE: if more than one GRASS installation is found the highest version will be choosed
+# NOTE: if more than one GRASS installation is found the highest version will be selected
 
-linkGRASS(meuse)
+linkGRASS(meuse_sf,epsg = crs)
 </code></pre>
 <p>Now do the same with  <code>sf</code> based data.</p>
 <pre><code class="language-r"> require(link2GI)
@@ -209,11 +208,11 @@ linkGRASS(meuse)
 
  # get  data
  nc &lt;- st_read(system.file(&quot;shape/nc.shp&quot;, package=&quot;sf&quot;))
-
+terra::crs(nc)
  # Automatic search and find of GRASS binaries
  # using the nc sf data object for spatial referencing
  # This is the highly recommended linking procedure for on the fly jobs
- # NOTE: if more than one GRASS installation is found the highest version will be choosed
+ # NOTE: if more than one GRASS installation is found the highest version will be selected
  
  grass&lt;-linkGRASS(nc,returnPaths = TRUE)
 </code></pre>
@@ -237,35 +236,38 @@ linkGRASS(meuse)
 
 
  # setting up GRASS manually with spatial parameters of the nc data
- proj4_string &lt;- as.character(sp::CRS(&quot;+init=epsg:28992&quot;))
- linkGRASS(spatial_params = c(178605,329714,181390,333611,proj4_string))
+ epsg = 28992
+ proj4_string &lt;- sp::CRS(paste0(&quot;+init=epsg:&quot;,epsg))
+ 
+ linkGRASS(spatial_params = c(178605,329714,181390,333611,proj4_string@projargs),epsg=epsg)
 
  # creating a GRASS gisdbase manually with spatial parameters of the nc data
  # additionally using a peramanent directory &quot;root_folder&quot; and the location &quot;nc_spatial_params &quot;
- proj4_string &lt;- as.character(sp::CRS(&quot;+init=epsg:4267&quot;))
+ epsg = 4267
+ proj4_string &lt;- sp::CRS(paste0(&quot;+init=epsg:&quot;,epsg))@projargs
  linkGRASS(gisdbase = root_folder,
             location = &quot;nc_spatial_params&quot;,
-            spatial_params = c(-84.32385, 33.88199,-75.45698,36.58965,proj4_string))
+            spatial_params = c(-84.32385, 33.88199,-75.45698,36.58965,proj4_string),epsg = epsg)
 </code></pre>
 <h4 id="typical-for-specified-search-paths-and-os">Typical for specified search paths and OS</h4>
 <p>The full disk search can be tedious, especially on Windows it can easily take 10 minutes or more. So it is helpful to specify a search path to narrow down the search. To search for <code>GRASS</code> installations in the home directory, you can use the following command.</p>
 <pre><code class="language-r"># Link the GRASS installation and define the search location
- linkGRASS(nc, search_path = &quot;~&quot;)
+ linkGRASS(nc, search_path = &quot;~/&quot;)
 </code></pre>
 <p>If  you already did a full search and kow your installation fo example using the command <code>findGRASS</code> you can use the result directly for linking.</p>
 <pre><code class="language-r">findGRASS()
      instDir version installation_type
-1 /opt/grass   7.8.1           grass78
+1 /usr/lib/grass83   8.3.2             grass
 
 # now linking it 
-linkGRASS(nc,c(&quot;/opt/grass&quot;,&quot;7.8.15&quot;,&quot;grass78&quot;)) 
+linkGRASS(nc,c(&quot;/usr/lib/grass83&quot;,&quot;8.3.2&quot;,&quot;grass&quot;),epsg = 4267) 
 
 # corresponding linkage running windows
 linkGRASS(nc,c(&quot;C:/Program Files/GRASS GIS7.0.5&quot;,&quot;GRASS GIS 7.0.5&quot;,&quot;NSIS&quot;)) 
 </code></pre>
 <h4 id="manual-version-selection">Manual version selection</h4>
 <p>Finally, some more specific examples related to interactive selection or OS-specific settings.
-Manually select the <code>GRASS</code> installation and use the meuse <code>sf</code> object for spatial referencing</p>
+Manually select the <code>GRASS</code> installation and use the meuse <code>sf</code> object for spatial referencing. If you only have one installation it is directly selected.</p>
 <pre><code class="language-r">linkGRASS(nc, ver_select = TRUE)
 </code></pre>
 <h4 id="creating-a-permanent-gisdbase-folder">Creating a permanent gisdbase folder</h4>
@@ -288,13 +290,13 @@ Manually select the <code>GRASS</code> installation and use the meuse <code>sf</
                                +a=6377397.155 +rf=299.1528128
                                +towgs84=565.4171,50.3319,465.5524,
                                 -0.398957,0.343988,-1.8774,4.0725
-                               +to_meter=1&quot;)) 
+                               +to_meter=1&quot;),epsg = 28992) 
 </code></pre>
 <h2 id="a-typical-use-case-for-the-orfeo-toolbox-wrapper">A typical use case for the Orfeo Toolbox wrapper</h2>
-<p>link2GI supports the use of the Orfeo Toolbox with a simple list-based wrapper function. Actually, two functions parse the module and function syntax dumps and generate a command list that can be easily modified with the necessary arguments.</p>
+<p>link2GI supports the use of the Orfeo Toolbox with a simple list-based wrapper function. Actually, two functions parse the module and function syntax dumps and generate a command list that can be easily modified with the necessary arguments. If you have installed it in a user home directory you need to adrees this:</p>
 <p>Usually you have to get the module list first:</p>
-<pre><code class="language-r"># link to the installed OTB 
-otblink&lt;-link2GI::linkOTB()
+<pre><code class="language-r"># link to the installed OTB Linux HOME directory
+otblink&lt;-link2GI::linkOTB(searchLocation = &quot;~/apps/OTB-8.1.2-Linux64/&quot;)  
 
 
 # get the list of modules from the linked version
@@ -302,10 +304,10 @@ algo&lt;-parseOTBAlgorithms(gili = otblink)
 </code></pre>
 <p>Based on the modules of the current version of `OTB’, you can then select the module(s) you want to use.</p>
 <pre><code class="language-r">## for the example we use the edge detection, 
-algoKeyword&lt;- &quot;EdgeExtraction&quot;
+algoKeyword &lt;- &quot;EdgeExtraction&quot;
 
-## extract the command list for the choosen algorithm 
-cmd&lt;-parseOTBFunction(algo = algoKeyword, gili = otblink)
+## extract the command list for the selected algorithm 
+cmd &lt;- parseOTBFunction(algo = algoKeyword, gili = otblink)
 
 ## print the current command
 print(cmd)
@@ -315,7 +317,7 @@ print(cmd)
 require(terra)
 require(listviewer)
 
-otblink&lt;-link2GI::linkOTB()
+otblink &lt;- link2GI::linkOTB(searchLocation = &quot;~/apps/OTB-8.1.2-Linux64/&quot;)
  root_folder&lt;-tempdir()
  
 fn &lt;- system.file(&quot;ex/elev.tif&quot;, package = &quot;terra&quot;)
@@ -323,16 +325,14 @@ fn &lt;- system.file(&quot;ex/elev.tif&quot;, package = &quot;terra&quot;)
 ## for the example we use the edge detection, 
 algoKeyword&lt;- &quot;EdgeExtraction&quot;
 
-## extract the command list for the choosen algorithm 
+## extract the command list for the selected algorithm 
 cmd&lt;-parseOTBFunction(algo = algoKeyword, gili = otblink)
 
-## get help using the convenient listviewer
-listviewer::jsonedit(cmd$help)
-
-## define the mandantory arguments all other will be default
-cmd$input  &lt;- fn
+## define the mandatory arguments all other will be default
+cmd$help = NULL
+cmd$input_in  &lt;- fn
 cmd$filter &lt;- &quot;touzi&quot;
-cmd$channel &lt;- 2
+cmd$channel &lt;- 1
 cmd$out &lt;- file.path(root_folder,paste0(&quot;out&quot;,cmd$filter,&quot;.tif&quot;))
 
 ## run algorithm

@@ -245,25 +245,25 @@ split_path <- function(path) {
   return(c(basename(path), split_path(dirname(path))))
 }
 
-getrowSagaVer<- function (paths){
-  #tmp<-c()
-  scmd = ifelse(Sys.info()["sysname"]=="Windows", "saga_cmd.exe", "saga_cmd")
-  sep = ifelse(Sys.info()["sysname"]=="Windows", "/", "/")
-  highestVer<-"2.0.8"
-  batfileFN= ""
-  for (i in 1:nrow(paths)){
-   sp  =  strsplit(paths[i,1],"apps")[[1]][1]
-   batfileFN= paste0(sp,"OSGeo4W.bat")  
-    
-  test = system(paste0("cmd.exe /c ; ",paste0(batfileFN, " ; " ,gsub("\\\\","/",paths$binDir[i]),sep,scmd)," --version"))  
-  if(!identical(nchar(test), integer(0))){
-  tmp<-  try(strsplit(x = system(paste0(paste0(batfileFN, " ; ",paths$binDir[i],sep,scmd)," --version"),intern = TRUE),split = "SAGA Version: ")[[1]][2],silent = TRUE)
-  if (class(tmp)  !="try-error")
-  {highestVer <- max(tmp,highestVer)
-  pathI <- i}}
-  }
-  return (pathI)
-}
+# getrowSagaVer<- function (paths){
+#   #tmp<-c()
+#   scmd = ifelse(Sys.info()["sysname"]=="Windows", "saga_cmd.exe", "saga_cmd")
+#   sep = ifelse(Sys.info()["sysname"]=="Windows", "/", "/")
+#   highestVer<-"2.0.8"
+#   batfileFN= ""
+#   for (i in 1:nrow(paths)){
+#    sp  =  strsplit(paths[i,1],"apps")[[1]][1]
+#    batfileFN= paste0(sp,"OSGeo4W.bat")  
+#     
+#   test = system(paste0("cmd.exe /c ; ",paste0(batfileFN, " ; " ,gsub("\\\\","/",paths$binDir[i]),sep,scmd)," --version"))  
+#   if(!identical(nchar(test), integer(0))){
+#   tmp<-  try(strsplit(x = system(paste0(paste0(batfileFN, " ; ",paths$binDir[i],sep,scmd)," --version"),intern = TRUE),split = "SAGA Version: ")[[1]][2],silent = TRUE)
+#   if (!inherits(tmp ,"try-error"))
+#   {highestVer <- max(tmp,highestVer)
+#   pathI <- i}}
+#   }
+#   return (pathI)
+# }
 
 
 getSagaVer<- function (paths){
@@ -274,9 +274,7 @@ getSagaVer<- function (paths){
     sagaVersion<-  strsplit(x = system(paste0(paste0(batfileFN, " ; ",paths,sep,scmd)," --version"),intern = TRUE),split = "SAGA Version: ")[[1]][2]
     
   } else {
-    psplit=strsplit(paths ,split = "\\\\" )
-    batfileFN= paste0(psplit[[1]][1],"/",psplit[[1]][2],"/",psplit[[1]][3],"/OSGeo4W.bat")  
-  
+   batfileFN= ""
     sagaVersion<-  strsplit(x = system(paste0(paste0(batfileFN, " ; ",paths,sep,scmd)," --version"),intern = TRUE),split = "SAGA Version: ")[[1]][2]
   }
   #sagaVersion<-  strsplit(x = system(paste0paths,sep,scmd)," --version"),intern = TRUE),split = "SAGA Version: ")[[1]][2]

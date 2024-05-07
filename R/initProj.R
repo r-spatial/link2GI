@@ -89,7 +89,7 @@ setup_default = function(new_folder_list=NULL,new_folder_list_name=NULL)
 #' }
 #' # Create folder list and set variable names pointing to the path values
 createFolders <- function(root_folder, folders,
-                          folder_names = NULL, path_prefix = "p_",
+                          folder_names = NULL, path_prefix = NULL,
                           create_folders = FALSE) {
   folders <- lapply(folders, function(f) {
     file.path(root_folder, f)

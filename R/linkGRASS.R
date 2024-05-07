@@ -46,6 +46,7 @@ if (!isGeneric('linkGRASS')) {
 #'@param gisdbase_exist default is FALSE if set to TRUE the arguments gisdbase and location are expected to be an existing GRASS gisdbase
 #'@param spatial_params default is \code{NULL}. Instead of a spatial object you may provide the geometry as a list. E.g. c(xmin,ymin,xmax,ymax,proj4_string)
 #'@param resolution resolution in map units for the GRASS raster cells
+#'@param epsg manual epsg override
 #'@param ver_select Boolean if TRUE you may choose interactively the binary version (if found  more than one),  by default FALSE
 #'@param quiet Boolean  switch for suppressing console messages default is TRUE
 #'@param returnPaths Boolean if set to FALSE the pathes of the selected version are written 
@@ -118,6 +119,7 @@ if (!isGeneric('linkGRASS')) {
 #' 
 
 linkGRASS = function(x = NULL,
+                       epsg = NULL,
                        default_GRASS=NULL, 
                        search_path=NULL,
                        ver_select=FALSE,
@@ -131,7 +133,12 @@ linkGRASS = function(x = NULL,
                        returnPaths=TRUE) {
   # if no spatial object AND no extent AND no existing GRASS dbase is provided stop
   if (!use_home) home = tempdir()
-  epsg = sf::st_crs(x)$epsg
+  if  (is.null(epsg)) {
+    crs_info = sf::st_crs(x)
+    # Extract the EPSG code
+    epsg = crs_info$epsg
+  }
+  #epsg = try( st_crs(x) )
   if (is.na(epsg)) epsg = 4326
   if (class(x)[1]=="character")   {
     x = terra::rast(x)

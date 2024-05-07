@@ -6,6 +6,7 @@
 \usage{
 linkGRASS(
   x = NULL,
+  epsg = NULL,
   default_GRASS = NULL,
   search_path = NULL,
   ver_select = FALSE,
@@ -21,6 +22,8 @@ linkGRASS(
 }
 \arguments{
 \item{x}{raster/terra or sf/sp object}
+
+\item{epsg}{manual epsg override}
 
 \item{default_GRASS}{default is \code{NULL} If is \code{NULL} an automatic search for all installed versions is performed. 
 If you provide a valid list the corresponding version is initialized. An example for OSGeo4W64 is:

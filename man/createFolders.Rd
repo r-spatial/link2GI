@@ -9,7 +9,7 @@ createFolders(
   root_folder,
   folders,
   folder_names = NULL,
-  path_prefix = "p_",
+  path_prefix = NULL,
   create_folders = FALSE
 )
 }

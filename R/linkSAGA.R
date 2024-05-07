@@ -64,15 +64,19 @@ linkSAGA <- function(default_SAGA = NULL,
     default_SAGA <- as.data.frame(findSAGA(searchLocation = searchLocation,
                              quiet = quiet))
   if (default_SAGA[[1]][1] != FALSE) {
+    if (ver_select > nrow(default_SAGA)) ver_select =  nrow(default_SAGA)
   # only one SAGA installation found/given
   if (nrow(default_SAGA) == 1) {  
+    
     sagaCmd <- paste0(default_SAGA[[1]][1],sep,scmd )
     sagaPath <- gsub(removePattern, "", default_SAGA[[1]][1])
     if (!is.null(default_SAGA[[2]][1])) 
-      if (getSagaVer(sagaPath) >= "3.0.0" && Sys.info()["sysname"]=="Windows")
-        sagaModPath <- paste0(default_SAGA[[1]][1],sep,"tools" )
-    else if (getSagaVer(sagaPath) < "3.0.0" && Sys.info()["sysname"]=="Windows") 
-      sagaModPath <- paste0(default_SAGA[[1]][1],sep,"modules" )
+      if (Sys.info()["sysname"]=="Windows")
+        if (getSagaVer(sagaPath) >= "3.0.0")
+          sagaModPath <- paste0(default_SAGA[[1]][1],sep,"tools" )
+    else if (Sys.info()["sysname"]=="Windows")
+      if (getSagaVer(sagaPath) >= "3.0.0")
+        sagaModPath <- paste0(default_SAGA[[1]][1],sep,"modules" )
     else sagaModPath <- paste0(default_SAGA[[2]][1])
   } 
   # more than one SAGA installation and ver_select = TRUE
@@ -124,6 +128,7 @@ linkSAGA <- function(default_SAGA = NULL,
 #       sagaModPath <- paste0(default_SAGA[[1]][recentSaga],sep,"modules")
 #     else sagaModPath <- paste0(default_SAGA[[2]][recentSaga])
 #   }
+  if (Sys.info()["sysname"]!="Windows")   sagaModPath = ""
   sagaModPath <-gsub(removePattern, "", sagaModPath )
   # SAGA_MLB is only used by Linux-RSAGA to identify the correct module path 
   Sys.setenv(SAGA_MLB = sagaModPath)

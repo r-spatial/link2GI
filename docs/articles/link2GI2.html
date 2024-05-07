@@ -100,7 +100,7 @@
                         <h4 data-toc-skip class="author">Chris
 Reudenbach</h4>
             
-            <h4 data-toc-skip class="date">2024-05-06</h4>
+            <h4 data-toc-skip class="date">2024-05-07</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/r-spatial/link2GI/blob/HEAD/vignettes/link2GI2.Rmd" class="external-link"><code>vignettes/link2GI2.Rmd</code></a></small>
       <div class="hidden name"><code>link2GI2.Rmd</code></div>
@@ -163,18 +163,11 @@ variables (if desired) containing the paths as strings.</p>
 </h3>
 <p>In the past it was quite tedious to link the correct
 <code>SAGA GIS</code> version. Since version 1.x.x of <code>RSAGA</code>
-things are much better. The new <code>RSAGA::rsaga.env()</code> function
-is to get the first <code>RSAGA</code> version in the search path. For
-using <code>RSAGA</code> with <code>link2GI</code> it is strongly
-recommended to call <code>RSAGA.env()</code> with the preferred path as
-returned by a <code><a href="../reference/findSAGA.html">findSAGA()</a></code> call. It is also possible to pass
-the version number as shown below. Storing the result in appropriate
-variables will even allow you to easily switch between different
-<code>SAGA GIS</code> installations.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">saga1</span><span class="op">&lt;-</span><span class="fu">link2GI</span><span class="fu">::</span><span class="fu"><a href="../reference/linkSAGA.html">linkSAGA</a></span><span class="op">(</span>ver_select <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> </span>
-<span><span class="va">saga1</span></span>
-<span><span class="va">sagaEnv1</span><span class="op">&lt;-</span> <span class="fu">RSAGA</span><span class="fu">::</span><span class="fu">rsaga.env</span><span class="op">(</span>path <span class="op">=</span> <span class="va">saga1</span><span class="op">$</span><span class="va">sagaPath</span><span class="op">)</span></span></code></pre></div>
+things are much better. The new <code><a href="https://rdrr.io/pkg/RSAGA/man/rsaga.env.html" class="external-link">RSAGA::rsaga.env()</a></code> function
+is to get the first <code>RSAGA</code> version in the search path. It is
+also possible to pass the version number as shown below. Storing the
+result in appropriate variables will even allow you to easily switch
+between different <code>SAGA GIS</code> installations.</p>
 </div>
 <div class="section level3">
 <h3 id="linkgrass---find-and-set-up-grass-78-api-bindings">linkGRASS - Find and set up GRASS 7/8 API bindings<a class="anchor" aria-label="anchor" href="#linkgrass---find-and-set-up-grass-78-api-bindings"></a>
@@ -210,7 +203,7 @@ automatically selected.</p>
 the well-known <code>sp</code> and <code>sf</code> vector data
 objects.</p>
 <p>Starting with <code>sp</code>.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># get meuse data as sp object and link it temporary to GRASS</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-spatial/link2GI/" class="external-link">link2GI</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/edzer/sp/" class="external-link">sp</a></span><span class="op">)</span></span>
@@ -218,8 +211,8 @@ objects.</p>
 <span><span class="co"># get data </span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">meuse</span><span class="op">)</span> </span>
 <span><span class="co"># add georeference</span></span>
-<span><span class="fu"><a href="https://rdrr.io/pkg/sp/man/coordinates.html" class="external-link">coordinates</a></span><span class="op">(</span><span class="va">meuse</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="op">~</span><span class="va">x</span><span class="op">+</span><span class="va">y</span> </span>
-<span><span class="fu"><a href="https://rdrr.io/pkg/sp/man/is.projected.html" class="external-link">proj4string</a></span><span class="op">(</span><span class="va">meuse</span><span class="op">)</span> <span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/pkg/sp/man/CRS-class.html" class="external-link">CRS</a></span><span class="op">(</span><span class="st">"+init=epsg:28992"</span><span class="op">)</span> </span>
+<span><span class="fu"><a href="https://edzer.github.io/sp/reference/coordinates.html" class="external-link">coordinates</a></span><span class="op">(</span><span class="va">meuse</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="op">~</span><span class="va">x</span><span class="op">+</span><span class="va">y</span> </span>
+<span><span class="fu"><a href="https://edzer.github.io/sp/reference/is.projected.html" class="external-link">proj4string</a></span><span class="op">(</span><span class="va">meuse</span><span class="op">)</span> <span class="op">&lt;-</span><span class="fu"><a href="https://edzer.github.io/sp/reference/CRS-class.html" class="external-link">CRS</a></span><span class="op">(</span><span class="st">"+init=epsg:28992"</span><span class="op">)</span> </span>
 <span></span>
 <span><span class="co"># Automatic search and find of GRASS binaries</span></span>
 <span><span class="co"># using the meuse sp data object for spatial referencing</span></span>
@@ -228,7 +221,7 @@ objects.</p>
 <span></span>
 <span><span class="fu"><a href="../reference/linkGRASS.html">linkGRASS</a></span><span class="op">(</span><span class="va">meuse</span><span class="op">)</span></span></code></pre></div>
 <p>Now do the same with <code>sf</code> based data.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span> <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-spatial/link2GI/" class="external-link">link2GI</a></span><span class="op">)</span></span>
 <span> <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/" class="external-link">sf</a></span><span class="op">)</span></span>
 <span></span>
@@ -244,7 +237,7 @@ objects.</p>
 <p>The second most common situation is to use an existing
 <code>GRASS</code> site and project, either with existing data sets or
 manually provided parameters.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span>  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-spatial/link2GI/" class="external-link">link2GI</a></span><span class="op">)</span></span>
 <span> <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/" class="external-link">sf</a></span><span class="op">)</span></span>
 <span></span>
@@ -264,12 +257,12 @@ manually provided parameters.</p>
 <span></span>
 <span></span>
 <span> <span class="co"># setting up GRASS manually with spatial parameters of the nc data</span></span>
-<span> <span class="va">proj4_string</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="fu">sp</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/sp/man/CRS-class.html" class="external-link">CRS</a></span><span class="op">(</span><span class="st">"+init=epsg:28992"</span><span class="op">)</span><span class="op">)</span></span>
+<span> <span class="va">proj4_string</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="fu">sp</span><span class="fu">::</span><span class="fu"><a href="https://edzer.github.io/sp/reference/CRS-class.html" class="external-link">CRS</a></span><span class="op">(</span><span class="st">"+init=epsg:28992"</span><span class="op">)</span><span class="op">)</span></span>
 <span> <span class="fu"><a href="../reference/linkGRASS.html">linkGRASS</a></span><span class="op">(</span>spatial_params <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">178605</span>,<span class="fl">329714</span>,<span class="fl">181390</span>,<span class="fl">333611</span>,<span class="va">proj4_string</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span> <span class="co"># creating a GRASS gisdbase manually with spatial parameters of the nc data</span></span>
 <span> <span class="co"># additionally using a peramanent directory "root_folder" and the location "nc_spatial_params "</span></span>
-<span> <span class="va">proj4_string</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="fu">sp</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/sp/man/CRS-class.html" class="external-link">CRS</a></span><span class="op">(</span><span class="st">"+init=epsg:4267"</span><span class="op">)</span><span class="op">)</span></span>
+<span> <span class="va">proj4_string</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="fu">sp</span><span class="fu">::</span><span class="fu"><a href="https://edzer.github.io/sp/reference/CRS-class.html" class="external-link">CRS</a></span><span class="op">(</span><span class="st">"+init=epsg:4267"</span><span class="op">)</span><span class="op">)</span></span>
 <span> <span class="fu"><a href="../reference/linkGRASS.html">linkGRASS</a></span><span class="op">(</span>gisdbase <span class="op">=</span> <span class="va">root_folder</span>,</span>
 <span>            location <span class="op">=</span> <span class="st">"nc_spatial_params"</span>,</span>
 <span>            spatial_params <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">84.32385</span>, <span class="fl">33.88199</span>,<span class="op">-</span><span class="fl">75.45698</span>,<span class="fl">36.58965</span>,<span class="va">proj4_string</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
@@ -282,21 +275,21 @@ easily take 10 minutes or more. So it is helpful to specify a search
 path to narrow down the search. To search for <code>GRASS</code>
 installations in the home directory, you can use the following
 command.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Link the GRASS installation and define the search location</span></span>
 <span> <span class="fu"><a href="../reference/linkGRASS.html">linkGRASS</a></span><span class="op">(</span><span class="va">nc</span>, search_path <span class="op">=</span> <span class="st">"~"</span><span class="op">)</span></span></code></pre></div>
 <p>If you already did a full search and kow your installation fo example
 using the command <code>findGRASS</code> you can use the result directly
 for linking.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">findGRASS</span>()</span>
-<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>     instDir version installation_type</span>
-<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a><span class="dv">1</span> <span class="sc">/</span>opt<span class="sc">/</span>grass   <span class="dv">7</span>.<span class="fl">8.1</span>           grass78</span>
-<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a></span>
-<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a><span class="co"># now linking it </span></span>
-<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a><span class="fu">linkGRASS</span>(nc,<span class="fu">c</span>(<span class="st">"/opt/grass"</span>,<span class="st">"7.8.15"</span>,<span class="st">"grass78"</span>)) </span>
-<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a></span>
-<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a><span class="co"># corresponding linkage running windows</span></span>
-<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a><span class="fu">linkGRASS</span>(nc,<span class="fu">c</span>(<span class="st">"C:/Program Files/GRASS GIS7.0.5"</span>,<span class="st">"GRASS GIS 7.0.5"</span>,<span class="st">"NSIS"</span>)) </span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">findGRASS</span>()</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>     instDir version installation_type</span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a><span class="dv">1</span> <span class="sc">/</span>opt<span class="sc">/</span>grass   <span class="dv">7</span>.<span class="fl">8.1</span>           grass78</span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a><span class="co"># now linking it </span></span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a><span class="fu">linkGRASS</span>(nc,<span class="fu">c</span>(<span class="st">"/opt/grass"</span>,<span class="st">"7.8.15"</span>,<span class="st">"grass78"</span>)) </span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a></span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a><span class="co"># corresponding linkage running windows</span></span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a><span class="fu">linkGRASS</span>(nc,<span class="fu">c</span>(<span class="st">"C:/Program Files/GRASS GIS7.0.5"</span>,<span class="st">"GRASS GIS 7.0.5"</span>,<span class="st">"NSIS"</span>)) </span></code></pre></div>
 </div>
 <div class="section level5">
 <h5 id="manual-version-selection">Manual version selection<a class="anchor" aria-label="anchor" href="#manual-version-selection"></a>
@@ -305,7 +298,7 @@ for linking.</p>
 or OS-specific settings. Manually select the <code>GRASS</code>
 installation and use the meuse <code>sf</code> object for spatial
 referencing</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/linkGRASS.html">linkGRASS</a></span><span class="op">(</span><span class="va">nc</span>, ver_select <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level5">
@@ -315,7 +308,7 @@ referencing</p>
 structure) in “~/temp3” with the default mapset “PERMANENT”” and the
 location “project1”. Use the <code>sf</code> object for all spatial
 attributes.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/linkGRASS.html">linkGRASS</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">nc</span>, </span>
 <span>                     gisdbase <span class="op">=</span> <span class="st">"~/temp3"</span>,</span>
 <span>                     location <span class="op">=</span> <span class="st">"project1"</span><span class="op">)</span>   </span></code></pre></div>
@@ -327,7 +320,7 @@ attributes.</p>
 in “~/temp3” with the default mapset “PERMANENT” and the location named
 “project1”. Use the formerly referencend nc <code>sf</code> object
 parameter for all spatial attributes.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/linkGRASS.html">linkGRASS</a></span><span class="op">(</span>gisdbase <span class="op">=</span> <span class="st">"~/temp3"</span>, location <span class="op">=</span> <span class="st">"project1"</span>, </span>
 <span>                     gisdbase_exist <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>   </span></code></pre></div>
 </div>
@@ -336,7 +329,7 @@ parameter for all spatial attributes.</p>
 </h5>
 <p>Setting up <code>GRASS</code> manually with spatial parameters of the
 meuse data</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span> <span class="fu"><a href="../reference/linkGRASS.html">linkGRASS</a></span><span class="op">(</span>spatial_params <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">178605</span>,<span class="fl">329714</span>,<span class="fl">181390</span>,<span class="fl">333611</span>,</span>
 <span>                              <span class="st">"+proj=sterea +lat_0=52.15616055555555 </span></span>
 <span><span class="st">                               +lon_0=5.38763888888889 +k=0.9999079 </span></span>
@@ -355,7 +348,7 @@ list-based wrapper function. Actually, two functions parse the module
 and function syntax dumps and generate a command list that can be easily
 modified with the necessary arguments.</p>
 <p>Usually you have to get the module list first:</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># link to the installed OTB </span></span>
 <span><span class="va">otblink</span><span class="op">&lt;-</span><span class="fu">link2GI</span><span class="fu">::</span><span class="fu"><a href="../reference/linkOTB.html">linkOTB</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
@@ -364,7 +357,7 @@ modified with the necessary arguments.</p>
 <span><span class="va">algo</span><span class="op">&lt;-</span><span class="fu"><a href="../reference/parseOTBAlgorithms.html">parseOTBAlgorithms</a></span><span class="op">(</span>gili <span class="op">=</span> <span class="va">otblink</span><span class="op">)</span></span></code></pre></div>
 <p>Based on the modules of the current version of `OTB’, you can then
 select the module(s) you want to use.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## for the example we use the edge detection, </span></span>
 <span><span class="va">algoKeyword</span><span class="op">&lt;-</span> <span class="st">"EdgeExtraction"</span></span>
 <span></span>
@@ -377,7 +370,7 @@ select the module(s) you want to use.</p>
 Nevertheless, it will give you a valid list of all <code>OTB</code> API
 calls that you can easily manipulate to suit your needs. The following
 working example will give you an idea of how to use it.</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-spatial/link2GI/" class="external-link">link2GI</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/" class="external-link">terra</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/timelyportfolio/listviewer" class="external-link">listviewer</a></span><span class="op">)</span></span>
@@ -394,7 +387,7 @@ working example will give you an idea of how to use it.</p>
 <span><span class="va">cmd</span><span class="op">&lt;-</span><span class="fu"><a href="../reference/parseOTBFunction.html">parseOTBFunction</a></span><span class="op">(</span>algo <span class="op">=</span> <span class="va">algoKeyword</span>, gili <span class="op">=</span> <span class="va">otblink</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co">## get help using the convenient listviewer</span></span>
-<span><span class="fu">listviewer</span><span class="fu">::</span><span class="fu">jsonedit</span><span class="op">(</span><span class="va">cmd</span><span class="op">$</span><span class="va">help</span><span class="op">)</span></span>
+<span><span class="fu">listviewer</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/listviewer/man/jsonedit.html" class="external-link">jsonedit</a></span><span class="op">(</span><span class="va">cmd</span><span class="op">$</span><span class="va">help</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co">## define the mandantory arguments all other will be default</span></span>
 <span><span class="va">cmd</span><span class="op">$</span><span class="va">input</span>  <span class="op">&lt;-</span> <span class="va">fn</span></span>

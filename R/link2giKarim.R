@@ -381,3 +381,9 @@ bf_wpath = function(path){
   path = utils::shortPathName(path)
   return(path)
 }
+reverse_bf_wpath = function(path){
+  path = gsub("\\\\", "/", path)
+ # path = gsub("/", "\\\\", path)
+  path = utils::shortPathName(path)
+  return(path)
+}

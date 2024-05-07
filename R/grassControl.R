@@ -204,7 +204,7 @@ paramGRASSw <- function(set_default_GRASS=NULL,
     #  }
     grass<-list()
     grass$gisbase_GRASS<-gsub("\\\\", "/", gisbase_GRASS)
-
+    
     grass$version <- grass_version
     grass$type <- installation_type
     grass$installed <- params_GRASS
@@ -245,15 +245,15 @@ searchGRASSW <- function(DL = "C:/",
   raw_GRASS  <- try(system(paste0("cmd.exe /c WHERE /R ",DL, " ","grass*.bat"),intern=TRUE))
   
   #raw_GRASS <- try(system(paste0("cmd.exe /c dir /B /S ", DL, "\\","grass*.bat"), intern = TRUE,ignore.stderr = TRUE))
-
-
+  
+  
   if (unique(
     (grepl(raw_GRASS,pattern = "File not found") |
      grepl(raw_GRASS,pattern = "Datei nicht gefunden") |
      grepl(raw_GRASS,pattern = "INFORMATION:") |
      grepl(raw_GRASS,pattern = "FEHLER:") |
      grepl(raw_GRASS,pattern = "ERROR:"))
-    )) {
+  )) {
     message("::: NO GRASS installation found at: '",DL,"'")
     message("::: NOTE:  Links or symbolic links like 'C:/Documents' are not searched...")
     stop()
@@ -288,26 +288,26 @@ searchGRASSW <- function(DL = "C:/",
         if (basename(utils::shortPathName(raw_GRASS[i])) == "grass78.bat"|| basename(utils::shortPathName(raw_GRASS[i])) == "grass79.bat" || basename(utils::shortPathName(raw_GRASS[i])) == "grass83.bat"){
           
           # grep line with root directory and extract the substring defining GISBASE
-          root_dir <-dirname(utils::shortPathName(raw_GRASS[i]))
+          root_dir <- dirname(dirname(utils::shortPathName(raw_GRASS[i])))
           # grep line with the version name and extract it
           ver_char <- substr(basename(utils::shortPathName(raw_GRASS[i])),6,7)
           installerType <- "osgeo4W"
         } else { 
-        if (length(grep("PREREM~1", utils::shortPathName(raw_GRASS[i]))) == 0  && length(grep("extrabin", utils::shortPathName(raw_GRASS[i]))) == 0 ){
-        # grep line with root directory and extract the substring defining GISBASE
-        root_dir <- unique(grep(paste("OSGEO4W_ROOT", collapse = "|"), batchfile_lines, value = TRUE))
-        #if (substr(root_dir,1,1) == "\\" & length(root_dir) > 0) root_dir <- substr(root_dir,3,nchar(root_dir))
-        if (length(root_dir) > 0) root_dir <- substr(root_dir, gregexpr(pattern = "=", root_dir)[[1]][1] + 1, nchar(root_dir))
-        
-        # grep line with the version name and extract it
-        ver_char <- unique(grep(paste("\\benv.bat\\b", collapse = "|"), batchfile_lines,value = TRUE))
-        if (length(root_dir) > 0) {
-          ver_char <- substr(ver_char, gregexpr(pattern = "\\grass-", ver_char)[[1]][1], nchar(ver_char))
-          ver_char <- substr(ver_char, 1, gregexpr(pattern = "\\\\", ver_char)[[1]][1] - 1)
-        }}
-        installerType <- "osgeo4W"
+          if (length(grep("PREREM~1", utils::shortPathName(raw_GRASS[i]))) == 0  && length(grep("extrabin", utils::shortPathName(raw_GRASS[i]))) == 0 ){
+            # grep line with root directory and extract the substring defining GISBASE
+            root_dir <- unique(grep(paste("OSGEO4W_ROOT", collapse = "|"), batchfile_lines, value = TRUE))
+            #if (substr(root_dir,1,1) == "\\" & length(root_dir) > 0) root_dir <- substr(root_dir,3,nchar(root_dir))
+            if (length(root_dir) > 0) root_dir <- substr(root_dir, gregexpr(pattern = "=", root_dir)[[1]][1] + 1, nchar(root_dir))
+            
+            # grep line with the version name and extract it
+            ver_char <- unique(grep(paste("\\benv.bat\\b", collapse = "|"), batchfile_lines,value = TRUE))
+            if (length(root_dir) > 0) {
+              ver_char <- substr(ver_char, gregexpr(pattern = "\\grass-", ver_char)[[1]][1], nchar(ver_char))
+              ver_char <- substr(ver_char, 1, gregexpr(pattern = "\\\\", ver_char)[[1]][1] - 1)
+            }}
+          installerType <- "osgeo4W"
         }
-        }
+      }
       
       ### if installatationtype is stand_alone
       if (stand_alone) {
@@ -342,7 +342,7 @@ searchGRASSW <- function(DL = "C:/",
     
     # bind the df lines
     installations_GRASS <- do.call("rbind", installations_GRASS)
-
+    
     return(installations_GRASS)
   } else {
     if(!quiet) cat("Did not find any valid GRASS installation at mount point",DL)
@@ -386,19 +386,19 @@ searchGRASSX <- function(MP = "/usr/bin",quiet =TRUE){
       # grep line containing GISBASE and extract the substring 
       rg<- strsplit(raw_GRASS,split = "/")
       if (rg[[i]][lengths(rg)] == "grass78" | rg[[i]][lengths(rg)] == "grass" ) {
-      
-
-      
-      ver_char <- grep(readLines(raw_GRASS[[i]]),pattern = 'GRASS_VERSION = "',value = TRUE)        
-      ver_char <- substr(ver_char, gregexpr(pattern = '"', ver_char)[[1]][1] + 1, nchar(ver_char) - 1)
-      cmd <- grep(readLines(raw_GRASS[[i]]),pattern = 'CMD_NAME = "',value = TRUE)
-      cmd <- substr(cmd, gregexpr(pattern = '"', cmd)[[1]][1] + 1, nchar(cmd) - 1)
-      
-      rootdir<- grep(readLines(raw_GRASS[[i]]),pattern = 'GISBASE = os.path.normpath',value = TRUE)
-      root_dir <- substr(rootdir[2], gregexpr(pattern = '"', rootdir[2])[[1]][1] + 1, nchar(rootdir[2]) - 2)
-      
-      if (!file.exists(root_dir)) root_dir  <-  "/opt/grass"
-    }
+        
+        
+        
+        ver_char <- grep(readLines(raw_GRASS[[i]]),pattern = 'GRASS_VERSION = "',value = TRUE)        
+        ver_char <- substr(ver_char, gregexpr(pattern = '"', ver_char)[[1]][1] + 1, nchar(ver_char) - 1)
+        cmd <- grep(readLines(raw_GRASS[[i]]),pattern = 'CMD_NAME = "',value = TRUE)
+        cmd <- substr(cmd, gregexpr(pattern = '"', cmd)[[1]][1] + 1, nchar(cmd) - 1)
+        
+        rootdir<- grep(readLines(raw_GRASS[[i]]),pattern = 'GISBASE = os.path.normpath',value = TRUE)
+        root_dir <- substr(rootdir[2], gregexpr(pattern = '"', rootdir[2])[[1]][1] + 1, nchar(rootdir[2]) - 2)
+        
+        if (!file.exists(root_dir)) root_dir  <-  "/opt/grass"
+      }
       else  {
         
         root_dir <- try(grep(readLines(raw_GRASS[[i]]),pattern = 'gisbase = "',value = TRUE),silent = TRUE)
@@ -455,7 +455,7 @@ setenvGRASSw <- function(root_GRASS=NULL,
                          jpgmem = 1000000,
                          quiet = TRUE) {
   if (Sys.info()["sysname"] == "Windows") {
-    if (!exists("GiEnv")) GiEnv <- new.env(parent=globalenv())  
+    if (!exists(".GRASS_CACHE")) .GRASS_CACHE <- new.env(parent=globalenv())  
     #.GRASS_CACHE <- new.env(FALSE parent=globalenv())
     if (is.null(root_GRASS) || is.null(grass_version) || is.null(installation_type)) {
       stop("Please run findGRASS first and provide valid arguments")
@@ -464,24 +464,24 @@ setenvGRASSw <- function(root_GRASS=NULL,
       Sys.setenv(OSGEO4W_ROOT = root_GRASS)
       # define GISBASE
       gisbase_GRASS <- paste0(root_GRASS,"\\apps\\grass\\grass",grass_version)
-      Sys.setenv(GISBASE = gisbase_GRASS,envir = GiEnv)
-      assign("SYS", "WinNat", envir = GiEnv)
-      assign("addEXE", ".exe", envir = GiEnv)
-      assign("WN_bat", "", envir = GiEnv)
-      assign("legacyExec", "windows", envir = GiEnv)
+      Sys.setenv(GISBASE = gisbase_GRASS,envir = .GRASS_CACHE)
+      assign("SYS", "WinNat", envir = .GRASS_CACHE)
+      assign("addEXE", ".exe", envir = .GRASS_CACHE)
+      assign("WN_bat", "", envir = .GRASS_CACHE)
+      assign("legacyExec", "windows", envir = .GRASS_CACHE)
       
       
-      Sys.setenv(GRASS_PYTHON = paste0(Sys.getenv("OSGEO4W_ROOT"),"\\bin\\python.exe"),envir = GiEnv)
-      Sys.setenv(PYTHONHOME = paste0(Sys.getenv("OSGEO4W_ROOT"),"\\apps\\Python27"),envir = GiEnv)
-      Sys.setenv(PYTHONPATH = paste0(Sys.getenv("OSGEO4W_ROOT"),"\\apps\\grass\\",grass_version,"\\etc\\python"),envir = GiEnv)
-      Sys.setenv(GRASS_PROJSHARE = paste0(Sys.getenv("OSGEO4W_ROOT"),"\\share\\proj"),envir = GiEnv)
-      Sys.setenv(PROJ_LIB = paste0(Sys.getenv("OSGEO4W_ROOT"),"\\share\\proj"),envir = GiEnv)
-      Sys.setenv(GDAL_DATA = paste0(Sys.getenv("OSGEO4W_ROOT"),"\\share\\gdal"),envir = GiEnv)
-      Sys.setenv(GEOTIFF_CSV = paste0(Sys.getenv("OSGEO4W_ROOT"),"\\share\\epsg_csv"),envir = GiEnv)
-      Sys.setenv(FONTCONFIG_FILE = paste0(Sys.getenv("OSGEO4W_ROOT"),"\\etc\\fonts.conf"),envir = GiEnv)
-      Sys.setenv(JPEGMEM = jpgmem,envir = GiEnv)
-      Sys.setenv(FONTCONFIG_FILE = paste0(Sys.getenv("OSGEO4W_ROOT"),"\\bin\\gdalplugins"),envir = GiEnv)
-      Sys.setenv(GISRC = paste(Sys.getenv("HOME"), "\\.grassrc7",  sep = ""),envir = GiEnv)
+      Sys.setenv(GRASS_PYTHON = paste0(Sys.getenv("OSGEO4W_ROOT"),"\\bin\\python.exe"),envir = .GRASS_CACHE)
+      Sys.setenv(PYTHONHOME = paste0(Sys.getenv("OSGEO4W_ROOT"),"\\apps\\Python27"),envir = .GRASS_CACHE)
+      Sys.setenv(PYTHONPATH = paste0(Sys.getenv("OSGEO4W_ROOT"),"\\apps\\grass\\",grass_version,"\\etc\\python"),envir = .GRASS_CACHE)
+      Sys.setenv(GRASS_PROJSHARE = paste0(Sys.getenv("OSGEO4W_ROOT"),"\\share\\proj"),envir = .GRASS_CACHE)
+      Sys.setenv(PROJ_LIB = paste0(Sys.getenv("OSGEO4W_ROOT"),"\\share\\proj"),envir = .GRASS_CACHE)
+      Sys.setenv(GDAL_DATA = paste0(Sys.getenv("OSGEO4W_ROOT"),"\\share\\gdal"),envir = .GRASS_CACHE)
+      Sys.setenv(GEOTIFF_CSV = paste0(Sys.getenv("OSGEO4W_ROOT"),"\\share\\epsg_csv"),envir = .GRASS_CACHE)
+      Sys.setenv(FONTCONFIG_FILE = paste0(Sys.getenv("OSGEO4W_ROOT"),"\\etc\\fonts.conf"),envir = .GRASS_CACHE)
+      Sys.setenv(JPEGMEM = jpgmem,envir = .GRASS_CACHE)
+      Sys.setenv(FONTCONFIG_FILE = paste0(Sys.getenv("OSGEO4W_ROOT"),"\\bin\\gdalplugins"),envir = .GRASS_CACHE)
+      Sys.setenv(GISRC = paste(Sys.getenv("HOME"), "\\.grassrc7",  sep = ""),envir = .GRASS_CACHE)
       
       # set path variable
       Sys.setenv(PATH = paste0(gisbase_GRASS,";",
@@ -494,7 +494,7 @@ setenvGRASSw <- function(root_GRASS=NULL,
                                root_GRASS,"\\bin",";",
                                root_GRASS,"\\apps",";",
                                paste0(Sys.getenv("WINDIR"),"/WBem"),";",
-                               Sys.getenv("PATH")),envir = GiEnv)
+                               Sys.getenv("PATH")),envir = .GRASS_CACHE)
       
       # get list of all tools
       if (!quiet) system(paste0(root_GRASS,"/bin/o-help.bat"))
@@ -506,24 +506,24 @@ setenvGRASSw <- function(root_GRASS=NULL,
       Sys.setenv(GRASS_ROOT = root_GRASS)
       # define GISBASE
       gisbase_GRASS <- normalizePath(root_GRASS)
-      Sys.setenv(GISBASE = gisbase_GRASS,envir = GiEnv)
-      assign("SYS", "WinNat", envir = GiEnv)
-      assign("addEXE", ".exe", envir = GiEnv)
-      assign("WN_bat", "", envir = GiEnv)
-      assign("legacyExec", "windows", envir = GiEnv)
+      Sys.setenv(GISBASE = gisbase_GRASS,envir = .GRASS_CACHE)
+      assign("SYS", "WinNat", envir = .GRASS_CACHE)
+      assign("addEXE", ".exe", envir = .GRASS_CACHE)
+      assign("WN_bat", "", envir = .GRASS_CACHE)
+      assign("legacyExec", "windows", envir = .GRASS_CACHE)
       
       
-      Sys.setenv(GRASS_PYTHON = paste0(Sys.getenv("GRASS_ROOT"),"\\bin\\python.exe"),envir = GiEnv)
-      Sys.setenv(PYTHONHOME = paste0(Sys.getenv("GRASS_ROOT"),"\\Python27"),envir = GiEnv)
-      Sys.setenv(PYTHONPATH = paste0(Sys.getenv("GRASS_ROOT"),"\\etc\\python"),envir = GiEnv)
-      Sys.setenv(GRASS_PROJSHARE = paste0(Sys.getenv("GRASS_ROOT"),"\\share\\proj"),envir = GiEnv)
-      Sys.setenv(PROJ_LIB = paste0(Sys.getenv("GRASS_ROOT"),"\\share\\proj"),envir = GiEnv)
-      Sys.setenv(GDAL_DATA = paste0(Sys.getenv("GRASS_ROOT"),"\\share\\gdal"),envir = GiEnv)
-      Sys.setenv(GEOTIFF_CSV = paste0(Sys.getenv("GRASS_ROOT"),"\\share\\epsg_csv"),envir = GiEnv)
-      Sys.setenv(FONTCONFIG_FILE = paste0(Sys.getenv("GRASS_ROOT"),"\\etc\\fonts.conf"),envir = GiEnv)
-      Sys.setenv(JPEGMEM = jpgmem,envir = GiEnv)
-      Sys.setenv(FONTCONFIG_FILE = paste0(Sys.getenv("GRASS_ROOT"),"\\bin\\gdalplugins"),envir = GiEnv)
-      Sys.setenv(GISRC = paste(Sys.getenv("HOME"), "\\.grassrc7",  sep = ""),envir = GiEnv)
+      Sys.setenv(GRASS_PYTHON = paste0(Sys.getenv("GRASS_ROOT"),"\\bin\\python.exe"),envir = .GRASS_CACHE)
+      Sys.setenv(PYTHONHOME = paste0(Sys.getenv("GRASS_ROOT"),"\\Python27"),envir = .GRASS_CACHE)
+      Sys.setenv(PYTHONPATH = paste0(Sys.getenv("GRASS_ROOT"),"\\etc\\python"),envir = .GRASS_CACHE)
+      Sys.setenv(GRASS_PROJSHARE = paste0(Sys.getenv("GRASS_ROOT"),"\\share\\proj"),envir = .GRASS_CACHE)
+      Sys.setenv(PROJ_LIB = paste0(Sys.getenv("GRASS_ROOT"),"\\share\\proj"),envir = .GRASS_CACHE)
+      Sys.setenv(GDAL_DATA = paste0(Sys.getenv("GRASS_ROOT"),"\\share\\gdal"),envir = .GRASS_CACHE)
+      Sys.setenv(GEOTIFF_CSV = paste0(Sys.getenv("GRASS_ROOT"),"\\share\\epsg_csv"),envir = .GRASS_CACHE)
+      Sys.setenv(FONTCONFIG_FILE = paste0(Sys.getenv("GRASS_ROOT"),"\\etc\\fonts.conf"),envir = .GRASS_CACHE)
+      Sys.setenv(JPEGMEM = jpgmem,envir = .GRASS_CACHE)
+      Sys.setenv(FONTCONFIG_FILE = paste0(Sys.getenv("GRASS_ROOT"),"\\bin\\gdalplugins"),envir = .GRASS_CACHE)
+      Sys.setenv(GISRC = paste(Sys.getenv("HOME"), "\\.grassrc7",  sep = ""),envir = .GRASS_CACHE)
       
       # set path variable OSGeo4W64/apps/grass/grass-7.2.2/bin
       Sys.setenv(PATH = paste0(gisbase_GRASS,";",
@@ -536,7 +536,7 @@ setenvGRASSw <- function(root_GRASS=NULL,
                                root_GRASS,"\\Scripts",";",
                                root_GRASS,";",
                                paste0(Sys.getenv("WINDIR"),"/WBem"),";",
-                               Sys.getenv("PATH")),envir = GiEnv)
+                               Sys.getenv("PATH")),envir = .GRASS_CACHE)
       
     }
   } else {gisbase_GRASS <- "Sorry no Windows System..." }

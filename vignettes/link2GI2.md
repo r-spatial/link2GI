@@ -70,16 +70,10 @@ envrmt
 
 
 ## linkSAGA - Find and set up 'SAGA' API bindings
-In the past it was quite tedious to link the correct `SAGA GIS` version. Since version 1.x.x of `RSAGA` things are much better. The new `RSAGA::rsaga.env()` function is to get the first `RSAGA` version in the search path. For using `RSAGA` with `link2GI` it is strongly recommended to call `RSAGA.env()` with the preferred path as returned by a `findSAGA()` call. It is also possible to pass the version number as shown below. Storing the result in appropriate variables will even allow you to easily switch between different `SAGA GIS` installations.
+In the past it was quite tedious to link the correct `SAGA GIS` version. Since version 1.x.x of `RSAGA` things are much better. The new `RSAGA::rsaga.env()` function is to get the first `RSAGA` version in the search path. It is also possible to pass the version number as shown below. Storing the result in appropriate variables will even allow you to easily switch between different `SAGA GIS` installations.
 
 
 
-
-```r
-saga1<-link2GI::linkSAGA(ver_select = 1) 
-saga1
-sagaEnv1<- RSAGA::rsaga.env(path = saga1$sagaPath)
-```
 
 ## linkGRASS - Find and set up GRASS 7/8 API bindings
 

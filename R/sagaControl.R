@@ -237,25 +237,30 @@ findSAGA <- function(searchLocation = "default",
   return(link)
 }
 
-split_path <- function(x) if (dirname(x)==x) x else c(basename(x),split_path(dirname(x)))
+#split_path <- function(x) if (dirname(x)==x) x else c(basename(x),split_path(dirname(x)))
 
 
+split_path <- function(path) {
+  if (dirname(path) %in% c(".", path)) return(basename(path))
+  return(c(basename(path), split_path(dirname(path))))
+}
 
 getrowSagaVer<- function (paths){
   #tmp<-c()
   scmd = ifelse(Sys.info()["sysname"]=="Windows", "saga_cmd.exe", "saga_cmd")
-  sep = ifelse(Sys.info()["sysname"]=="Windows", "\\", "/")
+  sep = ifelse(Sys.info()["sysname"]=="Windows", "/", "/")
   highestVer<-"2.0.8"
   batfileFN= ""
   for (i in 1:nrow(paths)){
-    if (grepl(paths[i,i],pattern="OSGeo")){
-   sp= split_path(paths[i,i])  
-   #batfileFN = paste0(sp[length(sp)],file.path(sp[length(sp)-1],"bin","o4w_env.bat"))
-   batfileFN= "C:\\OSGeo4W\\OSGeo4W.bat"  
-   }
-  tmp<-  strsplit(x = system(paste0(paste0(batfileFN, " ; ",paths$binDir[i],sep,scmd)," --version"),intern = TRUE),split = "SAGA Version: ")[[1]][2]
-  highestVer <- max(tmp,highestVer)
-  pathI <- i
+   sp  =  strsplit(paths[i,1],"apps")[[1]][1]
+   batfileFN= paste0(sp,"OSGeo4W.bat")  
+    
+  test = system(paste0("cmd.exe /c ; ",paste0(batfileFN, " ; " ,gsub("\\\\","/",paths$binDir[i]),sep,scmd)," --version"))  
+  if(!identical(nchar(test), integer(0))){
+  tmp<-  try(strsplit(x = system(paste0(paste0(batfileFN, " ; ",paths$binDir[i],sep,scmd)," --version"),intern = TRUE),split = "SAGA Version: ")[[1]][2],silent = TRUE)
+  if (class(tmp)  !="try-error")
+  {highestVer <- max(tmp,highestVer)
+  pathI <- i}}
   }
   return (pathI)
 }

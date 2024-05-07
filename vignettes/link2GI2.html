@@ -176,11 +176,7 @@ envrmt = link2GI::createFolders(root_folder = tempdir(),
 envrmt
 </code></pre>
 <h2 id="linksaga-find-and-set-up-saga-api-bindings">linkSAGA - Find and set up ‘SAGA’ API bindings</h2>
-<p>In the past it was quite tedious to link the correct <code>SAGA GIS</code> version. Since version 1.x.x of <code>RSAGA</code> things are much better. The new <code>RSAGA::rsaga.env()</code> function is to get the first <code>RSAGA</code> version in the search path. For using <code>RSAGA</code> with <code>link2GI</code> it is strongly recommended to call <code>RSAGA.env()</code> with the preferred path as returned by a <code>findSAGA()</code> call. It is also possible to pass the version number as shown below. Storing the result in appropriate variables will even allow you to easily switch between different <code>SAGA GIS</code> installations.</p>
-<pre><code class="language-r">saga1&lt;-link2GI::linkSAGA(ver_select = 1) 
-saga1
-sagaEnv1&lt;- RSAGA::rsaga.env(path = saga1$sagaPath)
-</code></pre>
+<p>In the past it was quite tedious to link the correct <code>SAGA GIS</code> version. Since version 1.x.x of <code>RSAGA</code> things are much better. The new <code>RSAGA::rsaga.env()</code> function is to get the first <code>RSAGA</code> version in the search path. It is also possible to pass the version number as shown below. Storing the result in appropriate variables will even allow you to easily switch between different <code>SAGA GIS</code> installations.</p>
 <h2 id="linkgrass-find-and-set-up-grass-api-bindings">linkGRASS - Find and set up GRASS ⅞ API bindings</h2>
 <p>linkGRASS<code>initializes the session environment and system paths for easy access to</code>GRASS GIS 7.x./8.x<code>. The correct setting of spatial and projection parameters is done automatically either by using an existing and valid </code>raster<code>or</code>terra<code>, </code>sp<code>or</code>sf<code>object or manually by providing a list of minimum required parameters. These properties are used to initialize either a temporary or a permanent</code>rgrass<code>environment, including the correct</code>GRASS 7/8<code>database structure. If you do not specify any of the above,</code>linkGRASS` will create an EPSG:4326 worldwide site.</p>
 <p>The most time consuming part on Windows systems is the search process. This can easily take 10 minutes or more. To speed up this process, you can also provide a correct parameter set. The best way to do this is to call <code>findGRASS</code> manually. Then call <code>linkGRASS</code> with the returned version arguments of your choice.</p>

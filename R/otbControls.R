@@ -244,8 +244,9 @@ getrowotbVer<- function (paths){
   ver <- 1
   for (i in 1:length(paths)){
     if (file.exists(paste0(paths[i],"../VERSION"))) tmp = strsplit(grep("OTB Version",readLines(paste0(paths[i],"../VERSION")),value = TRUE),"OTB Version: ")[[1]][2]
-    else if (grep("OTB-",paths[i]) >0)  tmp = substr(strsplit(paths[i],"OTB-")[[1]][2],start = 1,stop = 5)
+    else if (grepl("OTB-",paths[i]))  tmp = substr(strsplit(paths[i],"OTB-")[[1]][2],start = 1,stop = 5)
     #highestVer <- max(tmp,highestVer)
+    if (!is.na(tmp ))
     if (oldversion < tmp) {ver=i
    oldversion<-tmp}
 

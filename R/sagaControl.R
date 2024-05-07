@@ -250,6 +250,7 @@ getrowSagaVer<- function (paths){
   scmd = ifelse(Sys.info()["sysname"]=="Windows", "saga_cmd.exe", "saga_cmd")
   sep = ifelse(Sys.info()["sysname"]=="Windows", "/", "/")
   highestVer<-"2.0.8"
+  batfileFN= ""
   for (i in 1:nrow(paths)){
    sp  =  strsplit(paths[i,1],"apps")[[1]][1]
    batfileFN= paste0(sp,"OSGeo4W.bat")  

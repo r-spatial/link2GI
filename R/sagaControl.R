@@ -249,6 +249,7 @@ getrowSagaVer<- function (paths){
   scmd = ifelse(Sys.info()["sysname"]=="Windows", "saga_cmd.exe", "saga_cmd")
   sep = ifelse(Sys.info()["sysname"]=="Windows", "\\", "/")
   highestVer<-"2.0.8"
+  batfileFN= ""
   for (i in 1:nrow(paths)){
     if (grepl(paths[i,i],pattern="OSGeo")){
    sp= split_path(paths[i,i])  

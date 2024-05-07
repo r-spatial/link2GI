@@ -23,6 +23,8 @@ linkGRASS7(
 \arguments{
 \item{x}{raster/terra or sp/sf object}
 
+\item{epsg}{manual epsg override}
+
 \item{default_GRASS}{default is \code{NULL} If is \code{NULL} an automatic search for all installed versions is performed. 
 If you provide a valid list the corresponding version is initialized. An example for OSGeo4W64 is: \code{c("C:/OSGeo4W64","grass-7.0.5","osgeo4w")}}
 

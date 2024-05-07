@@ -10,32 +10,27 @@ if (!isGeneric('linkGRASS')) {
 #'  projection parameters is automatically performed by using either an existing and valid 
 #'  \code{raster}, \code{terra}, \code{sp} or \code{sf} object, 
 #'  or manually by providing a list containing the minimum parameters needed.\cr
-#'@note 'GRASS GIS' is excellently supported by the
-#'  \code{rgrass} wrapper package. Nevertheless 'GRASS GIS' is well known for
-#'  its high demands regarding the correct spatial and reference setup  
-#'  of work space and environment requirements. This becomes even worse on 'Windows' 
-#'  platforms or if several alternative 'GRASS GIS' installations are available.
-#'  If one knows what to do the \code{rgrass} package setup function 
-#'  \code{rgrass::initGRASS} works fine under Linux. 
-#'  This is also valid for well known configurations under the 'Windows' operation system. 
-#'  Nevertheless on university labs or on company computers with restricted privileges and/or using different releases
-#'  like the  \href{https://trac.osgeo.org/osgeo4w/}{'OSGeo4W'} distribution and the  
-#'  \href{https://grass.osgeo.org/download/windows/}{'GRASS ' stand-alone} installation, 
-#'  or different software releases (e.g. 'GRASS 7.0.5 and GRASS 8.1.0), it becomes often cumbersome or even 
-#'  impossible to get the correct linkages. \cr 
-#'  The function \code{linkGRASS} tries to find all valid 'GRASS GIS' binaries by analyzing
-#'  the start up script files of 'GRASS GIS'. After identifying the 'GRASS GIS' binaries all
-#'  necessary system variables and settings will be generated and passed to a temporary R environment.
-#'@details The concept is straightforward but for an all days usage helpful. Either you need to 
+#'@note GRASS GIS is excellently supported by the \code{rgrass} wrapper package. Nevertheless, 'GRASS GIS' is known for its
+#' its high demands on the correct spatial and reference setup  and environment requirements. This becomes even worse on 'Windows 
+#' platforms or when there are several alternative 'GRASS GIS' installations available.
+#' If you know how to use the \code{rgrass} package setup function \code{rgrass::initGRASS} works fine on Linux. 
+#' This is also true for known configurations under the 'Windows' operating system. 
+#' However, on university labs or corporate machines with limited privileges and/or different releases
+#' such as the \href{https://trac.osgeo.org/osgeo4w/}{'OSGeo4W'} distribution and the  \href{https://grass.osgeo.org/download/windows/}{'GRASS' stand-alone} installation, 
+#' or different software releases (e.g. 'GRASS 7.0.5 and GRASS 8.1.0), it often becomes inconvenient or even 
+#' to get the correct links. \cr The function \code{linkGRASS} tries to find all valid 'GRASS GIS' binaries by #' analyzing the startup script files.
+#' GRASS GIS' startup script files. After identifying the 'GRASS GIS' binaries, all #' necessary system variables and settings are
+#' system variables and settings are generated and passed to a temporary R environment.
+#' The concept is simple, but helpful for everyday use. You need to either 
 #' provide a \code{raster} or \code{sp} \code{sf} spatial object
-#'  which has correct spatial and projection properties or you may link directly to an existing 'GRASS' gisdbase and mapset. 
-#'  If you choose an spatial object to initialize a correct 'GRASS' map set it is used to create either a temporary or a permanent 
-#'  \href{https://CRAN.R-project.org/package=rgrass}{rgrass} environment including the correct 'GRASS ' structure.\cr\cr
-#'  The most time consuming part on 'Windows' Systems is the search process. This can easily take 10 or more minutes. 
-#'  To speed up this process you can also provide a correct parameter set. Best way to do so is to call \code{searchGRASSW} or for 'Linux' \code{searchGRASSX} manually. 
-#'  and call \code{linkGRASS} with the version arguments of your choice. linkGRASS initializes the usage of GRASS7.
-#'@note If you have more than one valid installation and run \code{linkGRASS()} without arguments, you will be ask to select one.
-#'@param search_path path or mounting point that will be searched
+#' that has the correct spatial and projection properties, or you can link directly to an existing 'GRASS' gisdbase and mapset. 
+#' If you choose a spatial object to initialize a correct 'GRASS' mapset, it will be used to create either a temporary or permanent mapset. 
+#' \href{https://CRAN.R-project.org/package=rgrass}{rgrass} environment with the correct 'GRASS' structure.\cr\cr
+#' The most time consuming part on Windows systems is the search process. This can easily take 10 minutes or more. 
+#' To speed up this process, you can also provide a correct parameter set. The best way to do this is to manually call \code{searchGRASSW} or for 'Linux' \code{searchGRASSX}. 
+#' and call \code{linkGRASS} with the version arguments of your choice. linkGRASS will initialize the use of GRASS7.
+#' If you have more than one valid installation and call \code{linkGRASS()} without arguments, you will be asked to choose one.
+#'@param search_path Path or mount point to search for.
 #'@param x raster/terra or sf/sp object
 #'@param default_GRASS default is \code{NULL} If is \code{NULL} an automatic search for all installed versions is performed. 
 #'                    If you provide a valid list the corresponding version is initialized. An example for OSGeo4W64 is:
@@ -376,6 +371,7 @@ linkGRASS = function(x = NULL,
 #'@param resolution resolution in map units for the GRASS raster cells
 #'@param ver_select boolean if TRUE you may choose interactively the binary version (if found  more than one),  by default FALSE
 #'@param quiet boolean  switch for supressing console messages default is TRUE
+#'@param epsg manual epsg override
 #'@param returnPaths boolean if set to FALSE the pathes of the selected version are written 
 #' to the PATH variable only, otherwise all paths and versions of the installed GRASS versions ae returned.
 

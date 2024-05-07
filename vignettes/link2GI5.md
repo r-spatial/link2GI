@@ -1,7 +1,7 @@
 ---
 author: "Chris Reudenbach"
 title: "GEOSTAT 2018 Examples"
-date: "2024-05-06"
+date: "2024-05-07"
 editor_options:
   chunk_output_type: console
 output:

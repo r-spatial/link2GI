@@ -62,13 +62,13 @@
       <a href="../articles/link2GI4.html">OTB Wrapper</a>
     </li>
     <li>
-      <a href="../articles/link2GI5.html">GEOSTAT 2018 Examples</a>
+      <a href="../articles/link2GI5.html">Reproducible projects</a>
     </li>
     <li>
-      <a href="../articles/link2GI6.html">Installation guide for link2GI related Software</a>
+      <a href="../articles/link2GI6.html">GEOSTAT 2018 Examples</a>
     </li>
     <li>
-      <a href="../articles/link2GI7.html">Reproducible projects</a>
+      <a href="../articles/link2GI7.html">Installation guide for link2GI related Software</a>
     </li>
   </ul>
 </li>
@@ -136,20 +136,34 @@ requirements</li>
 <p>R has a lot of classes for storing and manipulating spatial data. For
 vector data, the <a href="https://CRAN.R-project.org/package=sp" class="external-link">sp</a>
 and currently the great <a href="https://CRAN.R-project.org/package=sf" class="external-link">sf</a> packages are well
-known, and the raster data world is largely covered by the <a href="https://CRAN.R-project.org/package=raster" class="external-link">raster</a> and
-currently the <a href="https://CRAN.R-project.org/package=terra" class="external-link">terra</a> package. For
-more specific links, such as those needed for manipulating atmospheric
-models, packages like <a href="https://CRAN.R-project.org/package=ncdf4" class="external-link">ncdf4</a> are very
+known, and the raster data world is largely covered by the <a href="https://CRAN.R-project.org/package=terra" class="external-link">terra</a> and recently
+the <a href="https://CRAN.R-project.org/package=stars" class="external-link">stars</a>
+packages. For more specific links, such as those needed for manipulating
+atmospheric models, packages like <a href="https://CRAN.R-project.org/package=ncdf4" class="external-link">ncdf4</a> are very
 helpful.</p>
 <p>The spatial analysis itself is often supported by wrapper packages
 that integrate external libraries, command line tools, or a mixture of
 both in an R-like syntax <a href="https://CRAN.R-project.org/package=geosphere" class="external-link">geosphere</a>, <a href="https://CRAN.R-project.org/package=Distance" class="external-link">Distance</a>, <a href="https://CRAN.R-project.org/package=igraph" class="external-link">igraph</a>, or <a href="https://CRAN.R-project.org/package=spatstat" class="external-link">spatstat</a>.</p>
 <p>A comprehensive introduction to the spatial R-biotope and its
-backgrounds is excellently treated in <a href="https://r.geocompx.org/" class="external-link">Geocomputation with R</a>, which is
-highly recommended as a reference book.</p>
+backgrounds is excellently treated in <a href="https://r.geocompx.org/" class="external-link">Geocomputation with R</a>, which is not
+only highly recommended as a reference book, but is also an
+indispensable basis for working and analyzing spatial data with
+R/Python.</p>
 <p>Despite all these spatial analysis and data handling capabilities in
-the
-<code>R' world, it can be said (at least from a non-R point of view) that there is still a huge gap between R and the mature open source Geographic Information System (GIS) and even more so the Remote Sensing (RS) software community. QGIS, GRASS GIS, and SAGA GIS provide an extensive, growing, and mature collection of sophisticated algorithms. The algorithms provided are fast, stable and most of them are well proven. Probably most</code>R<code>users who are somehow connected to the GI community know that there are great wrapper packages to bridge this gap. For [GRASS GIS 7/8](https://grass.osgeo.org/) it is [rgrass](https://CRAN.R-project.org/package=rgrass) and for [SAGA GIS](https://saga-gis.sourceforge.io/) it is the [RSAGA](https://CRAN.R-project.org/package=RSAGA) package. There is also no wrapper for the big</code>OTB<code>. It seems at least convenient to provide a lightweight wrapper for using</code>OTB<code>modules from</code>R`.</p>
+the <code>R</code> world, it can be said (at least from a non-R point of
+view) that there is still a huge gap between R and the mature open
+source Geographic Information System (GIS) and even more so the Remote
+Sensing (RS) software community. QGIS, GRASS GIS, and SAGA GIS provide
+an extensive, growing, and mature collection of sophisticated
+algorithms. The algorithms provided are fast, stable and most of them
+are well proven. Probably most <code>R</code> users who are somehow
+connected to the GI community know that there are great wrapper packages
+to bridge this gap. For <a href="https://grass.osgeo.org/" class="external-link">GRASS GIS
+7/8</a> it is <a href="https://CRAN.R-project.org/package=rgrass" class="external-link">rgrass</a> and for <a href="https://saga-gis.sourceforge.io/" class="external-link">SAGA GIS</a> it is the <a href="https://CRAN.R-project.org/package=RSAGA" class="external-link">RSAGA</a> and <a href="https://github.com/stevenpawley/Rsagacmd" class="external-link"><code>Rsagacmd</code></a>
+packages. Since there is also no wrapper for the Orfeo Toolbox, which is
+indispensable in exploration, it is also very helpful to provide a
+lightweight wrapper for the use of <code>OTB</code> modules from
+<code>R</code>..</p>
 <p>Unfortunately you will run into a lot of technical problems depending
 on the chosen operating system (OS) or library dependencies or GIS
 software versions. In the case of <code>RSAGA</code> for example, the
@@ -229,26 +243,6 @@ libs makes it sometimes difficult to grab the correct version of
 link2GI<code>generates a list of all paths and commands of all</code>GDAL`
 installations in the given search path. With this list you can easily
 use all available API calls of each installation.</p>
-</div>
-</div>
-<div class="section level2">
-<h2 id="using-the-link2gi-package---basic-examples">Using the link2GI package - basic examples<a class="anchor" aria-label="anchor" href="#using-the-link2gi-package---basic-examples"></a>
-</h2>
-<div class="section level3">
-<h3 id="brute-force-search-usage">Brute force search usage<a class="anchor" aria-label="anchor" href="#brute-force-search-usage"></a>
-</h3>
-<p>Automatic searching and finding of installed GIS software binaries is
-done by the <code>find</code> functions. Depending on your operating
-system and the number of installed versions you will get a data frame
-with the binary and module folders.</p>
-<p>So the simplest call would be to temporarily link to
-<code>GRASS GIS</code>:</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># find all SAGA GIS installations at the default search location</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-spatial/link2GI/" class="external-link">link2GI</a></span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">grass</span> <span class="op">&lt;-</span> <span class="fu">link2GI</span><span class="fu">::</span><span class="fu"><a href="../reference/linkGRASS.html">linkGRASS</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="va">grass</span></span></code></pre></div>
 </div>
 </div>
   </div>

@@ -62,13 +62,13 @@
       <a href="articles/link2GI4.html">OTB Wrapper</a>
     </li>
     <li>
-      <a href="articles/link2GI5.html">GEOSTAT 2018 Examples</a>
+      <a href="articles/link2GI5.html">Reproducible projects</a>
     </li>
     <li>
-      <a href="articles/link2GI6.html">Installation guide for link2GI related Software</a>
+      <a href="articles/link2GI6.html">GEOSTAT 2018 Examples</a>
     </li>
     <li>
-      <a href="articles/link2GI7.html">Reproducible projects</a>
+      <a href="articles/link2GI7.html">Installation guide for link2GI related Software</a>
     </li>
   </ul>
 </li>
@@ -118,7 +118,7 @@
 <div class="section level2">
 <h2 id="third-party-software">Third Party software<a class="anchor" aria-label="anchor" href="#third-party-software"></a>
 </h2>
-<p>To utilize the power of the open source GI tools from within <code>R</code> you need to install them first. As a first promising opportunity to do fulfill most of the requirements you may install <code>QGIS, GRASS</code>, <code>SAGA-GIS</code> and <code>Orfeo-toolbox</code>. For further Information have a look at the <a href="https://r-spatial.github.io/link2GI/articles/link2GI6.html">Installation guide for link2GI related Software</a>.</p>
+<p>To utilize the power of the open source GI tools from within <code>R</code> you need to install them first. As a first promising opportunity to do fulfill most of the requirements you may install <code>QGIS, GRASS</code>, <code>SAGA-GIS</code> and <code>Orfeo-toolbox</code>. For further Information have a look at the <a href="https://r-spatial.github.io/link2GI/articles/link2GI7.html">Installation guide for link2GI related Software</a>.</p>
 </div>
 </div>
 <div class="section level1">
@@ -127,7 +127,7 @@
 <div class="section level2">
 <h2 id="otb-wrapper">OTB wrapper<a class="anchor" aria-label="anchor" href="#otb-wrapper"></a>
 </h2>
-<p>the OTB wrapper is updated for a more convenient usage. Please have a look at the use case below:</p>
+<p>the OTB wrapper is updated for a more convenient usage. Please have a look at the use case below. For further Information have a look at the article <a href="https://r-spatial.github.io/link2GI/articles/link2GI4.html">OTB Wrapper</a>.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co">## link to OTB</span></span>
@@ -164,14 +164,14 @@
 <h2 id="initproj-for-reproducible-projects">
 <code>initProj</code> for reproducible projects<a class="anchor" aria-label="anchor" href="#initproj-for-reproducible-projects"></a>
 </h2>
-<p><code>initProj</code> sets up a reproducible project environment complete with a defined folder structure, an RStudio project, initial scripts and setup templates, and optionally <code>git</code> repositories and <code>renv</code> environment. Most important parameters are the project root folder and subfolders for data documentation and scripts. It supports automatic loading and if possible installation of required libraries, a default setup option to simplify project initialisation. The function creates a skeleton of the main control script <code>main.R</code>, manages variable configurations through the <code>src/functions/000_settings.R script</code> and maintains easy access to paths through the <code>envrmt</code> list variable, facilitating an light weighted efficient and reproducible project management and data handling.</p>
+<p><code>initProj</code> sets up a reproducible project environment complete with a defined folder structure, an RStudio project, initial scripts and setup templates, and optionally <code>git</code> repositories and <code>renv</code> environment. Most important parameters are the project root folder and subfolders for data documentation and scripts. It supports automatic loading and if possible installation of required libraries, a default setup option to simplify project initialisation. The function creates a skeleton of the main control script <code>main.R</code>, manages variable configurations through the <code>src/functions/000_settings.R script</code> and maintains easy access to paths through the <code>envrmt</code> list variable, facilitating an light weighted efficient and reproducible project management and data handling.For further Information have a look at the article <a href="https://r-spatial.github.io/link2GI/articles/link2GI5.html">Reproducible Projects</a>.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-spatial/link2GI/" class="external-link">link2GI</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="reference/initProj.html">initProj</a></span><span class="op">(</span>root_folder <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, standard_setup <span class="op">=</span> <span class="st">"baseSpatial_git"</span>, newsession <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/initProj.html">initProj</a></span><span class="op">(</span>root_folder <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, standard_setup <span class="op">=</span> <span class="st">"baseSpatial"</span>, newsession <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span>  </span></code></pre></div>
 <p>In addition you may use the <code>File -&gt; New Project -&gt; New directory -&gt; New Wizard</code> dialogue choosing the <strong><em>Create Project structure with link2GI</em></strong> template to create a new project via the Rstudio menu.</p>
-<p><img src="https://raw.githubusercontent.com/r-spatial/link2GI/master/figures/initproj2.png"></p>
+<p><img src="https://raw.githubusercontent.com/r-spatial/link2GI/master/figures/usegui.gif"></p>
 </div>
 <div class="section level2">
 <h2 id="further-examples">Further examples<a class="anchor" aria-label="anchor" href="#further-examples"></a>

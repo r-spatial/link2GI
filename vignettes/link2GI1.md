@@ -1,7 +1,7 @@
 ---
 author: "Chris Reudenbach"
 title: "Link GI to R"
-date: "2024-05-06"
+date: "2024-05-07"
 editor_options:
   chunk_output_type: console
 output:
@@ -32,14 +32,14 @@ This vignette:
 
 # Why link2GI now?
 
-R has a lot of classes for storing and manipulating spatial data. For vector data, the [sp](https://CRAN.R-project.org/package=sp) and currently the great [sf](https://CRAN.R-project.org/package=sf) packages are well known, and the raster data world is largely covered by the [raster](https://CRAN.R-project.org/package=raster) and currently the [terra](https://CRAN.R-project.org/package=terra) package. For more specific links, such as those needed for manipulating atmospheric models, packages like [ncdf4](https://CRAN.R-project.org/package=ncdf4) are very helpful.
+R has a lot of classes for storing and manipulating spatial data. For vector data, the [sp](https://CRAN.R-project.org/package=sp) and currently the great [sf](https://CRAN.R-project.org/package=sf) packages are well known, and the raster data world is largely covered by the [terra](https://CRAN.R-project.org/package=terra) and recently the [stars](https://CRAN.R-project.org/package=stars) packages. For more specific links, such as those needed for manipulating atmospheric models, packages like [ncdf4](https://CRAN.R-project.org/package=ncdf4) are very helpful.
 
 The spatial analysis itself is often supported by wrapper packages that integrate external libraries, command line tools, or a mixture of both in an R-like syntax [geosphere](https://CRAN.R-project.org/package=geosphere), [Distance](https://CRAN.R-project.org/package=Distance), [igraph](https://CRAN.R-project.org/package=igraph), or [spatstat](https://CRAN.R-project.org/package=spatstat). 
 
-A comprehensive introduction to the spatial R-biotope and its backgrounds is excellently treated in [Geocomputation with R](https://r.geocompx.org/), which is highly recommended as a reference book.
+A comprehensive introduction to the spatial R-biotope and its backgrounds is excellently treated in [Geocomputation with R](https://r.geocompx.org/), which is not only highly recommended as a reference book, but is also an indispensable basis for working and analyzing spatial data with R/Python.
 
-Despite all these spatial analysis and data handling capabilities in the `R' world, it can be said (at least from a non-R point of view) that there is still a huge gap between R and the mature open source Geographic Information System (GIS) and even more so the Remote Sensing (RS) software community. QGIS, GRASS GIS, and SAGA GIS provide an extensive, growing, and mature collection of sophisticated algorithms. The algorithms provided are fast, stable and most of them are well proven. Probably most `R` users who are somehow connected to the GI community know that there are great wrapper packages to bridge this gap. For [GRASS GIS 7/8](https://grass.osgeo.org/) it is [rgrass](https://CRAN.R-project.org/package=rgrass) and for [SAGA GIS](https://saga-gis.sourceforge.io/) it is the [RSAGA](https://CRAN.R-project.org/package=RSAGA) package.
-There is also no wrapper for the big `OTB`. It seems at least convenient to provide a lightweight wrapper for using `OTB` modules from `R`.
+Despite all these spatial analysis and data handling capabilities in the `R` world, it can be said (at least from a non-R point of view) that there is still a huge gap between R and the mature open source Geographic Information System (GIS) and even more so the Remote Sensing (RS) software community. QGIS, GRASS GIS, and SAGA GIS provide an extensive, growing, and mature collection of sophisticated algorithms. The algorithms provided are fast, stable and most of them are well proven. Probably most `R` users who are somehow connected to the GI community know that there are great wrapper packages to bridge this gap. For [GRASS GIS 7/8](https://grass.osgeo.org/) it is [rgrass](https://CRAN.R-project.org/package=rgrass) and for [SAGA GIS](https://saga-gis.sourceforge.io/) it is the [RSAGA](https://CRAN.R-project.org/package=RSAGA) and [`Rsagacmd`](https://github.com/stevenpawley/Rsagacmd) packages.
+Since there is also no wrapper for the Orfeo Toolbox, which is indispensable in exploration, it is also very helpful to provide a lightweight wrapper for the use of `OTB` modules from `R`..
 
 Unfortunately you will run into a lot of technical problems depending on the chosen operating system (OS) or library dependencies or GIS software versions. In the case of `RSAGA` for example, the main problem was that the `SAGA` GIS developers not only change the syntax and strategy of the command line interface (CLI), but also within the same release the calls differ from OS to OS. So the maintenance of RSAGA is at least tedious (but thumbs up again).  Another example is `GRASS GIS`, which is known for a sophisticated setup of the environment and the spatial properties of the database. If you "only" want to use a specific `GRASS` algorithm from R, you will probably get lost in setting up all the OS dependencies that are necessary to set up a correct temporary or permanent `GRASS` environment from "outside". This is not only due to the strict space and projection requirements of `GRASS`, but much more due to the demanding OS environments, especially Windows. 
 

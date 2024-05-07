@@ -7,7 +7,7 @@
 #'@param MP mount point to be searched. default is "/usr/bin"
 #'@param quiet Boolean  switch for suppressing console messages default is TRUE
 #'@param ver_select if TRUE you must interactively select between alternative installations
-#'@export paramGRASSx
+#'@keywords internal
 #'
 #' @examples
 #' 
@@ -61,10 +61,10 @@ paramGRASSx <- function(set_default_GRASS=NULL,
     else if (nrow(params_GRASS) > 1 & !ver_select ) {
       if (!quiet) {
         cat("You have more than one valid GRASS version installed!\n")
-        cat("The latest installed version (",which(params_GRASS$version == max(params_GRASS$version)),")has been selected \n")
+        cat("The latest installed version (",which(params_GRASS$version == max(params_GRASS$version))[1],")has been selected \n")
         print(params_GRASS)
         cat("\n")}
-      gisbase_GRASS <- params_GRASS$instDir[[which(params_GRASS$version == max(params_GRASS$version))]]
+      gisbase_GRASS <- params_GRASS$instDir[[which(params_GRASS$version == max(params_GRASS$version))[1]]]
     }
     # if ver_select is TRUE manually select a version
     else if (nrow(params_GRASS) > 1 & ver_select ) {
@@ -103,7 +103,7 @@ paramGRASSx <- function(set_default_GRASS=NULL,
 #'  alternatively provide a vector containing pathes and keywords. c("C:/OSGeo4W64","grass-7.0.5","osgeo4w") is valid for a typical osgeo4w installation.
 #'  
 #'@param quiet boolean  switch for supressing console messages default is TRUE
-#'@export paramGRASSw
+#'@keywords internal
 #'  
 #' @examples
 #' 
@@ -164,14 +164,14 @@ paramGRASSw <- function(set_default_GRASS=NULL,
     } else if (nrow(params_GRASS) > 1 & !ver_select) {  
       if (!quiet) {
         cat("You have more than one valid GRASS version installed!\n")
-        cat("The latest installed version (",which(params_GRASS$version == max(params_GRASS$version)),")has been selected \n")
+        cat("The latest installed version (",which(params_GRASS$version == max(params_GRASS$version))[1],")has been selected \n")
       }
-      gisbase_GRASS <- setenvGRASSw(root_GRASS = params_GRASS$instDir[[which(params_GRASS$version == max(params_GRASS$version))]],
-                                    grass_version = params_GRASS$version[[which(params_GRASS$version == max(params_GRASS$version))]], 
-                                    installation_type = params_GRASS$installation_type[[which(params_GRASS$version == max(params_GRASS$version))]] ,
+      gisbase_GRASS <- setenvGRASSw(root_GRASS = params_GRASS$instDir[[which(params_GRASS$version == max(params_GRASS$version))[1]]],
+                                    grass_version = params_GRASS$version[[which(params_GRASS$version == max(params_GRASS$version))[1]]], 
+                                    installation_type = params_GRASS$installation_type[[which(params_GRASS$version == max(params_GRASS$version))[1]]] ,
                                     quiet=quiet)
-      grass_version = params_GRASS$version[[which(params_GRASS$version == max(params_GRASS$version))]]
-      installation_type = params_GRASS$installation_type[[which(params_GRASS$version == max(params_GRASS$version))]]
+      grass_version = params_GRASS$version[[which(params_GRASS$version == max(params_GRASS$version))[1]]]
+      installation_type = params_GRASS$installation_type[[which(params_GRASS$version == max(params_GRASS$version))[1]]]
       # if ver_selct is true  one has to select
     } else if (nrow(params_GRASS) > 1 & ver_select) {
       cat("You have more than one valid GRASS GIS version\n")
@@ -233,10 +233,7 @@ paramGRASSw <- function(set_default_GRASS=NULL,
 searchGRASSW <- function(DL = "C:/",
                          quiet =TRUE){
   
-  if (DL=="default") DL <- "C:/"
-  DL = gsub("\\\\", "/", DL)
-  DL = gsub("/", "\\\\", DL)
-  DL = shortPathName(DL)
+  DL = bf_wpath(DL)
   
   # trys to find a osgeo4w installation on the whole C: disk returns root directory and version name
   # recursive dir for grass*.bat returns all version of grass bat files
@@ -442,7 +439,7 @@ searchGRASSX <- function(MP = "/usr/bin",quiet =TRUE){
 #'@param quiet boolean  switch for supressing console messages default is TRUE
 #'@param jpgmem jpeg2000 memory allocation size. Default is 1000000
 #'@author Chris Reudenbach
-#'@export setenvGRASSw
+#'@keywords internal
 #'
 #'@examples
 #' \dontrun{
@@ -558,21 +555,15 @@ checkGisdbase <- function(x = NULL , gisdbase = NULL, location = NULL, gisdbase_
 }
 
 
-#'@title Return attributes of valid 'GRASS GIS' installation(s) on the system
+#'@title Returns attributes of valid 'GRASS GIS' installation(s) on the system.
 #'@name findGRASS
-#'@description  Provides a list of valid 'GRASS GIS' installation(s) 
-#'on your system. There is a major difference between osgeo4W and 
-#'stand_alone installations. The functions tries to find all valid 
-#'installations by analysing the calling batch scripts.
-#'@param searchLocation location to be searched for the grass executable, 
-#'i.e. one executable for each GRASS installation on the system.
-#'For Windows systems
-#'it is mandatory to include an uppercase Windows drive letter and a colon.
-#' Default For Windows Systems 
-#' is \code{C:/}, for Linux systems default is \code{/usr/bin}.
-#'@param ver_select boolean default is FALSE. If there is more than one 'SAGA GIS' installation and \code{ver_select} = TRUE the user can select interactively the preferred 'SAGA GIS' version 
-#'@param quiet boolean  switch for supressing console messages default is TRUE
-#'@return A dataframe with the 'GRASS GIS' binary folder(s) (i.e. where the 
+#'@description Retrieve a list of valid 'GRASS GIS' installation(s) on your system. There is a big difference between osgeo4W and stand_alone installations. The function tries to find all valid installations by analyzing the calling batch scripts.
+#'@param searchLocation Location to search for the grass executable, i.e. one executable for each GRASS installation on the system. For Windows systems it is mandatory to include an uppercase Windows drive letter and a colon.
+#'Default for Windows systems 
+#'is \code{C:/}, for Linux systems the default is \code{/usr/bin}.
+#'@param ver_select boolean Default is FALSE. If there is more than one 'GRASS GIS' installation and \code{ver_select} = TRUE, the user can interactively select the preferred 'GRASS GIS' version. 
+#'@param quiet boolean switch to suppress console messages, default is TRUE
+#'@return A dataframe with the 'GRASS GIS' binary folder(s) (i.e. where the individual 
 #'individual GRASS commands are installed), version name(s) and 
 #'installation type code(s)
 #'@author Chris Reudenbach
@@ -589,6 +580,8 @@ findGRASS <- function(searchLocation = "default",
                       quiet=TRUE) {
   
   if (Sys.info()["sysname"] == "Windows") {
+    message("PLEASE NOTE: if you use GRASS version > 7.8 and/or the OSGeo4W installation you must:\n 1) start the OSGeo4W shell\n 2) start grassxx --gtext\n 3) start Rstudio\n Then both link2GI and rgrass should work.")
+    invisible(readline(prompt="Press [enter] to continue"))
     if (searchLocation=="default") searchLocation <- "C:/"
     if (grepl(paste0(LETTERS, ":", collapse="|"), searchLocation) )
       link = link2GI::searchGRASSW(DL = searchLocation)  

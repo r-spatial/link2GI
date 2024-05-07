@@ -37,3 +37,4 @@ setenvGRASSw(root_GRASS = "C:\\\\PROGRA~1\\\\QGIS2~1.18",
 \author{
 Chris Reudenbach
 }
+\keyword{internal}

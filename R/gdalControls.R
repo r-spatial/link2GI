@@ -58,8 +58,7 @@ setenvGDAL <- function(bin_GDAL = NULL){
 
 searchGDALW <- function(DL = "C:/",
                         quiet=TRUE) {
-  if (DL=="C:") DL <- "C:/"
-  if (DL=="default") DL <- "C:/"
+  DL = bf_wpath(DL)
   if (Sys.info()["sysname"] == "Windows") {
     if (!exists("GiEnv")) GiEnv <- new.env(parent=globalenv()) 
     
@@ -68,9 +67,6 @@ searchGDALW <- function(DL = "C:/",
     if (!quiet) cat("\nsearching for GDAL installations - this may take a while\n")
     if (!quiet) cat("For providing the path manually see ?searchGDALW \n")
     
-    DL = gsub("\\\\", "/", DL)
-    DL = gsub("/", "\\\\", DL)
-    DL = shortPathName(DL)
     options(show.error.messages = FALSE)
     options(warn=-1)
     raw_GDAL  <- try(system(paste0("cmd.exe /c WHERE /R ",DL, " ","gdalinfo.exe"),intern=TRUE))

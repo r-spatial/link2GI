@@ -1,7 +1,7 @@
 ---
 author: "Chris Reudenbach"
 title: "OTB Wrapper"
-date: "2023-10-30"
+date: "2024-05-06"
 editor_options:
   chunk_output_type: console
 output:
@@ -20,10 +20,11 @@ vignette: >
 ---
 
 
-# A typical usecase for the Orfeo Toolbox wrapper
-link2GI supports the use of the Orfeo Toolbox with a listbased simple wrapper function. Actually two functions parse the modules and functions syntax dumps and generate a command list that is easy to modify with the necessary arguments.
+# A typical use case for the Orfeo Toolbox wrapper
+link2GI supports the use of the Orfeo Toolbox with a simple list-based wrapper function. Actually, two functions parse the module and function syntax dumps and generate a command list that can be easily modified with the necessary arguments.
 
 Usually you have to get the module list first:
+
 
 
 
@@ -36,7 +37,7 @@ otblink<-link2GI::linkOTB()
 algo<-parseOTBAlgorithms(gili = otblink)
 ```
 
-Based on the modules of the current version of `OTB` you can then choose the module(s) you want to use.
+Based on the modules of the current version of `OTB', you can then select the module(s) you want to use.
 
 
 
@@ -61,7 +62,7 @@ require(raster)
 require(listviewer)
 
 otblink<-link2GI::linkOTB()
- projRootDir<-tempdir()
+ root_dir<-tempdir()
  
 fn <- system.file("ex/elev.tif", package = "terra")
 
@@ -75,10 +76,10 @@ cmd<-parseOTBFunction(algo = algoKeyword, gili = otblink)
 listviewer::jsonedit(cmd$help)
 
 ## define the mandantory arguments all other will be default
-cmd$input  <- fn
+cmd$input_in  <- fn
 cmd$filter <- "touzi"
-cmd$channel <- 2
-cmd$out <- file.path(projRootDir,paste0("out",cmd$filter,".tif"))
+cmd$channel <- 1
+cmd$out <- paste0(root_dir,paste0("\\out",cmd$filter,".tif"))
 
 ## run algorithm
 retStack<-runOTB(cmd,gili = otblink)

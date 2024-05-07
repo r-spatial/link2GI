@@ -20,27 +20,31 @@ vignette: >
 ---
 
 
-#  Real world example
-A typical example is the usage of an already existing project database in `GRASS`. `GRASS` organizes all data in an internal file structure that is known as gisdbase folder, a mapset and one or more locations within this mapset. All raster and vector data is stored inside this structure and the organisation is performed by `GRASS`. So a typical task could be to work on data sets that are already stored in an existing `GRASS` structure
 
-## Creating a GRASS project
 
-## Download Zensus Data
-First of all we need some real world data. In this this case the gridded German 2011 micro zensus data. Download the data:
+# Real world example
+A typical example is the use of an existing project database in `GRASS`. GRASS organizes all data into an internal file structure known as a gisdbase folder, a mapset, and one or more locations within that mapset. All raster and vector data is stored within this structure and is organized by `GRASS`. So a typical task might be to work on datasets that are already stored in an existing `GRASS` structure.
+
+## Create GRASS project
+
+## Downloading census data
+
+First, we need data from the real world. In this case, it's the 2011 German microcensus data, which, with over 35 million points and several dozen characteristics, can definitely be called Big Data. 
+
+Download the data:
 
 ```sh
 # (https://www.zensus2011.de/EN/Service/Contact/contact_node.html)
 wget https://www.zensus2011.de/SharedDocs/Downloads/DE/Pressemitteilung/DemografischeGrunddaten/csv_Bevoelkerung_100m_Gitter.zip?__blob=publicationFile&v=3
 
 ```
-of Germany. It has some nice aspects:
+The presentation of a real example has some interesting aspects:
 
-  - It is provided in a typical authority format
-  - It is big enough >35 Mio points 
-  - It is pretty instructive for a lot of spatial analysis. 
+  - It is provided in a typical government format
+  - It is large enough (>35 million points) 
+  - It is very informative for many spatial analyses. 
 
-We also have to download the meta data description file from the above website for informations about projection and data concepts and so on.
-
+We also need to download the metadata description file from the website mentioned above to get information about projection, data concepts, etc.
 
 ```{r, eval=FALSE}
  # we need some additional packages
@@ -48,13 +52,12 @@ We also have to download the meta data description file from the above website f
  require(curl)
 
 # first of all we create  a project folder structure 
-  link2GI::initProj(projRootDir = paste0(tempdir(),"/link2GI_examples"), 
-                    projFolders =  c("run/"),
-                    path_prefix = "path_",
-                    global = TRUE)
+  envrmt = link2GI::createFolders(root_folder = paste0(tempdir(),"/link2GI_examples"), 
+                                  folders =  c("run/"),
+                                  path_prefix = "path_")
 
 # set runtime directory
-  setwd(path_run)
+  setwd(envrmt$path_run)
 
 # get some typical authority generated data 
   url<-"https://www.zensus2011.de/SharedDocs/Downloads/DE/Pressemitteilung/DemografischeGrunddaten/csv_Bevoelkerung_100m_Gitter.zip;jsessionid=294313DDBB57914D6636DE373897A3F2.2_cid389?__blob=publicationFile&v=3"
@@ -67,8 +70,9 @@ fn <- list.files(pattern = "[.]csv$", path = getwd(), full.names = TRUE)
 
 ```
 
-### Preprocessing of the data
-After downloading the data we will use it for some demonstration stuff. If you have a look the data is nothing than x,y,z with assuming some projection information.
+### Preprocessing the data
+After downloading the data, we will use it for some demonstration stuff. If you have a look, the data is nothing but x,y,z with some projection information assumed.
+
 
 
 ```{r, eval=FALSE}
@@ -78,7 +82,7 @@ After downloading the data we will use it for some demonstration stuff. If you h
  head(xyz)
 ```
 
-We can easy rasterize this data as it is intentionally gridded data.that means we have in at a grid size of 100 by 100 meters a value.
+We can easily rasterize this data because it is intentionally gridded data. that means we have a value in at a grid size of 100 by 100 meters.
 
 
 ```{r, eval=FALSE}
@@ -105,10 +109,10 @@ We can easy rasterize this data as it is intentionally gridded data.that means w
 ```
 
 
-### Setup GRASS Project
-So far nothing new. Now we create a new but permanent `GRASS` gisbase using the spatial parameters from the raster object. As you know the `linkGRASS` function performs a full search for one or more than one existing  `GRASS` installations. If a valid `GRASS` installation exists all parameter are setup und the package `rgrass`  is linked.
+### Setting up a GRASS project
+Nothing new so far. Now we create a new but permanent `GRASS` gisbase using the spatial parameters from the raster object. As you know, the `linkGRASS` function performs a full search for one or more existing `GRASS` installations. If a valid `GRASS` installation exists, all parameters are set and the `rgrass` package is linked.
 
-Due to the fact that the `gisdbase_exist` is by default set to FALSE it will create a new structure according to the `R` object. 
+Due to the fact that `gisdbase_exist` is set to FALSE by default, it will create a new structure according to the `R` object. 
 
 
 ```{r, eval=FALSE}
@@ -119,9 +123,10 @@ link2GI::linkGRASS(x = r,
                     location = "microzensus2011")   
 ```
 
-Finally we can now import the data to the `GRASS` gisdbase using the `rgass` package functionality. 
+Finally, we can import the data into the `GRASS` gisdbase using the functionality of the `rgass` package. 
 
-First we must convert the raster/terra object to a `GeoTIFF` file. Any `GDAL` format is possible but `GeoTIFF` is very common and stable.
+First we need to convert the raster/terra object into a `GeoTIFF` file. Any `GDAL` format is possible, but `GeoTIFF` is very common and stable.
+
 
 
 ```{r, eval=FALSE}
@@ -145,7 +150,7 @@ rgrass::execGRASS('r.info',
                    map = "Zensus_Bevoelkerung_100m_Gitter") 
 ```
 
-Let's do now the same import as a vector data set. First we create a `sf` object. Please note this will take quite a while.
+Let's do now the same import as a vector data set. First we create a `sf` object.
 
 
 ```{r, eval=FALSE}
@@ -161,8 +166,7 @@ Let's do now the same import as a vector data set. First we create a `sf` object
 
 
 
-The `GRASS` gisdbase already exists. So we pass  `linkGRASS` the argument `gisdbase_exist=TRUE` and import the xyz data as generic GRASS vector points.
-
+The GRASS gisdbase already exists. So we pass `linkGRASS` the argument `gisdbase_exist=TRUE` and import the xyz data as generic GRASS vector points. Note that this will take some time.
 
 ```{r, eval=FALSE}
  require(sf)

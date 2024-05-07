@@ -2,32 +2,26 @@
 % Please edit documentation in R/grassControl.R
 \name{findGRASS}
 \alias{findGRASS}
-\title{Return attributes of valid 'GRASS GIS' installation(s) on the system}
+\title{Returns attributes of valid 'GRASS GIS' installation(s) on the system.}
 \usage{
 findGRASS(searchLocation = "default", ver_select = FALSE, quiet = TRUE)
 }
 \arguments{
-\item{searchLocation}{location to be searched for the grass executable, 
-i.e. one executable for each GRASS installation on the system.
-For Windows systems
-it is mandatory to include an uppercase Windows drive letter and a colon.
-Default For Windows Systems 
-is \code{C:/}, for Linux systems default is \code{/usr/bin}.}
+\item{searchLocation}{Location to search for the grass executable, i.e. one executable for each GRASS installation on the system. For Windows systems it is mandatory to include an uppercase Windows drive letter and a colon.
+Default for Windows systems 
+is \code{C:/}, for Linux systems the default is \code{/usr/bin}.}
 
-\item{ver_select}{boolean default is FALSE. If there is more than one 'SAGA GIS' installation and \code{ver_select} = TRUE the user can select interactively the preferred 'SAGA GIS' version}
+\item{ver_select}{boolean Default is FALSE. If there is more than one 'GRASS GIS' installation and \code{ver_select} = TRUE, the user can interactively select the preferred 'GRASS GIS' version.}
 
-\item{quiet}{boolean  switch for supressing console messages default is TRUE}
+\item{quiet}{boolean switch to suppress console messages, default is TRUE}
 }
 \value{
-A dataframe with the 'GRASS GIS' binary folder(s) (i.e. where the 
+A dataframe with the 'GRASS GIS' binary folder(s) (i.e. where the individual 
 individual GRASS commands are installed), version name(s) and 
 installation type code(s)
 }
 \description{
-Provides a list of valid 'GRASS GIS' installation(s) 
-on your system. There is a major difference between osgeo4W and 
-stand_alone installations. The functions tries to find all valid 
-installations by analysing the calling batch scripts.
+Retrieve a list of valid 'GRASS GIS' installation(s) on your system. There is a big difference between osgeo4W and stand_alone installations. The function tries to find all valid installations by analyzing the calling batch scripts.
 }
 \examples{
 \dontrun{

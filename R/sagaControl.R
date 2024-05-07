@@ -88,7 +88,7 @@ searchSAGAX <- function(MP = "/usr/bin",
 
  searchSAGAW <- function(DL = "C:/",
                         quiet = TRUE) {
-  if (DL=="default") DL <- "C:/"
+   DL = bf_wpath(DL)
   if (Sys.info()["sysname"] == "Windows") {  
     sagaPath <- NULL #checkPCDomain("saga")  
     if (is.null(sagaPath)) {
@@ -126,14 +126,11 @@ searchSAGAX <- function(MP = "/usr/bin",
           # 
           # Search starts in root directory
           #path.list = list.files(path = "C:/", pattern = "saga_cmd.exe", recursive = TRUE, full.names = TRUE)
-      DL = gsub("\\\\", "/", DL)
-      DL = gsub("/", "\\\\", DL)
-      DL = shortPathName(DL)
-      
+
       
          # rawSAGA <- try(system(paste0("cmd.exe /c dir /B /s ",DL,"\\",cmd),intern = TRUE))
           rawSAGA  <- try(system(paste0("cmd.exe /c WHERE /R ",DL, " ",cmd),intern=TRUE))
-          rawSAGA= shortPathName(rawSAGA)
+          rawSAGA= utils::shortPathName(rawSAGA)
           
           # Remove cmd name from path
          # path.list = gsub(paste0(".{",nchar(cmd),"}$"), "", path.list)

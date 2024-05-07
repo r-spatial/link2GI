@@ -22,7 +22,7 @@
 #  require(listviewer)
 #  
 #  otblink<-link2GI::linkOTB()
-#   projRootDir<-tempdir()
+#   root_dir<-tempdir()
 #  
 #  fn <- system.file("ex/elev.tif", package = "terra")
 #  
@@ -36,10 +36,10 @@
 #  listviewer::jsonedit(cmd$help)
 #  
 #  ## define the mandantory arguments all other will be default
-#  cmd$input  <- fn
+#  cmd$input_in  <- fn
 #  cmd$filter <- "touzi"
-#  cmd$channel <- 2
-#  cmd$out <- file.path(projRootDir,paste0("out",cmd$filter,".tif"))
+#  cmd$channel <- 1
+#  cmd$out <- paste0(root_dir,paste0("\\out",cmd$filter,".tif"))
 #  
 #  ## run algorithm
 #  retStack<-runOTB(cmd,gili = otblink)

@@ -43,3 +43,4 @@ paramGRASSw()
 paramGRASSw(c("C:/OSGeo4","grass7.8","osgeo4W"))
 }
 }
+\keyword{internal}

@@ -1,0 +1,24 @@
+#' Main control script
+#'
+#' @description Use this script for controlling the processing.
+#'
+#' @author [name], [email@com]
+#'
+#'@param
+#'
+#'@return
+#'
+#'@details
+#'
+#'@name <%= gsub("^tools?|\\.R$", "", tools::file_path_sans_ext(basename(new_file))) %>
+#'
+#'@examples
+#' \dontrun{
+#'
+#'}
+
+<% if (notes) { -%>
+# Note: Use this template for functions.
+<% } %>
+
+a <- function(){}

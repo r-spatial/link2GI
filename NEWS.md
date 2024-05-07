@@ -1,3 +1,25 @@
+## link2GI 0.6-1
+
+bugfixes:
+
+* fix cran issues
+
+
+## link2GI 0.6-0
+
+bugfixes:
+
+* issue #65
+
+changes:
+
+* variable `rootDir` is deprecated and now `root_folder`
+
+new feature:
+
+* extension of initProj to a lightweight project setup tool
+
+
 ## link2GI 0.5-4
 
 bugfixes:

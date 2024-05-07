@@ -25,12 +25,10 @@
 
 ## ----eval=FALSE, echo=FALSE, message=FALSE, warning=FALSE---------------------
 #  require(link2GI)
-#  require(RSAGA)
 #  # find all SAGA GIS installations and take the first one
-#  saga1<-link2GI::linkSAGA(ver_select = 1)
+#  saga1 <- link2GI::linkSAGA()
 #  saga1
-#  sagaEnv1<- RSAGA::rsaga.env(path = saga1$sagaPath)
-#  sagaEnv1
+#  
 
 ## ----eval=FALSE---------------------------------------------------------------
 #  # get meuse data as sp object and link it temporary to GRASS

@@ -76,7 +76,7 @@ linkSAGA <- function(default_SAGA = NULL,
     else sagaModPath <- paste0(default_SAGA[[2]][1])
   } 
   # more than one SAGA installation and ver_select = TRUE
-  else if (nrow(default_SAGA) > 1  & ver_select) { 
+  else if (nrow(default_SAGA) > 1  & !ver_select | ver_select) { 
     cat("You have installed more than one SAGA GIS version\n")
     print(default_SAGA)
     cat("\n")
@@ -111,19 +111,19 @@ linkSAGA <- function(default_SAGA = NULL,
   
   # more than one installation and ver_select =FALSE 
   # => automatic selection of the newest SAGA
-  else if (nrow(default_SAGA) > 1  & ver_select!="TRUE" ) { 
-    recentSaga <- getrowSagaVer(default_SAGA)
-    default_saga <- gsub(removePattern, "", default_SAGA[[1]][recentSaga])
-    sagaCmd <- paste0(default_SAGA[[1]][recentSaga],sep,scmd )
-    sagaPath <- default_saga
-    if (getSagaVer(sagaPath) >= "3.0.0" && Sys.info()["sysname"]=="Windows") {
-      #system(paste0( "mklink /d /h  ",paste0(default_SAGA[[1]][recentSaga],sep,"modules ", default_SAGA[[1]][recentSaga],sep,"tools" )))
-      sagaModPath <- paste0(default_SAGA[[1]][recentSaga],sep,"tools")
-    }
-    else if (getSagaVer(sagaPath) < "3.0.0" && Sys.info()["sysname"]=="Windows") 
-      sagaModPath <- paste0(default_SAGA[[1]][recentSaga],sep,"modules")
-    else sagaModPath <- paste0(default_SAGA[[2]][recentSaga])
-  }
+#   else if (nrow(default_SAGA) > 1  & ver_select!="TRUE" ) { 
+# #recentSaga <- getrowSagaVer(default_SAGA)
+#     default_saga <- gsub(removePattern, "", default_SAGA[[1]][recentSaga])
+#     sagaCmd <- paste0(default_SAGA[[1]][recentSaga],sep,scmd )
+#     sagaPath <- default_saga
+#     if (getSagaVer(sagaPath) >= "3.0.0" && Sys.info()["sysname"]=="Windows") {
+#       #system(paste0( "mklink /d /h  ",paste0(default_SAGA[[1]][recentSaga],sep,"modules ", default_SAGA[[1]][recentSaga],sep,"tools" )))
+#       sagaModPath <- paste0(default_SAGA[[1]][recentSaga],sep,"tools")
+#     }
+#     else if (getSagaVer(sagaPath) < "3.0.0" && Sys.info()["sysname"]=="Windows") 
+#       sagaModPath <- paste0(default_SAGA[[1]][recentSaga],sep,"modules")
+#     else sagaModPath <- paste0(default_SAGA[[2]][recentSaga])
+#   }
   sagaModPath <-gsub(removePattern, "", sagaModPath )
   # SAGA_MLB is only used by Linux-RSAGA to identify the correct module path 
   Sys.setenv(SAGA_MLB = sagaModPath)

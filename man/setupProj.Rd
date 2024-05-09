@@ -8,15 +8,13 @@ setupProj(
   root_folder = tempdir(),
   folders = c("data", "data/tmp"),
   folder_names = NULL,
-  path_prefix = NULL,
-  code_subfolders = NULL,
+  code_subfolder = NULL,
   global = FALSE,
   libs = NULL,
   setup_script = "000_setup.R",
   fcts_folder = NULL,
   source_functions = !is.null(fcts_folder),
   standard_setup = NULL,
-  lut_mode = NULL,
   create_folders = TRUE
 )
 }
@@ -28,9 +26,7 @@ setupProj(
 \item{folder_names}{names of the variables that point to subfolders. If not
 provided, the base paths of the folders is used.}
 
-\item{path_prefix}{a prefix for the folder names.}
-
-\item{code_subfolders}{define subdirectories for code should be created.}
+\item{code_subfolder}{define subdirectories for code should be created.}
 
 \item{global}{logical: export path strings as global variables?}
 
@@ -46,8 +42,6 @@ this folder will be sourced.}
 
 \item{standard_setup}{use predefined settings. In this case, only the name of the root folder is required. 
 name of the git repository must be supplied to the function.}
-
-\item{lut_mode}{deprecated, use standard_setup instead.}
 
 \item{create_folders}{create folders if not existing already.}
 }

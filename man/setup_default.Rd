@@ -4,9 +4,15 @@
 \alias{setup_default}
 \title{Define working environment default settings}
 \usage{
-setup_default(new_folder_list = NULL, new_folder_list_name = NULL)
+setup_default(
+  default = NULL,
+  new_folder_list = NULL,
+  new_folder_list_name = NULL
+)
 }
 \arguments{
+\item{default}{name of default list}
+
 \item{new_folder_list}{containing a list of arbitrary folders to be generated}
 
 \item{new_folder_list_name}{name of this list}

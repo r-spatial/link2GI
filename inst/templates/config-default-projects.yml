@@ -1,0 +1,32 @@
+base:
+   dataFolder: ["source", "results", "clean", "run"]
+   docsFolder: [ "figures"]
+   tmpFolder:  ["tmp"]
+ 
+   init_git: true
+   code_subFolder: ["src", "src/functions" , "src/config"]
+   global: false
+   libs: ""
+   create_folders: true
+   files: ["main.R", "000-setup.R", "README.qmd"]
+baseSpatial:
+   dataFolder: ["level0", "level1", "level2", "run" ,"aux"]
+   docsFolder: [ "figures"]
+   tmpFolder:  ["tmp"]
+   code_subfolder: ["src", "src/functions" , "src/config"]
+   global: false
+   libs: ["terra", "stars", "sf" , "RStoolbox", "tmap" , "mapview", "dplyr"]
+   create_folders: true
+   files: ["main.R", "000-setup.R", "README.qmd"]   
+advancedSpatial:
+   dataFolder: ["level0", "level1", "level2", "run"]
+   docsFolder: [ "figures"]
+   tmpFolder:  ["tmp"]
+   code_subfolder: ["src", "src/functions" , "src/config"]
+   global: false
+   libs: ["terra", "stars", "sf" , "RStoolbox", "tmap" , "mapview" ,"dplyr", "caret" ,"randomforest"]
+   create_folders: true
+   files: ["main.R", "000-setup.R", "README.qmd"] 
+   
+          
+

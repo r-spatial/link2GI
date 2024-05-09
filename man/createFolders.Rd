@@ -9,7 +9,6 @@ createFolders(
   root_folder,
   folders,
   folder_names = NULL,
-  path_prefix = NULL,
   create_folders = FALSE
 )
 }
@@ -20,8 +19,6 @@ createFolders(
 
 \item{folder_names}{names of the variables that point to subfolders. If not
 provided, the base paths of the folders is used.}
-
-\item{path_prefix}{a prefix for the folder names.}
 
 \item{create_folders}{create folders if not existing already.}
 }

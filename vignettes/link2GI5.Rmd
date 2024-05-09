@@ -45,19 +45,19 @@ The basic setup of a default project, which initializes Git and renv, is done wi
 
 ```R
 root_folder <- tempdir() # Mandatory, variable must be in the R environment.
-envrmt <- initProj(root_folder = root_folder, standard_setup = "baseSpatial")
+dirs <- initProj(root_folder = root_folder, standard_setup = "baseSpatial")
 
 ```
 
 It is easy to customize the folder structure. By default you will create 
 ```R
-link2GI::setup_default()$baseSpatial$folders
+link2GI::setup_default()$baseSpatial$dataFolder
 ```
 `[1] "docs"         "docs/figures" "tmp"          "data/source"  "data/results" "data/level0"  "data/level1" `
 
 ```R
 
-link2GI::setup_default()$baseSpatial$code_subfolders
+link2GI::setup_default()$baseSpatial$code_subfolder
 
 ```
 
@@ -67,6 +67,6 @@ Use the `folders` argument to create a specific structure or subfolder structure
 
 ```R
 root_folder <- tempdir() # Mandatory, variable must be in the R environment.
-envrmt <- initProj(root_folder = root_folder, standard_setup = "baseSpatial",folders = c("data/rawdata/provider1/", "docs/quarto/"))
+dirs <- initProj(root_folder = root_folder, standard_setup = "baseSpatial",folders = c("data/rawdata/provider1/", "docs/quarto/"))
 ```
 

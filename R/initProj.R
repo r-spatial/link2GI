@@ -5,6 +5,7 @@
 #'@return  A list containing the default project settings
 #'@param  new_folder_list containing a list of arbitrary folders to be generated
 #'@param  new_folder_list_name name of this list
+#'@param default name of default list
 #'
 #'
 #' @examples
@@ -16,50 +17,18 @@
 #' @export setup_default
 
 
-setup_default = function(new_folder_list=NULL,new_folder_list_name=NULL)
+setup_default = function(default=NULL, new_folder_list=NULL,new_folder_list_name=NULL)
 {
-  baseSpatial <- list(
-    folders = c("docs", "docs/figures","tmp","data/source", "data/results", "data/level0","data/level1"),
-    folder_names = NULL,
-    init_git = TRUE,
-    code_subfolders = c("src", "src/functions"),
-    path_prefix = NULL,
-    global = FALSE,
-    libs = NULL,
-    lut_mode = FALSE,
-    create_folders = TRUE
-    #git_repository = "." # Historic reasons, remove once var git_repository in setupProj is deprecated.
-  )
-  baseSpatial <- list(
-    folders = c("docs", "docs/figures","tmp","data/source", "data/results", "data/level0","data/level1"),
-    folder_names = NULL,
-    #init_git = TRUE,
-    code_subfolders = c("src", "src/functions"),
-    path_prefix = NULL,
-    global = FALSE,
-    libs = NULL,
-    lut_mode = FALSE,
-    create_folders = TRUE
-    #git_repository = "." # Historic reasons, remove once var git_repository in setupProj is deprecated.
-  )
-
-  baseproj_no_git <- list(
-    folders = c("docs", "docs/figures","tmp","data/source", "data/results", "data/level0","data/level1"),
-    folder_names = NULL,
-    init_git = FALSE,
-    code_subfolders = c("src", "src/functions"),
-    path_prefix = NULL,
-    global = FALSE,
-    libs = NULL,
-    lut_mode = FALSE,
-    create_folders = TRUE
-    #git_repository = "." # Historic reasons, remove once var git_repository in setupProj is deprecated.
-  )
-  if (is.null(new_folder_list)){
-    setup_dflt <- list(
-      baseSpatial = baseSpatial, baseproj_no_git = baseproj_no_git)
-  } else {
-    setup_dflt <- list(baseSpatial = baseSpatial, baseproj_no_git = baseproj_no_git)
+  # Read master configuration
+  setup_default <- yaml::read_yaml(system.file("templates/","config-default-projects.yml", package = "link2GI" ))
+ 
+  if (is.null(new_folder_list) & !is.null(default)){
+    setup_dflt <- setup_default[[default]]
+  } 
+  else if (is.null(new_folder_list) & is.null(default)) {
+    setup_dflt <- setup_default
+  }  else {
+    setup_dflt <- setup_default
     setup_dflt[[new_folder_list_name]] = new_folder_list
   }
   return(setup_dflt )
@@ -75,7 +44,6 @@ setup_default = function(new_folder_list=NULL,new_folder_list_name=NULL)
 #' @param folders list of subfolders within the project directory.
 #' @param folder_names names of the variables that point to subfolders. If not
 #' provided, the base paths of the folders is used.
-#' @param path_prefix a prefix for the folder names.
 #' @param create_folders create folders if not existing already.
 #'
 #' @return  List with folder paths and names.
@@ -89,7 +57,7 @@ setup_default = function(new_folder_list=NULL,new_folder_list_name=NULL)
 #' }
 #' # Create folder list and set variable names pointing to the path values
 createFolders <- function(root_folder, folders,
-                          folder_names = NULL, path_prefix = NULL,
+                          folder_names = NULL, 
                           create_folders = FALSE) {
   folders <- lapply(folders, function(f) {
     file.path(root_folder, f)
@@ -111,8 +79,7 @@ createFolders <- function(root_folder, folders,
     names(folders) <- folder_names
   }
   
-  if (!is.null(path_prefix)) names(folders) <- paste0(path_prefix, names(folders))
-  
+
   # Check paths for existance and create if necessary
   for (f in folders) {
     if (!file.exists(f)) dir.create(f, recursive = TRUE)
@@ -131,25 +98,25 @@ createFolders <- function(root_folder, folders,
 #' @param folders list of subfolders within the project directory that will be created.
 #' @param folder_names names of the variable values that point to subfolders. If not
 #' provided, the base paths of the folders is used.
-#' @param path_prefix a prefix for the variable values that point to the created folders.
 #' @param init_git logical: init git repository in the project directory.
 #' @param init_renv logical: init renv in the project directory.
-#' @param code_subfolders subfolders for scripts and functions within the project directory that will be created. The
+#' @param code_subfolder subfolders for scripts and functions within the project directory that will be created. The
 #' folders src and src/functions are mandatory.
 #' @param global logical: export path strings as global variables?
 #' @param libs  vector with the  names of libraries that are required for the initial project.
-#' @param standard_setup use predefined settings. In this case, only the name of the root folder is required.
+#' @param standard_setup use predefined settings. c("base","baseSpatial", "advancedSpatial"). In this case, only the name of the root folder is required.
 #' @param openproject open project after creating it, d default = TRUE
 #' @param newsession open project in a new session? default is FALSE
+#' @param loc_name by default MySite defines the dataset folderlocation and is meant to be a code for the research site
 #' @details The function uses [setupProj] for setting up the folders. Once the project is creaeted, manage the overall
 #' configuration of the project by the src/functions/000_settings.R script. It is sourced at the begining of the
 #' template scripts that are created by default. Define additional constans, required libraries etc. in the
 #' 000_settings.R at any time. If additonal folders are required later, just add them manually. They will be parsed as
-#' part of the 000_settings.R and added to a variable called envrmt that allows easy acces to any of the folders. Use
+#' part of the 000_settings.R and added to a variable called dirs that allows easy acces to any of the folders. Use
 #' this variable to load/save data to avoid any hard coded links in the scripts except the top-level root folder which
 #' is defined once in the main control script located at src/main.R.
 #'
-#' @return envrmt, i.e. a list containing the project settings.
+#' @return dirs, i.e. a list containing the project pathes.
 #'
 #' @name initProj
 #' 
@@ -158,35 +125,72 @@ createFolders <- function(root_folder, folders,
 #' @examples
 #' \dontrun{
 #' root_folder <- tempdir() # Mandatory, variable must be in the R environment.
-#' envrmt <- initProj(root_folder = root_folder, standard_setup = "baseSpatial")
+#' dirs <- initProj(root_folder = root_folder, standard_setup = "baseSpatial")
 #' }
 #'
-initProj <- function(root_folder = ".", folders = NULL, folder_names = NULL, path_prefix = NULL,
-                     init_git = TRUE, init_renv = TRUE, code_subfolders = c("src", "src/functions"),
-                     global = FALSE, libs = NULL, openproject =TRUE, newsession=FALSE,
-                     standard_setup = c("baseSpatial", "baseproj_no_git")) {
+initProj <- function(root_folder = ".", folders = NULL, folder_names = NULL,
+                     init_git = TRUE, init_renv = TRUE, code_subfolder = c("src", "src/functions"),
+                     global = FALSE, libs = NULL,  openproject =TRUE, newsession=FALSE,
+                     standard_setup = "baseSpatial",loc_name = NULL) {
+  
   
   # Setup project directory structure
+  envrmt= setup_default(standard_setup)
+  if (is.null(libs)){
+  libs = envrmt$libs
+  } else {
+    libs = append(libs,envrmt$libs)
+  }
+  appendlibs = ""
+  if (!is.null(libs)){
+    code_subfolder = unique(append(code_subfolder,envrmt$code_subfolder))
+  } else {
+  code_subfolder = envrmt$code_subfolder
+  }
+  projectDirList = as.list(strsplit(names(envrmt)[grepl("Folder", names(envrmt))],split = "Folder",fixed = TRUE))
+  
+  if (is.null(loc_name)){
+  projectDirList =  append(projectDirList,file.path("data",envrmt$dataFolder))
+  projectDirList =  append(projectDirList,file.path("docs",envrmt$docsFolder))
+  projectDirList =  append(projectDirList,file.path("tmp",envrmt$tmpFolder))
+  } else{
+    projectDirList =  append(projectDirList,file.path("data",loc_name,envrmt$dataFolder))
+    projectDirList =  append(projectDirList,file.path("docs",loc_name,envrmt$docsFolder))
+    projectDirList =  append(projectDirList,file.path("tmp",loc_name,envrmt$tmpFolder))
+    
+  }
+  # append additional folders if defined by calling script
+  if (!is.null(folders) && folders[[1]] != "") 
+  {
+    projectDirList = append(projectDirList,folders)
+  }
+  
   if (is.null(folders)) {
     use_standard_setup <- TRUE
-    envrmt <- setupProj(root_folder = root_folder, standard_setup = standard_setup[1])
+    dirs <- setupProj(root_folder = root_folder, folders = projectDirList, code_subfolder = code_subfolder, standard_setup = standard_setup,libs = libs)
   } else {
     use_standard_setup <- FALSE
-    envrmt <- setupProj(
-      root_folder = root_folder, folders = folders, folder_names = folder_names, path_prefix = path_prefix,
-      code_subfolders = code_subfolders,
+    dirs <- setupProj(
+      root_folder = root_folder, folders = projectDirList, folder_names = folder_names, 
+      code_subfolder = code_subfolder,
       global = global, libs = libs,
       standard_setup = NULL
     )
   }
   
-  # Init R project and scripts
-  template_path <- system.file(sprintf("templates/%s.brew", "rstudio_proj"), package = "link2GI")
-  brew::brew(template_path, file.path(root_folder, paste0(basename(root_folder), ".Rproj")))
-  createScript(new_file = file.path(envrmt$src, "main.R"), template = "script_control", notes = TRUE)
-  createScript(new_file = file.path(envrmt$functions, "000_setup.R"), template = "script_setup", notes = TRUE)
-  createScript(new_file = file.path(root_folder, "README.md"), template = "readme", notes = TRUE)
+
   
+  
+  # Init R project and scripts
+  #template_path <- system.file(sprintf("templates/%s.brew", "rstudio_proj"), package = "link2GI")
+  #template_path ="/home/creu/dev/link2GI/inst/templates/" 
+  brew::brew(system.file(sprintf("templates/%s.brew", "rstudio_proj"), package = "link2GI"), file.path(root_folder, paste0(basename(root_folder), ".Rproj")))
+  brew::brew(system.file(sprintf("templates/%s.brew", "script_control"), package = "link2GI"),  file.path(dirs$src, "main.R"))
+  brew::brew(system.file(sprintf("templates/%s.brew", standard_setup), package = "link2GI"),file.path(dirs$functions, "000_setup.R"))
+  createScript(new_file = file.path(root_folder, "README.md"), template = "readme", notes = TRUE)
+  createScript(new_file = file.path(root_folder, "config-master.yml"), template = "config-master-yml", notes = TRUE)
+
+ 
   # Init git
   # if (use_standard_setup) init_git <- setup_default()[[standard_setup[1]]]$init_git
   if (init_git) {
@@ -199,12 +203,12 @@ initProj <- function(root_folder = ".", folders = NULL, folder_names = NULL, pat
   
   if (init_renv) renv::init(root_folder)
   
-  # ppath=yaml::as.yaml(envrmt)
-  #yaml::write_yaml(ppath,file = file.path("pPath.yaml"))
-  #envrmt2 = createFolders(root_folder = here::here(root_folder),folders = envrmt,create_folders = FALSE)
-  # yaml::write_yaml(envrmt,file.path(here::here(root_folder),"src/functions/pPath.yaml"))
+  # dirs=yaml::as.yaml(dirs)
+  #yaml::write_yaml(dirs,file = file.path("pPath.yaml"))
+  #dirs = createFolders(root_folder = here::here(root_folder),folders = dirs,create_folders = FALSE)
+  # yaml::write_yaml(dirs,file.path(here::here(root_folder),"src/functions/dirs.yaml"))
   if (openproject) rstudioapi::openProject(file.path(root_folder, paste0(basename(root_folder), ".Rproj")),newSession = newsession)
-  return(envrmt)
+  return(dirs)
 }
 
 #' Setup project folder structure
@@ -216,8 +220,7 @@ initProj <- function(root_folder = ".", folders = NULL, folder_names = NULL, pat
 #' @param folders list of subfolders within the project directory.
 #' @param folder_names names of the variables that point to subfolders. If not
 #' provided, the base paths of the folders is used.
-#' @param code_subfolders define subdirectories for code should be created.
-#' @param path_prefix a prefix for the folder names.
+#' @param code_subfolder define subdirectories for code should be created.
 #' @param global logical: export path strings as global variables?
 #' @param libs  vector with the  names of libraries
 #' @param setup_script name of the setup script. This file will not be sourced from the functions folder even if
@@ -228,7 +231,6 @@ initProj <- function(root_folder = ".", folders = NULL, folder_names = NULL, pat
 #' @param standard_setup use predefined settings. In this case, only the name of the root folder is required. 
 #' name of the git repository must be supplied to the function.
 #' @param create_folders create folders if not existing already.
-#' @param lut_mode deprecated, use standard_setup instead.
 #'
 #' @return A list containing the project settings.
 #'
@@ -246,10 +248,10 @@ initProj <- function(root_folder = ".", folders = NULL, folder_names = NULL, pat
 #' }
 #'
 setupProj <- function(root_folder = tempdir(), folders = c("data", "data/tmp"), folder_names = NULL,
-                      path_prefix = NULL, code_subfolders = NULL, 
+                       code_subfolder = NULL, 
                       global = FALSE, libs = NULL, setup_script = "000_setup.R", fcts_folder = NULL,
                       source_functions = !is.null(fcts_folder),
-                      standard_setup = NULL, lut_mode = NULL, create_folders = TRUE ){
+                      standard_setup = NULL,  create_folders = TRUE ){
   #setup_default() # new_folder_list=NULL,new_folder_list_name=NULL
   
   
@@ -263,14 +265,14 @@ setupProj <- function(root_folder = tempdir(), folders = c("data", "data/tmp"), 
   
   
   # Add code folders to folders
-  if (!is.null(code_subfolders)) {
-    folders <- c(folders, code_subfolders)
+  if (!is.null(code_subfolder)) {
+    folders <- c(folders, code_subfolder)
   }
   
   
   # Create folders
   folders <- createFolders(root_folder, folders,
-                           folder_names = folder_names, path_prefix = path_prefix,
+                           folder_names = folder_names, 
                            create_folders = create_folders
   )
   
@@ -325,8 +327,6 @@ makeGlobalVariable <- function(names, values) {
 #'
 #' @param folders list of subfolders within the project directory.
 
-#' @param lut_mode use predefined environmental settings. In this case, only the
-#' name of the git repository must be supplied to the function.
 #'
 #' @name addGitFolders
 #' @keywords internal
@@ -336,8 +336,7 @@ makeGlobalVariable <- function(names, values) {
 #' addGitFolders(folders = c("data", "data/tmp"), git_repository = "myproject")
 #' }
 #'
-addGitFolders <- function(folders, git_repository = NULL, git_subfolders = NULL,
-                          lut_mode = FALSE) {
+addGitFolders <- function(folders, git_repository = NULL, git_subfolders = NULL) {
   if (is.null(git_subfolders)) {
     folders <- c(folders, git_repository)
   } else {
@@ -485,6 +484,8 @@ loadEnvi <- function(file_path) {
 #'
 #' @param new_file name of the file to be created
 #' @param template template to be used for the new file ("script_function", "script_control")
+#' @param template_path path to template to be used 
+
 #' @param notes logical: include notes from the template in the file
 #'
 #' @return NULL
@@ -498,8 +499,8 @@ loadEnvi <- function(file_path) {
 #' }
 #'
 createScript <- function(new_file = file.path(tempdir(), "tmp.R"), template = c("script_function", "script_control"),
-                         notes = TRUE) {
-  template_path <- system.file(sprintf("templates/%s.brew", template[1]), package = "link2GI")
+                         notes = TRUE, template_path =  system.file(sprintf("templates/%s.brew", template[1]), package = "link2GI")) {
+  
   brew::brew(template_path, new_file)
 }
 

@@ -8,15 +8,15 @@ initProj(
   root_folder = ".",
   folders = NULL,
   folder_names = NULL,
-  path_prefix = NULL,
   init_git = TRUE,
   init_renv = TRUE,
-  code_subfolders = c("src", "src/functions"),
+  code_subfolder = c("src", "src/functions"),
   global = FALSE,
   libs = NULL,
   openproject = TRUE,
   newsession = FALSE,
-  standard_setup = c("baseSpatial", "baseproj_no_git")
+  standard_setup = "baseSpatial",
+  loc_name = NULL
 )
 }
 \arguments{
@@ -27,13 +27,11 @@ initProj(
 \item{folder_names}{names of the variable values that point to subfolders. If not
 provided, the base paths of the folders is used.}
 
-\item{path_prefix}{a prefix for the variable values that point to the created folders.}
-
 \item{init_git}{logical: init git repository in the project directory.}
 
 \item{init_renv}{logical: init renv in the project directory.}
 
-\item{code_subfolders}{subfolders for scripts and functions within the project directory that will be created. The
+\item{code_subfolder}{subfolders for scripts and functions within the project directory that will be created. The
 folders src and src/functions are mandatory.}
 
 \item{global}{logical: export path strings as global variables?}
@@ -44,10 +42,12 @@ folders src and src/functions are mandatory.}
 
 \item{newsession}{open project in a new session? default is FALSE}
 
-\item{standard_setup}{use predefined settings. In this case, only the name of the root folder is required.}
+\item{standard_setup}{use predefined settings. c("base","baseSpatial", "advancedSpatial"). In this case, only the name of the root folder is required.}
+
+\item{loc_name}{by default MySite defines the dataset folderlocation and is meant to be a code for the research site}
 }
 \value{
-envrmt, i.e. a list containing the project settings.
+dirs, i.e. a list containing the project pathes.
 }
 \description{
 Set up the project environment with a defined folder structure, an RStudio project, initial script and
@@ -58,14 +58,14 @@ The function uses [setupProj] for setting up the folders. Once the project is cr
 configuration of the project by the src/functions/000_settings.R script. It is sourced at the begining of the
 template scripts that are created by default. Define additional constans, required libraries etc. in the
 000_settings.R at any time. If additonal folders are required later, just add them manually. They will be parsed as
-part of the 000_settings.R and added to a variable called envrmt that allows easy acces to any of the folders. Use
+part of the 000_settings.R and added to a variable called dirs that allows easy acces to any of the folders. Use
 this variable to load/save data to avoid any hard coded links in the scripts except the top-level root folder which
 is defined once in the main control script located at src/main.R.
 }
 \examples{
 \dontrun{
 root_folder <- tempdir() # Mandatory, variable must be in the R environment.
-envrmt <- initProj(root_folder = root_folder, standard_setup = "baseSpatial")
+dirs <- initProj(root_folder = root_folder, standard_setup = "baseSpatial")
 }
 
 }

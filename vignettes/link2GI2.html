@@ -142,7 +142,7 @@ section.footnotes::before {
 <div class="frontmatter">
 <div class="title"><h1>link2GI Basic Examples</h1></div>
 <div class="author"><h2>Chris Reudenbach</h2></div>
-<div class="date"><h3>2024-05-07</h3></div>
+<div class="date"><h3>2024-05-08</h3></div>
 </div>
 <div class="body">
 <h1 id="using-the-link2gi-package-basic-examples">Using the link2GI package - Basic examples</h1>
@@ -165,7 +165,7 @@ otb
 <p>If you are just calling link2GI on the fly, i.e. for a single temporary operation, there is no need to set up folders and project structures. If you are working on a more complex project, it might be helpful to have a fixed structure. The same goes for existing <code>GRASS</code> projects that need to be in specific mapsets and locations.</p>
 <p>A simple (you can call it dirty) approach is the ìnitProjî function, which creates folder structures (if not existing) and sets global variables (if desired) containing the paths as strings.</p>
 <pre><code class="language-r">require(link2GI)
-envrmt = link2GI::createFolders(root_folder = tempdir(),
+dirs = link2GI::createFolders(root_folder = tempdir(),
                                 folders = c(&quot;data/&quot;,
                                             &quot;data/level0/&quot;,
                                             &quot;data/level1/&quot;,
@@ -173,7 +173,7 @@ envrmt = link2GI::createFolders(root_folder = tempdir(),
                                             &quot;run/&quot;,
                                             &quot;fun/&quot;)
                                 )
-envrmt
+dirs
 </code></pre>
 <h2 id="linksaga-find-and-set-up-saga-api-bindings">linkSAGA - Find and set up ‘SAGA’ API bindings</h2>
 <p>In the past it was quite tedious to link the correct <code>SAGA GIS</code> version. Since version 1.x.x of <code>RSAGA</code> things are much better. The new <code>RSAGA::rsaga.env()</code> function is to get the first <code>RSAGA</code> version in the search path. It is also possible to pass the version number as shown below. Storing the result in appropriate variables will even allow you to easily switch between different <code>SAGA GIS</code> installations.</p>

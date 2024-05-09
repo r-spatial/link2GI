@@ -1,7 +1,7 @@
 ---
 author: "Chris Reudenbach"
 title: "Link GI to R"
-date: "2024-05-07"
+date: "2024-05-08"
 editor_options:
   chunk_output_type: console
 output:
@@ -66,21 +66,5 @@ Although `GDAL` is perfectly integrated into R, in some cases it is advantageous
 
 
 
-# Using the link2GI package - basic examples 
-
-## Brute force search usage 
-Automatic searching and finding of installed GIS software binaries is done by the `find` functions. Depending on your operating system and the number of installed versions you will get a data frame with the binary and module folders.
-
-
-So the simplest call would be to temporarily link to `GRASS GIS`:
-
-
-```r
-# find all SAGA GIS installations at the default search location
-require(link2GI)
-
-grass <- link2GI::linkGRASS()
-grass
-```
 
 

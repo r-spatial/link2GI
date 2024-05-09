@@ -87,15 +87,13 @@ libraries, and sets other project relevant parameters.</p>
 <span>  root_folder <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  folders <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"data"</span>, <span class="st">"data/tmp"</span><span class="op">)</span>,</span>
 <span>  folder_names <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  path_prefix <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  code_subfolders <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  code_subfolder <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  global <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  libs <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  setup_script <span class="op">=</span> <span class="st">"000_setup.R"</span>,</span>
 <span>  fcts_folder <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  source_functions <span class="op">=</span> <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NULL.html" class="external-link">is.null</a></span><span class="op">(</span><span class="va">fcts_folder</span><span class="op">)</span>,</span>
 <span>  standard_setup <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  lut_mode <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  create_folders <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -115,11 +113,7 @@ libraries, and sets other project relevant parameters.</p>
 provided, the base paths of the folders is used.</p></dd>
 
 
-<dt>path_prefix</dt>
-<dd><p>a prefix for the folder names.</p></dd>
-
-
-<dt>code_subfolders</dt>
+<dt>code_subfolder</dt>
 <dd><p>define subdirectories for code should be created.</p></dd>
 
 
@@ -148,10 +142,6 @@ this folder will be sourced.</p></dd>
 <dt>standard_setup</dt>
 <dd><p>use predefined settings. In this case, only the name of the root folder is required. 
 name of the git repository must be supplied to the function.</p></dd>
-
-
-<dt>lut_mode</dt>
-<dd><p>deprecated, use standard_setup instead.</p></dd>
 
 
 <dt>create_folders</dt>

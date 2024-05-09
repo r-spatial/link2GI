@@ -13,5 +13,14 @@ Label: Initialize a project-local library
 Parameter: standard_setup
 Widget: SelectInput
 Label: Select Options
-Fields: baseSpatial, baseproj_no_git
+Fields: base, baseSpatial,advancedSpatial
 
+Parameter: libs
+Widget: TextInput
+Label: R packages
+Default: dplyr RSToolbox
+
+Parameter: loc_name
+Widget: TextInput
+Label: Project Location Name
+Default: 

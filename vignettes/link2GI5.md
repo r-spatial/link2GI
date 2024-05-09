@@ -1,7 +1,7 @@
 ---
 author: "Chris Reudenbach"
-title: "GEOSTAT 2018 Examples"
-date: "2024-05-07"
+title: "Reproducible projects"
+date: "2024-05-10"
 editor_options:
   chunk_output_type: console
 output:
@@ -14,25 +14,59 @@ output:
     toc: yes
 urlcolor: blue
 vignette: >
-  %\VignetteIndexEntry{Geostat 2018 Examples}
+  %\VignetteIndexEntry{Reproducible projects}
   %\VignetteEncoding{UTF-8}{inputenc}\
   %\VignetteEngine{knitr::knitr}
 ---
 
 
 
-### Usecases presented on the GEOSTAT August 2018
+# Reproducible Project Structure
 
-During the GEOSTAT 2018 (see https://opengeohub.org) in Prague some more complex use cases have been presented.
+Reproducible projects in R emphasize streamlined project setup and efficient workflows. There are a number of very helpful tools in the R universe, such as [`renv`](https://cran.r-project.org/package=renv), [`usethis`](https://cran.r-project.org/package=usethis), or [`here`](https://cran.r-project.org/package=here), that range from setting up a stable R environment to generating custom project structures to getting the necessary paths in an easy way. In addition, there are a number of project structure packages and templates for creating easy-to-use and transparent project structures. Namely, [`tinProjects`](https://cran.r-project.org/package=tinyProject), [`prodigenr`](https://cran.r-project.org/package=prodigenr) or [`workflowr`](https://cran.r-project.org/package=workflowr) are R packages designed to facilitate reproducible research through automated project structuring and standardization. They all promote organized project directories, emphasize reproducibility by integrating with tools like `Git' and `renv', and reduce manual setup efforts to ensure consistent and error-free project initialization. These packages help build a solid foundation for research and ensure that best practices include using separate scripts for data processing, analysis, and reporting, and combining code with narrative in R Markdown documents from the start. This organized setup improves reproducibility by making it easier to maintain, share, and replicate research. For a more comprehensive overview, have a look at the [ CRAN Task View Reproducible Research](https://CRAN.R-project.org/view=ReproducibleResearch).
 
-#### Find slides and materials
-- [Presentation slides](https://gisma.github.io/link2gi2018/link2gi2018.html#1)
-- [Github Repository](https://github.com/gisma/link2gi2018)
+## Why initProj then?
+In the context of link2GI, which relies heavily on third-party command-line APIs and requires complex and stable folder and file structures, a flexible, lightweight R project setup greatly improves the integration of OS command-line tools into spatial workflows by
+ 
+1. **Streamlining integration: Simplifies the integration of essential command-line tools such as `GDAL' or the sophisticated `Orfeo Toolbox' (OTB) and the growing universe of r(-)spatial packages for advanced geospatial processing.
+2. **Improve data exchange**: Organized variable and metadata management ensures accurate and efficient data transfer between different and especially command-line based processes and APIs.
+3. **Enhanced Cross-Platform Compatibility: Facilitates cross-platform adaptability, which is critical when using multiple spatial analysis tools, even more so when using different shells.
+4. **Performance Optimization: Switching between generic R and command-line tools takes advantage of the speed and efficiency of command-line tools, which is especially beneficial when handling large spatial datasets.
 
+For this reason, the link2GI package includes a lean and lightweight but focused approach that integrates `git', `renv', and a highly flexible folder and package setup process that is simpler than existing approaches, increasing efficiency, accuracy, and performance in geospatial workflows.
 
-#### The examples
+### Using the RStudio GUI
 
-- Basic usage of `SAGA` and `OTB` calls - [SAGA & OTB basic usecase](https://github.com/gisma/link2gi2018/blob/master/R/usecases/saga-otb/useCaseSAGA-OTB.R)
-- Wrapping a [GRASS GIS example](https://neteler.gitlab.io/grass-gis-analysis/02_grass-gis_ecad_analysis/) of Markus Neteler as presented on GEOSTAT 2018 - [Analysing the ECA&D climatic data - reloaded](https://github.com/gisma/link2gi2018/blob/master/R/usecases/grass/useCaseGRASS-Neteler2018.R)
-- Performing a `GRASS` based cost analysis on a huge cost raster - [Beetle spread over high asia](https://github.com/gisma/link2gi2018/blob/master/R/usecases/cost-analysis/useCaseBeetle.R)
-- Deriving a canopy height model using a mixed API approach - [Canopy Height Model from UAV derived point clouds](https://github.com/gisma/link2gi2018/blob/master/R/usecases/uav-pc/useCaseCHM.R)
+![Use the RStudio Template Option](https://raw.githubusercontent.com/r-spatial/link2GI/master/figures/usegui.gif)
+
+### Using the Console
+
+The basic setup of a default project, which initializes Git and renv, is done with the following call. 
+
+```R
+root_folder <- tempdir() # Mandatory, variable must be in the R environment.
+dirs <- initProj(root_folder = root_folder, standard_setup = "baseSpatial")
+
+```
+
+It is easy to customize the folder structure. By default you will create 
+```R
+link2GI::setup_default()$baseSpatial$dataFolder
+```
+`[1] "docs"         "docs/figures" "tmp"          "data/source"  "data/results" "data/level0"  "data/level1" `
+
+```R
+
+link2GI::setup_default()$baseSpatial$code_subfolder
+
+```
+
+`[1] "src"           "src/functions"`
+
+Use the `folders` argument to create a specific structure or subfolder structure of your project. 
+
+```R
+root_folder <- tempdir() # Mandatory, variable must be in the R environment.
+dirs <- initProj(root_folder = root_folder, standard_setup = "baseSpatial",folders = c("data/rawdata/provider1/", "docs/quarto/"))
+```
+

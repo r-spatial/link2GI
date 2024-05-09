@@ -1,10 +1,10 @@
 Binding: initProj
-Title: Project structure with link2GI
+Title: Create Project structure (link2GI)
 OpenFiles: README.md, src/main.R, src/functions/000_setup.R
 
 Parameter: init_git
 Widget: CheckboxInput
-Label: Initialize git repository
+Label: Initialize git 
 Position: left
 
 Parameter: init_renv
@@ -14,18 +14,18 @@ Position: left
 
 Parameter: standard_setup
 Widget: SelectInput
-Label: Select Options
+Label:  configuration
 Fields: base, baseSpatial,advancedSpatial
 Position: left
 
 Parameter: libs
 Widget: TextInput
-Label: R packages
-Default: dplyr RSToolbox
+Label: load libraries
+Default: 
 Position: right
 
 Parameter: loc_name
 Widget: TextInput
-Label: Project Location Name
+Label: location tag
 Default: 
 Position: right

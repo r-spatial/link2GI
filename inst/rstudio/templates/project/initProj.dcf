@@ -4,23 +4,28 @@ OpenFiles: README.md, src/main.R, src/functions/000_setup.R
 
 Parameter: init_git
 Widget: CheckboxInput
-Label: Create a git repository
+Label: Initialize git repository
+Position: left
 
 Parameter: init_renv
 Widget: CheckboxInput
-Label: Initialize a project-local library
+Label: Initialize renv
+Position: left
 
 Parameter: standard_setup
 Widget: SelectInput
 Label: Select Options
 Fields: base, baseSpatial,advancedSpatial
+Position: left
 
 Parameter: libs
 Widget: TextInput
 Label: R packages
 Default: dplyr RSToolbox
+Position: right
 
 Parameter: loc_name
 Widget: TextInput
 Label: Project Location Name
 Default: 
+Position: right

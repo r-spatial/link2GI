@@ -12,12 +12,12 @@ initProj(
   init_renv = NULL,
   code_subfolder = c("src", "src/functions"),
   global = FALSE,
-  libs = NULL,
   openproject = NULL,
-  newsession = NULL,
   standard_setup = "baseSpatial",
   loc_name = NULL,
-  ymlFN = NULL
+  ymlFN = NULL,
+  appendlibs = NULL,
+  OpenFiles = NULL
 )
 }
 \arguments{
@@ -37,17 +37,19 @@ folders src and src/functions are mandatory.}
 
 \item{global}{logical: export path strings as global variables?}
 
-\item{libs}{vector with the  names of libraries that are required for the initial project.}
-
 \item{openproject}{open project after creating it, d default = TRUE}
-
-\item{newsession}{open project in a new session? default is FALSE}
 
 \item{standard_setup}{use predefined settings. c("base","baseSpatial", "advancedSpatial"). In this case, only the name of the root folder is required.}
 
 \item{loc_name}{by default MySite defines the dataset folderlocation and is meant to be a code for the research site}
 
 \item{ymlFN}{filename for a yaml file containing a non standard_setup}
+
+\item{appendlibs}{vector with the  names of libraries that are required for the initial project.}
+
+\item{OpenFiles}{default NULL}
+
+\item{newsession}{open project in a new session? default is FALSE}
 }
 \value{
 dirs, i.e. a list containing the project pathes.
@@ -68,19 +70,19 @@ is defined once in the main control script located at src/main.R.
 \note{
 For yaml based setup you need to use one of the default configurations 
 c("base", "baseSpatial","advancedSpatial") or you provide a yaml file this 
-MUST contain at least the standard_setup arguments where \code{ mysetup} is the yaml root\cr  
+MUST contain the standard_setup arguments, where \code{ mysetup} is the yaml root, all other items are mandatory keywords that can be filled in as needed.  
  \preformatted{
 mysetup:
- dataFolder:  
- docsFolder:  
- tmpFolder:   
- init_git: true/false 
- init_renv: true/false 
- code_subFolder: ["src", "src/functions" , "src/config"] 
- global: true/false 
- libs: 
- create_folders: true/false
- files:
+  dataFolder:  
+  docsFolder:  
+  tmpFolder:   
+  init_git: true/false 
+  init_renv: true/false 
+  code_subfolder: ["src", "src/functions" , "src/config"] 
+  global: true/false 
+  libs: 
+  create_folders: true/false
+  files:
 }
    Alternatively you may set default_setup to NULL and provide the arguments via command line.
 }

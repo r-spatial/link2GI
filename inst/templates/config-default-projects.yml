@@ -4,11 +4,11 @@ base:
    tmpFolder:  ["tmp"]
    init_git: true
    init_renv: true
-   code_subFolder: ["src", "src/functions" , "src/config"]
+   code_subfolder: ["src", "src/functions" , "src/config"]
    global: false
    libs: ""
    create_folders: true
-   files: ["main.R", "000-setup.R", "README.qmd"]
+   files: [ "pre-processing.R", "post-processing.R", "10-processing.R", "src/functions/000_setup.R" ,"src/main-control.R"]
 baseSpatial:
    dataFolder: ["level0", "level1", "level2", "run" ,"aux"]
    docsFolder: [ "figures"]
@@ -19,7 +19,7 @@ baseSpatial:
    global: false
    libs: ["terra", "stars", "sf" , "RStoolbox", "tmap" , "mapview", "dplyr"]
    create_folders: true
-   files: ["main.R", "000-setup.R", "README.qmd"]   
+   files: [ "pre-processing.R", "post-processing.R", "10-processing.R", "src/functions/000_setup.R" ,"src/main-control.R"]
 advancedSpatial:
    dataFolder: ["level0", "level1", "level2", "run"]
    docsFolder: [ "figures"]
@@ -30,7 +30,7 @@ advancedSpatial:
    global: false
    libs: ["terra", "stars", "sf" , "RStoolbox", "tmap" , "mapview" ,"dplyr", "caret" ,"randomforest"]
    create_folders: true
-   files: ["main.R", "000-setup.R", "README.qmd"] 
-   
+   files: [ "pre-processing.R", "post-processing.R", "10-processing.R", "src/functions/000_setup.R" ,"src/main-control.R"]
+ 
           
 

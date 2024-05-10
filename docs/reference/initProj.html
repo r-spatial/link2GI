@@ -91,12 +91,12 @@ settings templates and git and dvc repository, if necessary.</p>
 <span>  init_renv <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  code_subfolder <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"src"</span>, <span class="st">"src/functions"</span><span class="op">)</span>,</span>
 <span>  global <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  libs <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  openproject <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  newsession <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  standard_setup <span class="op">=</span> <span class="st">"baseSpatial"</span>,</span>
 <span>  loc_name <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  ymlFN <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>  ymlFN <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  appendlibs <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  OpenFiles <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -132,16 +132,8 @@ folders src and src/functions are mandatory.</p></dd>
 <dd><p>logical: export path strings as global variables?</p></dd>
 
 
-<dt>libs</dt>
-<dd><p>vector with the  names of libraries that are required for the initial project.</p></dd>
-
-
 <dt>openproject</dt>
 <dd><p>open project after creating it, d default = TRUE</p></dd>
-
-
-<dt>newsession</dt>
-<dd><p>open project in a new session? default is FALSE</p></dd>
 
 
 <dt>standard_setup</dt>
@@ -154,6 +146,18 @@ folders src and src/functions are mandatory.</p></dd>
 
 <dt>ymlFN</dt>
 <dd><p>filename for a yaml file containing a non standard_setup</p></dd>
+
+
+<dt>appendlibs</dt>
+<dd><p>vector with the  names of libraries that are required for the initial project.</p></dd>
+
+
+<dt>OpenFiles</dt>
+<dd><p>default NULL</p></dd>
+
+
+<dt>newsession</dt>
+<dd><p>open project in a new session? default is FALSE</p></dd>
 
 </dl></div>
     <div id="value">
@@ -176,18 +180,18 @@ is defined once in the main control script located at src/main.R.</p>
     <h2>Note</h2>
     <p>For yaml based setup you need to use one of the default configurations 
 c("base", "baseSpatial","advancedSpatial") or you provide a yaml file this 
-MUST contain at least the standard_setup arguments where <code> mysetup</code> is the yaml root<br></p><div class="sourceCode"><pre><code>
+MUST contain the standard_setup arguments, where <code> mysetup</code> is the yaml root, all other items are mandatory keywords that can be filled in as needed.</p><div class="sourceCode"><pre><code>
 mysetup:
- dataFolder:  
- docsFolder:  
- tmpFolder:   
- init_git: true/false 
- init_renv: true/false 
- code_subFolder: ["src", "src/functions" , "src/config"] 
- global: true/false 
- libs: 
- create_folders: true/false
- files:
+  dataFolder:  
+  docsFolder:  
+  tmpFolder:   
+  init_git: true/false 
+  init_renv: true/false 
+  code_subfolder: ["src", "src/functions" , "src/config"] 
+  global: true/false 
+  libs: 
+  create_folders: true/false
+  files:
 </code></pre></div><p>Alternatively you may set default_setup to NULL and provide the arguments via command line.</p>
     </div>
 

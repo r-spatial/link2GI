@@ -1,6 +1,6 @@
 Binding: initProj
 Title: Create Project structure (link2GI)
-OpenFiles: README.md, src/main.R, src/functions/000_setup.R
+OpenFiles: src/pre-processing.R, src/post-processing.R, src/10-processing.R , src/functions/000_setup.R , src/main-control.R
 
 Parameter: init_git
 Widget: CheckboxInput
@@ -18,10 +18,10 @@ Label:  configuration
 Fields: base, baseSpatial,advancedSpatial
 Position: left
 
-Parameter: libs
+Parameter: appendlibs
 Widget: TextInput
 Label: load libraries
-Default: 
+Default:  dplyr
 Position: right
 
 Parameter: loc_name
@@ -29,3 +29,5 @@ Widget: TextInput
 Label: location tag
 Default: 
 Position: right
+
+

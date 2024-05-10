@@ -8,15 +8,16 @@ initProj(
   root_folder = ".",
   folders = NULL,
   folder_names = NULL,
-  init_git = TRUE,
-  init_renv = TRUE,
+  init_git = NULL,
+  init_renv = NULL,
   code_subfolder = c("src", "src/functions"),
   global = FALSE,
   libs = NULL,
-  openproject = TRUE,
-  newsession = FALSE,
+  openproject = NULL,
+  newsession = NULL,
   standard_setup = "baseSpatial",
-  loc_name = NULL
+  loc_name = NULL,
+  ymlFN = NULL
 )
 }
 \arguments{
@@ -45,6 +46,8 @@ folders src and src/functions are mandatory.}
 \item{standard_setup}{use predefined settings. c("base","baseSpatial", "advancedSpatial"). In this case, only the name of the root folder is required.}
 
 \item{loc_name}{by default MySite defines the dataset folderlocation and is meant to be a code for the research site}
+
+\item{ymlFN}{filename for a yaml file containing a non standard_setup}
 }
 \value{
 dirs, i.e. a list containing the project pathes.
@@ -61,6 +64,21 @@ template scripts that are created by default. Define additional constans, requir
 part of the 000_settings.R and added to a variable called dirs that allows easy acces to any of the folders. Use
 this variable to load/save data to avoid any hard coded links in the scripts except the top-level root folder which
 is defined once in the main control script located at src/main.R.
+}
+\note{
+For yaml based setup you need to use one of the default configurations c("base", "baseSpatial","advancedSpatial") or you provide a yaml file this MUST contain at least the standard_setup arguments where \code{ mysetup} is the yaml root\cr  
+ \code{mysetup:}\cr 
+ \code{dataFolder:}\cr  
+  \code{  docsFolder:}\cr  
+  \code{  tmpFolder:}\cr   
+  \code{  init_git: true/false }\cr
+ \code{   init_renv: true/false }\cr
+  \code{  code_subFolder: ["src", "src/functions" , "src/config"] }\cr
+ \code{  global: false }\cr
+ \code{   libs: }\cr
+ \code{  create_folders: true}\cr
+ \code{   files:}\cr
+   Alternatively you may set default_setup to NULL and provide the arguments via command line.
 }
 \examples{
 \dontrun{

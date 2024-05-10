@@ -2,8 +2,8 @@ base:
    dataFolder: ["source", "results", "clean", "run"]
    docsFolder: [ "figures"]
    tmpFolder:  ["tmp"]
- 
    init_git: true
+   init_renv: true
    code_subFolder: ["src", "src/functions" , "src/config"]
    global: false
    libs: ""
@@ -13,7 +13,9 @@ baseSpatial:
    dataFolder: ["level0", "level1", "level2", "run" ,"aux"]
    docsFolder: [ "figures"]
    tmpFolder:  ["tmp"]
-   code_subfolder: ["src", "src/functions" , "src/config"]
+   code_subfolder: ["src", "src/functions" , "src/config"]   
+   init_git: true
+   init_renv: true   
    global: false
    libs: ["terra", "stars", "sf" , "RStoolbox", "tmap" , "mapview", "dplyr"]
    create_folders: true
@@ -23,6 +25,8 @@ advancedSpatial:
    docsFolder: [ "figures"]
    tmpFolder:  ["tmp"]
    code_subfolder: ["src", "src/functions" , "src/config"]
+   init_git: true
+   init_renv: true   
    global: false
    libs: ["terra", "stars", "sf" , "RStoolbox", "tmap" , "mapview" ,"dplyr", "caret" ,"randomforest"]
    create_folders: true

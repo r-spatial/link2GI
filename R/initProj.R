@@ -108,6 +108,20 @@ createFolders <- function(root_folder, folders,
 #' @param openproject open project after creating it, d default = TRUE
 #' @param newsession open project in a new session? default is FALSE
 #' @param loc_name by default MySite defines the dataset folderlocation and is meant to be a code for the research site
+#' @param ymlFN filename for a yaml file containing a non standard_setup 
+#' @note For yaml based setup you need to use one of the default configurations c("base", "baseSpatial","advancedSpatial") or you provide a yaml file this MUST contain at least the standard_setup arguments where \code{ mysetup} is the yaml root\cr  
+#'  \code{mysetup:}\cr 
+#'  \code{dataFolder:}\cr  
+#'   \code{  docsFolder:}\cr  
+#'   \code{  tmpFolder:}\cr   
+#'   \code{  init_git: true/false }\cr
+#'  \code{   init_renv: true/false }\cr
+#'   \code{  code_subFolder: ["src", "src/functions" , "src/config"] }\cr
+#'  \code{  global: false }\cr
+#'  \code{   libs: }\cr
+#'  \code{  create_folders: true}\cr
+#'  \code{   files:}\cr
+#'    Alternatively you may set default_setup to NULL and provide the arguments via command line.
 #' @details The function uses [setupProj] for setting up the folders. Once the project is creaeted, manage the overall
 #' configuration of the project by the src/functions/000_settings.R script. It is sourced at the begining of the
 #' template scripts that are created by default. Define additional constans, required libraries etc. in the
@@ -129,13 +143,19 @@ createFolders <- function(root_folder, folders,
 #' }
 #'
 initProj <- function(root_folder = ".", folders = NULL, folder_names = NULL,
-                     init_git = TRUE, init_renv = TRUE, code_subfolder = c("src", "src/functions"),
-                     global = FALSE, libs = NULL,  openproject =TRUE, newsession=FALSE,
-                     standard_setup = "baseSpatial",loc_name = NULL) {
+                     init_git = NULL, init_renv = NULL, code_subfolder = c("src", "src/functions"),
+                     global = FALSE, libs = NULL,  openproject = NULL, newsession=NULL,
+                     standard_setup = "baseSpatial",loc_name = NULL, ymlFN = NULL ) {
   
   
   # Setup project directory structure
-  envrmt= setup_default(standard_setup)
+  if (standard_setup %in% c("base", "baseSpatial","advancedSpatial"))
+    {
+  envrmt = setup_default(standard_setup)
+  } else {
+    envrmt = read_yaml(file = ymlFN)
+  }
+  
   if (is.null(libs)){
   libs = envrmt$libs
   } else {
@@ -179,17 +199,18 @@ initProj <- function(root_folder = ".", folders = NULL, folder_names = NULL,
   }
   
 
-  
-  
-  # Init R project and scripts
-  #template_path <- system.file(sprintf("templates/%s.brew", "rstudio_proj"), package = "link2GI")
-  #template_path ="/home/creu/dev/link2GI/inst/templates/" 
+  # create R project and scripts
   brew::brew(system.file(sprintf("templates/%s.brew", "rstudio_proj"), package = "link2GI"), file.path(root_folder, paste0(basename(root_folder), ".Rproj")))
-  brew::brew(system.file(sprintf("templates/%s.brew", "script_control"), package = "link2GI"),  file.path(dirs$src, "main.R"))
+  brew::brew(system.file(sprintf("templates/%s.brew", "script_control"), package = "link2GI"),  file.path(dirs$src, "main-control.R"))
+  brew::brew(system.file(sprintf("templates/%s.brew", "pre-processing"), package = "link2GI"),  file.path(dirs$src, "preprocessing.R"))
+  brew::brew(system.file(sprintf("templates/%s.brew", "processing"), package = "link2GI"),  file.path(dirs$src, "10-processing.R"))
+  brew::brew(system.file(sprintf("templates/%s.brew", "post-processing"), package = "link2GI"),  file.path(dirs$src, "postprocessing.R"))
+  brew::brew(system.file(sprintf("templates/%s.brew", "config-master"), package = "link2GI"),  file.path(dirs$src, "config-master-yml"))
   brew::brew(system.file(sprintf("templates/%s.brew", standard_setup), package = "link2GI"),file.path(dirs$functions, "000_setup.R"))
+  brew::brew(system.file(sprintf("templates/%s.brew", "yml"), package = "link2GI"),file.path(dirs$configs, "pre-processing.yml"))
+  brew::brew(system.file(sprintf("templates/%s.brew", "yml"), package = "link2GI"),file.path(dirs$configs, "processing.yml"))
+  brew::brew(system.file(sprintf("templates/%s.brew", "yml"), package = "link2GI"),file.path(dirs$configs, "post-processing.yml"))
   createScript(new_file = file.path(root_folder, "README.md"), template = "readme", notes = TRUE)
-  createScript(new_file = file.path(root_folder, "config-master.yml"), template = "config-master-yml", notes = TRUE)
-
  
   # Init git
   # if (use_standard_setup) init_git <- setup_default()[[standard_setup[1]]]$init_git

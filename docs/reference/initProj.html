@@ -87,15 +87,16 @@ settings templates and git and dvc repository, if necessary.</p>
 <span>  root_folder <span class="op">=</span> <span class="st">"."</span>,</span>
 <span>  folders <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  folder_names <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  init_git <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  init_renv <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  init_git <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  init_renv <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  code_subfolder <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"src"</span>, <span class="st">"src/functions"</span><span class="op">)</span>,</span>
 <span>  global <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  libs <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  openproject <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  newsession <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  openproject <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  newsession <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  standard_setup <span class="op">=</span> <span class="st">"baseSpatial"</span>,</span>
-<span>  loc_name <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>  loc_name <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  ymlFN <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -150,6 +151,10 @@ folders src and src/functions are mandatory.</p></dd>
 <dt>loc_name</dt>
 <dd><p>by default MySite defines the dataset folderlocation and is meant to be a code for the research site</p></dd>
 
+
+<dt>ymlFN</dt>
+<dd><p>filename for a yaml file containing a non standard_setup</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
@@ -166,6 +171,11 @@ template scripts that are created by default. Define additional constans, requir
 part of the 000_settings.R and added to a variable called dirs that allows easy acces to any of the folders. Use
 this variable to load/save data to avoid any hard coded links in the scripts except the top-level root folder which
 is defined once in the main control script located at src/main.R.</p>
+    </div>
+    <div id="note">
+    <h2>Note</h2>
+    <p>For yaml based setup you need to use one of the default configurations c("base", "baseSpatial","advancedSpatial") or you provide a yaml file this MUST contain at least the standard_setup arguments where <code> mysetup</code> is the yaml root<br><code>mysetup:</code><br><code>dataFolder:</code><br><code>  docsFolder:</code><br><code>  tmpFolder:</code><br><code>  init_git: true/false </code><br><code>   init_renv: true/false </code><br><code>  code_subFolder: ["src", "src/functions" , "src/config"] </code><br><code>  global: false </code><br><code>   libs: </code><br><code>  create_folders: true</code><br><code>   files:</code><br>
+   Alternatively you may set default_setup to NULL and provide the arguments via command line.</p>
     </div>
 
     <div id="ref-examples">

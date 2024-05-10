@@ -58,7 +58,7 @@ settings templates and git and dvc repository, if necessary.
 }
 \details{
 The function uses [setupProj] for setting up the folders. Once the project is creaeted, manage the overall
-configuration of the project by the src/functions/000_settings.R script. It is sourced at the begining of the
+configuration of the project by the `src/functions/000_settings.R script`. It is sourced at the begining of the
 template scripts that are created by default. Define additional constans, required libraries etc. in the
 000_settings.R at any time. If additonal folders are required later, just add them manually. They will be parsed as
 part of the 000_settings.R and added to a variable called dirs that allows easy acces to any of the folders. Use
@@ -66,18 +66,22 @@ this variable to load/save data to avoid any hard coded links in the scripts exc
 is defined once in the main control script located at src/main.R.
 }
 \note{
-For yaml based setup you need to use one of the default configurations c("base", "baseSpatial","advancedSpatial") or you provide a yaml file this MUST contain at least the standard_setup arguments where \code{ mysetup} is the yaml root\cr  
- \code{mysetup:}\cr 
- \code{dataFolder:}\cr  
-  \code{  docsFolder:}\cr  
-  \code{  tmpFolder:}\cr   
-  \code{  init_git: true/false }\cr
- \code{   init_renv: true/false }\cr
-  \code{  code_subFolder: ["src", "src/functions" , "src/config"] }\cr
- \code{  global: false }\cr
- \code{   libs: }\cr
- \code{  create_folders: true}\cr
- \code{   files:}\cr
+For yaml based setup you need to use one of the default configurations 
+c("base", "baseSpatial","advancedSpatial") or you provide a yaml file this 
+MUST contain at least the standard_setup arguments where \code{ mysetup} is the yaml root\cr  
+ \preformatted{
+mysetup:
+ dataFolder:  
+ docsFolder:  
+ tmpFolder:   
+ init_git: true/false 
+ init_renv: true/false 
+ code_subFolder: ["src", "src/functions" , "src/config"] 
+ global: true/false 
+ libs: 
+ create_folders: true/false
+ files:
+}
    Alternatively you may set default_setup to NULL and provide the arguments via command line.
 }
 \examples{

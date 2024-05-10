@@ -165,7 +165,7 @@ folders src and src/functions are mandatory.</p></dd>
     <div id="details">
     <h2>Details</h2>
     <p>The function uses [setupProj] for setting up the folders. Once the project is creaeted, manage the overall
-configuration of the project by the src/functions/000_settings.R script. It is sourced at the begining of the
+configuration of the project by the `src/functions/000_settings.R script`. It is sourced at the begining of the
 template scripts that are created by default. Define additional constans, required libraries etc. in the
 000_settings.R at any time. If additonal folders are required later, just add them manually. They will be parsed as
 part of the 000_settings.R and added to a variable called dirs that allows easy acces to any of the folders. Use
@@ -174,8 +174,21 @@ is defined once in the main control script located at src/main.R.</p>
     </div>
     <div id="note">
     <h2>Note</h2>
-    <p>For yaml based setup you need to use one of the default configurations c("base", "baseSpatial","advancedSpatial") or you provide a yaml file this MUST contain at least the standard_setup arguments where <code> mysetup</code> is the yaml root<br><code>mysetup:</code><br><code>dataFolder:</code><br><code>  docsFolder:</code><br><code>  tmpFolder:</code><br><code>  init_git: true/false </code><br><code>   init_renv: true/false </code><br><code>  code_subFolder: ["src", "src/functions" , "src/config"] </code><br><code>  global: false </code><br><code>   libs: </code><br><code>  create_folders: true</code><br><code>   files:</code><br>
-   Alternatively you may set default_setup to NULL and provide the arguments via command line.</p>
+    <p>For yaml based setup you need to use one of the default configurations 
+c("base", "baseSpatial","advancedSpatial") or you provide a yaml file this 
+MUST contain at least the standard_setup arguments where <code> mysetup</code> is the yaml root<br></p><div class="sourceCode"><pre><code>
+mysetup:
+ dataFolder:  
+ docsFolder:  
+ tmpFolder:   
+ init_git: true/false 
+ init_renv: true/false 
+ code_subFolder: ["src", "src/functions" , "src/config"] 
+ global: true/false 
+ libs: 
+ create_folders: true/false
+ files:
+</code></pre></div><p>Alternatively you may set default_setup to NULL and provide the arguments via command line.</p>
     </div>
 
     <div id="ref-examples">

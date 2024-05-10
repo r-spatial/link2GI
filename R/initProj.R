@@ -206,8 +206,7 @@ initProj <- function(root_folder = ".", folders = NULL, folder_names = NULL,
       standard_setup = NULL
     )
   }
-
-
+ 
   # create R project and scripts
   brew::brew(system.file(sprintf("templates/%s.brew", "rstudio_proj"), package = "link2GI"), file.path(root_folder, paste0(basename(root_folder), ".Rproj")))
   brew::brew(system.file(sprintf("templates/%s.brew", "script_control"), package = "link2GI"),  file.path(dirs$src, "main-control.R"))
@@ -235,18 +234,7 @@ initProj <- function(root_folder = ".", folders = NULL, folder_names = NULL,
   
   if (init_renv) renv::init(root_folder)
   
-  # dirs=yaml::as.yaml(dirs)
-  #yaml::write_yaml(dirs,file = file.path("pPath.yaml"))
-  #dirs = createFolders(root_folder = here::here(root_folder),folders = dirs,create_folders = FALSE)
-  # yaml::write_yaml(dirs,file.path(here::here(root_folder),"src/functions/dirs.yaml"))
-  # if (is.null(OpenFiles)) {
-  #   rstudioapi::navigateToFile("src/pre-processing.R")
-  #   rstudioapi::navigateToFile("src/post-processing.R")
-  #   rstudioapi::navigateToFile("src/10-processing.R")
-  #   rstudioapi::navigateToFile("src/functions/000_setup.R") 
-  #   rstudioapi::navigateToFile("src/main-control.R")
-  # }
-  #if (openproject) rstudioapi::openProject(file.path(root_folder, paste0(basename(root_folder), ".Rproj")),newSession = newsession)
+ if (openproject) rstudioapi::openProject(file.path(root_folder, paste0(basename(root_folder), ".Rproj")),newSession = newsession)
   return(dirs)
 }
 

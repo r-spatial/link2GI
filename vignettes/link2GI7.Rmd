@@ -14,7 +14,7 @@ output:
     toc: yes
 urlcolor: blue
 vignette: >
-  %\VignetteIndexEntry{Installation guide for link2GI related Software}
+  %\VignetteIndexEntry{link2GI - Installation guide for link2GI related Software}
   %\VignetteEncoding{UTF-8}{inputenc}\
   %\VignetteEngine{knitr::knitr}
 ---

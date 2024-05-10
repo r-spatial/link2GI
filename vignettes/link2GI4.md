@@ -1,7 +1,7 @@
 ---
 author: "Chris Reudenbach"
 title: "OTB Wrapper"
-date: "2024-05-07"
+date: "2024-05-10"
 editor_options:
   chunk_output_type: console
 output:
@@ -14,7 +14,7 @@ output:
     toc: yes
 urlcolor: blue
 vignette: >
-  %\VignetteIndexEntry{OTB Wrapper}
+  %\VignetteIndexEntry{link2GI - OTB Wrapper}
   %\VignetteEncoding{UTF-8}{inputenc}\
   %\VignetteEngine{knitr::knitr}
 ---

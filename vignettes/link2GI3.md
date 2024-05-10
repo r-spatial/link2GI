@@ -1,7 +1,7 @@
 ---
 author: "Chris Reudenbach"
 title: "linkGRASS real world data usecase"
-date: "2024-05-09"
+date: "2024-05-10"
 editor_options:
   chunk_output_type: console
 output:
@@ -14,7 +14,7 @@ output:
     toc: yes
 urlcolor: blue
 vignette: >
-  %\VignetteIndexEntry{linkGRASS real world data usecase}
+  %\VignetteIndexEntry{link2GI - linkGRASS real world data usecase}
   %\VignetteEncoding{UTF-8}{inputenc}\
   %\VignetteEngine{knitr::knitr}
 ---

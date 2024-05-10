@@ -14,7 +14,7 @@ output:
     toc: yes
 urlcolor: blue
 vignette: >
-  %\VignetteIndexEntry{Reproducible projects}
+  %\VignetteIndexEntry{link2GI - Reproducible projects}
   %\VignetteEncoding{UTF-8}{inputenc}\
   %\VignetteEngine{knitr::knitr}
 ---
@@ -70,3 +70,10 @@ root_folder <- tempdir() # Mandatory, variable must be in the R environment.
 dirs <- initProj(root_folder = root_folder, standard_setup = "baseSpatial",folders = c("data/rawdata/provider1/", "docs/quarto/"))
 ```
 
+A more complex call will be:
+
+```R
+ initProj(root_folder = tempdir(), folders = c("data/newdata/"),
+  init_git = TRUE, init_renv = TRUE, code_subfolder = c("src", "src/functions","src/deprec"),
+  standard_setup = "baseSpatial",loc_name = "oldplace", appendlibs = c("raster"),openproject=TRUE)
+```

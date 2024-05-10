@@ -1,7 +1,7 @@
 ---
 author: "Chris Reudenbach"
 title: "link2GI Basic Examples"
-date: "2024-05-08"
+date: "2024-05-10"
 editor_options:
   chunk_output_type: console
 output:
@@ -14,7 +14,7 @@ output:
     toc: yes
 urlcolor: blue
 vignette: >
-  %\VignetteIndexEntry{link2GI Basic Examples}
+  %\VignetteIndexEntry{link2GI - link2GI Basic Examples}
   %\VignetteEncoding{UTF-8}{inputenc}\
   %\VignetteEngine{knitr::knitr}
 ---

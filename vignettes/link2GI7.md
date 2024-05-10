@@ -1,7 +1,7 @@
 ---
 author: "Chris Reudenbach"
 title: "Installation guide for link2GI related Software"
-date: "2024-05-07"
+date: "2024-05-10"
 editor_options:
   chunk_output_type: console
 output:
@@ -14,7 +14,7 @@ output:
     toc: yes
 urlcolor: blue
 vignette: >
-  %\VignetteIndexEntry{Installation guide for link2GI related Software}
+  %\VignetteIndexEntry{link2GI - Installation guide for link2GI related Software}
   %\VignetteEncoding{UTF-8}{inputenc}\
   %\VignetteEngine{knitr::knitr}
 ---

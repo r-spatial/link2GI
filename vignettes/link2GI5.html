@@ -177,6 +177,11 @@ link2GI::setup_default()$baseSpatial$code_subfolder
 <pre><code class="language-R">root_folder &lt;- tempdir() # Mandatory, variable must be in the R environment.
 dirs &lt;- initProj(root_folder = root_folder, standard_setup = &quot;baseSpatial&quot;,folders = c(&quot;data/rawdata/provider1/&quot;, &quot;docs/quarto/&quot;))
 </code></pre>
+<p>A more complex call will be:</p>
+<pre><code class="language-R"> initProj(root_folder = tempdir(), folders = c(&quot;data/newdata/&quot;),
+  init_git = TRUE, init_renv = TRUE, code_subfolder = c(&quot;src&quot;, &quot;src/functions&quot;,&quot;src/deprec&quot;),
+  standard_setup = &quot;baseSpatial&quot;,loc_name = &quot;oldplace&quot;, appendlibs = c(&quot;raster&quot;),openproject=TRUE)
+</code></pre>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js" defer></script>

@@ -1,7 +1,7 @@
 ---
 author: "Chris Reudenbach"
 title: "Link GI to R"
-date: "2024-05-08"
+date: "2024-05-10"
 editor_options:
   chunk_output_type: console
 output:
@@ -14,7 +14,7 @@ output:
     toc: yes
 urlcolor: blue
 vignette: >
-  %\VignetteIndexEntry{Link GI to R}
+  %\VignetteIndexEntry{link2GI - Link GI to R}
   %\VignetteEncoding{UTF-8}{inputenc}\
   %\VignetteEngine{knitr::knitr}
 ---

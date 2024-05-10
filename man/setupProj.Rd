@@ -7,7 +7,6 @@
 setupProj(
   root_folder = tempdir(),
   folders = c("data", "data/tmp"),
-  folder_names = NULL,
   code_subfolder = NULL,
   global = FALSE,
   libs = NULL,
@@ -22,9 +21,6 @@ setupProj(
 \item{root_folder}{root directory of the project.}
 
 \item{folders}{list of subfolders within the project directory.}
-
-\item{folder_names}{names of the variables that point to subfolders. If not
-provided, the base paths of the folders is used.}
 
 \item{code_subfolder}{define subdirectories for code should be created.}
 

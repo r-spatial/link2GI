@@ -2,12 +2,11 @@
 % Please edit documentation in R/initProj.R
 \name{initProj}
 \alias{initProj}
-\title{Set up a project environment}
+\title{Set up a reproducible leightweight project environment}
 \usage{
 initProj(
   root_folder = ".",
   folders = NULL,
-  folder_names = NULL,
   init_git = NULL,
   init_renv = NULL,
   code_subfolder = c("src", "src/functions"),
@@ -25,9 +24,6 @@ initProj(
 \item{root_folder}{root directory of the project.}
 
 \item{folders}{list of subfolders within the project directory that will be created.}
-
-\item{folder_names}{names of the variable values that point to subfolders. If not
-provided, the base paths of the folders is used.}
 
 \item{init_git}{logical: init git repository in the project directory.}
 
@@ -56,8 +52,8 @@ folders src and src/functions are mandatory.}
 dirs, i.e. a list containing the project pathes.
 }
 \description{
-Set up the project environment with a defined folder structure, an RStudio project, initial script and
-settings templates and git and dvc repository, if necessary.
+Set up the project environment with a defined folder structure, an RStudio project, initial scripts and
+configuration files plus git repository and renv support, if demanded.
 }
 \details{
 The function uses [setupProj] for setting up the folders. Once the project is creaeted, manage the overall

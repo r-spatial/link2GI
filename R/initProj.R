@@ -42,8 +42,6 @@ setup_default = function(default=NULL, new_folder_list=NULL,new_folder_list_name
 #'
 #' @param root_folder root directory of the project.
 #' @param folders list of subfolders within the project directory.
-#' @param folder_names names of the variables that point to subfolders. If not
-#' provided, the base paths of the folders is used.
 #' @param create_folders create folders if not existing already.
 #'
 #' @return  List with folder paths and names.
@@ -57,14 +55,14 @@ setup_default = function(default=NULL, new_folder_list=NULL,new_folder_list_name
 #' }
 #' # Create folder list and set variable names pointing to the path values
 createFolders <- function(root_folder, folders,
-                          folder_names = NULL, 
+                          
                           create_folders = FALSE) {
   folders <- lapply(folders, function(f) {
     file.path(root_folder, f)
   })
   folders <- folders[!duplicated(folders)]
   
-  if (is.null(folder_names)) {
+
     names(folders) <- basename(unlist(folders))
     tmplt <- unlist(folders)
     
@@ -75,10 +73,7 @@ createFolders <- function(root_folder, folders,
       names(folders)[dplcts] <-
         paste(basename(tmplt)[dplcts], names(folders[dplcts]), sep = "_")
     }
-  } else {
-    names(folders) <- folder_names
-  }
-  
+
 
   # Check paths for existance and create if necessary
   for (f in folders) {
@@ -89,15 +84,13 @@ createFolders <- function(root_folder, folders,
 }
 
 
-#' Set up a project environment
+#' Set up a reproducible leightweight project environment
 #'
-#' @description Set up the project environment with a defined folder structure, an RStudio project, initial script and
-#' settings templates and git and dvc repository, if necessary.
+#' @description Set up the project environment with a defined folder structure, an RStudio project, initial scripts and
+#' configuration files plus git repository and renv support, if demanded.
 #'
 #' @param root_folder root directory of the project.
 #' @param folders list of subfolders within the project directory that will be created.
-#' @param folder_names names of the variable values that point to subfolders. If not
-#' provided, the base paths of the folders is used.
 #' @param init_git logical: init git repository in the project directory.
 #' @param init_renv logical: init renv in the project directory.
 #' @param code_subfolder subfolders for scripts and functions within the project directory that will be created. The
@@ -147,7 +140,7 @@ createFolders <- function(root_folder, folders,
 #' dirs <- initProj(root_folder = root_folder, standard_setup = "baseSpatial")
 #' }
 #'
-initProj <- function(root_folder = ".", folders = NULL, folder_names = NULL,
+initProj <- function(root_folder = ".", folders = NULL, 
                      init_git = NULL, init_renv = NULL, code_subfolder = c("src", "src/functions"),
                      global = FALSE,   openproject = NULL, newsession = TRUE,
                      standard_setup = "baseSpatial",loc_name = NULL, ymlFN = NULL ,appendlibs = NULL, OpenFiles = NULL) {
@@ -203,7 +196,7 @@ initProj <- function(root_folder = ".", folders = NULL, folder_names = NULL,
   } else {
     use_standard_setup <- FALSE
     dirs <- setupProj(
-      root_folder = root_folder, folders = projectDirList, folder_names = folder_names, 
+      root_folder = root_folder, folders = projectDirList, 
       code_subfolder = code_subfolder,
       global = global, libs = libs,
       standard_setup = NULL
@@ -248,8 +241,6 @@ initProj <- function(root_folder = ".", folders = NULL, folder_names = NULL,
 #'
 #' @param root_folder root directory of the project.
 #' @param folders list of subfolders within the project directory.
-#' @param folder_names names of the variables that point to subfolders. If not
-#' provided, the base paths of the folders is used.
 #' @param code_subfolder define subdirectories for code should be created.
 #' @param global logical: export path strings as global variables?
 #' @param libs  vector with the  names of libraries
@@ -277,7 +268,7 @@ initProj <- function(root_folder = ".", folders = NULL, folder_names = NULL,
 #' )
 #' }
 #'
-setupProj <- function(root_folder = tempdir(), folders = c("data", "data/tmp"), folder_names = NULL,
+setupProj <- function(root_folder = tempdir(), folders = c("data", "data/tmp"), 
                        code_subfolder = NULL, 
                       global = FALSE, libs = NULL, setup_script = "000_setup.R", fcts_folder = NULL,
                       source_functions = !is.null(fcts_folder),
@@ -302,7 +293,7 @@ setupProj <- function(root_folder = tempdir(), folders = c("data", "data/tmp"), 
   
   # Create folders
   folders <- createFolders(root_folder, folders,
-                           folder_names = folder_names, 
+                          
                            create_folders = create_folders
   )
   

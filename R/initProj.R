@@ -149,12 +149,15 @@ createFolders <- function(root_folder, folders,
 #'
 initProj <- function(root_folder = ".", folders = NULL, folder_names = NULL,
                      init_git = NULL, init_renv = NULL, code_subfolder = c("src", "src/functions"),
-                     global = FALSE,   openproject = NULL, 
+                     global = FALSE,   openproject = NULL, newsession = TRUE,
                      standard_setup = "baseSpatial",loc_name = NULL, ymlFN = NULL ,appendlibs = NULL, OpenFiles = NULL) {
   
 
   notes = TRUE
-  if (loc_name == "") loc_name = NULL
+  if (is.null(init_git)) init_git = FALSE
+  if (is.null(init_renv)) init_renv = FALSE
+  if (!is.null(loc_name)) 
+    if (loc_name == "") loc_name = NULL
   if (is.null(appendlibs)) appendlibs = "dplyr"
   if (is.null(openproject)) openproject = FALSE
   # Setup project directory structure
@@ -162,7 +165,7 @@ initProj <- function(root_folder = ".", folders = NULL, folder_names = NULL,
     {
   envrmt = setup_default(standard_setup)
   } else {
-    envrmt = read_yaml(file = ymlFN)
+    envrmt = yaml::read_yaml(file = ymlFN)
   }
   
   if (is.null(appendlibs)){

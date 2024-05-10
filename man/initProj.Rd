@@ -13,6 +13,7 @@ initProj(
   code_subfolder = c("src", "src/functions"),
   global = FALSE,
   openproject = NULL,
+  newsession = TRUE,
   standard_setup = "baseSpatial",
   loc_name = NULL,
   ymlFN = NULL,
@@ -39,6 +40,8 @@ folders src and src/functions are mandatory.}
 
 \item{openproject}{open project after creating it, d default = TRUE}
 
+\item{newsession}{open project in a new session? default is FALSE}
+
 \item{standard_setup}{use predefined settings. c("base","baseSpatial", "advancedSpatial"). In this case, only the name of the root folder is required.}
 
 \item{loc_name}{by default MySite defines the dataset folderlocation and is meant to be a code for the research site}
@@ -48,8 +51,6 @@ folders src and src/functions are mandatory.}
 \item{appendlibs}{vector with the  names of libraries that are required for the initial project.}
 
 \item{OpenFiles}{default NULL}
-
-\item{newsession}{open project in a new session? default is FALSE}
 }
 \value{
 dirs, i.e. a list containing the project pathes.

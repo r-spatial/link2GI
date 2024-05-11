@@ -50,7 +50,7 @@ The `find' functions provide an overview of the installed software. These functi
 
 If you are just calling link2GI on the fly, i.e. for a single temporary operation, there is no need to set up folders and project structures. If you are working on a more complex project, it might be helpful to have a fixed structure. The same goes for existing `GRASS` projects that need to be in specific mapsets and locations. 
 
-A simple (you can call it dirty) approach is the ìnitProjî function, which creates folder structures (if not existing) and sets global variables (if desired) containing the paths as strings.
+A simple (you can call it dirty) approach is the `initProj` function, which creates folder structures (if not existing) and sets global variables (if desired) containing the paths as strings.
 
 ```{r, eval=FALSE}
 require(link2GI)

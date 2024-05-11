@@ -3,7 +3,72 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>GEOSTAT 2018 Examples</title>
+<title>Reproducible projects</title>
+<style type="text/css">
+/**
+ * Prism.s theme ported from highlight.js's xcode style
+ */
+pre code {
+  padding: 1em;
+}
+.token.comment {
+  color: #007400;
+}
+.token.punctuation {
+  color: #999;
+}
+.token.tag,
+.token.selector {
+  color: #aa0d91;
+}
+.token.boolean,
+.token.number,
+.token.constant,
+.token.symbol {
+  color: #1c00cf;
+}
+.token.property,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin {
+  color: #c41a16;
+}
+.token.inserted {
+  background-color: #ccffd8;
+}
+.token.deleted {
+  background-color: #ffebe9;
+}
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string {
+  color: #9a6e3a;
+}
+.token.atrule,
+.token.attr-value,
+.token.keyword {
+  color: #836c28;
+}
+.token.function,
+.token.class-name {
+  color: #DD4A68;
+}
+.token.regex,
+.token.important,
+.token.variable {
+  color: #5c2699;
+}
+.token.important,
+.token.bold {
+  font-weight: bold;
+}
+.token.italic {
+  font-style: italic;
+}
+</style>
 <style type="text/css">
 body {
   font-family: sans-serif;
@@ -75,25 +140,50 @@ section.footnotes::before {
 </head>
 <body>
 <div class="frontmatter">
-<div class="title"><h1>GEOSTAT 2018 Examples</h1></div>
+<div class="title"><h1>Reproducible projects</h1></div>
 <div class="author"><h2>Chris Reudenbach</h2></div>
-<div class="date"><h3>2024-05-06</h3></div>
+<div class="date"><h3>2024-05-10</h3></div>
 </div>
 <div class="body">
-<h3 id="usecases-presented-on-the-geostat-august-2018">Usecases presented on the GEOSTAT August 2018</h3>
-<p>During the GEOSTAT 2018 (see <a href="https://opengeohub.org">https://opengeohub.org</a>) in Prague some more complex use cases have been presented.</p>
-<h4 id="find-slides-and-materials">Find slides and materials</h4>
-<ul>
-<li><a href="https://gisma.github.io/link2gi2018/link2gi2018.html#1">Presentation slides</a></li>
-<li><a href="https://github.com/gisma/link2gi2018">Github Repository</a></li>
-</ul>
-<h4 id="the-examples">The examples</h4>
-<ul>
-<li>Basic usage of <code>SAGA</code> and <code>OTB</code> calls - <a href="https://github.com/gisma/link2gi2018/blob/master/R/usecases/saga-otb/useCaseSAGA-OTB.R">SAGA &amp; OTB basic usecase</a></li>
-<li>Wrapping a <a href="https://neteler.gitlab.io/grass-gis-analysis/02_grass-gis_ecad_analysis/">GRASS GIS example</a> of Markus Neteler as presented on GEOSTAT 2018 - <a href="https://github.com/gisma/link2gi2018/blob/master/R/usecases/grass/useCaseGRASS-Neteler2018.R">Analysing the ECA&amp;D climatic data - reloaded</a></li>
-<li>Performing a <code>GRASS</code> based cost analysis on a huge cost raster - <a href="https://github.com/gisma/link2gi2018/blob/master/R/usecases/cost-analysis/useCaseBeetle.R">Beetle spread over high asia</a></li>
-<li>Deriving a canopy height model using a mixed API approach - <a href="https://github.com/gisma/link2gi2018/blob/master/R/usecases/uav-pc/useCaseCHM.R">Canopy Height Model from UAV derived point clouds</a></li>
-</ul>
+<h1 id="reproducible-project-structure">Reproducible Project Structure</h1>
+<p>Reproducible projects in R emphasize streamlined project setup and efficient workflows. There are a number of very helpful tools in the R universe, such as <a href="https://cran.r-project.org/package=renv"><code>renv</code></a>, <a href="https://cran.r-project.org/package=usethis"><code>usethis</code></a>, or <a href="https://cran.r-project.org/package=here"><code>here</code></a>, that range from setting up a stable R environment to generating custom project structures to getting the necessary paths in an easy way. In addition, there are a number of project structure packages and templates for creating easy-to-use and transparent project structures. Namely, <a href="https://cran.r-project.org/package=tinyProject"><code>tinProjects</code></a>, <a href="https://cran.r-project.org/package=prodigenr"><code>prodigenr</code></a> or <a href="https://cran.r-project.org/package=workflowr"><code>workflowr</code></a> are R packages designed to facilitate reproducible research through automated project structuring and standardization. They all promote organized project directories, emphasize reproducibility by integrating with tools like <code>Git' and </code>renv’, and reduce manual setup efforts to ensure consistent and error-free project initialization. These packages help build a solid foundation for research and ensure that best practices include using separate scripts for data processing, analysis, and reporting, and combining code with narrative in R Markdown documents from the start. This organized setup improves reproducibility by making it easier to maintain, share, and replicate research. For a more comprehensive overview, have a look at the <a href="https://CRAN.R-project.org/view=ReproducibleResearch"> CRAN Task View Reproducible Research</a>.</p>
+<h2 id="why-initproj-then">Why initProj then?</h2>
+<p>In the context of link2GI, which relies heavily on third-party command-line APIs and requires complex and stable folder and file structures, a flexible, lightweight R project setup greatly improves the integration of OS command-line tools into spatial workflows by</p>
+<ol>
+<li>**Streamlining integration: Simplifies the integration of essential command-line tools such as <code>GDAL' or the sophisticated </code>Orfeo Toolbox’ (OTB) and the growing universe of r(-)spatial packages for advanced geospatial processing.</li>
+<li><strong>Improve data exchange</strong>: Organized variable and metadata management ensures accurate and efficient data transfer between different and especially command-line based processes and APIs.</li>
+<li>**Enhanced Cross-Platform Compatibility: Facilitates cross-platform adaptability, which is critical when using multiple spatial analysis tools, even more so when using different shells.</li>
+<li>**Performance Optimization: Switching between generic R and command-line tools takes advantage of the speed and efficiency of command-line tools, which is especially beneficial when handling large spatial datasets.</li>
+</ol>
+<p>For this reason, the link2GI package includes a lean and lightweight but focused approach that integrates <code>git', </code>renv’, and a highly flexible folder and package setup process that is simpler than existing approaches, increasing efficiency, accuracy, and performance in geospatial workflows.</p>
+<h3 id="using-the-rstudio-gui">Using the RStudio GUI</h3>
+<p><img src="https://raw.githubusercontent.com/r-spatial/link2GI/master/figures/usegui.gif" alt="Use the RStudio Template Option" /></p>
+<h3 id="using-the-console">Using the Console</h3>
+<p>The basic setup of a default project, which initializes Git and renv, is done with the following call.</p>
+<pre><code class="language-R">root_folder &lt;- tempdir() # Mandatory, variable must be in the R environment.
+dirs &lt;- initProj(root_folder = root_folder, standard_setup = &quot;baseSpatial&quot;)
+
+</code></pre>
+<p>It is easy to customize the folder structure. By default you will create</p>
+<pre><code class="language-R">link2GI::setup_default()$baseSpatial$dataFolder
+</code></pre>
+<p><code>[1] &quot;docs&quot;         &quot;docs/figures&quot; &quot;tmp&quot;          &quot;data/source&quot;  &quot;data/results&quot; &quot;data/level0&quot;  &quot;data/level1&quot; </code></p>
+<pre><code class="language-R">
+link2GI::setup_default()$baseSpatial$code_subfolder
+
+</code></pre>
+<p><code>[1] &quot;src&quot;           &quot;src/functions&quot;</code></p>
+<p>Use the <code>folders</code> argument to create a specific structure or subfolder structure of your project.</p>
+<pre><code class="language-R">root_folder &lt;- tempdir() # Mandatory, variable must be in the R environment.
+dirs &lt;- initProj(root_folder = root_folder, standard_setup = &quot;baseSpatial&quot;,folders = c(&quot;data/rawdata/provider1/&quot;, &quot;docs/quarto/&quot;))
+</code></pre>
+<p>A more complex call will be:</p>
+<pre><code class="language-R"> initProj(root_folder = tempdir(), folders = c(&quot;data/newdata/&quot;),
+  init_git = TRUE, init_renv = TRUE, code_subfolder = c(&quot;src&quot;, &quot;src/functions&quot;,&quot;src/deprec&quot;),
+  standard_setup = &quot;baseSpatial&quot;,loc_name = &quot;oldplace&quot;, appendlibs = c(&quot;raster&quot;),openproject=TRUE)
+</code></pre>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js" defer></script>
 </body>
 </html>

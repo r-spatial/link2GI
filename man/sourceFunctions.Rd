@@ -8,7 +8,7 @@ sourceFunctions(fcts_folder, setup_script)
 }
 \arguments{
 \item{fcts_folder}{path of the folder holding the functions. All files in
-this folder will be sourced.}
+this folder will be sourced at project start.}
 }
 \value{
 Information if sourcing was successfull based on try function.

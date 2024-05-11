@@ -13,7 +13,7 @@
 
 ## ----eval=FALSE---------------------------------------------------------------
 #  require(link2GI)
-#  envrmt = link2GI::createFolders(root_folder = tempdir(),
+#  dirs = link2GI::createFolders(root_folder = tempdir(),
 #                                  folders = c("data/",
 #                                              "data/level0/",
 #                                              "data/level1/",
@@ -21,7 +21,7 @@
 #                                              "run/",
 #                                              "fun/")
 #                                  )
-#  envrmt
+#  dirs
 
 ## ----eval=FALSE, echo=FALSE, message=FALSE, warning=FALSE---------------------
 #  require(link2GI)

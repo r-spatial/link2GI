@@ -48,13 +48,13 @@
       <a href="../articles/link2GI4.html">OTB Wrapper</a>
     </li>
     <li>
-      <a href="../articles/link2GI5.html">GEOSTAT 2018 Examples</a>
+      <a href="../articles/link2GI5.html">Reproducible projects</a>
     </li>
     <li>
-      <a href="../articles/link2GI6.html">Installation guide for link2GI related Software</a>
+      <a href="../articles/link2GI6.html">GEOSTAT 2018 Examples</a>
     </li>
     <li>
-      <a href="../articles/link2GI7.html">Reproducible projects</a>
+      <a href="../articles/link2GI7.html">Installation guide for link2GI related Software</a>
     </li>
   </ul></li>
 <li>
@@ -123,7 +123,7 @@ If you provide a valid list the corresponding version is initialized. An example
 
 
 <dt>search_path</dt>
-<dd><p>path or mounting point that will be searched</p></dd>
+<dd><p>Path or mount point to search for.</p></dd>
 
 
 <dt>ver_select</dt>
@@ -163,36 +163,28 @@ If you provide a valid list the corresponding version is initialized. An example
 to the PATH variable only, otherwise all paths and versions of the installed GRASS versions ae returned.</p></dd>
 
 </dl></div>
-    <div id="details">
-    <h2>Details</h2>
-    <p>The concept is straightforward but for an all days usage helpful. Either you need to 
-provide a <code>raster</code> or <code>sp</code> <code>sf</code> spatial object
- which has correct spatial and projection properties or you may link directly to an existing 'GRASS' gisdbase and mapset. 
- If you choose an spatial object to initialize a correct 'GRASS' map set it is used to create either a temporary or a permanent 
- <a href="https://CRAN.R-project.org/package=rgrass" class="external-link">rgrass</a> environment including the correct 'GRASS ' structure.<br><br>
- The most time consuming part on 'Windows' Systems is the search process. This can easily take 10 or more minutes. 
- To speed up this process you can also provide a correct parameter set. Best way to do so is to call <code>searchGRASSW</code> or for 'Linux' <code>searchGRASSX</code> manually. 
- and call <code>linkGRASS</code> with the version arguments of your choice. linkGRASS initializes the usage of GRASS7.</p>
-    </div>
     <div id="note">
     <h2>Note</h2>
-    <p>'GRASS GIS' is excellently supported by the
- <code>rgrass</code> wrapper package. Nevertheless 'GRASS GIS' is well known for
- its high demands regarding the correct spatial and reference setup  
- of work space and environment requirements. This becomes even worse on 'Windows' 
- platforms or if several alternative 'GRASS GIS' installations are available.
- If one knows what to do the <code>rgrass</code> package setup function 
- <code><a href="https://rsbivand.github.io/rgrass/reference/initGRASS.html" class="external-link">rgrass::initGRASS</a></code> works fine under Linux. 
- This is also valid for well known configurations under the 'Windows' operation system. 
- Nevertheless on university labs or on company computers with restricted privileges and/or using different releases
- like the  <a href="https://trac.osgeo.org/osgeo4w/" class="external-link">'OSGeo4W'</a> distribution and the  
- <a href="https://grass.osgeo.org/download/windows/" class="external-link">'GRASS ' stand-alone</a> installation, 
- or different software releases (e.g. 'GRASS 7.0.5 and GRASS 8.1.0), it becomes often cumbersome or even 
- impossible to get the correct linkages. <br> 
- The function <code>linkGRASS</code> tries to find all valid 'GRASS GIS' binaries by analyzing
- the start up script files of 'GRASS GIS'. After identifying the 'GRASS GIS' binaries all
- necessary system variables and settings will be generated and passed to a temporary R environment.</p>
-<p>If you have more than one valid installation and run <code>linkGRASS()</code> without arguments, you will be ask to select one.</p>
+    <p>GRASS GIS is excellently supported by the <code>rgrass</code> wrapper package. Nevertheless, 'GRASS GIS' is known for its
+its high demands on the correct spatial and reference setup  and environment requirements. This becomes even worse on 'Windows 
+platforms or when there are several alternative 'GRASS GIS' installations available.
+If you know how to use the <code>rgrass</code> package setup function <code><a href="https://rsbivand.github.io/rgrass/reference/initGRASS.html" class="external-link">rgrass::initGRASS</a></code> works fine on Linux. 
+This is also true for known configurations under the 'Windows' operating system. 
+However, on university labs or corporate machines with limited privileges and/or different releases
+such as the <a href="https://trac.osgeo.org/osgeo4w/" class="external-link">'OSGeo4W'</a> distribution and the  <a href="https://grass.osgeo.org/download/windows/" class="external-link">'GRASS' stand-alone</a> installation, 
+or different software releases (e.g. 'GRASS 7.0.5 and GRASS 8.1.0), it often becomes inconvenient or even 
+to get the correct links. <br> The function <code>linkGRASS</code> tries to find all valid 'GRASS GIS' binaries by #' analyzing the startup script files.
+GRASS GIS' startup script files. After identifying the 'GRASS GIS' binaries, all #' necessary system variables and settings are
+system variables and settings are generated and passed to a temporary R environment.
+The concept is simple, but helpful for everyday use. You need to either 
+provide a <code>raster</code> or <code>sp</code> <code>sf</code> spatial object
+that has the correct spatial and projection properties, or you can link directly to an existing 'GRASS' gisdbase and mapset. 
+If you choose a spatial object to initialize a correct 'GRASS' mapset, it will be used to create either a temporary or permanent mapset. 
+<a href="https://CRAN.R-project.org/package=rgrass" class="external-link">rgrass</a> environment with the correct 'GRASS' structure.<br><br>
+The most time consuming part on Windows systems is the search process. This can easily take 10 minutes or more. 
+To speed up this process, you can also provide a correct parameter set. The best way to do this is to manually call <code>searchGRASSW</code> or for 'Linux' <code>searchGRASSX</code>. 
+and call <code>linkGRASS</code> with the version arguments of your choice. linkGRASS will initialize the use of GRASS7.
+If you have more than one valid installation and call <code>linkGRASS()</code> without arguments, you will be asked to choose one.</p>
     </div>
     <div id="author">
     <h2>Author</h2>
@@ -207,54 +199,43 @@ provide a <code>raster</code> or <code>sp</code> <code>sf</code> spatial object
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-spatial/link2GI/" class="external-link">link2GI</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/" class="external-link">sf</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># proj folders</span></span></span>
-<span class="r-in"><span><span class="va">root_folder</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">paths</span> <span class="op">=</span> <span class="fu">link2GI</span><span class="fu">::</span><span class="fu"><a href="createFolders.html">createFolder</a></span><span class="op">(</span>root_folder <span class="op">=</span> <span class="va">root_folder</span>,</span></span>
-<span class="r-in"><span>                         folders <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"project1/"</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span>                         </span></span>
 <span class="r-in"><span><span class="co"># get  data                         </span></span></span>
 <span class="r-in"><span><span class="va">nc</span> <span class="op">=</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"shape/nc.shp"</span>, package<span class="op">=</span><span class="st">"sf"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># Automatic linking of GRASS binaries using the nc data object for spatial referencing</span></span></span>
+<span class="r-in"><span><span class="co"># This is the best practice linking procedure for on-the-fly jobs.</span></span></span>
+<span class="r-in"><span><span class="co"># NOTE: If more than one GRASS installation is found, you will have to select one. </span></span></span>
+<span class="r-in"><span><span class="va">grass</span> <span class="op">=</span> <span class="fu">linkGRASS</span><span class="op">(</span><span class="va">nc</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Automatic search and find of GRASS binaries </span></span></span>
-<span class="r-in"><span><span class="co"># using the nc sf data object for spatial referencing</span></span></span>
-<span class="r-in"><span><span class="co"># This is the highly recommended linking procedure for on the fly jobs</span></span></span>
-<span class="r-in"><span><span class="co"># NOTE: if more than one GRASS installation is found you have to choose. </span></span></span>
-<span class="r-in"><span><span class="va">grass</span> <span class="op">=</span> <span class="fu">linkGRASS</span><span class="op">(</span><span class="va">nc</span>,returnPaths <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># Select the GRASS installation (if more than one)</span></span></span>
+<span class="r-in"><span><span class="fu">linkGRASS</span><span class="op">(</span><span class="va">nc</span>, ver_select <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Select the GRASS installation and define the search location</span></span></span>
+<span class="r-in"><span><span class="fu">linkGRASS</span><span class="op">(</span><span class="va">nc</span>, ver_select <span class="op">=</span> <span class="cn">TRUE</span>, search_path <span class="op">=</span> <span class="st">"~/"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Set up GRASS manually with spatial parameters of the nc data</span></span></span>
+<span class="r-in"><span><span class="va">epsg</span> <span class="op">=</span> <span class="fl">4267</span></span></span>
+<span class="r-in"><span><span class="va">proj4_string</span> <span class="op">=</span> <span class="fu">sp</span><span class="fu">::</span><span class="fu"><a href="https://edzer.github.io/sp/reference/CRS-class.html" class="external-link">CRS</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"+init=epsg:"</span>,<span class="va">epsg</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">linkGRASS</span><span class="op">(</span>spatial_params <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">178605</span>,<span class="fl">329714</span>,<span class="fl">181390</span>,<span class="fl">333611</span>,<span class="va">proj4_string</span><span class="op">)</span><span class="op">)</span> </span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># create some temporary project folders for a permanent gisdbase</span></span></span>
+<span class="r-in"><span><span class="va">root_folder</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">grass_path</span> <span class="op">=</span> <span class="fu">link2GI</span><span class="fu">::</span><span class="fu"><a href="createFolders.html">createFolder</a></span><span class="op">(</span>root_folder <span class="op">=</span> <span class="va">root_folder</span>,</span></span>
+<span class="r-in"><span>                         folders <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"project1/"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="va">grass</span><span class="op">$</span><span class="va">exist</span><span class="op">)</span><span class="op">{</span></span></span>
-<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># CREATE and link to a permanent GRASS folder at "root_folder", location named "project1" </span></span></span>
 <span class="r-in"><span><span class="fu">linkGRASS</span><span class="op">(</span><span class="va">nc</span>, gisdbase <span class="op">=</span> <span class="va">root_folder</span>, location <span class="op">=</span> <span class="st">"project1"</span><span class="op">)</span>   </span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># ONLY LINK to a permanent GRASS folder at "root_folder", location named "project1" </span></span></span>
+<span class="r-in"><span><span class="co"># ONLY LINK to a permanent GRASS folder in "root_folder", location named "project1" </span></span></span>
 <span class="r-in"><span><span class="fu">linkGRASS</span><span class="op">(</span>gisdbase <span class="op">=</span> <span class="va">root_folder</span>, location <span class="op">=</span> <span class="st">"project1"</span>, gisdbase_exist <span class="op">=</span> <span class="cn">TRUE</span> <span class="op">)</span>   </span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># setting up GRASS manually with spatial parameters of the nc data</span></span></span>
-<span class="r-in"><span><span class="va">proj4_string</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="fu">sp</span><span class="fu">::</span><span class="fu"><a href="https://edzer.github.io/sp/reference/CRS-class.html" class="external-link">CRS</a></span><span class="op">(</span><span class="st">"+init=epsg:28992"</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">linkGRASS</span><span class="op">(</span>spatial_params <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">178605</span>,<span class="fl">329714</span>,<span class="fl">181390</span>,<span class="fl">333611</span>,<span class="va">proj4_string</span><span class="op">)</span><span class="op">)</span> </span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># creating a GRASS gisdbase manually with spatial parameters of the nc data </span></span></span>
-<span class="r-in"><span><span class="co"># additionally using a peramanent directory "root_folder" and the location "nc_spatial_params "</span></span></span>
-<span class="r-in"><span><span class="va">proj4_string</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="fu">sp</span><span class="fu">::</span><span class="fu"><a href="https://edzer.github.io/sp/reference/CRS-class.html" class="external-link">CRS</a></span><span class="op">(</span><span class="st">"+init=epsg:4267"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># Manual creation of a GRASS gisdbase with the spatial parameters of the NC data. </span></span></span>
+<span class="r-in"><span><span class="co"># additional use of a permanent directory "root_folder" and the location "nc_spatial_params".</span></span></span>
+<span class="r-in"><span><span class="va">epsg</span> <span class="op">=</span> <span class="fl">4267</span></span></span>
+<span class="r-in"><span><span class="va">proj4_string</span> <span class="op">=</span> <span class="fu">sp</span><span class="fu">::</span><span class="fu"><a href="https://edzer.github.io/sp/reference/CRS-class.html" class="external-link">CRS</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"+init=epsg:"</span>,<span class="va">epsg</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">linkGRASS</span><span class="op">(</span>gisdbase <span class="op">=</span> <span class="va">root_folder</span>,</span></span>
 <span class="r-in"><span>           location <span class="op">=</span> <span class="st">"nc_spatial_params"</span>,</span></span>
-<span class="r-in"><span>           spatial_params <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">84.32385</span>, <span class="fl">33.88199</span>,<span class="op">-</span><span class="fl">75.45698</span>,<span class="fl">36.58965</span>,<span class="va">proj4_string</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>           spatial_params <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">84.32385</span>, <span class="fl">33.88199</span>,<span class="op">-</span><span class="fl">75.45698</span>,<span class="fl">36.58965</span>,<span class="va">proj4_string</span><span class="op">)</span>,epsg <span class="op">=</span> <span class="va">epsg</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">## Some more examples related to interactive selection or OS specific settings</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># SELECT the GRASS installation and define the search location</span></span></span>
-<span class="r-in"><span><span class="fu">linkGRASS</span><span class="op">(</span><span class="va">nc</span>, ver_select <span class="op">=</span> <span class="cn">TRUE</span>, search_path <span class="op">=</span> <span class="st">"~"</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># SELECT the GRASS installation </span></span></span>
-<span class="r-in"><span><span class="fu">linkGRASS</span><span class="op">(</span><span class="va">nc</span>, ver_select <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Typical osge4W installation (QGIS), using the meuse sp data object for spatial referencing</span></span></span>
-<span class="r-in"><span><span class="fu">linkGRASS</span><span class="op">(</span><span class="va">nc</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"C:/Program Files/QGIS 2.18"</span>,<span class="st">"grass-7.2.1"</span>,<span class="st">"osgeo4W"</span><span class="op">)</span><span class="op">)</span> </span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Typical osgeo4W installation (rootdir), using the meuse sp data object for spatial referencing </span></span></span>
-<span class="r-in"><span><span class="fu">linkGRASS</span><span class="op">(</span><span class="va">nc</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"C:/OSGeo4W64/"</span>,<span class="st">"grass-7.2.2"</span>,<span class="st">"osgeo4W"</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>

@@ -1,18 +1,22 @@
 #' Main control script
 #'
-#' @description Use this script for controlling the processing.
+#' Use this script for controlling the processing.
 #'
-#' @author [name], [email@com]
+#' author [name], [email@com]
 #'
 
-library(link2GI)
-library(rprojroot)
-root_folder = find_rstudio_root_file()
+# Load required packages
 
+require(rprojroot)
+require(yaml)
+
+# Set root folder
+root_folder <- find_rstudio_root_file()
+
+# Read master configuration
+config_master <- read_yaml(file = file.path(root_folder, "src/configs/config_master.yml"))
+appendlibs = ""
 source(file.path(root_folder, "src/functions/000_setup.R"))
 
-<% if (notes) { -%>
-# Note: For small projects, all code can go to this file except the main project setup script.
-# For large projects, this file should only call other sub-control files and/or functions.
-# To add a script using link2GI see ?link2GI::addScript.
-<% } %>
+
+

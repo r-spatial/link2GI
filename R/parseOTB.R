@@ -1,7 +1,8 @@
-#'@title Get OTB modules 
+#'@title Retrieve available OTB modules 
 #'@name parseOTBAlgorithms
-#'@description retrieve the OTB module folder content and parses the module names
-#'@param gili optional list of available `OTB` binaries if not provided `linkOTB()` is called
+#'@description Read in the selected OTB module folder and create a list of available functions.
+#'@param gili optional list of available `OTB` installations, if not specified, 
+#'`linkOTB()` is called to automatically try to find a valid OTB installation 
 #'@export parseOTBAlgorithms
 #'
 #'@examples
@@ -34,12 +35,13 @@ parseOTBAlgorithms<- function(gili=NULL) {
   return(algorithms)
 }
 
-#'@title Get OTB function argument list
+#'@title Retrieve the argument list from a selected OTB function
 #'@name parseOTBFunction
-#'@description retrieve the choosen function and returns a full argument list with the default settings
-#'@param algo either the number or the plain name of the `OTB` algorithm that is wanted. Note the correct (of current/choosen version) information is probided by `parseOTBAlgorithms()`
-#'@param gili optional list of avalailable `OTB` binaries if not provided `linkOTB()` is called
-#'@export parseOTBFunction
+#'@description retrieve the selected function and returns a full argument list with the default settings
+#'@param algo either the number or the plain name of the `OTB` algorithm that is wanted. Note the correct (of current/selected version) information is provided by `parseOTBAlgorithms()`
+#'@param gili optional list of available `OTB` installations, if not specified, 
+#'`linkOTB()` is called to automatically try to find a valid OTB installation 
+##'@export parseOTBFunction
 #'
 #'@examples
 
@@ -192,10 +194,11 @@ parseOTBFunction <- function(algo=NULL,gili=NULL) {
 }
 
 
-#' Execute the OTB command list via system call
-#'@description Wrapper function which paste the OTB command list into a system call compatible string and execute this command. 
-#'@param otbCmdList the OTB algorithm parameter list
-#'@param gili optional list providing the linkage to OTB as done by `linkOTB()`. If not provided the `runOTB` function try to link automatically.
+#' Execute the OTB command via system call
+#'@description Wrapper function that inserts the OTB command list into a system call compatible string and executes that command.  
+#'@param otbCmdList the correctly populated OTB algorithm parameter list
+#'@param gili optional list of available `OTB` installations, if not specified, 
+#'`linkOTB()` is called to automatically try to find a valid OTB installation 
 #'@param quiet boolean  if TRUE suppressing messages default is TRUE
 #'@param retRaster boolean if TRUE a raster stack is returned default is FALSE
 #'@param retCommand boolean if TRUE only the OTB API command is returned default is FALSE

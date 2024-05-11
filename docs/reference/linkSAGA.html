@@ -49,13 +49,13 @@ executables. If the file is found it is assumed to be a valid 'SAGA GIS' install
       <a href="../articles/link2GI4.html">OTB Wrapper</a>
     </li>
     <li>
-      <a href="../articles/link2GI5.html">GEOSTAT 2018 Examples</a>
+      <a href="../articles/link2GI5.html">Reproducible projects</a>
     </li>
     <li>
-      <a href="../articles/link2GI6.html">Installation guide for link2GI related Software</a>
+      <a href="../articles/link2GI6.html">GEOSTAT 2018 Examples</a>
     </li>
     <li>
-      <a href="../articles/link2GI7.html">Reproducible projects</a>
+      <a href="../articles/link2GI7.html">Installation guide for link2GI related Software</a>
     </li>
   </ul></li>
 <li>
@@ -134,12 +134,12 @@ to the PATH variable only, otherwise all paths and versions of the installed SAG
     </div>
     <div id="note">
     <h2>Note</h2>
-    <p>The excellent 'SAGA GIS' wrapper <a href="https://CRAN.R-project.org/package=RSAGA" class="external-link">RSAGA</a> 
-package was updated several times however it covers currently (Dec 2019) only 'SAGA GIS' 
-versions from 2.3.1 - 6.3.0 The fast evolution of 'SAGA GIS' makes it highly impracticable
-to keep the wrapper adaptions in line (currently 7.5). <code>RSAGA</code> will meet all linking needs perfectly if 
+    <p>The 'SAGA GIS' wrapper <a href="https://CRAN.R-project.org/package=RSAGA" class="external-link">RSAGA</a> 
+package was updated several times however it covers currently (May 2014) only 'SAGA GIS' 
+versions from  2.3.1 LTS - 8.4.1 The fast evolution of 'SAGA GIS' makes it highly impracticable
+to keep the wrapper adaptions in line (currently 9.4). <code>RSAGA</code> will meet all linking needs perfectly if 
 you use 'SAGA GIS' versions from 2.0.4 - 7.5.0. <br>  However you must call <code>rsaga.env</code> using the <code>rsaga.env(modules = saga$sagaModPath)</code> assuming that <code>saga</code> contains the returnPaths of <code>linkSAGA</code> 
-In addition most recently  the very promising  <a href="https://github.com/stevenpawley/Rsagacmd" class="external-link">Rsagacmd</a> wrapper package is providing a new list oriented wrapping tool.</p>
+In addition the very promising  <a href="https://github.com/stevenpawley/Rsagacmd" class="external-link">Rsagacmd</a> wrapper package is providing a new list oriented wrapping tool.</p>
     </div>
 
     <div id="ref-examples">
@@ -156,7 +156,7 @@ In addition most recently  the very promising  <a href="https://github.com/steve
 <span class="r-in"><span><span class="va">saga</span><span class="op">&lt;-</span><span class="fu">linkSAGA</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="va">saga</span><span class="op">$</span><span class="va">exist</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-spatial/RSAGA" class="external-link">RSAGA</a></span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">RSAGA</span><span class="fu">::</span><span class="fu">rsaga.env</span><span class="op">(</span>path <span class="op">=</span> <span class="va">saga</span><span class="op">$</span><span class="va">installed</span><span class="op">$</span><span class="va">binDir</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,modules <span class="op">=</span> <span class="va">saga</span><span class="op">$</span><span class="va">installed</span><span class="op">$</span><span class="va">moduleDir</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">RSAGA</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/RSAGA/man/rsaga.env.html" class="external-link">rsaga.env</a></span><span class="op">(</span>path <span class="op">=</span> <span class="va">saga</span><span class="op">$</span><span class="va">installed</span><span class="op">$</span><span class="va">binDir</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,modules <span class="op">=</span> <span class="va">saga</span><span class="op">$</span><span class="va">installed</span><span class="op">$</span><span class="va">moduleDir</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>

@@ -2,7 +2,7 @@
 % Please edit documentation in R/parseOTB.R
 \name{runOTB}
 \alias{runOTB}
-\title{Execute the OTB command list via system call}
+\title{Execute the OTB command via system call}
 \usage{
 runOTB(
   otbCmdList = NULL,
@@ -13,9 +13,10 @@ runOTB(
 )
 }
 \arguments{
-\item{otbCmdList}{the OTB algorithm parameter list}
+\item{otbCmdList}{the correctly populated OTB algorithm parameter list}
 
-\item{gili}{optional list providing the linkage to OTB as done by `linkOTB()`. If not provided the `runOTB` function try to link automatically.}
+\item{gili}{optional list of available `OTB` installations, if not specified, 
+`linkOTB()` is called to automatically try to find a valid OTB installation}
 
 \item{retRaster}{boolean if TRUE a raster stack is returned default is FALSE}
 
@@ -24,7 +25,7 @@ runOTB(
 \item{quiet}{boolean  if TRUE suppressing messages default is TRUE}
 }
 \description{
-Wrapper function which paste the OTB command list into a system call compatible string and execute this command.
+Wrapper function that inserts the OTB command list into a system call compatible string and executes that command.
 }
 \details{
 #' Please NOTE: You must check the help to identify the correct input file argument codewort ($input_in or $input_il).

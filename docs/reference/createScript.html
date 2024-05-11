@@ -44,13 +44,13 @@
       <a href="../articles/link2GI4.html">OTB Wrapper</a>
     </li>
     <li>
-      <a href="../articles/link2GI5.html">GEOSTAT 2018 Examples</a>
+      <a href="../articles/link2GI5.html">Reproducible projects</a>
     </li>
     <li>
-      <a href="../articles/link2GI6.html">Installation guide for link2GI related Software</a>
+      <a href="../articles/link2GI6.html">GEOSTAT 2018 Examples</a>
     </li>
     <li>
-      <a href="../articles/link2GI7.html">Reproducible projects</a>
+      <a href="../articles/link2GI7.html">Installation guide for link2GI related Software</a>
     </li>
   </ul></li>
 <li>
@@ -84,7 +84,9 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">createScript</span><span class="op">(</span></span>
 <span>  new_file <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"tmp.R"</span><span class="op">)</span>,</span>
 <span>  template <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"script_function"</span>, <span class="st">"script_control"</span><span class="op">)</span>,</span>
-<span>  notes <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>  notes <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  template_path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sprintf.html" class="external-link">sprintf</a></span><span class="op">(</span><span class="st">"templates/%s.brew"</span>, <span class="va">template</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span>, package <span class="op">=</span></span>
+<span>    <span class="st">"link2GI"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -100,6 +102,10 @@
 
 <dt>notes</dt>
 <dd><p>logical: include notes from the template in the file</p></dd>
+
+
+<dt>template_path</dt>
+<dd><p>path to template to be used</p></dd>
 
 </dl></div>
 

@@ -2,15 +2,16 @@
 % Please edit documentation in R/parseOTB.R
 \name{parseOTBAlgorithms}
 \alias{parseOTBAlgorithms}
-\title{Get OTB modules}
+\title{Retrieve available OTB modules}
 \usage{
 parseOTBAlgorithms(gili = NULL)
 }
 \arguments{
-\item{gili}{optional list of available `OTB` binaries if not provided `linkOTB()` is called}
+\item{gili}{optional list of available `OTB` installations, if not specified, 
+`linkOTB()` is called to automatically try to find a valid OTB installation}
 }
 \description{
-retrieve the OTB module folder content and parses the module names
+Read in the selected OTB module folder and create a list of available functions.
 }
 \examples{
 \dontrun{

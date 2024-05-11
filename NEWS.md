@@ -3,7 +3,11 @@
 bugfixes:
 
 * fix cran issues
+* fixing of the vignettes and examples
 
+changes:
+
+* dropping of linkALL 
 
 ## link2GI 0.6-0
 

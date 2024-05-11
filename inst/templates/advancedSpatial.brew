@@ -1,0 +1,79 @@
+#' Setup project environment
+#'
+#' @description This script configures the project environment.
+#'
+#' @author [name], [email@com]
+#'
+
+<% if (notes) { -%>
+# Use this file for general project settings.
+
+# This script is sourced when you run the main control script. Use variable dirs to access project directories.
+
+<% } %>
+
+# append additional packages if defined by calling script
+if (exists("appendlibs") && appendlibs[[1]] != "") 
+{
+  libs = append(<%=deparse(libs)%>,<%=deparse(appendlibs)%>)
+} else {
+libs = <%=deparse(libs)%>
+}
+
+
+# Now create/read root direcory, folder structure and load packages
+# NOTE root_folder MUST be defined in calling script
+if (!exists("root_folder")) {
+  stop("variable root_folder is NOT defined, You must define a root folder!")
+}
+
+
+root_folder = envimaR::alternativeEnvi(root_folder = root_folder,
+                                   alt_env_id = alt_env_id,
+                                   alt_env_value = alt_env_value,
+                                   alt_env_root_folder = alt_env_root_folder)
+
+# mandantory folder structure
+projectDirList   = c("data/",                                                   # data folders the following are default but you may add more
+                     "run/",                                                    # folder for runtime data as used by the API calls
+                     paste0("data/",config_master$loc_name,"/data_lev0/"),      # folder for level 0 data  (raw or source data)                   
+                     paste0("data/",config_master$loc_name,"/data_lev1/"),      # folder for level 1 data  (clean data)                    
+                     paste0("data/",config_master$loc_name,"/data_lev2/"),      # folder for level 2 data  (final data)               
+                     paste0("data/",config_master$loc_name,"/auxdata/"),        # folder for auxilliay data                
+                     "src/",                                                    # all scripts
+                     "src/functions/",                                          # all functions
+                     "src/configs/",                                            # all yaml configuration files
+                     "tmp/",                                                    # all temp stuff
+                     "doc/",                                                    # documentation  and markdown
+                     "doc/figures/")                                            # documentation  all figures etc
+
+# append additional folders if defined by calling script
+if (exists("appendProjectDirList") && appendProjectDirList[[1]] != "") 
+{
+  projectDirList = append(projectDirList,appendProjectDirList)
+}
+
+# call central function
+envrmt = link2GI::setupProj(root_folder = root_folder,
+                             folders = projectDirList,
+                             fcts_folder = "src/functions/",
+                             path_prefix = NULL,
+                             libs = libs,
+                             create_folders = TRUE)
+
+
+ndvi.col = function(n) {
+  rev(colorspace::sequential_hcl(n, "Green-Yellow"))
+}
+
+ano.col = colorspace::diverging_hcl(7, palette = "Red-Green",  register = "rg")
+
+
+## set temp path to speed up raster package operations
+raster::rasterOptions(tmpdir = dirs$path_tmp)
+
+# Define more variables
+
+# Load more data
+
+

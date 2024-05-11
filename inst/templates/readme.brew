@@ -1,5 +1,10 @@
 # README
 
+
+Note: For small projects, all code can go to the `<projectname>-main.R` file except the main project setup script.
+For large projects, this file should **only** call other sub-control files and/or functions.
+To add a script using link2GI see ?link2GI::addScript.
+
 In order to have the standard packages and the project structure available, the `main.R` script must be called. 
 
 It automatically sources the file `000_setup.R`, which contains the basic settings for the selected setup type. 

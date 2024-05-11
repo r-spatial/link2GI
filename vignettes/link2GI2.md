@@ -1,7 +1,7 @@
 ---
 author: "Chris Reudenbach"
 title: "link2GI Basic Examples"
-date: "2024-05-07"
+date: "2024-05-10"
 editor_options:
   chunk_output_type: console
 output:
@@ -14,7 +14,7 @@ output:
     toc: yes
 urlcolor: blue
 vignette: >
-  %\VignetteIndexEntry{link2GI Basic Examples}
+  %\VignetteIndexEntry{link2GI - link2GI Basic Examples}
   %\VignetteEncoding{UTF-8}{inputenc}\
   %\VignetteEngine{knitr::knitr}
 ---
@@ -57,7 +57,7 @@ A simple (you can call it dirty) approach is the ìnitProjî function, which cre
 
 ```r
 require(link2GI)
-envrmt = link2GI::createFolders(root_folder = tempdir(),
+dirs = link2GI::createFolders(root_folder = tempdir(),
                                 folders = c("data/",
                                             "data/level0/",
                                             "data/level1/",
@@ -65,7 +65,7 @@ envrmt = link2GI::createFolders(root_folder = tempdir(),
                                             "run/",
                                             "fun/")
                                 )
-envrmt
+dirs
 ```
 
 

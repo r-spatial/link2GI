@@ -62,13 +62,13 @@
       <a href="../articles/link2GI4.html">OTB Wrapper</a>
     </li>
     <li>
-      <a href="../articles/link2GI5.html">GEOSTAT 2018 Examples</a>
+      <a href="../articles/link2GI5.html">Reproducible projects</a>
     </li>
     <li>
-      <a href="../articles/link2GI6.html">Installation guide for link2GI related Software</a>
+      <a href="../articles/link2GI6.html">GEOSTAT 2018 Examples</a>
     </li>
     <li>
-      <a href="../articles/link2GI7.html">Reproducible projects</a>
+      <a href="../articles/link2GI7.html">Installation guide for link2GI related Software</a>
     </li>
   </ul>
 </li>
@@ -100,7 +100,7 @@
                         <h4 data-toc-skip class="author">Chris
 Reudenbach</h4>
             
-            <h4 data-toc-skip class="date">2024-05-07</h4>
+            <h4 data-toc-skip class="date">2024-05-11</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/r-spatial/link2GI/blob/HEAD/vignettes/link2GI2.Rmd" class="external-link"><code>vignettes/link2GI2.Rmd</code></a></small>
       <div class="hidden name"><code>link2GI2.Rmd</code></div>
@@ -148,7 +148,7 @@ which creates folder structures (if not existing) and sets global
 variables (if desired) containing the paths as strings.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-spatial/link2GI/" class="external-link">link2GI</a></span><span class="op">)</span></span>
-<span><span class="va">envrmt</span> <span class="op">=</span> <span class="fu">link2GI</span><span class="fu">::</span><span class="fu"><a href="../reference/createFolders.html">createFolders</a></span><span class="op">(</span>root_folder <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span><span class="va">dirs</span> <span class="op">=</span> <span class="fu">link2GI</span><span class="fu">::</span><span class="fu"><a href="../reference/createFolders.html">createFolders</a></span><span class="op">(</span>root_folder <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>                                folders <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"data/"</span>,</span>
 <span>                                            <span class="st">"data/level0/"</span>,</span>
 <span>                                            <span class="st">"data/level1/"</span>,</span>
@@ -156,14 +156,14 @@ variables (if desired) containing the paths as strings.</p>
 <span>                                            <span class="st">"run/"</span>,</span>
 <span>                                            <span class="st">"fun/"</span><span class="op">)</span></span>
 <span>                                <span class="op">)</span></span>
-<span><span class="va">envrmt</span></span></code></pre></div>
+<span><span class="va">dirs</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="linksaga---find-and-set-up-saga-api-bindings">linkSAGA - Find and set up ‘SAGA’ API bindings<a class="anchor" aria-label="anchor" href="#linksaga---find-and-set-up-saga-api-bindings"></a>
 </h3>
 <p>In the past it was quite tedious to link the correct
 <code>SAGA GIS</code> version. Since version 1.x.x of <code>RSAGA</code>
-things are much better. The new <code>RSAGA::rsaga.env()</code> function
+things are much better. The new <code><a href="https://rdrr.io/pkg/RSAGA/man/rsaga.env.html" class="external-link">RSAGA::rsaga.env()</a></code> function
 is to get the first <code>RSAGA</code> version in the search path. It is
 also possible to pass the version number as shown below. Storing the
 result in appropriate variables will even allow you to easily switch

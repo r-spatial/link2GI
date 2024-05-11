@@ -7,49 +7,46 @@
 setupProj(
   root_folder = tempdir(),
   folders = c("data", "data/tmp"),
-  folder_names = NULL,
-  path_prefix = NULL,
-  code_subfolders = NULL,
+  code_subfolder = NULL,
   global = FALSE,
   libs = NULL,
   setup_script = "000_setup.R",
   fcts_folder = NULL,
   source_functions = !is.null(fcts_folder),
   standard_setup = NULL,
-  lut_mode = NULL,
   create_folders = TRUE
 )
 }
 \arguments{
 \item{root_folder}{root directory of the project.}
 
-\item{folders}{list of subfolders within the project directory.}
+\item{folders}{list of sub folders within the project directory.}
 
-\item{folder_names}{names of the variables that point to subfolders. If not
-provided, the base paths of the folders is used.}
-
-\item{path_prefix}{a prefix for the folder names.}
-
-\item{code_subfolders}{define subdirectories for code should be created.}
+\item{code_subfolder}{sub folders for scripts and functions within the 
+project directory that will be created. The
+folders src, src/functions and src/config are recommended.}
 
 \item{global}{logical: export path strings as global variables?}
 
 \item{libs}{vector with the  names of libraries}
 
-\item{setup_script}{name of the setup script. This file will not be sourced from the functions folder even if
-fcts_folder is provided.}
+\item{setup_script}{Name of the installation script that contains all the 
+settings required for the project, such as additional libraries, optional settings, 
+colour schemes, etc. Important: It should not be used to control the runtime
+parameters of the scripts.  This file is not read in automatically, even if 
+it is located in the "fcts_folder" folder.}
 
 \item{fcts_folder}{path of the folder holding the functions. All files in
-this folder will be sourced.}
+this folder will be sourced at project start.}
 
-\item{source_functions}{logical: should functions be sourced?}
+\item{source_functions}{logical: should functions be sourced? Default is TRUE if fcts_folder exists.}
 
-\item{standard_setup}{use predefined settings. In this case, only the name of the root folder is required. 
+\item{standard_setup}{select one of the predefined settings c("base", "baseSpatial", "advancedSpatial"). 
+In this case, only the name of the base folder is required, but individual additional 
+folders can be specified under 'folders' 
 name of the git repository must be supplied to the function.}
 
-\item{lut_mode}{deprecated, use standard_setup instead.}
-
-\item{create_folders}{create folders if not existing already.}
+\item{create_folders}{default is TRUE  so create folders if not existing already.}
 }
 \value{
 A list containing the project settings.

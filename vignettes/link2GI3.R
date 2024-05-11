@@ -4,12 +4,11 @@
 #   require(curl)
 #  
 #  # first of all we create  a project folder structure
-#    envrmt = link2GI::createFolders(root_folder = paste0(tempdir(),"/link2GI_examples"),
-#                                    folders =  c("run/"),
-#                                    path_prefix = "path_")
+#    dirs = link2GI::createFolders(root_folder = paste0(tempdir(),"/link2GI_examples"),
+#                                    folders =  c("run/"))
 #  
 #  # set runtime directory
-#    setwd(envrmt$path_run)
+#    setwd(dirs$path_run)
 #  
 #  # get some typical authority generated data
 #    url<-"https://www.zensus2011.de/SharedDocs/Downloads/DE/Pressemitteilung/DemografischeGrunddaten/csv_Bevoelkerung_100m_Gitter.zip;jsessionid=294313DDBB57914D6636DE373897A3F2.2_cid389?__blob=publicationFile&v=3"

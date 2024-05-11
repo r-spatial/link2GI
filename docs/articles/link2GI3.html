@@ -62,13 +62,13 @@
       <a href="../articles/link2GI4.html">OTB Wrapper</a>
     </li>
     <li>
-      <a href="../articles/link2GI5.html">GEOSTAT 2018 Examples</a>
+      <a href="../articles/link2GI5.html">Reproducible projects</a>
     </li>
     <li>
-      <a href="../articles/link2GI6.html">Installation guide for link2GI related Software</a>
+      <a href="../articles/link2GI6.html">GEOSTAT 2018 Examples</a>
     </li>
     <li>
-      <a href="../articles/link2GI7.html">Reproducible projects</a>
+      <a href="../articles/link2GI7.html">Installation guide for link2GI related Software</a>
     </li>
   </ul>
 </li>
@@ -100,7 +100,7 @@
                         <h4 data-toc-skip class="author">Chris
 Reudenbach</h4>
             
-            <h4 data-toc-skip class="date">2024-05-07</h4>
+            <h4 data-toc-skip class="date">2024-05-11</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/r-spatial/link2GI/blob/HEAD/vignettes/link2GI3.Rmd" class="external-link"><code>vignettes/link2GI3.Rmd</code></a></small>
       <div class="hidden name"><code>link2GI3.Rmd</code></div>
@@ -147,12 +147,11 @@ concepts, etc.</p>
 <span> <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://jeroen.r-universe.dev/curl" class="external-link">curl</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># first of all we create  a project folder structure </span></span>
-<span>  <span class="va">envrmt</span> <span class="op">=</span> <span class="fu">link2GI</span><span class="fu">::</span><span class="fu"><a href="../reference/createFolders.html">createFolders</a></span><span class="op">(</span>root_folder <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,<span class="st">"/link2GI_examples"</span><span class="op">)</span>, </span>
-<span>                                  folders <span class="op">=</span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"run/"</span><span class="op">)</span>,</span>
-<span>                                  path_prefix <span class="op">=</span> <span class="st">"path_"</span><span class="op">)</span></span>
+<span>  <span class="va">dirs</span> <span class="op">=</span> <span class="fu">link2GI</span><span class="fu">::</span><span class="fu"><a href="../reference/createFolders.html">createFolders</a></span><span class="op">(</span>root_folder <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,<span class="st">"/link2GI_examples"</span><span class="op">)</span>, </span>
+<span>                                  folders <span class="op">=</span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"run/"</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># set runtime directory</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">setwd</a></span><span class="op">(</span><span class="va">envrmt</span><span class="op">$</span><span class="va">path_run</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">setwd</a></span><span class="op">(</span><span class="va">dirs</span><span class="op">$</span><span class="va">path_run</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># get some typical authority generated data </span></span>
 <span>  <span class="va">url</span><span class="op">&lt;-</span><span class="st">"https://www.zensus2011.de/SharedDocs/Downloads/DE/Pressemitteilung/DemografischeGrunddaten/csv_Bevoelkerung_100m_Gitter.zip;jsessionid=294313DDBB57914D6636DE373897A3F2.2_cid389?__blob=publicationFile&amp;v=3"</span></span>

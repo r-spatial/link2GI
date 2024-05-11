@@ -1,0 +1,13 @@
+loc_name: 
+
+searchLocations:
+  otb_searchLocation: "default"
+  gdal_searchLocation: "default"
+  saga_searchLocation: "default"
+  
+preprocessing: false
+
+processing: false
+
+postprocessing: false
+

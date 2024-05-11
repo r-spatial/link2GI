@@ -2,17 +2,18 @@
 % Please edit documentation in R/parseOTB.R
 \name{parseOTBFunction}
 \alias{parseOTBFunction}
-\title{Get OTB function argument list}
+\title{Retrieve the argument list from a selected OTB function}
 \usage{
 parseOTBFunction(algo = NULL, gili = NULL)
 }
 \arguments{
-\item{algo}{either the number or the plain name of the `OTB` algorithm that is wanted. Note the correct (of current/choosen version) information is probided by `parseOTBAlgorithms()`}
+\item{algo}{either the number or the plain name of the `OTB` algorithm that is wanted. Note the correct (of current/selected version) information is provided by `parseOTBAlgorithms()`}
 
-\item{gili}{optional list of avalailable `OTB` binaries if not provided `linkOTB()` is called}
+\item{gili}{optional list of available `OTB` installations, if not specified, 
+`linkOTB()` is called to automatically try to find a valid OTB installation}
 }
 \description{
-retrieve the choosen function and returns a full argument list with the default settings
+retrieve the selected function and returns a full argument list with the default settings
 }
 \examples{
 \dontrun{

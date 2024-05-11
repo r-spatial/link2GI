@@ -104,11 +104,13 @@ libraries, and sets other project relevant parameters.</p>
 
 
 <dt>folders</dt>
-<dd><p>list of subfolders within the project directory.</p></dd>
+<dd><p>list of sub folders within the project directory.</p></dd>
 
 
 <dt>code_subfolder</dt>
-<dd><p>define subdirectories for code should be created.</p></dd>
+<dd><p>sub folders for scripts and functions within the 
+project directory that will be created. The
+folders src, src/functions and src/config are recommended.</p></dd>
 
 
 <dt>global</dt>
@@ -120,26 +122,31 @@ libraries, and sets other project relevant parameters.</p>
 
 
 <dt>setup_script</dt>
-<dd><p>name of the setup script. This file will not be sourced from the functions folder even if
-fcts_folder is provided.</p></dd>
+<dd><p>Name of the installation script that contains all the 
+settings required for the project, such as additional libraries, optional settings, 
+colour schemes, etc. Important: It should not be used to control the runtime
+parameters of the scripts.  This file is not read in automatically, even if 
+it is located in the "fcts_folder" folder.</p></dd>
 
 
 <dt>fcts_folder</dt>
 <dd><p>path of the folder holding the functions. All files in
-this folder will be sourced.</p></dd>
+this folder will be sourced at project start.</p></dd>
 
 
 <dt>source_functions</dt>
-<dd><p>logical: should functions be sourced?</p></dd>
+<dd><p>logical: should functions be sourced? Default is TRUE if fcts_folder exists.</p></dd>
 
 
 <dt>standard_setup</dt>
-<dd><p>use predefined settings. In this case, only the name of the root folder is required. 
+<dd><p>select one of the predefined settings c("base", "baseSpatial", "advancedSpatial"). 
+In this case, only the name of the base folder is required, but individual additional 
+folders can be specified under 'folders' 
 name of the git repository must be supplied to the function.</p></dd>
 
 
 <dt>create_folders</dt>
-<dd><p>create folders if not existing already.</p></dd>
+<dd><p>default is TRUE  so create folders if not existing already.</p></dd>
 
 </dl></div>
     <div id="value">

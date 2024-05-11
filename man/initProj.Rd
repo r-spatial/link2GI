@@ -2,14 +2,14 @@
 % Please edit documentation in R/initProj.R
 \name{initProj}
 \alias{initProj}
-\title{Set up a reproducible leightweight project environment}
+\title{Simple creation and reproduction of an efficient project environment}
 \usage{
 initProj(
   root_folder = ".",
   folders = NULL,
   init_git = NULL,
   init_renv = NULL,
-  code_subfolder = c("src", "src/functions"),
+  code_subfolder = c("src", "src/functions", "src/config"),
   global = FALSE,
   openproject = NULL,
   newsession = TRUE,
@@ -23,37 +23,43 @@ initProj(
 \arguments{
 \item{root_folder}{root directory of the project.}
 
-\item{folders}{list of subfolders within the project directory that will be created.}
+\item{folders}{list of sub folders within the project directory that will be created.}
 
 \item{init_git}{logical: init git repository in the project directory.}
 
 \item{init_renv}{logical: init renv in the project directory.}
 
-\item{code_subfolder}{subfolders for scripts and functions within the project directory that will be created. The
-folders src and src/functions are mandatory.}
+\item{code_subfolder}{sub folders for scripts and functions within the project directory that will be created. The
+folders src, src/functions and src/config are mandatory.}
 
 \item{global}{logical: export path strings as global variables?}
 
-\item{openproject}{open project after creating it, d default = TRUE}
-
 \item{newsession}{open project in a new session? default is FALSE}
 
-\item{standard_setup}{use predefined settings. c("base","baseSpatial", "advancedSpatial"). In this case, only the name of the root folder is required.}
+\item{standard_setup}{select one of the predefined settings c("base", "baseSpatial", "advancedSpatial"). 
+In this case, only the name of the base folder is required, but individual additional 
+folders can be specified under 'folders' 
+name of the git repository must be supplied to the function.}
 
-\item{loc_name}{by default MySite defines the dataset folderlocation and is meant to be a code for the research site}
+\item{loc_name}{NULL by default, defines the research area of the analysis in the data folder as a subfolder and serves as a code tag}
 
 \item{ymlFN}{filename for a yaml file containing a non standard_setup}
 
 \item{appendlibs}{vector with the  names of libraries that are required for the initial project.}
 
 \item{OpenFiles}{default NULL}
+
+\item{setup_script}{Name of the installation script that contains all the 
+settings required for the project, such as additional libraries, optional settings, 
+colour schemes, etc. Important: It should not be used to control the runtime
+parameters of the scripts.  This file is not read in automatically, even if 
+it is located in the "fcts_folder" folder.}
 }
 \value{
 dirs, i.e. a list containing the project pathes.
 }
 \description{
-Set up the project environment with a defined folder structure, an RStudio project, initial scripts and
-configuration files plus git repository and renv support, if demanded.
+Set up the project environment with a defined folder structure, an RStudio project, initial scripts and configuration files and optionally with Git and Renv support.
 }
 \details{
 The function uses [setupProj] for setting up the folders. Once the project is creaeted, manage the overall

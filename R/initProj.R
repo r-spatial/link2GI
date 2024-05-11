@@ -84,23 +84,28 @@ createFolders <- function(root_folder, folders,
 }
 
 
-#' Set up a reproducible leightweight project environment
+#' Simple creation and reproduction of an efficient project environment
 #'
-#' @description Set up the project environment with a defined folder structure, an RStudio project, initial scripts and
-#' configuration files plus git repository and renv support, if demanded.
-#'
+#' @description Set up the project environment with a defined folder structure, an RStudio project, initial scripts and configuration files and optionally with Git and Renv support.
 #' @param root_folder root directory of the project.
-#' @param folders list of subfolders within the project directory that will be created.
+#' @param folders list of sub folders within the project directory that will be created.
 #' @param init_git logical: init git repository in the project directory.
 #' @param init_renv logical: init renv in the project directory.
-#' @param code_subfolder subfolders for scripts and functions within the project directory that will be created. The
-#' folders src and src/functions are mandatory.
+#' @param code_subfolder sub folders for scripts and functions within the project directory that will be created. The
+#' folders src, src/functions and src/config are mandatory.
 #' @param global logical: export path strings as global variables?
 #' @param appendlibs  vector with the  names of libraries that are required for the initial project.
-#' @param standard_setup use predefined settings. c("base","baseSpatial", "advancedSpatial"). In this case, only the name of the root folder is required.
-#' @param openproject open project after creating it, d default = TRUE
+#' @param setup_script Name of the installation script that contains all the 
+#' settings required for the project, such as additional libraries, optional settings, 
+#' colour schemes, etc. Important: It should not be used to control the runtime
+#' parameters of the scripts.  This file is not read in automatically, even if 
+#' it is located in the "fcts_folder" folder.
+#' @param standard_setup select one of the predefined settings c("base", "baseSpatial", "advancedSpatial"). 
+#' In this case, only the name of the base folder is required, but individual additional 
+#' folders can be specified under 'folders' 
+#' name of the git repository must be supplied to the function.
 #' @param newsession open project in a new session? default is FALSE
-#' @param loc_name by default MySite defines the dataset folderlocation and is meant to be a code for the research site
+#' @param loc_name  NULL by default, defines the research area of the analysis in the data folder as a subfolder and serves as a code tag
 #' @param ymlFN filename for a yaml file containing a non standard_setup 
 #' @param OpenFiles default NULL
 #' @note For yaml based setup you need to use one of the default configurations 
@@ -140,10 +145,18 @@ createFolders <- function(root_folder, folders,
 #' dirs <- initProj(root_folder = root_folder, standard_setup = "baseSpatial")
 #' }
 #'
-initProj <- function(root_folder = ".", folders = NULL, 
-                     init_git = NULL, init_renv = NULL, code_subfolder = c("src", "src/functions"),
-                     global = FALSE,   openproject = NULL, newsession = TRUE,
-                     standard_setup = "baseSpatial",loc_name = NULL, ymlFN = NULL ,appendlibs = NULL, OpenFiles = NULL) {
+initProj <- function(root_folder = ".", 
+                     folders = NULL, 
+                     init_git = NULL, 
+                     init_renv = NULL, 
+                     code_subfolder = c("src", "src/functions", "src/config"),
+                     global = FALSE,  
+                     openproject = NULL, newsession = TRUE,
+                     standard_setup = "baseSpatial",
+                     loc_name = NULL, 
+                     ymlFN = NULL ,
+                     appendlibs = NULL, 
+                     OpenFiles = NULL) {
   
 
   notes = TRUE
@@ -155,29 +168,29 @@ initProj <- function(root_folder = ".", folders = NULL,
   if (is.null(openproject)) openproject = FALSE
   # Setup project directory structure
   if (standard_setup %in% c("base", "baseSpatial","advancedSpatial"))
-    {
-  envrmt = setup_default(standard_setup)
+  {
+    envrmt = setup_default(standard_setup)
   } else {
     envrmt = yaml::read_yaml(file = ymlFN)
   }
   
   if (is.null(appendlibs)){
-  libs = envrmt$libs
+    libs = envrmt$libs
   } else {
     libs = append(appendlibs,envrmt$libs)
   }
-
+  
   if (!is.null(code_subfolder) | length(code_subfolder) > 0){
     code_subfolder = unique(append(code_subfolder,envrmt$code_subfolder))
   } else {
-  code_subfolder = envrmt$code_subfolder
+    code_subfolder = envrmt$code_subfolder
   }
   projectDirList = as.list(strsplit(names(envrmt)[grepl("Folder", names(envrmt))],split = "Folder",fixed = TRUE))
   
   if (is.null(loc_name)){
-  projectDirList =  append(projectDirList,file.path("data",envrmt$dataFolder))
-  projectDirList =  append(projectDirList,file.path("docs",envrmt$docsFolder))
-  projectDirList =  append(projectDirList,file.path("tmp",envrmt$tmpFolder))
+    projectDirList =  append(projectDirList,file.path("data",envrmt$dataFolder))
+    projectDirList =  append(projectDirList,file.path("docs",envrmt$docsFolder))
+    projectDirList =  append(projectDirList,file.path("tmp",envrmt$tmpFolder))
   } else{
     projectDirList =  append(projectDirList,file.path("data",loc_name,envrmt$dataFolder))
     projectDirList =  append(projectDirList,file.path("docs",loc_name,envrmt$docsFolder))
@@ -192,17 +205,21 @@ initProj <- function(root_folder = ".", folders = NULL,
   
   if (is.null(folders)) {
     use_standard_setup <- TRUE
-    dirs <- setupProj(root_folder = root_folder, folders = projectDirList, code_subfolder = code_subfolder, standard_setup = standard_setup,libs = libs)
+    dirs <- setupProj(root_folder = root_folder, 
+                      folders = projectDirList, 
+                      code_subfolder = code_subfolder, 
+                      standard_setup = standard_setup,
+                      libs = libs)
   } else {
     use_standard_setup <- FALSE
-    dirs <- setupProj(
-      root_folder = root_folder, folders = projectDirList, 
-      code_subfolder = code_subfolder,
-      global = global, libs = libs,
-      standard_setup = NULL
+    dirs <- setupProj(root_folder = root_folder, 
+                      folders = projectDirList, 
+                      code_subfolder = code_subfolder,
+                      global = global, libs = libs,
+                      standard_setup = NULL
     )
   }
- 
+  
   # create R project and scripts
   brew::brew(system.file(sprintf("templates/%s.brew", "rstudio_proj"), package = "link2GI"), file.path(root_folder, paste0(basename(root_folder), ".Rproj")))
   brew::brew(system.file(sprintf("templates/%s.brew", "script_control"), package = "link2GI"),  file.path(dirs$src, "main-control.R"))
@@ -215,9 +232,9 @@ initProj <- function(root_folder = ".", folders = NULL,
   brew::brew(system.file(sprintf("templates/%s.brew", "yml"), package = "link2GI"),file.path(dirs$config, "processing.yml"))
   brew::brew(system.file(sprintf("templates/%s.brew", "yml"), package = "link2GI"),file.path(dirs$config, "post-processing.yml"))
   brew::brew(system.file(sprintf("templates/%s.brew", "readme"), package = "link2GI"),file.path(dirs$config, "README.md"))
- 
-
- 
+  
+  
+  
   # Init git
   # if (use_standard_setup) init_git <- setup_default()[[standard_setup[1]]]$init_git
   if (init_git) {
@@ -230,7 +247,7 @@ initProj <- function(root_folder = ".", folders = NULL,
   
   if (init_renv) renv::init(root_folder)
   
- if (openproject) rstudioapi::openProject(file.path(root_folder, paste0(basename(root_folder), ".Rproj")),newSession = newsession)
+  if (openproject) rstudioapi::openProject(file.path(root_folder, paste0(basename(root_folder), ".Rproj")),newSession = newsession)
   return(dirs)
 }
 
@@ -240,18 +257,25 @@ initProj <- function(root_folder = ".", folders = NULL,
 #' libraries, and sets other project relevant parameters.
 #'
 #' @param root_folder root directory of the project.
-#' @param folders list of subfolders within the project directory.
-#' @param code_subfolder define subdirectories for code should be created.
+#' @param folders list of sub folders within the project directory.
+#' @param code_subfolder sub folders for scripts and functions within the 
+#' project directory that will be created. The
+#' folders src, src/functions and src/config are recommended.
 #' @param global logical: export path strings as global variables?
 #' @param libs  vector with the  names of libraries
-#' @param setup_script name of the setup script. This file will not be sourced from the functions folder even if
-#' fcts_folder is provided.
+#' @param setup_script Name of the installation script that contains all the 
+#' settings required for the project, such as additional libraries, optional settings, 
+#' colour schemes, etc. Important: It should not be used to control the runtime
+#' parameters of the scripts.  This file is not read in automatically, even if 
+#' it is located in the "fcts_folder" folder.
 #' @param fcts_folder  path of the folder holding the functions. All files in
-#' this folder will be sourced.
-#' @param source_functions logical: should functions be sourced?
-#' @param standard_setup use predefined settings. In this case, only the name of the root folder is required. 
+#' this folder will be sourced at project start.
+#' @param source_functions logical: should functions be sourced? Default is TRUE if fcts_folder exists.
+#' @param standard_setup select one of the predefined settings c("base", "baseSpatial", "advancedSpatial"). 
+#' In this case, only the name of the base folder is required, but individual additional 
+#' folders can be specified under 'folders' 
 #' name of the git repository must be supplied to the function.
-#' @param create_folders create folders if not existing already.
+#' @param create_folders default is TRUE  so create folders if not existing already.
 #'
 #' @return A list containing the project settings.
 #'
@@ -401,7 +425,7 @@ loadLibraries <- function(libs) {
 #' folder.
 #'
 #' @param fcts_folder path of the folder holding the functions. All files in
-#' this folder will be sourced.
+#' this folder will be sourced at project start.
 #'
 #' @return  Information if sourcing was successfull based on try function.
 #'

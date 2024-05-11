@@ -8,7 +8,7 @@ base:
    global: false
    libs: ""
    create_folders: true
-   files: [ "pre-processing.R", "post-processing.R", "10-processing.R", "src/functions/000_setup.R" ,"src/main-control.R"]
+   files: [ "src/pre-processing.R", "src/post-processing.R", "src/10-processing.R", "src/functions/000_setup.R" ,"src/main-control.R"]
 baseSpatial:
    dataFolder: ["level0", "level1", "level2", "run" ,"aux"]
    docsFolder: [ "figures"]
@@ -19,7 +19,7 @@ baseSpatial:
    global: false
    libs: ["terra", "stars", "sf" , "RStoolbox", "tmap" , "mapview", "dplyr"]
    create_folders: true
-   files: [ "pre-processing.R", "post-processing.R", "10-processing.R", "src/functions/000_setup.R" ,"src/main-control.R"]
+   files: [ "src/pre-processing.R", "src/post-processing.R", "src/10-processing.R", "src/functions/000_setup.R" ,"src/main-control.R"]
 advancedSpatial:
    dataFolder: ["level0", "level1", "level2", "run"]
    docsFolder: [ "figures"]
@@ -30,7 +30,7 @@ advancedSpatial:
    global: false
    libs: ["terra", "stars", "sf" , "RStoolbox", "tmap" , "mapview" ,"dplyr", "caret" ,"randomforest"]
    create_folders: true
-   files: [ "pre-processing.R", "post-processing.R", "10-processing.R", "src/functions/000_setup.R" ,"src/main-control.R"]
+   files: [ "src/pre-processing.R", "src/post-processing.R", "src/10-processing.R", "src/functions/000_setup.R" ,"src/main-control.R"]
  
           
 

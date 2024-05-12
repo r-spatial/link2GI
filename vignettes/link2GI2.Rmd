@@ -80,7 +80,7 @@ saga1
 
 ## linkGRASS - Find and set up GRASS 7/8 API bindings
 
-linkGRASS` initializes the session environment and system paths for easy access to `GRASS GIS 7.x./8.x`. The correct setting of spatial and projection parameters is done automatically either by using an existing and valid `raster` or `terra`, `sp` or `sf` object or manually by providing a list of minimum required parameters. These properties are used to initialize either a temporary or a permanent `rgrass` environment, including the correct `GRASS 7/8` database structure. If you do not specify any of the above, `linkGRASS` will create an EPSG:4326 worldwide site.
+`linkGRASS` initializes the session environment and system paths for easy access to `GRASS GIS 7.x./8.x`. The correct setting of spatial and projection parameters is done automatically either by using an existing and valid `raster` or `terra`, `sp` or `sf` object or manually by providing a list of minimum required parameters. These properties are used to initialize either a temporary or a permanent `rgrass` environment, including the correct `GRASS 7/8` database structure. If you do not specify any of the above, `linkGRASS` will create an EPSG:4326 worldwide site.
 
 The most time consuming part on Windows systems is the search process. This can easily take 10 minutes or more. To speed up this process, you can also provide a correct parameter set. The best way to do this is to call `findGRASS` manually. Then call `linkGRASS` with the returned version arguments of your choice.
 

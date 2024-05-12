@@ -142,7 +142,7 @@ section.footnotes::before {
 <div class="frontmatter">
 <div class="title"><h1>link2GI Basic Examples</h1></div>
 <div class="author"><h2>Chris Reudenbach</h2></div>
-<div class="date"><h3>2024-05-10</h3></div>
+<div class="date"><h3>2024-05-13</h3></div>
 </div>
 <div class="body">
 <h1 id="using-the-link2gi-package-basic-examples">Using the link2GI package - Basic examples</h1>
@@ -163,7 +163,7 @@ otb
 <p>The `find’ functions provide an overview of the installed software. These functions do not create links or change settings.</p>
 <h2 id="setting-up-project-structures">Setting up project structures</h2>
 <p>If you are just calling link2GI on the fly, i.e. for a single temporary operation, there is no need to set up folders and project structures. If you are working on a more complex project, it might be helpful to have a fixed structure. The same goes for existing <code>GRASS</code> projects that need to be in specific mapsets and locations.</p>
-<p>A simple (you can call it dirty) approach is the ìnitProjî function, which creates folder structures (if not existing) and sets global variables (if desired) containing the paths as strings.</p>
+<p>A simple (you can call it dirty) approach is the <code>initProj</code> function, which creates folder structures (if not existing) and sets global variables (if desired) containing the paths as strings.</p>
 <pre><code class="language-r">require(link2GI)
 dirs = link2GI::createFolders(root_folder = tempdir(),
                                 folders = c(&quot;data/&quot;,
@@ -178,7 +178,7 @@ dirs
 <h2 id="linksaga-find-and-set-up-saga-api-bindings">linkSAGA - Find and set up ‘SAGA’ API bindings</h2>
 <p>In the past it was quite tedious to link the correct <code>SAGA GIS</code> version. Since version 1.x.x of <code>RSAGA</code> things are much better. The new <code>RSAGA::rsaga.env()</code> function is to get the first <code>RSAGA</code> version in the search path. It is also possible to pass the version number as shown below. Storing the result in appropriate variables will even allow you to easily switch between different <code>SAGA GIS</code> installations.</p>
 <h2 id="linkgrass-find-and-set-up-grass-api-bindings">linkGRASS - Find and set up GRASS ⅞ API bindings</h2>
-<p>linkGRASS<code>initializes the session environment and system paths for easy access to</code>GRASS GIS 7.x./8.x<code>. The correct setting of spatial and projection parameters is done automatically either by using an existing and valid </code>raster<code>or</code>terra<code>, </code>sp<code>or</code>sf<code>object or manually by providing a list of minimum required parameters. These properties are used to initialize either a temporary or a permanent</code>rgrass<code>environment, including the correct</code>GRASS 7/8<code>database structure. If you do not specify any of the above,</code>linkGRASS` will create an EPSG:4326 worldwide site.</p>
+<p><code>linkGRASS</code> initializes the session environment and system paths for easy access to <code>GRASS GIS 7.x./8.x</code>. The correct setting of spatial and projection parameters is done automatically either by using an existing and valid <code>raster</code> or <code>terra</code>, <code>sp</code> or <code>sf</code> object or manually by providing a list of minimum required parameters. These properties are used to initialize either a temporary or a permanent <code>rgrass</code> environment, including the correct <code>GRASS 7/8</code> database structure. If you do not specify any of the above, <code>linkGRASS</code> will create an EPSG:4326 worldwide site.</p>
 <p>The most time consuming part on Windows systems is the search process. This can easily take 10 minutes or more. To speed up this process, you can also provide a correct parameter set. The best way to do this is to call <code>findGRASS</code> manually. Then call <code>linkGRASS</code> with the returned version arguments of your choice.</p>
 <p>The <code>linkGRASS</code> function tries to find all valid <code>GRASS GIS</code> binaries by analyzing the <code>GRASS GIS</code> startup script files. After identifying the <code>GRASS GIS</code> binaries, all necessary system variables and settings are generated and passed to a temporary <code>R</code> environment.</p>
 <p>If you have more than one valid installation and run <code>linkGRASS</code> with the arguments <code>select_ver = TRUE</code>, you will be asked to select one.</p>

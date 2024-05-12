@@ -100,7 +100,7 @@
                         <h4 data-toc-skip class="author">Chris
 Reudenbach</h4>
             
-            <h4 data-toc-skip class="date">2024-05-11</h4>
+            <h4 data-toc-skip class="date">2024-05-13</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/r-spatial/link2GI/blob/HEAD/vignettes/link2GI2.Rmd" class="external-link"><code>vignettes/link2GI2.Rmd</code></a></small>
       <div class="hidden name"><code>link2GI2.Rmd</code></div>
@@ -143,9 +143,10 @@ structures. If you are working on a more complex project, it might be
 helpful to have a fixed structure. The same goes for existing
 <code>GRASS</code> projects that need to be in specific mapsets and
 locations.</p>
-<p>A simple (you can call it dirty) approach is the ìnitProjî function,
-which creates folder structures (if not existing) and sets global
-variables (if desired) containing the paths as strings.</p>
+<p>A simple (you can call it dirty) approach is the
+<code>initProj</code> function, which creates folder structures (if not
+existing) and sets global variables (if desired) containing the paths as
+strings.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-spatial/link2GI/" class="external-link">link2GI</a></span><span class="op">)</span></span>
 <span><span class="va">dirs</span> <span class="op">=</span> <span class="fu">link2GI</span><span class="fu">::</span><span class="fu"><a href="../reference/createFolders.html">createFolders</a></span><span class="op">(</span>root_folder <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,</span>
@@ -172,11 +173,17 @@ between different <code>SAGA GIS</code> installations.</p>
 <div class="section level3">
 <h3 id="linkgrass---find-and-set-up-grass-78-api-bindings">linkGRASS - Find and set up GRASS 7/8 API bindings<a class="anchor" aria-label="anchor" href="#linkgrass---find-and-set-up-grass-78-api-bindings"></a>
 </h3>
-<p>linkGRASS<code>initializes the session environment and system paths for easy access to</code>GRASS
-GIS
-7.x./8.x<code>. The correct setting of spatial and projection parameters is done automatically either by using an existing and valid</code>raster<code>or</code>terra<code>,</code>sp<code>or</code>sf<code>object or manually by providing a list of minimum required parameters. These properties are used to initialize either a temporary or a permanent</code>rgrass<code>environment, including the correct</code>GRASS
-7/8<code>database structure. If you do not specify any of the above,</code>linkGRASS`
-will create an EPSG:4326 worldwide site.</p>
+<p><code>linkGRASS</code> initializes the session environment and system
+paths for easy access to <code>GRASS GIS 7.x./8.x</code>. The correct
+setting of spatial and projection parameters is done automatically
+either by using an existing and valid <code>raster</code> or
+<code>terra</code>, <code>sp</code> or <code>sf</code> object or
+manually by providing a list of minimum required parameters. These
+properties are used to initialize either a temporary or a permanent
+<code>rgrass</code> environment, including the correct
+<code>GRASS 7/8</code> database structure. If you do not specify any of
+the above, <code>linkGRASS</code> will create an EPSG:4326 worldwide
+site.</p>
 <p>The most time consuming part on Windows systems is the search
 process. This can easily take 10 minutes or more. To speed up this
 process, you can also provide a correct parameter set. The best way to

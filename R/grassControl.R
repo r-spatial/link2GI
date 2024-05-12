@@ -580,10 +580,14 @@ findGRASS <- function(searchLocation = "default",
                       quiet=TRUE) {
   
   if (Sys.info()["sysname"] == "Windows") {
-    message("PLEASE NOTE: if you use GRASS version > 7.8 and/or the OSGeo4W installation you must:\n 1) start the OSGeo4W shell\n 2) start grassxx --gtext\n 3) start Rstudio\n Then both link2GI and rgrass should work.")
-    invisible(readline(prompt="Press [enter] to continue"))
+    if (!grepl(x = system("o-help",intern =T),pattern = "OSGeo4W Shell Commands", fixed = TRUE)[1]){
+    message("PLEASE NOTE: if you use GRASS version > 7.8 and/or the OSGeo4W installation you must:\n 1) start the OSGeo4W shell\n 2) start grassxx --gtext\n 3) start Rstudio from command line in the shell\n Then both link2GI and rgrass should work.")
+    invisible(readkey())
+    }
     if (searchLocation=="default") searchLocation <- "C:/"
-    if (grepl(paste0(LETTERS, ":", collapse="|"), searchLocation) )
+    else searchLocation = normalizePath(searchLocation)
+    if (grepl(paste0(LETTERS, ":", collapse="|"), substr(toupper(searchLocation),start = 1,stop = 2)))
+      
       link = link2GI::searchGRASSW(DL = searchLocation)  
     else return(cat("You are running Windows - Please choose a suitable searchLocation argument that MUST include a Windows drive letter and colon"))
   } else {

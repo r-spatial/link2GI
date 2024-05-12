@@ -142,7 +142,6 @@ parseOTBFunction <- function(algo=NULL,gili=NULL) {
         
         tmp<-strsplit(sapply(args, "[", 4)[[j]],split ="default value is ")[[1]][2]
         tmp <-strsplit(tmp,split =")")[[1]][1]
-        #cat("iwas")
         default <- tmp
       }
       else if (length(grep("(OTB-Team)",args[[j]])) > 0) {drop <- TRUE}

@@ -21,7 +21,7 @@ setup_default = function(default=NULL, new_folder_list=NULL,new_folder_list_name
 {
   # Read master configuration
   setup_default <- yaml::read_yaml(system.file("templates/","config-default-projects.yml", package = "link2GI" ))
- 
+  
   if (is.null(new_folder_list) & !is.null(default)){
     setup_dflt <- setup_default[[default]]
   } 
@@ -62,19 +62,19 @@ createFolders <- function(root_folder, folders,
   })
   folders <- folders[!duplicated(folders)]
   
-
-    names(folders) <- basename(unlist(folders))
-    tmplt <- unlist(folders)
-    
-    while (any(duplicated(names(folders)))) {
-      tmplt <- dirname(tmplt)
-      dplcts <- which(duplicated(names(folders), fromLast = FALSE) |
-                        duplicated(names(folders), fromLast = TRUE))
-      names(folders)[dplcts] <-
-        paste(basename(tmplt)[dplcts], names(folders[dplcts]), sep = "_")
-    }
-
-
+  
+  names(folders) <- basename(unlist(folders))
+  tmplt <- unlist(folders)
+  
+  while (any(duplicated(names(folders)))) {
+    tmplt <- dirname(tmplt)
+    dplcts <- which(duplicated(names(folders), fromLast = FALSE) |
+                      duplicated(names(folders), fromLast = TRUE))
+    names(folders)[dplcts] <-
+      paste(basename(tmplt)[dplcts], names(folders[dplcts]), sep = "_")
+  }
+  
+  
   # Check paths for existance and create if necessary
   for (f in folders) {
     if (!file.exists(f)) dir.create(f, recursive = TRUE)
@@ -158,7 +158,7 @@ initProj <- function(root_folder = ".",
                      appendlibs = NULL, 
                      OpenFiles = NULL) {
   
-
+  
   notes = TRUE
   if (is.null(init_git)) init_git = FALSE
   if (is.null(init_renv)) init_renv = FALSE
@@ -293,7 +293,7 @@ initProj <- function(root_folder = ".",
 #' }
 #'
 setupProj <- function(root_folder = tempdir(), folders = c("data", "data/tmp"), 
-                       code_subfolder = NULL, 
+                      code_subfolder = NULL, 
                       global = FALSE, libs = NULL, setup_script = "000_setup.R", fcts_folder = NULL,
                       source_functions = !is.null(fcts_folder),
                       standard_setup = NULL,  create_folders = TRUE ){
@@ -317,7 +317,7 @@ setupProj <- function(root_folder = tempdir(), folders = c("data", "data/tmp"),
   
   # Create folders
   folders <- createFolders(root_folder, folders,
-                          
+                           
                            create_folders = create_folders
   )
   

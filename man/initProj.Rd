@@ -9,7 +9,7 @@ initProj(
   folders = NULL,
   init_git = NULL,
   init_renv = NULL,
-  code_subfolder = c("src", "src/functions", "src/config"),
+  code_subfolder = c("src", "src/functions", "src/configs"),
   global = FALSE,
   openproject = NULL,
   newsession = TRUE,

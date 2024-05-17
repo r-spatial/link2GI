@@ -149,7 +149,7 @@ initProj <- function(root_folder = ".",
                      folders = NULL, 
                      init_git = NULL, 
                      init_renv = NULL, 
-                     code_subfolder = c("src", "src/functions", "src/config"),
+                     code_subfolder = c("src", "src/functions", "src/configs"),
                      global = FALSE,  
                      openproject = NULL, newsession = TRUE,
                      standard_setup = "baseSpatial",
@@ -226,7 +226,7 @@ initProj <- function(root_folder = ".",
   brew::brew(system.file(sprintf("templates/%s.brew", "pre-processing"), package = "link2GI"),  file.path(dirs$src, "pre-processing.R"))
   brew::brew(system.file(sprintf("templates/%s.brew", "processing"), package = "link2GI"),  file.path(dirs$src, "10-processing.R"))
   brew::brew(system.file(sprintf("templates/%s.brew", "post-processing"), package = "link2GI"),  file.path(dirs$src, "post-processing.R"))
-  brew::brew(system.file(sprintf("templates/%s.brew", "config-master-yml"), package = "link2GI"),  file.path(dirs$src, "config-master-yml"))
+  brew::brew(system.file(sprintf("templates/%s.brew", "config-master-yml"), package = "link2GI"),  file.path(dirs$config, "config-master.yml"))
   brew::brew(system.file(sprintf("templates/%s.brew", standard_setup), package = "link2GI"),file.path(dirs$functions, "000_setup.R"))
   brew::brew(system.file(sprintf("templates/%s.brew", "yml"), package = "link2GI"),file.path(dirs$config, "pre-processing.yml"))
   brew::brew(system.file(sprintf("templates/%s.brew", "yml"), package = "link2GI"),file.path(dirs$config, "processing.yml"))

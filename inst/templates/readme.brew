@@ -9,4 +9,4 @@ In order to have the standard packages and the project structure available, the 
 
 It automatically sources the file `000_setup.R`, which contains the basic settings for the selected setup type. 
 
-These can of course be extended manually and adapted to the respective requirements.  The paths to the directories are stored in the `envrmt` list
+These can of course be extended manually and adapted to the respective requirements.  The paths to the directories are stored in the dir` list

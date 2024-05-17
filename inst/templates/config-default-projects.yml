@@ -4,7 +4,7 @@ base:
    tmpFolder:  ["tmp"]
    init_git: true
    init_renv: true
-   code_subfolder: ["src", "src/functions" , "src/config"]
+   code_subfolder: ["src", "src/functions" , "src/configs"]
    global: false
    libs: ""
    create_folders: true
@@ -13,7 +13,7 @@ baseSpatial:
    dataFolder: ["level0", "level1", "level2", "run" ,"aux"]
    docsFolder: [ "figures"]
    tmpFolder:  ["tmp"]
-   code_subfolder: ["src", "src/functions" , "src/config"]   
+   code_subfolder: ["src", "src/functions" , "src/configs"]   
    init_git: true
    init_renv: true   
    global: false
@@ -24,7 +24,7 @@ advancedSpatial:
    dataFolder: ["level0", "level1", "level2", "run"]
    docsFolder: [ "figures"]
    tmpFolder:  ["tmp"]
-   code_subfolder: ["src", "src/functions" , "src/config"]
+   code_subfolder: ["src", "src/functions" , "src/configs"]
    init_git: true
    init_renv: true   
    global: false

@@ -387,3 +387,8 @@ reverse_bf_wpath = function(path){
   path = utils::shortPathName(path)
   return(path)
 }
+readkey <- function()
+{
+  cat("[press [ESC] to continue]")
+  line <- readline()
+}

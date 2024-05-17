@@ -1,7 +1,7 @@
 ---
 author: "Chris Reudenbach"
 title: "link2GI Basic Examples"
-date: "2024-05-10"
+date: "2024-05-13"
 editor_options:
   chunk_output_type: console
 output:
@@ -52,7 +52,7 @@ The `find' functions provide an overview of the installed software. These functi
 
 If you are just calling link2GI on the fly, i.e. for a single temporary operation, there is no need to set up folders and project structures. If you are working on a more complex project, it might be helpful to have a fixed structure. The same goes for existing `GRASS` projects that need to be in specific mapsets and locations. 
 
-A simple (you can call it dirty) approach is the ìnitProjî function, which creates folder structures (if not existing) and sets global variables (if desired) containing the paths as strings.
+A simple (you can call it dirty) approach is the `initProj` function, which creates folder structures (if not existing) and sets global variables (if desired) containing the paths as strings.
 
 
 ```r
@@ -77,7 +77,7 @@ In the past it was quite tedious to link the correct `SAGA GIS` version. Since v
 
 ## linkGRASS - Find and set up GRASS 7/8 API bindings
 
-linkGRASS` initializes the session environment and system paths for easy access to `GRASS GIS 7.x./8.x`. The correct setting of spatial and projection parameters is done automatically either by using an existing and valid `raster` or `terra`, `sp` or `sf` object or manually by providing a list of minimum required parameters. These properties are used to initialize either a temporary or a permanent `rgrass` environment, including the correct `GRASS 7/8` database structure. If you do not specify any of the above, `linkGRASS` will create an EPSG:4326 worldwide site.
+`linkGRASS` initializes the session environment and system paths for easy access to `GRASS GIS 7.x./8.x`. The correct setting of spatial and projection parameters is done automatically either by using an existing and valid `raster` or `terra`, `sp` or `sf` object or manually by providing a list of minimum required parameters. These properties are used to initialize either a temporary or a permanent `rgrass` environment, including the correct `GRASS 7/8` database structure. If you do not specify any of the above, `linkGRASS` will create an EPSG:4326 worldwide site.
 
 The most time consuming part on Windows systems is the search process. This can easily take 10 minutes or more. To speed up this process, you can also provide a correct parameter set. The best way to do this is to call `findGRASS` manually. Then call `linkGRASS` with the returned version arguments of your choice.
 

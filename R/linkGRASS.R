@@ -263,7 +263,6 @@ linkGRASS = function(x = NULL,
     returnPaths = TRUE
     rgrass::initGRASS(gisBase = grass$gisbase_GRASS,
                        home = home,
-                      use_g.dirseps.exe = FALSE,
                        gisDbase = gisdbase,
                        mapset = "PERMANENT",
                        location = location,

@@ -1,7 +1,7 @@
 ---
 author: "Chris Reudenbach"
 title: "Installation guide for link2GI related Software"
-date: "2024-05-10"
+date: "2024-05-31"
 editor_options:
   chunk_output_type: console
 output:
@@ -184,19 +184,17 @@ However, this is tedious and QGIS2 only supports the SAGA LTS version.
 
 ## GRASS
 
-You can install GRASS6 and GRASS7 via `homebrew`:
+You can install GRASS6/7/8 via `homebrew`:
 
 ```sh
 # brew tap osgeo4mac
-brew install grass6 grass7
+brew install grass6 grass7 grass8
 ```
 
 The binary GRASS installation can be found [here](https://grass.osgeo.org/download/mac/). 
 However, we recommend to use the `homebrew` approach.
 
-When installing GRASS7 independently of QGIS via `homebrew`, please make sure to install it **before** you have installed QGIS.
-Only this way, the path for the QGIS processing plugin will be updated.
-Otherwise, the GRASS installation will work, however, `GRASS7Utils.grassPath()`, a QGIS function that links to the GRASS installation, gives back a non-existing path such as `/Applications/Grass-7.0.app/Contents/MacOS` which in turn prevents GRASS algorithms from working from within QGIS.
+When installing GRASS independently of QGIS via `homebrew`, please make sure to install it **before** you have installed QGIS.
 
 ## QGIS
 

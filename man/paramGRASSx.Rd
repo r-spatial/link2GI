@@ -31,7 +31,7 @@ During the rsession you will have full access to GRASS7 GIS via the \code{rgrass
 
 run = FALSE
 if (run) {
-# automatic retrieval of the GRASS7 enviroment settings
+# automatic retrieval of the GRASS environment settings
 paramGRASSx()
 
 

@@ -9,13 +9,13 @@ searchSAGAW(DL = "C:/", quiet = TRUE)
 \arguments{
 \item{DL}{drive letter default is \code{C:/}}
 
-\item{quiet}{boolean  switch for supressing messages default is TRUE}
+\item{quiet}{boolean  switch for suppressing messages default is TRUE}
 }
 \value{
-A dataframe contasining the 'SAGA GIS' root folder(s), the version name(s) and the installation type(s)
+A data frame containing the 'SAGA GIS' root folder(s), the version name(s) and the installation type(s)
 }
 \description{
-Searches recursivley for existing 'SAGA GIS' installation(s) on a given 'Windows' drive
+Searches recursively for existing 'SAGA GIS' installation(s) on a given 'Windows' drive
 }
 \examples{
 \dontrun{

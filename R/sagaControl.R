@@ -69,10 +69,10 @@ searchSAGAX <- function(MP = "/usr/bin",
 
 #'@title Searches recursively for existing 'Windows' 'SAGA GIS' installation(s)
 #'@name searchSAGAW
-#'@description  Searches recursivley for existing 'SAGA GIS' installation(s) on a given 'Windows' drive 
+#'@description  Searches recursively for existing 'SAGA GIS' installation(s) on a given 'Windows' drive 
 #'@param DL drive letter default is \code{C:/}
-#'@param quiet boolean  switch for supressing messages default is TRUE
-#'@return A dataframe contasining the 'SAGA GIS' root folder(s), the version name(s) and the installation type(s)
+#'@param quiet boolean  switch for suppressing messages default is TRUE
+#'@return A data frame containing the 'SAGA GIS' root folder(s), the version name(s) and the installation type(s)
 #'@author Chris Reudenbach
 #'@keywords internal
 #'@export searchSAGAW
@@ -200,15 +200,15 @@ searchSAGAX <- function(MP = "/usr/bin",
   return(sagaPath)
 }
 
-#'@title Search recursivly existing 'SAGA GIS' installation(s) at a given drive/mountpoint 
+#'@title Search recursively existing 'SAGA GIS' installation(s) at a given drive/mount point 
 #'@name findSAGA
 #'@description  Provides an  list of valid 'SAGA GIS' installation(s) 
 #'on your 'Windows' system. There is a major difference between osgeo4W and 
-#'stand_alone installations. The functions trys to find all valid 
-#'installations by analysing the calling batch scripts.
+#'stand_alone installations. The functions tries to find all valid 
+#'installations by analyzing the calling batch scripts.
 #'@param searchLocation drive letter to be searched, for Windows systems default
 #' is \code{C:/}, for Linux systems default is \code{/usr/bin}.
-#'@param quiet boolean  switch for supressing console messages default is TRUE
+#'@param quiet boolean  switch for suppressing console messages default is TRUE
 
 #'@return A dataframe with the 'SAGA GIS' root folder(s), version name(s) and 
 #'installation type code(s)

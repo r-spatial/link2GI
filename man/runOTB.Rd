@@ -28,7 +28,7 @@ runOTB(
 Wrapper function that inserts the OTB command list into a system call compatible string and executes that command.
 }
 \details{
-#' Please NOTE: You must check the help to identify the correct input file argument codewort ($input_in or $input_il).
+#' Please NOTE: You must check the help to identify the correct input file argument ($input_in or $input_il).
 }
 \examples{
 \dontrun{

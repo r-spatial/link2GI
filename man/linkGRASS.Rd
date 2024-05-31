@@ -77,8 +77,8 @@ If you choose a spatial object to initialize a correct 'GRASS' mapset, it will b
 \href{https://CRAN.R-project.org/package=rgrass}{rgrass} environment with the correct 'GRASS' structure.\cr\cr
 The most time consuming part on Windows systems is the search process. This can easily take 10 minutes or more. 
 To speed up this process, you can also provide a correct parameter set. The best way to do this is to manually call \code{searchGRASSW} or for 'Linux' \code{searchGRASSX}. 
-and call \code{linkGRASS} with the version arguments of your choice. linkGRASS will initialize the use of GRASS7.
-If you have more than one valid installation and call \code{linkGRASS()} without arguments, you will be asked to choose one.
+and call \code{linkGRASS} with the version arguments of your choice. linkGRASS will initialize the use of GRASS.
+If you have more than one valid installation and call \code{linkGRASS()} without arguments, you will be asked to select one.
 }
 \examples{
 

@@ -201,7 +201,7 @@ parseOTBFunction <- function(algo=NULL,gili=NULL) {
 #'@param quiet boolean  if TRUE suppressing messages default is TRUE
 #'@param retRaster boolean if TRUE a raster stack is returned default is FALSE
 #'@param retCommand boolean if TRUE only the OTB API command is returned default is FALSE
-#'@details #' Please NOTE: You must check the help to identify the correct input file argument codewort ($input_in or $input_il). 
+#'@details #' Please NOTE: You must check the help to identify the correct input file argument ($input_in or $input_il). 
 #'@examples
 #'\dontrun{
 #' require(link2GI)

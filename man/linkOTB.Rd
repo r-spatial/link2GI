@@ -23,12 +23,12 @@ linkOTB(
 
 \item{searchLocation}{string hard drive letter (Windows) or mounting point (Linux) default for Windows is \code{C:}, default for Linux is \code{~}}
 
-\item{ver_select}{Boolean default is FALSE. If there is more than one 'OTB' installation and \code{ver_select} = TRUE the user can select interactively the preferred 'OTB' version In opposite if FALSE the newest version is automatically choosen.}
+\item{ver_select}{Boolean, default is FALSE. If there is more than one 'OTB' installation and \code{ver_select} = TRUE the user can interactively select the preferred 'OTB' version, conversely if FALSE the latest version is automatically selected.}
 
 \item{quiet}{Boolean  switch for suppressing messages default is TRUE}
 
-\item{returnPaths}{Boolean if set to FALSE the pathes of the selected version are written 
-to the PATH variable only, otherwise all paths and versions of the installed GRASS versions ae returned.}
+\item{returnPaths}{Boolean, if set to FALSE the paths of the selected version are written. 
+in the PATH variable only, otherwise all paths and versions of the installed OTB versions are returned.}
 }
 \value{
 add otb pathes to the environment and creates global variables path_OTB

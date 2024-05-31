@@ -11,12 +11,12 @@ findGRASS(searchLocation = "default", ver_select = FALSE, quiet = TRUE)
 Default for Windows systems 
 is \code{C:/}, for Linux systems the default is \code{/usr/bin}.}
 
-\item{ver_select}{boolean Default is FALSE. If there is more than one 'GRASS GIS' installation and \code{ver_select} = TRUE, the user can interactively select the preferred 'GRASS GIS' version.}
+\item{ver_select}{boolean, Default is FALSE. If there is more than one 'GRASS GIS' installation and \code{ver_select} = TRUE, the user can interactively select the preferred 'GRASS GIS' version.}
 
-\item{quiet}{boolean switch to suppress console messages, default is TRUE}
+\item{quiet}{boolean, default is TRUE. switch to suppress console messages}
 }
 \value{
-A dataframe with the 'GRASS GIS' binary folder(s) (i.e. where the individual 
+data frame with the 'GRASS GIS' binary folder(s) (i.e. where the individual 
 individual GRASS commands are installed), version name(s) and 
 installation type code(s)
 }

@@ -11,7 +11,7 @@ if (!isGeneric('linkGDAL')) {
 #'@param ver_select Boolean default is FALSE. If there is more than one 'GDAL' installation and \code{ver_select} = TRUE the user can select interactively the preferred 'GDAL' version 
 #'@param searchLocation string hard drive letter default is \code{C:/}
 #'@param quiet Boolean  switch for suppressing messages default is TRUE
-#'@param returnPaths Boolean if set to FALSE the pathes of the selected version are written 
+#'@param returnPaths Boolean if set to FALSE the paths of the selected version are written 
 #' to the PATH variable only, otherwise all paths and versions of the installed GRASS versions ae returned.
 
 #'

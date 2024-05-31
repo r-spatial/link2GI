@@ -29,7 +29,7 @@ Initialize the enviroment variables on a 'Windows' OS for using
 The concept is very straightforward but for an all days usage pretty
  helpful. You need to provide a \code{terra} or a \code{sf} object. The derived properties are used to initialize a temporary but static
  \href{https://CRAN.R-project.org/package=rgrass}{rgrass} environment. During the rsession you will have full access to
- GRASS7 both via the wrapper package as well as the command line. paramGRASSw initializes the usage of GRASS7.
+ GRASS7 both via the wrapper package as well as the command line. paramGRASSw initializes the usage of GRASS.
 }
 \examples{
 

@@ -12,20 +12,20 @@ paramGRASSx(
 )
 }
 \arguments{
-\item{set_default_GRASS}{default = NULL will force a search for 'GRASS GIS' You may provide a valid combination as 
+\item{set_default_GRASS, }{default is NULL. will force a search for 'GRASS GIS' You may provide a valid combination as 
 c("/usr/lib/grass74","7.4.1","grass74")}
 
-\item{MP}{mount point to be searched. default is "/usr/bin"}
+\item{MP, }{default is "/usr/bin". mount point to be searched.}
 
 \item{ver_select}{if TRUE you must interactively select between alternative installations}
 
-\item{quiet}{Boolean  switch for suppressing console messages default is TRUE}
+\item{quiet}{boolean, default is TRUE.  switch for suppressing console messages}
 }
 \description{
 Initialize and set up \code{rgrass}  for 'Linux'
 }
 \details{
-During the rsession you will have full access to GRASS7 GIS via the \code{rgrass} wrapper. Additionally you may use also use the API calls of GRASS7 via the command line.
+During the rsession you will have full access to GRASS7 GIS via the \code{rgrass} wrapper. Additionally you may use also use the API calls of GRASS via the command line.
 }
 \examples{
 

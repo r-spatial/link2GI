@@ -1,11 +1,11 @@
 #'@title Usually for internally usage, get 'GRASS GIS' and \code{rgrass} parameters on 'Linux' OS
 #'@name paramGRASSx
 #'@description Initialize and set up \code{rgrass}  for 'Linux'
-#'@details During the rsession you will have full access to GRASS7 GIS via the \code{rgrass} wrapper. Additionally you may use also use the API calls of GRASS7 via the command line.
-#'@param set_default_GRASS default = NULL will force a search for 'GRASS GIS' You may provide a valid combination as 
+#'@details During the rsession you will have full access to GRASS7 GIS via the \code{rgrass} wrapper. Additionally you may use also use the API calls of GRASS via the command line.
+#'@param set_default_GRASS, default is NULL. will force a search for 'GRASS GIS' You may provide a valid combination as 
 #'                                    c("/usr/lib/grass74","7.4.1","grass74")
-#'@param MP mount point to be searched. default is "/usr/bin"
-#'@param quiet Boolean  switch for suppressing console messages default is TRUE
+#'@param MP, default is "/usr/bin". mount point to be searched. 
+#'@param quiet boolean, default is TRUE.  switch for suppressing console messages 
 #'@param ver_select if TRUE you must interactively select between alternative installations
 #'@keywords internal
 #'
@@ -96,7 +96,7 @@ paramGRASSx <- function(set_default_GRASS=NULL,
 #'@details The concept is very straightforward but for an all days usage pretty
 #'  helpful. You need to provide a \code{terra} or a \code{sf} object. The derived properties are used to initialize a temporary but static
 #'  \href{https://CRAN.R-project.org/package=rgrass}{rgrass} environment. During the rsession you will have full access to
-#'  GRASS7 both via the wrapper package as well as the command line. paramGRASSw initializes the usage of GRASS7.
+#'  GRASS7 both via the wrapper package as well as the command line. paramGRASSw initializes the usage of GRASS.
 #'@param DL character search location default = \code{C:}
 #'@param ver_select boolean default is FALSE. If there is more than one 'SAGA GIS' installation and \code{ver_select} = TRUE the user can select interactively the preferred 'SAGA GIS' version 
 #'@param set_default_GRASS default = NULL forces a full search for 'GRASS GIS' binaries. You may
@@ -357,8 +357,8 @@ searchGRASSW <- function(DL = "C:/",
 #'@description Searches recursively for valid 'GRASS GIS' installations at a given 'Linux' mount point.
 #'Returns attributes for each installation.
 #'@param MP default is /usr. This is the directory from which the grass executable file is searched, i.e. one executable for each GRASS installation on the system.
-#'@return A dataframe containing 'GRASS GIS' binary folder(s) (i.e. where the individual GRASS commands are installed), version name(s) and installation type code(s)
-#'@param quiet boolean  switch for supressing console messages default is TRUEs
+#'@return data frame containing 'GRASS GIS' binary folder(s) (i.e. where the individual GRASS commands are installed), version name(s) and installation type code(s)
+#'@param quiet boolean.  switch for suppressing console messages default is TRUE
 
 #'@author Chris Reudenbach
 #'@export searchGRASSX
@@ -435,15 +435,15 @@ searchGRASSX <- function(MP = "/usr/bin",quiet =TRUE){
 #'@description  Initializes and set up  access to 'GRASS GIS 7.xx' via the \code{rgrass} wrapper or command line packages. Set and returns all necessary environment variables and additionally returns the GISBASE directory as string.
 #'@param root_GRASS  grass root directory i.e. "C:\\OSGEO4~1",
 #'@param grass_version grass version name i.e. "grass-7.0.5"
-#'@param installation_type two options "osgeo4w" as installed by the 'OSGeo4W'-installer and "NSIS" that is typical for a stand_alone installtion of 'GRASS GIS'.
-#'@param quiet boolean  switch for supressing console messages default is TRUE
+#'@param installation_type two options "osgeo4w" as installed by the 'OSGeo4W'-installer and "NSIS" that is typical for a stand_alone installation of 'GRASS GIS'.
+#'@param quiet boolean  switch for suppressing console messages default is TRUE
 #'@param jpgmem jpeg2000 memory allocation size. Default is 1000000
 #'@author Chris Reudenbach
 #'@keywords internal
 #'
 #'@examples
 #' \dontrun{
-#' # set choosen'GRASS GIS' installation folders 
+#' # set selected 'GRASS GIS' installation folders 
 #' setenvGRASSw(root_GRASS = "C:\\PROGRA~1\\QGIS2~1.18",
 #'              grass_version =  "grass-7.2.1",
 #'              installation_type =  "osgeo4W")
@@ -561,9 +561,9 @@ checkGisdbase <- function(x = NULL , gisdbase = NULL, location = NULL, gisdbase_
 #'@param searchLocation Location to search for the grass executable, i.e. one executable for each GRASS installation on the system. For Windows systems it is mandatory to include an uppercase Windows drive letter and a colon.
 #'Default for Windows systems 
 #'is \code{C:/}, for Linux systems the default is \code{/usr/bin}.
-#'@param ver_select boolean Default is FALSE. If there is more than one 'GRASS GIS' installation and \code{ver_select} = TRUE, the user can interactively select the preferred 'GRASS GIS' version. 
-#'@param quiet boolean switch to suppress console messages, default is TRUE
-#'@return A dataframe with the 'GRASS GIS' binary folder(s) (i.e. where the individual 
+#'@param ver_select boolean, Default is FALSE. If there is more than one 'GRASS GIS' installation and \code{ver_select} = TRUE, the user can interactively select the preferred 'GRASS GIS' version. 
+#'@param quiet boolean, default is TRUE. switch to suppress console messages
+#'@return data frame with the 'GRASS GIS' binary folder(s) (i.e. where the individual 
 #'individual GRASS commands are installed), version name(s) and 
 #'installation type code(s)
 #'@author Chris Reudenbach

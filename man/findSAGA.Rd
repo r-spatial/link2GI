@@ -2,7 +2,7 @@
 % Please edit documentation in R/sagaControl.R
 \name{findSAGA}
 \alias{findSAGA}
-\title{Search recursivly existing 'SAGA GIS' installation(s) at a given drive/mountpoint}
+\title{Search recursively existing 'SAGA GIS' installation(s) at a given drive/mount point}
 \usage{
 findSAGA(searchLocation = "default", quiet = TRUE)
 }
@@ -10,7 +10,7 @@ findSAGA(searchLocation = "default", quiet = TRUE)
 \item{searchLocation}{drive letter to be searched, for Windows systems default
 is \code{C:/}, for Linux systems default is \code{/usr/bin}.}
 
-\item{quiet}{boolean  switch for supressing console messages default is TRUE}
+\item{quiet}{boolean  switch for suppressing console messages default is TRUE}
 }
 \value{
 A dataframe with the 'SAGA GIS' root folder(s), version name(s) and 
@@ -19,8 +19,8 @@ installation type code(s)
 \description{
 Provides an  list of valid 'SAGA GIS' installation(s) 
 on your 'Windows' system. There is a major difference between osgeo4W and 
-stand_alone installations. The functions trys to find all valid 
-installations by analysing the calling batch scripts.
+stand_alone installations. The functions tries to find all valid 
+installations by analyzing the calling batch scripts.
 }
 \examples{
 \dontrun{

@@ -95,7 +95,6 @@ createFolders <- function(root_folder, folders,
 #' folders src, src/functions and src/config are mandatory.
 #' @param global logical: export path strings as global variables?
 #' @param appendlibs  vector with the  names of libraries that are required for the initial project.
-#' @param setup_script Name of the installation script that contains all the 
 #' settings required for the project, such as additional libraries, optional settings, 
 #' colour schemes, etc. Important: It should not be used to control the runtime
 #' parameters of the scripts.  This file is not read in automatically, even if 
@@ -108,6 +107,7 @@ createFolders <- function(root_folder, folders,
 #' @param loc_name  NULL by default, defines the research area of the analysis in the data folder as a subfolder and serves as a code tag
 #' @param ymlFN filename for a yaml file containing a non standard_setup 
 #' @param OpenFiles default NULL
+#' @param openproject default NULL if TRUE the project is opened in a new session
 #' @note For yaml based setup you need to use one of the default configurations 
 #' c("base", "baseSpatial","advancedSpatial") or you provide a yaml file this 
 #' MUST contain the standard_setup arguments, where \code{ mysetup} is the yaml root, all other items are mandatory keywords that can be filled in as needed.  

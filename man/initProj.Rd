@@ -34,6 +34,8 @@ folders src, src/functions and src/config are mandatory.}
 
 \item{global}{logical: export path strings as global variables?}
 
+\item{openproject}{default NULL if TRUE the project is opened in a new session}
+
 \item{newsession}{open project in a new session? default is FALSE}
 
 \item{standard_setup}{select one of the predefined settings c("base", "baseSpatial", "advancedSpatial"). 
@@ -45,15 +47,13 @@ name of the git repository must be supplied to the function.}
 
 \item{ymlFN}{filename for a yaml file containing a non standard_setup}
 
-\item{appendlibs}{vector with the  names of libraries that are required for the initial project.}
-
-\item{OpenFiles}{default NULL}
-
-\item{setup_script}{Name of the installation script that contains all the 
+\item{appendlibs}{vector with the  names of libraries that are required for the initial project.
 settings required for the project, such as additional libraries, optional settings, 
 colour schemes, etc. Important: It should not be used to control the runtime
 parameters of the scripts.  This file is not read in automatically, even if 
 it is located in the "fcts_folder" folder.}
+
+\item{OpenFiles}{default NULL}
 }
 \value{
 dirs, i.e. a list containing the project pathes.

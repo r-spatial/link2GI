@@ -34,85 +34,17 @@ remotes::install_github("r-spatial/link2GI",ref = "master")
 ## Third Party software
 To utilize the power of the open source GI tools from within `R` you need to install  them first. As a first promising opportunity to do fulfill most of the requirements you may install `QGIS, GRASS`, `SAGA-GIS` and `Orfeo-toolbox`. For further Information have a look at the [Installation guide for link2GI related Software](https://r-spatial.github.io/link2GI/articles/link2GI7.html).
 
-# Documentation
+# New Feature
 
-
-
-## OTB wrapper
-
-the OTB wrapper is updated for a more convenient usage. Please have a look at the use case below. For further Information have a look at the article [OTB Wrapper](https://r-spatial.github.io/link2GI/articles/link2GI4.html).
-  
-```r
-
-## link to OTB
-require(link2GI)
-require(terra)
-
-otblink<-link2GI::linkOTB()
-projRootDir<-tempdir()
-
-fn <- system.file("ex/elev.tif", package = "terra")
-
-
-## for the example we use the edge detection, 
-algoKeyword<- "EdgeExtraction"
-
-## extract the command list for the choosen algorithm 
-cmd<-parseOTBFunction(algo = algoKeyword, gili = otblink)
-
-
-## define the mandantory arguments all other will be default
-cmd$help = NULL
-cmd$input_in  <- fn
-cmd$filter <- "touzi"
-cmd$channel <- 1
-cmd$out <- file.path(projRootDir,paste0("out",cmd$filter,".tif"))
-
-## run algorithm
-retStack<-runOTB(cmd,gili = otblink)
-
-## plot filter raster on the green channel
-plot(retStack)
-```
 ##  `initProj` for reproducible projects
 `initProj` sets up a reproducible project environment complete with a defined folder structure, an RStudio project, initial scripts and setup templates, and optionally `git` repositories and `renv` environment. Most important parameters are the project root folder and subfolders for data documentation and scripts. It supports automatic loading and if possible installation of required libraries, a default setup option to simplify project initialisation. The function creates a skeleton of the main control script `main.R`, manages variable configurations through the `src/functions/000_settings.R script` and maintains easy access to paths through the `envrmt` list variable, facilitating an light weighted efficient and reproducible project management and data handling.For further Information have a look at the article [Reproducible Projects](https://r-spatial.github.io/link2GI/articles/link2GI5.html).
 
-```r
-require(link2GI)
-
-initProj(root_folder = tempdir(), standard_setup = "baseSpatial", newsession = TRUE)
-  
-```
-
-In addition you may use the `File -> New Project -> New directory -> New Wizard ` dialogue choosing the ***Create Project structure with link2GI*** template to create a new project via the Rstudio menu.
+When using RStudio, a new project can be created by simply selecting the ***Create Project Structure (link2GI)*** template from the ***File -> New Project -> New Directory -> New Project Wizard *** dialogue.
 
 ![](https://raw.githubusercontent.com/r-spatial/link2GI/master/figures/usegui.gif)
 
 
-## Further examples
-
-
-### Usecases presented on the GEOSTAT August 2018
 
 
 
-During the GEOSTAT 2018 (see https://opengeohub.org) in Prague some more complex usescases have been presented.
 
-#### Slides and materials
-- [Presentation slides](https://gisma.github.io/link2gi2018/link2gi2018.html#1)
-- [Github Repository](https://github.com/gisma/link2gi2018)
-
-#### Basic usage of SAGA and OTB calls 
-- [SAGA & OTB basic usecase](https://github.com/gisma/link2gi2018/blob/master/R/usecases/saga-otb/useCaseSAGA-OTB.R)
-                        
-#### Wrapping  GRASS 
-- Wrapping a [GRASS GIS example](https://neteler.gitlab.io/grass-gis-analysis/02_grass-gis_ecad_analysis/) of Markus Neteler as presented on GEOSTAT 2018 
-- [Analysing the ECA&D climatic data - reloaded](https://github.com/gisma/link2gi2018/blob/master/R/usecases/grass/useCaseGRASS-Neteler2018.R)
-                        
-#### GRASS based cost analysis
-- Performing a GRASS based cost analysis on a huge cost raster 
-- [Beetle spread over high asia](https://github.com/gisma/link2gi2018/blob/master/R/usecases/cost-analysis/useCaseBeetle.R)
-                        
-#### API/CLI mixed approach
-- Deriving a [Canopy Height Model from UAV derived point clouds](https://github.com/gisma/link2gi2018/blob/master/R/usecases/uav-pc/useCaseCHM.R) a mixed API approach 
-                        

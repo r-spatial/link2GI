@@ -37,7 +37,8 @@ For this reason, the link2GI package includes a lean and lightweight but focused
 
 ### Using the RStudio GUI
 
-When using RStudio, a new project can simply be created via File->New Project-> Create Project Structure (link2GI).
+When using RStudio, a new project can be created by simply selecting the ***Create Project Structure (link2GI)*** template from the ***File -> New Project -> New Directory -> New Project Wizard *** dialogue.
+
 
 ![Use the RStudio Template Option](https://raw.githubusercontent.com/r-spatial/link2GI/master/figures/usegui.gif)
 
@@ -46,8 +47,8 @@ When using RStudio, a new project can simply be created via File->New Project-> 
 The basic setup of a default project, which initializes Git and renv, is done with the following call. 
 
 ```R
-root_folder <- tempdir() # Mandatory, variable must be in the R environment.
-dirs <- initProj(root_folder = root_folder, standard_setup = "baseSpatial")
+root_folder = tempdir() # Mandatory, variable must be in the R environment.
+dirs = initProj(root_folder = root_folder, standard_setup = "baseSpatial")
 
 ```
 
@@ -68,8 +69,8 @@ link2GI::setup_default()$baseSpatial$code_subfolder
 Use the `folders` argument to create a specific structure or subfolder structure of your project. 
 
 ```R
-root_folder <- tempdir() # Mandatory, variable must be in the R environment.
-dirs <- initProj(root_folder = root_folder, 
+root_folder = tempdir() # Mandatory, variable must be in the R environment.
+dirs = initProj(root_folder = root_folder, 
                  standard_setup = "baseSpatial",
                  folders = c("data/rawdata/provider1/", "docs/quarto/")
                  )
@@ -78,7 +79,7 @@ dirs <- initProj(root_folder = root_folder,
 A more complex call that integrates the `git' and `renv' setup, adds some additional folders and libraries as well as a location tag will be:
 
 ```R
-initProj(root_folder = tempdir(), 
+dirs  = initProj(root_folder = tempdir(), 
          folders = c("data/newdata/"),
          init_git = TRUE, 
          init_renv = TRUE, 

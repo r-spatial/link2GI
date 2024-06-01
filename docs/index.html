@@ -122,103 +122,15 @@
 </div>
 </div>
 <div class="section level1">
-<h1 id="documentation">Documentation<a class="anchor" aria-label="anchor" href="#documentation"></a>
+<h1 id="new-feature">New Feature<a class="anchor" aria-label="anchor" href="#new-feature"></a>
 </h1>
-<div class="section level2">
-<h2 id="otb-wrapper">OTB wrapper<a class="anchor" aria-label="anchor" href="#otb-wrapper"></a>
-</h2>
-<p>the OTB wrapper is updated for a more convenient usage. Please have a look at the use case below. For further Information have a look at the article <a href="https://r-spatial.github.io/link2GI/articles/link2GI4.html">OTB Wrapper</a>.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="co">## link to OTB</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-spatial/link2GI/" class="external-link">link2GI</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/" class="external-link">terra</a></span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">otblink</span><span class="op">&lt;-</span><span class="fu">link2GI</span><span class="fu">::</span><span class="fu"><a href="reference/linkOTB.html">linkOTB</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="va">projRootDir</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">fn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"ex/elev.tif"</span>, package <span class="op">=</span> <span class="st">"terra"</span><span class="op">)</span></span>
-<span></span>
-<span></span>
-<span><span class="co">## for the example we use the edge detection, </span></span>
-<span><span class="va">algoKeyword</span><span class="op">&lt;-</span> <span class="st">"EdgeExtraction"</span></span>
-<span></span>
-<span><span class="co">## extract the command list for the choosen algorithm </span></span>
-<span><span class="va">cmd</span><span class="op">&lt;-</span><span class="fu"><a href="reference/parseOTBFunction.html">parseOTBFunction</a></span><span class="op">(</span>algo <span class="op">=</span> <span class="va">algoKeyword</span>, gili <span class="op">=</span> <span class="va">otblink</span><span class="op">)</span></span>
-<span></span>
-<span></span>
-<span><span class="co">## define the mandantory arguments all other will be default</span></span>
-<span><span class="va">cmd</span><span class="op">$</span><span class="va">help</span> <span class="op">=</span> <span class="cn">NULL</span></span>
-<span><span class="va">cmd</span><span class="op">$</span><span class="va">input_in</span>  <span class="op">&lt;-</span> <span class="va">fn</span></span>
-<span><span class="va">cmd</span><span class="op">$</span><span class="va">filter</span> <span class="op">&lt;-</span> <span class="st">"touzi"</span></span>
-<span><span class="va">cmd</span><span class="op">$</span><span class="va">channel</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
-<span><span class="va">cmd</span><span class="op">$</span><span class="va">out</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">projRootDir</span>,<span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"out"</span>,<span class="va">cmd</span><span class="op">$</span><span class="va">filter</span>,<span class="st">".tif"</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co">## run algorithm</span></span>
-<span><span class="va">retStack</span><span class="op">&lt;-</span><span class="fu"><a href="reference/runOTB.html">runOTB</a></span><span class="op">(</span><span class="va">cmd</span>,gili <span class="op">=</span> <span class="va">otblink</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co">## plot filter raster on the green channel</span></span>
-<span><span class="fu"><a href="https://rspatial.github.io/terra/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">retStack</span><span class="op">)</span></span></code></pre></div>
-</div>
 <div class="section level2">
 <h2 id="initproj-for-reproducible-projects">
 <code>initProj</code> for reproducible projects<a class="anchor" aria-label="anchor" href="#initproj-for-reproducible-projects"></a>
 </h2>
 <p><code>initProj</code> sets up a reproducible project environment complete with a defined folder structure, an RStudio project, initial scripts and setup templates, and optionally <code>git</code> repositories and <code>renv</code> environment. Most important parameters are the project root folder and subfolders for data documentation and scripts. It supports automatic loading and if possible installation of required libraries, a default setup option to simplify project initialisation. The function creates a skeleton of the main control script <code>main.R</code>, manages variable configurations through the <code>src/functions/000_settings.R script</code> and maintains easy access to paths through the <code>envrmt</code> list variable, facilitating an light weighted efficient and reproducible project management and data handling.For further Information have a look at the article <a href="https://r-spatial.github.io/link2GI/articles/link2GI5.html">Reproducible Projects</a>.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-spatial/link2GI/" class="external-link">link2GI</a></span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="reference/initProj.html">initProj</a></span><span class="op">(</span>root_folder <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, standard_setup <span class="op">=</span> <span class="st">"baseSpatial"</span>, newsession <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span>  </span></code></pre></div>
-<p>In addition you may use the <code>File -&gt; New Project -&gt; New directory -&gt; New Wizard</code> dialogue choosing the <strong><em>Create Project structure with link2GI</em></strong> template to create a new project via the Rstudio menu.</p>
+<p>When using RStudio, a new project can be created by simply selecting the <strong><em>Create Project Structure (link2GI)</em></strong> template from the <strong><em>File -&gt; New Project -&gt; New Directory -&gt; New Project Wizard </em></strong> dialogue.</p>
 <p><img src="https://raw.githubusercontent.com/r-spatial/link2GI/master/figures/usegui.gif"></p>
-</div>
-<div class="section level2">
-<h2 id="further-examples">Further examples<a class="anchor" aria-label="anchor" href="#further-examples"></a>
-</h2>
-<div class="section level3">
-<h3 id="usecases-presented-on-the-geostat-august-2018">Usecases presented on the GEOSTAT August 2018<a class="anchor" aria-label="anchor" href="#usecases-presented-on-the-geostat-august-2018"></a>
-</h3>
-<p>During the GEOSTAT 2018 (see <a href="https://opengeohub.org" class="external-link uri">https://opengeohub.org</a>) in Prague some more complex usescases have been presented.</p>
-<div class="section level4">
-<h4 id="slides-and-materials">Slides and materials<a class="anchor" aria-label="anchor" href="#slides-and-materials"></a>
-</h4>
-<ul>
-<li><a href="https://gisma.github.io/link2gi2018/link2gi2018.html#1" class="external-link">Presentation slides</a></li>
-<li><a href="https://github.com/gisma/link2gi2018" class="external-link">Github Repository</a></li>
-</ul>
-</div>
-<div class="section level4">
-<h4 id="basic-usage-of-saga-and-otb-calls">Basic usage of SAGA and OTB calls<a class="anchor" aria-label="anchor" href="#basic-usage-of-saga-and-otb-calls"></a>
-</h4>
-<ul>
-<li><a href="https://github.com/gisma/link2gi2018/blob/master/R/usecases/saga-otb/useCaseSAGA-OTB.R" class="external-link">SAGA &amp; OTB basic usecase</a></li>
-</ul>
-</div>
-<div class="section level4">
-<h4 id="wrapping-grass">Wrapping GRASS<a class="anchor" aria-label="anchor" href="#wrapping-grass"></a>
-</h4>
-<ul>
-<li>Wrapping a <a href="https://neteler.gitlab.io/grass-gis-analysis/02_grass-gis_ecad_analysis/" class="external-link">GRASS GIS example</a> of Markus Neteler as presented on GEOSTAT 2018</li>
-<li><a href="https://github.com/gisma/link2gi2018/blob/master/R/usecases/grass/useCaseGRASS-Neteler2018.R" class="external-link">Analysing the ECA&amp;D climatic data - reloaded</a></li>
-</ul>
-</div>
-<div class="section level4">
-<h4 id="grass-based-cost-analysis">GRASS based cost analysis<a class="anchor" aria-label="anchor" href="#grass-based-cost-analysis"></a>
-</h4>
-<ul>
-<li>Performing a GRASS based cost analysis on a huge cost raster</li>
-<li><a href="https://github.com/gisma/link2gi2018/blob/master/R/usecases/cost-analysis/useCaseBeetle.R" class="external-link">Beetle spread over high asia</a></li>
-</ul>
-</div>
-<div class="section level4">
-<h4 id="apicli-mixed-approach">API/CLI mixed approach<a class="anchor" aria-label="anchor" href="#apicli-mixed-approach"></a>
-</h4>
-<ul>
-<li>Deriving a <a href="https://github.com/gisma/link2gi2018/blob/master/R/usecases/uav-pc/useCaseCHM.R" class="external-link">Canopy Height Model from UAV derived point clouds</a> a mixed API approach</li>
-</ul>
-</div>
-</div>
 </div>
 </div>
 

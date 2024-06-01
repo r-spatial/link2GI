@@ -166,8 +166,10 @@ geospatial workflows.</p>
 <div class="section level4">
 <h4 id="using-the-rstudio-gui">Using the RStudio GUI<a class="anchor" aria-label="anchor" href="#using-the-rstudio-gui"></a>
 </h4>
-<p>When using RStudio, a new project can simply be created via
-File-&gt;New Project-&gt; Create Project Structure (link2GI).</p>
+<p>When using RStudio, a new project can be created by simply selecting
+the <strong><em>Create Project Structure (link2GI)</em></strong>
+template from the <strong><em>File -&gt; New Project -&gt; New Directory
+-&gt; New Project Wizard </em></strong> dialogue.</p>
 <div class="float">
 <img src="https://raw.githubusercontent.com/r-spatial/link2GI/master/figures/usegui.gif" alt="Use the RStudio Template Option"><div class="figcaption">Use the RStudio Template Option</div>
 </div>
@@ -178,8 +180,8 @@ File-&gt;New Project-&gt; Create Project Structure (link2GI).</p>
 <p>The basic setup of a default project, which initializes Git and renv,
 is done with the following call.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">root_folder</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># Mandatory, variable must be in the R environment.</span></span>
-<span><span class="va">dirs</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/initProj.html">initProj</a></span><span class="op">(</span>root_folder <span class="op">=</span> <span class="va">root_folder</span>, standard_setup <span class="op">=</span> <span class="st">"baseSpatial"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">root_folder</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># Mandatory, variable must be in the R environment.</span></span>
+<span><span class="va">dirs</span> <span class="op">=</span> <span class="fu"><a href="../reference/initProj.html">initProj</a></span><span class="op">(</span>root_folder <span class="op">=</span> <span class="va">root_folder</span>, standard_setup <span class="op">=</span> <span class="st">"baseSpatial"</span><span class="op">)</span></span></code></pre></div>
 <p>It is easy to customize the folder structure. By default you will
 create</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
@@ -192,8 +194,8 @@ create</p>
 <p>Use the <code>folders</code> argument to create a specific structure
 or subfolder structure of your project.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">root_folder</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># Mandatory, variable must be in the R environment.</span></span>
-<span><span class="va">dirs</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/initProj.html">initProj</a></span><span class="op">(</span>root_folder <span class="op">=</span> <span class="va">root_folder</span>, </span>
+<code class="sourceCode R"><span><span class="va">root_folder</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># Mandatory, variable must be in the R environment.</span></span>
+<span><span class="va">dirs</span> <span class="op">=</span> <span class="fu"><a href="../reference/initProj.html">initProj</a></span><span class="op">(</span>root_folder <span class="op">=</span> <span class="va">root_folder</span>, </span>
 <span>                 standard_setup <span class="op">=</span> <span class="st">"baseSpatial"</span>,</span>
 <span>                 folders <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"data/rawdata/provider1/"</span>, <span class="st">"docs/quarto/"</span><span class="op">)</span></span>
 <span>                 <span class="op">)</span></span></code></pre></div>
@@ -201,7 +203,7 @@ or subfolder structure of your project.</p>
 setup, adds some additional folders and libraries as well as a location
 tag will be:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/initProj.html">initProj</a></span><span class="op">(</span>root_folder <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, </span>
+<code class="sourceCode R"><span><span class="va">dirs</span>  <span class="op">=</span> <span class="fu"><a href="../reference/initProj.html">initProj</a></span><span class="op">(</span>root_folder <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, </span>
 <span>         folders <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"data/newdata/"</span><span class="op">)</span>,</span>
 <span>         init_git <span class="op">=</span> <span class="cn">TRUE</span>, </span>
 <span>         init_renv <span class="op">=</span> <span class="cn">TRUE</span>, </span>

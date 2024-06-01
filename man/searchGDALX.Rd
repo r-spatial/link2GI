@@ -7,7 +7,7 @@
 searchGDALX(MP = "/usr/bin", quiet = TRUE)
 }
 \arguments{
-\item{MP}{drive letter default is "/usr/bin"}
+\item{MP}{drive letter default is '/usr/bin'}
 
 \item{quiet}{boolean  switch for supressing messages default is TRUE}
 }

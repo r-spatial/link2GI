@@ -1,4 +1,3 @@
-
 #'@title Checks if x is of type raster,terra,sf or sp
 #'@name getSpatialClass
 #'@description  Checks if x is a raster or sp object
@@ -10,23 +9,17 @@
 #' # add path
 #' getSpatialClass(x)
 #' }
-
 getSpatialClass <- function(obj) {
-  if (class(obj)[1] %in% c("RasterLayer", "RasterStack", "RasterBrick",
-                           "Satellite", "SpatialGridDataFrame", "stars", "SpatialPixelsDataFrame",
+  if (class(obj)[1] %in% c("RasterLayer", "RasterStack", "RasterBrick", "Satellite", "SpatialGridDataFrame", "stars", "SpatialPixelsDataFrame",
                            "SpatRaster")) {
     "rst"
-  } else if (class(obj)[1] %in% c("SpatialPointsDataFrame", "SpatialPoints",
-                                  "SpatialPolygonsDataFrame", "SpatialPolygons", "SpatialLinesDataFrame",
-                                  "SpatialLines", "sf")) {
+  } else if (class(obj)[1] %in% c("SpatialPointsDataFrame", "SpatialPoints", "SpatialPolygonsDataFrame", "SpatialPolygons",
+                                  "SpatialLinesDataFrame", "SpatialLines", "sf")) {
     "vec"
   } else {
     "paramList"
   }
 }
-
-
-
 #'@title Adds a defined variable and value to the global search path
 #'@name add2Path
 #'@description  Adds a variable to the global search path of the current environment
@@ -56,7 +49,6 @@ add2Path <- function(newPath) {
     Sys.setenv(PATH = paste0(newPath, del, Sys.getenv("PATH")))
   }
 }
-
 #'@title Generates a variable with a certain value in the R environment
 #'@name makGlobalVar
 #' @description  Generates a variable with a certain value in the R environment
@@ -76,8 +68,7 @@ makGlobalVar <- function(name, value) {
   if (!exists("GiEnv"))
     GiEnv <- new.env(parent = globalenv())
   if (exists(name, envir = GiEnv)) {
-    # warning(paste0('The variable '', name,'' already exist in
-    # .GlobalEnv'))
+    # warning(paste0('The variable '', name,'' already exist in .GlobalEnv'))
     assign(name, value, envir = GiEnv, inherits = TRUE)
     # cat('add variable ',name,'=',value,' to global GiEnv\n')
   } else {
@@ -85,10 +76,7 @@ makGlobalVar <- function(name, value) {
     # cat('add variable ',name,'=',value,' to global GiEnv\n')
   }
 }
-
-
 readinteger <- function() {
-  
   n <- readline()
   n <- as.integer(n)
   if (is.na(n)) {
@@ -96,7 +84,6 @@ readinteger <- function() {
   }
   return(n)
 }
-
 #' Build package manually
 #' 
 #' @description 
@@ -129,45 +116,31 @@ readinteger <- function() {
 #' }
 #' 
 #'
-
-manuallyBuild <- function(dsn = getwd(), pkgDir = "H:/Dokumente", document = TRUE,
-                          ...) {
-  
+manuallyBuild <- function(dsn = getwd(), pkgDir = "H:/Dokumente", document = TRUE, ...) {
   ## reset 'dsn' to 'H:/...'
   if (length(grep("students_smb", dsn)) > 0) {
     lst_dsn <- strsplit(dsn, "/")
     chr_dsn <- unlist(lst_dsn)[3:5]
     dsn <- paste0("H:/", paste(chr_dsn, collapse = "/"))
   }
-  
   ## if 'document = TRUE', create documentation
   if (document) {
     cat("\nCreating package documentation...\n")
-    roxygen2::roxygenize(package.dir = dsn, roclets = c("rd", "collate",
-                                                        "namespace"))
+    roxygen2::roxygenize(package.dir = dsn, roclets = c("rd", "collate", "namespace"))
   }
-  
   ## build package
   cat("\nBuilding package...\n")
-  
   devtools::build(pkg = dsn, path = dirname(dsn), ...)
-  
-  
   ## install package
   cat("Installing package...\n")
-  pkg <- list.files(dirname(pkgDir), full.names = TRUE, pattern = paste0(basename(dsn),
-                                                                         ".*.tar.gz$"))
+  pkg <- list.files(dirname(pkgDir), full.names = TRUE, pattern = paste0(basename(dsn), ".*.tar.gz$"))
   pkg <- pkg[length(pkg)]
-  
   utils::install.packages(pkg, repos = NULL)
-  
   return(invisible(NULL))
 }
-
 if (!isGeneric("sf2gvec")) {
   setGeneric("sf2gvec", function(x, ...) standardGeneric("sf2gvec"))
 }
-
 #' Write sf object directly to `GRASS` vector utilising an existing or creating a new GRASS environment
 #' @param x  \code{sf} object corresponding to the settings of the corresponding GRASS container
 #' @param obj_name name of GRASS layer
@@ -181,7 +154,6 @@ if (!isGeneric("sf2gvec")) {
 #' @importFrom sf st_as_sf
 #' @importFrom sf st_write
 #' @importFrom sf st_read 
-
 #' @examples 
 #' 
 #' run = FALSE
@@ -210,17 +182,14 @@ if (!isGeneric("sf2gvec")) {
 #'         location = 'project1')
 #' 
 #' }
-
 sf2gvec <- function(x, epsg, obj_name, gisdbase, location, gisdbase_exist = FALSE) {
-  
   if (gisdbase_exist) {
     linkGRASS(gisdbase = gisdbase, location = location, gisdbase_exist = TRUE)
   } else {
     linkGRASS(x = x, gisdbase = gisdbase, location = location)
   }
   path <- Sys.getenv("GISDBASE")
-  sq_name <- gsub(tolower(paste0(obj_name, ".sqlite")), pattern = "\\-",
-                  replacement = "_")
+  sq_name <- gsub(tolower(paste0(obj_name, ".sqlite")), pattern = "\\-", replacement = "_")
   if (!inherits(x, "sf")) {
     sf::st_as_sf(x, x_sf)
   } else {
@@ -228,20 +197,15 @@ sf2gvec <- function(x, epsg, obj_name, gisdbase, location, gisdbase_exist = FALS
   }
   # if (!file.exists(file.path(path,sq_name)))
   sf::st_write(x_sf, file.path(path, sq_name), append = FALSE)
-  epsg = sf::st_crs(x)$epsg
-  ret <- try(rgrass::execGRASS("v.import", flags = c("overwrite", "o"),
-                               input = file.path(path, sq_name), epsg = as.numeric(epsg), output = gsub(tolower(sq_name),
-                                                                                                        pattern = "\\.", replacement = ""), ignore.stderr = TRUE, intern = TRUE),
-             silent = FALSE)
-  
+  epsg <- sf::st_crs(x)$epsg
+  ret <- try(rgrass::execGRASS("v.import", flags = c("overwrite", "o"), input = file.path(path, sq_name), epsg = as.numeric(epsg),
+                               output = gsub(tolower(sq_name), pattern = "\\.", replacement = ""), ignore.stderr = TRUE, intern = TRUE), silent = FALSE)
   if (methods::is(ret, "try-error"))
     return(cat("Data not found"))
 }
-
 if (!isGeneric("gvec2sf")) {
   setGeneric("gvec2sf", function(x, ...) standardGeneric("gvec2sf"))
 }
-
 #' Converts from an existing `GRASS` environment an arbitrary vector dataset  into a  sf object
 #' @param x  \code{\link{sf}} object corresponding to the settings of the corresponding GRASS container
 #' @param obj_name name of GRASS layer
@@ -280,26 +244,17 @@ if (!isGeneric("gvec2sf")) {
 #'         location = 'project1')
 #' 
 #' }
-
 gvec2sf <- function(x, obj_name, gisdbase, location, gisdbase_exist = TRUE) {
-  
   if (gisdbase_exist)
     linkGRASS(gisdbase = gisdbase, location = location, gisdbase_exist = TRUE) else linkGRASS(x, gisdbase = gisdbase, location = location)
   path <- Sys.getenv("GISDBASE")
-  sq_name <- gsub(tolower(paste0(obj_name, ".sqlite")), pattern = "\\-",
-                  replacement = "_")
-  
-  
-  ret <- try(rgrass::execGRASS("v.out.ogr", flags = c("overwrite", "quiet"),
-                               input = gsub(tolower(sq_name), pattern = "\\.", replacement = ""),
-                               output = file.path(path, paste0(obj_name, "_new.sqlite")), format = "SQLite",
-                               ignore.stderr = TRUE, intern = TRUE), silent = TRUE)
-  
+  sq_name <- gsub(tolower(paste0(obj_name, ".sqlite")), pattern = "\\-", replacement = "_")
+  ret <- try(rgrass::execGRASS("v.out.ogr", flags = c("overwrite", "quiet"), input = gsub(tolower(sq_name), pattern = "\\.",
+                                                                                          replacement = ""), output = file.path(path, paste0(obj_name, "_new.sqlite")), format = "SQLite", ignore.stderr = TRUE,
+                               intern = TRUE), silent = TRUE)
   if (!methods::is(ret, "try-error"))
-    return(sf::st_read(file.path(path, paste0(obj_name, "_new.sqlite")),
-                       quiet = TRUE)) else return(cat("Data not found"))
+    return(sf::st_read(file.path(path, paste0(obj_name, "_new.sqlite")), quiet = TRUE)) else return(cat("Data not found"))
 }
-
 #'  convenient function to establish all link2GI links
 #' @description brute force search, find and linkl of all link2GI link functions. This is helpfull if yor system is well setup and the standard linkage procedure will provide the correct linkages. 
 #'
@@ -325,13 +280,9 @@ gvec2sf <- function(x, obj_name, gisdbase, location, gisdbase_exist = TRUE) {
 #' giLinks<-linkAll(gdalArgs= 'quiet = TRUE') 
 #'
 #'}
-
 #' @keywords internal
-linkAll <- function(links = NULL, simple = TRUE, linkItems = c("saga",
-                                                               "grass", "otb", "gdal"), sagaArgs = "default", grassArgs = "default",
+linkAll <- function(links = NULL, simple = TRUE, linkItems = c("saga", "grass", "otb", "gdal"), sagaArgs = "default", grassArgs = "default",
                     otbArgs = "default", gdalArgs = "default", quiet = FALSE) {
-  
-  
   if (!quiet)
     cat("\n--- linking SAGA - GRASS - OTB - GDAL ---\n")
   if (sagaArgs == "default")
@@ -347,36 +298,31 @@ linkAll <- function(links = NULL, simple = TRUE, linkItems = c("saga",
     for (links in linkItems) {
       cat("linking ", links, "\n")
       if (links == "gdal")
-        link[[links]] <- assign(links, eval(parse(text = paste("link2GI::link",
-                                                               toupper(links), "(returnPaths = T)", sep = "")))) else link[[links]] <- assign(links, eval(parse(text = paste("link2GI::link",
-                                                                                                                                                                             toupper(links), "(returnPaths = T)", sep = ""))))
-                                                               
+        link[[links]] <- assign(links, eval(parse(text = paste("link2GI::link", toupper(links), "(returnPaths = T)",
+                                                               sep = "")))) else link[[links]] <- assign(links, eval(parse(text = paste("link2GI::link", toupper(links), "(returnPaths = T)",
+                                                                                                                                        sep = ""))))
     }
-    
   } else if (is.null(links)) {
     link <- list()
     for (links in linkItems) {
-      link[[links]] <- assign(links, eval(parse(text = paste("link2GI::link",
-                                                             toupper(links), "(", eval(parse(text = paste0(links, "Args"))),
-                                                             ")", sep = ""))))
+      link[[links]] <- assign(links, eval(parse(text = paste("link2GI::link", toupper(links), "(", eval(parse(text = paste0(links,
+                                                                                                                            "Args"))), ")", sep = ""))))
     }
-    
   }
   return(link)
 }
-
-bf_wpath = function(path) {
+bf_wpath <- function(path) {
   if (path == "default")
     path <- "C:/"
-  path = gsub("\\\\", "/", path)
-  path = gsub("/", "\\\\", path)
-  path = utils::shortPathName(path)
+  path <- gsub("\\\\", "/", path)
+  path <- gsub("/", "\\\\", path)
+  path <- utils::shortPathName(path)
   return(path)
 }
-reverse_bf_wpath = function(path) {
-  path = gsub("\\\\", "/", path)
+reverse_bf_wpath <- function(path) {
+  path <- gsub("\\\\", "/", path)
   # path = gsub('/', '\\\\', path)
-  path = utils::shortPathName(path)
+  path <- utils::shortPathName(path)
   return(path)
 }
 readkey <- function() {

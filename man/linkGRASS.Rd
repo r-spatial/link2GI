@@ -102,7 +102,7 @@ linkGRASS(nc, ver_select = TRUE, search_path = '~/')
 
 # Set up GRASS manually with spatial parameters of the nc data
 epsg = 28992
-proj4_string <- sp::CRS(paste0("+init=epsg:",epsg))
+proj4_string <- sp::CRS(paste0('+init=epsg:',epsg))
 
 linkGRASS(spatial_params = c(178605,329714,181390,333611,proj4_string@projargs),epsg=epsg)
 

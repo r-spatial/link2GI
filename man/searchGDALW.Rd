@@ -7,7 +7,7 @@
 searchGDALW(DL = "C:/", quiet = TRUE)
 }
 \arguments{
-\item{DL}{drive letter default is "C:/"}
+\item{DL}{drive letter default is 'C:/'}
 
 \item{quiet}{boolean  switch for supressing console messages default is TRUE}
 }

@@ -20,7 +20,7 @@ Initializes and set up  access to the 'GDAL' command line interface
 run = FALSE
 if (run) {
 ## example for the most common default OSGeo4W64 installation of GDAL
-setenvGDAL(bin_GDAL = "C:/OSGeo4W64/bin/",
-          root_GDAL = "C:/OSGeo4W64")
+setenvGDAL(bin_GDAL = 'C:/OSGeo4W64/bin/',
+          root_GDAL = 'C:/OSGeo4W64')
 }
 }

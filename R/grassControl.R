@@ -580,9 +580,11 @@ findGRASS <- function(searchLocation = "default",
                       quiet=TRUE) {
   
   if (Sys.info()["sysname"] == "Windows") {
-    if (!grepl(x = system("o-help",intern =T),pattern = "OSGeo4W Shell Commands", fixed = TRUE)[1]){
+    check =  try(system("o-help",intern = T),silent = T)
+    if(methods::is(check, "try-error")) { 
     message("PLEASE NOTE: if you use GRASS version > 7.8 and/or the OSGeo4W installation you must:\n 1) start the OSGeo4W shell\n 2) start grassxx --gtext\n 3) start Rstudio from command line in the shell\n Then both link2GI and rgrass should work.")
     invisible(readkey())
+    stop()
     }
     if (searchLocation=="default") searchLocation <- "C:/"
     else searchLocation = normalizePath(searchLocation)

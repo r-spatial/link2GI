@@ -51,12 +51,12 @@ setup_default = function(default=NULL, new_folder_list=NULL,new_folder_list_name
 #'
 #' @examples
 #' \dontrun{
-#' # createFolders(root_folder = "~/edu", folders = c("data/", "data/tmp/"))
+#'  createFolders(root_folder = tempdir(), folders = c("data/", "data/tmp/"))
 #' }
 #' # Create folder list and set variable names pointing to the path values
 createFolders <- function(root_folder, folders,
-                          
-                          create_folders = FALSE) {
+                          create_folders = TRUE) {
+  
   folders <- lapply(folders, function(f) {
     file.path(root_folder, f)
   })

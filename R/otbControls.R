@@ -6,7 +6,7 @@
 #'@param root_OTB string contains the full string to the root folder
 #'  containing the 'OTB' installation'
 #'@return Adds 'OTB' pathes to the environment and creates the variable global string variable \code{otbCmd}, that contains the path to the 'OTB' binaries.
-#'@export setenvOTB
+#'@keywords internal
 #'  
 #'@examples
 #' \dontrun{

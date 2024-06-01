@@ -25,3 +25,4 @@ setenvOTB(bin_OTB = 'C:\\\\OSGeo4W64\\\\bin\\\\',
           root_OTB = 'C:\\\\OSGeo4W64')
 }
 }
+\keyword{internal}

@@ -24,3 +24,4 @@ setenvGDAL(bin_GDAL = 'C:/OSGeo4W64/bin/',
           root_GDAL = 'C:/OSGeo4W64')
 }
 }
+\keyword{internal}

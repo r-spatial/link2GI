@@ -101,7 +101,7 @@ Software</h1>
                         <h4 data-toc-skip class="author">Chris
 Reudenbach</h4>
             
-            <h4 data-toc-skip class="date">2024-05-31</h4>
+            <h4 data-toc-skip class="date">2024-06-01</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/r-spatial/link2GI/blob/HEAD/vignettes/link2GI7.Rmd" class="external-link"><code>vignettes/link2GI7.Rmd</code></a></small>
       <div class="hidden name"><code>link2GI7.Rmd</code></div>
@@ -287,20 +287,14 @@ LTS version.</p>
 <div class="section level3">
 <h3 id="grass">GRASS<a class="anchor" aria-label="anchor" href="#grass"></a>
 </h3>
-<p>You can install GRASS6 and GRASS7 via <code>homebrew</code>:</p>
+<p>You can install GRASS6/7/8 via <code>homebrew</code>:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="co"># brew tap osgeo4mac</span></span>
-<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="ex">brew</span> install grass6 grass7</span></code></pre></div>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="ex">brew</span> install grass6 grass7 grass8</span></code></pre></div>
 <p>The binary GRASS installation can be found <a href="https://grass.osgeo.org/download/mac/" class="external-link">here</a>. However, we
 recommend to use the <code>homebrew</code> approach.</p>
-<p>When installing GRASS7 independently of QGIS via
+<p>When installing GRASS independently of QGIS via
 <code>homebrew</code>, please make sure to install it
-<strong>before</strong> you have installed QGIS. Only this way, the path
-for the QGIS processing plugin will be updated. Otherwise, the GRASS
-installation will work, however, <code>GRASS7Utils.grassPath()</code>, a
-QGIS function that links to the GRASS installation, gives back a
-non-existing path such as
-<code>/Applications/Grass-7.0.app/Contents/MacOS</code> which in turn
-prevents GRASS algorithms from working from within QGIS.</p>
+<strong>before</strong> you have installed QGIS.</p>
 </div>
 <div class="section level3">
 <h3 id="qgis">QGIS<a class="anchor" aria-label="anchor" href="#qgis"></a>

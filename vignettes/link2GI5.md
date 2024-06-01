@@ -1,7 +1,7 @@
 ---
 author: "Chris Reudenbach"
 title: "Reproducible projects"
-date: "2024-05-10"
+date: "2024-06-01"
 editor_options:
   chunk_output_type: console
 output:
@@ -37,6 +37,8 @@ For this reason, the link2GI package includes a lean and lightweight but focused
 
 ### Using the RStudio GUI
 
+When using RStudio, a new project can simply be created via File->New Project-> Create Project Structure (link2GI).
+
 ![Use the RStudio Template Option](https://raw.githubusercontent.com/r-spatial/link2GI/master/figures/usegui.gif)
 
 ### Using the Console
@@ -53,7 +55,7 @@ It is easy to customize the folder structure. By default you will create
 ```R
 link2GI::setup_default()$baseSpatial$dataFolder
 ```
-`[1] "docs"         "docs/figures" "tmp"          "data/source"  "data/results" "data/level0"  "data/level1" `
+`[1] "level0"  "level1"  "level2"  "run"     "rawdata"`
 
 ```R
 
@@ -61,19 +63,28 @@ link2GI::setup_default()$baseSpatial$code_subfolder
 
 ```
 
-`[1] "src"           "src/functions"`
+`[1] "src"           "src/functions" "src/configs" `
 
 Use the `folders` argument to create a specific structure or subfolder structure of your project. 
 
 ```R
 root_folder <- tempdir() # Mandatory, variable must be in the R environment.
-dirs <- initProj(root_folder = root_folder, standard_setup = "baseSpatial",folders = c("data/rawdata/provider1/", "docs/quarto/"))
+dirs <- initProj(root_folder = root_folder, 
+                 standard_setup = "baseSpatial",
+                 folders = c("data/rawdata/provider1/", "docs/quarto/")
+                 )
 ```
 
-A more complex call will be:
+A more complex call that integrates the `git' and `renv' setup, adds some additional folders and libraries as well as a location tag will be:
 
 ```R
- initProj(root_folder = tempdir(), folders = c("data/newdata/"),
-  init_git = TRUE, init_renv = TRUE, code_subfolder = c("src", "src/functions","src/deprec"),
-  standard_setup = "baseSpatial",loc_name = "oldplace", appendlibs = c("raster"),openproject=TRUE)
+initProj(root_folder = tempdir(), 
+         folders = c("data/newdata/"),
+         init_git = TRUE, 
+         init_renv = TRUE, 
+         code_subfolder = c("src", "src/functions","src/deprec"),
+         standard_setup = "baseSpatial",
+         loc_name = "oldplace", 
+         appendlibs = c("raster"),
+         openproject=TRUE)
 ```

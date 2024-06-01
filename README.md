@@ -37,7 +37,11 @@ To utilize the power of the open source GI tools from within `R` you need to ins
 # New Feature
 
 ##  `initProj` for reproducible projects
-`initProj` sets up a reproducible project environment complete with a defined folder structure, an RStudio project, initial scripts and setup templates, and optionally `git` repositories and `renv` environment. Most important parameters are the project root folder and subfolders for data documentation and scripts. It supports automatic loading and if possible installation of required libraries, a default setup option to simplify project initialisation. The function creates a skeleton of the main control script `main.R`, manages variable configurations through the `src/functions/000_settings.R script` and maintains easy access to paths through the `envrmt` list variable, facilitating an light weighted efficient and reproducible project management and data handling.For further Information have a look at the article [Reproducible Projects](https://r-spatial.github.io/link2GI/articles/link2GI5.html).
+`initProj` provides a complete and flexible working environment for GI projects. The focus is on a simple but powerful structure. The basic framework is formed by a defined folder structure, initial scripts and configuration templates as well as optional Git repositories and an `renv` environment. A corresponding RStudio project file is also created.  It supports the automatic installation (if needed) and loading of the required libraries including various standard setup skeletons to simplify project initialisation. 
+
+The function creates a skeleton of the skeleton scripts `main-control.R`, `pre-processing.R`, `10-processing.R` and `post-processing.R`, and creates corresponding parameter configurations files stored as `yaml` files in `scr/configs/`. The script src/functions/000_settings.R holds all specific project settings. Easy access to all project paths is provided via the list variable `dirs`, which enables simple, efficient and reproducible project management and data handling. 
+
+For further Information have a look at the article [Reproducible Projects](https://r-spatial.github.io/link2GI/articles/link2GI5.html).
 
 When using RStudio, a new project can be created by simply selecting the ***Create Project Structure (link2GI)*** template from the ***File -> New Project -> New Directory -> New Project Wizard *** dialogue.
 

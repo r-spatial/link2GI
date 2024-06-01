@@ -62,7 +62,7 @@
       <a href="articles/link2GI4.html">OTB Wrapper</a>
     </li>
     <li>
-      <a href="articles/link2GI5.html">Reproducible projects</a>
+      <a href="articles/link2GI5.html">Reproducible project structures</a>
     </li>
     <li>
       <a href="articles/link2GI6.html">GEOSTAT 2018 Examples</a>
@@ -128,7 +128,9 @@
 <h2 id="initproj-for-reproducible-projects">
 <code>initProj</code> for reproducible projects<a class="anchor" aria-label="anchor" href="#initproj-for-reproducible-projects"></a>
 </h2>
-<p><code>initProj</code> sets up a reproducible project environment complete with a defined folder structure, an RStudio project, initial scripts and setup templates, and optionally <code>git</code> repositories and <code>renv</code> environment. Most important parameters are the project root folder and subfolders for data documentation and scripts. It supports automatic loading and if possible installation of required libraries, a default setup option to simplify project initialisation. The function creates a skeleton of the main control script <code>main.R</code>, manages variable configurations through the <code>src/functions/000_settings.R script</code> and maintains easy access to paths through the <code>envrmt</code> list variable, facilitating an light weighted efficient and reproducible project management and data handling.For further Information have a look at the article <a href="https://r-spatial.github.io/link2GI/articles/link2GI5.html">Reproducible Projects</a>.</p>
+<p><code>initProj</code> provides a complete and flexible working environment for GI projects. The focus is on a simple but powerful structure. The basic framework is formed by a defined folder structure, initial scripts and configuration templates as well as optional Git repositories and an <code>renv</code> environment. A corresponding RStudio project file is also created. It supports the automatic installation (if needed) and loading of the required libraries including various standard setup skeletons to simplify project initialisation.</p>
+<p>The function creates a skeleton of the skeleton scripts <code>main-control.R</code>, <code>pre-processing.R</code>, <code>10-processing.R</code> and <code>post-processing.R</code>, and creates corresponding parameter configurations files stored as <code>yaml</code> files in <code>scr/configs/</code>. The script src/functions/000_settings.R holds all specific project settings. Easy access to all project paths is provided via the list variable <code>dirs</code>, which enables simple, efficient and reproducible project management and data handling.</p>
+<p>For further Information have a look at the article <a href="https://r-spatial.github.io/link2GI/articles/link2GI5.html">Reproducible Projects</a>.</p>
 <p>When using RStudio, a new project can be created by simply selecting the <strong><em>Create Project Structure (link2GI)</em></strong> template from the <strong><em>File -&gt; New Project -&gt; New Directory -&gt; New Project Wizard </em></strong> dialogue.</p>
 <p><img src="https://raw.githubusercontent.com/r-spatial/link2GI/master/figures/usegui.gif"></p>
 </div>

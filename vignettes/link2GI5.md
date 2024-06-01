@@ -1,6 +1,6 @@
 ---
 author: "Chris Reudenbach"
-title: "Reproducible projects"
+title: "Reproducible project structures"
 date: "2024-06-01"
 editor_options:
   chunk_output_type: console
@@ -23,17 +23,21 @@ vignette: >
 
 # Reproducible Project Structure
 
-Reproducible projects in R emphasize streamlined project setup and efficient workflows. There are a number of very helpful tools in the R universe, such as [`renv`](https://cran.r-project.org/package=renv), [`usethis`](https://cran.r-project.org/package=usethis), or [`here`](https://cran.r-project.org/package=here), that range from setting up a stable R environment to generating custom project structures to getting the necessary paths in an easy way. In addition, there are a number of project structure packages and templates for creating easy-to-use and transparent project structures. Namely, [`tinProjects`](https://cran.r-project.org/package=tinyProject), [`prodigenr`](https://cran.r-project.org/package=prodigenr) or [`workflowr`](https://cran.r-project.org/package=workflowr) are R packages designed to facilitate reproducible research through automated project structuring and standardization. They all promote organized project directories, emphasize reproducibility by integrating with tools like `Git' and `renv', and reduce manual setup efforts to ensure consistent and error-free project initialization. These packages help build a solid foundation for research and ensure that best practices include using separate scripts for data processing, analysis, and reporting, and combining code with narrative in R Markdown documents from the start. This organized setup improves reproducibility by making it easier to maintain, share, and replicate research. For a more comprehensive overview, have a look at the [ CRAN Task View Reproducible Research](https://CRAN.R-project.org/view=ReproducibleResearch).
+Reproducible projects in R emphasize streamlined project setup and efficient workflows. There are a number of very helpful tools in the R universe, such as [`renv`](https://cran.r-project.org/package=renv), [`usethis`](https://cran.r-project.org/package=usethis), or [`here`](https://cran.r-project.org/package=here), that range from setting up a stable R environment to generating custom project structures to getting the necessary paths in an easy way. In addition, there are a number of project structure packages and templates for creating easy-to-use and transparent project structures. Namely, [`tinProjects`](https://cran.r-project.org/package=tinyProject), [`prodigenr`](https://cran.r-project.org/package=prodigenr) or [`workflowr`](https://cran.r-project.org/package=workflowr) are R packages designed to facilitate reproducible research through automated project structuring and standardization. They all promote organized project directories, emphasize reproducibility by integrating with tools like `Git` and `renv`, and reduce manual setup efforts to ensure consistent and error-free project initialization. These packages help build a solid foundation for research and ensure that best practices include using separate scripts for data processing, analysis, and reporting, and combining code with narrative in R Markdown documents from the start. This organized setup improves reproducibility by making it easier to maintain, share, and replicate research. For a more comprehensive overview, have a look at the [ CRAN Task View Reproducible Research](https://CRAN.R-project.org/view=ReproducibleResearch).
 
 ## Why initProj then?
-In the context of link2GI, which relies heavily on third-party command-line APIs and requires complex and stable folder and file structures, a flexible, lightweight R project setup greatly improves the integration of OS command-line tools into spatial workflows by
+In the context of `link2GI`, which relies heavily on third-party command-line APIs and requires complex and stable folder and file structures, a flexible, lightweight R project setup greatly improves the integration of OS command-line tools into spatial workflows by:
  
-1. **Streamlining integration: Simplifies the integration of essential command-line tools such as `GDAL' or the sophisticated `Orfeo Toolbox' (OTB) and the growing universe of r(-)spatial packages for advanced geospatial processing.
+1. **Streamlining integration**: Simplifies the integration of essential command-line tools such as `GDAL` or the sophisticated `Orfeo Toolbox` (OTB) and the growing universe of r(-)spatial packages for advanced geospatial processing.
 2. **Improve data exchange**: Organized variable and metadata management ensures accurate and efficient data transfer between different and especially command-line based processes and APIs.
-3. **Enhanced Cross-Platform Compatibility: Facilitates cross-platform adaptability, which is critical when using multiple spatial analysis tools, even more so when using different shells.
-4. **Performance Optimization: Switching between generic R and command-line tools takes advantage of the speed and efficiency of command-line tools, which is especially beneficial when handling large spatial datasets.
+3. **Enhanced Cross-Platform Compatibility**: Facilitates cross-platform adaptability, which is critical when using multiple spatial analysis tools, even more so when using different shells.
+4. **Performance Optimization**: Switching between generic R and command-line tools takes advantage of the speed and efficiency of command-line tools, which is especially beneficial when handling large spatial datasets.
 
-For this reason, the link2GI package includes a lean and lightweight but focused approach that integrates `git', `renv', and a highly flexible folder and package setup process that is simpler than existing approaches, increasing efficiency, accuracy, and performance in geospatial workflows.
+`initProj` provides a complete and flexible working environment for GI projects. The focus is on a simple, efficient and reproducible project management and data handling. The basic framework is formed by a defined folder structure, initial scripts and configuration templates as well as optional Git repositories and an `renv` environment. A corresponding RStudio project file is also created.  It supports the automatic installation (if needed) and loading of the required libraries including various standard setup skeletons to simplify project initialisation. 
+
+The function creates a skeleton of the skeleton scripts `main-control.R`, `pre-processing.R`, `10-processing.R` and `post-processing.R`, and creates corresponding parameter configurations files stored as `yaml` files in `scr/configs/`. The script src/functions/000_settings.R holds all specific project settings. Easy access to all project paths is provided via the list variable `dirs`. 
+
+For this reason, the `link2GI` package includes a lean and lightweight but focused approach that integrates `git`, `renv`, and a highly flexible folder and package setup process that is simpler than existing approaches, increasing efficiency, accuracy, and performance in geospatial workflows.
 
 ### Using the RStudio GUI
 
@@ -76,7 +80,7 @@ dirs = initProj(root_folder = root_folder,
                  )
 ```
 
-A more complex call that integrates the `git' and `renv' setup, adds some additional folders and libraries as well as a location tag will be:
+A more complex call that integrates the `git` and `renv` setup, adds some additional folders and libraries as well as a location tag will be:
 
 ```R
 dirs  = initProj(root_folder = tempdir(), 

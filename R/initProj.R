@@ -406,6 +406,8 @@ addGitFolders <- function(folders, git_repository = NULL, git_subfolders = NULL)
 #' # loadLibraries(libs = C("link2GI"))
 #' }
 loadLibraries <- function(libs) {
+  options(install.packages.check.source = "no")
+  
   success <- lapply(libs, function(l) {
     if (!l %in% utils::installed.packages()) {
       utils::install.packages(l)
@@ -413,6 +415,8 @@ loadLibraries <- function(libs) {
     require(l, character.only = TRUE)
   })
   names(success) <- libs
+  options(install.packages.check.source = "yes")
+  
   return(success)
 }
 

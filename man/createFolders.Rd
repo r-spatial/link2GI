@@ -5,7 +5,7 @@
 \alias{createFolder}
 \title{Compile folder list and create folders}
 \usage{
-createFolders(root_folder, folders, create_folders = FALSE)
+createFolders(root_folder, folders, create_folders = TRUE)
 }
 \arguments{
 \item{root_folder}{root directory of the project.}
@@ -23,7 +23,7 @@ necessary.
 }
 \examples{
 \dontrun{
-# createFolders(root_folder = "~/edu", folders = c("data/", "data/tmp/"))
+ createFolders(root_folder = tempdir(), folders = c("data/", "data/tmp/"))
 }
 # Create folder list and set variable names pointing to the path values
 }

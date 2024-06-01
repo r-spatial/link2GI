@@ -10,7 +10,7 @@ base:
    create_folders: true
    files: [ "src/pre-processing.R", "src/post-processing.R", "src/10-processing.R", "src/functions/000_setup.R" ,"src/main-control.R"]
 baseSpatial:
-   dataFolder: ["level0", "level1", "level2", "run" ,"aux"]
+   dataFolder: ["level0", "level1", "level2", "run" ,"rawdata"]
    docsFolder: [ "figures"]
    tmpFolder:  ["tmp"]
    code_subfolder: ["src", "src/functions" , "src/configs"]   

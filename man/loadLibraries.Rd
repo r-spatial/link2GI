@@ -18,7 +18,7 @@ ones.
 }
 \examples{
 \dontrun{
-# loadLibraries(libs = C("link2GI"))
+# loadLibraries(libs = C('link2GI'))
 }
 }
 \keyword{internal}

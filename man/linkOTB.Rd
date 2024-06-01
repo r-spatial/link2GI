@@ -31,7 +31,7 @@ linkOTB(
 in the PATH variable only, otherwise all paths and versions of the installed OTB versions are returned.}
 }
 \value{
-add otb pathes to the environment and creates global variables path_OTB
+add otb paths to the environment and creates global variables path_OTB
 }
 \description{
 Locate and set up  \href{https://www.orfeo-toolbox.org/}{'Orfeo ToolBox'} API bindings

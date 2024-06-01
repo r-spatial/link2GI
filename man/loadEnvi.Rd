@@ -18,9 +18,9 @@ Load data from rds format and associated yaml metadata file.
 \examples{
 \dontrun{
 a <- 1
-meta <- list(a = "a is a variable")
-saveEnvi(a, file.path(tempdir(), "test.rds"), meta)
-b <- loadEnvi(file.path(tempdir(), "test.rds"))
+meta <- list(a = 'a is a variable')
+saveEnvi(a, file.path(tempdir(), 'test.rds'), meta)
+b <- loadEnvi(file.path(tempdir(), 'test.rds'))
 }
 
 }

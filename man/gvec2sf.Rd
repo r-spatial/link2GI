@@ -33,22 +33,22 @@ require(sp)
 require(link2GI)
 data(meuse)
 meuse_sf = st_as_sf(meuse, 
-                    coords = c("x", "y"), 
+                    coords = c('x', 'y'), 
                     crs = 28992, 
-                    agr = "constant")
+                    agr = 'constant')
 
 
 # write data to GRASS and create gisdbase
 sf2gvec(x = meuse_sf,
-        obj_name = "meuse_R-G",
-        gisdbase = "~/temp3/",
-        location = "project1")
+        obj_name = 'meuse_R-G',
+        gisdbase = '~/temp3/',
+        location = 'project1')
 
 # read from existing GRASS          
 gvec2sf(x = meuse_sf,
-        obj_name = "meuse_r_g",
-        gisdbase = "~/temp3",       
-        location = "project1")
+        obj_name = 'meuse_r_g',
+        gisdbase = '~/temp3',       
+        location = 'project1')
 
 }
 }

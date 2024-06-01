@@ -18,7 +18,7 @@ Generates a variable with a certain value in the R environment
 \dontrun{
 
 # creates the global var \code{pathToData} with the value \code{~/home/data}
-makGlobalVar("pathToData","~/home/data") 
+makGlobalVar('pathToData','~/home/data') 
 
 }
 

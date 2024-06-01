@@ -28,7 +28,7 @@ linkGRASS(
 
 \item{default_GRASS}{default is \code{NULL} If is \code{NULL} an automatic search for all installed versions is performed. 
 If you provide a valid list the corresponding version is initialized. An example for OSGeo4W64 is:
-\code{c("C:/OSGeo4W64","grass-7.0.5","osgeo4w")}}
+\code{c('C:/OSGeo4W64','grass-7.0.5','osgeo4w')}}
 
 \item{search_path}{Path or mount point to search for.}
 
@@ -88,7 +88,7 @@ library(link2GI)
 require(sf)
 
 # get  data                         
-nc = st_read(system.file("shape/nc.shp", package="sf"))
+nc = st_read(system.file('shape/nc.shp', package='sf'))
 # Automatic linking of GRASS binaries using the nc data object for spatial referencing
 # This is the best practice linking procedure for on-the-fly jobs.
 # NOTE: If more than one GRASS installation is found, you will have to select one. 
@@ -98,30 +98,30 @@ grass = linkGRASS(nc)
 linkGRASS(nc, ver_select = TRUE)
 
 # Select the GRASS installation and define the search location
-linkGRASS(nc, ver_select = TRUE, search_path = "~/")
+linkGRASS(nc, ver_select = TRUE, search_path = '~/')
 
 # Set up GRASS manually with spatial parameters of the nc data
 epsg = 4267
-proj4_string = sp::CRS(paste0("+init=epsg:",epsg))
+proj4_string = sp::CRS(paste0('+init=epsg:',epsg))
 linkGRASS(spatial_params = c(178605,329714,181390,333611,proj4_string)) 
 
 # create some temporary project folders for a permanent gisdbase
 root_folder = tempdir()
 grass_path = link2GI::createFolder(root_folder = root_folder,
-                         folders = c("project1/"))
+                         folders = c('project1/'))
 if (grass$exist){
-# CREATE and link to a permanent GRASS folder at "root_folder", location named "project1" 
-linkGRASS(nc, gisdbase = root_folder, location = "project1")   
+# CREATE and link to a permanent GRASS folder at 'root_folder', location named 'project1' 
+linkGRASS(nc, gisdbase = root_folder, location = 'project1')   
 
-# ONLY LINK to a permanent GRASS folder in "root_folder", location named "project1" 
-linkGRASS(gisdbase = root_folder, location = "project1", gisdbase_exist = TRUE )   
+# ONLY LINK to a permanent GRASS folder in 'root_folder', location named 'project1' 
+linkGRASS(gisdbase = root_folder, location = 'project1', gisdbase_exist = TRUE )   
 
 # Manual creation of a GRASS gisdbase with the spatial parameters of the NC data. 
-# additional use of a permanent directory "root_folder" and the location "nc_spatial_params".
+# additional use of a permanent directory 'root_folder' and the location 'nc_spatial_params'.
 epsg = 4267
-proj4_string = sp::CRS(paste0("+init=epsg:",epsg))
+proj4_string = sp::CRS(paste0('+init=epsg:',epsg))
 linkGRASS(gisdbase = root_folder,
-           location = "nc_spatial_params",
+           location = 'nc_spatial_params',
            spatial_params = c(-84.32385, 33.88199,-75.45698,36.58965,proj4_string),epsg = epsg)
 }
 }

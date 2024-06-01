@@ -126,22 +126,22 @@
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-spatial/link2GI/" class="external-link">link2GI</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">meuse</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">meuse_sf</span> <span class="op">=</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_as_sf.html" class="external-link">st_as_sf</a></span><span class="op">(</span><span class="va">meuse</span>, </span></span>
-<span class="r-in"><span>                    coords <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x"</span>, <span class="st">"y"</span><span class="op">)</span>, </span></span>
+<span class="r-in"><span>                    coords <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'x'</span>, <span class="st">'y'</span><span class="op">)</span>, </span></span>
 <span class="r-in"><span>                    crs <span class="op">=</span> <span class="fl">28992</span>, </span></span>
-<span class="r-in"><span>                    agr <span class="op">=</span> <span class="st">"constant"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>                    agr <span class="op">=</span> <span class="st">'constant'</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># write data to GRASS and create gisdbase</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="sf2gvec.html">sf2gvec</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">meuse_sf</span>,</span></span>
-<span class="r-in"><span>        obj_name <span class="op">=</span> <span class="st">"meuse_R-G"</span>,</span></span>
-<span class="r-in"><span>        gisdbase <span class="op">=</span> <span class="st">"~/temp3/"</span>,</span></span>
-<span class="r-in"><span>        location <span class="op">=</span> <span class="st">"project1"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>        obj_name <span class="op">=</span> <span class="st">'meuse_R-G'</span>,</span></span>
+<span class="r-in"><span>        gisdbase <span class="op">=</span> <span class="st">'~/temp3/'</span>,</span></span>
+<span class="r-in"><span>        location <span class="op">=</span> <span class="st">'project1'</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># read from existing GRASS          </span></span></span>
 <span class="r-in"><span><span class="fu">gvec2sf</span><span class="op">(</span>x <span class="op">=</span> <span class="va">meuse_sf</span>,</span></span>
-<span class="r-in"><span>        obj_name <span class="op">=</span> <span class="st">"meuse_r_g"</span>,</span></span>
-<span class="r-in"><span>        gisdbase <span class="op">=</span> <span class="st">"~/temp3"</span>,       </span></span>
-<span class="r-in"><span>        location <span class="op">=</span> <span class="st">"project1"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>        obj_name <span class="op">=</span> <span class="st">'meuse_r_g'</span>,</span></span>
+<span class="r-in"><span>        gisdbase <span class="op">=</span> <span class="st">'~/temp3'</span>,       </span></span>
+<span class="r-in"><span>        location <span class="op">=</span> <span class="st">'project1'</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>

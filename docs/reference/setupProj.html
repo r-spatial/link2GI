@@ -126,7 +126,7 @@ folders src, src/functions and src/config are recommended.</p></dd>
 settings required for the project, such as additional libraries, optional settings, 
 colour schemes, etc. Important: It should not be used to control the runtime
 parameters of the scripts.  This file is not read in automatically, even if 
-it is located in the "fcts_folder" folder.</p></dd>
+it is located in the 'fcts_folder' folder.</p></dd>
 
 
 <dt>fcts_folder</dt>
@@ -139,7 +139,7 @@ this folder will be sourced at project start.</p></dd>
 
 
 <dt>standard_setup</dt>
-<dd><p>select one of the predefined settings c("base", "baseSpatial", "advancedSpatial"). 
+<dd><p>select one of the predefined settings c('base', 'baseSpatial', 'advancedSpatial'). 
 In this case, only the name of the base folder is required, but individual additional 
 folders can be specified under 'folders' 
 name of the git repository must be supplied to the function.</p></dd>
@@ -160,8 +160,8 @@ name of the git repository must be supplied to the function.</p></dd>
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span><span class="fu">setupProj</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  root_folder <span class="op">=</span> <span class="st">"~/edu"</span>, folders <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"data/"</span>, <span class="st">"data/tmp/"</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  libs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"link2GI"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  root_folder <span class="op">=</span> <span class="st">'~/edu'</span>, folders <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'data/'</span>, <span class="st">'data/tmp/'</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  libs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'link2GI'</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-in"><span></span></span>

@@ -23,7 +23,7 @@ necessary.
 }
 \examples{
 \dontrun{
- createFolders(root_folder = tempdir(), folders = c("data/", "data/tmp/"))
+ createFolders(root_folder = tempdir(), folders = c('data/', 'data/tmp/'))
 }
 # Create folder list and set variable names pointing to the path values
 }

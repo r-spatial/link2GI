@@ -21,10 +21,10 @@ Returns attributes for each installation.
 \examples{
 \dontrun{
 # get all valid 'GRASS GIS' installation folders in the /usr/bin directory (typical location)
-searchGRASSX("/usr/bin")
+searchGRASSX('/usr/bin')
 
 # get all valid 'GRASS GIS' installation folders in the home directory
-searchGRASSX("~/")
+searchGRASSX('~/')
 }
 }
 \author{

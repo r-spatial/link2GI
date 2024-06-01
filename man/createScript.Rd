@@ -15,7 +15,7 @@ createScript(
 \arguments{
 \item{new_file}{name of the file to be created}
 
-\item{template}{template to be used for the new file ("script_function", "script_control")}
+\item{template}{template to be used for the new file ('script_function', 'script_control')}
 
 \item{notes}{logical: include notes from the template in the file}
 

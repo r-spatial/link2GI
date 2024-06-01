@@ -19,7 +19,7 @@ folder.
 }
 \examples{
 \dontrun{
-# sourceFunctions(fcts_folder = "~/project/src/fcts")
+# sourceFunctions(fcts_folder = '~/project/src/fcts')
 }
 }
 \keyword{internal}

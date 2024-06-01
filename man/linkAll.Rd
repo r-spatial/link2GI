@@ -20,7 +20,7 @@ linkAll(
 
 \item{simple}{logical. true  make all}
 
-\item{linkItems}{character. list of c("saga","grass","otb","gdal")}
+\item{linkItems}{character. list of c('saga','grass','otb','gdal')}
 
 \item{sagaArgs}{character. full string of sagaArgs}
 
@@ -47,7 +47,7 @@ require(link2GI)
 giLinks<-linkAll()
 
 # makes the GDAL linkage verbose
-giLinks<-linkAll(gdalArgs= "quiet = TRUE") 
+giLinks<-linkAll(gdalArgs= 'quiet = TRUE') 
 
 }
 }

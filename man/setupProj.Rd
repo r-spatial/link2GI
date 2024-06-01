@@ -34,14 +34,14 @@ folders src, src/functions and src/config are recommended.}
 settings required for the project, such as additional libraries, optional settings, 
 colour schemes, etc. Important: It should not be used to control the runtime
 parameters of the scripts.  This file is not read in automatically, even if 
-it is located in the "fcts_folder" folder.}
+it is located in the 'fcts_folder' folder.}
 
 \item{fcts_folder}{path of the folder holding the functions. All files in
 this folder will be sourced at project start.}
 
 \item{source_functions}{logical: should functions be sourced? Default is TRUE if fcts_folder exists.}
 
-\item{standard_setup}{select one of the predefined settings c("base", "baseSpatial", "advancedSpatial"). 
+\item{standard_setup}{select one of the predefined settings c('base', 'baseSpatial', 'advancedSpatial'). 
 In this case, only the name of the base folder is required, but individual additional 
 folders can be specified under 'folders' 
 name of the git repository must be supplied to the function.}
@@ -58,8 +58,8 @@ libraries, and sets other project relevant parameters.
 \examples{
 \dontrun{
 setupProj(
-  root_folder = "~/edu", folders = c("data/", "data/tmp/"),
-  libs = c("link2GI")
+  root_folder = '~/edu', folders = c('data/', 'data/tmp/'),
+  libs = c('link2GI')
 )
 }
 

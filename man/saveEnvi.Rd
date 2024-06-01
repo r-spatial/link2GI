@@ -19,8 +19,8 @@ Saves data in rds format and saves metadata in a corresponding yaml file.
 \examples{
 \dontrun{
 a <- 1
-meta <- list(a = "a is a variable")
-saveEnvi(a, file.path(tempdir(), "test.rds"), meta)
+meta <- list(a = 'a is a variable')
+saveEnvi(a, file.path(tempdir(), 'test.rds'), meta)
 }
 
 }

@@ -13,11 +13,11 @@ setenvGRASSw(
 )
 }
 \arguments{
-\item{root_GRASS}{grass root directory i.e. "C:\\OSGEO4~1",}
+\item{root_GRASS}{grass root directory i.e. 'C:\\OSGEO4~1',}
 
-\item{grass_version}{grass version name i.e. "grass-7.0.5"}
+\item{grass_version}{grass version name i.e. 'grass-7.0.5'}
 
-\item{installation_type}{two options "osgeo4w" as installed by the 'OSGeo4W'-installer and "NSIS" that is typical for a stand_alone installation of 'GRASS GIS'.}
+\item{installation_type}{two options 'osgeo4w' as installed by the 'OSGeo4W'-installer and 'NSIS' that is typical for a stand_alone installation of 'GRASS GIS'.}
 
 \item{jpgmem}{jpeg2000 memory allocation size. Default is 1000000}
 
@@ -29,9 +29,9 @@ Initializes and set up  access to 'GRASS GIS 7.xx' via the \code{rgrass} wrapper
 \examples{
 \dontrun{
 # set selected 'GRASS GIS' installation folders 
-setenvGRASSw(root_GRASS = "C:\\\\PROGRA~1\\\\QGIS2~1.18",
-             grass_version =  "grass-7.2.1",
-             installation_type =  "osgeo4W")
+setenvGRASSw(root_GRASS = 'C:\\\\PROGRA~1\\\\QGIS2~1.18',
+             grass_version =  'grass-7.2.1',
+             installation_type =  'osgeo4W')
 }
 }
 \author{

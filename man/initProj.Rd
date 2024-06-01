@@ -38,7 +38,7 @@ folders src, src/functions and src/config are mandatory.}
 
 \item{newsession}{open project in a new session? default is FALSE}
 
-\item{standard_setup}{select one of the predefined settings c("base", "baseSpatial", "advancedSpatial"). 
+\item{standard_setup}{select one of the predefined settings c('base', 'baseSpatial', 'advancedSpatial'). 
 In this case, only the name of the base folder is required, but individual additional 
 folders can be specified under 'folders' 
 name of the git repository must be supplied to the function.}
@@ -51,7 +51,7 @@ name of the git repository must be supplied to the function.}
 settings required for the project, such as additional libraries, optional settings, 
 colour schemes, etc. Important: It should not be used to control the runtime
 parameters of the scripts.  This file is not read in automatically, even if 
-it is located in the "fcts_folder" folder.}
+it is located in the 'fcts_folder' folder.}
 
 \item{OpenFiles}{default NULL}
 }
@@ -72,7 +72,7 @@ is defined once in the main control script located at src/main.R.
 }
 \note{
 For yaml based setup you need to use one of the default configurations 
-c("base", "baseSpatial","advancedSpatial") or you provide a yaml file this 
+c('base', 'baseSpatial','advancedSpatial') or you provide a yaml file this 
 MUST contain the standard_setup arguments, where \code{ mysetup} is the yaml root, all other items are mandatory keywords that can be filled in as needed.  
  \preformatted{
 mysetup:
@@ -81,7 +81,7 @@ mysetup:
   tmpFolder:   
   init_git: true/false 
   init_renv: true/false 
-  code_subfolder: ["src", "src/functions" , "src/config"] 
+  code_subfolder: ['src', 'src/functions' , 'src/config'] 
   global: true/false 
   libs: 
   create_folders: true/false
@@ -92,7 +92,7 @@ mysetup:
 \examples{
 \dontrun{
 root_folder <- tempdir() # Mandatory, variable must be in the R environment.
-dirs <- initProj(root_folder = root_folder, standard_setup = "baseSpatial")
+dirs <- initProj(root_folder = root_folder, standard_setup = 'baseSpatial')
 }
 
 }

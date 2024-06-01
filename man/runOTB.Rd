@@ -41,10 +41,10 @@ otblink<-link2GI::linkOTB()
 
 if (otblink$exist) {
  root_folder<-tempdir()
- fn <- system.file("ex/elev.tif", package = "terra")
+ fn <- system.file('ex/elev.tif', package = 'terra')
 
 ## for an image output example we use the Statistic Extraction, 
-algoKeyword<- "LocalStatisticExtraction"
+algoKeyword<- 'LocalStatisticExtraction'
 
 ## extract the command list for the choosen algorithm 
 cmd<-parseOTBFunction(algo = algoKeyword, gili = otblink)
@@ -55,7 +55,7 @@ listviewer::jsonedit(cmd$help)
 
 ## define the mandatory arguments all other will be default
 cmd$input_in  <- fn
-cmd$out <- file.path(tempdir(),"test_otb_stat.tif")
+cmd$out <- file.path(tempdir(),'test_otb_stat.tif')
 cmd$radius <- 7
 
 ## run algorithm
@@ -66,7 +66,7 @@ terra::plot(retStack)
 
 ## for a data output example we use the 
 
-algoKeyword<- "ComputeImagesStatistics"
+algoKeyword<- 'ComputeImagesStatistics'
 
 ## extract the command list for the chosen algorithm 
 cmd<-parseOTBFunction(algo = algoKeyword, gili = otblink)
@@ -75,9 +75,9 @@ cmd<-parseOTBFunction(algo = algoKeyword, gili = otblink)
 listviewer::jsonedit(cmd$help)
 
 ## define the mandatory arguments all other will be default
-cmd$input_il  <- file.path(tempdir(),"test.tif")
+cmd$input_il  <- file.path(tempdir(),'test.tif')
 cmd$ram <- 4096
-cmd$out.xml <- file.path(tempdir(),"test_otb_stat.xml")
+cmd$out.xml <- file.path(tempdir(),'test_otb_stat.xml')
 cmd$progress <- 1
 
 ## run algorithm

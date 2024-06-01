@@ -44,7 +44,7 @@ For this reason, the `link2GI` package includes a lean and lightweight but focus
 When using RStudio, a new project can be created by simply selecting the ***Create Project Structure (link2GI)*** template from the ***File -> New Project -> New Directory -> New Project Wizard *** dialogue.
 
 
-![Use the RStudio Template Option](https://raw.githubusercontent.com/r-spatial/link2GI/master/figures/usegui.gif)
+![](https://raw.githubusercontent.com/r-spatial/link2GI/master/figures/usegui.gif)
 
 ### Using the Console
 

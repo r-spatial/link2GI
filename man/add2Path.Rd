@@ -15,7 +15,7 @@ Adds a variable to the global search path of the current environment
 \examples{
 \dontrun{
 # add path
-add2Path("pathtosomewhere")
+add2Path('pathtosomewhere')
 }
 }
 \author{

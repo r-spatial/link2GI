@@ -13,9 +13,9 @@ paramGRASSx(
 }
 \arguments{
 \item{set_default_GRASS, }{default is NULL. will force a search for 'GRASS GIS' You may provide a valid combination as 
-c("/usr/lib/grass74","7.4.1","grass74")}
+c('/usr/lib/grass74','7.4.1','grass74')}
 
-\item{MP, }{default is "/usr/bin". mount point to be searched.}
+\item{MP, }{default is '/usr/bin'. mount point to be searched.}
 
 \item{ver_select}{if TRUE you must interactively select between alternative installations}
 
@@ -36,10 +36,10 @@ paramGRASSx()
 
 
 # typical stand_alone installation
-paramGRASSx("/usr/bin/grass72")
+paramGRASSx('/usr/bin/grass72')
 
 # typical user defined installation (compiled sources)
-paramGRASSx("/usr/local/bin/grass72")
+paramGRASSx('/usr/local/bin/grass72')
 }
 }
 \keyword{internal}

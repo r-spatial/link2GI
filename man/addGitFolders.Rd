@@ -15,7 +15,7 @@ according to default values.
 }
 \examples{
 \dontrun{
-addGitFolders(folders = c("data", "data/tmp"), git_repository = "myproject")
+addGitFolders(folders = c('data', 'data/tmp'), git_repository = 'myproject')
 }
 
 }

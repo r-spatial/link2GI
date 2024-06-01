@@ -10,7 +10,7 @@ manuallyBuild(dsn = getwd(), pkgDir = "H:/Dokumente", document = TRUE, ...)
 \item{dsn}{'character'. Target folder containing source files; defaults to 
 the current working directory.}
 
-\item{pkgDir}{'character'. Target folder containing the result ing package of the invoked build process. According to Marburg University pools the default is set to pkgDir="H:/Dokumente". If you want to use it in a different setting you may set pkgDir to whatever you want.}
+\item{pkgDir}{'character'. Target folder containing the result ing package of the invoked build process. According to Marburg University pools the default is set to pkgDir='H:/Dokumente'. If you want to use it in a different setting you may set pkgDir to whatever you want.}
 
 \item{document}{'logical'. Determines whether or not to invoke 
 \code{\link{roxygenize}} with default roclets for documentation purposes.}

@@ -21,7 +21,7 @@ Initializes and set up  access to the 'OTB' command line interface
 \examples{
 \dontrun{
 ## example for the most common default OSGeo4W64 installation of OTB
-setenvOTB(bin_OTB = "C:\\\\OSGeo4W64\\\\bin\\\\",
-          root_OTB = "C:\\\\OSGeo4W64")
+setenvOTB(bin_OTB = 'C:\\\\OSGeo4W64\\\\bin\\\\',
+          root_OTB = 'C:\\\\OSGeo4W64')
 }
 }

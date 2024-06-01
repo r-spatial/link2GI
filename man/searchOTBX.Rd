@@ -7,7 +7,7 @@
 searchOTBX(MP = "default", quiet = TRUE)
 }
 \arguments{
-\item{MP}{default mount point is the home directory "~" (as suggested by the OTB team)}
+\item{MP}{default mount point is the home directory '~' (as suggested by the OTB team)}
 
 \item{quiet}{boolean  switch for supressing messages default is TRUE}
 }

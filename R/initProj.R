@@ -17,21 +17,20 @@
 #' @export setup_default
 
 
-setup_default = function(default=NULL, new_folder_list=NULL,new_folder_list_name=NULL)
-{
+setup_default = function(default = NULL, new_folder_list = NULL, new_folder_list_name = NULL) {
   # Read master configuration
-  setup_default <- yaml::read_yaml(system.file("templates/","config-default-projects.yml", package = "link2GI" ))
+  setup_default <- yaml::read_yaml(system.file("templates/", "config-default-projects.yml",
+                                               package = "link2GI"))
   
-  if (is.null(new_folder_list) & !is.null(default)){
+  if (is.null(new_folder_list) & !is.null(default)) {
     setup_dflt <- setup_default[[default]]
-  } 
-  else if (is.null(new_folder_list) & is.null(default)) {
+  } else if (is.null(new_folder_list) & is.null(default)) {
     setup_dflt <- setup_default
-  }  else {
+  } else {
     setup_dflt <- setup_default
     setup_dflt[[new_folder_list_name]] = new_folder_list
   }
-  return(setup_dflt )
+  return(setup_dflt)
 }
 
 
@@ -51,11 +50,10 @@ setup_default = function(default=NULL, new_folder_list=NULL,new_folder_list_name
 #'
 #' @examples
 #' \dontrun{
-#'  createFolders(root_folder = tempdir(), folders = c("data/", "data/tmp/"))
+#'  createFolders(root_folder = tempdir(), folders = c('data/', 'data/tmp/'))
 #' }
 #' # Create folder list and set variable names pointing to the path values
-createFolders <- function(root_folder, folders,
-                          create_folders = TRUE) {
+createFolders <- function(root_folder, folders, create_folders = TRUE) {
   
   folders <- lapply(folders, function(f) {
     file.path(root_folder, f)
@@ -70,14 +68,15 @@ createFolders <- function(root_folder, folders,
     tmplt <- dirname(tmplt)
     dplcts <- which(duplicated(names(folders), fromLast = FALSE) |
                       duplicated(names(folders), fromLast = TRUE))
-    names(folders)[dplcts] <-
-      paste(basename(tmplt)[dplcts], names(folders[dplcts]), sep = "_")
+    names(folders)[dplcts] <- paste(basename(tmplt)[dplcts], names(folders[dplcts]),
+                                    sep = "_")
   }
   
   
   # Check paths for existance and create if necessary
   for (f in folders) {
-    if (!file.exists(f)) dir.create(f, recursive = TRUE)
+    if (!file.exists(f))
+      dir.create(f, recursive = TRUE)
   }
   
   return(folders)
@@ -98,8 +97,8 @@ createFolders <- function(root_folder, folders,
 #' settings required for the project, such as additional libraries, optional settings, 
 #' colour schemes, etc. Important: It should not be used to control the runtime
 #' parameters of the scripts.  This file is not read in automatically, even if 
-#' it is located in the "fcts_folder" folder.
-#' @param standard_setup select one of the predefined settings c("base", "baseSpatial", "advancedSpatial"). 
+#' it is located in the 'fcts_folder' folder.
+#' @param standard_setup select one of the predefined settings c('base', 'baseSpatial', 'advancedSpatial'). 
 #' In this case, only the name of the base folder is required, but individual additional 
 #' folders can be specified under 'folders' 
 #' name of the git repository must be supplied to the function.
@@ -109,7 +108,7 @@ createFolders <- function(root_folder, folders,
 #' @param OpenFiles default NULL
 #' @param openproject default NULL if TRUE the project is opened in a new session
 #' @note For yaml based setup you need to use one of the default configurations 
-#' c("base", "baseSpatial","advancedSpatial") or you provide a yaml file this 
+#' c('base', 'baseSpatial','advancedSpatial') or you provide a yaml file this 
 #' MUST contain the standard_setup arguments, where \code{ mysetup} is the yaml root, all other items are mandatory keywords that can be filled in as needed.  
 #'  \preformatted{
 #'mysetup:
@@ -118,7 +117,7 @@ createFolders <- function(root_folder, folders,
 #'   tmpFolder:   
 #'   init_git: true/false 
 #'   init_renv: true/false 
-#'   code_subfolder: ["src", "src/functions" , "src/config"] 
+#'   code_subfolder: ['src', 'src/functions' , 'src/config'] 
 #'   global: true/false 
 #'   libs: 
 #'   create_folders: true/false
@@ -142,112 +141,122 @@ createFolders <- function(root_folder, folders,
 #' @examples
 #' \dontrun{
 #' root_folder <- tempdir() # Mandatory, variable must be in the R environment.
-#' dirs <- initProj(root_folder = root_folder, standard_setup = "baseSpatial")
+#' dirs <- initProj(root_folder = root_folder, standard_setup = 'baseSpatial')
 #' }
 #'
-initProj <- function(root_folder = ".", 
-                     folders = NULL, 
-                     init_git = NULL, 
-                     init_renv = NULL, 
-                     code_subfolder = c("src", "src/functions", "src/configs"),
-                     global = FALSE,  
-                     openproject = NULL, newsession = TRUE,
-                     standard_setup = "baseSpatial",
-                     loc_name = NULL, 
-                     ymlFN = NULL ,
-                     appendlibs = NULL, 
-                     OpenFiles = NULL) {
+initProj <- function(root_folder = ".", folders = NULL, init_git = NULL,
+                     init_renv = NULL, code_subfolder = c("src", "src/functions", "src/configs"),
+                     global = FALSE, openproject = NULL, newsession = TRUE, standard_setup = "baseSpatial",
+                     loc_name = NULL, ymlFN = NULL, appendlibs = NULL, OpenFiles = NULL) {
   
   
   notes = TRUE
-  if (is.null(init_git)) init_git = FALSE
-  if (is.null(init_renv)) init_renv = FALSE
-  if (!is.null(loc_name)) 
-    if (loc_name == "") loc_name = NULL
-  if (is.null(appendlibs)) appendlibs = "dplyr"
-  if (is.null(openproject)) openproject = FALSE
+  if (is.null(init_git))
+    init_git = FALSE
+  if (is.null(init_renv))
+    init_renv = FALSE
+  if (!is.null(loc_name))
+    if (loc_name == "")
+      loc_name = NULL
+  if (is.null(appendlibs))
+    appendlibs = "dplyr"
+  if (is.null(openproject))
+    openproject = FALSE
   # Setup project directory structure
-  if (standard_setup %in% c("base", "baseSpatial","advancedSpatial"))
-  {
+  if (standard_setup %in% c("base", "baseSpatial", "advancedSpatial")) {
     envrmt = setup_default(standard_setup)
   } else {
     envrmt = yaml::read_yaml(file = ymlFN)
   }
   
-  if (is.null(appendlibs)){
+  if (is.null(appendlibs)) {
     libs = envrmt$libs
   } else {
-    libs = append(appendlibs,envrmt$libs)
+    libs = append(appendlibs, envrmt$libs)
   }
   
-  if (!is.null(code_subfolder) | length(code_subfolder) > 0){
-    code_subfolder = unique(append(code_subfolder,envrmt$code_subfolder))
+  if (!is.null(code_subfolder) | length(code_subfolder) > 0) {
+    code_subfolder = unique(append(code_subfolder, envrmt$code_subfolder))
   } else {
     code_subfolder = envrmt$code_subfolder
   }
-  projectDirList = as.list(strsplit(names(envrmt)[grepl("Folder", names(envrmt))],split = "Folder",fixed = TRUE))
+  projectDirList = as.list(strsplit(names(envrmt)[grepl("Folder", names(envrmt))],
+                                    split = "Folder", fixed = TRUE))
   
-  if (is.null(loc_name)){
-    projectDirList =  append(projectDirList,file.path("data",envrmt$dataFolder))
-    projectDirList =  append(projectDirList,file.path("docs",envrmt$docsFolder))
-    projectDirList =  append(projectDirList,file.path("tmp",envrmt$tmpFolder))
-  } else{
-    projectDirList =  append(projectDirList,file.path("data",loc_name,envrmt$dataFolder))
-    projectDirList =  append(projectDirList,file.path("docs",loc_name,envrmt$docsFolder))
-    projectDirList =  append(projectDirList,file.path("tmp",loc_name,envrmt$tmpFolder))
+  if (is.null(loc_name)) {
+    projectDirList = append(projectDirList, file.path("data", envrmt$dataFolder))
+    projectDirList = append(projectDirList, file.path("docs", envrmt$docsFolder))
+    projectDirList = append(projectDirList, file.path("tmp", envrmt$tmpFolder))
+  } else {
+    projectDirList = append(projectDirList, file.path("data", loc_name,
+                                                      envrmt$dataFolder))
+    projectDirList = append(projectDirList, file.path("docs", loc_name,
+                                                      envrmt$docsFolder))
+    projectDirList = append(projectDirList, file.path("tmp", loc_name,
+                                                      envrmt$tmpFolder))
     
   }
   # append additional folders if defined by calling script
-  if (!is.null(folders) && folders[[1]] != "") 
-  {
-    projectDirList = append(projectDirList,folders)
+  if (!is.null(folders) && folders[[1]] != "") {
+    projectDirList = append(projectDirList, folders)
   }
   
   if (is.null(folders)) {
     use_standard_setup <- TRUE
-    dirs <- setupProj(root_folder = root_folder, 
-                      folders = projectDirList, 
-                      code_subfolder = code_subfolder, 
-                      standard_setup = standard_setup,
+    dirs <- setupProj(root_folder = root_folder, folders = projectDirList,
+                      code_subfolder = code_subfolder, standard_setup = standard_setup,
                       libs = libs)
   } else {
     use_standard_setup <- FALSE
-    dirs <- setupProj(root_folder = root_folder, 
-                      folders = projectDirList, 
-                      code_subfolder = code_subfolder,
-                      global = global, libs = libs,
-                      standard_setup = NULL
-    )
+    dirs <- setupProj(root_folder = root_folder, folders = projectDirList,
+                      code_subfolder = code_subfolder, global = global, libs = libs,
+                      standard_setup = NULL)
   }
   
   # create R project and scripts
-  brew::brew(system.file(sprintf("templates/%s.brew", "rstudio_proj"), package = "link2GI"), file.path(root_folder, paste0(basename(root_folder), ".Rproj")))
-  brew::brew(system.file(sprintf("templates/%s.brew", "script_control"), package = "link2GI"),  file.path(dirs$src, "main-control.R"))
-  brew::brew(system.file(sprintf("templates/%s.brew", "pre-processing"), package = "link2GI"),  file.path(dirs$src, "pre-processing.R"))
-  brew::brew(system.file(sprintf("templates/%s.brew", "processing"), package = "link2GI"),  file.path(dirs$src, "10-processing.R"))
-  brew::brew(system.file(sprintf("templates/%s.brew", "post-processing"), package = "link2GI"),  file.path(dirs$src, "post-processing.R"))
-  brew::brew(system.file(sprintf("templates/%s.brew", "config-master-yml"), package = "link2GI"),  file.path(dirs$config, "config-master.yml"))
-  brew::brew(system.file(sprintf("templates/%s.brew", standard_setup), package = "link2GI"),file.path(dirs$functions, "000_setup.R"))
-  brew::brew(system.file(sprintf("templates/%s.brew", "yml"), package = "link2GI"),file.path(dirs$config, "pre-processing.yml"))
-  brew::brew(system.file(sprintf("templates/%s.brew", "yml"), package = "link2GI"),file.path(dirs$config, "processing.yml"))
-  brew::brew(system.file(sprintf("templates/%s.brew", "yml"), package = "link2GI"),file.path(dirs$config, "post-processing.yml"))
-  brew::brew(system.file(sprintf("templates/%s.brew", "readme"), package = "link2GI"),file.path(dirs$config, "README.md"))
+  brew::brew(system.file(sprintf("templates/%s.brew", "rstudio_proj"),
+                         package = "link2GI"), file.path(root_folder, paste0(basename(root_folder),
+                                                                             ".Rproj")))
+  brew::brew(system.file(sprintf("templates/%s.brew", "script_control"),
+                         package = "link2GI"), file.path(dirs$src, "main-control.R"))
+  brew::brew(system.file(sprintf("templates/%s.brew", "pre-processing"),
+                         package = "link2GI"), file.path(dirs$src, "pre-processing.R"))
+  brew::brew(system.file(sprintf("templates/%s.brew", "processing"),
+                         package = "link2GI"), file.path(dirs$src, "10-processing.R"))
+  brew::brew(system.file(sprintf("templates/%s.brew", "post-processing"),
+                         package = "link2GI"), file.path(dirs$src, "post-processing.R"))
+  brew::brew(system.file(sprintf("templates/%s.brew", "config-master-yml"),
+                         package = "link2GI"), file.path(dirs$config, "config-master.yml"))
+  brew::brew(system.file(sprintf("templates/%s.brew", standard_setup),
+                         package = "link2GI"), file.path(dirs$functions, "000_setup.R"))
+  brew::brew(system.file(sprintf("templates/%s.brew", "yml"), package = "link2GI"),
+             file.path(dirs$config, "pre-processing.yml"))
+  brew::brew(system.file(sprintf("templates/%s.brew", "yml"), package = "link2GI"),
+             file.path(dirs$config, "processing.yml"))
+  brew::brew(system.file(sprintf("templates/%s.brew", "yml"), package = "link2GI"),
+             file.path(dirs$config, "post-processing.yml"))
+  brew::brew(system.file(sprintf("templates/%s.brew", "readme"), package = "link2GI"),
+             file.path(dirs$config, "README.md"))
   
   
   
-  # Init git
-  # if (use_standard_setup) init_git <- setup_default()[[standard_setup[1]]]$init_git
+  # Init git if (use_standard_setup) init_git <-
+  # setup_default()[[standard_setup[1]]]$init_git
   if (init_git) {
     if (!file.exists(file.path(root_folder, ".git"))) {
-      git2r::init(root_folder) #system(paste("git init", root_folder))
+      git2r::init(root_folder)  #system(paste('git init', root_folder))
     }
-    template_path <- system.file(sprintf("templates/%s.brew", "gitignore"), package = "link2GI")
+    template_path <- system.file(sprintf("templates/%s.brew", "gitignore"),
+                                 package = "link2GI")
     brew::brew(template_path, file.path(root_folder, ".gitignore"))
-  } 
+  }
   
-  if (init_renv) renv::init(root_folder)
+  if (init_renv)
+    renv::init(root_folder)
   
-  if (openproject) rstudioapi::openProject(file.path(root_folder, paste0(basename(root_folder), ".Rproj")),newSession = newsession)
+  if (openproject)
+    rstudioapi::openProject(file.path(root_folder, paste0(basename(root_folder),
+                                                          ".Rproj")), newSession = newsession)
   return(dirs)
 }
 
@@ -267,11 +276,11 @@ initProj <- function(root_folder = ".",
 #' settings required for the project, such as additional libraries, optional settings, 
 #' colour schemes, etc. Important: It should not be used to control the runtime
 #' parameters of the scripts.  This file is not read in automatically, even if 
-#' it is located in the "fcts_folder" folder.
+#' it is located in the 'fcts_folder' folder.
 #' @param fcts_folder  path of the folder holding the functions. All files in
 #' this folder will be sourced at project start.
 #' @param source_functions logical: should functions be sourced? Default is TRUE if fcts_folder exists.
-#' @param standard_setup select one of the predefined settings c("base", "baseSpatial", "advancedSpatial"). 
+#' @param standard_setup select one of the predefined settings c('base', 'baseSpatial', 'advancedSpatial'). 
 #' In this case, only the name of the base folder is required, but individual additional 
 #' folders can be specified under 'folders' 
 #' name of the git repository must be supplied to the function.
@@ -287,17 +296,17 @@ initProj <- function(root_folder = ".",
 #' @examples
 #' \dontrun{
 #' setupProj(
-#'   root_folder = "~/edu", folders = c("data/", "data/tmp/"),
-#'   libs = c("link2GI")
+#'   root_folder = '~/edu', folders = c('data/', 'data/tmp/'),
+#'   libs = c('link2GI')
 #' )
 #' }
 #'
-setupProj <- function(root_folder = tempdir(), folders = c("data", "data/tmp"), 
-                      code_subfolder = NULL, 
-                      global = FALSE, libs = NULL, setup_script = "000_setup.R", fcts_folder = NULL,
-                      source_functions = !is.null(fcts_folder),
-                      standard_setup = NULL,  create_folders = TRUE ){
-  #setup_default() # new_folder_list=NULL,new_folder_list_name=NULL
+setupProj <- function(root_folder = tempdir(), folders = c("data", "data/tmp"),
+                      code_subfolder = NULL, global = FALSE, libs = NULL, setup_script = "000_setup.R",
+                      fcts_folder = NULL, source_functions = !is.null(fcts_folder), standard_setup = NULL,
+                      create_folders = TRUE) {
+  # setup_default() #
+  # new_folder_list=NULL,new_folder_list_name=NULL
   
   
   
@@ -316,19 +325,18 @@ setupProj <- function(root_folder = tempdir(), folders = c("data", "data/tmp"),
   
   
   # Create folders
-  folders <- createFolders(root_folder, folders,
-                           
-                           create_folders = create_folders
-  )
+  folders <- createFolders(root_folder, folders, create_folders = create_folders)
   
   # Set global environment if necessary
-  if (global) makeGlobalVariable(names = names(folders), values = folders)
+  if (global)
+    makeGlobalVariable(names = names(folders), values = folders)
   
   # Load and install libraries
   loadLibraries(libs)
   
   # Source functions
-  if (source_functions) sourceFunctions(fcts_folder, setup_script)
+  if (source_functions)
+    sourceFunctions(fcts_folder, setup_script)
   
   return(folders)
 }
@@ -347,11 +355,12 @@ setupProj <- function(root_folder = tempdir(), folders = c("data", "data/tmp"),
 #' @examples
 #' \dontrun{
 #' # creates the global variable \\code{path_data} with the value \\code{~/data}
-#' makeGlobalVariable(names = "path_data", values = "~/data")
+#' makeGlobalVariable(names = 'path_data', values = '~/data')
 #' }
 #'
 makeGlobalVariable <- function(names, values) {
-  if (!exists("enivmaR")) enivmaR <- new.env(parent = globalenv())
+  if (!exists("enivmaR"))
+    enivmaR <- new.env(parent = globalenv())
   
   for (i in seq(length(names))) {
     if (exists(names[i], envir = enivmaR)) {
@@ -378,7 +387,7 @@ makeGlobalVariable <- function(names, values) {
 #'
 #' @examples
 #' \dontrun{
-#' addGitFolders(folders = c("data", "data/tmp"), git_repository = "myproject")
+#' addGitFolders(folders = c('data', 'data/tmp'), git_repository = 'myproject')
 #' }
 #'
 addGitFolders <- function(folders, git_repository = NULL, git_subfolders = NULL) {
@@ -403,7 +412,7 @@ addGitFolders <- function(folders, git_repository = NULL, git_subfolders = NULL)
 #'
 #' @examples
 #' \dontrun{
-#' # loadLibraries(libs = C("link2GI"))
+#' # loadLibraries(libs = C('link2GI'))
 #' }
 loadLibraries <- function(libs) {
   options(install.packages.check.source = "no")
@@ -437,11 +446,12 @@ loadLibraries <- function(libs) {
 #'
 #' @examples
 #' \dontrun{
-#' # sourceFunctions(fcts_folder = "~/project/src/fcts")
+#' # sourceFunctions(fcts_folder = '~/project/src/fcts')
 #' }
 sourceFunctions <- function(fcts_folder, setup_script) {
   fcts <- list.files(fcts_folder, full.names = TRUE, recursive = TRUE)
-  if (TRUE %in% grepl(setup_script, fcts))  fcts <- fcts[-grep(pattern = setup_script, x = fcts)]
+  if (TRUE %in% grepl(setup_script, fcts))
+    fcts <- fcts[-grep(pattern = setup_script, x = fcts)]
   success <- lapply(fcts, function(f) {
     try(source(f), silent = TRUE)
   })
@@ -469,13 +479,14 @@ sourceFunctions <- function(fcts_folder, setup_script) {
 #' @examples
 #' \dontrun{
 #' a <- 1
-#' meta <- list(a = "a is a variable")
-#' saveEnvi(a, file.path(tempdir(), "test.rds"), meta)
+#' meta <- list(a = 'a is a variable')
+#' saveEnvi(a, file.path(tempdir(), 'test.rds'), meta)
 #' }
 #'
 saveEnvi <- function(variable, file_path, meta) {
   saveRDS(variable, file_path)
-  yaml::write_yaml(meta, paste0(tools::file_path_sans_ext(file_path), ".yaml"))
+  yaml::write_yaml(meta, paste0(tools::file_path_sans_ext(file_path),
+                                ".yaml"))
 }
 
 
@@ -515,14 +526,15 @@ createMeta <- function(prj_name) {
 #' @examples
 #' \dontrun{
 #' a <- 1
-#' meta <- list(a = "a is a variable")
-#' saveEnvi(a, file.path(tempdir(), "test.rds"), meta)
-#' b <- loadEnvi(file.path(tempdir(), "test.rds"))
+#' meta <- list(a = 'a is a variable')
+#' saveEnvi(a, file.path(tempdir(), 'test.rds'), meta)
+#' b <- loadEnvi(file.path(tempdir(), 'test.rds'))
 #' }
 #'
 loadEnvi <- function(file_path) {
   dat <- readRDS(file_path)
-  meta <- yaml::read_yaml(paste0(tools::file_path_sans_ext(file_path), ".yaml"))
+  meta <- yaml::read_yaml(paste0(tools::file_path_sans_ext(file_path),
+                                 ".yaml"))
   return(list(dat = dat, meta = meta))
 }
 
@@ -532,7 +544,7 @@ loadEnvi <- function(file_path) {
 #' @description Create files or scripts from brew templates supplied with the package.
 #'
 #' @param new_file name of the file to be created
-#' @param template template to be used for the new file ("script_function", "script_control")
+#' @param template template to be used for the new file ('script_function', 'script_control')
 #' @param template_path path to template to be used 
 
 #' @param notes logical: include notes from the template in the file
@@ -547,8 +559,9 @@ loadEnvi <- function(file_path) {
 #' createScript()
 #' }
 #'
-createScript <- function(new_file = file.path(tempdir(), "tmp.R"), template = c("script_function", "script_control"),
-                         notes = TRUE, template_path =  system.file(sprintf("templates/%s.brew", template[1]), package = "link2GI")) {
+createScript <- function(new_file = file.path(tempdir(), "tmp.R"), template = c("script_function",
+                                                                                "script_control"), notes = TRUE, template_path = system.file(sprintf("templates/%s.brew",
+                                                                                                                                                     template[1]), package = "link2GI")) {
   
   brew::brew(template_path, new_file)
 }

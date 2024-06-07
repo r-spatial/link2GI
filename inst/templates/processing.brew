@@ -1,24 +1,14 @@
 #' processing script
 #'
-#' Use this script for doing the processing.
+#' Use this script for doing the processing. 
 #'
 #' author [name], [email@com]
 #'
 
-# Load required packages
-require(rprojroot)
-require(yaml)
-
-# Set root folder
-root_folder <- find_rstudio_root_file()
-
-# Read master configuration
-config_master <- read_yaml(file = file.path(root_folder, "src/configs/config_master.yml"))
-
 # Read processing configuration
 config_master <- read_yaml(file = file.path(root_folder, "src/configs/processing.yml"))
 
-source(file.path(root_folder, "src/functions/000_setup.R"))
+
 
 
 

@@ -80,7 +80,7 @@ linkOTB <- function(bin_OTB = NULL, root_OTB = NULL, type_OTB = NULL, searchLoca
           otbCmd <- params_OTB$otbCmd[[ver]]
         }
       }
-      #### (R) set pathes of OTB binaries depending on OS WINDOWS ###
+      #### (R) set paths of OTB binaries depending on OS WINDOWS ###
     } else {
       if (nrow(params_OTB) == 1) {
         pathOTB <- setenvOTB(bin_OTB = params_OTB$binDir[1], root_OTB = params_OTB$baseDir[2])

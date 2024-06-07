@@ -1,13 +1,15 @@
 loc_name: 
 
+date_name:
+
 searchLocations:
-  otb_searchLocation: "default"
-  gdal_searchLocation: "default"
-  saga_searchLocation: "default"
+  otb_searchLocation: link2GI::linkOTB()
+  gdal_searchLocation: link2GI::linkGDAL()
+  saga_searchLocation: link2GI::linkSAGA()
   
-preprocessing: false
+preprocessing: true
 
-processing: false
+processing: true
 
-postprocessing: false
+postprocessing: true
 

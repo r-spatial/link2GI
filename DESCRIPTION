@@ -1,14 +1,14 @@
 Package: link2GI
 Type: Package
 Title: Linking Geographic Information Systems, Remote Sensing and Other Command Line Tools
-Version: 0.6-1
-Date: 2024-05-03
+Version: 0.6-2
+Date: 2024-06-07
 Authors@R: c(person("Chris", "Reudenbach", email = "reudenbach@uni-marburg.de", role = c("cre", "aut")),
              person("Tim", "Appelhans", email = "tim.appelhans@gmail.com>", role = c("ctb"))
              )
 Encoding: UTF-8
 Maintainer: Chris Reudenbach <reudenbach@uni-marburg.de>
-Description: Functions for straightforward use of open GIS and remote sensing command line interfaces in a reproducible project environment.
+Description: Functions and tools for using open GIS and remote sensing command-line interfaces in a reproducible environment.
 URL: https://github.com/r-spatial/link2GI/, https://r-spatial.github.io/link2GI/
 BugReports: https://github.com/r-spatial/link2GI/issues/
 License: GPL (>= 3) | file LICENSE

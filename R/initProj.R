@@ -115,7 +115,7 @@ createFolders <- function(root_folder, folders, create_folders = TRUE) {
 #' this variable to load/save data to avoid any hard coded links in the scripts except the top-level root folder which
 #' is defined once in the main control script located at src/main.R.
 #'
-#' @return dirs, i.e. a list containing the project pathes.
+#' @return dirs, i.e. a list containing the project paths.
 #'
 #' @name initProj
 #' 
@@ -182,11 +182,10 @@ initProj <- function(root_folder = ".", folders = NULL, init_git = NULL, init_re
                       libs = libs, standard_setup = NULL)
   }
   # create R project and scripts
-  brew::brew(system.file(sprintf("templates/%s.brew", "rstudio_proj"), package = "link2GI"), file.path(root_folder, paste0(basename(root_folder),
-                                                                                                                           ".Rproj")))
+  brew::brew(system.file(sprintf("templates/%s.brew", "rstudio_proj"), package = "link2GI"), file.path(root_folder, paste0(basename(root_folder), ".Rproj")))
   brew::brew(system.file(sprintf("templates/%s.brew", "script_control"), package = "link2GI"), file.path(dirs$src, "main-control.R"))
   brew::brew(system.file(sprintf("templates/%s.brew", "pre-processing"), package = "link2GI"), file.path(dirs$src, "pre-processing.R"))
-  brew::brew(system.file(sprintf("templates/%s.brew", "processing"), package = "link2GI"), file.path(dirs$src, "10-processing.R"))
+  brew::brew(system.file(sprintf("templates/%s.brew", "processing"), package = "link2GI"), file.path(dirs$src, "processing.R"))
   brew::brew(system.file(sprintf("templates/%s.brew", "post-processing"), package = "link2GI"), file.path(dirs$src, "post-processing.R"))
   brew::brew(system.file(sprintf("templates/%s.brew", "config-master-yml"), package = "link2GI"), file.path(dirs$config,
                                                                                                             "config-master.yml"))

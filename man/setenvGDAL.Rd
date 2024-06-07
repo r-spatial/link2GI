@@ -10,7 +10,7 @@ setenvGDAL(bin_GDAL = NULL)
 \item{bin_GDAL}{string contains the path to the 'GDAL' binaries}
 }
 \value{
-Adds 'GDAL' pathes to the environment and creates the variable global string variable \code{gdalCmd}, that contains the path to the 'GDAL' binaries.
+Adds 'GDAL' paths to the environment and creates the variable global string variable \code{gdalCmd}, that contains the path to the 'GDAL' binaries.
 }
 \description{
 Initializes and set up  access to the 'GDAL' command line interface

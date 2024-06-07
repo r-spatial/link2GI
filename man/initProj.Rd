@@ -56,7 +56,7 @@ it is located in the 'fcts_folder' folder.}
 \item{OpenFiles}{default NULL}
 }
 \value{
-dirs, i.e. a list containing the project pathes.
+dirs, i.e. a list containing the project paths.
 }
 \description{
 Set up the project environment with a defined folder structure, an RStudio project, initial scripts and configuration files and optionally with Git and Renv support.

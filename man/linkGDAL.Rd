@@ -25,7 +25,7 @@ linkGDAL(
 to the PATH variable only, otherwise all paths and versions of the installed GRASS versions ae returned.}
 }
 \value{
-add gdal pathes to the environment and creates global variables path_GDAL
+add gdal paths to the environment and creates global variables path_GDAL
 }
 \description{
 Locate and set up  \href{https://gdal.org/}{'GDAL - Geospatial Data Abstraction Librar'} API bindings

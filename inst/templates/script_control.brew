@@ -14,7 +14,7 @@ require(yaml)
 root_folder <- find_rstudio_root_file()
 
 # Read master configuration
-config_master <- read_yaml(file = file.path(root_folder, "src/configs/config_master.yml"))
+config_master <- read_yaml(file = file.path(root_folder, "src/configs/config-master.yml"))
 appendlibs = ""
 source(file.path(root_folder, "src/functions/000_setup.R"))
 

@@ -172,7 +172,7 @@ bugfixes:
 
 new feature: 
 
-* add manual build function for UNC pathes
+* add manual build function for UNC paths
 
 bugfixes:
 
@@ -244,7 +244,7 @@ new feature:
 * remove all global variables (re-opened  #3)
 * homogenization of the link calls
 * wrap searchAPIOS functions with OS-agnostic findAPI functions
-* add a more robust return of all pathes and environmental variables as lists 
+* add a more robust return of all paths and environmental variables as lists 
 * add a quiet option to supress all! console outputs ( #4)
   
 bugfixes:

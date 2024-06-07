@@ -5,7 +5,7 @@
 #'@param bin_OTB  string contains the path to the 'OTB' binaries
 #'@param root_OTB string contains the full string to the root folder
 #'  containing the 'OTB' installation'
-#'@return Adds 'OTB' pathes to the environment and creates the variable global string variable \code{otbCmd}, that contains the path to the 'OTB' binaries.
+#'@return Adds 'OTB' paths to the environment and creates the variable global string variable \code{otbCmd}, that contains the path to the 'OTB' binaries.
 #'@keywords internal
 #'  
 #'@examples
@@ -15,7 +15,7 @@
 #'           root_OTB = 'C:\\OSGeo4W64')
 #'}
 setenvOTB <- function(bin_OTB = NULL, root_OTB = NULL) {
-  # (R) set pathes of otb modules and binaries depending on OS
+  # (R) set paths of otb modules and binaries depending on OS
   if (Sys.info()["sysname"] == "Windows") {
     if (!exists("GiEnv"))
       GiEnv <- new.env(parent = globalenv())

@@ -42,7 +42,7 @@ if (!isGeneric("linkGRASS")) {
 #'@param epsg manual epsg override
 #'@param ver_select Boolean if TRUE you may choose interactively the binary version (if found  more than one),  by default FALSE
 #'@param quiet Boolean  switch for suppressing console messages default is TRUE
-#'@param returnPaths Boolean if set to FALSE the pathes of the selected version are written 
+#'@param returnPaths Boolean if set to FALSE the paths of the selected version are written 
 #' to the PATH variable only, otherwise all paths and versions of the installed GRASS versions ae returned.
 #'@author Chris Reudenbach
 #'@export linkGRASS

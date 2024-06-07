@@ -14,7 +14,7 @@ if (!isGeneric("linkGDAL")) {
 #'
 #'@note You may also set the path manually. Using a 'OSGeo4W64' \url{https://trac.osgeo.org/osgeo4w/} installation it is typically \code{C:/OSGeo4W64/bin/}
 #'@author Chris Reudenbach
-#'@return add gdal pathes to the environment and creates global variables path_GDAL
+#'@return add gdal paths to the environment and creates global variables path_GDAL
 #'@details if called without any parameter \code{linkGDAL()} it performs a full search over the hard drive \code{C:}. If it finds one or more 'GDAL' binaries it will take the first hit. You have to set \code{ver_select = TRUE} for an interactive selection of the preferred version.
 #'@export linkGDAL
 #'  
@@ -89,7 +89,7 @@ linkGDAL <- function(bin_GDAL = NULL, searchLocation = NULL, ver_select = FALSE,
       gdal$py <- params_GDAL[[3]][ver]
       gdal$exist <- TRUE
     }
-    # (R) set pathes of GDAL binaries depending on OS WINDOWS }
+    # (R) set paths of GDAL binaries depending on OS WINDOWS }
     # else { # if (is.null(searchLocation)) searchLocation<-'C:/' # params_GDAL <- findGDAL(searchLocation =
     # searchLocation,quiet = quiet) #if ( params_GDAL != FALSE) if (nrow(params_GDAL$gdalInstallations) == 1) {
     # pathGDAL <- setenvGDAL(bin_GDAL =params_GDAL$gdalInstallations[[1]][1]) # if more than one valid installation

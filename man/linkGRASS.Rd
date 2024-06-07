@@ -48,7 +48,7 @@ If you provide a valid list the corresponding version is initialized. An example
 
 \item{quiet}{Boolean  switch for suppressing console messages default is TRUE}
 
-\item{returnPaths}{Boolean if set to FALSE the pathes of the selected version are written 
+\item{returnPaths}{Boolean if set to FALSE the paths of the selected version are written 
 to the PATH variable only, otherwise all paths and versions of the installed GRASS versions ae returned.}
 }
 \description{

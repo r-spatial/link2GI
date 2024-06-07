@@ -30,7 +30,7 @@ paramGRASSx <- function(set_default_GRASS = NULL, MP = "/usr/bin", ver_select = 
     ver_select <- FALSE
   if (Sys.info()["sysname"] == "Windows")
     return(cat("You are running Windows - Please choose a suitable searchLocation argument that MUST include a Windows drive letter and colon"))
-  # iF WE KNOW NOTHING ABOUT grass PATHES WE HAVE TO SEARCH
+  # iF WE KNOW NOTHING ABOUT grass PATHS WE HAVE TO SEARCH
   if (is.null(set_default_GRASS)) {
     # SEARCH FOR INSTALLATIONS
     params_GRASS <- findGRASS(searchLocation = MP)
@@ -92,7 +92,7 @@ paramGRASSx <- function(set_default_GRASS = NULL, MP = "/usr/bin", ver_select = 
 #'@param DL character search location default = \code{C:}
 #'@param ver_select boolean default is FALSE. If there is more than one 'SAGA GIS' installation and \code{ver_select} = TRUE the user can select interactively the preferred 'SAGA GIS' version 
 #'@param set_default_GRASS default = NULL forces a full search for 'GRASS GIS' binaries. You may
-#'  alternatively provide a vector containing pathes and keywords. c('C:/OSGeo4W64','grass-7.0.5','osgeo4w') is valid for a typical osgeo4w installation.
+#'  alternatively provide a vector containing paths and keywords. c('C:/OSGeo4W64','grass-7.0.5','osgeo4w') is valid for a typical osgeo4w installation.
 #'  
 #'@param quiet boolean  switch for supressing console messages default is TRUE
 #'@keywords internal
@@ -115,7 +115,7 @@ paramGRASSw <- function(set_default_GRASS = NULL, DL = "C:/", ver_select = FALSE
     ver_select <- FALSE
   if (Sys.info()["sysname"] == "Linux")
     return(cat("You are running Linux - please choose a suitable searchLocation argument"))
-  # (R) set pathes of 'GRASS' binaries depending on 'WINDOWS'
+  # (R) set paths of 'GRASS' binaries depending on 'WINDOWS'
   if (is.null(set_default_GRASS)) {
     if (DL == "default" || is.null(DL))
       DL <- "C:/"

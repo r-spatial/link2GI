@@ -3,7 +3,7 @@
 #'@description  Initializes and set up  access to the 'GDAL' command line interface
 #'  
 #'@param bin_GDAL  string contains the path to the 'GDAL' binaries
-#'@return Adds 'GDAL' pathes to the environment and creates the variable global string variable \code{gdalCmd}, that contains the path to the 'GDAL' binaries.
+#'@return Adds 'GDAL' paths to the environment and creates the variable global string variable \code{gdalCmd}, that contains the path to the 'GDAL' binaries.
 #'@keywords internal
 #'  
 #'@examples
@@ -15,7 +15,7 @@
 #'           root_GDAL = 'C:/OSGeo4W64')
 #'}
 setenvGDAL <- function(bin_GDAL = NULL) {
-  # (R) set pathes of gdal modules and binaries depending on OS
+  # (R) set paths of gdal modules and binaries depending on OS
   if (Sys.info()["sysname"] == "Windows") {
     if (!exists("GiEnv"))
       GiEnv <- new.env(parent = globalenv())

@@ -28,9 +28,11 @@ if (!exists("root_folder")) {
 }
 
 # call central function
+# call central function
 dirs = link2GI::setupProj(root_folder = root_folder,
-                             folders = projectDirList,
-                             fcts_folder = code_subfolders)
+                             folders = <%=deparse(dirs)%>,
+                             fcts_folder = <%=deparse(code_subfolder)%>)
+
 
 # Define more variables
 

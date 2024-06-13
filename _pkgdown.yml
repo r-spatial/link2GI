@@ -1,4 +1,7 @@
 url: https://r-spatial.github.io/link2GI
+template:
+  bootstrap: 5
+  bootswatch: united
 
 development:
   mode: auto

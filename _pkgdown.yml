@@ -2,7 +2,15 @@ url: https://r-spatial.github.io/link2GI
 template:
   bootstrap: 5
   bootswatch: united
-
+  bslib:
+    heading_font: {google: "Roboto Slab"}
+    code_font: {google: "JetBrains Mono"}
+    
+navbar:
+  structure:
+    left:  [intro, reference, articles, tutorials, news]
+    right: [github]
+    
 development:
   mode: auto
   version_label: default

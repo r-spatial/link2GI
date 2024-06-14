@@ -17,7 +17,7 @@ baseSpatial:
    init_git: true
    init_renv: true   
    global: false
-   libs: ["terra", "stars", "sf" , "RStoolbox", "tmap" , "mapview", "dplyr"]
+   libs: ["terra", "stars", "sf" , "RStoolbox", "tmap" , "mapview", "dplyr", "CAST", "link2GI"]
    create_folders: true
    files: [ "src/pre-processing.R", "src/post-processing.R", "src/processing.R", "src/functions/000_setup.R" ,"src/main-control.R"]
 advancedSpatial:
@@ -28,7 +28,7 @@ advancedSpatial:
    init_git: true
    init_renv: true   
    global: false
-   libs: ["terra", "stars", "sf" , "RStoolbox", "tmap" , "mapview" ,"dplyr", "caret" ,"randomforest"]
+   libs: ["terra", "stars", "sf" , "RStoolbox", "tmap" , "mapview" ,"dplyr", "caret" ,"randomforest", "CAST", "link2GI"]
    create_folders: true
    files: [ "src/pre-processing.R", "src/post-processing.R", "src/processing.R", "src/functions/000_setup.R" ,"src/main-control.R"]
  

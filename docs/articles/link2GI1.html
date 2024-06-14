@@ -27,7 +27,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">link2GI</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.6-2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6-2</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -43,12 +43,11 @@
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/link2GI1.html">Link GI to R</a>
-    <a class="dropdown-item" href="../articles/link2GI2.html">link2GI Basic Examples</a>
-    <a class="dropdown-item" href="../articles/link2GI3.html">linkGRASS real world data usecase</a>
+    <a class="dropdown-item" href="../articles/link2GI2.html">Basic usage of link2GI</a>
+    <a class="dropdown-item" href="../articles/link2GI3.html">GRASS application for real world big data</a>
     <a class="dropdown-item" href="../articles/link2GI4.html">OTB Wrapper</a>
     <a class="dropdown-item" href="../articles/link2GI5.html">Reproducible project structures</a>
-    <a class="dropdown-item" href="../articles/link2GI6.html">GEOSTAT 2018 Examples</a>
-    <a class="dropdown-item" href="../articles/link2GI7.html">Installation guide for link2GI related Software</a>
+    <a class="dropdown-item" href="../articles/link2GI6.html">Installation guide for link2GI related Software</a>
   </div>
 </li>
 <li class="nav-item">
@@ -102,14 +101,6 @@ to non-operating system specialists or highly experienced GIS geeks. In
 fact, it is a direct result of numerous graduate courses with R(-GIS)
 novices in the hostile world of university computer pools running on
 extremely limited Windows systems.</p>
-<p>This vignette:</p>
-<ul>
-<li>shows how to use <code>link2GI</code> according to specific system
-requirements</li>
-<li>gives some practical examples of how to use it<br>
-</li>
-<li>gives some applied examples for more efficient spatial analysis</li>
-</ul>
 </div>
 <div class="section level2">
 <h2 id="why-link2gi-now">Why link2GI now?<a class="anchor" aria-label="anchor" href="#why-link2gi-now"></a>
@@ -140,11 +131,11 @@ algorithms. The algorithms provided are fast, stable and most of them
 are well proven. Probably most <code>R</code> users who are somehow
 connected to the GI community know that there are great wrapper packages
 to bridge this gap. For <a href="https://grass.osgeo.org/" class="external-link">GRASS GIS
-7/8</a> it is <a href="https://CRAN.R-project.org/package=rgrass" class="external-link">rgrass</a> and for <a href="https://saga-gis.sourceforge.io/" class="external-link">SAGA GIS</a> it is the <a href="https://CRAN.R-project.org/package=RSAGA" class="external-link">RSAGA</a> and <a href="https://github.com/stevenpawley/Rsagacmd" class="external-link"><code>Rsagacmd</code></a>
-packages. Since there is also no wrapper for the Orfeo Toolbox, which is
-indispensable in exploration, it is also very helpful to provide a
-lightweight wrapper for the use of <code>OTB</code> modules from
-<code>R</code>..</p>
+7/8</a> it is <a href="https://CRAN.R-project.org/package=rgrass" class="external-link">rgrass</a> and for <a href="https://saga-gis.sourceforge.io/" class="external-link">SAGA GIS</a> there are <a href="https://CRAN.R-project.org/package=RSAGA" class="external-link">RSAGA</a> and <a href="https://github.com/stevenpawley/Rsagacmd" class="external-link">Rsagacmd</a>. There is
+no mature wrapper package for the [Orfeo Toolbox] (<a href="https://gitlab.orfeo-toolbox.org/orfeotoolbox/otb" class="external-link uri">https://gitlab.orfeo-toolbox.org/orfeotoolbox/otb</a>),
+which is indispensable for remote sensing. This package not only creates
+the API link, but also provides a lightweight wrapper for easy use of
+<code>OTB</code> modules from <code>R</code>.</p>
 <p>Unfortunately you will run into a lot of technical problems depending
 on the chosen operating system (OS) or library dependencies or GIS
 software versions. In the case of <code>RSAGA</code> for example, the
@@ -168,12 +159,13 @@ command line, e.g. for a powerful random walk cost analysis
 <div class="section level2">
 <h2 id="what-does-linking-mean">What does linking mean?<a class="anchor" aria-label="anchor" href="#what-does-linking-mean"></a>
 </h2>
-<p>Linking simply means to provide all the necessary environment
-settings to satisfy the existing wrapper packages as well as full access
-to the command line APIs of the mentioned software tools.
-<code>link2GI</code> tries to analyze which software is installed in
-order to create a temporary environment that satisfies the above
-mentioned requirements.</p>
+<p>Linking simply means providing all the necessary environment
+variables to allow full access to the command line APIs of the software
+tools mentioned. <code>link2GI</code> also tries to be compliant with
+the existing wrapper packages and integrate their use.
+<code>link2GI</code> tries to analyse which software is installed in
+which version in order to create a temporary or permanent environment
+that meets the requirements mentioned above.</p>
 <div class="section level4">
 <h4 id="grass-gis">GRASS GIS<a class="anchor" aria-label="anchor" href="#grass-gis"></a>
 </h4>
@@ -214,16 +206,18 @@ for a convenient function call.</p>
 <div class="section level4">
 <h4 id="gdal">GDAL<a class="anchor" aria-label="anchor" href="#gdal"></a>
 </h4>
-<p>Although <code>GDAL</code> is perfectly integrated into R, in some
-cases it is advantageous to use system calls and grab the binaries
-directly. In particular, the evolution to <code>GDAL 3.x</code> and
-optionally different boxed versions of <code>GDAL</code> binaries
-working with different <code>Python</code> and <code>proj4/proj6</code>
-libs makes it sometimes difficult to grab the correct version of
-<code>GDAL</code>.
-link2GI<code>generates a list of all paths and commands of all</code>GDAL`
-installations in the given search path. With this list you can easily
-use all available API calls of each installation.</p>
+<p>Although <code>GDAL</code> is well integrated into the R packages, in
+quite a few cases it is advantageous to use system calls and to obtain
+the binaries directly, especially after the discontinuation of
+<code>rgdal</code> and some other convenience packages. In particular,
+the development towards <code>GDAL 3.x</code> and optionally different
+boxed versions of <code>GDAL</code> binaries that work with different
+<code>Python</code> and <code>proj4/proj6</code> libraries make it often
+difficult to find the right <code>GDAL</code> version.
+<code>link2GI</code> generates a list of all paths and commands of all
+<code>GDAL</code> installations in the given search path. With this
+list, you can easily use all available API calls of each
+installation.</p>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

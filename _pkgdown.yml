@@ -4,13 +4,12 @@ template:
   bootswatch: united
   bslib:
     code_font: {google: "JetBrains Mono"}
-    
 navbar:
   structure:
     left:  [intro, reference, articles, tutorials, news]
     right: [github]
     
-development:
-  mode: auto
-  version_label: default
-  version_tooltip: "Version"
+# development:
+#   mode: auto
+#   version_label: default
+#   version_tooltip: "Version"

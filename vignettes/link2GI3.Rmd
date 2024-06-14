@@ -1,6 +1,6 @@
 ---
 author: "Chris Reudenbach"
-title: "linkGRASS real world data usecase"
+title: "GRASS application for real world big data"
 date: "`r Sys.Date()`"
 editor_options:
   chunk_output_type: console
@@ -14,7 +14,7 @@ output:
     toc: yes
 urlcolor: blue
 vignette: >
-  %\VignetteIndexEntry{link2GI - linkGRASS real world data usecase}
+  %\VignetteIndexEntry{GRASS application for real world big data }
   %\VignetteEncoding{UTF-8}{inputenc}\
   %\VignetteEngine{knitr::knitr}
 ---

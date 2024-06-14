@@ -6,13 +6,13 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="link2GI">
-<title>link2GI Basic Examples • link2GI</title>
+<title>Basic usage of link2GI • link2GI</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/JetBrains_Mono-0.4.9/font.css" rel="stylesheet">
 <!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.11/clipboard.min.js" integrity="sha512-7O5pXpc0oCRrxk8RUfDYFgn0nO1t+jLuIOQdOMRp4APB7uZ4vSjspzp5y6YDtDs4VzUSTbWzBFZ/LKJhnyFOKw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="link2GI Basic Examples">
+<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.11/clipboard.min.js" integrity="sha512-7O5pXpc0oCRrxk8RUfDYFgn0nO1t+jLuIOQdOMRp4APB7uZ4vSjspzp5y6YDtDs4VzUSTbWzBFZ/LKJhnyFOKw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Basic usage of link2GI">
 <meta property="og:description" content="link2GI">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -27,7 +27,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">link2GI</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.6-2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6-2</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -43,12 +43,11 @@
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/link2GI1.html">Link GI to R</a>
-    <a class="dropdown-item" href="../articles/link2GI2.html">link2GI Basic Examples</a>
-    <a class="dropdown-item" href="../articles/link2GI3.html">linkGRASS real world data usecase</a>
+    <a class="dropdown-item" href="../articles/link2GI2.html">Basic usage of link2GI</a>
+    <a class="dropdown-item" href="../articles/link2GI3.html">GRASS application for real world big data</a>
     <a class="dropdown-item" href="../articles/link2GI4.html">OTB Wrapper</a>
     <a class="dropdown-item" href="../articles/link2GI5.html">Reproducible project structures</a>
-    <a class="dropdown-item" href="../articles/link2GI6.html">GEOSTAT 2018 Examples</a>
-    <a class="dropdown-item" href="../articles/link2GI7.html">Installation guide for link2GI related Software</a>
+    <a class="dropdown-item" href="../articles/link2GI6.html">Installation guide for link2GI related Software</a>
   </div>
 </li>
 <li class="nav-item">
@@ -78,7 +77,7 @@
 
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-      <img src="" class="logo" alt=""><h1>link2GI Basic Examples</h1>
+      <img src="" class="logo" alt=""><h1>Basic usage of link2GI</h1>
                         <h4 data-toc-skip class="author">Chris
 Reudenbach</h4>
             
@@ -91,11 +90,8 @@ Reudenbach</h4>
     
     
 <div class="section level2">
-<h2 id="using-the-link2gi-package---basic-examples">Using the link2GI package - Basic examples<a class="anchor" aria-label="anchor" href="#using-the-link2gi-package---basic-examples"></a>
+<h2 id="brute-force-search">Brute force search<a class="anchor" aria-label="anchor" href="#brute-force-search"></a>
 </h2>
-<div class="section level3">
-<h3 id="brute-force-search-usage">Brute force search usage<a class="anchor" aria-label="anchor" href="#brute-force-search-usage"></a>
-</h3>
 <p>Automatic searching and finding of installed GIS software binaries is
 done by the <code>find</code> functions. Depending on your operating
 system and the number of installed versions you will get a data frame
@@ -115,9 +111,9 @@ with the binary and module folders.</p>
 <p>The `find’ functions provide an overview of the installed software.
 These functions do not create links or change settings.</p>
 </div>
-<div class="section level3">
-<h3 id="setting-up-project-structures">Setting up project structures<a class="anchor" aria-label="anchor" href="#setting-up-project-structures"></a>
-</h3>
+<div class="section level2">
+<h2 id="setting-up-project-structures">Setting up project structures<a class="anchor" aria-label="anchor" href="#setting-up-project-structures"></a>
+</h2>
 <p>If you are just calling link2GI on the fly, i.e. for a single
 temporary operation, there is no need to set up folders and project
 structures. If you are working on a more complex project, it might be
@@ -140,9 +136,9 @@ strings.</p>
 <span>                                <span class="op">)</span></span>
 <span><span class="va">dirs</span></span></code></pre></div>
 </div>
-<div class="section level3">
-<h3 id="linksaga---find-and-set-up-saga-api-bindings">linkSAGA - Find and set up ‘SAGA’ API bindings<a class="anchor" aria-label="anchor" href="#linksaga---find-and-set-up-saga-api-bindings"></a>
-</h3>
+<div class="section level2">
+<h2 id="linksaga---find-and-set-up-saga-api-bindings">linkSAGA - Find and set up ‘SAGA’ API bindings<a class="anchor" aria-label="anchor" href="#linksaga---find-and-set-up-saga-api-bindings"></a>
+</h2>
 <p>In the past it was quite tedious to link the correct
 <code>SAGA GIS</code> version. Since version 1.x.x of <code>RSAGA</code>
 things are much better. The new <code><a href="https://rdrr.io/pkg/RSAGA/man/rsaga.env.html" class="external-link">RSAGA::rsaga.env()</a></code> function
@@ -151,9 +147,9 @@ also possible to pass the version number as shown below. Storing the
 result in appropriate variables will even allow you to easily switch
 between different <code>SAGA GIS</code> installations.</p>
 </div>
-<div class="section level3">
-<h3 id="linkgrass---find-and-set-up-grass-78-api-bindings">linkGRASS - Find and set up GRASS 7/8 API bindings<a class="anchor" aria-label="anchor" href="#linkgrass---find-and-set-up-grass-78-api-bindings"></a>
-</h3>
+<div class="section level2">
+<h2 id="linkgrass---find-and-set-up-grass-78-api-bindings">linkGRASS - Find and set up GRASS 7/8 API bindings<a class="anchor" aria-label="anchor" href="#linkgrass---find-and-set-up-grass-78-api-bindings"></a>
+</h2>
 <p><code>linkGRASS</code> initializes the session environment and system
 paths for easy access to <code>GRASS GIS 7.x./8.x</code>. The correct
 setting of spatial and projection parameters is done automatically
@@ -179,9 +175,9 @@ passed to a temporary <code>R</code> environment.</p>
 <p>If you have more than one valid installation and run
 <code>linkGRASS</code> with the arguments
 <code>select_ver = TRUE</code>, you will be asked to select one.</p>
-<div class="section level5">
-<h5 id="standard-full-search-usage">Standard full search usage<a class="anchor" aria-label="anchor" href="#standard-full-search-usage"></a>
-</h5>
+<div class="section level4">
+<h4 id="standard-full-search-usage">Standard full search usage<a class="anchor" aria-label="anchor" href="#standard-full-search-usage"></a>
+</h4>
 <p>The most common use of <code>GRASS</code> is for a single call or
 algorithm. The user is not interested in setting all the parameters.
 linGRASS7(georeferenced-dataset)<code>does an automatic search and finds all the</code>GRASS<code>binaries using the georeferenced-dataset object for spatial referencing and other necessary settings.  **NOTE:** This is the highly recommended linking procedure for all on-the-fly invocations of</code>GRASS<code>. Please also note that if more than one</code>GRASS`
@@ -257,9 +253,9 @@ manually provided parameters.</p>
 <span>            location <span class="op">=</span> <span class="st">"nc_spatial_params"</span>,</span>
 <span>            spatial_params <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">84.32385</span>, <span class="fl">33.88199</span>,<span class="op">-</span><span class="fl">75.45698</span>,<span class="fl">36.58965</span>,<span class="va">proj4_string</span><span class="op">)</span>,epsg <span class="op">=</span> <span class="va">epsg</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div class="section level5">
-<h5 id="typical-for-specified-search-paths-and-os">Typical for specified search paths and OS<a class="anchor" aria-label="anchor" href="#typical-for-specified-search-paths-and-os"></a>
-</h5>
+<div class="section level4">
+<h4 id="typical-for-specified-search-paths-and-os">Typical for specified search paths and OS<a class="anchor" aria-label="anchor" href="#typical-for-specified-search-paths-and-os"></a>
+</h4>
 <p>The full disk search can be tedious, especially on Windows it can
 easily take 10 minutes or more. So it is helpful to specify a search
 path to narrow down the search. To search for <code>GRASS</code>
@@ -281,9 +277,9 @@ for linking.</p>
 <span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a><span class="co"># corresponding linkage running windows</span></span>
 <span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a><span class="fu">linkGRASS</span>(nc,<span class="fu">c</span>(<span class="st">"C:/Program Files/GRASS GIS7.0.5"</span>,<span class="st">"GRASS GIS 7.0.5"</span>,<span class="st">"NSIS"</span>)) </span></code></pre></div>
 </div>
-<div class="section level5">
-<h5 id="manual-version-selection">Manual version selection<a class="anchor" aria-label="anchor" href="#manual-version-selection"></a>
-</h5>
+<div class="section level4">
+<h4 id="manual-version-selection">Manual version selection<a class="anchor" aria-label="anchor" href="#manual-version-selection"></a>
+</h4>
 <p>Finally, some more specific examples related to interactive selection
 or OS-specific settings. Manually select the <code>GRASS</code>
 installation and use the meuse <code>sf</code> object for spatial
@@ -292,9 +288,9 @@ selected.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/linkGRASS.html">linkGRASS</a></span><span class="op">(</span><span class="va">nc</span>, ver_select <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div class="section level5">
-<h5 id="creating-a-permanent-gisdbase-folder">Creating a permanent gisdbase folder<a class="anchor" aria-label="anchor" href="#creating-a-permanent-gisdbase-folder"></a>
-</h5>
+<div class="section level4">
+<h4 id="creating-a-permanent-gisdbase-folder">Creating a permanent gisdbase folder<a class="anchor" aria-label="anchor" href="#creating-a-permanent-gisdbase-folder"></a>
+</h4>
 <p>Create and link a permanent <code>GRASS</code> gisdbase (folder
 structure) in “~/temp3” with the default mapset “PERMANENT”” and the
 location “project1”. Use the <code>sf</code> object for all spatial
@@ -304,9 +300,9 @@ attributes.</p>
 <span>                     gisdbase <span class="op">=</span> <span class="st">"~/temp3"</span>,</span>
 <span>                     location <span class="op">=</span> <span class="st">"project1"</span><span class="op">)</span>   </span></code></pre></div>
 </div>
-<div class="section level5">
-<h5 id="using-a-permanent-gisdbase-folder">Using a permanent gisdbase folder<a class="anchor" aria-label="anchor" href="#using-a-permanent-gisdbase-folder"></a>
-</h5>
+<div class="section level4">
+<h4 id="using-a-permanent-gisdbase-folder">Using a permanent gisdbase folder<a class="anchor" aria-label="anchor" href="#using-a-permanent-gisdbase-folder"></a>
+</h4>
 <p>Link to the permanent <code>GRASS</code> gisdbase (folder structure)
 in “~/temp3” with the default mapset “PERMANENT” and the location named
 “project1”. Use the formerly referencend nc <code>sf</code> object
@@ -315,9 +311,9 @@ parameter for all spatial attributes.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/linkGRASS.html">linkGRASS</a></span><span class="op">(</span>gisdbase <span class="op">=</span> <span class="st">"~/temp3"</span>, location <span class="op">=</span> <span class="st">"project1"</span>, </span>
 <span>                     gisdbase_exist <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>   </span></code></pre></div>
 </div>
-<div class="section level5">
-<h5 id="manual-setup-of-the-spatial-attributes">Manual Setup of the spatial attributes<a class="anchor" aria-label="anchor" href="#manual-setup-of-the-spatial-attributes"></a>
-</h5>
+<div class="section level4">
+<h4 id="manual-setup-of-the-spatial-attributes">Manual Setup of the spatial attributes<a class="anchor" aria-label="anchor" href="#manual-setup-of-the-spatial-attributes"></a>
+</h4>
 <p>Setting up <code>GRASS</code> manually with spatial parameters of the
 meuse data</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
@@ -331,9 +327,9 @@ meuse data</p>
 <span><span class="st">                               +to_meter=1"</span><span class="op">)</span>,epsg <span class="op">=</span> <span class="fl">28992</span><span class="op">)</span> </span></code></pre></div>
 </div>
 </div>
-<div class="section level3">
-<h3 id="a-typical-use-case-for-the-orfeo-toolbox-wrapper">A typical use case for the Orfeo Toolbox wrapper<a class="anchor" aria-label="anchor" href="#a-typical-use-case-for-the-orfeo-toolbox-wrapper"></a>
-</h3>
+<div class="section level2">
+<h2 id="a-typical-use-case-for-the-orfeo-toolbox-wrapper">A typical use case for the Orfeo Toolbox wrapper<a class="anchor" aria-label="anchor" href="#a-typical-use-case-for-the-orfeo-toolbox-wrapper"></a>
+</h2>
 <p>link2GI supports the use of the Orfeo Toolbox with a simple
 list-based wrapper function. Actually, two functions parse the module
 and function syntax dumps and generate a command list that can be easily
@@ -390,6 +386,41 @@ working example will give you an idea of how to use it.</p>
 <span></span>
 <span><span class="co">## plot filter raster on the green channel</span></span>
 <span><span class="fu"><a href="https://rspatial.github.io/terra/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">retStack</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="usecases-presented-on-the-geostat-august-2018">Usecases presented on the GEOSTAT August 2018<a class="anchor" aria-label="anchor" href="#usecases-presented-on-the-geostat-august-2018"></a>
+</h2>
+<p>During the GEOSTAT 2018 (see <a href="https://opengeohub.org" class="external-link uri">https://opengeohub.org</a>) in Prague some more complex use
+cases have been presented.</p>
+<div class="section level3">
+<h3 id="find-slides-and-materials">Find slides and materials<a class="anchor" aria-label="anchor" href="#find-slides-and-materials"></a>
+</h3>
+<ul>
+<li><a href="https://gisma.github.io/link2gi2018/link2gi2018.html#1" class="external-link">Presentation
+slides</a></li>
+<li><a href="https://github.com/gisma/link2gi2018" class="external-link">Github
+Repository</a></li>
+</ul>
+</div>
+<div class="section level3">
+<h3 id="the-examples">The examples<a class="anchor" aria-label="anchor" href="#the-examples"></a>
+</h3>
+<ul>
+<li>Basic usage of <code>SAGA</code> and <code>OTB</code> calls - <a href="https://github.com/gisma/link2gi2018/blob/master/R/usecases/saga-otb/useCaseSAGA-OTB.R" class="external-link">SAGA
+&amp; OTB basic usecase</a>
+</li>
+<li>Wrapping a <a href="https://neteler.gitlab.io/grass-gis-analysis/02_grass-gis_ecad_analysis/" class="external-link">GRASS
+GIS example</a> of Markus Neteler as presented on GEOSTAT 2018 - <a href="https://github.com/gisma/link2gi2018/blob/master/R/usecases/grass/useCaseGRASS-Neteler2018.R" class="external-link">Analysing
+the ECA&amp;D climatic data - reloaded</a>
+</li>
+<li>Performing a <code>GRASS</code> based cost analysis on a huge cost
+raster - <a href="https://github.com/gisma/link2gi2018/blob/master/R/usecases/cost-analysis/useCaseBeetle.R" class="external-link">Beetle
+spread over high asia</a>
+</li>
+<li>Deriving a canopy height model using a mixed API approach - <a href="https://github.com/gisma/link2gi2018/blob/master/R/usecases/uav-pc/useCaseCHM.R" class="external-link">Canopy
+Height Model from UAV derived point clouds</a>
+</li>
+</ul>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

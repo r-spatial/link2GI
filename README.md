@@ -16,7 +16,7 @@ Package website: [release](https://r-spatial.github.io/link2GI/)
 
 
 
-If you have several versions installed or if you want to use the full power of the GI software it will be a nice and helpful tool to deal with some strange behaviours and requirements. Especially helpful is the support of `OTB`, the `GDAL-Python` functions and a simple support to use any `SAGA` version via the CLI. Hopefully `RSAGA` and [`Rsagacmd`](https://github.com/stevenpawley/Rsagacmd) will join forces in one package in the future. Anyway the current releases (1.4.1) of  `RSAGA` as well as `Rsagacmd` will work with the environment settings as provided by `linkSAGA`.
+If you have several versions installed or if you want to use the full power of the GI software it will be a nice and helpful tool to deal with some strange behaviours and requirements. Especially helpful is the support of `OTB`, the `GDAL-Python` functions and a simple support to use any `SAGA` version via the CLI. Hopefully `RSAGA` and `Rsagacmd` will join forces in one package in the future. Anyway the current releases (1.4.1) of  `RSAGA` as well as `Rsagacmd` will work with the environment settings as provided by `linkSAGA`.
 
 
 # Installation

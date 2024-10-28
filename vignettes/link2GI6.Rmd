@@ -43,10 +43,10 @@ Overall, link2GI provides access to more than a few thousand reliable and well-k
 # Windows
 
 ## QGIS, GRASS and SAGA
-There are at least two ways to install QGIS on Windows. The first option is the standalone installer from the [QGIS installer page] (https://www.qgis.org/en/site/forusers/download.html). 
+There are at least two ways to install QGIS on Windows. The first option is the standalone installer from the [QGIS installer page] (https://www.qgis.org/download/). 
 This will install QGIS along with the third party GRASS and SAGA. 
 If you want to use even more third party applications (e.g. GDAL, GEOS, Taudem, OTB, PostGIS, etc.) it is strongly recommended to use the OSGeo4W network installer. 
-This installer is available on the [QGIS installer page](https://www.qgis.org/en/site/forusers/download.html) as well as on the [OSGeo4W website](https://trac.osgeo.org/osgeo4w/). 
+This installer is available on the [QGIS installer page](https://www.qgis.org/download/) as well as on the [OSGeo4W website](https://trac.osgeo.org/osgeo4w/). 
 
 **NOTE: Do not install QGIS 2.x**.
 
@@ -102,9 +102,9 @@ Please [download](https://www.orfeo-toolbox.org/download/) the latest (currently
 ## Ubuntu
 
 If you install QGIS using the built-in software managers, you will most likely end up with an outdated version of QGIS. 
-To install more recent versions of QGIS, we recommend following the installation instructions from the [QGIS installers website] (https://www.qgis.org/en/site/forusers/download.html). 
+To install more recent versions of QGIS, we recommend following the installation instructions from the [QGIS installers website] (https://www.qgis.org/download/). 
 
-Here we only describe the installation of QGIS on Debian/Ubuntu as described [here](https://www.qgis.org/en/site/forusers/alldownloads.html#debian-ubuntu).
+Here we only describe the installation of QGIS on Debian/Ubuntu as described [here](https://www.qgis.org/resources/installation-guide/#debian-ubuntu).
 link2GI should also work on Linux distributions other than Ubuntu. However, only Ubuntu, Debian and Manjaro have been tested.
 
 Open a terminal window. First, make sure to remove any QGIS and GRASS packages you may have previously installed from other repositories:

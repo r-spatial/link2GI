@@ -92,10 +92,13 @@ parseOTBFunction <- function(algo = NULL, gili = NULL) {
         system2(paste0(file.path(R.utils::getAbsolutePath(path_OTB), paste0("otbcli_", algo))), paste0(" -help >> ",
                                                                                                        file.path(R.utils::getAbsolutePath(tempdir()), paste0("otb_module_dump.txt 2>&1"))))
       } else {
-        system(paste0(". ", dirname(path_OTB[[1]]), "/otbenv.profile"))
-        system(paste0("env -i ", path_OTB, "otbcli ", algo, " -help >> ", file.path(R.utils::getAbsolutePath(tempdir()),
-                                                                                    paste0("otb_module_dump.txt 2>&1"))))
-      }
+        #system(paste0(". ", dirname(path_OTB[[1]]), "/otbenv.profile"))
+        # system(paste0("env -i ", path_OTB, "otbcli ", algo, " -help >> ", file.path(R.utils::getAbsolutePath(tempdir()),
+        #                                                                             paste0("otb_module_dump.txt 2>&1"))))
+        system(paste0(path_OTB, "otbcli ", algo, " -help >> ", file.path(R.utils::getAbsolutePath(tempdir()),
+                                                                                   paste0("otb_module_dump.txt 2>&1"))))
+        
+          }
     }
     # system(paste0('env -i ', path_OTB, 'otbcli ', algo, ' -help >> ',
     # file.path(R.utils::getAbsolutePath(tempdir()), paste0('otb_module_dump.txt 2>&1'))))

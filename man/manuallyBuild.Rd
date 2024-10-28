@@ -13,9 +13,9 @@ the current working directory.}
 \item{pkgDir}{'character'. Target folder containing the result ing package of the invoked build process. According to Marburg University pools the default is set to pkgDir='H:/Dokumente'. If you want to use it in a different setting you may set pkgDir to whatever you want.}
 
 \item{document}{'logical'. Determines whether or not to invoke 
-\code{\link{roxygenize}} with default roclets for documentation purposes.}
+roxygenize with default roclets for documentation purposes.}
 
-\item{...}{Further arguments passed on to \code{\link[devtools]{build}}.}
+\item{...}{Further arguments passed on to devtools build.}
 }
 \description{
 This function was specifically designed to build a package from local source 
@@ -32,9 +32,6 @@ manuallyBuild()
 }
 
 
-}
-\seealso{
-\code{\link{roxygenize}}, \code{\link[devtools]{build}},\code{\link{install.packages}}.
 }
 \author{
 Florian Detsch, Chris Reudenbach

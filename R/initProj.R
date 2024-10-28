@@ -198,7 +198,7 @@ initProj <- function(root_folder = ".", folders = NULL, init_git = NULL, init_re
   # Init git if (use_standard_setup) init_git <- setup_default()[[standard_setup[1]]]$init_git
   if (init_git) {
     if (!file.exists(file.path(root_folder, ".git"))) {
-      git2r::init(root_folder)  #system(paste('git init', root_folder))
+      system(paste('git init', root_folder)) #git2r::init(root_folder)  
     }
     template_path <- system.file(sprintf("templates/%s.brew", "gitignore"), package = "link2GI")
     brew::brew(template_path, file.path(root_folder, ".gitignore"))

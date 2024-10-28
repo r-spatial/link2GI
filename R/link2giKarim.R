@@ -97,11 +97,9 @@ readinteger <- function() {
 #' the current working directory.
 #' @param pkgDir 'character'. Target folder containing the result ing package of the invoked build process. According to Marburg University pools the default is set to pkgDir='H:/Dokumente'. If you want to use it in a different setting you may set pkgDir to whatever you want.
 #' @param document 'logical'. Determines whether or not to invoke 
-#' \code{\link{roxygenize}} with default roclets for documentation purposes.  
-#' @param ... Further arguments passed on to \code{\link[devtools]{build}}. 
+#' roxygenize with default roclets for documentation purposes.  
+#' @param ... Further arguments passed on to devtools build. 
 #' 
-#' @seealso 
-#' \code{\link{roxygenize}}, \code{\link[devtools]{build}},\code{\link{install.packages}}.
 #' 
 #' @author 
 #' Florian Detsch, Chris Reudenbach
@@ -207,13 +205,13 @@ if (!isGeneric("gvec2sf")) {
   setGeneric("gvec2sf", function(x, ...) standardGeneric("gvec2sf"))
 }
 #' Converts from an existing `GRASS` environment an arbitrary vector dataset  into a  sf object
-#' @param x  \code{\link{sf}} object corresponding to the settings of the corresponding GRASS container
+#' @param x  sf object corresponding to the settings of the corresponding GRASS container
 #' @param obj_name name of GRASS layer
 #' @param gisdbase  GRASS gisDbase folder
-#' @param location  GRASS location name containing \code{obj_name)}
+#' @param location  GRASS location name containing \code{obj_name}
 #' @param gisdbase_exist logical switch if the GRASS gisdbase folder exist default is TRUE
 #' @author Chris Reudenbach
-#' @note  have a look at the \code{\link{sf}} capabilities to read direct from sqlite
+#' @note  have a look at the sf capabilities to read direct from sqlite
 #' @export gvec2sf
 #' 
 #' @examples 

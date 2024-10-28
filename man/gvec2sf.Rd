@@ -7,13 +7,13 @@
 gvec2sf(x, obj_name, gisdbase, location, gisdbase_exist = TRUE)
 }
 \arguments{
-\item{x}{\code{\link{sf}} object corresponding to the settings of the corresponding GRASS container}
+\item{x}{sf object corresponding to the settings of the corresponding GRASS container}
 
 \item{obj_name}{name of GRASS layer}
 
 \item{gisdbase}{GRASS gisDbase folder}
 
-\item{location}{GRASS location name containing \code{obj_name)}}
+\item{location}{GRASS location name containing \code{obj_name}}
 
 \item{gisdbase_exist}{logical switch if the GRASS gisdbase folder exist default is TRUE}
 }
@@ -21,7 +21,7 @@ gvec2sf(x, obj_name, gisdbase, location, gisdbase_exist = TRUE)
 Converts from an existing `GRASS` environment an arbitrary vector dataset  into a  sf object
 }
 \note{
-have a look at the \code{\link{sf}} capabilities to read direct from sqlite
+have a look at the sf capabilities to read direct from sqlite
 }
 \examples{
 

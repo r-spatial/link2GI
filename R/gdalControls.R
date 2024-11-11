@@ -328,9 +328,11 @@ getrowGDALVer <- function(paths) {
     if (substr(ret, 1, 4) == "GDAL" && length(ret) > 0) {
       tmp <- strsplit(x = ret, split = "GDAL ")[[1]][2]
       tmp2 <- strsplit(x = tmp, split = ", released ")[[1]][1]
-      highestVer <- max(tmp2, highestVer)
+      if (tmp2 > highestVer ){
+        highestVer <- tmp2
+        pathI <- I
+      }
     }
-    pathI <- i
   }
   options(show.error.messages = TRUE)
   options(warn = 0)

@@ -55,22 +55,36 @@
 }
 
 #' @keywords internal
+#' @keywords internal
 .otb_run_launcher <- function(gili, args, stdout = TRUE, stderr = TRUE) {
   sys <- Sys.info()[["sysname"]]
   stopifnot(isTRUE(gili$exist))
+  
   if (sys == "Windows") {
     stop("Internal error: .otb_run_launcher() should not be called on Windows.")
   }
   
-  otb_root  <- .otb_root_from_gili(gili)
-  launcher  <- .otb_launcher_path_linux(otb_root)
+  otb_root <- .otb_root_from_gili(gili)
+  
+  # prefer the real launcher; fallback to otbcli if needed
+  launcher <- file.path(otb_root, "bin", "otbApplicationLauncherCommandLine")
+  if (!file.exists(launcher)) {
+    launcher <- file.path(otb_root, "bin", "otbcli")
+    if (!file.exists(launcher)) stop("No OTB launcher/cli found under: ", otb_root)
+  }
+  
   env_named <- .otb_env_linux(otb_root)
+  stopifnot(is.character(env_named), length(names(env_named)) == length(env_named))
   
-  # IMPORTANT: system2() wants NAME=value strings
-  env_kv <- paste0(names(env_named), "=", unname(env_named))
+  # build: VAR='value' VAR2='value2' <launcher> <args...>
+  env_part <- paste0(names(env_named), "=", vapply(unname(env_named), shQuote, character(1)))
+  cmd_part <- c(shQuote(launcher), vapply(args, shQuote, character(1)))
+  cmd <- paste(c(env_part, cmd_part), collapse = " ")
   
-  system2(launcher, args = args, stdout = stdout, stderr = stderr, env = env_kv)
+  # run via bash to ensure quoting survives shell wrappers
+  system2("bash", c("-lc", cmd), stdout = stdout, stderr = stderr)
 }
+
 
 # ------------------------ exported: parseOTBAlgorithms ------------------------
 

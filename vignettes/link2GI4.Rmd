@@ -7,11 +7,11 @@ editor_options:
 output:
   html_document: 
     theme: united
-    toc: yes
+    toc: true
   rmarkdown: default
   pdf_document:
     latex_engine: xelatex
-    toc: yes
+    toc: true
 urlcolor: blue
 vignette: >
   %\VignetteIndexEntry{OTB Wrapper}

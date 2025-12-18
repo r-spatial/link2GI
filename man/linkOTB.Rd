@@ -2,7 +2,7 @@
 % Please edit documentation in R/linkOTB.R
 \name{linkOTB}
 \alias{linkOTB}
-\title{Locate and set up 'Orfeo ToolBox' API bindings}
+\title{Locate and describe 'Orfeo ToolBox' (OTB) API bindings}
 \usage{
 linkOTB(
   bin_OTB = NULL,
@@ -15,42 +15,70 @@ linkOTB(
 )
 }
 \arguments{
-\item{bin_OTB}{string contains path to where the otb binaries are located}
+\item{bin_OTB}{String. Path to where the OTB binaries are located.}
 
-\item{root_OTB}{string provides the root folder of the \code{bin_OTB}}
+\item{root_OTB}{String. Full path to the OTB root folder containing the
+installation. If provided, it is also used to resolve the environment
+initialisation script on Windows.}
 
-\item{type_OTB}{string}
+\item{type_OTB}{String. Optional installation type filter (e.g. OSGeo4W/QGIS).}
 
-\item{searchLocation}{string hard drive letter (Windows) or mounting point (Linux) default for Windows is \code{C:}, default for Linux is \code{~}}
+\item{searchLocation}{String. Hard drive letter (Windows) or mounting point
+(Linux). Default for Windows is \code{C:/}, default for Linux is
+\code{/usr/bin/}.}
 
-\item{ver_select}{Boolean, default is FALSE. If there is more than one 'OTB' installation and \code{ver_select} = TRUE the user can interactively select the preferred 'OTB' version, conversely if FALSE the latest version is automatically selected.}
+\item{ver_select}{Logical or numeric. Default is \code{FALSE}. If there is
+more than one OTB installation and \code{ver_select = TRUE}, the user can
+interactively select the preferred OTB version. If \code{ver_select = FALSE},
+the latest version is automatically selected. If numeric \code{> 0}, the
+corresponding row index of the detected installations is selected.}
 
-\item{quiet}{Boolean  switch for suppressing messages default is TRUE}
+\item{quiet}{Logical. Switch for suppressing messages. Default is \code{TRUE}.}
 
-\item{returnPaths}{Boolean, if set to FALSE the paths of the selected version are written. 
-in the PATH variable only, otherwise all paths and versions of the installed OTB versions are returned.}
+\item{returnPaths}{Logical. If set to \code{FALSE}, nothing is returned.
+If \code{TRUE}, the selected OTB paths and detected versions are returned.}
 }
 \value{
-add otb paths to the environment and creates global variables path_OTB
+A list with at least:
+\itemize{
+  \item \code{exist}: logical, whether a valid installation was found
+  \item \code{pathOTB}: path to the selected OTB \code{bin} directory
+  \item \code{otbCmd}: best-effort base command as detected
+  \item \code{version}: data.frame of detected installations
+  \item \code{otbRoot}: inferred OTB root directory (one level above \code{bin})
+  \item \code{envScript}: best-effort path to \code{otbenv.profile} /
+    \code{otbenv.bat} if found, otherwise \code{NA_character_}
+}
 }
 \description{
-Locate and set up  \href{https://www.orfeo-toolbox.org/}{'Orfeo ToolBox'} API bindings
+Locate a valid \href{https://www.orfeo-toolbox.org/}{Orfeo ToolBox} installation
+and return the relevant paths and metadata.
 }
 \details{
-It looks for the \code{otb_cli.bat} file. If the file is found in a \code{bin} folder it is assumed to be a valid 'OTB' binary installation.
+The function searches for an OTB command line installation and selects one
+version if multiple installations are found. Historically, \code{linkOTB()}
+also prepared the current R session by adding OTB paths to the environment.
 
-if called without any parameter \code{linkOTB()} it performs a full search over the hard drive \code{C:}. If it finds one or more 'OTB' binaries it will take the first hit. You have to set \code{ver_select = TRUE} for an interactive selection of the preferred version.
+In the current implementation, \code{linkOTB()} is intended to be
+\emph{non-invasive} on all platforms: it returns paths and metadata, including
+the inferred OTB root directory and a best-effort path to the OTB environment
+initialisation script (\code{otbenv.profile} on Linux, \code{otbenv.bat} on
+Windows), but does not modify \code{PATH} or other environment variables.
+
+It looks for the \code{otbcli.bat} file on Windows. If the file is found in a
+\code{bin} folder it is assumed to be a valid OTB binary installation.
 }
 \note{
-You may also set the path manually. Using a 'OSGeo4W64' \url{https://trac.osgeo.org/osgeo4w/} installation it is typically \code{C:/OSGeo4W64/bin/}
+You may also set the path manually. Using an 'OSGeo4W64'
+\url{https://trac.osgeo.org/osgeo4w/} installation it is typically
+\code{C:/OSGeo4W64/bin/}.
 }
 \examples{
 \dontrun{
 # call if you do not have any idea if and where OTB is installed
-otb<-linkOTB()
+otb <- linkOTB()
 if (otb$exist) {
-# call it for a default OSGeo4W installation of the OTB
-print(otb)
+  print(otb)
 }
 }
 }

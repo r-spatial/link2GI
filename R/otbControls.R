@@ -133,46 +133,61 @@ searchOTBW <- function(DL = "default", quiet = TRUE) {
 #' searchOTBX()
 #' }
 searchOTBX <- function(MP = "default", quiet = TRUE) {
-  if (MP == "default")
-    MP <- "/usr/bin"
-  if (!exists("GiEnv"))
-    GiEnv <- new.env(parent = globalenv())
-  # trys to find a osgeo4w installation at the mounting point disk returns root directory and version name recursive
-  # dir for otb*.bat returns all version of otb bat files
-  if (!quiet)
-    cat("\nsearching for Orfeo Toolbox installations - this may take a while\n")
-  if (!quiet)
-    cat("For providing the path manually see ?searchOTBX \n")
-  raw_OTB <- options(show.error.messages = FALSE)
-  options(warn = -1)
-  raw_OTB <- try(system2("find", paste(MP, " ! -readable -prune -o -type f -executable -iname 'otbcli' -print"), stdout = TRUE))
-  if (identical(raw_OTB, character(0))) {
-    # raw_OTB <- 'File not found' if (grepl(raw_OTB,pattern = 'File not found') | grepl(raw_OTB,pattern = 'Datei
-    # nicht gefunden')) {
-    class(raw_OTB) <- c("try-error", class(raw_OTB))
-  }
-  options(show.error.messages = TRUE)
-  options(warn = 0)
-  if (class(raw_OTB)[1] != "try-error") {
-    # if (!grepl(MP,raw_OTB)) stop('\n At ',MP,' no OTB installation found') trys to identify valid otb
-    # installations and their version numbers
-    otbInstallations <- lapply(seq(length(raw_OTB)), function(i) {
-      # TODO strip version from OTB /usr/bin/otbcli_BandMath -version 'This is the BandMath application, version
-      # 6.0.0'
-      # if the the tag 'OSGEO4W64' exists set installation_type
-      root_dir <- substr(raw_OTB[i], 1, gregexpr(pattern = "otbcli", raw_OTB[i])[[1]][1] - 1)
-      # put the existing GISBASE directory, version number and installation type in a data frame
-      data.frame(binDir = root_dir, otbCmd = paste0(root_dir, "otbcli"), stringsAsFactors = FALSE)
-    })  # end lapply
-    # bind the df lines
-    otbInstallations <- do.call("rbind", otbInstallations)
+  
+  # 1) Default-Kandidaten (ohne Interaktion)
+  if (identical(MP, "default")) {
+    MP <- c("~", "/opt", "/usr/local", "/usr")
   } else {
-    if (!quiet)
-      cat("Did not find any valid OTB installation at mount point", MP)
-    return(otbInstallations <- FALSE)
+    MP <- as.character(MP)
   }
-  return(otbInstallations)
+  
+  # 2) ~ expandieren und nur existierende Verzeichnisse behalten
+  MP <- path.expand(MP)
+  MP <- MP[file.exists(MP)]
+  
+  if (length(MP) == 0) {
+    if (!quiet) message("No valid search mount points.")
+    return(FALSE)
+  }
+  
+  if (!quiet) {
+    cat("\nsearching for Orfeo Toolbox installations in:\n")
+    cat(paste0(" - ", MP, collapse = "\n"), "\n")
+  }
+  
+  # 3) Für jedes Mountpoint find sauber via system2(args=...)
+  hits <- unlist(lapply(MP, function(mp) {
+    out <- suppressWarnings(try(system2(
+      "find",
+      args = c(mp, "-type", "f", "-executable", "-iname", "otbcli", "-print"),
+      stdout = TRUE,
+      stderr = TRUE
+    ), silent = TRUE))
+    
+    if (inherits(out, "try-error") || length(out) == 0) return(character(0))
+    out <- out[!grepl("Permission denied", out, fixed = TRUE)]
+    out
+  }), use.names = FALSE)
+  
+  hits <- unique(hits)
+  if (length(hits) == 0) {
+    if (!quiet) message("::: NO OTB installation found in default locations.")
+    return(FALSE)
+  }
+  
+  # 4) Treffer -> df wie bisher
+  otbInstallations <- lapply(seq_along(hits), function(i) {
+    root_dir <- substr(hits[i], 1, regexpr("otbcli$", hits[i]) - 1)
+    data.frame(
+      binDir = root_dir,
+      otbCmd = paste0(root_dir, "otbcli"),
+      stringsAsFactors = FALSE
+    )
+  })
+  
+  do.call("rbind", otbInstallations)
 }
+
 #'@title Search recursivly existing 'Orfeo Toolbox' installation(s) at a given drive/mountpoint 
 #'@name findOTB
 #'@description  Provides an  list of valid 'OTB' installation(s) 
@@ -206,27 +221,114 @@ findOTB <- function(searchLocation = "default", quiet = TRUE) {
   return(link)
 }
 getrowotbVer <- function(paths) {
-  scmd <- ifelse(Sys.info()["sysname"] == "Windows", "otbcli_LocalStatisticExtraction.bat", "otbcli_LocalStatisticExtraction")
-  # sep = ifelse(Sys.info()['sysname']=='Windows', '\\', '/')
   oldversion <- "0.0.0"
   ver <- 1
-  for (i in 1:length(paths)) {
-    if (file.exists(paste0(paths[i], "../VERSION")))
-      tmp <- strsplit(grep("OTB Version", readLines(paste0(paths[i], "../VERSION")), value = TRUE), "OTB Version: ")[[1]][2] else if (grepl("OTB-", paths[i]))
-        tmp <- substr(strsplit(paths[i], "OTB-")[[1]][2], start = 1, stop = 5)
-      # highestVer <- max(tmp,highestVer)
-      if (!is.na(tmp))
-        if (oldversion < tmp) {
-          ver <- i
-          oldversion <- tmp
-        }
+  
+  for (i in seq_along(paths)) {
+    
+    tmp <- NA_character_   # <<< WICHTIG: immer initialisieren
+    
+    if (file.exists(paste0(paths[i], "../VERSION"))) {
+      line <- grep("OTB Version", readLines(paste0(paths[i], "../VERSION")), value = TRUE)
+      if (length(line) > 0) tmp <- strsplit(line, "OTB Version: ")[[1]][2]
+    } else if (grepl("OTB-", paths[i], fixed = TRUE)) {
+      sp <- strsplit(paths[i], "OTB-", fixed = TRUE)[[1]]
+      if (length(sp) >= 2) tmp <- substr(sp[2], 1, 5)
+    }
+    
+    if (!is.na(tmp) && oldversion < tmp) {
+      ver <- i
+      oldversion <- tmp
+    }
   }
-  return(ver)
+  
+  ver
 }
+
 getotbVer <- function(paths) {
   scmd <- ifelse(Sys.info()["sysname"] == "Windows", "otbcli_LocalStatisticExtraction.bat ", "otbcli_LocalStatisticExtraction ")
   sep <- ifelse(Sys.info()["sysname"] == "Windows", "\\", "/")
   otbVersion <- strsplit(x = system(paste0(paste0(shQuote(paths), sep, scmd), " -version"), intern = FALSE), split = " version ")[[1]][2]
   otbVersion <- strsplit(x = otbVersion, split = "version ")[[1]][2]
   return(otbVersion)
+}
+
+otb_root_from_bin <- function(binDir) {
+  # binDir wie ".../OTB-9.1.0-Linux/bin/"
+  # normalize + eine Ebene hoch
+  binDir <- normalizePath(binDir, mustWork = FALSE)
+  root <- normalizePath(file.path(binDir, ".."), mustWork = FALSE)
+  root
+}
+
+runOTB_isolated <- function(otbCmdList = NULL, gili = NULL,
+                            retRaster = TRUE, retCommand = FALSE,
+                            quiet = TRUE) {
+  
+  stopifnot(!is.null(otbCmdList))
+  if (is.null(gili)) gili <- link2GI::linkOTB()
+  
+  # 1) nutze existierendes runOTB zum Command-Build, aber NICHT zum Ausführen
+  command <- runOTB(otbCmdList = otbCmdList, gili = gili, retCommand = TRUE)
+  
+  if (retCommand) return(command)
+  
+  sys <- Sys.info()[["sysname"]]
+  
+  # 2) derive env script
+  otbRoot <- gili$otbRoot
+  envScript <- gili$envScript
+  
+  if (is.null(envScript) || is.na(envScript) || !file.exists(envScript)) {
+    stop("OTB env script not found. Expected otbenv.profile (Linux) or otbenv.bat (Windows).")
+  }
+  
+  # 3) execute isolated
+  if (sys == "Windows") {
+    # Use cmd.exe, chain env + command
+    # Ensure quoting for spaces
+    envScript_q <- shQuote(normalizePath(envScript, winslash = "\\", mustWork = TRUE))
+    command_q   <- command  # already has paths; keep as is
+    full <- paste0(envScript_q, " && ", command_q)
+    
+    out <- system2("cmd.exe",
+                   args = c("/c", full),
+                   stdout = if (quiet) TRUE else "",
+                   stderr = if (quiet) TRUE else "")
+  } else {
+    # Linux/mac: bash -lc ". otbenv.profile; <command>"
+    envScript_q <- shQuote(normalizePath(envScript, mustWork = TRUE))
+    full <- sprintf(". %s; %s", envScript_q, command)
+    
+    out <- system2("bash",
+                   args = c("-lc", full),
+                   stdout = if (quiet) TRUE else "",
+                   stderr = if (quiet) TRUE else "")
+  }
+  
+  # 4) return like runOTB (post-read)
+  # determine output filename like your runOTB does
+  outn <- NULL
+  if (!is.null(otbCmdList$out.xml)) outn <- otbCmdList$out.xml
+  if (!is.null(otbCmdList$out))     outn <- otbCmdList$out
+  if (!is.null(otbCmdList$`io.out`)) outn <- otbCmdList$`io.out`
+  
+  if (!retRaster) return(invisible(out))
+  
+  if (is.null(outn)) return(invisible(out))
+  
+  # If OTB failed, file won't exist
+  if (!file.exists(outn)) {
+    stop("OTB did not produce expected output: ", outn,
+         "\n(Enable quiet=FALSE to inspect stderr/stdout.)")
+  }
+  
+  ext <- tools::file_ext(outn)
+  if (ext == "tif") return(terra::rast(outn))
+  if (ext == "xml") return(xml2::read_xml(outn))
+  
+  # vector mode
+  if (!is.null(otbCmdList$mode) && otbCmdList$mode == "vector") return(sf::st_read(outn))
+  
+  invisible(out)
 }

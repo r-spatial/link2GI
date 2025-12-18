@@ -2,7 +2,7 @@
 % Please edit documentation in R/parseOTB.R
 \name{runOTB}
 \alias{runOTB}
-\title{Execute the OTB command via system call}
+\title{Execute an OTB application}
 \usage{
 runOTB(
   otbCmdList = NULL,
@@ -13,82 +13,32 @@ runOTB(
 )
 }
 \arguments{
-\item{otbCmdList}{the correctly populated OTB algorithm parameter list}
+\item{otbCmdList}{List as returned by [parseOTBFunction()], with parameters set.}
 
-\item{gili}{optional list of available `OTB` installations, if not specified, 
-`linkOTB()` is called to automatically try to find a valid OTB installation}
+\item{gili}{Optional list returned by [linkOTB()]. If `NULL`, [linkOTB()] is called.}
 
-\item{retRaster}{boolean if TRUE a raster stack is returned default is FALSE}
+\item{retRaster}{Logical. If `TRUE`, attempt to read raster/vector/XML output.}
 
-\item{retCommand}{boolean if TRUE only the OTB API command is returned default is FALSE}
+\item{retCommand}{Logical. If `TRUE`, return only a printable command string.}
 
-\item{quiet}{boolean  if TRUE suppressing messages default is TRUE}
+\item{quiet}{Logical. If `FALSE`, do not suppress stdout/stderr.}
+}
+\value{
+Depending on `retRaster` and output type: a `terra::SpatRaster`,
+  an `xml2::xml_document`, an `sf` object, or `invisible(NULL)`.
 }
 \description{
-Wrapper function that inserts the OTB command list into a system call compatible string and executes that command.
-}
-\details{
-#' Please NOTE: You must check the help to identify the correct input file argument ($input_in or $input_il).
+Builds a CLI call from a parameter list created by [parseOTBFunction()] and executes it.
+On Linux, execution uses the OTB launcher with a call-local environment (no global env mutation).
 }
 \examples{
 \dontrun{
-require(link2GI)
-require(terra)
-require(listviewer)
-
-## link to OTB
-otblink<-link2GI::linkOTB()
-
-if (otblink$exist) {
- root_folder<-tempdir()
- fn <- system.file('ex/elev.tif', package = 'terra')
-
-## for an image output example we use the Statistic Extraction, 
-algoKeyword<- 'LocalStatisticExtraction'
-
-## extract the command list for the choosen algorithm 
-cmd<-parseOTBFunction(algo = algoKeyword, gili = otblink)
-
-## Please NOTE:
-## You must check the help to identify the correct argument codewort ($input_in or $input_il)
-listviewer::jsonedit(cmd$help)
-
-## define the mandatory arguments all other will be default
-cmd$input_in  <- fn
-cmd$out <- file.path(tempdir(),'test_otb_stat.tif')
-cmd$radius <- 7
-
-## run algorithm
-retStack<-runOTB(cmd,gili = otblink)
-
-## plot image
-terra::plot(retStack)
-
-## for a data output example we use the 
-
-algoKeyword<- 'ComputeImagesStatistics'
-
-## extract the command list for the chosen algorithm 
-cmd<-parseOTBFunction(algo = algoKeyword, gili = otblink)
-
-## get help using the convenient listviewer
-listviewer::jsonedit(cmd$help)
-
-## define the mandatory arguments all other will be default
-cmd$input_il  <- file.path(tempdir(),'test.tif')
-cmd$ram <- 4096
-cmd$out.xml <- file.path(tempdir(),'test_otb_stat.xml')
-cmd$progress <- 1
-
-## run algorithm
-ret <- runOTB(cmd,gili = otblink, quiet = F)
-
-## as vector
-print(ret)
-
-## as xml
-XML::xmlParse(cmd$out)
- 
+otb <- link2GI::linkOTB()
+if (otb$exist) {
+  cmd <- parseOTBFunction("ComputeImagesStatistics", otb)
+  cmd[["input_il"]] <- "/path/to/image.tif"
+  cmd[["out.xml"]]  <- tempfile(fileext = ".xml")
+  runOTB(cmd, otb, retRaster = TRUE, quiet = FALSE)
 }
 }
 }

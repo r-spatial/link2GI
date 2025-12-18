@@ -2,33 +2,25 @@
 % Please edit documentation in R/parseOTB.R
 \name{parseOTBFunction}
 \alias{parseOTBFunction}
-\title{Retrieve the argument list from a selected OTB function}
+\title{Retrieve the argument list from an OTB application}
 \usage{
 parseOTBFunction(algo = NULL, gili = NULL)
 }
 \arguments{
-\item{algo}{either the number or the plain name of the `OTB` algorithm that is wanted. Note the correct (of current/selected version) information is provided by `parseOTBAlgorithms()`}
+\item{algo}{Character. OTB application name (see [parseOTBAlgorithms()]).}
 
-\item{gili}{optional list of available `OTB` installations, if not specified, 
-`linkOTB()` is called to automatically try to find a valid OTB installation}
+\item{gili}{Optional list returned by [linkOTB()]. If `NULL`, [linkOTB()] is called.}
+}
+\value{
+A list whose first element is the `algo` name, followed by parameters,
+  plus a `$help` element with per-parameter help text.
 }
 \description{
-retrieve the selected function and returns a full argument list with the default settings
+Queries `-help` output and returns a parameter list prefilled with detected defaults.
 }
 \examples{
 \dontrun{
-otblink<-link2GI::linkOTB()
-if (otblink$exist) {
-
-## parse all modules
-algos<-parseOTBAlgorithms(gili = otblink)
-
-
-## take edge detection
-cmdList<-parseOTBFunction(algo = algos[27],gili = otblink)
-## print the current command
-print(cmdList)
+otb <- link2GI::linkOTB()
+if (otb$exist) parseOTBFunction("ComputeImagesStatistics", otb)
 }
-}
-##+##
 }

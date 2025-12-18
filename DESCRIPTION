@@ -24,7 +24,6 @@ Imports:
   methods,
   utils,
   xml2,
-  xfun,
   rstudioapi,
   renv
 SystemRequirements: GNU make 

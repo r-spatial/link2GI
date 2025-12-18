@@ -2,31 +2,24 @@
 % Please edit documentation in R/parseOTB.R
 \name{parseOTBAlgorithms}
 \alias{parseOTBAlgorithms}
-\title{Retrieve available OTB modules}
+\title{Retrieve available OTB applications}
 \usage{
 parseOTBAlgorithms(gili = NULL)
 }
 \arguments{
-\item{gili}{optional list of available `OTB` installations, if not specified, 
-`linkOTB()` is called to automatically try to find a valid OTB installation}
+\item{gili}{Optional list returned by [linkOTB()]. If `NULL`, [linkOTB()] is called.}
+}
+\value{
+Character vector of application names.
 }
 \description{
-Read in the selected OTB module folder and create a list of available functions.
+On Linux, do NOT rely on `-print_applications` (not supported in your CLI layout).
+Instead, list `otbapp_*.so` (or .dll/.dylib) under OTB_APPLICATION_PATH.
+On Windows, list `otbcli_<Algo>.bat/.exe` wrappers in `bin`.
 }
 \examples{
 \dontrun{
-## link to the OTB binaries
-otblink<-link2GI::linkOTB()
-
- if (otblink$exist) {
-
- ## parse all modules
- moduleList<-parseOTBAlgorithms(gili = otblink)
-
- ## print the list
- print(moduleList)
- 
- } 
+otb <- link2GI::linkOTB()
+if (otb$exist) parseOTBAlgorithms(otb)
 }
-
 }

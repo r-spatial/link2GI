@@ -1,236 +1,233 @@
-#'@title Retrieve available OTB modules 
-#'@name parseOTBAlgorithms
-#'@description Read in the selected OTB module folder and create a list of available functions.
-#'@param gili optional list of available `OTB` installations, if not specified, 
-#'`linkOTB()` is called to automatically try to find a valid OTB installation 
-#'@export parseOTBAlgorithms
-#'
-#'@examples
-#' \dontrun{
-#' ## link to the OTB binaries
-#' otblink<-link2GI::linkOTB()
-#' 
-#'  if (otblink$exist) {
-#' 
-#'  ## parse all modules
-#'  moduleList<-parseOTBAlgorithms(gili = otblink)
-#' 
-#'  ## print the list
-#'  print(moduleList)
-#'  
-#'  } 
-#' }
-#' 
-parseOTBAlgorithms <- function(gili = NULL) {
-  
-  if (is.null(gili)) gili <- link2GI::linkOTB()
-  if (is.null(gili) || !isTRUE(gili$exist)) stop("No valid OTB installation found (gili$exist is FALSE).")
-  
-  path_OTB <- gili$pathOTB
-  path_OTB <- if (Sys.info()[["sysname"]] == "Windows") utils::shortPathName(path_OTB) else path_OTB
-  
-  # normalize trailing slash
-  path_OTB <- normalizePath(path_OTB, mustWork = FALSE)
-  if (!dir.exists(path_OTB)) stop("OTB bin directory does not exist: ", path_OTB)
-  
-  algos <- list.files(path_OTB, pattern = "^otbcli_", full.names = FALSE)
-  algos <- sub("^otbcli_", "", algos)
-  
-  # some installs ship 'otbcli' wrapper without underscore; ignore it
-  algos <- algos[nzchar(algos)]
-  sort(unique(algos))
+# ------------------------ internal helpers ------------------------
+
+#' @keywords internal
+.otb_root_from_gili <- function(gili) {
+  stopifnot(isTRUE(gili$exist))
+  if (!is.null(gili$otbRoot) && nzchar(gili$otbRoot)) {
+    return(normalizePath(gili$otbRoot, mustWork = TRUE))
+  }
+  p <- normalizePath(gili$pathOTB, mustWork = TRUE)  # .../bin/
+  normalizePath(file.path(p, ".."), mustWork = TRUE) # .../
 }
 
+#' @keywords internal
+.otb_env_linux <- function(otb_root) {
+  otb_root <- normalizePath(otb_root, mustWork = TRUE)
+  
+  app_paths <- c(
+    file.path(otb_root, "lib",   "otb", "applications"),
+    file.path(otb_root, "lib64", "otb", "applications")
+  )
+  app_paths <- app_paths[dir.exists(app_paths)]
+  if (!length(app_paths)) stop("No OTB applications dir found under: ", otb_root)
+  
+  lib_paths <- c(file.path(otb_root, "lib"), file.path(otb_root, "lib64"))
+  lib_paths <- lib_paths[dir.exists(lib_paths)]
+  if (!length(lib_paths)) stop("No OTB lib dir found under: ", otb_root)
+  
+  env_named <- c(
+    OTB_INSTALL_DIR      = otb_root,
+    CMAKE_PREFIX_PATH    = otb_root,
+    OTB_APPLICATION_PATH = paste(app_paths, collapse = ":"),
+    GDAL_DATA            = file.path(otb_root, "share", "gdal"),
+    PROJ_LIB             = file.path(otb_root, "share", "proj"),
+    GDAL_DRIVER_PATH     = "disable",
+    LC_NUMERIC           = "C",
+    PATH                 = paste(c(file.path(otb_root, "bin"), Sys.getenv("PATH")), collapse = ":"),
+    PYTHONPATH           = paste(c(file.path(otb_root, "lib", "otb", "python"),
+                                   Sys.getenv("PYTHONPATH")), collapse = ":"),
+    LD_LIBRARY_PATH      = paste(c(lib_paths, Sys.getenv("LD_LIBRARY_PATH")), collapse = ":")
+  )
+  
+  env_named <- env_named[nzchar(env_named)]
+  env_named
+}
 
-#'@title Retrieve the argument list from a selected OTB function
-#'@name parseOTBFunction
-#'@description retrieve the selected function and returns a full argument list with the default settings
-#'@param algo either the number or the plain name of the `OTB` algorithm that is wanted. Note the correct (of current/selected version) information is provided by `parseOTBAlgorithms()`
-#'@param gili optional list of available `OTB` installations, if not specified, 
-#'`linkOTB()` is called to automatically try to find a valid OTB installation 
-##'@export parseOTBFunction
+#' @keywords internal
+.otb_launcher_path_linux <- function(otb_root) {
+  otb_root <- normalizePath(otb_root, mustWork = TRUE)
+  launcher <- file.path(otb_root, "bin", "otbApplicationLauncherCommandLine")
+  if (!file.exists(launcher)) {
+    stop("Missing OTB launcher: ", launcher,
+         "\n(OTB install seems incomplete or otbRoot wrong)")
+  }
+  launcher
+}
+
+#' @keywords internal
+.otb_run_launcher <- function(gili, args, stdout = TRUE, stderr = TRUE) {
+  sys <- Sys.info()[["sysname"]]
+  stopifnot(isTRUE(gili$exist))
+  if (sys == "Windows") {
+    stop("Internal error: .otb_run_launcher() should not be called on Windows.")
+  }
+  
+  otb_root  <- .otb_root_from_gili(gili)
+  launcher  <- .otb_launcher_path_linux(otb_root)
+  env_named <- .otb_env_linux(otb_root)
+  
+  # IMPORTANT: system2() wants NAME=value strings
+  env_kv <- paste0(names(env_named), "=", unname(env_named))
+  
+  system2(launcher, args = args, stdout = stdout, stderr = stderr, env = env_kv)
+}
+
+# ------------------------ exported: parseOTBAlgorithms ------------------------
+
+#' Retrieve available OTB applications
 #'
-#'@examples
+#' On Linux, do NOT rely on `-print_applications` (not supported in your CLI layout).
+#' Instead, list `otbapp_*.so` (or .dll/.dylib) under OTB_APPLICATION_PATH.
+#' On Windows, list `otbcli_<Algo>.bat/.exe` wrappers in `bin`.
+#'
+#' @param gili Optional list returned by [linkOTB()]. If `NULL`, [linkOTB()] is called.
+#' @return Character vector of application names.
+#' @export
+#' @examples
 #' \dontrun{
-## link to the OTB binaries
-#' otblink<-link2GI::linkOTB()
-#' if (otblink$exist) {
-#' 
-#' ## parse all modules
-#' algos<-parseOTBAlgorithms(gili = otblink)
-#' 
-#' 
-#' ## take edge detection
-#' cmdList<-parseOTBFunction(algo = algos[27],gili = otblink)
-#' ## print the current command
-#' print(cmdList)
+#' otb <- link2GI::linkOTB()
+#' if (otb$exist) parseOTBAlgorithms(otb)
 #' }
-#' }
-#' ##+##
-parseOTBFunction <- function(algo = NULL, gili = NULL) {
-  
-  if (is.null(algo) || !nzchar(algo)) stop("`algo` must be a non-empty character string.")
-  
+parseOTBAlgorithms <- function(gili = NULL) {
   if (is.null(gili)) gili <- link2GI::linkOTB()
   if (is.null(gili) || !isTRUE(gili$exist)) stop("No valid OTB installation found (gili$exist is FALSE).")
   
   sys <- Sys.info()[["sysname"]]
-  path_OTB <- normalizePath(gili$pathOTB, mustWork = FALSE)
   
-  if (!file.exists(file.path(path_OTB, "otbcli")) && sys != "Windows") {
-    stop("Could not find 'otbcli' in: ", path_OTB)
+  if (sys == "Windows") {
+    path_OTB <- utils::shortPathName(gili$pathOTB)
+    f <- list.files(path_OTB, pattern = "^otbcli_.*(\\.bat|\\.exe)?$", full.names = FALSE, ignore.case = TRUE)
+    f <- f[grepl("^otbcli_", f, ignore.case = TRUE)]
+    f <- sub("\\.bat$", "", f, ignore.case = TRUE)
+    f <- sub("\\.exe$", "", f, ignore.case = TRUE)
+    algos <- sub("^otbcli_", "", f, ignore.case = TRUE)
+    return(sort(unique(algos)))
   }
   
-  # --- helper: get full help output (stdout+stderr) safely ---
-  otb_help_stdout <- function(otb_bin, env_script, algo) {
-    
-    if (Sys.info()[["sysname"]] == "Windows") {
-      # Windows: call otbcli_<algo>.bat if present, else otbcli_<algo>
-      exe <- file.path(otb_bin, paste0("otbcli_", algo))
-      if (file.exists(paste0(exe, ".bat"))) exe <- paste0(exe, ".bat")
-      out <- system2(exe, c("-help"), stdout = TRUE, stderr = TRUE)
-      return(out)
+  # Linux: derive module names from otbapp_*.so in applications dirs
+  otb_root  <- .otb_root_from_gili(gili)
+  env_named <- .otb_env_linux(otb_root)
+  
+  app_dirs <- strsplit(env_named[["OTB_APPLICATION_PATH"]], ":", fixed = TRUE)[[1]]
+  app_dirs <- app_dirs[dir.exists(app_dirs)]
+  if (!length(app_dirs)) stop("OTB_APPLICATION_PATH resolves to no existing directories.")
+  
+  files <- unlist(lapply(app_dirs, function(d) {
+    list.files(d, pattern = "^otbapp_.*\\.(so|dylib|dll)$", full.names = FALSE)
+  }), use.names = FALSE)
+  
+  if (!length(files)) return(character(0))
+  
+  algos <- sub("^otbapp_", "", files)
+  algos <- sub("\\.(so|dylib|dll)$", "", algos, ignore.case = TRUE)
+  sort(unique(algos))
+}
+
+# ------------------------ exported: parseOTBFunction ------------------------
+
+#' Retrieve the argument list from an OTB application
+#'
+#' Queries `-help` output and returns a parameter list prefilled with detected defaults.
+#'
+#' @param algo Character. OTB application name (see [parseOTBAlgorithms()]).
+#' @param gili Optional list returned by [linkOTB()]. If `NULL`, [linkOTB()] is called.
+#' @return A list whose first element is the `algo` name, followed by parameters,
+#'   plus a `$help` element with per-parameter help text.
+#' @export
+#' @examples
+#' \dontrun{
+#' otb <- link2GI::linkOTB()
+#' if (otb$exist) parseOTBFunction("ComputeImagesStatistics", otb)
+#' }
+parseOTBFunction <- function(algo = NULL, gili = NULL) {
+  if (is.null(algo) || !nzchar(algo)) stop("`algo` must be a non-empty character string.")
+  if (is.null(gili)) gili <- link2GI::linkOTB()
+  if (is.null(gili) || !isTRUE(gili$exist)) stop("No valid OTB installation found (gili$exist is FALSE).")
+  
+  sys <- Sys.info()[["sysname"]]
+  
+  # full help output
+  if (sys == "Windows") {
+    bin <- utils::shortPathName(gili$pathOTB)
+    exe <- file.path(bin, paste0("otbcli_", algo, ".bat"))
+    if (!file.exists(exe)) {
+      exe2 <- file.path(bin, paste0("otbcli_", algo))
+      if (!file.exists(exe2)) stop("Missing OTB CLI wrapper: ", exe)
+      exe <- exe2
     }
-    
-    # Linux: ALWAYS use bash -lc, and dot-source the env script
-    if (!is.na(env_script) && nzchar(env_script)) {
-      env_script <- normalizePath(env_script, mustWork = FALSE)
-      if (!file.exists(env_script)) stop("envScript does not exist: ", env_script)
-      prefix <- paste0(". ", shQuote(env_script), "; ")
-    } else {
-      prefix <- ""
-    }
-    
-    cmd <- paste0(prefix,
-                  shQuote(file.path(otb_bin, "otbcli")), " ",
-                  shQuote(algo), " -help")
-    
-    system2("bash", c("-lc", cmd), stdout = TRUE, stderr = TRUE)
+    txt <- system2(exe, c("-help"), stdout = TRUE, stderr = TRUE)
+  } else {
+    txt <- .otb_run_launcher(gili, args = c(algo, "-help"), stdout = TRUE, stderr = TRUE)
   }
   
-  txt <- otb_help_stdout(
-    otb_bin    = path_OTB,
-    env_script = if (!is.null(gili$envScript)) gili$envScript else NA_character_,
-    algo       = algo
-  )
-  
-  # If OTB failed, parsing will be empty -> hard-stop with context
-  arg_lines <- txt[grepl("^-", txt)]
-  if (length(arg_lines) == 0) {
-    stop(
-      "OTB help output could not be parsed (no argument lines found). ",
-      "This usually means OTB did not initialise its environment / modules.\n",
-      "First lines of output:\n",
-      paste(utils::head(txt, 60), collapse = "\n")
-    )
+  arg_lines <- txt[grepl("^\\s*-", txt)]
+  if (!length(arg_lines)) {
+    stop("OTB help output could not be parsed (no argument lines found).\n",
+         "First lines of output:\n",
+         paste(utils::head(txt, 60), collapse = "\n"))
   }
   
-  # --- keep your original parsing logic, but on arg_lines ---
-  args <- arg_lines
-  
-  args <- gsub("MISSING", "     ", args, fixed = TRUE)
-  args <- gsub("\t", "     ", args, fixed = TRUE)
-  args <- gsub(" <", "     <", args, fixed = TRUE)
-  args <- gsub("> ", ">     ", args, fixed = TRUE)
-  
-  # normalize spaces (your cascade)
-  args <- gsub("          ", "   ", args, fixed = TRUE)
-  args <- gsub("         ", "   ", args, fixed = TRUE)
-  args <- gsub("        ", "   ", args, fixed = TRUE)
-  args <- gsub("       ", "   ", args, fixed = TRUE)
-  args <- gsub("      ", "   ", args, fixed = TRUE)
-  args <- gsub("     ", "   ", args, fixed = TRUE)
-  args <- gsub("    ", "   ", args, fixed = TRUE)
-  args <- gsub("   ", "   ", args, fixed = TRUE)
-  
-  args <- strsplit(args, split = "   ")
+  # normalize & split
+  args <- gsub("\t", " ", arg_lines, fixed = TRUE)
+  args <- gsub(" +", "   ", args)
+  args <- strsplit(args, "   ", fixed = TRUE)
   
   param <- list()
-  ocmd  <- list()
   
-  # Guard: structure assumptions
-  if (length(args) < 2 || length(args[[1]]) < 2) {
-    stop("Unexpected OTB help format. First parsed row:\n",
-         paste(args[[1]], collapse = " | "))
-  }
-  
-  # algo name as first element (like your old code)
-  ocmd <- R.utils::insert(param, 1, algo)
-  
-  for (j in seq_len(length(args) - 1)) {
-    drop <- FALSE
+  for (row in args) {
+    field2 <- if (length(row) >= 2) row[2] else ""
+    field4 <- if (length(row) >= 4) row[4] else ""
+    
+    line_all <- paste(row, collapse = " ")
+    drop <- grepl("(OTB-Team)|(-help)|(otbcli_)|(-inxml)", line_all)
+    
     default <- ""
-    extractit <- FALSE
-    
-    # ensure 4th field exists
-    field4 <- if (length(args[[j]]) >= 4) args[[j]][4] else ""
-    field2 <- if (length(args[[j]]) >= 2) args[[j]][2] else ""
-    
-    if (grepl("default value is", field4, fixed = TRUE)) extractit <- TRUE
-    
-    if (extractit) {
-      tmp <- strsplit(field4, "default value is ", fixed = TRUE)[[1]]
-      if (length(tmp) >= 2) {
-        tmp <- strsplit(tmp[2], ")", fixed = TRUE)[[1]][1]
-        default <- tmp
+    if (!drop) {
+      if (grepl("default value is", field4, fixed = TRUE)) {
+        tmp <- strsplit(field4, "default value is ", fixed = TRUE)[[1]]
+        if (length(tmp) >= 2) default <- strsplit(tmp[2], ")", fixed = TRUE)[[1]][1]
+      } else if (grepl("(mandatory)", field4)) {
+        default <- "mandatory"
+      } else if (identical(field4, "Report progress ")) {
+        default <- "false"
+      } else {
+        default <- ""  
       }
-    } else if (length(grep("(OTB-Team)", args[[j]])) > 0) {
-      drop <- TRUE
-    } else if (length(grep("(-help)", args[[j]])) > 0) {
-      drop <- TRUE
-    } else if (length(grep("(otbcli_)", args[[j]])) > 0) {
-      drop <- TRUE
-    } else if (length(grep("(-inxml)", args[[j]])) > 0) {
-      drop <- TRUE
-    } else if (grepl("(mandatory)", field4)) {
-      default <- "mandatory"
-    } else if (identical(field4, "Report progress ")) {
-      default <- "false"
-    } else {
-      default <- field4
     }
     
-    if (!drop && nzchar(default)) {
+    if (!drop && nzchar(default) && nzchar(field2)) {
       arg <- field2
       if (identical(arg, "-in")) arg <- "-input_in"
       if (identical(arg, "-il")) arg <- "-input_il"
-      if (nzchar(arg) && nchar(arg) >= 2) {
-        param[[substr(arg, 2, nchar(arg))]] <- default
-      }
+      if (nchar(arg) >= 2) param[[substr(arg, 2, nchar(arg))]] <- default
     }
   }
   
   ocmd <- R.utils::insert(param, 1, algo)
   
-  # --- help per parameter (Linux again via bash -lc) ---
+  # per-parameter help
   helpList <- list()
   t <- ocmd
   t[[1]] <- NULL
   
   for (arg in names(t)) {
-    if (arg == "progress") {
+    if (identical(arg, "progress")) {
       helpList[["progress"]] <- "Report progress: It must be 0, 1, false or true"
       next
     }
     
     if (sys == "Windows") {
-      exe <- file.path(path_OTB, paste0("otbcli_", algo))
-      if (file.exists(paste0(exe, ".bat"))) exe <- paste0(exe, ".bat")
+      bin <- utils::shortPathName(gili$pathOTB)
+      exe <- file.path(bin, paste0("otbcli_", algo, ".bat"))
+      if (!file.exists(exe)) exe <- file.path(bin, paste0("otbcli_", algo))
       out <- system2(exe, c("-help", arg), stdout = TRUE, stderr = TRUE)
     } else {
-      env_script <- if (!is.null(gili$envScript)) gili$envScript else NA_character_
-      prefix <- if (!is.na(env_script) && nzchar(env_script)) paste0(". ", shQuote(env_script), "; ") else ""
-      cmd <- paste0(prefix,
-                    shQuote(file.path(path_OTB, "otbcli")), " ",
-                    shQuote(algo), " -help ", shQuote(arg))
-      out <- system2("bash", c("-lc", cmd), stdout = TRUE, stderr = TRUE)
+      out <- .otb_run_launcher(gili, args = c(algo, "-help", arg), stdout = TRUE, stderr = TRUE)
     }
     
     out <- unique(out)
-    drop <- grep("\\w*no version information available\\w*", out)
-    drop <- c(drop, grep("^$", out))
-    if (length(drop)) out <- out[-drop]
-    
+    dropi <- c(grep("\\w*no version information available\\w*", out), grep("^\\s*$", out))
+    if (length(dropi)) out <- out[-dropi]
     helpList[[arg]] <- out
   }
   
@@ -238,165 +235,111 @@ parseOTBFunction <- function(algo = NULL, gili = NULL) {
   ocmd
 }
 
-#' Execute the OTB command via system call
-#'@description Wrapper function that inserts the OTB command list into a system call compatible string and executes that command.  
-#'@param otbCmdList the correctly populated OTB algorithm parameter list
-#'@param gili optional list of available `OTB` installations, if not specified, 
-#'`linkOTB()` is called to automatically try to find a valid OTB installation 
-#'@param quiet boolean  if TRUE suppressing messages default is TRUE
-#'@param retRaster boolean if TRUE a raster stack is returned default is FALSE
-#'@param retCommand boolean if TRUE only the OTB API command is returned default is FALSE
-#'@details #' Please NOTE: You must check the help to identify the correct input file argument ($input_in or $input_il). 
-#'@examples
-#'\dontrun{
-#' require(link2GI)
-#' require(terra)
-#' require(listviewer)
-#' 
-#' ## link to OTB
-#' otblink<-link2GI::linkOTB()
-#' 
-#' if (otblink$exist) {
-#'  root_folder<-tempdir()
-#'  fn <- system.file('ex/elev.tif', package = 'terra')
-#' 
-#' ## for an image output example we use the Statistic Extraction, 
-#' algoKeyword<- 'LocalStatisticExtraction'
-#' 
-#' ## extract the command list for the choosen algorithm 
-#' cmd<-parseOTBFunction(algo = algoKeyword, gili = otblink)
-#' 
-#' ## Please NOTE:
-#' ## You must check the help to identify the correct argument codewort ($input_in or $input_il)
-#' listviewer::jsonedit(cmd$help)
-#' 
-#' ## define the mandatory arguments all other will be default
-#' cmd$input_in  <- fn
-#' cmd$out <- file.path(tempdir(),'test_otb_stat.tif')
-#' cmd$radius <- 7
-#' 
-#' ## run algorithm
-#' retStack<-runOTB(cmd,gili = otblink)
-#' 
-#' ## plot image
-#' terra::plot(retStack)
-#' 
-#' ## for a data output example we use the 
-#' 
-#' algoKeyword<- 'ComputeImagesStatistics'
-#' 
-#' ## extract the command list for the chosen algorithm 
-#' cmd<-parseOTBFunction(algo = algoKeyword, gili = otblink)
-#' 
-#' ## get help using the convenient listviewer
-#' listviewer::jsonedit(cmd$help)
-#' 
-#' ## define the mandatory arguments all other will be default
-#' cmd$input_il  <- file.path(tempdir(),'test.tif')
-#' cmd$ram <- 4096
-#' cmd$out.xml <- file.path(tempdir(),'test_otb_stat.xml')
-#' cmd$progress <- 1
-#' 
-#' ## run algorithm
-#' ret <- runOTB(cmd,gili = otblink, quiet = F)
-#' 
-#' ## as vector
-#' print(ret)
-#' 
-#' ## as xml
-#' XML::xmlParse(cmd$out)
-#'  
+# ------------------------ exported: runOTB ------------------------
+
+#' Execute an OTB application
+#'
+#' Builds a CLI call from a parameter list created by [parseOTBFunction()] and executes it.
+#' On Linux, execution uses the OTB launcher with a call-local environment (no global env mutation).
+#'
+#' @param otbCmdList List as returned by [parseOTBFunction()], with parameters set.
+#' @param gili Optional list returned by [linkOTB()]. If `NULL`, [linkOTB()] is called.
+#' @param retRaster Logical. If `TRUE`, attempt to read raster/vector/XML output.
+#' @param retCommand Logical. If `TRUE`, return only a printable command string.
+#' @param quiet Logical. If `FALSE`, do not suppress stdout/stderr.
+#' @return Depending on `retRaster` and output type: a `terra::SpatRaster`,
+#'   an `xml2::xml_document`, an `sf` object, or `invisible(NULL)`.
+#' @export
+#' @examples
+#' \dontrun{
+#' otb <- link2GI::linkOTB()
+#' if (otb$exist) {
+#'   cmd <- parseOTBFunction("ComputeImagesStatistics", otb)
+#'   cmd[["input_il"]] <- "/path/to/image.tif"
+#'   cmd[["out.xml"]]  <- tempfile(fileext = ".xml")
+#'   runOTB(cmd, otb, retRaster = TRUE, quiet = FALSE)
 #' }
-#'}
+#' }
 runOTB <- function(otbCmdList = NULL, gili = NULL,
                    retRaster = TRUE, retCommand = FALSE, quiet = TRUE) {
   
-  if (is.null(otbCmdList) || length(otbCmdList) == 0) stop("`otbCmdList` must be a non-empty list.")
+  if (is.null(otbCmdList) || !length(otbCmdList))
+    stop("`otbCmdList` must be a non-empty list.")
+  
   if (is.null(gili)) gili <- link2GI::linkOTB()
   if (!isTRUE(gili$exist)) stop("No valid OTB installation found (gili$exist is FALSE).")
   
-  sys <- Sys.info()[["sysname"]]
-  path_OTB <- normalizePath(gili$pathOTB, mustWork = FALSE)
-  
-  otb_algorithm <- unlist(otbCmdList[1])
+  algo <- unlist(otbCmdList[1], use.names = FALSE)
   otbCmdList[1] <- NULL
   otbCmdList$help <- NULL
   
-  # map input keyword if present
-  if (names(otbCmdList)[1] == "input_in") {
-    otbCmdList$input_in <- gsub(" ", "\\/ ", R.utils::getAbsolutePath(otbCmdList$input_in))
-    names(otbCmdList)[1] <- "in"
-  } else if (names(otbCmdList)[1] == "input_il") {
-    otbCmdList$input_il <- gsub(" ", "\\/ ", R.utils::getAbsolutePath(otbCmdList$input_il))
-    names(otbCmdList)[1] <- "il"
+  # map input keys safely
+  if (!is.null(otbCmdList[["input_in"]]) && is.null(otbCmdList[["in"]])) {
+    otbCmdList[["in"]] <- otbCmdList[["input_in"]]
+    otbCmdList[["input_in"]] <- NULL
+  }
+  if (!is.null(otbCmdList[["input_il"]]) && is.null(otbCmdList[["il"]])) {
+    otbCmdList[["il"]] <- otbCmdList[["input_il"]]
+    otbCmdList[["input_il"]] <- NULL
   }
   
-  # output detection (unchanged)
+  # output path (for reading back)
   outn <- NULL
-  if (!is.null(otbCmdList$out.xml)) {
-    otbCmdList$out.xml <- gsub(" ", "\\/ ", R.utils::getAbsolutePath(otbCmdList$out.xml))
-    outn <- otbCmdList$out.xml
-  } else if (!is.null(otbCmdList$out)) {
-    otbCmdList$out <- gsub(" ", "\\/ ", R.utils::getAbsolutePath(otbCmdList$out))
-    outn <- otbCmdList$out
-  } else if (!is.null(otbCmdList$io.out)) {
-    otbCmdList$io.out <- gsub(" ", "\\/ ", R.utils::getAbsolutePath(otbCmdList$io.out))
-    outn <- otbCmdList$io.out
-  } else if (!is.null(otbCmdList$mode) && identical(otbCmdList$mode, "vector")) {
-    outn <- otbCmdList$mode.vector.out
-  }
+  if (!is.null(otbCmdList[["out.xml"]])) outn <- otbCmdList[["out.xml"]]
+  if (!is.null(otbCmdList[["out"]]))     outn <- otbCmdList[["out"]]
+  if (!is.null(otbCmdList[["io.out"]]))  outn <- otbCmdList[["io.out"]]
   
-  # build argument string
-  arg_str <- paste0("-", names(otbCmdList), " ", unlist(otbCmdList), collapse = " ")
-  arg_str <- gsub("\\\\", "/", arg_str)
+  absify <- function(x) if (is.character(x) && length(x) == 1) normalizePath(x, mustWork = FALSE) else x
+  if (!is.null(otbCmdList[["in"]]))      otbCmdList[["in"]]      <- absify(otbCmdList[["in"]])
+  if (!is.null(otbCmdList[["il"]]))      otbCmdList[["il"]]      <- absify(otbCmdList[["il"]])
+  if (!is.null(otbCmdList[["out"]]))     otbCmdList[["out"]]     <- absify(otbCmdList[["out"]])
+  if (!is.null(otbCmdList[["out.xml"]])) otbCmdList[["out.xml"]] <- absify(otbCmdList[["out.xml"]])
+  if (!is.null(otbCmdList[["io.out"]]))  otbCmdList[["io.out"]]  <- absify(otbCmdList[["io.out"]])
   
-  if (sys == "Windows") {
-    exe <- file.path(path_OTB, paste0("otbcli_", otb_algorithm))
-    if (file.exists(paste0(exe, ".bat"))) exe <- paste0(exe, ".bat")
-    command <- paste(shQuote(exe), arg_str)
-  } else {
-    # Linux: call wrapper otbcli, not otbcli_<algo> (works reliably with env)
-    env_script <- if (!is.null(gili$envScript)) gili$envScript else NA_character_
-    prefix <- if (!is.na(env_script) && nzchar(env_script)) paste0(". ", shQuote(env_script), "; ") else ""
-    command <- paste0(prefix,
-                      shQuote(file.path(path_OTB, "otbcli")), " ",
-                      shQuote(otb_algorithm), " ",
-                      arg_str)
-  }
+  keys <- names(otbCmdList)
+  vals <- unname(otbCmdList)
   
-  if (retCommand) return(command)
+  vals <- lapply(vals, function(v) if (length(v) > 1) paste(v, collapse = " ") else v)
+  vals <- as.character(vals)
   
-  # execute
-  if (sys == "Windows") {
-    if (quiet) {
-      system(command, ignore.stdout = TRUE, ignore.stderr = TRUE, intern = FALSE)
-      ret <- character(0)
+  args <- character(0)
+  for (i in seq_along(keys)) {
+    k <- keys[[i]]
+    v <- vals[[i]]
+    if (is.na(v) || !nzchar(v)) next
+    
+    if (identical(k, "progress")) {
+      args <- c(args, paste0("-progress=", v))   # <-- wichtig
     } else {
-      message(command)
-      ret <- system(command, intern = TRUE)
-    }
-  } else {
-    # Linux: always bash -lc for correct env initialisation
-    if (quiet) {
-      ret <- system2("bash", c("-lc", command), stdout = FALSE, stderr = FALSE)
-      ret <- character(0)
-    } else {
-      message(command)
-      ret <- system2("bash", c("-lc", command), stdout = TRUE, stderr = TRUE)
-      lapply(ret, print)
+      args <- c(args, paste0("-", k), v)
     }
   }
   
-  if (!isTRUE(retRaster)) return(ret)
   
-  # read output (best effort)
-  if (!is.null(outn) && file.exists(outn)) {
-    ext <- xfun::file_ext(outn)
-    if (ext == "tif") return(terra::rast(outn))
-    if (ext == "xml") return(xml2::read_xml(outn))
-    if (!is.null(otbCmdList$mode) && identical(otbCmdList$mode, "vector")) return(sf::st_read(outn, quiet = TRUE))
+  if (isTRUE(retCommand)) {
+    return(paste0("[OTB] ", algo, " ", paste(args, collapse = " ")))
   }
   
-  # if nothing to read, return raw output
-  ret
+  sys <- Sys.info()[["sysname"]]
+  
+  if (sys == "Windows") {
+    bin <- utils::shortPathName(gili$pathOTB)
+    exe <- file.path(bin, paste0("otbcli_", algo, ".bat"))
+    if (!file.exists(exe)) exe <- file.path(bin, paste0("otbcli_", algo))
+    if (!file.exists(exe)) stop("Missing OTB CLI wrapper: ", exe)
+    system2(exe, args, stdout = !quiet, stderr = !quiet)
+  } else {
+    .otb_run_launcher(gili, args = c(algo, args), stdout = !quiet, stderr = !quiet)
+  }
+  
+  if (!retRaster || is.null(outn) || !nzchar(outn)) return(invisible(NULL))
+  
+  ext <- tolower(tools::file_ext(outn))
+  if (ext %in% c("tif", "tiff", "vrt")) return(terra::rast(outn))
+  if (ext == "xml") return(xml2::read_xml(outn))
+  if (!is.null(otbCmdList[["mode"]]) && identical(otbCmdList[["mode"]], "vector")) {
+    return(sf::st_read(outn, quiet = TRUE))
+  }
+  
+  invisible(NULL)
 }

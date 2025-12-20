@@ -50,14 +50,14 @@ Software](https://r-spatial.github.io/link2GI/articles/link2GI6.html).
 
 ## `initProj` for reproducible projects
 
-`initProj` provides a complete and flexible working environment for GI
-projects. The focus is on a simple but powerful structure. The basic
-framework is formed by a defined folder structure, initial scripts and
-configuration templates as well as optional Git repositories and an
-`renv` environment. A corresponding RStudio project file is also
-created. It supports the automatic installation (if needed) and loading
-of the required libraries including various standard setup skeletons to
-simplify project initialisation.
+`initProj` provides a complete and flexible lightweight working
+environment for GI projects. The focus is on a simple but powerful
+structure. The basic framework is formed by a defined folder structure,
+initial scripts and configuration templates as well as optional Git
+repositories and an `renv` environment. A corresponding RStudio project
+file is also created. It supports the automatic installation (if needed)
+and loading of the required libraries including various standard setup
+skeletons to simplify project initialisation.
 
 The function creates a skeleton of the skeleton scripts
 `main-control.R`, `pre-processing.R`, `10-processing.R` and
@@ -76,8 +76,8 @@ When using RStudio, a new project can be created by simply selecting the
 New Project -\> New Directory -\> New Project Wizard*** dialogue.
 
 ![Animated demonstration of the link2GI GUI workflow (select API,
-configure paths,
-run).](https://raw.githubusercontent.com/r-spatial/link2GI/master/figures/usegui.gif)
+configure
+paths,run).](https://raw.githubusercontent.com/r-spatial/link2GI/master/figures/usegui.gif)
 
 Animated demonstration of the link2GI GUI workflow (select API,
-configure paths, run).
+configure paths,run).

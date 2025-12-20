@@ -71,9 +71,9 @@ Reudenbach</h4>
 
     
     
-<div class="section level3">
-<h3 id="brute-force-search">Brute force search<a class="anchor" aria-label="anchor" href="#brute-force-search"></a>
-</h3>
+<div class="section level2">
+<h2 id="brute-force-search">Brute force search<a class="anchor" aria-label="anchor" href="#brute-force-search"></a>
+</h2>
 <p>Automatic searching and finding of installed GIS software binaries is
 done by the <code>find</code> functions. Depending on your operating
 system and the number of installed versions you will get a data frame
@@ -93,9 +93,9 @@ with the binary and module folders.</p>
 <p>The `find’ functions provide an overview of the installed software.
 These functions do not create links or change settings.</p>
 </div>
-<div class="section level3">
-<h3 id="setting-up-project-structures">Setting up project structures<a class="anchor" aria-label="anchor" href="#setting-up-project-structures"></a>
-</h3>
+<div class="section level2">
+<h2 id="setting-up-project-structures">Setting up project structures<a class="anchor" aria-label="anchor" href="#setting-up-project-structures"></a>
+</h2>
 <p>If you are just calling link2GI on the fly, i.e. for a single
 temporary operation, there is no need to set up folders and project
 structures. If you are working on a more complex project, it might be
@@ -121,9 +121,9 @@ strings.</p>
 <span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a>                                <span class="er">)</span></span>
 <span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a>dirs</span></code></pre></div>
 </div>
-<div class="section level3">
-<h3 id="linksaga---find-and-set-up-saga-api-bindings">linkSAGA - Find and set up ‘SAGA’ API bindings<a class="anchor" aria-label="anchor" href="#linksaga---find-and-set-up-saga-api-bindings"></a>
-</h3>
+<div class="section level2">
+<h2 id="linksaga---find-and-set-up-saga-api-bindings">linkSAGA - Find and set up ‘SAGA’ API bindings<a class="anchor" aria-label="anchor" href="#linksaga---find-and-set-up-saga-api-bindings"></a>
+</h2>
 <p>In the past it was quite tedious to link the correct
 <code>SAGA GIS</code> version. Since version 1.x.x of <code>RSAGA</code>
 things are much better. The new <code><a href="https://rdrr.io/pkg/RSAGA/man/rsaga.env.html" class="external-link">RSAGA::rsaga.env()</a></code> function
@@ -132,29 +132,29 @@ also possible to pass the version number as shown below. Storing the
 result in appropriate variables will even allow you to easily switch
 between different <code>SAGA GIS</code> installations.</p>
 </div>
+<div class="section level2">
+<h2 id="find-and-set-up-grass-78-api-bindings">Find and set up GRASS 7/8 API bindings<a class="anchor" aria-label="anchor" href="#find-and-set-up-grass-78-api-bindings"></a>
+</h2>
 <div class="section level3">
-<h3 id="find-and-set-up-grass-78-api-bindings">Find and set up GRASS 7/8 API bindings<a class="anchor" aria-label="anchor" href="#find-and-set-up-grass-78-api-bindings"></a>
+<h3 id="important-note-grass-runtime-environment">Important note: GRASS runtime environment<a class="anchor" aria-label="anchor" href="#important-note-grass-runtime-environment"></a>
 </h3>
-<div class="section level4">
-<h4 id="important-note-grass-runtime-environment">Important note: GRASS runtime environment<a class="anchor" aria-label="anchor" href="#important-note-grass-runtime-environment"></a>
-</h4>
 <p>GRASS GIS relies on a correctly initialized <strong>runtime
 environment</strong> (PATH, GISBASE, PROJ, GDAL, Python bindings).</p>
 <p>R (or RStudio) must be started from an environment where these
 variables are already set. Otherwise, <code>rgrass</code> and GRASS
 command-line calls may fail.</p>
-<div class="section level5">
-<h5 id="windows-osgeo4w">Windows (OSGeo4W)<a class="anchor" aria-label="anchor" href="#windows-osgeo4w"></a>
-</h5>
+<div class="section level4">
+<h4 id="windows-osgeo4w">Windows (OSGeo4W)<a class="anchor" aria-label="anchor" href="#windows-osgeo4w"></a>
+</h4>
 <p>If GRASS is installed via <strong>OSGeo4W</strong>, R or RStudio
 <strong>must be started from the OSGeo4W Shell</strong>.</p>
 <p>OSGeo4W initializes required variables such as
 <code>OSGEO4W_ROOT</code>, <code>PATH</code>, <code>PROJ_LIB</code>, and
 <code>GDAL_DATA</code>.</p>
 </div>
-<div class="section level5">
-<h5 id="linux">Linux<a class="anchor" aria-label="anchor" href="#linux"></a>
-</h5>
+<div class="section level4">
+<h4 id="linux">Linux<a class="anchor" aria-label="anchor" href="#linux"></a>
+</h4>
 <p>On Linux, GRASS environment variables are usually set by system
 startup scripts or shell profiles.</p>
 <p>If GRASS was installed manually, via custom builds, containers, or
@@ -162,18 +162,18 @@ non-standard locations, R must be started from the same shell session
 where GRASS is available (e.g. after <code>grass --text</code> or
 sourcing GRASS startup scripts).</p>
 </div>
-<div class="section level5">
-<h5 id="macos">macOS<a class="anchor" aria-label="anchor" href="#macos"></a>
-</h5>
+<div class="section level4">
+<h4 id="macos">macOS<a class="anchor" aria-label="anchor" href="#macos"></a>
+</h4>
 <p>When using Homebrew or standalone GRASS installations, R must be
 started from a shell that has GRASS on the PATH. GUI launches may miss
 required environment variables.</p>
 </div>
 </div>
-<div class="section level4">
-<h4 id="linkgrass">
+<div class="section level3">
+<h3 id="linkgrass">
 <code>linkGRASS</code><a class="anchor" aria-label="anchor" href="#linkgrass"></a>
-</h4>
+</h3>
 <p><code>linkGRASS</code> initializes the session environment and system
 paths for easy access to <code>GRASS GIS 7.x./8.x</code>. The correct
 setting of spatial and projection parameters is done automatically
@@ -199,9 +199,9 @@ passed to a temporary <code>R</code> environment.</p>
 <p>If you have more than one valid installation and run
 <code>linkGRASS</code> with the arguments
 <code>select_ver = TRUE</code>, you will be asked to select one.</p>
-<div class="section level5">
-<h5 id="standard-full-search-usage">Standard full search usage<a class="anchor" aria-label="anchor" href="#standard-full-search-usage"></a>
-</h5>
+<div class="section level4">
+<h4 id="standard-full-search-usage">Standard full search usage<a class="anchor" aria-label="anchor" href="#standard-full-search-usage"></a>
+</h4>
 <p>The most common use of <code>GRASS</code> is for a single call or
 algorithm. The user is not interested in setting all the parameters.
 linGRASS7(georeferenced-dataset)<code>does an automatic search and finds all the</code>GRASS<code>binaries using the georeferenced-dataset object for spatial referencing and other necessary settings.  **NOTE:** This is the highly recommended linking procedure for all on-the-fly invocations of</code>GRASS<code>. Please also note that if more than one</code>GRASS`
@@ -277,9 +277,9 @@ manually provided parameters.</p>
 <span>            location <span class="op">=</span> <span class="st">"nc_spatial_params"</span>,</span>
 <span>            spatial_params <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">84.32385</span>, <span class="fl">33.88199</span>,<span class="op">-</span><span class="fl">75.45698</span>,<span class="fl">36.58965</span>,<span class="va">proj4_string</span><span class="op">)</span>,epsg <span class="op">=</span> <span class="va">epsg</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div class="section level5">
-<h5 id="typical-for-specified-search-paths-and-os">Typical for specified search paths and OS<a class="anchor" aria-label="anchor" href="#typical-for-specified-search-paths-and-os"></a>
-</h5>
+<div class="section level4">
+<h4 id="typical-for-specified-search-paths-and-os">Typical for specified search paths and OS<a class="anchor" aria-label="anchor" href="#typical-for-specified-search-paths-and-os"></a>
+</h4>
 <p>The full disk search can be tedious, especially on Windows it can
 easily take 10 minutes or more. So it is helpful to specify a search
 path to narrow down the search. To search for <code>GRASS</code>
@@ -295,18 +295,15 @@ for linking.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/findGRASS.html">findGRASS</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre class="text"><code>     instDir version installation_type
 1 /usr/lib/grass83   8.3.2             grass</code></pre>
-</div>
-</div>
-</div>
-<div class="section level2">
-<h2 id="now-linking-it">now linking it<a class="anchor" aria-label="anchor" href="#now-linking-it"></a>
-</h2>
+<div class="section level5">
+<h5 id="now-linking-it">Now linking it<a class="anchor" aria-label="anchor" href="#now-linking-it"></a>
+</h5>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/linkGRASS.html">linkGRASS</a></span><span class="op">(</span><span class="va">nc</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"/usr/lib/grass83"</span>,<span class="st">"8.3.2"</span>,<span class="st">"grass"</span><span class="op">)</span>,epsg <span class="op">=</span> <span class="fl">4267</span><span class="op">)</span> </span></code></pre></div>
 </div>
-<div class="section level2">
-<h2 id="corresponding-linkage-running-windows">corresponding linkage running windows<a class="anchor" aria-label="anchor" href="#corresponding-linkage-running-windows"></a>
-</h2>
+<div class="section level5">
+<h5 id="corresponding-linkage-running-windows">Corresponding linkage running windows<a class="anchor" aria-label="anchor" href="#corresponding-linkage-running-windows"></a>
+</h5>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/linkGRASS.html">linkGRASS</a></span><span class="op">(</span></span>
 <span>  x <span class="op">=</span> <span class="va">nc</span>,</span>
@@ -316,14 +313,19 @@ for linking.</p>
 <span>    <span class="st">"NSIS"</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
+</div>
+</div>
+<div class="section level4">
+<h4 id="specific-examples">Specific examples<a class="anchor" aria-label="anchor" href="#specific-examples"></a>
+</h4>
+<p>Finally, some more specific examples related to interactive selection
+or OS-specific settings.</p>
 <div class="section level5">
 <h5 id="manual-version-selection">Manual version selection<a class="anchor" aria-label="anchor" href="#manual-version-selection"></a>
 </h5>
-<p>Finally, some more specific examples related to interactive selection
-or OS-specific settings. Manually select the <code>GRASS</code>
-installation and use the meuse <code>sf</code> object for spatial
-referencing. If you only have one installation it is directly
-selected.</p>
+<p>Manually select the <code>GRASS</code> installation and use the meuse
+<code>sf</code> object for spatial referencing. If you only have one
+installation it is directly selected.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/linkGRASS.html">linkGRASS</a></span><span class="op">(</span><span class="va">nc</span>, ver_select <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 </div>
@@ -365,9 +367,12 @@ meuse data</p>
 <span><span class="st">                                -0.398957,0.343988,-1.8774,4.0725</span></span>
 <span><span class="st">                               +to_meter=1"</span><span class="op">)</span>,epsg <span class="op">=</span> <span class="fl">28992</span><span class="op">)</span> </span></code></pre></div>
 </div>
-<div class="section level3">
-<h3 id="a-typical-use-case-for-the-orfeo-toolbox-wrapper">A typical use case for the Orfeo Toolbox wrapper<a class="anchor" aria-label="anchor" href="#a-typical-use-case-for-the-orfeo-toolbox-wrapper"></a>
-</h3>
+</div>
+</div>
+</div>
+<div class="section level2">
+<h2 id="a-typical-use-case-for-the-orfeo-toolbox-wrapper">A typical use case for the Orfeo Toolbox wrapper<a class="anchor" aria-label="anchor" href="#a-typical-use-case-for-the-orfeo-toolbox-wrapper"></a>
+</h2>
 <p>link2GI supports the use of the Orfeo Toolbox with a simple
 list-based wrapper function. Actually, two functions parse the module
 and function syntax dumps and generate a command list that can be easily
@@ -490,14 +495,14 @@ introspection helpers.</p>
 <span><span class="co"># 8) Plot result</span></span>
 <span><span class="fu"><a href="https://rspatial.github.io/terra/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">retStack</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div class="section level3">
-<h3 id="usecases-presented-on-the-geostat-august-2018">Usecases presented on the GEOSTAT August 2018<a class="anchor" aria-label="anchor" href="#usecases-presented-on-the-geostat-august-2018"></a>
-</h3>
+<div class="section level2">
+<h2 id="usecases-presented-on-the-geostat-august-2018">Usecases presented on the GEOSTAT August 2018<a class="anchor" aria-label="anchor" href="#usecases-presented-on-the-geostat-august-2018"></a>
+</h2>
 <p>During the GEOSTAT 2018 (see <a href="https://opengeohub.org" class="external-link uri">https://opengeohub.org</a>) in Prague some more complex use
 cases have been presented.</p>
-<div class="section level4">
-<h4 id="find-slides-and-materials">Find slides and materials<a class="anchor" aria-label="anchor" href="#find-slides-and-materials"></a>
-</h4>
+<div class="section level3">
+<h3 id="find-slides-and-materials">Find slides and materials<a class="anchor" aria-label="anchor" href="#find-slides-and-materials"></a>
+</h3>
 <ul>
 <li><a href="https://gisma.github.io/link2gi2018/link2gi2018.html#1" class="external-link">Presentation
 slides</a></li>
@@ -505,9 +510,9 @@ slides</a></li>
 Repository</a></li>
 </ul>
 </div>
-<div class="section level4">
-<h4 id="the-examples">The examples<a class="anchor" aria-label="anchor" href="#the-examples"></a>
-</h4>
+<div class="section level3">
+<h3 id="the-examples">The examples<a class="anchor" aria-label="anchor" href="#the-examples"></a>
+</h3>
 <ul>
 <li>Basic usage of <code>SAGA</code> and <code>OTB</code> calls - <a href="https://github.com/gisma/link2gi2018/blob/master/R/usecases/saga-otb/useCaseSAGA-OTB.R" class="external-link">SAGA
 &amp; OTB basic usecase</a>
@@ -524,7 +529,6 @@ spread over high asia</a>
 Height Model from UAV derived point clouds</a>
 </li>
 </ul>
-</div>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

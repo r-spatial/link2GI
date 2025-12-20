@@ -21,7 +21,7 @@ vignette: >
 
 
 
-##  Brute force search
+#  Brute force search
 Automatic searching and finding of installed GIS software binaries is done by the `find` functions. Depending on your operating system and the number of installed versions you will get a data frame with the binary and module folders.
 
 
@@ -45,7 +45,7 @@ otb
 
 The `find' functions provide an overview of the installed software. These functions do not create links or change settings.
 
-## Setting up project structures
+# Setting up project structures
 
 If you are just calling link2GI on the fly, i.e. for a single temporary operation, there is no need to set up folders and project structures. If you are working on a more complex project, it might be helpful to have a fixed structure. The same goes for existing `GRASS` projects that need to be in specific mapsets and locations. 
 
@@ -69,7 +69,7 @@ dirs
 ```
 
 
-## linkSAGA - Find and set up 'SAGA' API bindings
+# linkSAGA - Find and set up 'SAGA' API bindings
 In the past it was quite tedious to link the correct `SAGA GIS` version. Since version 1.x.x of `RSAGA` things are much better. The new `RSAGA::rsaga.env()` function is to get the first `RSAGA` version in the search path. It is also possible to pass the version number as shown below. Storing the result in appropriate variables will even allow you to easily switch between different `SAGA GIS` installations.
 
 
@@ -81,9 +81,9 @@ saga1
 
 ```
 
-## Find and set up GRASS 7/8 API bindings
+# Find and set up GRASS 7/8 API bindings
 
-### Important note: GRASS runtime environment
+## Important note: GRASS runtime environment
 
 GRASS GIS relies on a correctly initialized **runtime environment**
 (PATH, GISBASE, PROJ, GDAL, Python bindings).
@@ -92,7 +92,7 @@ R (or RStudio) must be started from an environment
 where these variables are already set.
 Otherwise, `rgrass` and GRASS command-line calls may fail.
 
-#### Windows (OSGeo4W)
+### Windows (OSGeo4W)
 
 If GRASS is installed via **OSGeo4W**, R or RStudio **must be started
 from the OSGeo4W Shell**.
@@ -100,7 +100,7 @@ from the OSGeo4W Shell**.
 OSGeo4W initializes required variables such as
 `OSGEO4W_ROOT`, `PATH`, `PROJ_LIB`, and `GDAL_DATA`.
 
-#### Linux
+### Linux
 
 On Linux, GRASS environment variables are usually set
 by system startup scripts or shell profiles.
@@ -111,13 +111,13 @@ R must be started from the same shell session
 where GRASS is available (e.g. after `grass --text`
 or sourcing GRASS startup scripts).
 
-#### macOS
+### macOS
 
 When using Homebrew or standalone GRASS installations,
 R must be started from a shell that has GRASS on the PATH.
 GUI launches may miss required environment variables.
 
-### `linkGRASS`
+## `linkGRASS`
 
 `linkGRASS` initializes the session environment and system paths for easy access to `GRASS GIS 7.x./8.x`. The correct setting of spatial and projection parameters is done automatically either by using an existing and valid `raster` or `terra`, `sp` or `sf` object or manually by providing a list of minimum required parameters. These properties are used to initialize either a temporary or a permanent `rgrass` environment, including the correct `GRASS 7/8` database structure. If you do not specify any of the above, `linkGRASS` will create an EPSG:4326 worldwide site.
 
@@ -129,7 +129,8 @@ If you have more than one valid installation and run `linkGRASS` with the argume
 
 
 
-#### Standard full search usage 
+### Standard full search usage 
+
 The most common use of `GRASS` is for a single call or algorithm. The user is not interested in setting all the parameters. linGRASS7(georeferenced-dataset)` does an automatic search and finds all the `GRASS` binaries using the georeferenced-dataset object for spatial referencing and other necessary settings. 
 **NOTE:** This is the highly recommended linking procedure for all on-the-fly invocations of `GRASS`. Please also note that if more than one `GRASS` installation is found, the one with the highest version number is automatically selected. 
 
@@ -209,10 +210,7 @@ terra::crs(nc)
 ```
 
  
-
-
-
-#### Typical for specified search paths and OS
+### Typical for specified search paths and OS
  
 The full disk search can be tedious, especially on Windows it can easily take 10 minutes or more. So it is helpful to specify a search path to narrow down the search. To search for `GRASS` installations in the home directory, you can use the following command. 
 
@@ -233,12 +231,13 @@ findGRASS()
 1 /usr/lib/grass83   8.3.2             grass
 ```
 
-# now linking it 
+#### Now linking it 
+
 ```{r, eval=FALSE}
 linkGRASS(nc,c("/usr/lib/grass83","8.3.2","grass"),epsg = 4267) 
 ```
 
-# corresponding linkage running windows
+#### Corresponding linkage running windows
 
 ```{r, eval=FALSE}
 linkGRASS(
@@ -253,8 +252,12 @@ linkGRASS(
 ```
 
 
-#### Manual version selection
+### Specific examples
+
 Finally, some more specific examples related to interactive selection or OS-specific settings.
+
+#### Manual version selection
+
 Manually select the `GRASS` installation and use the meuse `sf` object for spatial referencing. If you only have one installation it is directly selected. 
 
 
@@ -277,6 +280,7 @@ linkGRASS(x = nc,
 
 
 #### Using a permanent gisdbase folder
+
 Link to the permanent `GRASS` gisdbase (folder structure) in "~/temp3" with the default mapset "PERMANENT" and the location named "project1". Use the formerly referencend nc `sf` object parameter for all spatial attributes.
 
 
@@ -289,9 +293,6 @@ linkGRASS(gisdbase = "~/temp3", location = "project1",
 #### Manual Setup of the spatial attributes
 Setting up `GRASS` manually with spatial parameters of the meuse data
 
-
-
-
 ```{r, eval=FALSE}
  linkGRASS(spatial_params = c(178605,329714,181390,333611,
                               "+proj=sterea +lat_0=52.15616055555555 
@@ -303,7 +304,8 @@ Setting up `GRASS` manually with spatial parameters of the meuse data
                                +to_meter=1"),epsg = 28992) 
 ```
 
-## A typical use case for the Orfeo Toolbox wrapper
+
+# A typical use case for the Orfeo Toolbox wrapper
 link2GI supports the use of the Orfeo Toolbox with a simple list-based wrapper function. Actually, two functions parse the module and function syntax dumps and generate a command list that can be easily modified with the necessary arguments. If you have installed it in a user home directory you need to adrees this:
 
 Usually you have to get the module list first:
@@ -436,16 +438,16 @@ plot(retStack)
 
 
 
-## Usecases presented on the GEOSTAT August 2018
+# Usecases presented on the GEOSTAT August 2018
 
 During the GEOSTAT 2018 (see https://opengeohub.org) in Prague some more complex use cases have been presented.
 
-### Find slides and materials
+## Find slides and materials
 - [Presentation slides](https://gisma.github.io/link2gi2018/link2gi2018.html#1)
 - [Github Repository](https://github.com/gisma/link2gi2018)
 
 
-### The examples
+## The examples
 
 - Basic usage of `SAGA` and `OTB` calls - [SAGA & OTB basic usecase](https://github.com/gisma/link2gi2018/blob/master/R/usecases/saga-otb/useCaseSAGA-OTB.R)
 - Wrapping a [GRASS GIS example](https://neteler.gitlab.io/grass-gis-analysis/02_grass-gis_ecad_analysis/) of Markus Neteler as presented on GEOSTAT 2018 - [Analysing the ECA&D climatic data - reloaded](https://github.com/gisma/link2gi2018/blob/master/R/usecases/grass/useCaseGRASS-Neteler2018.R)

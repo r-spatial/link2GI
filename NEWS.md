@@ -1,3 +1,32 @@
+## link2GI 0.7-0
+
+changes:
+
+* introduction of a strict, introspection-based OTB workflow (`otb_capabilities()`, `otb_args_spec()`, `otb_build_cmd()`, `otb_set_out()`) as the recommended API for robust, version-stable OTB calls
+* clarification and consolidation of the OTB execution model:
+
+  * explicit separation between capability discovery (`-help` parsing) and execution (`runOTB`)
+  * explicit write-to-disk policy for OTB outputs
+* update and extension of vignettes with a fully transparent OTB introspection example (`DimensionalityReduction`, PCA)
+
+bugfixes:
+
+* fix OTB launcher path construction when `linkOTB()` returns `pathOTB` as a `.../bin/` directory
+* fix OTB environment variable setup by consistently deriving all paths from the OTB root directory (`otbRoot`)
+* restore and stabilize stdout/stderr capture for OTB `-help` calls used in introspection
+* tolerate non-zero exit codes returned by some OTB builds for `-help` calls if a valid `Parameters:` block is present
+* fix `runOTB()` handling of OTB `[pixel]` outputs where output arguments are vectors (e.g. `c(path, "float")`)
+* prevent invalid read-back attempts by explicitly checking output existence before raster/vector import
+* improve error reporting in `runOTB()` to avoid downstream length-coercion and “file does not exist” errors
+
+documentation:
+
+* update OTB wrapper vignette to demonstrate:
+
+  * how parameter keys are obtained from `otb_args_spec()` instead of hard-coded fallback lists
+  * how to construct version-stable OTB calls without heuristics or hidden defaults
+
+
 ## link2GI 0.6-2
 
 bugfixes:

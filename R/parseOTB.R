@@ -1,90 +1,3 @@
-# ------------------------ internal helpers ------------------------
-
-#' @keywords internal
-.otb_root_from_gili <- function(gili) {
-  stopifnot(isTRUE(gili$exist))
-  if (!is.null(gili$otbRoot) && nzchar(gili$otbRoot)) {
-    return(normalizePath(gili$otbRoot, mustWork = TRUE))
-  }
-  p <- normalizePath(gili$pathOTB, mustWork = TRUE)  # .../bin/
-  normalizePath(file.path(p, ".."), mustWork = TRUE) # .../
-}
-
-#' @keywords internal
-.otb_env_linux <- function(otb_root) {
-  otb_root <- normalizePath(otb_root, mustWork = TRUE)
-  
-  app_paths <- c(
-    file.path(otb_root, "lib",   "otb", "applications"),
-    file.path(otb_root, "lib64", "otb", "applications")
-  )
-  app_paths <- app_paths[dir.exists(app_paths)]
-  if (!length(app_paths)) stop("No OTB applications dir found under: ", otb_root)
-  
-  lib_paths <- c(file.path(otb_root, "lib"), file.path(otb_root, "lib64"))
-  lib_paths <- lib_paths[dir.exists(lib_paths)]
-  if (!length(lib_paths)) stop("No OTB lib dir found under: ", otb_root)
-  
-  env_named <- c(
-    OTB_INSTALL_DIR      = otb_root,
-    CMAKE_PREFIX_PATH    = otb_root,
-    OTB_APPLICATION_PATH = paste(app_paths, collapse = ":"),
-    GDAL_DATA            = file.path(otb_root, "share", "gdal"),
-    PROJ_LIB             = file.path(otb_root, "share", "proj"),
-    GDAL_DRIVER_PATH     = "disable",
-    LC_NUMERIC           = "C",
-    PATH                 = paste(c(file.path(otb_root, "bin"), Sys.getenv("PATH")), collapse = ":"),
-    PYTHONPATH           = paste(c(file.path(otb_root, "lib", "otb", "python"),
-                                   Sys.getenv("PYTHONPATH")), collapse = ":"),
-    LD_LIBRARY_PATH      = paste(c(lib_paths, Sys.getenv("LD_LIBRARY_PATH")), collapse = ":")
-  )
-  
-  env_named <- env_named[nzchar(env_named)]
-  env_named
-}
-
-#' @keywords internal
-.otb_launcher_path_linux <- function(otb_root) {
-  otb_root <- normalizePath(otb_root, mustWork = TRUE)
-  launcher <- file.path(otb_root, "bin", "otbApplicationLauncherCommandLine")
-  if (!file.exists(launcher)) {
-    stop("Missing OTB launcher: ", launcher,
-         "\n(OTB install seems incomplete or otbRoot wrong)")
-  }
-  launcher
-}
-
-#' @keywords internal
-#' @keywords internal
-.otb_run_launcher <- function(gili, args, stdout = TRUE, stderr = TRUE) {
-  sys <- Sys.info()[["sysname"]]
-  stopifnot(isTRUE(gili$exist))
-  
-  if (sys == "Windows") {
-    stop("Internal error: .otb_run_launcher() should not be called on Windows.")
-  }
-  
-  otb_root <- .otb_root_from_gili(gili)
-  
-  # prefer the real launcher; fallback to otbcli if needed
-  launcher <- file.path(otb_root, "bin", "otbApplicationLauncherCommandLine")
-  if (!file.exists(launcher)) {
-    launcher <- file.path(otb_root, "bin", "otbcli")
-    if (!file.exists(launcher)) stop("No OTB launcher/cli found under: ", otb_root)
-  }
-  
-  env_named <- .otb_env_linux(otb_root)
-  stopifnot(is.character(env_named), length(names(env_named)) == length(env_named))
-  
-  # build: VAR='value' VAR2='value2' <launcher> <args...>
-  env_part <- paste0(names(env_named), "=", vapply(unname(env_named), shQuote, character(1)))
-  cmd_part <- c(shQuote(launcher), vapply(args, shQuote, character(1)))
-  cmd <- paste(c(env_part, cmd_part), collapse = " ")
-  
-  # run via bash to ensure quoting survives shell wrappers
-  system2("bash", c("-lc", cmd), stdout = stdout, stderr = stderr)
-}
-
 
 # ------------------------ exported: parseOTBAlgorithms ------------------------
 
@@ -174,7 +87,7 @@ parseOTBFunction <- function(algo = NULL, gili = NULL) {
     txt <- .otb_run_launcher(gili, args = c(algo, "-help"), stdout = TRUE, stderr = TRUE)
   }
   
-  arg_lines <- txt[grepl("^\\s*-", txt)]
+  arg_lines <- txt[grepl("^\\s*(MISSING\\s+)?-", txt)]
   if (!length(arg_lines)) {
     stop("OTB help output could not be parsed (no argument lines found).\n",
          "First lines of output:\n",
@@ -274,8 +187,15 @@ parseOTBFunction <- function(algo = NULL, gili = NULL) {
 #'   runOTB(cmd, otb, retRaster = TRUE, quiet = FALSE)
 #' }
 #' }
+
 runOTB <- function(otbCmdList = NULL, gili = NULL,
                    retRaster = TRUE, retCommand = FALSE, quiet = TRUE) {
+  
+  .scalar_path <- function(x) {
+    if (is.null(x)) return(NULL)
+    if (is.character(x) && length(x) >= 1) return(x[1])
+    x
+  }
   
   if (is.null(otbCmdList) || !length(otbCmdList))
     stop("`otbCmdList` must be a non-empty list.")
@@ -297,63 +217,95 @@ runOTB <- function(otbCmdList = NULL, gili = NULL,
     otbCmdList[["input_il"]] <- NULL
   }
   
-  # output path (for reading back)
+  # output path (for reading back) - keep full token vector, but compute scalar path early
   outn <- NULL
   if (!is.null(otbCmdList[["out.xml"]])) outn <- otbCmdList[["out.xml"]]
   if (!is.null(otbCmdList[["out"]]))     outn <- otbCmdList[["out"]]
   if (!is.null(otbCmdList[["io.out"]]))  outn <- otbCmdList[["io.out"]]
   
-  absify <- function(x) if (is.character(x) && length(x) == 1) normalizePath(x, mustWork = FALSE) else x
+  outn_path <- .scalar_path(outn)  # DEFINE EARLY, always
+  
+  # normalize paths (only first token if vector like c(path,"float"))
+  absify <- function(x) {
+    if (is.character(x) && length(x) >= 1) {
+      x[1] <- normalizePath(x[1], mustWork = FALSE)
+    }
+    x
+  }
+  
   if (!is.null(otbCmdList[["in"]]))      otbCmdList[["in"]]      <- absify(otbCmdList[["in"]])
   if (!is.null(otbCmdList[["il"]]))      otbCmdList[["il"]]      <- absify(otbCmdList[["il"]])
   if (!is.null(otbCmdList[["out"]]))     otbCmdList[["out"]]     <- absify(otbCmdList[["out"]])
   if (!is.null(otbCmdList[["out.xml"]])) otbCmdList[["out.xml"]] <- absify(otbCmdList[["out.xml"]])
   if (!is.null(otbCmdList[["io.out"]]))  otbCmdList[["io.out"]]  <- absify(otbCmdList[["io.out"]])
   
-  keys <- names(otbCmdList)
-  vals <- unname(otbCmdList)
+  # outn_path may have changed due to absify
+  if (!is.null(otbCmdList[["out.xml"]])) outn_path <- .scalar_path(otbCmdList[["out.xml"]])
+  if (!is.null(otbCmdList[["out"]]))     outn_path <- .scalar_path(otbCmdList[["out"]])
+  if (!is.null(otbCmdList[["io.out"]]))  outn_path <- .scalar_path(otbCmdList[["io.out"]])
   
-  vals <- lapply(vals, function(v) if (length(v) > 1) paste(v, collapse = " ") else v)
-  vals <- as.character(vals)
-  
+  # build args (token-safe; do NOT collapse vectors like c(path,"float"))
   args <- character(0)
-  for (i in seq_along(keys)) {
-    k <- keys[[i]]
-    v <- vals[[i]]
-    if (is.na(v) || !nzchar(v)) next
+  keys <- names(otbCmdList)
+  
+  for (k in keys) {
+    v <- otbCmdList[[k]]
+    if (is.null(v)) next
+    
+    if (is.logical(v)) v <- if (isTRUE(v)) "1" else "0"
+    v <- as.character(v)
+    v <- v[nzchar(v)]
+    if (!length(v)) next
     
     if (identical(k, "progress")) {
-      args <- c(args, paste0("-progress=", v))   # <-- wichtig
+      args <- c(args, paste0("-progress=", v[1]))
     } else {
       args <- c(args, paste0("-", k), v)
     }
   }
-  
   
   if (isTRUE(retCommand)) {
     return(paste0("[OTB] ", algo, " ", paste(args, collapse = " ")))
   }
   
   sys <- Sys.info()[["sysname"]]
+  status <- 0L
   
   if (sys == "Windows") {
     bin <- utils::shortPathName(gili$pathOTB)
     exe <- file.path(bin, paste0("otbcli_", algo, ".bat"))
     if (!file.exists(exe)) exe <- file.path(bin, paste0("otbcli_", algo))
     if (!file.exists(exe)) stop("Missing OTB CLI wrapper: ", exe)
-    system2(exe, args, stdout = !quiet, stderr = !quiet)
+    
+    status <- system2(exe, args, stdout = !quiet, stderr = !quiet)
   } else {
-    .otb_run_launcher(gili, args = c(algo, args), stdout = !quiet, stderr = !quiet)
+    status <- .otb_run_launcher(gili, args = c(algo, args), stdout = !quiet, stderr = !quiet)
   }
   
-  if (!retRaster || is.null(outn) || !nzchar(outn)) return(invisible(NULL))
+  # return nothing if not requested
+  if (!isTRUE(retRaster)) return(invisible(NULL))
   
-  ext <- tolower(tools::file_ext(outn))
-  if (ext %in% c("tif", "tiff", "vrt")) return(terra::rast(outn))
-  if (ext == "xml") return(xml2::read_xml(outn))
+  # if no output specified, nothing to read
+  if (is.null(outn_path) || !nzchar(outn_path)) return(invisible(NULL))
+  
+  # fail explicitly if OTB failed
+  if (!identical(status, 0L)) {
+    stop("OTB execution failed (exit status ", status, "). Output not produced: ", outn_path)
+  }
+  
+  # fail explicitly if output missing
+  if (!file.exists(outn_path)) {
+    stop("OTB returned exit status 0 but output file does not exist: ", outn_path)
+  }
+  
+  ext <- tolower(tools::file_ext(outn_path))
+  
+  if (ext %in% c("tif", "tiff", "vrt")) return(terra::rast(outn_path))
+  if (ext == "xml") return(xml2::read_xml(outn_path))
   if (!is.null(otbCmdList[["mode"]]) && identical(otbCmdList[["mode"]], "vector")) {
-    return(sf::st_read(outn, quiet = TRUE))
+    return(sf::st_read(outn_path, quiet = TRUE))
   }
   
   invisible(NULL)
 }
+

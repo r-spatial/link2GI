@@ -1,5 +1,5 @@
-pandoc: '3.2'
-pkgdown: 2.0.9
+pandoc: 3.6.3
+pkgdown: 2.2.0
 pkgdown_sha: ~
 articles:
   link2GI1: link2GI1.html
@@ -8,8 +8,7 @@ articles:
   link2GI4: link2GI4.html
   link2GI5: link2GI5.html
   link2GI6: link2GI6.html
-last_built: 2024-10-28T12:11Z
+last_built: 2025-12-20T02:08Z
 urls:
   reference: https://r-spatial.github.io/link2GI/reference
   article: https://r-spatial.github.io/link2GI/articles
-

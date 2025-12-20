@@ -1,0 +1,62 @@
+# Usually for internally usage get 'GRASS GIS' and `rgrass` parameters on 'Windows' OS
+
+Initialize the enviroment variables on a 'Windows' OS for using 'GRASS
+GIS' via `rgrass`
+
+## Usage
+
+``` r
+paramGRASSw(
+  set_default_GRASS = NULL,
+  DL = "C:/",
+  ver_select = FALSE,
+  quiet = TRUE
+)
+```
+
+## Arguments
+
+- set_default_GRASS:
+
+  default = NULL forces a full search for 'GRASS GIS' binaries. You may
+  alternatively provide a vector containing paths and keywords.
+  c('C:/OSGeo4W64','grass-7.0.5','osgeo4w') is valid for a typical
+  osgeo4w installation.
+
+- DL:
+
+  character search location default = `C:`
+
+- ver_select:
+
+  boolean default is FALSE. If there is more than one 'SAGA GIS'
+  installation and `ver_select` = TRUE the user can select interactively
+  the preferred 'SAGA GIS' version
+
+- quiet:
+
+  boolean switch for supressing console messages default is TRUE
+
+## Details
+
+The concept is very straightforward but for an all days usage pretty
+helpful. You need to provide a `terra` or a `sf` object. The derived
+properties are used to initialize a temporary but static
+[rgrass](https://CRAN.R-project.org/package=rgrass) environment. During
+the rsession you will have full access to GRASS both via the wrapper
+package as well as the command line. paramGRASSw initializes the usage
+of GRASS.
+
+## Examples
+
+``` r
+run = FALSE
+if (run) {
+# automatic retrieval of valid 'GRASS GIS' environment settings 
+# if more than one is found the user has to choose.
+paramGRASSw()
+
+# typical OSGeo4W64 installation
+paramGRASSw(c('C:/OSGeo4','grass7.8','osgeo4W'))
+}
+```

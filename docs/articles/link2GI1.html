@@ -39,7 +39,7 @@
     <li><a class="dropdown-item" href="../articles/link2GI3.html">GRASS application for real world big data</a></li>
     <li><a class="dropdown-item" href="../articles/link2GI4.html">OTB Wrapper in link2GI</a></li>
     <li><a class="dropdown-item" href="../articles/link2GI5.html">Create reproducible project structures in link2GI</a></li>
-    <li><a class="dropdown-item" href="../articles/link2GI6.html">Installation guide for link2GI related Software</a></li>
+    <li><a class="dropdown-item" href="../articles/link2GI6.html">Installation guide for link2GI related software</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
@@ -75,131 +75,121 @@ Reudenbach</h4>
 <h2 id="what-is-link2gi">What is link2GI?<a class="anchor" aria-label="anchor" href="#what-is-link2gi"></a>
 </h2>
 <p>The <a href="https://CRAN.R-project.org/package=link2GI" class="external-link">link2GI</a>
-package provides a small linking tool to simplify the use of
-<code>GRASS GIS</code>, <code>SAGA GIS</code>,
-<code>Orfeo Toolbox</code> (<code>OTB</code>) and <code>GDAL</code>
-binaries for R users, with the focus on making this software accessible
-to non-operating system specialists or highly experienced GIS geeks. In
-fact, it is a direct result of numerous graduate courses with R(-GIS)
-novices in the hostile world of university computer pools running on
-extremely limited Windows systems.</p>
+package provides a lightweight linking framework that simplifies access
+to external GIS and remote-sensing software from R. Its primary purpose
+is to establish reliable connections to command-line interfaces of
+<strong>GRASS GIS</strong>, <strong>SAGA GIS</strong>, <strong>Orfeo
+Toolbox (OTB)</strong>, and <strong>GDAL</strong>, without requiring
+deep operating-system expertise.</p>
+<p>The package emerged from repeated teaching scenarios in
+graduate-level GIS and remote-sensing courses, where students had to
+work on restrictive university Windows systems with limited privileges.
+In such environments, correctly configuring external GIS software often
+becomes the main obstacle—long before any actual spatial analysis can
+begin.</p>
+<hr>
 </div>
 <div class="section level2">
-<h2 id="why-link2gi-now">Why link2GI now?<a class="anchor" aria-label="anchor" href="#why-link2gi-now"></a>
+<h2 id="why-link2gi">Why link2GI?<a class="anchor" aria-label="anchor" href="#why-link2gi"></a>
 </h2>
-<p>R has a lot of classes for storing and manipulating spatial data. For
-vector data, the <a href="https://CRAN.R-project.org/package=sp" class="external-link">sp</a>
-and currently the great <a href="https://CRAN.R-project.org/package=sf" class="external-link">sf</a> packages are well
-known, and the raster data world is largely covered by the <a href="https://CRAN.R-project.org/package=terra" class="external-link">terra</a> and recently
-the <a href="https://CRAN.R-project.org/package=stars" class="external-link">stars</a>
-packages. For more specific links, such as those needed for manipulating
-atmospheric models, packages like <a href="https://CRAN.R-project.org/package=ncdf4" class="external-link">ncdf4</a> are very
-helpful.</p>
-<p>The spatial analysis itself is often supported by wrapper packages
-that integrate external libraries, command line tools, or a mixture of
-both in an R-like syntax <a href="https://CRAN.R-project.org/package=geosphere" class="external-link">geosphere</a>, <a href="https://CRAN.R-project.org/package=Distance" class="external-link">Distance</a>, <a href="https://CRAN.R-project.org/package=igraph" class="external-link">igraph</a>, or <a href="https://CRAN.R-project.org/package=spatstat" class="external-link">spatstat</a>.</p>
-<p>A comprehensive introduction to the spatial R-biotope and its
-backgrounds is excellently treated in <a href="https://r.geocompx.org/" class="external-link">Geocomputation with R</a>, which is not
-only highly recommended as a reference book, but is also an
-indispensable basis for working and analyzing spatial data with
-R/Python.</p>
-<p>Despite all these spatial analysis and data handling capabilities in
-the <code>R</code> world, it can be said (at least from a non-R point of
-view) that there is still a huge gap between R and the mature open
-source Geographic Information System (GIS) and even more so the Remote
-Sensing (RS) software community. QGIS, GRASS GIS, and SAGA GIS provide
-an extensive, growing, and mature collection of sophisticated
-algorithms. The algorithms provided are fast, stable and most of them
-are well proven. Probably most <code>R</code> users who are somehow
-connected to the GI community know that there are great wrapper packages
-to bridge this gap. For <a href="https://grass.osgeo.org/" class="external-link">GRASS GIS
-7/8</a> it is <a href="https://CRAN.R-project.org/package=rgrass" class="external-link">rgrass</a> and for <a href="https://saga-gis.sourceforge.io/" class="external-link">SAGA GIS</a> there are <a href="https://CRAN.R-project.org/package=RSAGA" class="external-link">RSAGA</a> and <a href="https://github.com/stevenpawley/Rsagacmd" class="external-link">Rsagacmd</a>. There is
-no mature wrapper package for the [Orfeo Toolbox] (<a href="https://gitlab.orfeo-toolbox.org/orfeotoolbox/otb" class="external-link uri">https://gitlab.orfeo-toolbox.org/orfeotoolbox/otb</a>),
-which is indispensable for remote sensing. This package not only creates
-the API link, but also provides a lightweight wrapper for easy use of
-<code>OTB</code> modules from <code>R</code>.</p>
-<p>Unfortunately you will run into a lot of technical problems depending
-on the chosen operating system (OS) or library dependencies or GIS
-software versions. In the case of <code>RSAGA</code> for example, the
-main problem was that the <code>SAGA</code> GIS developers not only
-change the syntax and strategy of the command line interface (CLI), but
-also within the same release the calls differ from OS to OS. So the
-maintenance of RSAGA is at least tedious (but thumbs up again). Another
-example is <code>GRASS GIS</code>, which is known for a sophisticated
-setup of the environment and the spatial properties of the database. If
-you “only” want to use a specific <code>GRASS</code> algorithm from R,
-you will probably get lost in setting up all the OS dependencies that
-are necessary to set up a correct temporary or permanent
-<code>GRASS</code> environment from “outside”. This is not only due to
-the strict space and projection requirements of <code>GRASS</code>, but
-much more due to the demanding OS environments, especially Windows.</p>
-<p>To cut a long story short, it is a bit cumbersome to deal with all
-this stuff when you just want to start <code>GRASS</code> from the R
-command line, e.g. for a powerful random walk cost analysis
-(<code>r.walk</code>) call as provided by <code>GRASS</code>.</p>
+<p>R offers a rich ecosystem for handling spatial data. Vector data are
+primarily supported by <a href="https://CRAN.R-project.org/package=sp" class="external-link">sp</a> and the more modern
+<a href="https://CRAN.R-project.org/package=sf" class="external-link">sf</a> packages, while
+raster workflows are largely covered by <a href="https://CRAN.R-project.org/package=terra" class="external-link">terra</a> and <a href="https://CRAN.R-project.org/package=stars" class="external-link">stars</a>. Specialized
+data formats, such as NetCDF, are well supported by packages like <a href="https://CRAN.R-project.org/package=ncdf4" class="external-link">ncdf4</a>.</p>
+<p>Spatial analysis in R is often extended through wrapper packages that
+interface external libraries or command-line tools using R-like syntax,
+for example <a href="https://CRAN.R-project.org/package=geosphere" class="external-link">geosphere</a>, <a href="https://CRAN.R-project.org/package=Distance" class="external-link">Distance</a>, <a href="https://CRAN.R-project.org/package=igraph" class="external-link">igraph</a>, or <a href="https://CRAN.R-project.org/package=spatstat" class="external-link">spatstat</a>.</p>
+<p>A comprehensive overview of this ecosystem is provided by
+<em>Geocomputation with R</em> (<a href="https://r.geocompx.org/" class="external-link uri">https://r.geocompx.org/</a>), which serves as both an
+introduction and a reference for modern spatial data analysis in R.</p>
+<p>Despite these strengths, a clear gap remains between R and mature
+open-source GIS and remote-sensing software. Systems such as
+<strong>QGIS</strong>, <strong>GRASS GIS</strong>, and <strong>SAGA
+GIS</strong> offer large collections of well-tested, efficient, and
+often highly optimized algorithms that are not fully replicated within R
+packages.</p>
+<p>Bridging this gap is possible through wrapper packages. For
+<strong>GRASS GIS (7/8)</strong>, this role is filled by <a href="https://CRAN.R-project.org/package=rgrass" class="external-link">rgrass</a>. For
+<strong>SAGA GIS</strong>, <a href="https://CRAN.R-project.org/package=RSAGA" class="external-link">RSAGA</a> and <a href="https://github.com/stevenpawley/Rsagacmd" class="external-link">Rsagacmd</a> are
+available. However, for the <strong>Orfeo Toolbox</strong>, no mature,
+general-purpose R wrapper exists, despite its importance for large-scale
+remote-sensing workflows.</p>
+<p>In practice, users frequently encounter substantial technical
+barriers related to operating systems, library dependencies, and
+software version mismatches. GRASS GIS, in particular, requires a
+carefully configured environment and a strictly defined spatial database
+structure. Setting up such an environment from R—especially on Windows
+systems—can be disproportionately complex when the goal is simply to run
+a single algorithm.</p>
+<hr>
 </div>
 <div class="section level2">
-<h2 id="what-does-linking-mean">What does linking mean?<a class="anchor" aria-label="anchor" href="#what-does-linking-mean"></a>
+<h2 id="what-does-linking-mean">What does “linking” mean?<a class="anchor" aria-label="anchor" href="#what-does-linking-mean"></a>
 </h2>
-<p>Linking simply means providing all the necessary environment
-variables to allow full access to the command line APIs of the software
-tools mentioned. <code>link2GI</code> also tries to be compliant with
-the existing wrapper packages and integrate their use.
-<code>link2GI</code> tries to analyse which software is installed in
-which version in order to create a temporary or permanent environment
-that meets the requirements mentioned above.</p>
-<div class="section level4">
-<h4 id="grass-gis">GRASS GIS<a class="anchor" aria-label="anchor" href="#grass-gis"></a>
-</h4>
-<p>GRASS GIS has the most demanding requirements. It needs a lot of
-environment and path variables as <strong>and</strong> a correct setup
-of the geographic data parameters. The <code>linkGRASS</code> function
-tries to find all installations and lets you (optionally) choose the one
-you want to use and generate the necessary variables. As a result you
-can use both the <code>rgrass</code> package and the command line
-<code>API</code> of <code>GRASS</code>.</p>
+<p>In the context of <em>link2GI</em>, linking refers to the automated
+detection and configuration of all environment variables required to
+access external GIS software via their command-line APIs. The package
+does not reimplement GIS algorithms. Instead, it prepares a consistent
+execution environment so that existing tools can be used directly and
+reproducibly from R.</p>
+<p>The package analyses available installations, identifies compatible
+versions, and establishes either temporary or permanent environments
+that comply with the requirements of the respective software. Where
+possible, <em>link2GI</em> integrates seamlessly with existing wrapper
+packages.</p>
+<hr>
+<div class="section level3">
+<h3 id="grass-gis">GRASS GIS<a class="anchor" aria-label="anchor" href="#grass-gis"></a>
+</h3>
+<p>GRASS GIS imposes the most stringent requirements. In addition to
+numerous environment variables, it requires a correctly defined spatial
+database, including projection, extent, and resolution. The
+<code><a href="../reference/linkGRASS.html">linkGRASS()</a></code> function searches for available GRASS
+installations, optionally allows interactive selection, and initializes
+a valid GRASS session.</p>
+<p>Once initialized, users can access both the <strong>rgrass</strong>
+interface and the native GRASS command-line API within the same R
+session.</p>
+<hr>
 </div>
-<div class="section level4">
-<h4 id="saga-gis">SAGA GIS<a class="anchor" aria-label="anchor" href="#saga-gis"></a>
-</h4>
-<p>SAGA GIS is much easier to set up. Again, the <code>linkSAGA</code>
-function will try to find all <code>SAGA</code> installations, let you
-(optionally) choose one, and generate the necessary variables. You can
-also use <code>RSAGA</code>, but you have to pass the result of
-<code>linkSAGA</code> like
-<code>RSAGA::rsaga.env(path = saga$sagaPath)</code>. For easy use you
-can just use the <code>R</code> system() call to interface
-<code>R</code> with the <code>saga_cmd</code> API.</p>
+<div class="section level3">
+<h3 id="saga-gis">SAGA GIS<a class="anchor" aria-label="anchor" href="#saga-gis"></a>
+</h3>
+<p>SAGA GIS is comparatively easy to configure. The
+<code><a href="../reference/linkSAGA.html">linkSAGA()</a></code> function locates available installations, sets
+the required paths, and returns a configuration object that can be
+passed to wrapper packages such as <strong>RSAGA</strong>.
+Alternatively, users may directly call the <code>saga_cmd</code>
+command-line interface via R’s <code><a href="https://rdrr.io/r/base/system.html" class="external-link">system()</a></code> function.</p>
+<hr>
 </div>
-<div class="section level4">
-<h4 id="orfeo-toolbox-otb">Orfeo Toolbox (OTB)<a class="anchor" aria-label="anchor" href="#orfeo-toolbox-otb"></a>
-</h4>
-<p>The <code>Orfeo Toolbox</code> (OTB) is a very powerful remote
-sensing toolbox. It is widely used for classification, filtering and
-machine learning applications. You will find some of the implemented
-algorithms in various R packages, but <strong>always</strong> much
-slower or only running on small data chunks. <code>link2GI</code>
-searches and links all <code>OTB</code> installations of a given search
-path and returns the result as a concise list. Due to a missing wrapper
-package, a list-based <code>OTB</code> module and function parser is
-also available, which can be piped into the <code>runOTB</code> function
-for a convenient function call.</p>
+<div class="section level3">
+<h3 id="orfeo-toolbox-otb">Orfeo Toolbox (OTB)<a class="anchor" aria-label="anchor" href="#orfeo-toolbox-otb"></a>
+</h3>
+<p>The Orfeo Toolbox is a powerful framework for remote-sensing tasks
+such as classification, filtering, and machine-learning-based image
+analysis. While selected OTB algorithms are available through R
+packages, these implementations are often limited to small datasets or
+are not designed for large-scale workflows.</p>
+<p><em>link2GI</em> identifies available OTB installations and exposes
+their command-line interfaces in a structured way. In the absence of a
+comprehensive R wrapper, the package provides a lightweight parser for
+OTB applications, enabling reproducible and scriptable execution of OTB
+modules from R.</p>
+<hr>
 </div>
-<div class="section level4">
-<h4 id="gdal">GDAL<a class="anchor" aria-label="anchor" href="#gdal"></a>
-</h4>
-<p>Although <code>GDAL</code> is well integrated into the R packages, in
-quite a few cases it is advantageous to use system calls and to obtain
-the binaries directly, especially after the discontinuation of
-<code>rgdal</code> and some other convenience packages. In particular,
-the development towards <code>GDAL 3.x</code> and optionally different
-boxed versions of <code>GDAL</code> binaries that work with different
-<code>Python</code> and <code>proj4/proj6</code> libraries make it often
-difficult to find the right <code>GDAL</code> version.
-<code>link2GI</code> generates a list of all paths and commands of all
-<code>GDAL</code> installations in the given search path. With this
-list, you can easily use all available API calls of each
-installation.</p>
+<div class="section level3">
+<h3 id="gdal">GDAL<a class="anchor" aria-label="anchor" href="#gdal"></a>
+</h3>
+<p>Although GDAL functionality is widely accessible through R packages,
+direct access to GDAL binaries remains useful in several
+scenarios—particularly following the retirement of <code>rgdal</code>
+and related packages. Version differences between GDAL, PROJ, and Python
+environments can make it difficult to identify a compatible setup.</p>
+<p><em>link2GI</em> scans for available GDAL installations and returns
+structured information about their binaries and paths, enabling explicit
+and controlled use of GDAL command-line tools from R.</p>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

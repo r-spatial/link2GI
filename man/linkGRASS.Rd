@@ -2,8 +2,7 @@
 % Please edit documentation in R/linkGRASS.R
 \name{linkGRASS}
 \alias{linkGRASS}
-\alias{linkGRASS7}
-\title{Locate and set up 'GRASS' API bindings}
+\title{Locate and set up GRASS GIS API bindings}
 \usage{
 linkGRASS(
   x = NULL,
@@ -22,112 +21,98 @@ linkGRASS(
 )
 }
 \arguments{
-\item{x}{raster/terra or sf/sp object}
+\item{x}{A spatial object used to initialize the GRASS location.
+Supported classes are `terra::SpatRaster`, `sf`, `sp`, `stars`,
+or a file path to a raster dataset.}
 
-\item{epsg}{manual epsg override}
+\item{epsg}{Integer EPSG code used to define the GRASS projection.
+If `NULL`, the EPSG code is inferred from `x` when possible.}
 
-\item{default_GRASS}{default is \code{NULL} If is \code{NULL} an automatic search for all installed versions is performed. 
-If you provide a valid list the corresponding version is initialized. An example for OSGeo4W64 is:
-\code{c('C:/OSGeo4W64','grass-7.0.5','osgeo4w')}}
+\item{default_GRASS}{Optional character vector defining a GRASS installation
+(e.g. `c("/usr/lib/grass83", "8.3.2", "grass")`).}
 
-\item{search_path}{Path or mount point to search for.}
+\item{search_path}{Character path used to search for GRASS installations.}
 
-\item{ver_select}{Boolean if TRUE you may choose interactively the binary version (if found  more than one),  by default FALSE}
+\item{ver_select}{Logical or numeric value controlling interactive or indexed
+GRASS version selection.}
 
-\item{gisdbase_exist}{default is FALSE if set to TRUE the arguments gisdbase and location are expected to be an existing GRASS gisdbase}
+\item{gisdbase_exist}{Logical; if `TRUE`, `gisdbase` and `location` must
+already exist and will only be linked.}
 
-\item{gisdbase}{default is \code{NULL}, invoke \code{tempdir()} to the 'GRASS' database. Alternatively you can provide a individual path.}
+\item{gisdbase}{Path to the GRASS database directory.}
 
-\item{use_home}{default is \code{FALSE}, set the GISRC path to tempdir(), if TRUE the HOME or USERPROFILE setting is used for writing the GISRC file}
+\item{use_home}{Logical; if `TRUE`, the user home directory is used for GISRC.}
 
-\item{location}{default is \code{NULL}, invoke \code{basename(tempfile())} for defining the 'GRASS' location. Alternatively you can provide a individual path.}
+\item{location}{Name of the GRASS location to create or link.}
 
-\item{spatial_params}{default is \code{NULL}. Instead of a spatial object you may provide the geometry as a list. E.g. c(xmin,ymin,xmax,ymax,proj4_string)}
+\item{spatial_params}{Optional numeric vector defining extent manually
+(`xmin, ymin, xmax, ymax[, proj]`).}
 
-\item{resolution}{resolution in map units for the GRASS raster cells}
+\item{resolution}{Numeric raster resolution used for `g.region`.}
 
-\item{quiet}{Boolean  switch for suppressing console messages default is TRUE}
+\item{quiet}{Logical; suppress console output if `TRUE`.}
 
-\item{returnPaths}{Boolean if set to FALSE the paths of the selected version are written 
-to the PATH variable only, otherwise all paths and versions of the installed GRASS versions ae returned.}
+\item{returnPaths}{Logical; return detected GRASS installation paths.}
+}
+\value{
+A list describing the selected GRASS installation and status, or `NULL`
+if no valid installation was found.
 }
 \description{
-Initializes the session environment and the system paths for an easy access to
-\href{https://grass.osgeo.org/}{'GRASS GIS 7.x/8.x'}.  The correct setup of the spatial and
- projection parameters is automatically performed by using either an existing and valid 
- \code{raster}, \code{terra}, \code{sp} or \code{sf} object, 
- or manually by providing a list containing the minimum parameters needed.\cr
+Initializes a GRASS GIS 7.x/8.x runtime environment and prepares a valid
+temporary or permanent GRASS location and mapset for use from R.
 }
-\note{
-GRASS GIS is excellently supported by the \code{rgrass} wrapper package. Nevertheless, 'GRASS GIS' is known for its
-its high demands on the correct spatial and reference setup  and environment requirements. This becomes even worse on 'Windows 
-platforms or when there are several alternative 'GRASS GIS' installations available.
-If you know how to use the \code{rgrass} package setup function \code{rgrass::initGRASS} works fine on Linux. 
-This is also true for known configurations under the 'Windows' operating system. 
-However, on university labs or corporate machines with limited privileges and/or different releases
-such as the \href{https://trac.osgeo.org/osgeo4w/}{'OSGeo4W'} distribution and the  \href{https://grass.osgeo.org/download/windows/}{'GRASS' stand-alone} installation, 
-or different software releases (e.g. 'GRASS 7.0.5 and GRASS 8.1.0), it often becomes inconvenient or even 
-to get the correct links. \cr The function \code{linkGRASS} tries to find all valid 'GRASS GIS' binaries by #' analyzing the startup script files.
-GRASS GIS' startup script files. After identifying the 'GRASS GIS' binaries, all #' necessary system variables and settings are
-system variables and settings are generated and passed to a temporary R environment.
-The concept is simple, but helpful for everyday use. You need to either 
-provide a \code{raster} or \code{sp} \code{sf} spatial object
-that has the correct spatial and projection properties, or you can link directly to an existing 'GRASS' gisdbase and mapset. 
-If you choose a spatial object to initialize a correct 'GRASS' mapset, it will be used to create either a temporary or permanent mapset. 
-\href{https://CRAN.R-project.org/package=rgrass}{rgrass} environment with the correct 'GRASS' structure.\cr\cr
-The most time consuming part on Windows systems is the search process. This can easily take 10 minutes or more. 
-To speed up this process, you can also provide a correct parameter set. The best way to do this is to manually call \code{searchGRASSW} or for 'Linux' \code{searchGRASSX}. 
-and call \code{linkGRASS} with the version arguments of your choice. linkGRASS will initialize the use of GRASS.
-If you have more than one valid installation and call \code{linkGRASS()} without arguments, you will be asked to select one.
+\details{
+The function detects installed GRASS versions, initializes required
+environment variables, and derives spatial reference information either
+from an existing spatial object or from manually provided parameters.
+
+
+GRASS requires a fully initialized runtime environment (PATH, GISBASE,
+PROJ, GDAL). On some platforms, R must be started from a shell where GRASS
+is already available.
+
+The function ensures that `PROJ_INFO` and `PROJ_UNITS` are written by
+explicitly calling `g.proj` before region initialization.
 }
 \examples{
-
-run = FALSE
-if (run) {
+\dontrun{
 library(link2GI)
-require(sf)
+library(sf)
 
-# get  data                         
-nc = st_read(system.file('shape/nc.shp', package='sf'))
-# Automatic linking of GRASS binaries using the nc data object for spatial referencing
-# This is the best practice linking procedure for on-the-fly jobs.
-# NOTE: If more than one GRASS installation is found, you will have to select one. 
-grass = linkGRASS(nc)
+# Example 1: initialize a temporary GRASS location from an sf object
+nc <- st_read(system.file("shape/nc.shp", package = "sf"))
+grass <- linkGRASS(nc)
 
-# Select the GRASS installation (if more than one)
+# Example 2: select GRASS version interactively if multiple installations exist
 linkGRASS(nc, ver_select = TRUE)
 
-# Select the GRASS installation and define the search location
-linkGRASS(nc, ver_select = TRUE, search_path = '~/')
+# Example 3: create a permanent GRASS location
+root <- tempdir()
+linkGRASS(
+  x        = nc,
+  gisdbase = root,
+  location = "project1"
+)
 
-# Set up GRASS manually with spatial parameters of the nc data
-epsg = 28992
-proj4_string <- sp::CRS(paste0('+init=epsg:',epsg))
+# Example 4: link to an existing GRASS location without recreating it
+linkGRASS(
+  gisdbase        = root,
+  location        = "project1",
+  gisdbase_exist  = TRUE
+)
 
-linkGRASS(spatial_params = c(178605,329714,181390,333611,proj4_string@projargs),epsg=epsg)
-
-
-# create some temporary project folders for a permanent gisdbase
-root_folder = tempdir()
-grass_path = link2GI::createFolder(root_folder = root_folder,
-                         folders = c('project1/'))
-if (grass$exist){
-# CREATE and link to a permanent GRASS folder at 'root_folder', location named 'project1' 
-linkGRASS(nc, gisdbase = root_folder, location = 'project1')   
-
-# ONLY LINK to a permanent GRASS folder in 'root_folder', location named 'project1' 
-linkGRASS(gisdbase = root_folder, location = 'project1', gisdbase_exist = TRUE )   
-
-# Manual creation of a GRASS gisdbase with the spatial parameters of the NC data. 
-# additional use of a permanent directory 'root_folder' and the location 'nc_spatial_params'.
-epsg = 4267
-proj4_string = sp::CRS(paste0('+init=epsg:',epsg))
-linkGRASS(gisdbase = root_folder,
-           location = 'nc_spatial_params',
-           spatial_params = c(-84.32385, 33.88199,-75.45698,36.58965,proj4_string),epsg = epsg)
+# Example 5: manual setup using spatial parameters only
+epsg <- 28992
+linkGRASS(
+  spatial_params = c(178605, 329714, 181390, 333611),
+  epsg = epsg
+)
 }
 }
-
+\seealso{
+\code{\link[rgrass]{initGRASS}},
+\code{\link[rgrass]{execGRASS}}
 }
 \author{
 Chris Reudenbach

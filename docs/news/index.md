@@ -13,9 +13,7 @@
 
 **documentation**
 
-- update
-  [`initProj()`](https://r-spatial.github.io/link2GI/reference/initProj.md)
-  documentation to reflect non-recursive execution model
+- update complete documentation to meet new concepts and calls
 
 ## link2GI 0.7-0
 

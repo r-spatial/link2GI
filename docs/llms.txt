@@ -82,9 +82,6 @@ run).](https://raw.githubusercontent.com/r-spatial/link2GI/master/figures/usegui
 Animated demonstration of the link2GI GUI workflow (select API,
 configure paths, run).
 
-Animated demonstration of the link2GI GUI workflow (select API,
-configure paths, run).
-
 # Package index
 
 ## All functions
@@ -111,7 +108,7 @@ configure paths, run).
 - [`linkGDAL()`](https://r-spatial.github.io/link2GI/reference/linkGDAL.md)
   : Locate and set up 'GDAL' API bindings
 - [`linkGRASS()`](https://r-spatial.github.io/link2GI/reference/linkGRASS.md)
-  : Locate and set up 'GRASS' API bindings
+  : Locate and set up GRASS GIS API bindings
 - [`linkOTB()`](https://r-spatial.github.io/link2GI/reference/linkOTB.md)
   : Locate and describe 'Orfeo ToolBox' (OTB) API bindings
 - [`linkSAGA()`](https://r-spatial.github.io/link2GI/reference/linkSAGA.md)
@@ -168,4 +165,4 @@ configure paths, run).
 - [Create reproducible project structures in
   link2GI](https://r-spatial.github.io/link2GI/articles/link2GI5.md):
 - [Installation guide for link2GI related
-  Software](https://r-spatial.github.io/link2GI/articles/link2GI6.md):
+  software](https://r-spatial.github.io/link2GI/articles/link2GI6.md):

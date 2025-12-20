@@ -39,7 +39,7 @@
     <li><a class="dropdown-item" href="../articles/link2GI3.html">GRASS application for real world big data</a></li>
     <li><a class="dropdown-item" href="../articles/link2GI4.html">OTB Wrapper in link2GI</a></li>
     <li><a class="dropdown-item" href="../articles/link2GI5.html">Create reproducible project structures in link2GI</a></li>
-    <li><a class="dropdown-item" href="../articles/link2GI6.html">Installation guide for link2GI related Software</a></li>
+    <li><a class="dropdown-item" href="../articles/link2GI6.html">Installation guide for link2GI related software</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
@@ -71,9 +71,9 @@ Reudenbach</h4>
 
     
     
-<div class="section level2">
-<h2 id="brute-force-search">Brute force search<a class="anchor" aria-label="anchor" href="#brute-force-search"></a>
-</h2>
+<div class="section level3">
+<h3 id="brute-force-search">Brute force search<a class="anchor" aria-label="anchor" href="#brute-force-search"></a>
+</h3>
 <p>Automatic searching and finding of installed GIS software binaries is
 done by the <code>find</code> functions. Depending on your operating
 system and the number of installed versions you will get a data frame
@@ -93,9 +93,9 @@ with the binary and module folders.</p>
 <p>The `find’ functions provide an overview of the installed software.
 These functions do not create links or change settings.</p>
 </div>
-<div class="section level2">
-<h2 id="setting-up-project-structures">Setting up project structures<a class="anchor" aria-label="anchor" href="#setting-up-project-structures"></a>
-</h2>
+<div class="section level3">
+<h3 id="setting-up-project-structures">Setting up project structures<a class="anchor" aria-label="anchor" href="#setting-up-project-structures"></a>
+</h3>
 <p>If you are just calling link2GI on the fly, i.e. for a single
 temporary operation, there is no need to set up folders and project
 structures. If you are working on a more complex project, it might be
@@ -106,21 +106,24 @@ locations.</p>
 <code>initProj</code> function, which creates folder structures (if not
 existing) and sets global variables (if desired) containing the paths as
 strings.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-spatial/link2GI/" class="external-link">link2GI</a></span><span class="op">)</span></span>
-<span><span class="va">dirs</span> <span class="op">=</span> <span class="fu">link2GI</span><span class="fu">::</span><span class="fu"><a href="../reference/createFolders.html">createFolders</a></span><span class="op">(</span>root_folder <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>                                folders <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"data/"</span>,</span>
-<span>                                            <span class="st">"data/level0/"</span>,</span>
-<span>                                            <span class="st">"data/level1/"</span>,</span>
-<span>                                            <span class="st">"output/"</span>,</span>
-<span>                                            <span class="st">"run/"</span>,</span>
-<span>                                            <span class="st">"fun/"</span><span class="op">)</span></span>
-<span>                                <span class="op">)</span></span>
-<span><span class="va">dirs</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">require</span>(link2GI)</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>dirs <span class="ot">&lt;-</span> link2GI<span class="sc">::</span><span class="fu">initProj</span>(</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>  <span class="at">root_folder    =</span> <span class="fu">tempdir</span>(),</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>  <span class="at">standard_setup =</span> <span class="st">"baseSpatial"</span></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>)</span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>dirs <span class="ot">&lt;-</span> link2GI<span class="sc">::</span><span class="fu">setupProj</span>(</span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a>  <span class="at">root_folder =</span> <span class="fu">getwd</span>(),</span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a>  <span class="at">folders     =</span> <span class="fu">c</span>(<span class="st">"data/level0"</span>, <span class="st">"data/level1"</span>, <span class="st">"output"</span>, <span class="st">"run"</span>),</span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a>  <span class="at">code_subfolder =</span> <span class="fu">c</span>(<span class="st">"src"</span>, <span class="st">"src/functions"</span>)</span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a>)</span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a></span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a>                                <span class="er">)</span></span>
+<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a>dirs</span></code></pre></div>
 </div>
-<div class="section level2">
-<h2 id="linksaga---find-and-set-up-saga-api-bindings">linkSAGA - Find and set up ‘SAGA’ API bindings<a class="anchor" aria-label="anchor" href="#linksaga---find-and-set-up-saga-api-bindings"></a>
-</h2>
+<div class="section level3">
+<h3 id="linksaga---find-and-set-up-saga-api-bindings">linkSAGA - Find and set up ‘SAGA’ API bindings<a class="anchor" aria-label="anchor" href="#linksaga---find-and-set-up-saga-api-bindings"></a>
+</h3>
 <p>In the past it was quite tedious to link the correct
 <code>SAGA GIS</code> version. Since version 1.x.x of <code>RSAGA</code>
 things are much better. The new <code><a href="https://rdrr.io/pkg/RSAGA/man/rsaga.env.html" class="external-link">RSAGA::rsaga.env()</a></code> function
@@ -129,9 +132,48 @@ also possible to pass the version number as shown below. Storing the
 result in appropriate variables will even allow you to easily switch
 between different <code>SAGA GIS</code> installations.</p>
 </div>
-<div class="section level2">
-<h2 id="linkgrass---find-and-set-up-grass-78-api-bindings">linkGRASS - Find and set up GRASS 7/8 API bindings<a class="anchor" aria-label="anchor" href="#linkgrass---find-and-set-up-grass-78-api-bindings"></a>
-</h2>
+<div class="section level3">
+<h3 id="find-and-set-up-grass-78-api-bindings">Find and set up GRASS 7/8 API bindings<a class="anchor" aria-label="anchor" href="#find-and-set-up-grass-78-api-bindings"></a>
+</h3>
+<div class="section level4">
+<h4 id="important-note-grass-runtime-environment">Important note: GRASS runtime environment<a class="anchor" aria-label="anchor" href="#important-note-grass-runtime-environment"></a>
+</h4>
+<p>GRASS GIS relies on a correctly initialized <strong>runtime
+environment</strong> (PATH, GISBASE, PROJ, GDAL, Python bindings).</p>
+<p>R (or RStudio) must be started from an environment where these
+variables are already set. Otherwise, <code>rgrass</code> and GRASS
+command-line calls may fail.</p>
+<div class="section level5">
+<h5 id="windows-osgeo4w">Windows (OSGeo4W)<a class="anchor" aria-label="anchor" href="#windows-osgeo4w"></a>
+</h5>
+<p>If GRASS is installed via <strong>OSGeo4W</strong>, R or RStudio
+<strong>must be started from the OSGeo4W Shell</strong>.</p>
+<p>OSGeo4W initializes required variables such as
+<code>OSGEO4W_ROOT</code>, <code>PATH</code>, <code>PROJ_LIB</code>, and
+<code>GDAL_DATA</code>.</p>
+</div>
+<div class="section level5">
+<h5 id="linux">Linux<a class="anchor" aria-label="anchor" href="#linux"></a>
+</h5>
+<p>On Linux, GRASS environment variables are usually set by system
+startup scripts or shell profiles.</p>
+<p>If GRASS was installed manually, via custom builds, containers, or
+non-standard locations, R must be started from the same shell session
+where GRASS is available (e.g. after <code>grass --text</code> or
+sourcing GRASS startup scripts).</p>
+</div>
+<div class="section level5">
+<h5 id="macos">macOS<a class="anchor" aria-label="anchor" href="#macos"></a>
+</h5>
+<p>When using Homebrew or standalone GRASS installations, R must be
+started from a shell that has GRASS on the PATH. GUI launches may miss
+required environment variables.</p>
+</div>
+</div>
+<div class="section level4">
+<h4 id="linkgrass">
+<code>linkGRASS</code><a class="anchor" aria-label="anchor" href="#linkgrass"></a>
+</h4>
 <p><code>linkGRASS</code> initializes the session environment and system
 paths for easy access to <code>GRASS GIS 7.x./8.x</code>. The correct
 setting of spatial and projection parameters is done automatically
@@ -157,9 +199,9 @@ passed to a temporary <code>R</code> environment.</p>
 <p>If you have more than one valid installation and run
 <code>linkGRASS</code> with the arguments
 <code>select_ver = TRUE</code>, you will be asked to select one.</p>
-<div class="section level4">
-<h4 id="standard-full-search-usage">Standard full search usage<a class="anchor" aria-label="anchor" href="#standard-full-search-usage"></a>
-</h4>
+<div class="section level5">
+<h5 id="standard-full-search-usage">Standard full search usage<a class="anchor" aria-label="anchor" href="#standard-full-search-usage"></a>
+</h5>
 <p>The most common use of <code>GRASS</code> is for a single call or
 algorithm. The user is not interested in setting all the parameters.
 linGRASS7(georeferenced-dataset)<code>does an automatic search and finds all the</code>GRASS<code>binaries using the georeferenced-dataset object for spatial referencing and other necessary settings.  **NOTE:** This is the highly recommended linking procedure for all on-the-fly invocations of</code>GRASS<code>. Please also note that if more than one</code>GRASS`
@@ -235,9 +277,9 @@ manually provided parameters.</p>
 <span>            location <span class="op">=</span> <span class="st">"nc_spatial_params"</span>,</span>
 <span>            spatial_params <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">84.32385</span>, <span class="fl">33.88199</span>,<span class="op">-</span><span class="fl">75.45698</span>,<span class="fl">36.58965</span>,<span class="va">proj4_string</span><span class="op">)</span>,epsg <span class="op">=</span> <span class="va">epsg</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div class="section level4">
-<h4 id="typical-for-specified-search-paths-and-os">Typical for specified search paths and OS<a class="anchor" aria-label="anchor" href="#typical-for-specified-search-paths-and-os"></a>
-</h4>
+<div class="section level5">
+<h5 id="typical-for-specified-search-paths-and-os">Typical for specified search paths and OS<a class="anchor" aria-label="anchor" href="#typical-for-specified-search-paths-and-os"></a>
+</h5>
 <p>The full disk search can be tedious, especially on Windows it can
 easily take 10 minutes or more. So it is helpful to specify a search
 path to narrow down the search. To search for <code>GRASS</code>
@@ -249,56 +291,71 @@ command.</p>
 <p>If you already did a full search and kow your installation fo example
 using the command <code>findGRASS</code> you can use the result directly
 for linking.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">findGRASS</span>()</span>
-<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>     instDir version installation_type</span>
-<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a><span class="dv">1</span> <span class="sc">/</span>usr<span class="sc">/</span>lib<span class="sc">/</span>grass83   <span class="dv">8</span>.<span class="fl">3.2</span>             grass</span>
-<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a></span>
-<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a><span class="co"># now linking it </span></span>
-<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a><span class="fu">linkGRASS</span>(nc,<span class="fu">c</span>(<span class="st">"/usr/lib/grass83"</span>,<span class="st">"8.3.2"</span>,<span class="st">"grass"</span>),<span class="at">epsg =</span> <span class="dv">4267</span>) </span>
-<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a></span>
-<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a><span class="co"># corresponding linkage running windows</span></span>
-<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a><span class="fu">linkGRASS</span>(nc,<span class="fu">c</span>(<span class="st">"C:/Program Files/GRASS GIS7.0.5"</span>,<span class="st">"GRASS GIS 7.0.5"</span>,<span class="st">"NSIS"</span>)) </span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/findGRASS.html">findGRASS</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<pre class="text"><code>     instDir version installation_type
+1 /usr/lib/grass83   8.3.2             grass</code></pre>
 </div>
-<div class="section level4">
-<h4 id="manual-version-selection">Manual version selection<a class="anchor" aria-label="anchor" href="#manual-version-selection"></a>
-</h4>
+</div>
+</div>
+<div class="section level2">
+<h2 id="now-linking-it">now linking it<a class="anchor" aria-label="anchor" href="#now-linking-it"></a>
+</h2>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/linkGRASS.html">linkGRASS</a></span><span class="op">(</span><span class="va">nc</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"/usr/lib/grass83"</span>,<span class="st">"8.3.2"</span>,<span class="st">"grass"</span><span class="op">)</span>,epsg <span class="op">=</span> <span class="fl">4267</span><span class="op">)</span> </span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="corresponding-linkage-running-windows">corresponding linkage running windows<a class="anchor" aria-label="anchor" href="#corresponding-linkage-running-windows"></a>
+</h2>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/linkGRASS.html">linkGRASS</a></span><span class="op">(</span></span>
+<span>  x <span class="op">=</span> <span class="va">nc</span>,</span>
+<span>  default_GRASS <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
+<span>    <span class="st">"C:/Program Files/GRASS GIS7.0.5"</span>,</span>
+<span>    <span class="st">"GRASS GIS 7.0.5"</span>,</span>
+<span>    <span class="st">"NSIS"</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<div class="section level5">
+<h5 id="manual-version-selection">Manual version selection<a class="anchor" aria-label="anchor" href="#manual-version-selection"></a>
+</h5>
 <p>Finally, some more specific examples related to interactive selection
 or OS-specific settings. Manually select the <code>GRASS</code>
 installation and use the meuse <code>sf</code> object for spatial
 referencing. If you only have one installation it is directly
 selected.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/linkGRASS.html">linkGRASS</a></span><span class="op">(</span><span class="va">nc</span>, ver_select <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div class="section level4">
-<h4 id="creating-a-permanent-gisdbase-folder">Creating a permanent gisdbase folder<a class="anchor" aria-label="anchor" href="#creating-a-permanent-gisdbase-folder"></a>
-</h4>
+<div class="section level5">
+<h5 id="creating-a-permanent-gisdbase-folder">Creating a permanent gisdbase folder<a class="anchor" aria-label="anchor" href="#creating-a-permanent-gisdbase-folder"></a>
+</h5>
 <p>Create and link a permanent <code>GRASS</code> gisdbase (folder
 structure) in “~/temp3” with the default mapset “PERMANENT”” and the
 location “project1”. Use the <code>sf</code> object for all spatial
 attributes.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/linkGRASS.html">linkGRASS</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">nc</span>, </span>
 <span>                     gisdbase <span class="op">=</span> <span class="st">"~/temp3"</span>,</span>
 <span>                     location <span class="op">=</span> <span class="st">"project1"</span><span class="op">)</span>   </span></code></pre></div>
 </div>
-<div class="section level4">
-<h4 id="using-a-permanent-gisdbase-folder">Using a permanent gisdbase folder<a class="anchor" aria-label="anchor" href="#using-a-permanent-gisdbase-folder"></a>
-</h4>
+<div class="section level5">
+<h5 id="using-a-permanent-gisdbase-folder">Using a permanent gisdbase folder<a class="anchor" aria-label="anchor" href="#using-a-permanent-gisdbase-folder"></a>
+</h5>
 <p>Link to the permanent <code>GRASS</code> gisdbase (folder structure)
 in “~/temp3” with the default mapset “PERMANENT” and the location named
 “project1”. Use the formerly referencend nc <code>sf</code> object
 parameter for all spatial attributes.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/linkGRASS.html">linkGRASS</a></span><span class="op">(</span>gisdbase <span class="op">=</span> <span class="st">"~/temp3"</span>, location <span class="op">=</span> <span class="st">"project1"</span>, </span>
 <span>                     gisdbase_exist <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>   </span></code></pre></div>
 </div>
-<div class="section level4">
-<h4 id="manual-setup-of-the-spatial-attributes">Manual Setup of the spatial attributes<a class="anchor" aria-label="anchor" href="#manual-setup-of-the-spatial-attributes"></a>
-</h4>
+<div class="section level5">
+<h5 id="manual-setup-of-the-spatial-attributes">Manual Setup of the spatial attributes<a class="anchor" aria-label="anchor" href="#manual-setup-of-the-spatial-attributes"></a>
+</h5>
 <p>Setting up <code>GRASS</code> manually with spatial parameters of the
 meuse data</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span> <span class="fu"><a href="../reference/linkGRASS.html">linkGRASS</a></span><span class="op">(</span>spatial_params <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">178605</span>,<span class="fl">329714</span>,<span class="fl">181390</span>,<span class="fl">333611</span>,</span>
 <span>                              <span class="st">"+proj=sterea +lat_0=52.15616055555555 </span></span>
 <span><span class="st">                               +lon_0=5.38763888888889 +k=0.9999079 </span></span>
@@ -308,75 +365,139 @@ meuse data</p>
 <span><span class="st">                                -0.398957,0.343988,-1.8774,4.0725</span></span>
 <span><span class="st">                               +to_meter=1"</span><span class="op">)</span>,epsg <span class="op">=</span> <span class="fl">28992</span><span class="op">)</span> </span></code></pre></div>
 </div>
-</div>
-<div class="section level2">
-<h2 id="a-typical-use-case-for-the-orfeo-toolbox-wrapper">A typical use case for the Orfeo Toolbox wrapper<a class="anchor" aria-label="anchor" href="#a-typical-use-case-for-the-orfeo-toolbox-wrapper"></a>
-</h2>
+<div class="section level3">
+<h3 id="a-typical-use-case-for-the-orfeo-toolbox-wrapper">A typical use case for the Orfeo Toolbox wrapper<a class="anchor" aria-label="anchor" href="#a-typical-use-case-for-the-orfeo-toolbox-wrapper"></a>
+</h3>
 <p>link2GI supports the use of the Orfeo Toolbox with a simple
 list-based wrapper function. Actually, two functions parse the module
 and function syntax dumps and generate a command list that can be easily
 modified with the necessary arguments. If you have installed it in a
 user home directory you need to adrees this:</p>
 <p>Usually you have to get the module list first:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># link to the installed OTB Linux HOME directory</span></span>
-<span><span class="va">otblink</span><span class="op">&lt;-</span><span class="fu">link2GI</span><span class="fu">::</span><span class="fu"><a href="../reference/linkOTB.html">linkOTB</a></span><span class="op">(</span>searchLocation <span class="op">=</span> <span class="st">"~/apps/OTB-8.1.2-Linux64/"</span><span class="op">)</span>  </span>
-<span></span>
+<span><span class="va">otblink</span><span class="op">&lt;-</span><span class="fu">link2GI</span><span class="fu">::</span><span class="fu"><a href="../reference/linkOTB.html">linkOTB</a></span><span class="op">(</span>searchLocation <span class="op">=</span> <span class="st">"~/apps/"</span><span class="op">)</span>  </span>
 <span></span>
 <span><span class="co"># get the list of modules from the linked version</span></span>
-<span><span class="va">algo</span><span class="op">&lt;-</span><span class="fu"><a href="../reference/parseOTBAlgorithms.html">parseOTBAlgorithms</a></span><span class="op">(</span>gili <span class="op">=</span> <span class="va">otblink</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">algo</span><span class="op">&lt;-</span><span class="fu"><a href="../reference/parseOTBAlgorithms.html">parseOTBAlgorithms</a></span><span class="op">(</span>gili <span class="op">=</span> <span class="va">otblink</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">algo</span> <span class="op">&lt;-</span> <span class="fu">link2GI</span><span class="fu">::</span><span class="fu"><a href="../reference/otb_capabilities.html">otb_capabilities</a></span><span class="op">(</span>gili <span class="op">=</span> <span class="va">otblink</span><span class="op">)</span></span></code></pre></div>
 <p>Based on the modules of the current version of `OTB’, you can then
 select the module(s) you want to use.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## for the example we use the edge detection, </span></span>
-<span><span class="va">algoKeyword</span> <span class="op">&lt;-</span> <span class="st">"EdgeExtraction"</span></span>
+<span><span class="co">## ------------------------------------------------------------</span></span>
+<span><span class="co">## 1) Select an OTB algorithm by name pattern</span></span>
+<span><span class="co">## ------------------------------------------------------------</span></span>
+<span><span class="co">## grep() returns *all* matching algorithm names as a character vector.</span></span>
+<span><span class="co">## This is intentional for exploration, but NOT valid for execution.</span></span>
+<span><span class="va">algoKeyword</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grep</a></span><span class="op">(</span><span class="st">"edge"</span>, <span class="va">algo</span>, value <span class="op">=</span> <span class="cn">TRUE</span>, ignore.case <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co">## extract the command list for the selected algorithm </span></span>
-<span><span class="va">cmd</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/parseOTBFunction.html">parseOTBFunction</a></span><span class="op">(</span>algo <span class="op">=</span> <span class="va">algoKeyword</span>, gili <span class="op">=</span> <span class="va">otblink</span><span class="op">)</span></span>
+<span><span class="co">## Inspect matches (important!)</span></span>
+<span><span class="va">algoKeyword</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">algoKeyword</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co">## print the current command</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">cmd</span><span class="op">)</span></span></code></pre></div>
-<p>Admittedly, this is a very simple and preliminary approach.
-Nevertheless, it will give you a valid list of all <code>OTB</code> API
-calls that you can easily manipulate to suit your needs. The following
-working example will give you an idea of how to use it.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<span><span class="co">## ------------------------------------------------------------</span></span>
+<span><span class="co">## 2) Select exactly ONE algorithm (mandatory)</span></span>
+<span><span class="co">## ------------------------------------------------------------</span></span>
+<span><span class="co">## Explicitly pick one algorithm from the matches.</span></span>
+<span><span class="co">## This avoids ambiguity and guarantees a scalar character value.</span></span>
+<span><span class="va">algo</span> <span class="op">&lt;-</span> <span class="va">algoKeyword</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
+<span></span>
+<span><span class="co">## ------------------------------------------------------------</span></span>
+<span><span class="co">## 3) Read OTB help text (capabilities)</span></span>
+<span><span class="co">## ------------------------------------------------------------</span></span>
+<span><span class="co">## This parses the OTB -help output and returns the raw help text.</span></span>
+<span><span class="co">## This is the *authoritative source* for parameters.</span></span>
+<span><span class="va">caps</span> <span class="op">&lt;-</span> <span class="fu">link2GI</span><span class="fu">::</span><span class="fu"><a href="../reference/otb_capabilities.html">otb_capabilities</a></span><span class="op">(</span>algo <span class="op">=</span> <span class="va">algo</span>, gili <span class="op">=</span> <span class="va">otblink</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">## Print the help text to understand available parameters</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="va">caps</span><span class="op">$</span><span class="va">text</span>, collapse <span class="op">=</span> <span class="st">"\n"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">## ------------------------------------------------------------</span></span>
+<span><span class="co">## 4) Parse parameters into a structured table</span></span>
+<span><span class="co">## ------------------------------------------------------------</span></span>
+<span><span class="co">## otb_args_spec() converts the help text into a data.frame</span></span>
+<span><span class="co">## with keys, types, defaults, and mandatory flags.</span></span>
+<span><span class="va">spec</span> <span class="op">&lt;-</span> <span class="fu">link2GI</span><span class="fu">::</span><span class="fu"><a href="../reference/otb_args_spec.html">otb_args_spec</a></span><span class="op">(</span>algo <span class="op">=</span> <span class="va">algo</span>, gili <span class="op">=</span> <span class="va">otblink</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">## Inspect the relevant parameter metadata</span></span>
+<span><span class="va">spec</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"key"</span>, <span class="st">"mandatory"</span>, <span class="st">"default"</span>, <span class="st">"class"</span><span class="op">)</span><span class="op">]</span></span>
+<span></span>
+<span></span>
+<span><span class="co">## ------------------------------------------------------------</span></span>
+<span><span class="co">## 5) Build a command template with valid parameters only</span></span>
+<span><span class="co">## ------------------------------------------------------------</span></span>
+<span><span class="co">## otb_build_cmd() creates a named list with:</span></span>
+<span><span class="co">## - required parameters</span></span>
+<span><span class="co">## - optional parameters with defaults (if requested)</span></span>
+<span><span class="co">## - no execution yet</span></span>
+<span><span class="va">cmd</span> <span class="op">&lt;-</span> <span class="fu">link2GI</span><span class="fu">::</span><span class="fu"><a href="../reference/otb_build_cmd.html">otb_build_cmd</a></span><span class="op">(</span></span>
+<span>  <span class="va">algo</span>,</span>
+<span>  gili             <span class="op">=</span> <span class="va">otblink</span>,</span>
+<span>  include_optional <span class="op">=</span> <span class="st">"defaults"</span>,</span>
+<span>  require_output   <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">## Inspect the command structure</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">cmd</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">## ------------------------------------------------------------</span></span>
+<span><span class="co">## 6) Show the exact CLI command that WOULD be executed</span></span>
+<span><span class="co">## ------------------------------------------------------------</span></span>
+<span><span class="co">## retCommand = TRUE prints the full otbApplicationLauncherCommandLine call</span></span>
+<span><span class="co">## without running it. This is crucial for transparency and debugging.</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu">link2GI</span><span class="fu">::</span><span class="fu"><a href="../reference/runOTB.html">runOTB</a></span><span class="op">(</span><span class="va">cmd</span>, <span class="va">otblink</span>, retCommand <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>, <span class="st">"\n"</span><span class="op">)</span></span></code></pre></div>
+<p>This is a minimal discovery workflow that queries the linked OTB
+installation and returns the full list of available applications. The
+result is a plain character vector, so you can filter it (e.g., with
+grep()) and then inspect parameters for a single application using the
+introspection helpers.</p>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-spatial/link2GI/" class="external-link">link2GI</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/" class="external-link">terra</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/timelyportfolio/listviewer" class="external-link">listviewer</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">otblink</span> <span class="op">&lt;-</span> <span class="fu">link2GI</span><span class="fu">::</span><span class="fu"><a href="../reference/linkOTB.html">linkOTB</a></span><span class="op">(</span>searchLocation <span class="op">=</span> <span class="st">"~/apps/OTB-8.1.2-Linux64/"</span><span class="op">)</span></span>
-<span> <span class="va">root_folder</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span></span>
-<span> </span>
+<span><span class="co"># 0) Link OTB</span></span>
+<span><span class="va">otblink</span> <span class="op">&lt;-</span> <span class="fu">link2GI</span><span class="fu">::</span><span class="fu"><a href="../reference/linkOTB.html">linkOTB</a></span><span class="op">(</span>searchLocation <span class="op">=</span> <span class="st">"~/apps/"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">root_folder</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">fn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"ex/elev.tif"</span>, package <span class="op">=</span> <span class="st">"terra"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co">## for the example we use the edge detection, </span></span>
-<span><span class="va">algoKeyword</span><span class="op">&lt;-</span> <span class="st">"EdgeExtraction"</span></span>
+<span><span class="co"># 1) Choose the application (must be a single character scalar)</span></span>
+<span><span class="va">algoKeyword</span> <span class="op">&lt;-</span> <span class="st">"EdgeExtraction"</span></span>
 <span></span>
-<span><span class="co">## extract the command list for the selected algorithm </span></span>
-<span><span class="va">cmd</span><span class="op">&lt;-</span><span class="fu"><a href="../reference/parseOTBFunction.html">parseOTBFunction</a></span><span class="op">(</span>algo <span class="op">=</span> <span class="va">algoKeyword</span>, gili <span class="op">=</span> <span class="va">otblink</span><span class="op">)</span></span>
+<span><span class="co"># 2) Create a command template with valid keys (defaults included)</span></span>
+<span><span class="va">cmd</span> <span class="op">&lt;-</span> <span class="fu">link2GI</span><span class="fu">::</span><span class="fu"><a href="../reference/otb_build_cmd.html">otb_build_cmd</a></span><span class="op">(</span></span>
+<span>  algo            <span class="op">=</span> <span class="va">algoKeyword</span>,</span>
+<span>  gili            <span class="op">=</span> <span class="va">otblink</span>,</span>
+<span>  include_optional <span class="op">=</span> <span class="st">"defaults"</span>,</span>
+<span>  require_output   <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span>
 <span></span>
-<span><span class="co">## define the mandatory arguments all other will be default</span></span>
-<span><span class="va">cmd</span><span class="op">$</span><span class="va">help</span> <span class="op">=</span> <span class="cn">NULL</span></span>
-<span><span class="va">cmd</span><span class="op">$</span><span class="va">input_in</span>  <span class="op">&lt;-</span> <span class="va">fn</span></span>
-<span><span class="va">cmd</span><span class="op">$</span><span class="va">filter</span> <span class="op">&lt;-</span> <span class="st">"touzi"</span></span>
-<span><span class="va">cmd</span><span class="op">$</span><span class="va">channel</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
-<span><span class="va">cmd</span><span class="op">$</span><span class="va">out</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">root_folder</span>,<span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"out"</span>,<span class="va">cmd</span><span class="op">$</span><span class="va">filter</span>,<span class="st">".tif"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co"># 3) Set mandatory arguments (same values as legacy example)</span></span>
+<span><span class="va">cmd</span><span class="op">[[</span><span class="st">"in"</span><span class="op">]</span><span class="op">]</span>      <span class="op">&lt;-</span> <span class="va">fn</span></span>
+<span><span class="va">cmd</span><span class="op">[[</span><span class="st">"filter"</span><span class="op">]</span><span class="op">]</span>  <span class="op">&lt;-</span> <span class="st">"touzi"</span></span>
+<span><span class="va">cmd</span><span class="op">[[</span><span class="st">"channel"</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"1"</span></span>
 <span></span>
-<span><span class="co">## run algorithm</span></span>
-<span><span class="va">retStack</span><span class="op">&lt;-</span><span class="fu"><a href="../reference/runOTB.html">runOTB</a></span><span class="op">(</span><span class="va">cmd</span>,gili <span class="op">=</span> <span class="va">otblink</span><span class="op">)</span></span>
+<span><span class="co"># 4) Set explicit on-disk output (recommended API: otb_set_out)</span></span>
+<span><span class="va">out_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">root_folder</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"out"</span>, <span class="va">cmd</span><span class="op">[[</span><span class="st">"filter"</span><span class="op">]</span><span class="op">]</span>, <span class="st">".tif"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">cmd</span> <span class="op">&lt;-</span> <span class="fu">link2GI</span><span class="fu">::</span><span class="fu"><a href="../reference/otb_set_out.html">otb_set_out</a></span><span class="op">(</span><span class="va">cmd</span>, gili <span class="op">=</span> <span class="va">otblink</span>, key <span class="op">=</span> <span class="st">"out"</span>, path <span class="op">=</span> <span class="va">out_file</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co">## plot filter raster on the green channel</span></span>
+<span><span class="co"># 5) Run the algorithm and read output as a raster</span></span>
+<span><span class="va">retStack</span> <span class="op">&lt;-</span> <span class="fu">link2GI</span><span class="fu">::</span><span class="fu"><a href="../reference/runOTB.html">runOTB</a></span><span class="op">(</span><span class="va">cmd</span>, gili <span class="op">=</span> <span class="va">otblink</span>, retRaster <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># 8) Plot result</span></span>
 <span><span class="fu"><a href="https://rspatial.github.io/terra/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">retStack</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div class="section level2">
-<h2 id="usecases-presented-on-the-geostat-august-2018">Usecases presented on the GEOSTAT August 2018<a class="anchor" aria-label="anchor" href="#usecases-presented-on-the-geostat-august-2018"></a>
-</h2>
+<div class="section level3">
+<h3 id="usecases-presented-on-the-geostat-august-2018">Usecases presented on the GEOSTAT August 2018<a class="anchor" aria-label="anchor" href="#usecases-presented-on-the-geostat-august-2018"></a>
+</h3>
 <p>During the GEOSTAT 2018 (see <a href="https://opengeohub.org" class="external-link uri">https://opengeohub.org</a>) in Prague some more complex use
 cases have been presented.</p>
-<div class="section level3">
-<h3 id="find-slides-and-materials">Find slides and materials<a class="anchor" aria-label="anchor" href="#find-slides-and-materials"></a>
-</h3>
+<div class="section level4">
+<h4 id="find-slides-and-materials">Find slides and materials<a class="anchor" aria-label="anchor" href="#find-slides-and-materials"></a>
+</h4>
 <ul>
 <li><a href="https://gisma.github.io/link2gi2018/link2gi2018.html#1" class="external-link">Presentation
 slides</a></li>
@@ -384,9 +505,9 @@ slides</a></li>
 Repository</a></li>
 </ul>
 </div>
-<div class="section level3">
-<h3 id="the-examples">The examples<a class="anchor" aria-label="anchor" href="#the-examples"></a>
-</h3>
+<div class="section level4">
+<h4 id="the-examples">The examples<a class="anchor" aria-label="anchor" href="#the-examples"></a>
+</h4>
 <ul>
 <li>Basic usage of <code>SAGA</code> and <code>OTB</code> calls - <a href="https://github.com/gisma/link2gi2018/blob/master/R/usecases/saga-otb/useCaseSAGA-OTB.R" class="external-link">SAGA
 &amp; OTB basic usecase</a>
@@ -403,6 +524,7 @@ spread over high asia</a>
 Height Model from UAV derived point clouds</a>
 </li>
 </ul>
+</div>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

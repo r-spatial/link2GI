@@ -24,7 +24,7 @@
 - [`linkGDAL()`](https://r-spatial.github.io/link2GI/reference/linkGDAL.md)
   : Locate and set up 'GDAL' API bindings
 - [`linkGRASS()`](https://r-spatial.github.io/link2GI/reference/linkGRASS.md)
-  : Locate and set up 'GRASS' API bindings
+  : Locate and set up GRASS GIS API bindings
 - [`linkOTB()`](https://r-spatial.github.io/link2GI/reference/linkOTB.md)
   : Locate and describe 'Orfeo ToolBox' (OTB) API bindings
 - [`linkSAGA()`](https://r-spatial.github.io/link2GI/reference/linkSAGA.md)

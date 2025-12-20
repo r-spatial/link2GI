@@ -5,13 +5,13 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Installation guide for link2GI related Software • link2GI</title>
+<title>Installation guide for link2GI related software • link2GI</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/JetBrains_Mono-0.4.10/font.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Installation guide for link2GI related Software">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Installation guide for link2GI related software">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -39,7 +39,7 @@
     <li><a class="dropdown-item" href="../articles/link2GI3.html">GRASS application for real world big data</a></li>
     <li><a class="dropdown-item" href="../articles/link2GI4.html">OTB Wrapper in link2GI</a></li>
     <li><a class="dropdown-item" href="../articles/link2GI5.html">Create reproducible project structures in link2GI</a></li>
-    <li><a class="dropdown-item" href="../articles/link2GI6.html">Installation guide for link2GI related Software</a></li>
+    <li><a class="dropdown-item" href="../articles/link2GI6.html">Installation guide for link2GI related software</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
@@ -59,7 +59,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
 
-      <h1>Installation guide for link2GI related Software</h1>
+      <h1>Installation guide for link2GI related software</h1>
                         <h4 data-toc-skip class="author">Chris
 Reudenbach</h4>
             
@@ -72,21 +72,15 @@ Reudenbach</h4>
     
     
 <div class="section level2">
-<h2 id="vignette-info">Vignette Info<a class="anchor" aria-label="anchor" href="#vignette-info"></a>
+<h2 id="vignette-scope">Vignette scope<a class="anchor" aria-label="anchor" href="#vignette-scope"></a>
 </h2>
-<p>The vignette is a slightly modified version of the installation guide
-of the archived RQGIS package. Many thanks to <a href="https://github.com/pat-s" class="external-link">Patrick Schratz</a> and <a href="https://github.com/jannes-m" class="external-link">Jannis Muenchow</a>.</p>
-<p>This vignette guides you through the installation process of QGIS,
-GRASS and SAGA-GIS as well as Orfeo Toolbox and GDAL on three different
-platforms (Windows, Mac, Linux). Following the instructions should
-ensure that link2GI works properly. With the exception of SAGA (SAGA is
-quite idiosyncratic in terms of interface compatibility), we recommend
-using the latest stable version of all software packages.</p>
-<p>Overall, link2GI provides access to more than a few thousand reliable
-and well-known geoalgorithms. Please note, however, that the number of
-geoalgorithms you can use with link2GI depends on the platform, the
-system architecture, the selection of installed third-party providers,
-and the software package versions.</p>
+<p>This vignette describes how to install and configure external GIS
+software required by <strong>link2GI</strong>. It is based on the former
+<em>RQGIS</em> installation guide, with updates and simplifications.</p>
+<p>The goal is a <strong>robust command-line–accessible GIS
+stack</strong> usable from R via <code>link2GI</code>. The exact set of
+available algorithms depends on platform, architecture, and software
+versions.</p>
 </div>
 <div class="section level2">
 <h2 id="windows">Windows<a class="anchor" aria-label="anchor" href="#windows"></a>
@@ -94,201 +88,170 @@ and the software package versions.</p>
 <div class="section level3">
 <h3 id="qgis-grass-and-saga">QGIS, GRASS and SAGA<a class="anchor" aria-label="anchor" href="#qgis-grass-and-saga"></a>
 </h3>
-<p>There are at least two ways to install QGIS on Windows. The first
-option is the standalone installer from the [QGIS installer page] (<a href="https://www.qgis.org/download/" class="external-link uri">https://www.qgis.org/download/</a>). This will install QGIS
-along with the third party GRASS and SAGA. If you want to use even more
-third party applications (e.g. GDAL, GEOS, Taudem, OTB, PostGIS, etc.)
-it is strongly recommended to use the OSGeo4W network installer. This
-installer is available on the <a href="https://www.qgis.org/download/" class="external-link">QGIS installer page</a> as well as
-on the <a href="https://trac.osgeo.org/osgeo4w/" class="external-link">OSGeo4W
-website</a>.</p>
-<p><strong>NOTE: Do not install QGIS 2.x</strong>.</p>
-<p>The easiest way to install OSGeo4W is to use the express
-installation:</p>
+<p>On Windows, <strong>OSGeo4W</strong> is the recommended installation
+method. It provides QGIS together with GRASS, SAGA, GDAL, OTB and many
+other tools.</p>
+<p>Standalone QGIS installers work, but provide fewer third-party
+components.</p>
+<blockquote>
+<p><strong>Do not install QGIS 2.x.</strong></p>
+</blockquote>
+<p>The OSGeo4W installer is available from:</p>
+<ul>
+<li><a href="https://www.qgis.org/download/" class="external-link">https://www.qgis.org/download/</a></li>
+<li><a href="https://trac.osgeo.org/osgeo4w/" class="external-link">https://trac.osgeo.org/osgeo4w/</a></li>
+</ul>
+<div class="section level4">
+<h4 id="express-installation-minimal">Express installation (minimal)<a class="anchor" aria-label="anchor" href="#express-installation-minimal"></a>
+</h4>
 <div class="float">
 <img src="https://raw.githubusercontent.com/r-spatial/link2GI/master/figures/00_express.PNG" alt="Express setup dialog showing the minimal project configuration options."><div class="figcaption">Express setup dialog showing the minimal project
 configuration options.</div>
 </div>
-<p>Sorry for the German dialogs. However, it should be easy enough to
-follow our steps.</p>
+<p>Steps:</p>
 <ol style="list-style-type: decimal">
-<li>Select “Express Installation</li>
-<li>Next select “QGIS, GRASS and GDAL</li>
-<li>Start the installation.</li>
+<li>Select <strong>Express Installation</strong>
+</li>
+<li>Choose <strong>QGIS, GRASS and GDAL</strong>
+</li>
+<li>Start installation</li>
 </ol>
-<p>This installation is more or less the same as the standalone QGIS
-installation. However, to get the full range of geoalgorithms available
-in QGIS, we recommend using the advanced settings of the OSGeo4W Network
-installer:</p>
-<ol style="list-style-type: decimal">
-<li>Run the OSGeo4W setup and select the advanced installation.</li>
-</ol>
+<p>This setup is comparable to the standalone QGIS installer.</p>
+</div>
+<div class="section level4">
+<h4 id="advanced-installation-recommended">Advanced installation (recommended)<a class="anchor" aria-label="anchor" href="#advanced-installation-recommended"></a>
+</h4>
+<p>For full command-line access and additional tools, use
+<strong>Advanced Installation</strong>.</p>
 <div class="float">
 <img src="https://raw.githubusercontent.com/r-spatial/link2GI/master/figures/01_initial_setup.PNG" alt="Initial setup screen selecting GIS backends and defining search locations."><div class="figcaption">Initial setup screen selecting GIS backends and
 defining search locations.</div>
 </div>
-<ol start="2" style="list-style-type: decimal">
-<li>Accept the default settings until you reach the “Select Packages”
-window.</li>
-</ol>
+<p>Proceed with defaults until <strong>Select Packages</strong>.</p>
 <div class="float">
 <img src="https://raw.githubusercontent.com/r-spatial/link2GI/master/figures/04_select_packages.PNG" alt="Package selection screen for choosing available GIS APIs to link."><div class="figcaption">Package selection screen for choosing available
 GIS APIs to link.</div>
 </div>
-<ol start="3" style="list-style-type: decimal">
-<li>After expanding the command line utilities, we select several
-command line tools such as gdal and python-core (of course, you can
-select other components as well):</li>
-</ol>
+<p>Select command-line tools such as <strong>GDAL</strong>,
+<strong>Python</strong>, and others as needed:</p>
 <div class="float">
 <img src="https://raw.githubusercontent.com/r-spatial/link2GI/master/figures/05_command_line_utilties.PNG" alt="Command-line utilities configuration screen for external GIS tools."><div class="figcaption">Command-line utilities configuration screen for
 external GIS tools.</div>
 </div>
-<p>Additionally we choose the Desktop-GIS GRASS, the Orfeo Toolbox, SAGA
-and QGIS (even if they are not directly supported by link2GI at the
-moment). We install the latest QGIS 3.x version as well as the long term
-release.</p>
-<ol start="4" style="list-style-type: decimal">
-<li>Leave the rest as it is, click “Next” and wait for the OSGeo4W
-suggestions, which we accept.</li>
-</ol>
+<p>Additionally select:</p>
+<ul>
+<li>GRASS Desktop GIS</li>
+<li>Orfeo Toolbox</li>
+<li>SAGA GIS</li>
+<li>QGIS (LTR + current release recommended)</li>
+</ul>
+<p>Accept suggested dependencies:</p>
 <div class="float">
 <img src="https://raw.githubusercontent.com/r-spatial/link2GI/master/figures/08_suggestions.PNG" alt="Suggestions screen listing recommended next steps after project initialization."><div class="figcaption">Suggestions screen listing recommended next
 steps after project initialization.</div>
 </div>
-<p>Clicking “Next” again will start the download and installation
-process, which may take a while.</p>
-<p>If you want to change, uninstall or update some of the installed
-components, you can do so later by running
-<code>../OSGeo4W/bin/osgeo4w-setup.exe</code>. Alternatively, you can
-download the latest [OSGeo4W-executable] (<a href="https://trac.osgeo.org/osgeo4w/" class="external-link uri">https://trac.osgeo.org/osgeo4w/</a>) and run it again.</p>
-<p>If you also want to use the <strong>LiDAR processing tools</strong>
-(LAStools), please follow the steps found <a href="https://rapidlasso.de/how-to-install-lastools-toolbox-in-qgis/" class="external-link">here</a>.</p>
+<p>The download and installation process may take some time.</p>
+<p>Installed components can later be modified via:</p>
+<pre><code><span><span class="va">OSGeo4W</span><span class="op">/</span><span class="va">bin</span><span class="op">/</span><span class="va">osgeo4w</span><span class="op">-</span><span class="va">setup.exe</span></span></code></pre>
+</div>
+<div class="section level4">
+<h4 id="optional-lastools">Optional: LAStools<a class="anchor" aria-label="anchor" href="#optional-lastools"></a>
+</h4>
+<p>For LiDAR processing support: <a href="https://rapidlasso.de/how-to-install-lastools-toolbox-in-qgis/" class="external-link">https://rapidlasso.de/how-to-install-lastools-toolbox-in-qgis/</a></p>
+<hr>
+</div>
 </div>
 <div class="section level3">
-<h3 id="orfeo-toolbox">Orfeo Toolbox<a class="anchor" aria-label="anchor" href="#orfeo-toolbox"></a>
+<h3 id="orfeo-toolbox-windows">Orfeo Toolbox (Windows)<a class="anchor" aria-label="anchor" href="#orfeo-toolbox-windows"></a>
 </h3>
-<p>Please <a href="https://www.orfeo-toolbox.org/download/" class="external-link">download</a>
-the latest (currently OTB-7.2.0-Win64) or a suitable version of the
-Orfeo Toolbox software. Then follow the OTB team’s advice:</p>
-<p>“We provide standalone binaries for Windows that do not require
-administrative privileges. Download the archive below (32 or 64 bit) and
-extract it to a location of your choice. Double-click monteverdi.bat to
-start Monteverdi, or mapla.bat for the OTB application browser. Please
-refer to the <a href="https://www.orfeo-toolbox.org/CookBook/Installation.html#windows" class="external-link">CookBook</a>
-for detailed installation instructions.</p>
+<p>Download the latest Windows binary from: <a href="https://www.orfeo-toolbox.org/download/" class="external-link">https://www.orfeo-toolbox.org/download/</a></p>
+<p>OTB binaries do not require administrative privileges. Extract the
+archive and use <code>otbcli_*</code> tools directly or via
+<code>link2GI</code>.</p>
+<p>See the official cookbook for details: <a href="https://www.orfeo-toolbox.org/CookBook/Installation.html#windows" class="external-link">https://www.orfeo-toolbox.org/CookBook/Installation.html#windows</a></p>
+<hr>
 </div>
 </div>
 <div class="section level2">
 <h2 id="linux">Linux<a class="anchor" aria-label="anchor" href="#linux"></a>
 </h2>
 <div class="section level3">
-<h3 id="ubuntu">Ubuntu<a class="anchor" aria-label="anchor" href="#ubuntu"></a>
+<h3 id="ubuntu-debian">Ubuntu / Debian<a class="anchor" aria-label="anchor" href="#ubuntu-debian"></a>
 </h3>
-<p>If you install QGIS using the built-in software managers, you will
-most likely end up with an outdated version of QGIS. To install more
-recent versions of QGIS, we recommend following the installation
-instructions from the [QGIS installers website] (<a href="https://www.qgis.org/download/" class="external-link uri">https://www.qgis.org/download/</a>).</p>
-<p>Here we only describe the installation of QGIS on Debian/Ubuntu as
-described <a href="https://www.qgis.org/resources/installation-guide/#debian-ubuntu" class="external-link">here</a>.
-link2GI should also work on Linux distributions other than Ubuntu.
-However, only Ubuntu, Debian and Manjaro have been tested.</p>
-<p>Open a terminal window. First, make sure to remove any QGIS and GRASS
-packages you may have previously installed from other repositories:</p>
-<!--http://gis.stackexchange.com/questions/167472/qgis-2-8-ubuntu-14-04-installation-issues-terminal-command-attempts-to-install-->
-<div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">sudo</span> apt-get <span class="at">--purge</span> remove qgis</span>
-<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">sudo</span> apt autoremove <span class="at">--purge-remove</span> </span>
-<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="fu">sudo</span> apt autoremove</span>
-<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="fu">sudo</span> apt-get update</span></code></pre></div>
-<p>Next add the correct repository to
-<code>/etc/apt/sources.list</code>. Here, we use the current long-term
-release (3.10):</p>
-<p><strong>QGIS 3.3x.x for Ubuntu 22.04</strong></p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co"># install necessary tools</span></span>
-<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">sudo</span> apt install gnupg software-properties-common</span>
-<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a></span>
-<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="co">#add the required keys</span></span>
-<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="fu">wget</span> <span class="at">-qO</span> <span class="at">-</span> https://qgis.org/downloads/qgis-2020.gpg.key <span class="kw">|</span> <span class="fu">sudo</span> gpg <span class="at">--no-default-keyring</span> <span class="at">--keyring</span> gnupg-ring:/etc/apt/trusted.gpg.d/qgis-archive.gpg <span class="at">--import</span></span>
-<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a></span>
-<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="co"># verify the key </span></span>
-<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="ex">gpg</span> <span class="at">--fingerprint</span> 51F523511C7028C3</span>
-<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a></span>
-<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a><span class="co"># add the repository</span></span>
-<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a><span class="co"># if there are problems </span></span>
-<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a><span class="fu">sudo</span> add-apt-repository <span class="st">"deb https://qgis.org/debian lsb_release -c -s main"</span></span>
-<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a></span>
-<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a><span class="co"># if there are problems use the hard-wired "focal" release</span></span>
-<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a><span class="fu">sudo</span> add-apt-repository <span class="st">"deb https://qgis.org/debian focal main"</span></span>
-<span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a></span></code></pre></div>
-<p>After that, we can install QGIS and GRASS saga and Orfeo Toolbox as
-follows:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co"># install qgis grass otb saga</span></span>
+<p>Distribution repositories usually ship outdated QGIS versions. Use
+the official QGIS repositories instead:</p>
+<p><a href="https://www.qgis.org/download/" class="external-link">https://www.qgis.org/download/</a></p>
+<p>Remove old installations first:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">sudo</span> apt-get <span class="at">--purge</span> remove qgis</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">sudo</span> apt autoremove <span class="at">--purge-remove</span></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="fu">sudo</span> apt autoremove</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="fu">sudo</span> apt update</span></code></pre></div>
+<p>Add the official QGIS repository (example for Ubuntu 22.04):</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">sudo</span> apt install gnupg software-properties-common</span>
 <span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="fu">sudo</span> apt update</span>
-<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="fu">sudo</span> apt install qgis python-qgis qgis-plugin-grass grass saga otb-bin</span></code></pre></div>
-<p>If you would like to use another SAGA version, you need to compile it
-yourself (see <a href="https://sourceforge.net/p/saga-gis/wiki/Compiling%20SAGA%20on%20Linux/" class="external-link">here</a>).
-Please note, however, that QGIS currently only supports the SAGA LTR
-2.3.x as far as we know.</p>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="fu">wget</span> <span class="at">-qO</span> <span class="at">-</span> https://qgis.org/downloads/qgis-2020.gpg.key <span class="dt">\</span></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>  <span class="kw">|</span> <span class="fu">sudo</span> gpg <span class="at">--no-default-keyring</span> <span class="dt">\</span></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>    <span class="at">--keyring</span> gnupg-ring:/etc/apt/trusted.gpg.d/qgis-archive.gpg <span class="dt">\</span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>    <span class="at">--import</span></span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="fu">sudo</span> add-apt-repository <span class="st">"deb https://qgis.org/debian focal main"</span></span></code></pre></div>
+<p>Install required software:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">sudo</span> apt update</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="fu">sudo</span> apt install qgis qgis-plugin-grass grass saga otb-bin python-qgis</span></code></pre></div>
+<p><strong>Note:</strong> QGIS currently supports only <strong>SAGA LTS
+2.3.x</strong>. Other versions require manual compilation.</p>
+<hr>
 </div>
 <div class="section level3">
 <h3 id="arch-linux">Arch Linux<a class="anchor" aria-label="anchor" href="#arch-linux"></a>
 </h3>
-<p>You can install various QGIS, SAGA and GRASS versions from the <a href="https://aur.archlinux.org/" class="external-link">Arch User Repository</a>.</p>
+<p>QGIS, GRASS and SAGA are available via the <strong>AUR</strong>: <a href="https://aur.archlinux.org/" class="external-link">https://aur.archlinux.org/</a></p>
+<hr>
 </div>
 <div class="section level3">
 <h3 id="fedora">Fedora<a class="anchor" aria-label="anchor" href="#fedora"></a>
 </h3>
-<p>You can install current stable QGIS, SAGA and GRASS GIS versions via
-the standard software package manager:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">sudo</span> dnf install qgis-python qgis qgis-grass saga grass-gui grass-libs</span></code></pre></div>
+<p>Install via the system package manager:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">sudo</span> dnf install qgis qgis-python qgis-grass saga grass-gui grass-libs</span></code></pre></div>
+<hr>
 </div>
 </div>
 <div class="section level2">
-<h2 id="mac-osx">Mac OSX<a class="anchor" aria-label="anchor" href="#mac-osx"></a>
+<h2 id="macos">macOS<a class="anchor" aria-label="anchor" href="#macos"></a>
 </h2>
 <div class="section level3">
 <h3 id="saga">SAGA<a class="anchor" aria-label="anchor" href="#saga"></a>
 </h3>
-<p>There is no binary install of SAGA for macOS. We recommend to use the
-bottle installation from <code>homebrew</code>:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="co"># brew tap osgeo4mac</span></span>
-<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="ex">brew</span> install saga-gis-lts</span>
-<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="ex">brew</span> link saga-gis-lts <span class="at">--force</span></span></code></pre></div>
-<p>If you do not link SAGA with force, QGIS will not be able to detect
-SAGA.</p>
-<p>Alternatively, you can compile SAGA from source from the <a href="https://sourceforge.net/projects/saga-gis/files/" class="external-link">SAGA
-website</a>. However, this is tedious and QGIS2 only supports the SAGA
-LTS version.</p>
+<p>There is no official SAGA binary for macOS. Use Homebrew LTS
+builds:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="ex">brew</span> install saga-gis-lts</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="ex">brew</span> link saga-gis-lts <span class="at">--force</span></span></code></pre></div>
+<p>Forced linking is required so QGIS can detect SAGA.</p>
+<hr>
 </div>
 <div class="section level3">
 <h3 id="grass">GRASS<a class="anchor" aria-label="anchor" href="#grass"></a>
 </h3>
-<p>You can install GRASS6/7/8 via <code>homebrew</code>:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="co"># brew tap osgeo4mac</span></span>
-<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="ex">brew</span> install grass6 grass7 grass8</span></code></pre></div>
-<p>The binary GRASS installation can be found <a href="https://grass.osgeo.org/download/mac/" class="external-link">here</a>. However, we
-recommend to use the <code>homebrew</code> approach.</p>
-<p>When installing GRASS independently of QGIS via
-<code>homebrew</code>, please make sure to install it
-<strong>before</strong> you have installed QGIS.</p>
+<p>Install GRASS via Homebrew:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="ex">brew</span> install grass grass7 grass8</span></code></pre></div>
+<p>Binary installers are available at: <a href="https://grass.osgeo.org/download/mac/" class="external-link">https://grass.osgeo.org/download/mac/</a></p>
+<p>Homebrew installations are recommended.</p>
+<hr>
 </div>
 <div class="section level3">
 <h3 id="qgis">QGIS<a class="anchor" aria-label="anchor" href="#qgis"></a>
 </h3>
-<p>Two options exist installing QGIS on macOS</p>
-<ol style="list-style-type: decimal">
-<li>Using <code>homebrew</code> (<strong>recommended</strong>)</li>
-</ol>
-<pre><code># brew tap osgeo4mac
-brew install qgis3</code></pre>
-<p>Check <code>brew info qgis3</code> for more available options.
-However, if you use them, QGIS will be compiled from source which may
-take &gt; 30 min (depending on your system). Otherwise, pre-built
-bottles (= binaries) will be used which speeds up the installation
-process a lot.</p>
-<p><strong>Note:</strong> Make sure to install SAGA and GRASS before
-QGIS so that QGIS finds the correct paths.</p>
+<p>Two options exist:</p>
+<div class="section level4">
+<h4 id="homebrew-recommended">Homebrew (recommended)<a class="anchor" aria-label="anchor" href="#homebrew-recommended"></a>
+</h4>
+<div class="sourceCode" id="cb8"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="ex">brew</span> install qgis3</span></code></pre></div>
+<p>Prebuilt bottles are used by default. Source builds may take &gt;30
+minutes.</p>
+<p><strong>Important:</strong> Install <strong>GRASS and SAGA before
+QGIS</strong> so that paths are detected correctly.</p>
+<hr>
+</div>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

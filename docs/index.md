@@ -81,6 +81,3 @@ run).](https://raw.githubusercontent.com/r-spatial/link2GI/master/figures/usegui
 
 Animated demonstration of the link2GI GUI workflow (select API,
 configure paths, run).
-
-Animated demonstration of the link2GI GUI workflow (select API,
-configure paths, run).

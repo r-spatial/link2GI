@@ -79,5 +79,3 @@ New Project -\> New Directory -\> New Project Wizard*** dialogue.
 configure paths,
 run).](https://raw.githubusercontent.com/r-spatial/link2GI/master/figures/usegui.gif)
 
-Animated demonstration of the link2GI GUI workflow (select API,
-configure paths, run).

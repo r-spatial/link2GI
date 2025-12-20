@@ -1,6 +1,6 @@
 # Basic usage of link2GI
 
-## Brute force search
+### Brute force search
 
 Automatic searching and finding of installed GIS software binaries is
 done by the `find` functions. Depending on your operating system and the
@@ -27,7 +27,7 @@ otb
 The \`find’ functions provide an overview of the installed software.
 These functions do not create links or change settings.
 
-## Setting up project structures
+### Setting up project structures
 
 If you are just calling link2GI on the fly, i.e. for a single temporary
 operation, there is no need to set up folders and project structures. If
@@ -41,18 +41,22 @@ variables (if desired) containing the paths as strings.
 
 ``` r
 require(link2GI)
-dirs = link2GI::createFolders(root_folder = tempdir(),
-                                folders = c("data/",
-                                            "data/level0/",
-                                            "data/level1/",
-                                            "output/",
-                                            "run/",
-                                            "fun/")
+dirs <- link2GI::initProj(
+  root_folder    = tempdir(),
+  standard_setup = "baseSpatial"
+)
+
+dirs <- link2GI::setupProj(
+  root_folder = getwd(),
+  folders     = c("data/level0", "data/level1", "output", "run"),
+  code_subfolder = c("src", "src/functions")
+)
+
                                 )
 dirs
 ```
 
-## linkSAGA - Find and set up ‘SAGA’ API bindings
+### linkSAGA - Find and set up ‘SAGA’ API bindings
 
 In the past it was quite tedious to link the correct `SAGA GIS` version.
 Since version 1.x.x of `RSAGA` things are much better. The new
@@ -62,7 +66,42 @@ also possible to pass the version number as shown below. Storing the
 result in appropriate variables will even allow you to easily switch
 between different `SAGA GIS` installations.
 
-## linkGRASS - Find and set up GRASS 7/8 API bindings
+### Find and set up GRASS 7/8 API bindings
+
+#### Important note: GRASS runtime environment
+
+GRASS GIS relies on a correctly initialized **runtime environment**
+(PATH, GISBASE, PROJ, GDAL, Python bindings).
+
+R (or RStudio) must be started from an environment where these variables
+are already set. Otherwise, `rgrass` and GRASS command-line calls may
+fail.
+
+##### Windows (OSGeo4W)
+
+If GRASS is installed via **OSGeo4W**, R or RStudio **must be started
+from the OSGeo4W Shell**.
+
+OSGeo4W initializes required variables such as `OSGEO4W_ROOT`, `PATH`,
+`PROJ_LIB`, and `GDAL_DATA`.
+
+##### Linux
+
+On Linux, GRASS environment variables are usually set by system startup
+scripts or shell profiles.
+
+If GRASS was installed manually, via custom builds, containers, or
+non-standard locations, R must be started from the same shell session
+where GRASS is available (e.g. after `grass --text` or sourcing GRASS
+startup scripts).
+
+##### macOS
+
+When using Homebrew or standalone GRASS installations, R must be started
+from a shell that has GRASS on the PATH. GUI launches may miss required
+environment variables.
+
+#### `linkGRASS`
 
 `linkGRASS` initializes the session environment and system paths for
 easy access to `GRASS GIS 7.x./8.x`. The correct setting of spatial and
@@ -88,7 +127,7 @@ generated and passed to a temporary `R` environment.
 If you have more than one valid installation and run `linkGRASS` with
 the arguments `select_ver = TRUE`, you will be asked to select one.
 
-#### Standard full search usage
+##### Standard full search usage
 
 The most common use of `GRASS` is for a single call or algorithm. The
 user is not interested in setting all the parameters.
@@ -173,7 +212,7 @@ project, either with existing data sets or manually provided parameters.
             spatial_params = c(-84.32385, 33.88199,-75.45698,36.58965,proj4_string),epsg = epsg)
 ```
 
-#### Typical for specified search paths and OS
+##### Typical for specified search paths and OS
 
 The full disk search can be tedious, especially on Windows it can easily
 take 10 minutes or more. So it is helpful to specify a search path to
@@ -191,17 +230,33 @@ linking.
 
 ``` r
 findGRASS()
-     instDir version installation_type
-1 /usr/lib/grass83   8.3.2             grass
-
-# now linking it 
-linkGRASS(nc,c("/usr/lib/grass83","8.3.2","grass"),epsg = 4267) 
-
-# corresponding linkage running windows
-linkGRASS(nc,c("C:/Program Files/GRASS GIS7.0.5","GRASS GIS 7.0.5","NSIS")) 
 ```
 
-#### Manual version selection
+``` text
+     instDir version installation_type
+1 /usr/lib/grass83   8.3.2             grass
+```
+
+## now linking it
+
+``` r
+linkGRASS(nc,c("/usr/lib/grass83","8.3.2","grass"),epsg = 4267) 
+```
+
+## corresponding linkage running windows
+
+``` r
+linkGRASS(
+  x = nc,
+  default_GRASS = c(
+    "C:/Program Files/GRASS GIS7.0.5",
+    "GRASS GIS 7.0.5",
+    "NSIS"
+  )
+)
+```
+
+##### Manual version selection
 
 Finally, some more specific examples related to interactive selection or
 OS-specific settings. Manually select the `GRASS` installation and use
@@ -212,7 +267,7 @@ installation it is directly selected.
 linkGRASS(nc, ver_select = TRUE)
 ```
 
-#### Creating a permanent gisdbase folder
+##### Creating a permanent gisdbase folder
 
 Create and link a permanent `GRASS` gisdbase (folder structure) in
 “~/temp3” with the default mapset “PERMANENT”” and the location
@@ -224,7 +279,7 @@ linkGRASS(x = nc,
                      location = "project1")   
 ```
 
-#### Using a permanent gisdbase folder
+##### Using a permanent gisdbase folder
 
 Link to the permanent `GRASS` gisdbase (folder structure) in “~/temp3”
 with the default mapset “PERMANENT” and the location named “project1”.
@@ -236,7 +291,7 @@ linkGRASS(gisdbase = "~/temp3", location = "project1",
                      gisdbase_exist = TRUE)   
 ```
 
-#### Manual Setup of the spatial attributes
+##### Manual Setup of the spatial attributes
 
 Setting up `GRASS` manually with spatial parameters of the meuse data
 
@@ -251,7 +306,7 @@ Setting up `GRASS` manually with spatial parameters of the meuse data
                                +to_meter=1"),epsg = 28992) 
 ```
 
-## A typical use case for the Orfeo Toolbox wrapper
+### A typical use case for the Orfeo Toolbox wrapper
 
 link2GI supports the use of the Orfeo Toolbox with a simple list-based
 wrapper function. Actually, two functions parse the module and function
@@ -263,11 +318,12 @@ Usually you have to get the module list first:
 
 ``` r
 # link to the installed OTB Linux HOME directory
-otblink<-link2GI::linkOTB(searchLocation = "~/apps/OTB-8.1.2-Linux64/")  
-
+otblink<-link2GI::linkOTB(searchLocation = "~/apps/")  
 
 # get the list of modules from the linked version
 algo<-parseOTBAlgorithms(gili = otblink)
+
+algo <- link2GI::otb_capabilities(gili = otblink)
 ```
 
 Based on the modules of the current version of \`OTB’, you can then
@@ -275,62 +331,126 @@ select the module(s) you want to use.
 
 ``` r
 ## for the example we use the edge detection, 
-algoKeyword <- "EdgeExtraction"
+## ------------------------------------------------------------
+## 1) Select an OTB algorithm by name pattern
+## ------------------------------------------------------------
+## grep() returns *all* matching algorithm names as a character vector.
+## This is intentional for exploration, but NOT valid for execution.
+algoKeyword <- grep("edge", algo, value = TRUE, ignore.case = TRUE)
 
-## extract the command list for the selected algorithm 
-cmd <- parseOTBFunction(algo = algoKeyword, gili = otblink)
+## Inspect matches (important!)
+algoKeyword
+length(algoKeyword)
 
-## print the current command
-print(cmd)
+## ------------------------------------------------------------
+## 2) Select exactly ONE algorithm (mandatory)
+## ------------------------------------------------------------
+## Explicitly pick one algorithm from the matches.
+## This avoids ambiguity and guarantees a scalar character value.
+algo <- algoKeyword[[1]]
+
+## ------------------------------------------------------------
+## 3) Read OTB help text (capabilities)
+## ------------------------------------------------------------
+## This parses the OTB -help output and returns the raw help text.
+## This is the *authoritative source* for parameters.
+caps <- link2GI::otb_capabilities(algo = algo, gili = otblink)
+
+## Print the help text to understand available parameters
+cat(paste(caps$text, collapse = "\n"))
+
+## ------------------------------------------------------------
+## 4) Parse parameters into a structured table
+## ------------------------------------------------------------
+## otb_args_spec() converts the help text into a data.frame
+## with keys, types, defaults, and mandatory flags.
+spec <- link2GI::otb_args_spec(algo = algo, gili = otblink)
+
+## Inspect the relevant parameter metadata
+spec[, c("key", "mandatory", "default", "class")]
+
+
+## ------------------------------------------------------------
+## 5) Build a command template with valid parameters only
+## ------------------------------------------------------------
+## otb_build_cmd() creates a named list with:
+## - required parameters
+## - optional parameters with defaults (if requested)
+## - no execution yet
+cmd <- link2GI::otb_build_cmd(
+  algo,
+  gili             = otblink,
+  include_optional = "defaults",
+  require_output   = TRUE
+)
+
+## Inspect the command structure
+str(cmd)
+
+## ------------------------------------------------------------
+## 6) Show the exact CLI command that WOULD be executed
+## ------------------------------------------------------------
+## retCommand = TRUE prints the full otbApplicationLauncherCommandLine call
+## without running it. This is crucial for transparency and debugging.
+cat(link2GI::runOTB(cmd, otblink, retCommand = TRUE), "\n")
 ```
 
-Admittedly, this is a very simple and preliminary approach.
-Nevertheless, it will give you a valid list of all `OTB` API calls that
-you can easily manipulate to suit your needs. The following working
-example will give you an idea of how to use it.
+This is a minimal discovery workflow that queries the linked OTB
+installation and returns the full list of available applications. The
+result is a plain character vector, so you can filter it (e.g., with
+grep()) and then inspect parameters for a single application using the
+introspection helpers.
 
 ``` r
 require(link2GI)
 require(terra)
 require(listviewer)
 
-otblink <- link2GI::linkOTB(searchLocation = "~/apps/OTB-8.1.2-Linux64/")
- root_folder<-tempdir()
- 
+# 0) Link OTB
+otblink <- link2GI::linkOTB(searchLocation = "~/apps/")
+
+root_folder <- tempdir()
 fn <- system.file("ex/elev.tif", package = "terra")
 
-## for the example we use the edge detection, 
-algoKeyword<- "EdgeExtraction"
+# 1) Choose the application (must be a single character scalar)
+algoKeyword <- "EdgeExtraction"
 
-## extract the command list for the selected algorithm 
-cmd<-parseOTBFunction(algo = algoKeyword, gili = otblink)
+# 2) Create a command template with valid keys (defaults included)
+cmd <- link2GI::otb_build_cmd(
+  algo            = algoKeyword,
+  gili            = otblink,
+  include_optional = "defaults",
+  require_output   = TRUE
+)
 
-## define the mandatory arguments all other will be default
-cmd$help = NULL
-cmd$input_in  <- fn
-cmd$filter <- "touzi"
-cmd$channel <- 1
-cmd$out <- file.path(root_folder,paste0("out",cmd$filter,".tif"))
+# 3) Set mandatory arguments (same values as legacy example)
+cmd[["in"]]      <- fn
+cmd[["filter"]]  <- "touzi"
+cmd[["channel"]] <- "1"
 
-## run algorithm
-retStack<-runOTB(cmd,gili = otblink)
+# 4) Set explicit on-disk output (recommended API: otb_set_out)
+out_file <- file.path(root_folder, paste0("out", cmd[["filter"]], ".tif"))
+cmd <- link2GI::otb_set_out(cmd, gili = otblink, key = "out", path = out_file)
 
-## plot filter raster on the green channel
+# 5) Run the algorithm and read output as a raster
+retStack <- link2GI::runOTB(cmd, gili = otblink, retRaster = TRUE)
+
+# 8) Plot result
 plot(retStack)
 ```
 
-## Usecases presented on the GEOSTAT August 2018
+### Usecases presented on the GEOSTAT August 2018
 
 During the GEOSTAT 2018 (see <https://opengeohub.org>) in Prague some
 more complex use cases have been presented.
 
-### Find slides and materials
+#### Find slides and materials
 
 - [Presentation
   slides](https://gisma.github.io/link2gi2018/link2gi2018.html#1)
 - [Github Repository](https://github.com/gisma/link2gi2018)
 
-### The examples
+#### The examples
 
 - Basic usage of `SAGA` and `OTB` calls - [SAGA & OTB basic
   usecase](https://github.com/gisma/link2gi2018/blob/master/R/usecases/saga-otb/useCaseSAGA-OTB.R)

@@ -1,61 +1,51 @@
-# Installation guide for link2GI related Software
+# Installation guide for link2GI related software
 
-## Vignette Info
+## Vignette scope
 
-The vignette is a slightly modified version of the installation guide of
-the archived RQGIS package. Many thanks to [Patrick
-Schratz](https://github.com/pat-s) and [Jannis
-Muenchow](https://github.com/jannes-m).
+This vignette describes how to install and configure external GIS
+software required by **link2GI**. It is based on the former *RQGIS*
+installation guide, with updates and simplifications.
 
-This vignette guides you through the installation process of QGIS, GRASS
-and SAGA-GIS as well as Orfeo Toolbox and GDAL on three different
-platforms (Windows, Mac, Linux). Following the instructions should
-ensure that link2GI works properly. With the exception of SAGA (SAGA is
-quite idiosyncratic in terms of interface compatibility), we recommend
-using the latest stable version of all software packages.
-
-Overall, link2GI provides access to more than a few thousand reliable
-and well-known geoalgorithms. Please note, however, that the number of
-geoalgorithms you can use with link2GI depends on the platform, the
-system architecture, the selection of installed third-party providers,
-and the software package versions.
+The goal is a **robust command-line–accessible GIS stack** usable from R
+via `link2GI`. The exact set of available algorithms depends on
+platform, architecture, and software versions.
 
 ## Windows
 
 ### QGIS, GRASS and SAGA
 
-There are at least two ways to install QGIS on Windows. The first option
-is the standalone installer from the \[QGIS installer page\]
-(<https://www.qgis.org/download/>). This will install QGIS along with
-the third party GRASS and SAGA. If you want to use even more third party
-applications (e.g. GDAL, GEOS, Taudem, OTB, PostGIS, etc.) it is
-strongly recommended to use the OSGeo4W network installer. This
-installer is available on the [QGIS installer
-page](https://www.qgis.org/download/) as well as on the [OSGeo4W
-website](https://trac.osgeo.org/osgeo4w/).
+On Windows, **OSGeo4W** is the recommended installation method. It
+provides QGIS together with GRASS, SAGA, GDAL, OTB and many other tools.
 
-**NOTE: Do not install QGIS 2.x**.
+Standalone QGIS installers work, but provide fewer third-party
+components.
 
-The easiest way to install OSGeo4W is to use the express installation:
+> **Do not install QGIS 2.x.**
+
+The OSGeo4W installer is available from:
+
+- <https://www.qgis.org/download/>
+- <https://trac.osgeo.org/osgeo4w/>
+
+#### Express installation (minimal)
 
 ![Express setup dialog showing the minimal project configuration
 options.](https://raw.githubusercontent.com/r-spatial/link2GI/master/figures/00_express.PNG)
 
 Express setup dialog showing the minimal project configuration options.
 
-Sorry for the German dialogs. However, it should be easy enough to
-follow our steps.
+Steps:
 
-1.  Select “Express Installation
-2.  Next select “QGIS, GRASS and GDAL
-3.  Start the installation.
+1.  Select **Express Installation**
+2.  Choose **QGIS, GRASS and GDAL**
+3.  Start installation
 
-This installation is more or less the same as the standalone QGIS
-installation. However, to get the full range of geoalgorithms available
-in QGIS, we recommend using the advanced settings of the OSGeo4W Network
-installer:
+This setup is comparable to the standalone QGIS installer.
 
-1.  Run the OSGeo4W setup and select the advanced installation.
+#### Advanced installation (recommended)
+
+For full command-line access and additional tools, use **Advanced
+Installation**.
 
 ![Initial setup screen selecting GIS backends and defining search
 locations.](https://raw.githubusercontent.com/r-spatial/link2GI/master/figures/01_initial_setup.PNG)
@@ -63,30 +53,29 @@ locations.](https://raw.githubusercontent.com/r-spatial/link2GI/master/figures/0
 Initial setup screen selecting GIS backends and defining search
 locations.
 
-2.  Accept the default settings until you reach the “Select Packages”
-    window.
+Proceed with defaults until **Select Packages**.
 
 ![Package selection screen for choosing available GIS APIs to
 link.](https://raw.githubusercontent.com/r-spatial/link2GI/master/figures/04_select_packages.PNG)
 
 Package selection screen for choosing available GIS APIs to link.
 
-3.  After expanding the command line utilities, we select several
-    command line tools such as gdal and python-core (of course, you can
-    select other components as well):
+Select command-line tools such as **GDAL**, **Python**, and others as
+needed:
 
 ![Command-line utilities configuration screen for external GIS
 tools.](https://raw.githubusercontent.com/r-spatial/link2GI/master/figures/05_command_line_utilties.PNG)
 
 Command-line utilities configuration screen for external GIS tools.
 
-Additionally we choose the Desktop-GIS GRASS, the Orfeo Toolbox, SAGA
-and QGIS (even if they are not directly supported by link2GI at the
-moment). We install the latest QGIS 3.x version as well as the long term
-release.
+Additionally select:
 
-4.  Leave the rest as it is, click “Next” and wait for the OSGeo4W
-    suggestions, which we accept.
+- GRASS Desktop GIS
+- Orfeo Toolbox
+- SAGA GIS
+- QGIS (LTR + current release recommended)
+
+Accept suggested dependencies:
 
 ![Suggestions screen listing recommended next steps after project
 initialization.](https://raw.githubusercontent.com/r-spatial/link2GI/master/figures/08_suggestions.PNG)
@@ -94,162 +83,136 @@ initialization.](https://raw.githubusercontent.com/r-spatial/link2GI/master/figu
 Suggestions screen listing recommended next steps after project
 initialization.
 
-Clicking “Next” again will start the download and installation process,
-which may take a while.
+The download and installation process may take some time.
 
-If you want to change, uninstall or update some of the installed
-components, you can do so later by running
-`../OSGeo4W/bin/osgeo4w-setup.exe`. Alternatively, you can download the
-latest \[OSGeo4W-executable\] (<https://trac.osgeo.org/osgeo4w/>) and
-run it again.
+Installed components can later be modified via:
 
-If you also want to use the **LiDAR processing tools** (LAStools),
-please follow the steps found
-[here](https://rapidlasso.de/how-to-install-lastools-toolbox-in-qgis/).
+    OSGeo4W/bin/osgeo4w-setup.exe
 
-### Orfeo Toolbox
+#### Optional: LAStools
 
-Please [download](https://www.orfeo-toolbox.org/download/) the latest
-(currently OTB-7.2.0-Win64) or a suitable version of the Orfeo Toolbox
-software. Then follow the OTB team’s advice:
+For LiDAR processing support:
+<https://rapidlasso.de/how-to-install-lastools-toolbox-in-qgis/>
 
-“We provide standalone binaries for Windows that do not require
-administrative privileges. Download the archive below (32 or 64 bit) and
-extract it to a location of your choice. Double-click monteverdi.bat to
-start Monteverdi, or mapla.bat for the OTB application browser. Please
-refer to the
-[CookBook](https://www.orfeo-toolbox.org/CookBook/Installation.html#windows)
-for detailed installation instructions.
+------------------------------------------------------------------------
+
+### Orfeo Toolbox (Windows)
+
+Download the latest Windows binary from:
+<https://www.orfeo-toolbox.org/download/>
+
+OTB binaries do not require administrative privileges. Extract the
+archive and use `otbcli_*` tools directly or via `link2GI`.
+
+See the official cookbook for details:
+<https://www.orfeo-toolbox.org/CookBook/Installation.html#windows>
+
+------------------------------------------------------------------------
 
 ## Linux
 
-### Ubuntu
+### Ubuntu / Debian
 
-If you install QGIS using the built-in software managers, you will most
-likely end up with an outdated version of QGIS. To install more recent
-versions of QGIS, we recommend following the installation instructions
-from the \[QGIS installers website\] (<https://www.qgis.org/download/>).
+Distribution repositories usually ship outdated QGIS versions. Use the
+official QGIS repositories instead:
 
-Here we only describe the installation of QGIS on Debian/Ubuntu as
-described
-[here](https://www.qgis.org/resources/installation-guide/#debian-ubuntu).
-link2GI should also work on Linux distributions other than Ubuntu.
-However, only Ubuntu, Debian and Manjaro have been tested.
+<https://www.qgis.org/download/>
 
-Open a terminal window. First, make sure to remove any QGIS and GRASS
-packages you may have previously installed from other repositories:
+Remove old installations first:
 
 ``` sh
 sudo apt-get --purge remove qgis
-sudo apt autoremove --purge-remove 
+sudo apt autoremove --purge-remove
 sudo apt autoremove
-sudo apt-get update
+sudo apt update
 ```
 
-Next add the correct repository to `/etc/apt/sources.list`. Here, we use
-the current long-term release (3.10):
-
-**QGIS 3.3x.x for Ubuntu 22.04**
+Add the official QGIS repository (example for Ubuntu 22.04):
 
 ``` sh
-# install necessary tools
 sudo apt install gnupg software-properties-common
 
-#add the required keys
-wget -qO - https://qgis.org/downloads/qgis-2020.gpg.key | sudo gpg --no-default-keyring --keyring gnupg-ring:/etc/apt/trusted.gpg.d/qgis-archive.gpg --import
+wget -qO - https://qgis.org/downloads/qgis-2020.gpg.key \
+  | sudo gpg --no-default-keyring \
+    --keyring gnupg-ring:/etc/apt/trusted.gpg.d/qgis-archive.gpg \
+    --import
 
-# verify the key 
-gpg --fingerprint 51F523511C7028C3
-
-# add the repository
-# if there are problems 
-sudo add-apt-repository "deb https://qgis.org/debian lsb_release -c -s main"
-
-# if there are problems use the hard-wired "focal" release
 sudo add-apt-repository "deb https://qgis.org/debian focal main"
 ```
 
-After that, we can install QGIS and GRASS saga and Orfeo Toolbox as
-follows:
+Install required software:
 
 ``` sh
-# install qgis grass otb saga
-
 sudo apt update
-sudo apt install qgis python-qgis qgis-plugin-grass grass saga otb-bin
+sudo apt install qgis qgis-plugin-grass grass saga otb-bin python-qgis
 ```
 
-If you would like to use another SAGA version, you need to compile it
-yourself (see
-[here](https://sourceforge.net/p/saga-gis/wiki/Compiling%20SAGA%20on%20Linux/)).
-Please note, however, that QGIS currently only supports the SAGA LTR
-2.3.x as far as we know.
+**Note:** QGIS currently supports only **SAGA LTS 2.3.x**. Other
+versions require manual compilation.
+
+------------------------------------------------------------------------
 
 ### Arch Linux
 
-You can install various QGIS, SAGA and GRASS versions from the [Arch
-User Repository](https://aur.archlinux.org/).
+QGIS, GRASS and SAGA are available via the **AUR**:
+<https://aur.archlinux.org/>
+
+------------------------------------------------------------------------
 
 ### Fedora
 
-You can install current stable QGIS, SAGA and GRASS GIS versions via the
-standard software package manager:
+Install via the system package manager:
 
 ``` sh
-sudo dnf install qgis-python qgis qgis-grass saga grass-gui grass-libs
+sudo dnf install qgis qgis-python qgis-grass saga grass-gui grass-libs
 ```
 
-## Mac OSX
+------------------------------------------------------------------------
+
+## macOS
 
 ### SAGA
 
-There is no binary install of SAGA for macOS. We recommend to use the
-bottle installation from `homebrew`:
+There is no official SAGA binary for macOS. Use Homebrew LTS builds:
 
 ``` sh
-# brew tap osgeo4mac
 brew install saga-gis-lts
 brew link saga-gis-lts --force
 ```
 
-If you do not link SAGA with force, QGIS will not be able to detect
-SAGA.
+Forced linking is required so QGIS can detect SAGA.
 
-Alternatively, you can compile SAGA from source from the [SAGA
-website](https://sourceforge.net/projects/saga-gis/files/). However,
-this is tedious and QGIS2 only supports the SAGA LTS version.
+------------------------------------------------------------------------
 
 ### GRASS
 
-You can install GRASS6/7/8 via `homebrew`:
+Install GRASS via Homebrew:
 
 ``` sh
-# brew tap osgeo4mac
-brew install grass6 grass7 grass8
+brew install grass grass7 grass8
 ```
 
-The binary GRASS installation can be found
-[here](https://grass.osgeo.org/download/mac/). However, we recommend to
-use the `homebrew` approach.
+Binary installers are available at:
+<https://grass.osgeo.org/download/mac/>
 
-When installing GRASS independently of QGIS via `homebrew`, please make
-sure to install it **before** you have installed QGIS.
+Homebrew installations are recommended.
+
+------------------------------------------------------------------------
 
 ### QGIS
 
-Two options exist installing QGIS on macOS
+Two options exist:
 
-1.  Using `homebrew` (**recommended**)
+#### Homebrew (recommended)
 
-&nbsp;
+``` sh
+brew install qgis3
+```
 
-    # brew tap osgeo4mac
-    brew install qgis3
+Prebuilt bottles are used by default. Source builds may take \>30
+minutes.
 
-Check `brew info qgis3` for more available options. However, if you use
-them, QGIS will be compiled from source which may take \> 30 min
-(depending on your system). Otherwise, pre-built bottles (= binaries)
-will be used which speeds up the installation process a lot.
+**Important:** Install **GRASS and SAGA before QGIS** so that paths are
+detected correctly.
 
-**Note:** Make sure to install SAGA and GRASS before QGIS so that QGIS
-finds the correct paths.
+------------------------------------------------------------------------

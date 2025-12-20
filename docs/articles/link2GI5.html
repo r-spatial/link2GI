@@ -71,18 +71,18 @@ Reudenbach</h4>
 
     
     
-<p>Reproducible projects in R require three things to be explicit and
-stable:</p>
+<p>Reproducible projects in R require three things to be
+<strong>explicit</strong> and <strong>stable</strong>:</p>
 <ol style="list-style-type: decimal">
 <li>
-<strong>Package state</strong> (which packages and versions are
-used),</li>
+<strong>Package state</strong> - which packages and versions are
+used</li>
 <li>
-<strong>Filesystem layout</strong> (where data, outputs,
-configuration, and code live),</li>
+<strong>Filesystem layout</strong> - where data, outputs,
+configuration, and code live</li>
 <li>
-<strong>Execution entry points</strong> (which scripts define the
-workflow).</li>
+<strong>Execution entry points</strong> - which scripts define the
+workflow</li>
 </ol>
 <p>General-purpose tools such as <code>renv</code>,
 <code>usethis</code>, or <code>here</code> address parts of this
@@ -94,28 +94,28 @@ that combine R with <strong>external command-line geospatial
 software</strong> (e.g. GDAL, OTB, GRASS, SAGA) and therefore depend on
 a <strong>strict and reproducible directory and configuration
 structure</strong> across operating systems.</p>
-<div class="section level2">
-<h2 id="using-the-rstudio-gui">Using the RStudio GUI<a class="anchor" aria-label="anchor" href="#using-the-rstudio-gui"></a>
-</h2>
-<p>When using RStudio, a new project can be created by simply selecting
-the <strong><em>Create Project Structure (link2GI)</em></strong>
-template from the <strong><em>File -&gt; New Project -&gt; New Directory
--&gt; New Project Wizard </em></strong> dialogue.</p>
+<div class="section level3">
+<h3 id="using-the-rstudio-gui">Using the RStudio GUI<a class="anchor" aria-label="anchor" href="#using-the-rstudio-gui"></a>
+</h3>
+<p>Using RStudio, a new project can be created by simply selecting the
+<strong><em>Create Project Structure (link2GI)</em></strong> template
+from the <strong><em>File -&gt; New Project -&gt; New Directory -&gt;
+New Project Wizard </em></strong> dialogue.</p>
 <div class="float">
 <img src="https://raw.githubusercontent.com/r-spatial/link2GI/master/figures/usegui.gif" alt="Animated demonstration of the link2GI GUI workflow"><div class="figcaption">Animated demonstration of the link2GI GUI
 workflow</div>
 </div>
 </div>
-<div class="section level2">
-<h2 id="console-best-practice-workflow">Console Best-Practice Workflow<a class="anchor" aria-label="anchor" href="#console-best-practice-workflow"></a>
-</h2>
+<div class="section level3">
+<h3 id="console-best-practice-workflow">Console Best-Practice Workflow<a class="anchor" aria-label="anchor" href="#console-best-practice-workflow"></a>
+</h3>
 <p>This section provides a <strong>minimal, canonical workflow</strong>
 for spatial R projects using <code>link2GI</code>. It is intended as a
 <strong>quick entry point</strong> before the more detailed explanations
 below. However it will cover most standard demands</p>
-<div class="section level3">
-<h3 id="minimal-recommended-lifecycle">Minimal recommended lifecycle<a class="anchor" aria-label="anchor" href="#minimal-recommended-lifecycle"></a>
-</h3>
+<div class="section level4">
+<h4 id="minimal-recommended-lifecycle">Minimal recommended lifecycle<a class="anchor" aria-label="anchor" href="#minimal-recommended-lifecycle"></a>
+</h4>
 <ol style="list-style-type: decimal">
 <li>
 <p><strong>Once</strong>: create the project</p>
@@ -129,10 +129,18 @@ below. However it will cover most standard demands</p>
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/source.html" class="external-link">source</a></span><span class="op">(</span><span class="st">"src/functions/000_setup.R"</span><span class="op">)</span></span></code></pre></div>
 </li>
 </ol>
-<div class="section level4">
-<h4 id="ad-1---project-creation">Ad 1 - Project creation<a class="anchor" aria-label="anchor" href="#ad-1---project-creation"></a>
-</h4>
-<p>Run <strong>outside</strong> the project directory.</p>
+<div class="section level5">
+<h5 id="ad-1---project-creation">Ad 1 - Project creation<a class="anchor" aria-label="anchor" href="#ad-1---project-creation"></a>
+</h5>
+<p>Run <strong>outside</strong> the project directory. This creates:</p>
+<ul>
+<li>a fixed folder structure</li>
+<li>an RStudio project</li>
+<li>optional Git repository</li>
+<li>optional <code>renv</code> environment</li>
+<li>skeleton scripts and configuration files</li>
+<li>opens the Rstudio session</li>
+</ul>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-spatial/link2GI/" class="external-link">link2GI</a></span><span class="op">)</span></span>
 <span></span>
@@ -142,62 +150,49 @@ below. However it will cover most standard demands</p>
 <span>  init_git       <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  init_renv      <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p>This creates:</p>
-<ul>
-<li>a fixed folder structure</li>
-<li>an RStudio project</li>
-<li>optional Git repository</li>
-<li>optional <code>renv</code> environment</li>
-<li>skeleton scripts and configuration files</li>
-</ul>
 </div>
-<div class="section level4">
-<h4 id="ad-2---project-entry-point">Ad 2 - Project entry point<a class="anchor" aria-label="anchor" href="#ad-2---project-entry-point"></a>
-</h4>
-<p>After opening the project, <strong>run exactly one setup
-script</strong>:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/source.html" class="external-link">source</a></span><span class="op">(</span><span class="st">"src/functions/000_setup.R"</span><span class="op">)</span></span></code></pre></div>
-<p>This defines:</p>
+<div class="section level5">
+<h5 id="ad-2---project-entry-point">Ad 2 - Project entry point<a class="anchor" aria-label="anchor" href="#ad-2---project-entry-point"></a>
+</h5>
+<p>After opening the project, define your root_folder and run the
+created setup script. This defines:</p>
 <ul>
 <li>all project paths (<code>dirs</code>)</li>
 <li>required libraries</li>
 <li>sourced helper functions</li>
 </ul>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">root_folder</span> <span class="op">&lt;-</span>  <span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">getwd</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/source.html" class="external-link">source</a></span><span class="op">(</span><span class="st">"src/functions/000_setup.R"</span><span class="op">)</span></span></code></pre></div>
 <blockquote>
-<p>do <strong>not</strong> call <code><a href="../reference/initProj.html">initProj()</a></code> again no matter
-where</p>
-</blockquote>
-<hr>
-</div>
-</div>
-<div class="section level3">
-<h3 id="important-restrictions">Important Restrictions<a class="anchor" aria-label="anchor" href="#important-restrictions"></a>
-</h3>
+<p><strong>Important restrictions</strong></p>
 <ul>
-<li>do not use <code><a href="https://rdrr.io/r/base/getwd.html" class="external-link">setwd()</a></code>
-</li>
-<li>do not call <code><a href="../reference/initProj.html">initProj()</a></code> inside an existing project this
-duplicate folder-creation logic</li>
-<li>do not hard-code absolute paths</li>
-<li>do not mix setup code with analysis logic</li>
+<li>
+<strong>Do not</strong> call <code><a href="../reference/initProj.html">initProj()</a></code> again — this
+duplicates folder-creation logic.</li>
+<li>
+<strong>Do not</strong> use <code><a href="https://rdrr.io/r/base/getwd.html" class="external-link">setwd()</a></code>.</li>
+<li>
+<strong>Do not</strong> hard-code absolute paths.</li>
+<li>
+<strong>Do not</strong> mix setup code with analysis logic.</li>
 </ul>
-<hr>
+</blockquote>
+</div>
 </div>
 </div>
 <div class="section level2">
 <h2 id="comprehensive-workflow-description-and-design-principles">Comprehensive Workflow Description and Design Principles<a class="anchor" aria-label="anchor" href="#comprehensive-workflow-description-and-design-principles"></a>
 </h2>
-<div class="section level3">
-<h3 id="core-principle">Core principle<a class="anchor" aria-label="anchor" href="#core-principle"></a>
-</h3>
-<blockquote>
-<p><code><a href="../reference/initProj.html">initProj()</a></code> creates a project <strong>once</strong>.
+<ul>
+<li>
+<code><a href="../reference/initProj.html">initProj()</a></code> creates a project
+<strong>once</strong>.</li>
+<li>
 <code><a href="../reference/setupProj.html">setupProj()</a></code> reconstructs its environment <strong>every
-time</strong>.</p>
-</blockquote>
+time</strong>.</li>
+</ul>
 <p>All advanced features described below build on this principle.</p>
-</div>
 <div class="section level3">
 <h3 id="scope-of-initproj-in-link2gi">Scope of <code>initProj()</code> in link2GI<a class="anchor" aria-label="anchor" href="#scope-of-initproj-in-link2gi"></a>
 </h3>
@@ -348,12 +343,16 @@ bootstrap script:</p>
 <li>call <code><a href="../reference/setupProj.html">setupProj()</a></code> <strong>once</strong>,</li>
 <li>return the resulting <code>dirs</code> object.</li>
 </ol>
-<p>It must <strong>not</strong>:</p>
+<blockquote>
+<p><strong>Important restrictions</strong></p>
 <ul>
-<li>create projects,</li>
-<li>hardcode absolute paths,</li>
-<li>call <code><a href="../reference/initProj.html">initProj()</a></code>.</li>
+<li>call <code><a href="../reference/initProj.html">initProj()</a></code> again — this duplicates folder-creation
+logic.</li>
+<li>use <code><a href="https://rdrr.io/r/base/getwd.html" class="external-link">setwd()</a></code>.</li>
+<li>hard-code absolute paths.</li>
+<li>mix setup code with analysis logic.</li>
 </ul>
+</blockquote>
 <p>A minimal, correct structure is:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">root_folder</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/normalizePath.html" class="external-link">normalizePath</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">getwd</a></span><span class="op">(</span><span class="op">)</span>, winslash <span class="op">=</span> <span class="st">"/"</span>, mustWork <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
@@ -368,10 +367,9 @@ bootstrap script:</p>
 <span></span>
 <span><span class="va">dirs</span></span></code></pre></div>
 </div>
-</div>
-<div class="section level2">
-<h2 id="template-system-and-file-generation">Template system and file generation<a class="anchor" aria-label="anchor" href="#template-system-and-file-generation"></a>
-</h2>
+<div class="section level3">
+<h3 id="template-system-and-file-generation">Template system and file generation<a class="anchor" aria-label="anchor" href="#template-system-and-file-generation"></a>
+</h3>
 <p><code><a href="../reference/initProj.html">initProj()</a></code> generates project files by applying
 <code><a href="https://rdrr.io/pkg/brew/man/brew.html" class="external-link">brew::brew()</a></code> to templates shipped with the package.</p>
 <p>Templates are responsible <strong>only for writing files</strong>,
@@ -386,12 +384,10 @@ recommended pattern is:</p>
 combinations.</li>
 </ul>
 </div>
-<div class="section level2">
-<h2 id="common-failure-modes">Common failure modes<a class="anchor" aria-label="anchor" href="#common-failure-modes"></a>
-</h2>
 <div class="section level3">
-<h3 id="nested-project-directories">Nested project directories<a class="anchor" aria-label="anchor" href="#nested-project-directories"></a>
+<h3 id="common-failure-modes">Common failure modes<a class="anchor" aria-label="anchor" href="#common-failure-modes"></a>
 </h3>
+<p><strong>Nested project directories</strong></p>
 <p>If a structure like this appears:</p>
 <pre><code>project/
   data/
@@ -402,11 +398,8 @@ combinations.</li>
 <p>then <code><a href="../reference/initProj.html">initProj()</a></code> was executed inside an existing project
 or with an incorrect <code>root_folder</code>.</p>
 <p>This is expected behaviour for a project generator.</p>
-</div>
-<div class="section level3">
-<h3 id="dirs-pointing-to-unexpected-locations">
-<code>dirs</code> pointing to unexpected locations<a class="anchor" aria-label="anchor" href="#dirs-pointing-to-unexpected-locations"></a>
-</h3>
+<p><strong><code>dirs</code> pointing to unexpected
+locations</strong></p>
 <p>If <code>dirs</code> contains absolute paths outside the project
 directory, verify that:</p>
 <ul>

@@ -55,7 +55,17 @@ Core functions:
 
 ------------------------------------------------------------------------
 
-## Typical modern workflow
+## Minimal workflow
+
+``` r
+library(link2GI)
+otb <- link2GI::linkOTB(searchLocation="~/my-otbpath)
+cmd <- link2GI::otb_build_cmd("DimensionalityReduction", otb, include_optional="defaults", require_output=TRUE)
+cmd[["in"]] <- "in.tif"; cmd[["method"]] <- "pca"; cmd[["nbcomp"]] <- "3"
+cmd <- link2GI::otb_set_out(cmd, otb, key="out", path="out.tif")
+```
+
+## Typical interactive workflow
 
 The following example demonstrates a complete workflow:
 
@@ -80,7 +90,7 @@ library(terra)
 library(mlr3spatial)
 
 # 0) Link OTB
-otb <- link2GI::linkOTB(searchLocation = "~/apps/otb911/")
+otb <- link2GI::linkOTB(searchLocation="~/my-otbpath)
 
 # 1) Choose algorithm
 algo <- "DimensionalityReduction"
@@ -131,7 +141,7 @@ pca_rast <- link2GI::runOTB(cmd, otb, retRaster = TRUE, quiet = FALSE)
 plot(pca_rast[[1]], main = "PCA output (band 1)")
 ```
 
-## Legacy workflow (still supported)
+## Legacy workflow (supported but not recommended)
 
 The legacy workflow builds a command list by parsing `-help` output and
 then executes it.

@@ -1,12 +1,12 @@
 # Create reproducible project structures in link2GI
 
-Reproducible projects in R require three things to be explicit and
-stable:
+Reproducible projects in R require three things to be **explicit** and
+**stable**:
 
-1.  **Package state** (which packages and versions are used),
-2.  **Filesystem layout** (where data, outputs, configuration, and code
-    live),
-3.  **Execution entry points** (which scripts define the workflow).
+1.  **Package state** - which packages and versions are used
+2.  **Filesystem layout** - where data, outputs, configuration, and code
+    live
+3.  **Execution entry points** - which scripts define the workflow
 
 General-purpose tools such as `renv`, `usethis`, or `here` address parts
 of this problem. Project-template packages like `tinyProject`,
@@ -18,9 +18,9 @@ with **external command-line geospatial software** (e.g. GDAL, OTB,
 GRASS, SAGA) and therefore depend on a **strict and reproducible
 directory and configuration structure** across operating systems.
 
-## Using the RStudio GUI
+### Using the RStudio GUI
 
-When using RStudio, a new project can be created by simply selecting the
+Using RStudio, a new project can be created by simply selecting the
 ***Create Project Structure (link2GI)*** template from the ***File -\>
 New Project -\> New Directory -\> New Project Wizard*** dialogue.
 
@@ -29,14 +29,14 @@ workflow](https://raw.githubusercontent.com/r-spatial/link2GI/master/figures/use
 
 Animated demonstration of the link2GI GUI workflow
 
-## Console Best-Practice Workflow
+### Console Best-Practice Workflow
 
 This section provides a **minimal, canonical workflow** for spatial R
 projects using `link2GI`. It is intended as a **quick entry point**
 before the more detailed explanations below. However it will cover most
 standard demands
 
-### Minimal recommended lifecycle
+#### Minimal recommended lifecycle
 
 1.  **Once**: create the project
 
@@ -51,9 +51,16 @@ standard demands
     source("src/functions/000_setup.R")
     ```
 
-#### Ad 1 - Project creation
+##### Ad 1 - Project creation
 
-Run **outside** the project directory.
+Run **outside** the project directory. This creates:
+
+- a fixed folder structure
+- an RStudio project
+- optional Git repository
+- optional `renv` environment
+- skeleton scripts and configuration files
+- opens the Rstudio session
 
 ``` r
 library(link2GI)
@@ -66,53 +73,35 @@ initProj(
 )
 ```
 
-This creates:
+##### Ad 2 - Project entry point
 
-- a fixed folder structure
-- an RStudio project
-- optional Git repository
-- optional `renv` environment
-- skeleton scripts and configuration files
-
-#### Ad 2 - Project entry point
-
-After opening the project, **run exactly one setup script**:
-
-``` r
-source("src/functions/000_setup.R")
-```
-
-This defines:
+After opening the project, define your root_folder and run the created
+setup script. This defines:
 
 - all project paths (`dirs`)
 - required libraries
 - sourced helper functions
 
-> do **not** call
-> [`initProj()`](https://r-spatial.github.io/link2GI/reference/initProj.md)
-> again no matter where
+``` r
+root_folder <-  getwd()
+source("src/functions/000_setup.R")
+```
 
-------------------------------------------------------------------------
-
-### Important Restrictions
-
-- do not use [`setwd()`](https://rdrr.io/r/base/getwd.html)
-- do not call
-  [`initProj()`](https://r-spatial.github.io/link2GI/reference/initProj.md)
-  inside an existing project this duplicate folder-creation logic
-- do not hard-code absolute paths
-- do not mix setup code with analysis logic
-
-------------------------------------------------------------------------
+> **Important restrictions**
+>
+> - **Do not** call
+>   [`initProj()`](https://r-spatial.github.io/link2GI/reference/initProj.md)
+>   again — this duplicates folder-creation logic.
+> - **Do not** use [`setwd()`](https://rdrr.io/r/base/getwd.html).
+> - **Do not** hard-code absolute paths.
+> - **Do not** mix setup code with analysis logic.
 
 ## Comprehensive Workflow Description and Design Principles
 
-### Core principle
-
-> [`initProj()`](https://r-spatial.github.io/link2GI/reference/initProj.md)
-> creates a project **once**.
-> [`setupProj()`](https://r-spatial.github.io/link2GI/reference/setupProj.md)
-> reconstructs its environment **every time**.
+- [`initProj()`](https://r-spatial.github.io/link2GI/reference/initProj.md)
+  creates a project **once**.
+- [`setupProj()`](https://r-spatial.github.io/link2GI/reference/setupProj.md)
+  reconstructs its environment **every time**.
 
 All advanced features described below build on this principle.
 
@@ -249,12 +238,14 @@ Its responsibilities are:
     **once**,
 4.  return the resulting `dirs` object.
 
-It must **not**:
-
-- create projects,
-- hardcode absolute paths,
-- call
-  [`initProj()`](https://r-spatial.github.io/link2GI/reference/initProj.md).
+> **Important restrictions**
+>
+> - call
+>   [`initProj()`](https://r-spatial.github.io/link2GI/reference/initProj.md)
+>   again — this duplicates folder-creation logic.
+> - use [`setwd()`](https://rdrr.io/r/base/getwd.html).
+> - hard-code absolute paths.
+> - mix setup code with analysis logic.
 
 A minimal, correct structure is:
 
@@ -272,7 +263,7 @@ dirs <- setupProj(
 dirs
 ```
 
-## Template system and file generation
+### Template system and file generation
 
 [`initProj()`](https://r-spatial.github.io/link2GI/reference/initProj.md)
 generates project files by applying
@@ -292,9 +283,9 @@ recommended pattern is:
 - multiple YAML presets describing different folder and library
   combinations.
 
-## Common failure modes
+### Common failure modes
 
-### Nested project directories
+**Nested project directories**
 
 If a structure like this appears:
 
@@ -312,7 +303,7 @@ was executed inside an existing project or with an incorrect
 
 This is expected behaviour for a project generator.
 
-### `dirs` pointing to unexpected locations
+**`dirs` pointing to unexpected locations**
 
 If `dirs` contains absolute paths outside the project directory, verify
 that:

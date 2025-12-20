@@ -19,11 +19,11 @@ knitr::opts_chunk$set(
 ```
 
 
-Reproducible projects in R require three things to be explicit and stable:
+Reproducible projects in R require three things to be **explicit** and **stable**:
 
-1. **Package state** (which packages and versions are used),
-2. **Filesystem layout** (where data, outputs, configuration, and code live),
-3. **Execution entry points** (which scripts define the workflow).
+1. **Package state** - which packages and versions are used
+2. **Filesystem layout**  - where data, outputs, configuration, and code live
+3. **Execution entry points** - which scripts define the workflow
 
 General-purpose tools such as `renv`, `usethis`, or `here` address parts of this problem.
 Project-template packages like `tinyProject`, `prodigenr`, or `workflowr` provide predefined directory layouts and conventions.
@@ -32,11 +32,11 @@ Project-template packages like `tinyProject`, `prodigenr`, or `workflowr` provid
 
 ## Using the RStudio GUI
 
-When using RStudio, a new project can be created by simply selecting the ***Create Project Structure (link2GI)*** template from the ***File -> New Project -> New Directory -> New Project Wizard *** dialogue.
+
+Using RStudio, a new project can be created by simply selecting the ***Create Project Structure (link2GI)*** template from the ***File -> New Project -> New Directory -> New Project Wizard *** dialogue.
 
 
 ![Animated demonstration of the link2GI GUI workflow](https://raw.githubusercontent.com/r-spatial/link2GI/master/figures/usegui.gif)
-
 
 
 
@@ -62,7 +62,14 @@ This section provides a **minimal, canonical workflow** for spatial R projects u
 
 #### Ad 1 - Project creation
 
-Run **outside** the project directory.
+Run **outside** the project directory. This creates:
+
+* a fixed folder structure
+* an RStudio project
+* optional Git repository
+* optional `renv` environment
+* skeleton scripts and configuration files
+* opens the Rstudio session
 
 ```r
 library(link2GI)
@@ -75,56 +82,39 @@ initProj(
 )
 ```
 
-This creates:
 
-* a fixed folder structure
-* an RStudio project
-* optional Git repository
-* optional `renv` environment
-* skeleton scripts and configuration files
 
 
 #### Ad 2 - Project entry point 
 
-After opening the project, **run exactly one setup script**:
-
-```r
-source("src/functions/000_setup.R")
-```
-
-This defines:
+After opening the project, define your root_folder and run the created setup script. This defines:
 
 * all project paths (`dirs`)
 * required libraries
 * sourced helper functions
 
-> do **not** call `initProj()` again no matter where
+```r
+root_folder <-  getwd()
+source("src/functions/000_setup.R")
+```
+
+> **Important restrictions**
+>
+> * **Do not** call `initProj()` again — this duplicates folder-creation logic.
+> * **Do not** use `setwd()`.
+> * **Do not** hard-code absolute paths.
+> * **Do not** mix setup code with analysis logic.
 
 
+# Comprehensive Workflow Description and Design Principles
 
----
-
-### Important Restrictions
-
-  
-* do not use `setwd()`
-* do not call `initProj()` inside an existing project this duplicate folder-creation logic
-* do not hard-code absolute paths
-* do not mix setup code with analysis logic
-
----
-
-## Comprehensive Workflow Description and Design Principles
-
-### Core principle
-
-> `initProj()` creates a project **once**.
-> `setupProj()` reconstructs its environment **every time**.
+* `initProj()` creates a project **once**.
+* `setupProj()` reconstructs its environment **every time**.
 
 All advanced features described below build on this principle.
 
 
-### Scope of `initProj()` in link2GI
+## Scope of `initProj()` in link2GI
 
 `initProj()` is a **project creation function**, not a general runtime setup tool.
 
@@ -139,7 +129,7 @@ It is designed to be executed **once per project**, at creation time. Its respon
 After this step, the project exists as a **static on-disk structure**.
 
 
-### Separation of responsibilities: `initProj()` vs `setupProj()`
+## Separation of responsibilities: `initProj()` vs `setupProj()`
 
 A core design decision in `link2GI` is the strict separation between **project creation** and **project runtime setup**.
 
@@ -148,7 +138,7 @@ A core design decision in `link2GI` is the strict separation between **project c
 | `initProj()`  | Create a new project on disk                             |
 | `setupProj()` | Re-create the runtime environment of an existing project |
 
-#### `initProj()`
+### `initProj()`
 
 * must be run **outside** the project directory,
 * creates folders, scripts, and configuration files,
@@ -156,7 +146,7 @@ A core design decision in `link2GI` is the strict separation between **project c
 
 Calling `initProj()` from inside a project directory will create **nested duplicate folder trees**. This behaviour is intentional given its role as a project generator.
 
-#### `setupProj()`
+### `setupProj()`
 
 * is intended to be called **inside an existing project**,
 * ensures required folders exist,
@@ -168,7 +158,7 @@ All runtime scripts (e.g. `main-control.R`, processing scripts, Quarto documents
 
 
 
-### Default setups and configuration-driven structure
+## Default setups and configuration-driven structure
 
 `link2GI` ships with predefined structural setups stored in a YAML configuration file. These setups define:
 
@@ -188,7 +178,7 @@ setup_default()$baseSpatial
 
 The defaults are **declarative**: they describe structure, not behaviour.
 
-### Creating a project from the console
+## Creating a project from the console
 
 A minimal example using a predefined setup:
 
@@ -203,7 +193,7 @@ dirs <- initProj(
 This creates the full directory structure, initial scripts, and configuration files.
 
 
-### Customising a project at creation time
+## Customising a project at creation time
 
 Defaults can be extended during project creation:
 
@@ -220,7 +210,7 @@ dirs <- initProj(
 This creates a project whose structure is the union of the selected default and the explicitly provided additions.
 
 
-### Location tags (`loc_name`)
+## Location tags (`loc_name`)
 
 The optional `loc_name` argument introduces a second hierarchy level below `data/`, `docs/`, and `tmp/`.
 
@@ -228,7 +218,7 @@ This is intended for workflows where a **single project manages multiple spatial
 If this distinction is not required, `loc_name` should be left `NULL`.
 
 
-### The role of `src/functions/000_setup.R`
+## The role of `src/functions/000_setup.R`
 
 Every `link2GI` project contains a single environment bootstrap script:
 
@@ -245,11 +235,12 @@ Its responsibilities are:
 3. call `setupProj()` **once**,
 4. return the resulting `dirs` object.
 
-It must **not**:
-
-* create projects,
-* hardcode absolute paths,
-* call `initProj()`.
+> **Important restrictions**
+>
+> * call `initProj()` again — this duplicates folder-creation logic.
+> * use `setwd()`.
+> * hard-code absolute paths.
+> * mix setup code with analysis logic.
 
 A minimal, correct structure is:
 
@@ -286,7 +277,7 @@ Maintaining multiple near-identical setup templates is discouraged. A recommende
 
 ## Common failure modes
 
-### Nested project directories
+**Nested project directories**
 
 If a structure like this appears:
 
@@ -303,7 +294,7 @@ then `initProj()` was executed inside an existing project or with an incorrect `
 
 This is expected behaviour for a project generator.
 
-### `dirs` pointing to unexpected locations
+**`dirs` pointing to unexpected locations**
 
 If `dirs` contains absolute paths outside the project directory, verify that:
 

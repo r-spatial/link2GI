@@ -1,4 +1,4 @@
-# link2GI
+# `link2GI`
 
 [![cran
 checks](https://badges.cranchecks.info/worst/link2GI.svg)](https://cran.r-project.org/web/checks/check_results_link2GI.html)
@@ -44,7 +44,7 @@ need to install them first. As a first promising opportunity to do
 fulfill most of the requirements you may install `QGIS, GRASS`,
 `SAGA-GIS` and `Orfeo-toolbox`. For further Information have a look at
 the [Installation guide for link2GI related
-Software](https://r-spatial.github.io/link2GI/articles/link2GI7.html).
+Software](https://r-spatial.github.io/link2GI/articles/link2GI6.html).
 
 # New Feature
 
@@ -78,6 +78,9 @@ New Project -\> New Directory -\> New Project Wizard*** dialogue.
 ![Animated demonstration of the link2GI GUI workflow (select API,
 configure paths,
 run).](https://raw.githubusercontent.com/r-spatial/link2GI/master/figures/usegui.gif)
+
+Animated demonstration of the link2GI GUI workflow (select API,
+configure paths, run).
 
 Animated demonstration of the link2GI GUI workflow (select API,
 configure paths, run).

@@ -73,7 +73,7 @@ dirs
 In the past it was quite tedious to link the correct `SAGA GIS` version. Since version 1.x.x of `RSAGA` things are much better. The new `RSAGA::rsaga.env()` function is to get the first `RSAGA` version in the search path. It is also possible to pass the version number as shown below. Storing the result in appropriate variables will even allow you to easily switch between different `SAGA GIS` installations.
 
 
-```{R eval=FALSE, echo=FALSE, message=FALSE, warning=FALSE}
+```{R eval=FALSE}
 require(link2GI)
 # find all SAGA GIS installations and take the first one
 saga1 <- link2GI::linkSAGA() 

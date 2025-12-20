@@ -66,6 +66,13 @@ also possible to pass the version number as shown below. Storing the
 result in appropriate variables will even allow you to easily switch
 between different `SAGA GIS` installations.
 
+``` r
+require(link2GI)
+# find all SAGA GIS installations and take the first one
+saga1 <- link2GI::linkSAGA() 
+saga1
+```
+
 ## Find and set up GRASS 7/8 API bindings
 
 ### Important note: GRASS runtime environment

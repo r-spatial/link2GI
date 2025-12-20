@@ -1,13 +1,5 @@
 # OTB Wrapper in link2GI
 
-``` r
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment  = "#>",
-  eval     = FALSE
-)
-```
-
 The Orfeo Toolbox (OTB) provides a collection of command-line
 applications for remote sensing and image processing. `link2GI` offers
 an R wrapper around these applications with a focus on

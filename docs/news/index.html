@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">link2GI</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7-0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7-1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -22,7 +22,7 @@
     <li><a class="dropdown-item" href="../articles/link2GI2.html">Basic usage of link2GI</a></li>
     <li><a class="dropdown-item" href="../articles/link2GI3.html">GRASS application for real world big data</a></li>
     <li><a class="dropdown-item" href="../articles/link2GI4.html">OTB Wrapper in link2GI</a></li>
-    <li><a class="dropdown-item" href="../articles/link2GI5.html">Reproducible project structures in link2GI</a></li>
+    <li><a class="dropdown-item" href="../articles/link2GI5.html">Create reproducible project structures in link2GI</a></li>
     <li><a class="dropdown-item" href="../articles/link2GI6.html">Installation guide for link2GI related Software</a></li>
   </ul></li>
 <li class="active nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
@@ -40,29 +40,25 @@
     </div>
 
     <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.7-1" id="link2gi-07-1">link2GI 0.7-1<a class="anchor" aria-label="anchor" href="#link2gi-07-1"></a></h2>
+<p><strong>bugfixes</strong> <em>(Fix <a href="https://github.com/r-spatial/link2GI/issues/67" class="external-link">#67</a>)</em></p>
+<ul><li>fix unintended recursion in project setup logic</li>
+<li>refactor <code><a href="../reference/initProj.html">initProj()</a></code> to a single, non-recursive execution path</li>
+<li>prevent repeated re-initialisation of folders, git, and <code>renv</code>
+</li>
+</ul><p><strong>documentation</strong></p>
+<ul><li>update <code><a href="../reference/initProj.html">initProj()</a></code> documentation to reflect non-recursive execution model</li>
+</ul></div>
+    <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.7-0" id="link2gi-07-0">link2GI 0.7-0<a class="anchor" aria-label="anchor" href="#link2gi-07-0"></a></h2>
-<p>changes:</p>
-<ul><li><p>introduction of a strict, introspection-based OTB workflow (<code><a href="../reference/otb_capabilities.html">otb_capabilities()</a></code>, <code><a href="../reference/otb_args_spec.html">otb_args_spec()</a></code>, <code><a href="../reference/otb_build_cmd.html">otb_build_cmd()</a></code>, <code><a href="../reference/otb_set_out.html">otb_set_out()</a></code>) as the recommended API for robust, version-stable OTB calls</p></li>
-<li>
-<p>clarification and consolidation of the OTB execution model:</p>
-<ul><li>explicit separation between capability discovery (<code>-help</code> parsing) and execution (<code>runOTB</code>)</li>
-<li>explicit write-to-disk policy for OTB outputs</li>
-</ul></li>
-<li><p>update and extension of vignettes with a fully transparent OTB introspection example (<code>DimensionalityReduction</code>, PCA)</p></li>
-</ul><p>bugfixes:</p>
-<ul><li>fix OTB launcher path construction when <code><a href="../reference/linkOTB.html">linkOTB()</a></code> returns <code>pathOTB</code> as a <code>.../bin/</code> directory</li>
-<li>fix OTB environment variable setup by consistently deriving all paths from the OTB root directory (<code>otbRoot</code>)</li>
-<li>restore and stabilize stdout/stderr capture for OTB <code>-help</code> calls used in introspection</li>
-<li>tolerate non-zero exit codes returned by some OTB builds for <code>-help</code> calls if a valid <code>Parameters:</code> block is present</li>
-<li>fix <code><a href="../reference/runOTB.html">runOTB()</a></code> handling of OTB <code>[pixel]</code> outputs where output arguments are vectors (e.g. <code>c(path, "float")</code>)</li>
-<li>prevent invalid read-back attempts by explicitly checking output existence before raster/vector import</li>
-<li>improve error reporting in <code><a href="../reference/runOTB.html">runOTB()</a></code> to avoid downstream length-coercion and “file does not exist” errors</li>
-</ul><p>documentation:</p>
-<ul><li>
-<p>update OTB wrapper vignette to demonstrate:</p>
-<ul><li>how parameter keys are obtained from <code><a href="../reference/otb_args_spec.html">otb_args_spec()</a></code> instead of hard-coded fallback lists</li>
-<li>how to construct version-stable OTB calls without heuristics or hidden defaults</li>
-</ul></li>
+<p><strong>changes</strong></p>
+<ul><li>new introspection-based OTB API (<code><a href="../reference/otb_capabilities.html">otb_capabilities()</a></code>, <code><a href="../reference/otb_args_spec.html">otb_args_spec()</a></code>, <code><a href="../reference/otb_build_cmd.html">otb_build_cmd()</a></code>)</li>
+</ul><p><strong>bugfixes</strong> <em>(Fix <a href="https://github.com/r-spatial/link2GI/issues/68" class="external-link">#68</a>)</em></p>
+<ul><li>fix OTB path and environment setup (bin/root handling)</li>
+<li>stabilize <code>-help</code> introspection (stdout, non-zero exit codes)</li>
+<li>fix <code><a href="../reference/runOTB.html">runOTB()</a></code> output handling and error propagation</li>
+</ul><p><strong>documentation</strong></p>
+<ul><li>update vignette to use introspected parameters instead of hard-coded lists</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.6-2" id="link2gi-06-2">link2GI 0.6-2<a class="anchor" aria-label="anchor" href="#link2gi-06-2"></a></h2><p class="text-muted">CRAN release: 2024-10-28</p>

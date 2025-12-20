@@ -1,6 +1,4 @@
-# Reproducible project structures in link2GI
-
-## Reproducible Project Structure
+# Create reproducible project structures in link2GI
 
 Reproducible projects in R require three things to be explicit and
 stable:
@@ -20,14 +18,40 @@ with **external command-line geospatial software** (e.g. GDAL, OTB,
 GRASS, SAGA) and therefore depend on a **strict and reproducible
 directory and configuration structure** across operating systems.
 
-## Shorthand Best-Practice Workflow (Spatial R Projects)
+## Using the RStudio GUI
+
+When using RStudio, a new project can be created by simply selecting the
+***Create Project Structure (link2GI)*** template from the ***File -\>
+New Project -\> New Directory -\> New Project Wizard*** dialogue.
+
+![Animated demonstration of the link2GI GUI
+workflow](https://raw.githubusercontent.com/r-spatial/link2GI/master/figures/usegui.gif)
+
+Animated demonstration of the link2GI GUI workflow
+
+## Console Best-Practice Workflow
 
 This section provides a **minimal, canonical workflow** for spatial R
-projects using `link2GI`.  
-It is intended as a **quick entry point** before the more detailed
-explanations below.
+projects using `link2GI`. It is intended as a **quick entry point**
+before the more detailed explanations below. However it will cover most
+standard demands
 
-### Project creation (once)
+### Minimal recommended lifecycle
+
+1.  **Once**: create the project
+
+    ``` r
+    library(link2GI)
+    initProj("~/projects/example", standard_setup = "baseSpatial")
+    ```
+
+2.  **Always**: inside the project
+
+    ``` r
+    source("src/functions/000_setup.R")
+    ```
+
+#### Ad 1 - Project creation
 
 Run **outside** the project directory.
 
@@ -50,7 +74,7 @@ This creates:
 - optional `renv` environment
 - skeleton scripts and configuration files
 
-### Project entry point (always)
+#### Ad 2 - Project entry point
 
 After opening the project, **run exactly one setup script**:
 
@@ -64,97 +88,26 @@ This defines:
 - required libraries
 - sourced helper functions
 
-No other setup code is required.
+> do **not** call
+> [`initProj()`](https://r-spatial.github.io/link2GI/reference/initProj.md)
+> again no matter where
 
 ------------------------------------------------------------------------
 
-#### Canonical `000_setup.R`
+### Important Restrictions
 
-A minimal and robust project setup script:
-
-``` r
-library(link2GI)
-
-root_folder <- normalizePath(getwd(), winslash = "/", mustWork = TRUE)
-
-dirs <- setupProj(
-  root_folder    = root_folder,
-  folders        = c(
-    "data/source",
-    "data/results",
-    "docs/figures",
-    "tmp"
-  ),
-  code_subfolder = c("src", "src/functions", "src/configs"),
-  libs           = c("terra", "sf", "dplyr", "link2GI"),
-  fcts_folder    = file.path(root_folder, "src", "functions")
-)
-
-dirs
-```
-
-**Rules:**
-
-- do **not** call
-  [`initProj()`](https://r-spatial.github.io/link2GI/reference/initProj.md)
-  here
-- use **relative paths only**
-- avoid side effects beyond folder creation and library loading
-
-------------------------------------------------------------------------
-
-#### Script pattern (processing stages)
-
-Each analysis script starts with:
-
-``` r
-source("src/functions/000_setup.R")
-```
-
-All file access uses the `dirs` object:
-
-``` r
-x <- terra::rast(file.path(dirs$data, "source", "input.tif"))
-
-terra::writeRaster(
-  x,
-  file.path(dirs$data, "results", "output.tif"),
-  overwrite = TRUE
-)
-```
-
-No [`setwd()`](https://rdrr.io/r/base/getwd.html), no absolute paths, no
-path guessing.
-
-#### Optional configuration via YAML
-
-Processing parameters are stored separately:
-
-    src/configs/processing.yml
-
-``` yaml
-ndvi:
-  red: 4
-  nir: 8
-```
-
-Loaded explicitly:
-
-``` r
-cfg <- yaml::read_yaml(file.path(dirs$configs, "processing.yml"))
-```
-
-#### What *not* to do
-
+- do not use [`setwd()`](https://rdrr.io/r/base/getwd.html)
 - do not call
   [`initProj()`](https://r-spatial.github.io/link2GI/reference/initProj.md)
-  inside an existing project
-- do not duplicate folder-creation logic
+  inside an existing project this duplicate folder-creation logic
 - do not hard-code absolute paths
 - do not mix setup code with analysis logic
-- do not let templates control runtime behaviour
 
-#### Core principle
+------------------------------------------------------------------------
+
+## Comprehensive Workflow Description and Design Principles
+
+### Core principle
 
 > [`initProj()`](https://r-spatial.github.io/link2GI/reference/initProj.md)
 > creates a project **once**.
@@ -179,8 +132,6 @@ Its responsibilities are limited to:
   `advancedSpatial`, or YAML-based).
 
 After this step, the project exists as a **static on-disk structure**.
-
-------------------------------------------------------------------------
 
 ### Separation of responsibilities: `initProj()` vs `setupProj()`
 
@@ -218,8 +169,6 @@ documents) should rely on
 on
 [`initProj()`](https://r-spatial.github.io/link2GI/reference/initProj.md)**.
 
-------------------------------------------------------------------------
-
 ### Default setups and configuration-driven structure
 
 `link2GI` ships with predefined structural setups stored in a YAML
@@ -242,8 +191,6 @@ setup_default()$baseSpatial
 The defaults are **declarative**: they describe structure, not
 behaviour.
 
-------------------------------------------------------------------------
-
 ### Creating a project from the console
 
 A minimal example using a predefined setup:
@@ -258,8 +205,6 @@ dirs <- initProj(
 
 This creates the full directory structure, initial scripts, and
 configuration files.
-
-------------------------------------------------------------------------
 
 ### Customising a project at creation time
 
@@ -278,8 +223,6 @@ dirs <- initProj(
 This creates a project whose structure is the union of the selected
 default and the explicitly provided additions.
 
-------------------------------------------------------------------------
-
 ### Location tags (`loc_name`)
 
 The optional `loc_name` argument introduces a second hierarchy level
@@ -288,8 +231,6 @@ below `data/`, `docs/`, and `tmp/`.
 This is intended for workflows where a **single project manages multiple
 spatial sites or regions**. If this distinction is not required,
 `loc_name` should be left `NULL`.
-
-------------------------------------------------------------------------
 
 ### The role of `src/functions/000_setup.R`
 
@@ -301,12 +242,11 @@ This script is a **contract**, not an example.
 
 Its responsibilities are:
 
-1.  define the project root (typically
-    [`getwd()`](https://rdrr.io/r/base/getwd.html)),
+1.  define the project root folder,
 2.  define relative folder paths,
 3.  call
     [`setupProj()`](https://r-spatial.github.io/link2GI/reference/setupProj.md)
-    once,
+    **once**,
 4.  return the resulting `dirs` object.
 
 It must **not**:
@@ -332,9 +272,7 @@ dirs <- setupProj(
 dirs
 ```
 
-------------------------------------------------------------------------
-
-### Template system and file generation
+## Template system and file generation
 
 [`initProj()`](https://r-spatial.github.io/link2GI/reference/initProj.md)
 generates project files by applying
@@ -354,11 +292,9 @@ recommended pattern is:
 - multiple YAML presets describing different folder and library
   combinations.
 
-------------------------------------------------------------------------
+## Common failure modes
 
-### Common failure modes
-
-#### Nested project directories
+### Nested project directories
 
 If a structure like this appears:
 
@@ -376,7 +312,7 @@ was executed inside an existing project or with an incorrect
 
 This is expected behaviour for a project generator.
 
-#### `dirs` pointing to unexpected locations
+### `dirs` pointing to unexpected locations
 
 If `dirs` contains absolute paths outside the project directory, verify
 that:
@@ -384,23 +320,3 @@ that:
 - `root_folder` is set to [`getwd()`](https://rdrr.io/r/base/getwd.html)
   in `000_setup.R`,
 - folder definitions are relative, not absolute.
-
-------------------------------------------------------------------------
-
-### Minimal recommended lifecycle
-
-1.  **Once**: create the project
-
-    ``` r
-    initProj("~/projects/example", standard_setup = "baseSpatial")
-    ```
-
-2.  **Always**: inside the project
-
-    ``` r
-    source("src/functions/000_setup.R")
-    ```
-
-This defines a complete and reproducible workflow boundary.
-
-\`\`\`

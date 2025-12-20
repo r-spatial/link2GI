@@ -1,55 +1,44 @@
 # Changelog
 
+## link2GI 0.7-1
+
+**bugfixes** *(Fix
+[\#67](https://github.com/r-spatial/link2GI/issues/67))*
+
+- fix unintended recursion in project setup logic
+- refactor
+  [`initProj()`](https://r-spatial.github.io/link2GI/reference/initProj.md)
+  to a single, non-recursive execution path
+- prevent repeated re-initialisation of folders, git, and `renv`
+
+**documentation**
+
+- update
+  [`initProj()`](https://r-spatial.github.io/link2GI/reference/initProj.md)
+  documentation to reflect non-recursive execution model
+
 ## link2GI 0.7-0
 
-changes:
+**changes**
 
-- introduction of a strict, introspection-based OTB workflow
+- new introspection-based OTB API
   ([`otb_capabilities()`](https://r-spatial.github.io/link2GI/reference/otb_capabilities.md),
   [`otb_args_spec()`](https://r-spatial.github.io/link2GI/reference/otb_args_spec.md),
-  [`otb_build_cmd()`](https://r-spatial.github.io/link2GI/reference/otb_build_cmd.md),
-  [`otb_set_out()`](https://r-spatial.github.io/link2GI/reference/otb_set_out.md))
-  as the recommended API for robust, version-stable OTB calls
+  [`otb_build_cmd()`](https://r-spatial.github.io/link2GI/reference/otb_build_cmd.md))
 
-- clarification and consolidation of the OTB execution model:
+**bugfixes** *(Fix
+[\#68](https://github.com/r-spatial/link2GI/issues/68))*
 
-  - explicit separation between capability discovery (`-help` parsing)
-    and execution (`runOTB`)
-  - explicit write-to-disk policy for OTB outputs
-
-- update and extension of vignettes with a fully transparent OTB
-  introspection example (`DimensionalityReduction`, PCA)
-
-bugfixes:
-
-- fix OTB launcher path construction when
-  [`linkOTB()`](https://r-spatial.github.io/link2GI/reference/linkOTB.md)
-  returns `pathOTB` as a `.../bin/` directory
-- fix OTB environment variable setup by consistently deriving all paths
-  from the OTB root directory (`otbRoot`)
-- restore and stabilize stdout/stderr capture for OTB `-help` calls used
-  in introspection
-- tolerate non-zero exit codes returned by some OTB builds for `-help`
-  calls if a valid `Parameters:` block is present
+- fix OTB path and environment setup (bin/root handling)
+- stabilize `-help` introspection (stdout, non-zero exit codes)
 - fix
   [`runOTB()`](https://r-spatial.github.io/link2GI/reference/runOTB.md)
-  handling of OTB `[pixel]` outputs where output arguments are vectors
-  (e.g. `c(path, "float")`)
-- prevent invalid read-back attempts by explicitly checking output
-  existence before raster/vector import
-- improve error reporting in
-  [`runOTB()`](https://r-spatial.github.io/link2GI/reference/runOTB.md)
-  to avoid downstream length-coercion and “file does not exist” errors
+  output handling and error propagation
 
-documentation:
+**documentation**
 
-- update OTB wrapper vignette to demonstrate:
-
-  - how parameter keys are obtained from
-    [`otb_args_spec()`](https://r-spatial.github.io/link2GI/reference/otb_args_spec.md)
-    instead of hard-coded fallback lists
-  - how to construct version-stable OTB calls without heuristics or
-    hidden defaults
+- update vignette to use introspected parameters instead of hard-coded
+  lists
 
 ## link2GI 0.6-2
 

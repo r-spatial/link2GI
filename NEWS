@@ -1,24 +1,32 @@
+## link2GI 0.7-1
+
+**bugfixes** *(Fix #67)*
+
+* fix unintended recursion in project setup logic
+* refactor `initProj()` to a single, non-recursive execution path
+* prevent repeated re-initialisation of folders, git, and `renv`
+
+**documentation**
+
+* update `initProj()` documentation to reflect non-recursive execution model
+
+
 ## link2GI 0.7-0
 
-changes:
+**changes**
 
-* OTB wrapper: introduce a strict, introspection-first workflow (`otb_capabilities()` / `otb_args_spec()` / `otb_build_cmd()` / `otb_set_out()`) as the recommended API for version-stable OTB calls
+* new introspection-based OTB API (`otb_capabilities()`, `otb_args_spec()`, `otb_build_cmd()`)
 
-bugfixes:
+**bugfixes** *(Fix #68)*
 
-* fix OTB launcher path handling when `linkOTB()` returns `pathOTB` as a `.../bin/` directory (prevents invalid paths like `.../bin//bin/otbApplicationLauncherCommandLine`)
-* fix OTB environment setup: all OTB-related environment variables are now derived from the OTB root (`otbRoot`) rather than `pathOTB` (restores application/module discovery; fixes “Available modules: none” / “Could not find application …”)
-* restore stdout/stderr capture for OTB `-help` calls used by introspection (prevents failures where introspection received only an exit status)
-* make help parsing robust to OTB builds that return non-zero exit codes for `-help` as long as a parseable `Parameters:` section is present
-* fix `runOTB()` handling of OTB `[pixel]` outputs where `-out` is a vector like `c(path, "float")`:
+* fix OTB path and environment setup (bin/root handling)
+* stabilize `-help` introspection (stdout, non-zero exit codes)
+* fix `runOTB()` output handling and error propagation
 
-  * CLI argument emission remains token-safe
-  * read-back and file existence checks use the scalar path component
-* `runOTB()` now checks output existence before reading and fails with clear errors if OTB did not create the expected artifact (avoids downstream `terra::rast()` “file does not exist” / length-coercion errors)
+**documentation**
 
-documentation:
+* update vignette to use introspected parameters instead of hard-coded lists
 
-* add/update vignette examples to show a fully transparent introspection workflow (including how to obtain the correct parameter keys from `otb_args_spec()` instead of maintaining ad-hoc fallback key lists)
 
 ## link2GI 0.6-2
 

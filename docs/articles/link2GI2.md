@@ -452,6 +452,14 @@ plot(retStack)
 
 ## Usecases presented on the GEOSTAT August 2018
 
+> **Important note**
+>
+> The use cases presented at **GEOSTAT (August 2018)** are **outdated**.
+> They reflect the software ecosystem, interfaces, and platform
+> assumptions available at that time and should **not** be interpreted
+> as representing the current state of `link2GI`, GRASS GIS, or related
+> toolchains.
+
 During the GEOSTAT 2018 (see <https://opengeohub.org>) in Prague some
 more complex use cases have been presented.
 

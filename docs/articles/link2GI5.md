@@ -1,131 +1,406 @@
-# Reproducible project structures
+# Reproducible project structures in link2GI
 
 ## Reproducible Project Structure
 
-Reproducible projects in R emphasize streamlined project setup and
-efficient workflows. There are a number of very helpful tools in the R
-universe, such as [`renv`](https://cran.r-project.org/package=renv),
-[`usethis`](https://cran.r-project.org/package=usethis), or
-[`here`](https://cran.r-project.org/package=here), that range from
-setting up a stable R environment to generating custom project
-structures to getting the necessary paths in an easy way. In addition,
-there are a number of project structure packages and templates for
-creating easy-to-use and transparent project structures. Namely,
-[`tinProjects`](https://cran.r-project.org/package=tinyProject),
-[`prodigenr`](https://cran.r-project.org/package=prodigenr) or
-[`workflowr`](https://cran.r-project.org/package=workflowr) are R
-packages designed to facilitate reproducible research through automated
-project structuring and standardization. They all promote organized
-project directories, emphasize reproducibility by integrating with tools
-like `Git` and `renv`, and reduce manual setup efforts to ensure
-consistent and error-free project initialization. These packages help
-build a solid foundation for research and ensure that best practices
-include using separate scripts for data processing, analysis, and
-reporting, and combining code with narrative in R Markdown documents
-from the start. This organized setup improves reproducibility by making
-it easier to maintain, share, and replicate research. For a more
-comprehensive overview, have a look at the [CRAN Task View Reproducible
-Research](https://CRAN.R-project.org/view=ReproducibleResearch).
+Reproducible projects in R require three things to be explicit and
+stable:
 
-### Why initProj then?
+1.  **Package state** (which packages and versions are used),
+2.  **Filesystem layout** (where data, outputs, configuration, and code
+    live),
+3.  **Execution entry points** (which scripts define the workflow).
 
-In the context of `link2GI`, which relies heavily on third-party
-command-line APIs and requires complex and stable folder and file
-structures, a flexible, lightweight R project setup greatly improves the
-integration of OS command-line tools into spatial workflows by:
+General-purpose tools such as `renv`, `usethis`, or `here` address parts
+of this problem. Project-template packages like `tinyProject`,
+`prodigenr`, or `workflowr` provide predefined directory layouts and
+conventions.
 
-1.  **Streamlining integration**: Simplifies the integration of
-    essential command-line tools such as `GDAL` or the sophisticated
-    `Orfeo Toolbox` (OTB) and the growing universe of r(-)spatial
-    packages for advanced geospatial processing.
-2.  **Improve data exchange**: Organized variable and metadata
-    management ensures accurate and efficient data transfer between
-    different and especially command-line based processes and APIs.
-3.  **Enhanced Cross-Platform Compatibility**: Facilitates
-    cross-platform adaptability, which is critical when using multiple
-    spatial analysis tools, even more so when using different shells.
-4.  **Performance Optimization**: Switching between generic R and
-    command-line tools takes advantage of the speed and efficiency of
-    command-line tools, which is especially beneficial when handling
-    large spatial datasets.
+`link2GI` addresses a more specific use case: projects that combine R
+with **external command-line geospatial software** (e.g. GDAL, OTB,
+GRASS, SAGA) and therefore depend on a **strict and reproducible
+directory and configuration structure** across operating systems.
 
-`initProj` provides a complete and flexible working environment for GI
-projects. The focus is on a simple, efficient and reproducible project
-management and data handling. The basic framework is formed by a defined
-folder structure, initial scripts and configuration templates as well as
-optional Git repositories and an `renv` environment. A corresponding
-RStudio project file is also created. It supports the automatic
-installation (if needed) and loading of the required libraries including
-various standard setup skeletons to simplify project initialisation.
+## Shorthand Best-Practice Workflow (Spatial R Projects)
 
-The function creates a skeleton of the skeleton scripts
-`main-control.R`, `pre-processing.R`, `10-processing.R` and
-`post-processing.R`, and creates corresponding parameter configurations
-files stored as `yaml` files in `scr/configs/`. The script
-src/functions/000_settings.R holds all specific project settings. Easy
-access to all project paths is provided via the list variable `dirs`.
+This section provides a **minimal, canonical workflow** for spatial R
+projects using `link2GI`.  
+It is intended as a **quick entry point** before the more detailed
+explanations below.
 
-For this reason, the `link2GI` package includes a lean and lightweight
-but focused approach that integrates `git`, `renv`, and a highly
-flexible folder and package setup process that is simpler than existing
-approaches, increasing efficiency, accuracy, and performance in
-geospatial workflows.
+### Project creation (once)
 
-#### Using the RStudio GUI
-
-When using RStudio, a new project can be created by simply selecting the
-***Create Project Structure (link2GI)*** template from the ***File -\>
-New Project -\> New Directory -\> New Project Wizard*** dialogue.
-
-![](https://raw.githubusercontent.com/r-spatial/link2GI/master/figures/usegui.gif)
-
-#### Using the Console
-
-The basic setup of a default project, which initializes Git and renv, is
-done with the following call.
+Run **outside** the project directory.
 
 ``` r
-root_folder = tempdir() # Mandatory, variable must be in the R environment.
-dirs = initProj(root_folder = root_folder, standard_setup = "baseSpatial")
+library(link2GI)
+
+initProj(
+  root_folder    = "~/projects/my_spatial_project",
+  standard_setup = "baseSpatial",
+  init_git       = TRUE,
+  init_renv      = TRUE
+)
 ```
 
-It is easy to customize the folder structure. By default you will create
+This creates:
+
+- a fixed folder structure
+- an RStudio project
+- optional Git repository
+- optional `renv` environment
+- skeleton scripts and configuration files
+
+### Project entry point (always)
+
+After opening the project, **run exactly one setup script**:
 
 ``` r
-link2GI::setup_default()$baseSpatial$dataFolder
+source("src/functions/000_setup.R")
 ```
 
-`[1] "level0" "level1" "level2" "run" "rawdata"`
+This defines:
+
+- all project paths (`dirs`)
+- required libraries
+- sourced helper functions
+
+No other setup code is required.
+
+------------------------------------------------------------------------
+
+#### Canonical `000_setup.R`
+
+A minimal and robust project setup script:
 
 ``` r
+library(link2GI)
 
-link2GI::setup_default()$baseSpatial$code_subfolder
+root_folder <- normalizePath(getwd(), winslash = "/", mustWork = TRUE)
+
+dirs <- setupProj(
+  root_folder    = root_folder,
+  folders        = c(
+    "data/source",
+    "data/results",
+    "docs/figures",
+    "tmp"
+  ),
+  code_subfolder = c("src", "src/functions", "src/configs"),
+  libs           = c("terra", "sf", "dplyr", "link2GI"),
+  fcts_folder    = file.path(root_folder, "src", "functions")
+)
+
+dirs
 ```
 
-`[1] "src" "src/functions" "src/configs"`
+**Rules:**
 
-Use the `folders` argument to create a specific structure or subfolder
-structure of your project.
+- do **not** call
+  [`initProj()`](https://r-spatial.github.io/link2GI/reference/initProj.md)
+  here
+- use **relative paths only**
+- avoid side effects beyond folder creation and library loading
+
+------------------------------------------------------------------------
+
+#### Script pattern (processing stages)
+
+Each analysis script starts with:
 
 ``` r
-root_folder = tempdir() # Mandatory, variable must be in the R environment.
-dirs = initProj(root_folder = root_folder, 
-                 standard_setup = "baseSpatial",
-                 folders = c("data/rawdata/provider1/", "docs/quarto/")
-                 )
+source("src/functions/000_setup.R")
 ```
 
-A more complex call that integrates the `git` and `renv` setup, adds
-some additional folders and libraries as well as a location tag will be:
+All file access uses the `dirs` object:
 
 ``` r
-dirs  = initProj(root_folder = tempdir(), 
-         folders = c("data/newdata/"),
-         init_git = TRUE, 
-         init_renv = TRUE, 
-         code_subfolder = c("src", "src/functions","src/deprec"),
-         standard_setup = "baseSpatial",
-         loc_name = "oldplace", 
-         appendlibs = c("raster"),
-         openproject=TRUE)
+x <- terra::rast(file.path(dirs$data, "source", "input.tif"))
+
+terra::writeRaster(
+  x,
+  file.path(dirs$data, "results", "output.tif"),
+  overwrite = TRUE
+)
 ```
+
+No [`setwd()`](https://rdrr.io/r/base/getwd.html), no absolute paths, no
+path guessing.
+
+#### Optional configuration via YAML
+
+Processing parameters are stored separately:
+
+    src/configs/processing.yml
+
+``` yaml
+ndvi:
+  red: 4
+  nir: 8
+```
+
+Loaded explicitly:
+
+``` r
+cfg <- yaml::read_yaml(file.path(dirs$configs, "processing.yml"))
+```
+
+#### What *not* to do
+
+- do not call
+  [`initProj()`](https://r-spatial.github.io/link2GI/reference/initProj.md)
+  inside an existing project
+- do not duplicate folder-creation logic
+- do not hard-code absolute paths
+- do not mix setup code with analysis logic
+- do not let templates control runtime behaviour
+
+#### Core principle
+
+> [`initProj()`](https://r-spatial.github.io/link2GI/reference/initProj.md)
+> creates a project **once**.
+> [`setupProj()`](https://r-spatial.github.io/link2GI/reference/setupProj.md)
+> reconstructs its environment **every time**.
+
+All advanced features described below build on this principle.
+
+### Scope of `initProj()` in link2GI
+
+[`initProj()`](https://r-spatial.github.io/link2GI/reference/initProj.md)
+is a **project creation function**, not a general runtime setup tool.
+
+It is designed to be executed **once per project**, at creation time.
+Its responsibilities are limited to:
+
+- creating a defined folder hierarchy,
+- generating initial scripts and configuration files,
+- optionally initializing `git` and `renv`,
+- writing an RStudio project file,
+- selecting a predefined structural setup (`base`, `baseSpatial`,
+  `advancedSpatial`, or YAML-based).
+
+After this step, the project exists as a **static on-disk structure**.
+
+------------------------------------------------------------------------
+
+### Separation of responsibilities: `initProj()` vs `setupProj()`
+
+A core design decision in `link2GI` is the strict separation between
+**project creation** and **project runtime setup**.
+
+| Function | Purpose |
+|----|----|
+| [`initProj()`](https://r-spatial.github.io/link2GI/reference/initProj.md) | Create a new project on disk |
+| [`setupProj()`](https://r-spatial.github.io/link2GI/reference/setupProj.md) | Re-create the runtime environment of an existing project |
+
+#### `initProj()`
+
+- must be run **outside** the project directory,
+- creates folders, scripts, and configuration files,
+- must **not** be called again inside an existing project.
+
+Calling
+[`initProj()`](https://r-spatial.github.io/link2GI/reference/initProj.md)
+from inside a project directory will create **nested duplicate folder
+trees**. This behaviour is intentional given its role as a project
+generator.
+
+#### `setupProj()`
+
+- is intended to be called **inside an existing project**,
+- ensures required folders exist,
+- loads libraries,
+- sources project-specific functions,
+- returns the `dirs` object.
+
+All runtime scripts (e.g. `main-control.R`, processing scripts, Quarto
+documents) should rely on
+[`setupProj()`](https://r-spatial.github.io/link2GI/reference/setupProj.md)—**never
+on
+[`initProj()`](https://r-spatial.github.io/link2GI/reference/initProj.md)**.
+
+------------------------------------------------------------------------
+
+### Default setups and configuration-driven structure
+
+`link2GI` ships with predefined structural setups stored in a YAML
+configuration file. These setups define:
+
+- logical data subfolders (`dataFolder`),
+- documentation folders (`docsFolder`),
+- temporary folders (`tmpFolder`),
+- code locations (`code_subfolder`),
+- required libraries,
+- optional `git` and `renv` initialisation.
+
+Defaults can be inspected programmatically:
+
+``` r
+setup_default()
+setup_default()$baseSpatial
+```
+
+The defaults are **declarative**: they describe structure, not
+behaviour.
+
+------------------------------------------------------------------------
+
+### Creating a project from the console
+
+A minimal example using a predefined setup:
+
+``` r
+root_folder <- tempdir()
+dirs <- initProj(
+  root_folder    = root_folder,
+  standard_setup = "baseSpatial"
+)
+```
+
+This creates the full directory structure, initial scripts, and
+configuration files.
+
+------------------------------------------------------------------------
+
+### Customising a project at creation time
+
+Defaults can be extended during project creation:
+
+``` r
+dirs <- initProj(
+  root_folder    = "~/projects/my_project",
+  standard_setup = "baseSpatial",
+  folders        = c("data/raw/provider1", "docs/quarto"),
+  init_git       = TRUE,
+  init_renv      = TRUE
+)
+```
+
+This creates a project whose structure is the union of the selected
+default and the explicitly provided additions.
+
+------------------------------------------------------------------------
+
+### Location tags (`loc_name`)
+
+The optional `loc_name` argument introduces a second hierarchy level
+below `data/`, `docs/`, and `tmp/`.
+
+This is intended for workflows where a **single project manages multiple
+spatial sites or regions**. If this distinction is not required,
+`loc_name` should be left `NULL`.
+
+------------------------------------------------------------------------
+
+### The role of `src/functions/000_setup.R`
+
+Every `link2GI` project contains a single environment bootstrap script:
+
+    src/functions/000_setup.R
+
+This script is a **contract**, not an example.
+
+Its responsibilities are:
+
+1.  define the project root (typically
+    [`getwd()`](https://rdrr.io/r/base/getwd.html)),
+2.  define relative folder paths,
+3.  call
+    [`setupProj()`](https://r-spatial.github.io/link2GI/reference/setupProj.md)
+    once,
+4.  return the resulting `dirs` object.
+
+It must **not**:
+
+- create projects,
+- hardcode absolute paths,
+- call
+  [`initProj()`](https://r-spatial.github.io/link2GI/reference/initProj.md).
+
+A minimal, correct structure is:
+
+``` r
+root_folder <- normalizePath(getwd(), winslash = "/", mustWork = TRUE)
+
+dirs <- setupProj(
+  root_folder    = root_folder,
+  folders        = c("data/source", "data/results", "docs/figures", "tmp"),
+  code_subfolder = c("src", "src/functions", "src/configs"),
+  libs           = c("terra", "sf", "dplyr", "link2GI"),
+  fcts_folder    = file.path(root_folder, "src", "functions")
+)
+
+dirs
+```
+
+------------------------------------------------------------------------
+
+### Template system and file generation
+
+[`initProj()`](https://r-spatial.github.io/link2GI/reference/initProj.md)
+generates project files by applying
+[`brew::brew()`](https://rdrr.io/pkg/brew/man/brew.html) to templates
+shipped with the package.
+
+Templates are responsible **only for writing files**, not for managing
+runtime state.
+
+Each project uses exactly one setup template (selected via
+`standard_setup`) to generate `000_setup.R`.
+
+Maintaining multiple near-identical setup templates is discouraged. A
+recommended pattern is:
+
+- one canonical setup template,
+- multiple YAML presets describing different folder and library
+  combinations.
+
+------------------------------------------------------------------------
+
+### Common failure modes
+
+#### Nested project directories
+
+If a structure like this appears:
+
+    project/
+      data/
+      src/
+      project/
+        data/
+        src/
+
+then
+[`initProj()`](https://r-spatial.github.io/link2GI/reference/initProj.md)
+was executed inside an existing project or with an incorrect
+`root_folder`.
+
+This is expected behaviour for a project generator.
+
+#### `dirs` pointing to unexpected locations
+
+If `dirs` contains absolute paths outside the project directory, verify
+that:
+
+- `root_folder` is set to [`getwd()`](https://rdrr.io/r/base/getwd.html)
+  in `000_setup.R`,
+- folder definitions are relative, not absolute.
+
+------------------------------------------------------------------------
+
+### Minimal recommended lifecycle
+
+1.  **Once**: create the project
+
+    ``` r
+    initProj("~/projects/example", standard_setup = "baseSpatial")
+    ```
+
+2.  **Always**: inside the project
+
+    ``` r
+    source("src/functions/000_setup.R")
+    ```
+
+This defines a complete and reproducible workflow boundary.
+
+\`\`\`

@@ -130,6 +130,17 @@ createFolders <- function(root_folder, folders, create_folders = TRUE) {
 initProj <- function(root_folder = ".", folders = NULL, init_git = NULL, init_renv = NULL, code_subfolder = c("src", "src/functions",
                                                                                                               "src/configs"), global = FALSE, openproject = NULL, newsession = TRUE, standard_setup = "baseSpatial", loc_name = NULL,
                      ymlFN = NULL, appendlibs = NULL, OpenFiles = NULL) {
+  root_folder <- normalizePath(root_folder, winslash = "/", mustWork = FALSE)
+  
+  # If called from inside an existing project and user passes the project name,
+  # this creates root_folder/root_folder. Detect and stop.
+  wd <- normalizePath(getwd(), winslash = "/", mustWork = TRUE)
+  if (identical(wd, root_folder) || identical(file.path(wd, basename(wd)), root_folder)) {
+    stop(
+      "initProj() must not be run from inside an existing project directory.\n",
+      "Use setupProj(root_folder = getwd(), ...) instead."
+    )
+  }
   notes <- TRUE
   if (is.null(init_git))
     init_git <- FALSE
@@ -189,8 +200,9 @@ initProj <- function(root_folder = ".", folders = NULL, init_git = NULL, init_re
   brew::brew(system.file(sprintf("templates/%s.brew", "post-processing"), package = "link2GI"), file.path(dirs$src, "post-processing.R"))
   brew::brew(system.file(sprintf("templates/%s.brew", "config-master-yml"), package = "link2GI"), file.path(dirs$config,
                                                                                                             "config-master.yml"))
-  brew::brew(system.file(sprintf("templates/%s.brew", standard_setup), package = "link2GI"), file.path(dirs$functions,
-                                                                                                       "000_setup.R"))
+  template_path <- system.file("templates/script_setup.brew", package = "link2GI")
+  brew::brew(template_path, file.path(dirs$functions, "000_setup.R"))
+  
   brew::brew(system.file(sprintf("templates/%s.brew", "yml"), package = "link2GI"), file.path(dirs$config, "pre-processing.yml"))
   brew::brew(system.file(sprintf("templates/%s.brew", "yml"), package = "link2GI"), file.path(dirs$config, "processing.yml"))
   brew::brew(system.file(sprintf("templates/%s.brew", "yml"), package = "link2GI"), file.path(dirs$config, "post-processing.yml"))

@@ -38,7 +38,10 @@ website](https://trac.osgeo.org/osgeo4w/).
 
 The easiest way to install OSGeo4W is to use the express installation:
 
-![](https://raw.githubusercontent.com/r-spatial/link2GI/master/figures/00_express.PNG)
+![Express setup dialog showing the minimal project configuration
+options.](https://raw.githubusercontent.com/r-spatial/link2GI/master/figures/00_express.PNG)
+
+Express setup dialog showing the minimal project configuration options.
 
 Sorry for the German dialogs. However, it should be easy enough to
 follow our steps.
@@ -54,18 +57,28 @@ installer:
 
 1.  Run the OSGeo4W setup and select the advanced installation.
 
-![](https://raw.githubusercontent.com/r-spatial/link2GI/master/figures/01_initial_setup.PNG)
+![Initial setup screen selecting GIS backends and defining search
+locations.](https://raw.githubusercontent.com/r-spatial/link2GI/master/figures/01_initial_setup.PNG)
+
+Initial setup screen selecting GIS backends and defining search
+locations.
 
 2.  Accept the default settings until you reach the “Select Packages”
     window.
 
-![](https://raw.githubusercontent.com/r-spatial/link2GI/master/figures/04_select_packages.PNG)
+![Package selection screen for choosing available GIS APIs to
+link.](https://raw.githubusercontent.com/r-spatial/link2GI/master/figures/04_select_packages.PNG)
+
+Package selection screen for choosing available GIS APIs to link.
 
 3.  After expanding the command line utilities, we select several
     command line tools such as gdal and python-core (of course, you can
     select other components as well):
 
-![](https://raw.githubusercontent.com/r-spatial/link2GI/master/figures/05_command_line_utilties.PNG)
+![Command-line utilities configuration screen for external GIS
+tools.](https://raw.githubusercontent.com/r-spatial/link2GI/master/figures/05_command_line_utilties.PNG)
+
+Command-line utilities configuration screen for external GIS tools.
 
 Additionally we choose the Desktop-GIS GRASS, the Orfeo Toolbox, SAGA
 and QGIS (even if they are not directly supported by link2GI at the
@@ -75,7 +88,11 @@ release.
 4.  Leave the rest as it is, click “Next” and wait for the OSGeo4W
     suggestions, which we accept.
 
-![](https://raw.githubusercontent.com/r-spatial/link2GI/master/figures/08_suggestions.PNG)
+![Suggestions screen listing recommended next steps after project
+initialization.](https://raw.githubusercontent.com/r-spatial/link2GI/master/figures/08_suggestions.PNG)
+
+Suggestions screen listing recommended next steps after project
+initialization.
 
 Clicking “Next” again will start the download and installation process,
 which may take a while.

@@ -38,7 +38,7 @@
     <li><a class="dropdown-item" href="../articles/link2GI2.html">Basic usage of link2GI</a></li>
     <li><a class="dropdown-item" href="../articles/link2GI3.html">GRASS application for real world big data</a></li>
     <li><a class="dropdown-item" href="../articles/link2GI4.html">OTB Wrapper in link2GI</a></li>
-    <li><a class="dropdown-item" href="../articles/link2GI5.html">Reproducible project structures</a></li>
+    <li><a class="dropdown-item" href="../articles/link2GI5.html">Reproducible project structures in link2GI</a></li>
     <li><a class="dropdown-item" href="../articles/link2GI6.html">Installation guide for link2GI related Software</a></li>
   </ul>
 </li>
@@ -105,7 +105,10 @@ website</a>.</p>
 <p><strong>NOTE: Do not install QGIS 2.x</strong>.</p>
 <p>The easiest way to install OSGeo4W is to use the express
 installation:</p>
-<p><img src="https://raw.githubusercontent.com/r-spatial/link2GI/master/figures/00_express.PNG"></p>
+<div class="float">
+<img src="https://raw.githubusercontent.com/r-spatial/link2GI/master/figures/00_express.PNG" alt="Express setup dialog showing the minimal project configuration options."><div class="figcaption">Express setup dialog showing the minimal project
+configuration options.</div>
+</div>
 <p>Sorry for the German dialogs. However, it should be easy enough to
 follow our steps.</p>
 <ol style="list-style-type: decimal">
@@ -120,18 +123,27 @@ installer:</p>
 <ol style="list-style-type: decimal">
 <li>Run the OSGeo4W setup and select the advanced installation.</li>
 </ol>
-<p><img src="https://raw.githubusercontent.com/r-spatial/link2GI/master/figures/01_initial_setup.PNG"></p>
+<div class="float">
+<img src="https://raw.githubusercontent.com/r-spatial/link2GI/master/figures/01_initial_setup.PNG" alt="Initial setup screen selecting GIS backends and defining search locations."><div class="figcaption">Initial setup screen selecting GIS backends and
+defining search locations.</div>
+</div>
 <ol start="2" style="list-style-type: decimal">
 <li>Accept the default settings until you reach the “Select Packages”
 window.</li>
 </ol>
-<p><img src="https://raw.githubusercontent.com/r-spatial/link2GI/master/figures/04_select_packages.PNG"></p>
+<div class="float">
+<img src="https://raw.githubusercontent.com/r-spatial/link2GI/master/figures/04_select_packages.PNG" alt="Package selection screen for choosing available GIS APIs to link."><div class="figcaption">Package selection screen for choosing available
+GIS APIs to link.</div>
+</div>
 <ol start="3" style="list-style-type: decimal">
 <li>After expanding the command line utilities, we select several
 command line tools such as gdal and python-core (of course, you can
 select other components as well):</li>
 </ol>
-<p><img src="https://raw.githubusercontent.com/r-spatial/link2GI/master/figures/05_command_line_utilties.PNG"></p>
+<div class="float">
+<img src="https://raw.githubusercontent.com/r-spatial/link2GI/master/figures/05_command_line_utilties.PNG" alt="Command-line utilities configuration screen for external GIS tools."><div class="figcaption">Command-line utilities configuration screen for
+external GIS tools.</div>
+</div>
 <p>Additionally we choose the Desktop-GIS GRASS, the Orfeo Toolbox, SAGA
 and QGIS (even if they are not directly supported by link2GI at the
 moment). We install the latest QGIS 3.x version as well as the long term
@@ -140,7 +152,10 @@ release.</p>
 <li>Leave the rest as it is, click “Next” and wait for the OSGeo4W
 suggestions, which we accept.</li>
 </ol>
-<p><img src="https://raw.githubusercontent.com/r-spatial/link2GI/master/figures/08_suggestions.PNG"></p>
+<div class="float">
+<img src="https://raw.githubusercontent.com/r-spatial/link2GI/master/figures/08_suggestions.PNG" alt="Suggestions screen listing recommended next steps after project initialization."><div class="figcaption">Suggestions screen listing recommended next
+steps after project initialization.</div>
+</div>
 <p>Clicking “Next” again will start the download and installation
 process, which may take a while.</p>
 <p>If you want to change, uninstall or update some of the installed

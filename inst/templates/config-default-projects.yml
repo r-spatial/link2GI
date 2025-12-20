@@ -1,36 +1,98 @@
 base:
-   dataFolder: ["source", "results", "clean", "run"]
-   docsFolder: [ "figures"]
-   tmpFolder:  ["tmp"]
-   init_git: true
-   init_renv: true
-   code_subfolder: ["src", "src/functions" , "src/configs"]
-   global: false
-   libs: ""
-   create_folders: true
-   files: [ "src/pre-processing.R", "src/post-processing.R", "src/processing.R", "src/functions/000_setup.R" ,"src/main-control.R"]
-baseSpatial:
-   dataFolder: ["level0", "level1", "level2", "run" ,"rawdata"]
-   docsFolder: [ "figures"]
-   tmpFolder:  ["tmp"]
-   code_subfolder: ["src", "src/functions" , "src/configs"]   
-   init_git: true
-   init_renv: true   
-   global: false
-   libs: ["terra", "stars", "sf" , "RStoolbox", "tmap" , "mapview", "dplyr", "CAST", "link2GI"]
-   create_folders: true
-   files: [ "src/pre-processing.R", "src/post-processing.R", "src/processing.R", "src/functions/000_setup.R" ,"src/main-control.R"]
-advancedSpatial:
-   dataFolder: ["level0", "level1", "level2", "run"]
-   docsFolder: [ "figures"]
-   tmpFolder:  ["tmp"]
-   code_subfolder: ["src", "src/functions" , "src/configs"]
-   init_git: true
-   init_renv: true   
-   global: false
-   libs: ["terra", "stars", "sf" , "RStoolbox", "tmap" , "mapview" ,"dplyr", "caret" ,"randomforest", "CAST", "link2GI"]
-   create_folders: true
-   files: [ "src/pre-processing.R", "src/post-processing.R", "src/processing.R", "src/functions/000_setup.R" ,"src/main-control.R"]
- 
-          
+  dataFolder: ["source", "results", "clean", "run"]
+  docsFolder: ["figures"]
+  tmpFolder: ["tmp"]
+  code_subfolder: ["src", "src/functions", "src/configs"]
+  init_git: true
+  init_renv: true
+  global: false
+  libs: []
+  create_folders: true
+  files:
+    - "src/pre-processing.R"
+    - "src/post-processing.R"
+    - "src/processing.R"
+    - "src/functions/000_setup.R"
+    - "src/main-control.R"
 
+
+baseSpatial:
+  dataFolder: ["level0", "level1", "level2", "run", "rawdata"]
+  docsFolder: ["figures"]
+  tmpFolder: ["tmp"]
+  code_subfolder: ["src", "src/functions", "src/configs"]
+  init_git: true
+  init_renv: true
+  global: false
+  libs:
+    - terra
+    - stars
+    - sf
+    - tmap
+    - mapview
+    - dplyr
+    - CAST
+    - link2GI
+  create_folders: true
+  files:
+    - "src/pre-processing.R"
+    - "src/post-processing.R"
+    - "src/processing.R"
+    - "src/functions/000_setup.R"
+    - "src/main-control.R"
+
+
+advancedSpatial:
+  dataFolder: ["level0", "level1", "level2", "run"]
+  docsFolder: ["figures"]
+  tmpFolder: ["tmp"]
+  code_subfolder: ["src", "src/functions", "src/configs"]
+  init_git: true
+  init_renv: true
+  global: false
+  libs: "@libs_full"
+  create_folders: true
+  files:
+    - "src/pre-processing.R"
+    - "src/post-processing.R"
+    - "src/processing.R"
+    - "src/functions/000_setup.R"
+    - "src/main-control.R"
+
+
+libs_full:
+  - here
+  - fs
+  - lubridate
+  - sf
+  - terra
+  - stars
+  - gdalcubes
+  - rstac
+  - CDSE
+  - tidyterra
+  - exactextractr
+  - RStoolbox
+  - bfast
+  - dplyr
+  - tidyr
+  - data.table
+  - ggplot2
+  - colorspace
+  - tmap
+  - tmaptools
+  - mapview
+  - mapedit
+  - httr
+  - jsonlite
+  - rvest
+  - ows4R
+  - OpenStreetMap
+  - osmdata
+  - randomForest
+  - ranger
+  - e1071
+  - caret
+  - sp
+  - Rsagacmd
+  - link2GI

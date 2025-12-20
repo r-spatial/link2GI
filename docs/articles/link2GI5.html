@@ -5,13 +5,13 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Reproducible project structures • link2GI</title>
+<title>Reproducible project structures in link2GI • link2GI</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/JetBrains_Mono-0.4.10/font.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Reproducible project structures">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Reproducible project structures in link2GI">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -38,7 +38,7 @@
     <li><a class="dropdown-item" href="../articles/link2GI2.html">Basic usage of link2GI</a></li>
     <li><a class="dropdown-item" href="../articles/link2GI3.html">GRASS application for real world big data</a></li>
     <li><a class="dropdown-item" href="../articles/link2GI4.html">OTB Wrapper in link2GI</a></li>
-    <li><a class="dropdown-item" href="../articles/link2GI5.html">Reproducible project structures</a></li>
+    <li><a class="dropdown-item" href="../articles/link2GI5.html">Reproducible project structures in link2GI</a></li>
     <li><a class="dropdown-item" href="../articles/link2GI6.html">Installation guide for link2GI related Software</a></li>
   </ul>
 </li>
@@ -59,7 +59,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
 
-      <h1>Reproducible project structures</h1>
+      <h1>Reproducible project structures in link2GI</h1>
                         <h4 data-toc-skip class="author">Chris
 Reudenbach</h4>
             
@@ -74,128 +74,401 @@ Reudenbach</h4>
 <div class="section level2">
 <h2 id="reproducible-project-structure">Reproducible Project Structure<a class="anchor" aria-label="anchor" href="#reproducible-project-structure"></a>
 </h2>
-<p>Reproducible projects in R emphasize streamlined project setup and
-efficient workflows. There are a number of very helpful tools in the R
-universe, such as <a href="https://cran.r-project.org/package=renv" class="external-link"><code>renv</code></a>, <a href="https://cran.r-project.org/package=usethis" class="external-link"><code>usethis</code></a>,
-or <a href="https://cran.r-project.org/package=here" class="external-link"><code>here</code></a>,
-that range from setting up a stable R environment to generating custom
-project structures to getting the necessary paths in an easy way. In
-addition, there are a number of project structure packages and templates
-for creating easy-to-use and transparent project structures. Namely, <a href="https://cran.r-project.org/package=tinyProject" class="external-link"><code>tinProjects</code></a>,
-<a href="https://cran.r-project.org/package=prodigenr" class="external-link"><code>prodigenr</code></a>
-or <a href="https://cran.r-project.org/package=workflowr" class="external-link"><code>workflowr</code></a>
-are R packages designed to facilitate reproducible research through
-automated project structuring and standardization. They all promote
-organized project directories, emphasize reproducibility by integrating
-with tools like <code>Git</code> and <code>renv</code>, and reduce
-manual setup efforts to ensure consistent and error-free project
-initialization. These packages help build a solid foundation for
-research and ensure that best practices include using separate scripts
-for data processing, analysis, and reporting, and combining code with
-narrative in R Markdown documents from the start. This organized setup
-improves reproducibility by making it easier to maintain, share, and
-replicate research. For a more comprehensive overview, have a look at
-the <a href="https://CRAN.R-project.org/view=ReproducibleResearch" class="external-link">CRAN
-Task View Reproducible Research</a>.</p>
-<div class="section level3">
-<h3 id="why-initproj-then">Why initProj then?<a class="anchor" aria-label="anchor" href="#why-initproj-then"></a>
-</h3>
-<p>In the context of <code>link2GI</code>, which relies heavily on
-third-party command-line APIs and requires complex and stable folder and
-file structures, a flexible, lightweight R project setup greatly
-improves the integration of OS command-line tools into spatial workflows
-by:</p>
+<p>Reproducible projects in R require three things to be explicit and
+stable:</p>
 <ol style="list-style-type: decimal">
 <li>
-<strong>Streamlining integration</strong>: Simplifies the
-integration of essential command-line tools such as <code>GDAL</code> or
-the sophisticated <code>Orfeo Toolbox</code> (OTB) and the growing
-universe of r(-)spatial packages for advanced geospatial
-processing.</li>
+<strong>Package state</strong> (which packages and versions are
+used),</li>
 <li>
-<strong>Improve data exchange</strong>: Organized variable and
-metadata management ensures accurate and efficient data transfer between
-different and especially command-line based processes and APIs.</li>
+<strong>Filesystem layout</strong> (where data, outputs,
+configuration, and code live),</li>
 <li>
-<strong>Enhanced Cross-Platform Compatibility</strong>: Facilitates
-cross-platform adaptability, which is critical when using multiple
-spatial analysis tools, even more so when using different shells.</li>
-<li>
-<strong>Performance Optimization</strong>: Switching between generic
-R and command-line tools takes advantage of the speed and efficiency of
-command-line tools, which is especially beneficial when handling large
-spatial datasets.</li>
+<strong>Execution entry points</strong> (which scripts define the
+workflow).</li>
 </ol>
-<p><code>initProj</code> provides a complete and flexible working
-environment for GI projects. The focus is on a simple, efficient and
-reproducible project management and data handling. The basic framework
-is formed by a defined folder structure, initial scripts and
-configuration templates as well as optional Git repositories and an
-<code>renv</code> environment. A corresponding RStudio project file is
-also created. It supports the automatic installation (if needed) and
-loading of the required libraries including various standard setup
-skeletons to simplify project initialisation.</p>
-<p>The function creates a skeleton of the skeleton scripts
-<code>main-control.R</code>, <code>pre-processing.R</code>,
-<code>10-processing.R</code> and <code>post-processing.R</code>, and
-creates corresponding parameter configurations files stored as
-<code>yaml</code> files in <code>scr/configs/</code>. The script
-src/functions/000_settings.R holds all specific project settings. Easy
-access to all project paths is provided via the list variable
-<code>dirs</code>.</p>
-<p>For this reason, the <code>link2GI</code> package includes a lean and
-lightweight but focused approach that integrates <code>git</code>,
-<code>renv</code>, and a highly flexible folder and package setup
-process that is simpler than existing approaches, increasing efficiency,
-accuracy, and performance in geospatial workflows.</p>
-<div class="section level4">
-<h4 id="using-the-rstudio-gui">Using the RStudio GUI<a class="anchor" aria-label="anchor" href="#using-the-rstudio-gui"></a>
-</h4>
-<p>When using RStudio, a new project can be created by simply selecting
-the <strong><em>Create Project Structure (link2GI)</em></strong>
-template from the <strong><em>File -&gt; New Project -&gt; New Directory
--&gt; New Project Wizard </em></strong> dialogue.</p>
-<p><img src="https://raw.githubusercontent.com/r-spatial/link2GI/master/figures/usegui.gif"></p>
+<p>General-purpose tools such as <code>renv</code>,
+<code>usethis</code>, or <code>here</code> address parts of this
+problem. Project-template packages like <code>tinyProject</code>,
+<code>prodigenr</code>, or <code>workflowr</code> provide predefined
+directory layouts and conventions.</p>
+<p><code>link2GI</code> addresses a more specific use case: projects
+that combine R with <strong>external command-line geospatial
+software</strong> (e.g. GDAL, OTB, GRASS, SAGA) and therefore depend on
+a <strong>strict and reproducible directory and configuration
+structure</strong> across operating systems.</p>
 </div>
-<div class="section level4">
-<h4 id="using-the-console">Using the Console<a class="anchor" aria-label="anchor" href="#using-the-console"></a>
-</h4>
-<p>The basic setup of a default project, which initializes Git and renv,
-is done with the following call.</p>
+<div class="section level2">
+<h2 id="shorthand-best-practice-workflow-spatial-r-projects">Shorthand Best-Practice Workflow (Spatial R Projects)<a class="anchor" aria-label="anchor" href="#shorthand-best-practice-workflow-spatial-r-projects"></a>
+</h2>
+<p>This section provides a <strong>minimal, canonical workflow</strong>
+for spatial R projects using <code>link2GI</code>.<br>
+It is intended as a <strong>quick entry point</strong> before the more
+detailed explanations below.</p>
+<div class="section level3">
+<h3 id="project-creation-once">Project creation (once)<a class="anchor" aria-label="anchor" href="#project-creation-once"></a>
+</h3>
+<p>Run <strong>outside</strong> the project directory.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">root_folder</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># Mandatory, variable must be in the R environment.</span></span>
-<span><span class="va">dirs</span> <span class="op">=</span> <span class="fu"><a href="../reference/initProj.html">initProj</a></span><span class="op">(</span>root_folder <span class="op">=</span> <span class="va">root_folder</span>, standard_setup <span class="op">=</span> <span class="st">"baseSpatial"</span><span class="op">)</span></span></code></pre></div>
-<p>It is easy to customize the folder structure. By default you will
-create</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">link2GI</span><span class="fu">::</span><span class="fu"><a href="../reference/setup_default.html">setup_default</a></span><span class="op">(</span><span class="op">)</span><span class="op">$</span><span class="va">baseSpatial</span><span class="op">$</span><span class="va">dataFolder</span></span></code></pre></div>
-<p><code>[1] "level0"  "level1"  "level2"  "run"     "rawdata"</code></p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="fu">link2GI</span><span class="fu">::</span><span class="fu"><a href="../reference/setup_default.html">setup_default</a></span><span class="op">(</span><span class="op">)</span><span class="op">$</span><span class="va">baseSpatial</span><span class="op">$</span><span class="va">code_subfolder</span></span></code></pre></div>
-<p><code>[1] "src"           "src/functions" "src/configs"</code></p>
-<p>Use the <code>folders</code> argument to create a specific structure
-or subfolder structure of your project.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">root_folder</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># Mandatory, variable must be in the R environment.</span></span>
-<span><span class="va">dirs</span> <span class="op">=</span> <span class="fu"><a href="../reference/initProj.html">initProj</a></span><span class="op">(</span>root_folder <span class="op">=</span> <span class="va">root_folder</span>, </span>
-<span>                 standard_setup <span class="op">=</span> <span class="st">"baseSpatial"</span>,</span>
-<span>                 folders <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"data/rawdata/provider1/"</span>, <span class="st">"docs/quarto/"</span><span class="op">)</span></span>
-<span>                 <span class="op">)</span></span></code></pre></div>
-<p>A more complex call that integrates the <code>git</code> and
-<code>renv</code> setup, adds some additional folders and libraries as
-well as a location tag will be:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">dirs</span>  <span class="op">=</span> <span class="fu"><a href="../reference/initProj.html">initProj</a></span><span class="op">(</span>root_folder <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, </span>
-<span>         folders <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"data/newdata/"</span><span class="op">)</span>,</span>
-<span>         init_git <span class="op">=</span> <span class="cn">TRUE</span>, </span>
-<span>         init_renv <span class="op">=</span> <span class="cn">TRUE</span>, </span>
-<span>         code_subfolder <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"src"</span>, <span class="st">"src/functions"</span>,<span class="st">"src/deprec"</span><span class="op">)</span>,</span>
-<span>         standard_setup <span class="op">=</span> <span class="st">"baseSpatial"</span>,</span>
-<span>         loc_name <span class="op">=</span> <span class="st">"oldplace"</span>, </span>
-<span>         appendlibs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"raster"</span><span class="op">)</span>,</span>
-<span>         openproject<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-spatial/link2GI/" class="external-link">link2GI</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/initProj.html">initProj</a></span><span class="op">(</span></span>
+<span>  root_folder    <span class="op">=</span> <span class="st">"~/projects/my_spatial_project"</span>,</span>
+<span>  standard_setup <span class="op">=</span> <span class="st">"baseSpatial"</span>,</span>
+<span>  init_git       <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  init_renv      <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p>This creates:</p>
+<ul>
+<li>a fixed folder structure</li>
+<li>an RStudio project</li>
+<li>optional Git repository</li>
+<li>optional <code>renv</code> environment</li>
+<li>skeleton scripts and configuration files</li>
+</ul>
 </div>
+<div class="section level3">
+<h3 id="project-entry-point-always">Project entry point (always)<a class="anchor" aria-label="anchor" href="#project-entry-point-always"></a>
+</h3>
+<p>After opening the project, <strong>run exactly one setup
+script</strong>:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/source.html" class="external-link">source</a></span><span class="op">(</span><span class="st">"src/functions/000_setup.R"</span><span class="op">)</span></span></code></pre></div>
+<p>This defines:</p>
+<ul>
+<li>all project paths (<code>dirs</code>)</li>
+<li>required libraries</li>
+<li>sourced helper functions</li>
+</ul>
+<p>No other setup code is required.</p>
+<hr>
+<div class="section level4">
+<h4 id="canonical-000_setup-r">Canonical <code>000_setup.R</code><a class="anchor" aria-label="anchor" href="#canonical-000_setup-r"></a>
+</h4>
+<p>A minimal and robust project setup script:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-spatial/link2GI/" class="external-link">link2GI</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">root_folder</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/normalizePath.html" class="external-link">normalizePath</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">getwd</a></span><span class="op">(</span><span class="op">)</span>, winslash <span class="op">=</span> <span class="st">"/"</span>, mustWork <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">dirs</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/setupProj.html">setupProj</a></span><span class="op">(</span></span>
+<span>  root_folder    <span class="op">=</span> <span class="va">root_folder</span>,</span>
+<span>  folders        <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
+<span>    <span class="st">"data/source"</span>,</span>
+<span>    <span class="st">"data/results"</span>,</span>
+<span>    <span class="st">"docs/figures"</span>,</span>
+<span>    <span class="st">"tmp"</span></span>
+<span>  <span class="op">)</span>,</span>
+<span>  code_subfolder <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"src"</span>, <span class="st">"src/functions"</span>, <span class="st">"src/configs"</span><span class="op">)</span>,</span>
+<span>  libs           <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"terra"</span>, <span class="st">"sf"</span>, <span class="st">"dplyr"</span>, <span class="st">"link2GI"</span><span class="op">)</span>,</span>
+<span>  fcts_folder    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">root_folder</span>, <span class="st">"src"</span>, <span class="st">"functions"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">dirs</span></span></code></pre></div>
+<p><strong>Rules:</strong></p>
+<ul>
+<li>do <strong>not</strong> call <code><a href="../reference/initProj.html">initProj()</a></code> here</li>
+<li>use <strong>relative paths only</strong>
+</li>
+<li>avoid side effects beyond folder creation and library loading</li>
+</ul>
+<hr>
+</div>
+<div class="section level4">
+<h4 id="script-pattern-processing-stages">Script pattern (processing stages)<a class="anchor" aria-label="anchor" href="#script-pattern-processing-stages"></a>
+</h4>
+<p>Each analysis script starts with:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/source.html" class="external-link">source</a></span><span class="op">(</span><span class="st">"src/functions/000_setup.R"</span><span class="op">)</span></span></code></pre></div>
+<p>All file access uses the <code>dirs</code> object:</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rspatial.github.io/terra/reference/rast.html" class="external-link">rast</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">dirs</span><span class="op">$</span><span class="va">data</span>, <span class="st">"source"</span>, <span class="st">"input.tif"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rspatial.github.io/terra/reference/writeRaster.html" class="external-link">writeRaster</a></span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">dirs</span><span class="op">$</span><span class="va">data</span>, <span class="st">"results"</span>, <span class="st">"output.tif"</span><span class="op">)</span>,</span>
+<span>  overwrite <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p>No <code><a href="https://rdrr.io/r/base/getwd.html" class="external-link">setwd()</a></code>, no absolute paths, no path guessing.</p>
+</div>
+<div class="section level4">
+<h4 id="optional-configuration-via-yaml">Optional configuration via YAML<a class="anchor" aria-label="anchor" href="#optional-configuration-via-yaml"></a>
+</h4>
+<p>Processing parameters are stored separately:</p>
+<pre><code><span><span class="va">src</span><span class="op">/</span><span class="va">configs</span><span class="op">/</span><span class="va">processing.yml</span></span></code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">ndvi</span><span class="kw">:</span></span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="at">  </span><span class="fu">red</span><span class="kw">:</span><span class="at"> </span><span class="dv">4</span></span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="at">  </span><span class="fu">nir</span><span class="kw">:</span><span class="at"> </span><span class="dv">8</span></span></code></pre></div>
+<p>Loaded explicitly:</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">cfg</span> <span class="op">&lt;-</span> <span class="fu">yaml</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/yaml/man/read_yaml.html" class="external-link">read_yaml</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">dirs</span><span class="op">$</span><span class="va">configs</span>, <span class="st">"processing.yml"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level4">
+<h4 id="what-not-to-do">What <em>not</em> to do<a class="anchor" aria-label="anchor" href="#what-not-to-do"></a>
+</h4>
+<ul>
+<li>do not call <code><a href="../reference/initProj.html">initProj()</a></code> inside an existing project</li>
+<li>do not duplicate folder-creation logic</li>
+<li>do not hard-code absolute paths</li>
+<li>do not mix setup code with analysis logic</li>
+<li>do not let templates control runtime behaviour</li>
+</ul>
+</div>
+<div class="section level4">
+<h4 id="core-principle">Core principle<a class="anchor" aria-label="anchor" href="#core-principle"></a>
+</h4>
+<blockquote>
+<p><code><a href="../reference/initProj.html">initProj()</a></code> creates a project <strong>once</strong>.
+<code><a href="../reference/setupProj.html">setupProj()</a></code> reconstructs its environment <strong>every
+time</strong>.</p>
+</blockquote>
+<p>All advanced features described below build on this principle.</p>
+</div>
+</div>
+<div class="section level3">
+<h3 id="scope-of-initproj-in-link2gi">Scope of <code>initProj()</code> in link2GI<a class="anchor" aria-label="anchor" href="#scope-of-initproj-in-link2gi"></a>
+</h3>
+<p><code><a href="../reference/initProj.html">initProj()</a></code> is a <strong>project creation
+function</strong>, not a general runtime setup tool.</p>
+<p>It is designed to be executed <strong>once per project</strong>, at
+creation time. Its responsibilities are limited to:</p>
+<ul>
+<li>creating a defined folder hierarchy,</li>
+<li>generating initial scripts and configuration files,</li>
+<li>optionally initializing <code>git</code> and <code>renv</code>,</li>
+<li>writing an RStudio project file,</li>
+<li>selecting a predefined structural setup (<code>base</code>,
+<code>baseSpatial</code>, <code>advancedSpatial</code>, or
+YAML-based).</li>
+</ul>
+<p>After this step, the project exists as a <strong>static on-disk
+structure</strong>.</p>
+<hr>
+</div>
+<div class="section level3">
+<h3 id="separation-of-responsibilities-initproj-vs-setupproj">Separation of responsibilities: <code>initProj()</code> vs
+<code>setupProj()</code><a class="anchor" aria-label="anchor" href="#separation-of-responsibilities-initproj-vs-setupproj"></a>
+</h3>
+<p>A core design decision in <code>link2GI</code> is the strict
+separation between <strong>project creation</strong> and <strong>project
+runtime setup</strong>.</p>
+<table class="table">
+<colgroup>
+<col width="18%">
+<col width="81%">
+</colgroup>
+<thead><tr class="header">
+<th>Function</th>
+<th>Purpose</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td><code><a href="../reference/initProj.html">initProj()</a></code></td>
+<td>Create a new project on disk</td>
+</tr>
+<tr class="even">
+<td><code><a href="../reference/setupProj.html">setupProj()</a></code></td>
+<td>Re-create the runtime environment of an existing project</td>
+</tr>
+</tbody>
+</table>
+<div class="section level4">
+<h4 id="initproj">
+<code>initProj()</code><a class="anchor" aria-label="anchor" href="#initproj"></a>
+</h4>
+<ul>
+<li>must be run <strong>outside</strong> the project directory,</li>
+<li>creates folders, scripts, and configuration files,</li>
+<li>must <strong>not</strong> be called again inside an existing
+project.</li>
+</ul>
+<p>Calling <code><a href="../reference/initProj.html">initProj()</a></code> from inside a project directory will
+create <strong>nested duplicate folder trees</strong>. This behaviour is
+intentional given its role as a project generator.</p>
+</div>
+<div class="section level4">
+<h4 id="setupproj">
+<code>setupProj()</code><a class="anchor" aria-label="anchor" href="#setupproj"></a>
+</h4>
+<ul>
+<li>is intended to be called <strong>inside an existing
+project</strong>,</li>
+<li>ensures required folders exist,</li>
+<li>loads libraries,</li>
+<li>sources project-specific functions,</li>
+<li>returns the <code>dirs</code> object.</li>
+</ul>
+<p>All runtime scripts (e.g. <code>main-control.R</code>, processing
+scripts, Quarto documents) should rely on
+<code><a href="../reference/setupProj.html">setupProj()</a></code>—<strong>never on
+<code><a href="../reference/initProj.html">initProj()</a></code></strong>.</p>
+<hr>
+</div>
+</div>
+<div class="section level3">
+<h3 id="default-setups-and-configuration-driven-structure">Default setups and configuration-driven structure<a class="anchor" aria-label="anchor" href="#default-setups-and-configuration-driven-structure"></a>
+</h3>
+<p><code>link2GI</code> ships with predefined structural setups stored
+in a YAML configuration file. These setups define:</p>
+<ul>
+<li>logical data subfolders (<code>dataFolder</code>),</li>
+<li>documentation folders (<code>docsFolder</code>),</li>
+<li>temporary folders (<code>tmpFolder</code>),</li>
+<li>code locations (<code>code_subfolder</code>),</li>
+<li>required libraries,</li>
+<li>optional <code>git</code> and <code>renv</code> initialisation.</li>
+</ul>
+<p>Defaults can be inspected programmatically:</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/setup_default.html">setup_default</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/setup_default.html">setup_default</a></span><span class="op">(</span><span class="op">)</span><span class="op">$</span><span class="va">baseSpatial</span></span></code></pre></div>
+<p>The defaults are <strong>declarative</strong>: they describe
+structure, not behaviour.</p>
+<hr>
+</div>
+<div class="section level3">
+<h3 id="creating-a-project-from-the-console">Creating a project from the console<a class="anchor" aria-label="anchor" href="#creating-a-project-from-the-console"></a>
+</h3>
+<p>A minimal example using a predefined setup:</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">root_folder</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">dirs</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/initProj.html">initProj</a></span><span class="op">(</span></span>
+<span>  root_folder    <span class="op">=</span> <span class="va">root_folder</span>,</span>
+<span>  standard_setup <span class="op">=</span> <span class="st">"baseSpatial"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p>This creates the full directory structure, initial scripts, and
+configuration files.</p>
+<hr>
+</div>
+<div class="section level3">
+<h3 id="customising-a-project-at-creation-time">Customising a project at creation time<a class="anchor" aria-label="anchor" href="#customising-a-project-at-creation-time"></a>
+</h3>
+<p>Defaults can be extended during project creation:</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">dirs</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/initProj.html">initProj</a></span><span class="op">(</span></span>
+<span>  root_folder    <span class="op">=</span> <span class="st">"~/projects/my_project"</span>,</span>
+<span>  standard_setup <span class="op">=</span> <span class="st">"baseSpatial"</span>,</span>
+<span>  folders        <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"data/raw/provider1"</span>, <span class="st">"docs/quarto"</span><span class="op">)</span>,</span>
+<span>  init_git       <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  init_renv      <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p>This creates a project whose structure is the union of the selected
+default and the explicitly provided additions.</p>
+<hr>
+</div>
+<div class="section level3">
+<h3 id="location-tags-loc_name">Location tags (<code>loc_name</code>)<a class="anchor" aria-label="anchor" href="#location-tags-loc_name"></a>
+</h3>
+<p>The optional <code>loc_name</code> argument introduces a second
+hierarchy level below <code>data/</code>, <code>docs/</code>, and
+<code>tmp/</code>.</p>
+<p>This is intended for workflows where a <strong>single project manages
+multiple spatial sites or regions</strong>. If this distinction is not
+required, <code>loc_name</code> should be left <code>NULL</code>.</p>
+<hr>
+</div>
+<div class="section level3">
+<h3 id="the-role-of-srcfunctions000_setup-r">The role of <code>src/functions/000_setup.R</code><a class="anchor" aria-label="anchor" href="#the-role-of-srcfunctions000_setup-r"></a>
+</h3>
+<p>Every <code>link2GI</code> project contains a single environment
+bootstrap script:</p>
+<pre><code>src/functions/000_setup.R</code></pre>
+<p>This script is a <strong>contract</strong>, not an example.</p>
+<p>Its responsibilities are:</p>
+<ol style="list-style-type: decimal">
+<li>define the project root (typically <code><a href="https://rdrr.io/r/base/getwd.html" class="external-link">getwd()</a></code>),</li>
+<li>define relative folder paths,</li>
+<li>call <code><a href="../reference/setupProj.html">setupProj()</a></code> once,</li>
+<li>return the resulting <code>dirs</code> object.</li>
+</ol>
+<p>It must <strong>not</strong>:</p>
+<ul>
+<li>create projects,</li>
+<li>hardcode absolute paths,</li>
+<li>call <code><a href="../reference/initProj.html">initProj()</a></code>.</li>
+</ul>
+<p>A minimal, correct structure is:</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">root_folder</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/normalizePath.html" class="external-link">normalizePath</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">getwd</a></span><span class="op">(</span><span class="op">)</span>, winslash <span class="op">=</span> <span class="st">"/"</span>, mustWork <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">dirs</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/setupProj.html">setupProj</a></span><span class="op">(</span></span>
+<span>  root_folder    <span class="op">=</span> <span class="va">root_folder</span>,</span>
+<span>  folders        <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"data/source"</span>, <span class="st">"data/results"</span>, <span class="st">"docs/figures"</span>, <span class="st">"tmp"</span><span class="op">)</span>,</span>
+<span>  code_subfolder <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"src"</span>, <span class="st">"src/functions"</span>, <span class="st">"src/configs"</span><span class="op">)</span>,</span>
+<span>  libs           <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"terra"</span>, <span class="st">"sf"</span>, <span class="st">"dplyr"</span>, <span class="st">"link2GI"</span><span class="op">)</span>,</span>
+<span>  fcts_folder    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">root_folder</span>, <span class="st">"src"</span>, <span class="st">"functions"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">dirs</span></span></code></pre></div>
+<hr>
+</div>
+<div class="section level3">
+<h3 id="template-system-and-file-generation">Template system and file generation<a class="anchor" aria-label="anchor" href="#template-system-and-file-generation"></a>
+</h3>
+<p><code><a href="../reference/initProj.html">initProj()</a></code> generates project files by applying
+<code><a href="https://rdrr.io/pkg/brew/man/brew.html" class="external-link">brew::brew()</a></code> to templates shipped with the package.</p>
+<p>Templates are responsible <strong>only for writing files</strong>,
+not for managing runtime state.</p>
+<p>Each project uses exactly one setup template (selected via
+<code>standard_setup</code>) to generate <code>000_setup.R</code>.</p>
+<p>Maintaining multiple near-identical setup templates is discouraged. A
+recommended pattern is:</p>
+<ul>
+<li>one canonical setup template,</li>
+<li>multiple YAML presets describing different folder and library
+combinations.</li>
+</ul>
+<hr>
+</div>
+<div class="section level3">
+<h3 id="common-failure-modes">Common failure modes<a class="anchor" aria-label="anchor" href="#common-failure-modes"></a>
+</h3>
+<div class="section level4">
+<h4 id="nested-project-directories">Nested project directories<a class="anchor" aria-label="anchor" href="#nested-project-directories"></a>
+</h4>
+<p>If a structure like this appears:</p>
+<pre><code>project/
+  data/
+  src/
+  project/
+    data/
+    src/</code></pre>
+<p>then <code><a href="../reference/initProj.html">initProj()</a></code> was executed inside an existing project
+or with an incorrect <code>root_folder</code>.</p>
+<p>This is expected behaviour for a project generator.</p>
+</div>
+<div class="section level4">
+<h4 id="dirs-pointing-to-unexpected-locations">
+<code>dirs</code> pointing to unexpected locations<a class="anchor" aria-label="anchor" href="#dirs-pointing-to-unexpected-locations"></a>
+</h4>
+<p>If <code>dirs</code> contains absolute paths outside the project
+directory, verify that:</p>
+<ul>
+<li>
+<code>root_folder</code> is set to <code><a href="https://rdrr.io/r/base/getwd.html" class="external-link">getwd()</a></code> in
+<code>000_setup.R</code>,</li>
+<li>folder definitions are relative, not absolute.</li>
+</ul>
+<hr>
+</div>
+</div>
+<div class="section level3">
+<h3 id="minimal-recommended-lifecycle">Minimal recommended lifecycle<a class="anchor" aria-label="anchor" href="#minimal-recommended-lifecycle"></a>
+</h3>
+<ol style="list-style-type: decimal">
+<li>
+<p><strong>Once</strong>: create the project</p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/initProj.html">initProj</a></span><span class="op">(</span><span class="st">"~/projects/example"</span>, standard_setup <span class="op">=</span> <span class="st">"baseSpatial"</span><span class="op">)</span></span></code></pre></div>
+</li>
+<li>
+<p><strong>Always</strong>: inside the project</p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/source.html" class="external-link">source</a></span><span class="op">(</span><span class="st">"src/functions/000_setup.R"</span><span class="op">)</span></span></code></pre></div>
+</li>
+</ol>
+<p>This defines a complete and reproducible workflow boundary.</p>
+<p>```</p>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

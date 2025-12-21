@@ -193,7 +193,7 @@ findSAGA <- function(searchLocation = "default", quiet = TRUE) {
     if (searchLocation == "default") {
       searchLocation <- "C:/"
     } else {
-      searchLocation <- normalizePath(searchLocation)
+      searchLocation <- normalizePath(searchLocation, mustWork = FALSE)
     }
     if (grepl(paste0(LETTERS, ":", collapse = "|"), substr(toupper(searchLocation), start = 1, stop = 2))) {
       link <- link2GI::searchSAGAW(DL = searchLocation, quiet = quiet)

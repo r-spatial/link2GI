@@ -41,7 +41,7 @@ linkGDAL <- function(bin_GDAL = NULL, searchLocation = NULL, ver_select = FALSE,
   # ! -readable -prune -o -type f -executable -iname 'gdalinfo' -print'),stdout = TRUE) bin_GDAL <-
   # substr(params_GDAL,1,nchar(params_GDAL) - 6) pathGDAL <- bin_GDAL params_GDAL <- searchGDALW() if just one valid
   # installation was found take it
-  if (nrow(params_GDAL$gdalInstallations) != FALSE) {
+  if (!is.null(params_GDAL$gdalInstallations) && nrow(params_GDAL$gdalInstallations) > 0) {
     # if (Sys.info()['sysname'] != 'Windows'){
     if (nrow(params_GDAL$gdalInstallations) == 1) {
       pathGDAL <- params_GDAL$gdalInstallations[[1]][1]

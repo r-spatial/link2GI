@@ -63,7 +63,7 @@
                         <h4 data-toc-skip class="author">Chris
 Reudenbach</h4>
             
-            <h4 data-toc-skip class="date">2025-12-20</h4>
+            <h4 data-toc-skip class="date">2025-12-21</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/r-spatial/link2GI/blob/HEAD/vignettes/link2GI4.Rmd" class="external-link"><code>vignettes/link2GI4.Rmd</code></a></small>
       <div class="d-none name"><code>link2GI4.Rmd</code></div>
@@ -134,11 +134,15 @@ from <code>-help</code>
 <div class="section level2">
 <h2 id="minimal-workflow">Minimal workflow<a class="anchor" aria-label="anchor" href="#minimal-workflow"></a>
 </h2>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">library</span>(link2GI)</span>
-<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>otb <span class="ot">&lt;-</span> link2GI<span class="sc">::</span><span class="fu">linkOTB</span>(<span class="at">searchLocation=</span><span class="st">"~/my-otbpath)</span></span>
-<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="st">cmd &lt;- link2GI::otb_build_cmd("</span>DimensionalityReduction<span class="st">", otb, include_optional="</span>defaults<span class="st">", require_output=TRUE)</span></span>
-<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="st">cmd[["</span>in<span class="st">"]] &lt;- "</span>in.tif<span class="st">"; cmd[["</span>method<span class="st">"]] &lt;- "</span>pca<span class="st">"; cmd[["</span>nbcomp<span class="st">"]] &lt;- "</span><span class="dv">3</span><span class="st">"</span></span>
-<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="st">cmd &lt;- link2GI::otb_set_out(cmd, otb, key="</span>out<span class="st">", path="</span>out.tif<span class="st">")</span></span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-spatial/link2GI/" class="external-link">link2GI</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/findOTB.html">findOTB</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">otb</span> <span class="op">&lt;-</span> <span class="fu">link2GI</span><span class="fu">::</span><span class="fu"><a href="../reference/linkOTB.html">linkOTB</a></span><span class="op">(</span>searchLocation<span class="op">=</span><span class="st">"~/mypath"</span><span class="op">)</span></span>
+<span><span class="va">cmd</span> <span class="op">&lt;-</span> <span class="fu">link2GI</span><span class="fu">::</span><span class="fu"><a href="../reference/otb_build_cmd.html">otb_build_cmd</a></span><span class="op">(</span><span class="st">"DimensionalityReduction"</span>, <span class="va">otb</span>, include_optional<span class="op">=</span><span class="st">"defaults"</span>, require_output<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">cmd</span><span class="op">[[</span><span class="st">"in"</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"in.tif"</span> </span>
+<span><span class="va">cmd</span><span class="op">[[</span><span class="st">"method"</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"pca"</span></span>
+<span><span class="va">cmd</span><span class="op">[[</span><span class="st">"nbcomp"</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"3"</span></span>
+<span><span class="va">cmd</span> <span class="op">&lt;-</span> <span class="fu">link2GI</span><span class="fu">::</span><span class="fu"><a href="../reference/otb_set_out.html">otb_set_out</a></span><span class="op">(</span><span class="va">cmd</span>, <span class="va">otb</span>, key<span class="op">=</span><span class="st">"out"</span>, path<span class="op">=</span><span class="st">"out.tif"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="typical-interactive-workflow">Typical interactive workflow<a class="anchor" aria-label="anchor" href="#typical-interactive-workflow"></a>
@@ -162,60 +166,61 @@ transparent<a class="anchor" aria-label="anchor" href="#example-dimensionalityre
 is choosing the correct parameter key for “number of PCA components” by
 reading the <code>spec</code> table printed from your local OTB
 build.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">library</span>(link2GI)</span>
-<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="fu">library</span>(terra)</span>
-<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="fu">library</span>(mlr3spatial)</span>
-<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a></span>
-<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="co"># 0) Link OTB</span></span>
-<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>otb <span class="ot">&lt;-</span> link2GI<span class="sc">::</span><span class="fu">linkOTB</span>(<span class="at">searchLocation=</span><span class="st">"~/my-otbpath)</span></span>
-<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a></span>
-<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="st"># 1) Choose algorithm</span></span>
-<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a><span class="st">algo &lt;- "</span>DimensionalityReduction<span class="st">"</span></span>
-<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a></span>
-<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a><span class="st"># 2) Read the OTB help text (source of truth)</span></span>
-<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a><span class="st">caps &lt;- link2GI::otb_capabilities(algo, otb, include_param_help = FALSE)</span></span>
-<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a><span class="st">cat(paste(head(caps$text, 60), collapse = "</span>\n<span class="st">"), "</span>\n<span class="st">")</span></span>
-<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a></span>
-<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a><span class="st"># 3) Get the parsed parameter table (still transparent)</span></span>
-<span id="cb3-16"><a href="#cb3-16" tabindex="-1"></a><span class="st">spec &lt;- link2GI::otb_args_spec(algo, otb)</span></span>
-<span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a><span class="st">print(spec[, c("</span>key<span class="st">", "</span>class<span class="st">", "</span>mandatory<span class="st">", "</span>default<span class="st">")], row.names = FALSE)</span></span>
-<span id="cb3-18"><a href="#cb3-18" tabindex="-1"></a></span>
-<span id="cb3-19"><a href="#cb3-19" tabindex="-1"></a><span class="st"># 4) Identify the PCA component-count key by inspecting 'spec'</span></span>
-<span id="cb3-20"><a href="#cb3-20" tabindex="-1"></a><span class="st">#    (no fallback list, no heuristics)</span></span>
-<span id="cb3-21"><a href="#cb3-21" tabindex="-1"></a><span class="st">pca_related &lt;- spec[grepl("</span><span class="sc">^</span>method\\.pca\\.<span class="sc">|</span><span class="er">^</span>nbcomp<span class="sc">$</span><span class="er">|</span>outdim<span class="sc">|</span>comp<span class="st">", spec$key), ]</span></span>
-<span id="cb3-22"><a href="#cb3-22" tabindex="-1"></a><span class="st">print(pca_related[, c("</span>key<span class="st">", "</span>mandatory<span class="st">", "</span>default<span class="st">", "</span>desc<span class="st">")], row.names = FALSE)</span></span>
-<span id="cb3-23"><a href="#cb3-23" tabindex="-1"></a></span>
-<span id="cb3-24"><a href="#cb3-24" tabindex="-1"></a><span class="st"># Pick the correct key from the printed table (example for OTB 9.1.1: "</span>nbcomp<span class="st">")</span></span>
-<span id="cb3-25"><a href="#cb3-25" tabindex="-1"></a><span class="st">nb_key &lt;- "</span>nbcomp<span class="st">"</span></span>
-<span id="cb3-26"><a href="#cb3-26" tabindex="-1"></a></span>
-<span id="cb3-27"><a href="#cb3-27" tabindex="-1"></a><span class="st"># 5) Build the command template (only valid keys)</span></span>
-<span id="cb3-28"><a href="#cb3-28" tabindex="-1"></a><span class="st">cmd &lt;- link2GI::otb_build_cmd(</span></span>
-<span id="cb3-29"><a href="#cb3-29" tabindex="-1"></a><span class="st">  algo,</span></span>
-<span id="cb3-30"><a href="#cb3-30" tabindex="-1"></a><span class="st">  otb,</span></span>
-<span id="cb3-31"><a href="#cb3-31" tabindex="-1"></a><span class="st">  include_optional = "</span>defaults<span class="st">",</span></span>
-<span id="cb3-32"><a href="#cb3-32" tabindex="-1"></a><span class="st">  require_output = TRUE</span></span>
-<span id="cb3-33"><a href="#cb3-33" tabindex="-1"></a><span class="st">)</span></span>
-<span id="cb3-34"><a href="#cb3-34" tabindex="-1"></a></span>
-<span id="cb3-35"><a href="#cb3-35" tabindex="-1"></a><span class="st"># 6) Input + output (explicit on-disk path, not tempdir)</span></span>
-<span id="cb3-36"><a href="#cb3-36" tabindex="-1"></a><span class="st">infile &lt;- system.file("</span>extdata<span class="st">", "</span>leipzig_raster.tif<span class="st">", package = "</span>mlr3spatial<span class="st">")</span></span>
-<span id="cb3-37"><a href="#cb3-37" tabindex="-1"></a></span>
-<span id="cb3-38"><a href="#cb3-38" tabindex="-1"></a><span class="st">out_dir &lt;- file.path(getwd(), "</span>otb_tutorial_out<span class="st">")</span></span>
-<span id="cb3-39"><a href="#cb3-39" tabindex="-1"></a><span class="st">dir.create(out_dir, recursive = TRUE, showWarnings = FALSE)</span></span>
-<span id="cb3-40"><a href="#cb3-40" tabindex="-1"></a><span class="st">out_pca &lt;- file.path(out_dir, "</span>leipzig_pca.tif<span class="st">")</span></span>
-<span id="cb3-41"><a href="#cb3-41" tabindex="-1"></a></span>
-<span id="cb3-42"><a href="#cb3-42" tabindex="-1"></a><span class="st">cmd[["</span>in<span class="st">"]] &lt;- infile</span></span>
-<span id="cb3-43"><a href="#cb3-43" tabindex="-1"></a><span class="st">cmd &lt;- link2GI::otb_set_out(cmd, otb, key = "</span>out<span class="st">", path = out_pca)</span></span>
-<span id="cb3-44"><a href="#cb3-44" tabindex="-1"></a></span>
-<span id="cb3-45"><a href="#cb3-45" tabindex="-1"></a><span class="st"># 7) PCA settings (explicit)</span></span>
-<span id="cb3-46"><a href="#cb3-46" tabindex="-1"></a><span class="st">cmd[["</span>method<span class="st">"]] &lt;- "</span>pca<span class="st">"</span></span>
-<span id="cb3-47"><a href="#cb3-47" tabindex="-1"></a><span class="st">cmd[[nb_key]]   &lt;- "</span><span class="dv">9</span><span class="st">"</span></span>
-<span id="cb3-48"><a href="#cb3-48" tabindex="-1"></a></span>
-<span id="cb3-49"><a href="#cb3-49" tabindex="-1"></a><span class="st"># 8) Show the exact CLI that will be executed</span></span>
-<span id="cb3-50"><a href="#cb3-50" tabindex="-1"></a><span class="st">cat(link2GI::runOTB(cmd, otb, retCommand = TRUE, retRaster = FALSE), "</span>\n<span class="st">")</span></span>
-<span id="cb3-51"><a href="#cb3-51" tabindex="-1"></a></span>
-<span id="cb3-52"><a href="#cb3-52" tabindex="-1"></a><span class="st"># 9) Run + plot</span></span>
-<span id="cb3-53"><a href="#cb3-53" tabindex="-1"></a><span class="st">pca_rast &lt;- link2GI::runOTB(cmd, otb, retRaster = TRUE, quiet = FALSE)</span></span>
-<span id="cb3-54"><a href="#cb3-54" tabindex="-1"></a><span class="st">plot(pca_rast[[1]], main = "</span>PCA <span class="fu">output</span> (band <span class="dv">1</span>)<span class="st">")</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-spatial/link2GI/" class="external-link">link2GI</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/" class="external-link">terra</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://mlr3spatial.mlr-org.com" class="external-link">mlr3spatial</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># 0) Link OTB</span></span>
+<span><span class="va">otb</span> <span class="op">&lt;-</span> <span class="fu">link2GI</span><span class="fu">::</span><span class="fu"><a href="../reference/linkOTB.html">linkOTB</a></span><span class="op">(</span>searchLocation<span class="op">=</span><span class="st">"~/my-otbpath"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># 1) Choose algorithm</span></span>
+<span><span class="va">algo</span> <span class="op">&lt;-</span> <span class="st">"DimensionalityReduction"</span></span>
+<span></span>
+<span><span class="co"># 2) Read the OTB help text (source of truth)</span></span>
+<span><span class="va">caps</span> <span class="op">&lt;-</span> <span class="fu">link2GI</span><span class="fu">::</span><span class="fu"><a href="../reference/otb_capabilities.html">otb_capabilities</a></span><span class="op">(</span><span class="va">algo</span>, <span class="va">otb</span>, include_param_help <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="fu"><a href="https://rspatial.github.io/terra/reference/headtail.html" class="external-link">head</a></span><span class="op">(</span><span class="va">caps</span><span class="op">$</span><span class="va">text</span>, <span class="fl">60</span><span class="op">)</span>, collapse <span class="op">=</span> <span class="st">"\n"</span><span class="op">)</span>, <span class="st">"\n"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># 3) Get the parsed parameter table (still transparent)</span></span>
+<span><span class="va">spec</span> <span class="op">&lt;-</span> <span class="fu">link2GI</span><span class="fu">::</span><span class="fu"><a href="../reference/otb_args_spec.html">otb_args_spec</a></span><span class="op">(</span><span class="va">algo</span>, <span class="va">otb</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">spec</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"key"</span>, <span class="st">"class"</span>, <span class="st">"mandatory"</span>, <span class="st">"default"</span><span class="op">)</span><span class="op">]</span>, row.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># 4) Identify the PCA component-count key by inspecting 'spec'</span></span>
+<span><span class="co">#    (no fallback list, no heuristics)</span></span>
+<span><span class="va">pca_related</span> <span class="op">&lt;-</span> <span class="va">spec</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"^method\\.pca\\.|^nbcomp$|outdim|comp"</span>, <span class="va">spec</span><span class="op">$</span><span class="va">key</span><span class="op">)</span>, <span class="op">]</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">pca_related</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"key"</span>, <span class="st">"mandatory"</span>, <span class="st">"default"</span>, <span class="st">"desc"</span><span class="op">)</span><span class="op">]</span>, row.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Pick the correct key from the printed table (example for OTB 9.1.1: "nbcomp")</span></span>
+<span><span class="va">nb_key</span> <span class="op">&lt;-</span> <span class="st">"nbcomp"</span></span>
+<span></span>
+<span><span class="co"># 5) Build the command template (only valid keys)</span></span>
+<span><span class="va">cmd</span> <span class="op">&lt;-</span> <span class="fu">link2GI</span><span class="fu">::</span><span class="fu"><a href="../reference/otb_build_cmd.html">otb_build_cmd</a></span><span class="op">(</span></span>
+<span>  <span class="va">algo</span>,</span>
+<span>  <span class="va">otb</span>,</span>
+<span>  include_optional <span class="op">=</span> <span class="st">"defaults"</span>,</span>
+<span>  require_output <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># 6) Input + output (explicit on-disk path, not tempdir)</span></span>
+<span><span class="va">infile</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"leipzig_raster.tif"</span>, package <span class="op">=</span> <span class="st">"mlr3spatial"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">out_dir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">getwd</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"otb_tutorial_out"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/files2.html" class="external-link">dir.create</a></span><span class="op">(</span><span class="va">out_dir</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span>, showWarnings <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="va">out_pca</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">out_dir</span>, <span class="st">"leipzig_pca.tif"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">cmd</span><span class="op">[[</span><span class="st">"in"</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">infile</span></span>
+<span><span class="va">cmd</span> <span class="op">&lt;-</span> <span class="fu">link2GI</span><span class="fu">::</span><span class="fu"><a href="../reference/otb_set_out.html">otb_set_out</a></span><span class="op">(</span><span class="va">cmd</span>, <span class="va">otb</span>, key <span class="op">=</span> <span class="st">"out"</span>, path <span class="op">=</span> <span class="va">out_pca</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># 7) PCA settings (explicit)</span></span>
+<span><span class="va">cmd</span><span class="op">[[</span><span class="st">"method"</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"pca"</span></span>
+<span><span class="va">cmd</span><span class="op">[[</span><span class="va">nb_key</span><span class="op">]</span><span class="op">]</span>   <span class="op">&lt;-</span> <span class="st">"9"</span></span>
+<span></span>
+<span><span class="co"># 8) Show the exact CLI that will be executed</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu">link2GI</span><span class="fu">::</span><span class="fu"><a href="../reference/runOTB.html">runOTB</a></span><span class="op">(</span><span class="va">cmd</span>, <span class="va">otb</span>, retCommand <span class="op">=</span> <span class="cn">TRUE</span>, retRaster <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>, <span class="st">"\n"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># 9) Run + plot</span></span>
+<span><span class="va">pca_rast</span> <span class="op">&lt;-</span> <span class="fu">link2GI</span><span class="fu">::</span><span class="fu"><a href="../reference/runOTB.html">runOTB</a></span><span class="op">(</span><span class="va">cmd</span>, <span class="va">otb</span>, retRaster <span class="op">=</span> <span class="cn">TRUE</span>, quiet <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rspatial.github.io/terra/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">pca_rast</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, main <span class="op">=</span> <span class="st">"PCA output (band 1)"</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">

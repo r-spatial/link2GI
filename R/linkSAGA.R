@@ -26,7 +26,7 @@ if ( !isGeneric("linkSAGA") ) {
 #'@param returnPaths boolean if set to FALSE the paths of the selected version are written 
 #' to the PATH variable only, otherwise all paths and versions of the installed SAGA versions ae returned.#'@details If called without any parameter \code{linkSAGA()} it performs a full search over \code{C:}. If it finds one or more 'SAGA GIS' binaries it will take the first hit. You have to set \code{ver_select = TRUE} for an interactive selection of the preferred version. Additionally the selected SAGA paths are added to the environment and the global variables \code{sagaPath}, \code{sagaModPath} and \code{sagaCmd} will be created.
 
-#'@export linkSAGA
+#'@export 
 #'  
 #'@examples
 #'\dontrun{

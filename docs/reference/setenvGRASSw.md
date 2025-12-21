@@ -9,10 +9,9 @@ string.
 
 ``` r
 setenvGRASSw(
-  root_GRASS = NULL,
+  root_GRASS,
   grass_version = NULL,
   installation_type = NULL,
-  jpgmem = 1e+06,
   quiet = TRUE
 )
 ```
@@ -31,10 +30,6 @@ setenvGRASSw(
 
   two options 'osgeo4w' as installed by the 'OSGeo4W'-installer and
   'NSIS' that is typical for a stand_alone installation of 'GRASS GIS'.
-
-- jpgmem:
-
-  jpeg2000 memory allocation size. Default is 1000000
 
 - quiet:
 

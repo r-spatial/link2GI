@@ -1,37 +1,42 @@
-# Search recursively for valid 'OTB' installation(s) on a 'Windows' OS
+# Search recursively valid 'OTB' installation(s) on a given Windows drive/path
 
-Search for valid 'OTB' installations on a 'Windows' OS
+Robust Windows OTB discovery for modern standalone bundles (OTB 9.x): -
+detects root by presence of 'otbenv.ps1' (or 'otbenv.bat') - checks for
+'bin/otbApplicationLauncherCommandLine.exe' - checks for at least one
+'bin/otbcli\_\*.ps1' wrapper
 
 ## Usage
 
 ``` r
-searchOTBW(DL = "default", quiet = TRUE)
+searchOTBW(searchLocation = NULL, DL = "C:/", maxdepth = 8L, quiet = FALSE)
 ```
 
 ## Arguments
 
+- searchLocation:
+
+  Character. Folder to search (default `"C:/"`).
+
 - DL:
 
-  drive letter default is `C:/`
+  Character. Backward-compatible alias for `searchLocation`. If both are
+  provided, `searchLocation` wins.
+
+- maxdepth:
+
+  Integer. Max recursion depth (best effort).
 
 - quiet:
 
-  boolean switch for supressing console messages default is TRUE
+  Logical. Suppress messages.
 
 ## Value
 
-A dataframe with the 'OTB' root folder(s) the version name(s) and the
-installation type(s).
+data.frame with columns: binDir, baseDir, otbCmd, envScript, launcher,
+installation_type
 
-## Author
+## Details
 
-Chris Reudenbach
-
-## Examples
-
-``` r
-if (FALSE) { # \dontrun{
-# get all valid OTB installation folders and params
-searchOTBW()
-} # }
-```
+Backward compatible with legacy callers that use `DL` (as in older
+link2GI versions). Internally, `DL` is treated as an alias for
+`searchLocation`.

@@ -80,7 +80,6 @@
 #' )
 #' }
 #' @export
-
 linkGRASS <- function(x = NULL, epsg = NULL, default_GRASS = NULL, search_path = NULL,
                       ver_select = FALSE, gisdbase_exist = FALSE, gisdbase = NULL,
                       use_home = FALSE, location = NULL, spatial_params = NULL,
@@ -159,7 +158,24 @@ linkGRASS <- function(x = NULL, epsg = NULL, default_GRASS = NULL, search_path =
   
   # if an existing gdbase is provided link it
   if (!is.null(location) && !is.null(gisdbase) && isTRUE(gisdbase_exist)) {
-    
+    if (identical(grass$type, "osgeo4w")) {
+      chk <- is_osgeo4w_env(root = grass$instDir %||% grass$gisbase_GRASS)
+      
+      if (!isTRUE(chk$in_env)) {
+        stop(
+          "OSGeo4W GRASS detected, but OSGeo4W environment variables are not active.\n",
+          "This typically means you started R/RStudio outside the OSGeo4W Shell.\n\n",
+          "Check:\n",
+          "  Sys.getenv('OSGEO4W_ROOT') = '", chk$OSGEO4W_ROOT, "'\n",
+          "  PATH contains OSGeo4W/bin   = ", chk$has_bin_in_path, "\n\n",
+          "Fix (recommended):\n",
+          "  1) Start 'OSGeo4W Shell'\n",
+          "  2) Run: grass84 --gtext\n",
+          "  3) Start RStudio from that shell (type: rstudio)\n",
+          call. = FALSE
+        )
+      }
+    }
     rgrass::initGRASS(
       gisBase  = grass$gisbase_GRASS,
       home     = home,
@@ -233,6 +249,17 @@ linkGRASS <- function(x = NULL, epsg = NULL, default_GRASS = NULL, search_path =
       epsg <- 4326
       if (is.null(resolution)) resolution <- 1
     }
+    
+    # If OSGeo4W installation: ensure OSGeo4W env is active, otherwise initGRASS() stops.
+    if (identical(Sys.info()[["sysname"]], "Windows") && identical(grass$type, "osgeo4w")) {
+      
+      if (!.in_osgeo4w_env()) {
+        # grass$installed$instDir or the root you detected (OSGeo4W root)
+        # In your current data.frame this is exactly instDir
+        .activate_osgeo4w_env(osgeo4w_root = grass$installed$instDir[[1]], quiet = quiet)
+      }
+    }
+    
     
     # start GRASS setup: create TEMPORARY GRASS location
     suppressWarnings(

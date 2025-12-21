@@ -60,7 +60,7 @@ and loading of the required libraries including various standard setup
 skeletons to simplify project initialisation.
 
 The function creates a skeleton of the skeleton scripts
-`main-control.R`, `pre-processing.R`, `10-processing.R` and
+`main-control.R`, `pre-processing.R`, `processing.R` and
 `post-processing.R`, and creates corresponding parameter configurations
 files stored as `yaml` files in `scr/configs/`. The script
 src/functions/000_settings.R holds all specific project settings. Easy
@@ -142,6 +142,11 @@ configure paths,run).
   : Execute an OTB application
 - [`saveEnvi()`](https://r-spatial.github.io/link2GI/reference/saveEnvi.md)
   : Saves data in rds format and adds a yaml metadata file.
+- [`searchGRASSW()`](https://r-spatial.github.io/link2GI/reference/searchGRASSW.md)
+  : Search for valid GRASS GIS installations on Windows
+- [`searchOTBW()`](https://r-spatial.github.io/link2GI/reference/searchOTBW.md)
+  : Search recursively valid 'OTB' installation(s) on a given Windows
+  drive/path
 - [`setupProj()`](https://r-spatial.github.io/link2GI/reference/setupProj.md)
   : Setup project folder structure
 - [`setup_default()`](https://r-spatial.github.io/link2GI/reference/setup_default.md)

@@ -5,6 +5,8 @@
 \title{Search for valid GRASS GIS installations on Windows}
 \usage{
 searchGRASSW(DL = "C:/", quiet = TRUE)
+
+searchGRASSW(DL = "C:/", quiet = TRUE)
 }
 \arguments{
 \item{DL}{Character. Search root (e.g. `"C:/"`).}
@@ -12,9 +14,52 @@ searchGRASSW(DL = "C:/", quiet = TRUE)
 \item{quiet}{Logical. Suppress messages.}
 }
 \value{
+Returns \code{FALSE} if no installation was detected.
+Otherwise returns a \code{data.frame} with columns:
+\describe{
+  \item{instDir}{Root directory of the installation candidate.}
+  \item{version}{Parsed version string (from \code{VERSIONNUMBER}) or \code{NA}.}
+  \item{installation_type}{One of \code{"osgeo4w"}, \code{"qgis"}, \code{"standalone"}.}
+}
+The result is sorted by decreasing semantic version (unknown versions treated as \code{0.0.0}).
+
 `FALSE` or a `data.frame` with columns `instDir`, `version`, `installation_type`.
 }
 \description{
-Search for valid GRASS GIS installations on Windows
+Searches for GRASS GIS installations on **Windows** using a *bounded* set of
+plausible installation roots (no full-disk crawl). The function supports:
+\itemize{
+  \item OSGeo4W / QGIS-style layouts via \code{<root>/apps/grass/grass*/etc/VERSIONNUMBER}
+  \item Standalone GRASS installs via \code{<Program Files>/GRASS GIS */etc/VERSIONNUMBER}
+  \item Optional per-user OSGeo4W installs under
+        \code{<USERPROFILE>/AppData/Local/Programs/OSGeo4W}
+}
+}
+\details{
+The argument \code{DL} can be a full path or a Windows drive root
+(e.g. \code{"C:"} or \code{"C:/"}). Drive roots are expanded to a fixed set of
+candidate directories:
+\code{OSGeo4W64}, \code{OSGeo4W}, \code{Program Files}, \code{Program Files (x86)}.
+
+
+This function is intentionally conservative to remain fast and deterministic on
+large Windows volumes. It does **not** recurse the entire drive.
+
+If multiple installations are present under the searched roots, all are returned.
+Version parsing extracts the first \code{x.y[.z...]} pattern from the first line
+of \code{VERSIONNUMBER}.
+}
+\examples{
+\dontrun{
+# Search from the C: drive root (bounded roots, no full-disk scan)
+searchGRASSW("C:/", quiet = FALSE)
+
+# Search a concrete directory only
+searchGRASSW("C:/OSGeo4W64", quiet = FALSE)
+
+# Drive letter without slash is accepted
+searchGRASSW("C:", quiet = TRUE)
+}
+
 }
 \keyword{internal}

@@ -1,6 +1,5 @@
 <urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
 <url><loc>https://r-spatial.github.io/link2GI/404.html</loc></url>
-<url><loc>https://r-spatial.github.io/link2GI/LICENSE-text.html</loc></url>
 <url><loc>https://r-spatial.github.io/link2GI/articles/index.html</loc></url>
 <url><loc>https://r-spatial.github.io/link2GI/articles/link2GI1.html</loc></url>
 <url><loc>https://r-spatial.github.io/link2GI/articles/link2GI2.html</loc></url>
@@ -10,6 +9,7 @@
 <url><loc>https://r-spatial.github.io/link2GI/articles/link2GI6.html</loc></url>
 <url><loc>https://r-spatial.github.io/link2GI/authors.html</loc></url>
 <url><loc>https://r-spatial.github.io/link2GI/index.html</loc></url>
+<url><loc>https://r-spatial.github.io/link2GI/LICENSE-text.html</loc></url>
 <url><loc>https://r-spatial.github.io/link2GI/news/index.html</loc></url>
 <url><loc>https://r-spatial.github.io/link2GI/reference/add2Path.html</loc></url>
 <url><loc>https://r-spatial.github.io/link2GI/reference/addGitFolders.html</loc></url>
@@ -21,6 +21,7 @@
 <url><loc>https://r-spatial.github.io/link2GI/reference/findGRASS.html</loc></url>
 <url><loc>https://r-spatial.github.io/link2GI/reference/findOTB.html</loc></url>
 <url><loc>https://r-spatial.github.io/link2GI/reference/findSAGA.html</loc></url>
+<url><loc>https://r-spatial.github.io/link2GI/reference/getrowotbVer.html</loc></url>
 <url><loc>https://r-spatial.github.io/link2GI/reference/getSpatialClass.html</loc></url>
 <url><loc>https://r-spatial.github.io/link2GI/reference/gvec2sf.html</loc></url>
 <url><loc>https://r-spatial.github.io/link2GI/reference/index.html</loc></url>
@@ -32,8 +33,8 @@
 <url><loc>https://r-spatial.github.io/link2GI/reference/linkSAGA.html</loc></url>
 <url><loc>https://r-spatial.github.io/link2GI/reference/loadEnvi.html</loc></url>
 <url><loc>https://r-spatial.github.io/link2GI/reference/loadLibraries.html</loc></url>
-<url><loc>https://r-spatial.github.io/link2GI/reference/makGlobalVar.html</loc></url>
 <url><loc>https://r-spatial.github.io/link2GI/reference/makeGlobalVariable.html</loc></url>
+<url><loc>https://r-spatial.github.io/link2GI/reference/makGlobalVar.html</loc></url>
 <url><loc>https://r-spatial.github.io/link2GI/reference/manuallyBuild.html</loc></url>
 <url><loc>https://r-spatial.github.io/link2GI/reference/otb_args_spec.html</loc></url>
 <url><loc>https://r-spatial.github.io/link2GI/reference/otb_build_cmd.html</loc></url>

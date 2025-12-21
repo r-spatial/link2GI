@@ -58,6 +58,11 @@
   : Execute an OTB application
 - [`saveEnvi()`](https://r-spatial.github.io/link2GI/reference/saveEnvi.md)
   : Saves data in rds format and adds a yaml metadata file.
+- [`searchGRASSW()`](https://r-spatial.github.io/link2GI/reference/searchGRASSW.md)
+  : Search for valid GRASS GIS installations on Windows
+- [`searchOTBW()`](https://r-spatial.github.io/link2GI/reference/searchOTBW.md)
+  : Search recursively valid 'OTB' installation(s) on a given Windows
+  drive/path
 - [`setupProj()`](https://r-spatial.github.io/link2GI/reference/setupProj.md)
   : Setup project folder structure
 - [`setup_default()`](https://r-spatial.github.io/link2GI/reference/setup_default.md)

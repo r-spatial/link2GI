@@ -40,7 +40,7 @@ setenvGDAL <- function(bin_GDAL = NULL) {
 #'@param quiet boolean  switch for supressing console messages default is TRUE
 #'@return A dataframe with the 'GDAL' root folder(s) the version name(s) and the installation type(s).
 #'@author Chris Reudenbach
-#'@export searchGDALW
+#'@export 
 #'@keywords internal
 #'
 #'@examples
@@ -209,7 +209,7 @@ searchGDALW <- function(DL = "C:/", quiet = TRUE) {
 #'@param quiet boolean  switch for supressing messages default is TRUE
 #'@return A dataframe with the 'GDAL' root folder(s) the version name(s) and the installation type(s).
 #'@author Chris Reudenbach
-#'@export searchGDALX
+#'@export 
 #'@keywords internal
 #'
 #'@examples
@@ -283,7 +283,7 @@ searchGDALX <- function(MP = "/usr/bin", quiet = TRUE) {
 #'@param quiet boolean  switch for supressing console messages default is TRUE
 #'@return A dataframe with the 'GDAL' root folder(s),  and command line executable(s)
 #'@author Chris Reudenbach
-#'@export findGDAL
+#'@export 
 #'
 #'@examples
 #'

@@ -60,12 +60,15 @@ Core functions:
 
 ## Minimal workflow
 
-```r
+```{r eval=FALSE}
 library(link2GI)
-otb <- link2GI::linkOTB(searchLocation="~/my-otbpath)
+otb <- link2GI::linkOTB(searchLocation="~/apps/otb911/")
 cmd <- link2GI::otb_build_cmd("DimensionalityReduction", otb, include_optional="defaults", require_output=TRUE)
-cmd[["in"]] <- "in.tif"; cmd[["method"]] <- "pca"; cmd[["nbcomp"]] <- "3"
+cmd[["in"]] <- "in.tif" 
+cmd[["method"]] <- "pca"
+cmd[["nbcomp"]] <- "3"
 cmd <- link2GI::otb_set_out(cmd, otb, key="out", path="out.tif")
+str(cmd)
 ```
 
 
@@ -84,34 +87,26 @@ The following example demonstrates a complete workflow:
 
 This example avoids “guessing” parameter names. The only manual step is choosing the correct parameter key for “number of PCA components” by reading the `spec` table printed from your local OTB build.
 
-```r
+```{r eval=FALSE}
 library(link2GI)
 library(terra)
 library(mlr3spatial)
 
 # 0) Link OTB
-otb <- link2GI::linkOTB(searchLocation="~/my-otbpath)
+otb <- link2GI::linkOTB(searchLocation="~/apps/otb911/")
 
 # 1) Choose algorithm
 algo <- "DimensionalityReduction"
 
 # 2) Read the OTB help text (source of truth)
-caps <- link2GI::otb_capabilities(algo, otb, include_param_help = FALSE)
+caps <- link2GI::otb_capabilities(algo = algo, gili = otb, include_param_help = FALSE)
 cat(paste(head(caps$text, 60), collapse = "\n"), "\n")
 
 # 3) Get the parsed parameter table (still transparent)
 spec <- link2GI::otb_args_spec(algo, otb)
 print(spec[, c("key", "class", "mandatory", "default")], row.names = FALSE)
 
-# 4) Identify the PCA component-count key by inspecting 'spec'
-#    (no fallback list, no heuristics)
-pca_related <- spec[grepl("^method\\.pca\\.|^nbcomp$|outdim|comp", spec$key), ]
-print(pca_related[, c("key", "mandatory", "default", "desc")], row.names = FALSE)
-
-# Pick the correct key from the printed table (example for OTB 9.1.1: "nbcomp")
-nb_key <- "nbcomp"
-
-# 5) Build the command template (only valid keys)
+# Build the preliminary command template (only valid keys)
 cmd <- link2GI::otb_build_cmd(
   algo,
   otb,
@@ -119,26 +114,40 @@ cmd <- link2GI::otb_build_cmd(
   require_output = TRUE
 )
 
-# 6) Input + output (explicit on-disk path, not tempdir)
-infile <- system.file("extdata", "leipzig_raster.tif", package = "mlr3spatial")
 
+
+# Identify the PCA component-count key by inspecting 'spec'
+# (no fallback list, no heuristics)
+pca_related <- spec[grepl("^method\\.pca\\.|^nbcomp$|outdim|comp", spec$key), ]
+print(pca_related[, c("key", "mandatory", "default", "desc")], row.names = FALSE)
+
+# Pick the correct key from the printed table 
+# (example for OTB 9.1.1: "nbcomp") and fill it with your value)
+cmd[["nbcomp"]]   <- "9"
+
+
+
+# Input + output (explicit on-disk path, not tempdir)
+infile <- system.file("extdata", "leipzig_raster.tif", package = "mlr3spatial")
 out_dir <- file.path(getwd(), "otb_tutorial_out")
-dir.create(out_dir, recursive = TRUE, showWarnings = FALSE)
-out_pca <- file.path(out_dir, "leipzig_pca.tif")
+dir.create(out_dir, recursive = TRUE, showWarnings = T)
+out_pca <- file.path(out_dir, "leipzig_pca.tif")[1]
 
 cmd[["in"]] <- infile
-cmd <- link2GI::otb_set_out(cmd, otb, key = "out", path = out_pca)
+cmd[["out"]] <- out_pca
 
-# 7) PCA settings (explicit)
+
+# PCA settings (explicit)
 cmd[["method"]] <- "pca"
-cmd[[nb_key]]   <- "9"
 
-# 8) Show the exact CLI that will be executed
-cat(link2GI::runOTB(cmd, otb, retCommand = TRUE, retRaster = FALSE), "\n")
 
-# 9) Run + plot
-pca_rast <- link2GI::runOTB(cmd, otb, retRaster = TRUE, quiet = FALSE)
-plot(pca_rast[[1]], main = "PCA output (band 1)")
+# Show the exact CLI that will be executed
+cat(link2GI::runOTB(cmd, otb, retCommand = TRUE, retRaster = TRUE), "\n")
+str(cmd)
+
+# Run + plot
+pca_rast <- link2GI::runOTB(cmd, otb, quiet = FALSE)
+file.exists(cmd[["out"]])
 ```
 
 

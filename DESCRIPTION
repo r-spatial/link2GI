@@ -23,7 +23,6 @@ Imports:
   terra,
   methods,
   utils,
-  xml2,
   rstudioapi,
   renv
 SystemRequirements: GNU make 

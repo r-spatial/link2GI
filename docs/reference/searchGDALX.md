@@ -1,38 +1,57 @@
-# Search recursively for valid 'GDAL' installation(s) on a 'X-based' OS
+# Search recursively for valid GDAL installation(s) on Linux/macOS
 
-Search for valid 'GDAL' installations on a 'X-based' OS
+Searches for an executable \`gdalinfo\` and returns a normalized
+installations table plus best-effort lists of GDAL binaries (\`gdal\*\`)
+and python tools (\`\*.py\`) found alongside the detected \`gdalinfo\`.
 
 ## Usage
 
 ``` r
-searchGDALX(MP = "/usr/bin", quiet = TRUE)
+searchGDALX(MP = "default", quiet = TRUE)
 ```
 
 ## Arguments
 
 - MP:
 
-  drive letter default is '/usr/bin'
+  Character. Search root. \`"default"\` expands to
+  \`c("~","/opt","/usr/local","/usr")\`. You may also pass a single
+  directory (e.g. \`"/usr"\`).
 
 - quiet:
 
-  boolean switch for supressing messages default is TRUE
+  Logical. If \`TRUE\`, suppress messages.
 
 ## Value
 
-A dataframe with the 'GDAL' root folder(s) the version name(s) and the
-installation type(s).
+A list with:
 
-## Author
+- gdalInstallations:
 
-Chris Reudenbach
+  data.frame with columns \`binDir\`, \`baseDir\`,
+  \`installation_type\`.
+
+- bin:
+
+  list of data.frames (column \`gdal_bin\`) with detected GDAL binaries
+  per installation.
+
+- py:
+
+  list of data.frames (column \`gdal_py\`) with detected GDAL python
+  tools per installation.
+
+## Details
+
+This implementation is portable: it does NOT use GNU-only \`find\`
+primaries such as \`-readable\`, and it uses \`system2(..., args=...)\`
+with proper token separation (no shell parsing assumptions).
 
 ## Examples
 
 ``` r
-run = FALSE
-if (run) {
-# get all valid GDAL installation folders and params
-searchGDALX()
-}
+if (FALSE) { # \dontrun{
+x <- searchGDALX()
+x$gdalInstallations
+} # }
 ```

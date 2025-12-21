@@ -1,16 +1,20 @@
 # Changelog
 
-## link2GI 0.7.2
+## link2GI 0.7-2
 
-**changes** - New introspection-based OTB API (Workflow C) using CLI
-`-help` as source of truth  
+**changes**
+
+- New introspection-based OTB API (Workflow C) using CLI `-help` as
+  source of truth  
 - Robust command building
-([`otb_build_cmd()`](https://r-spatial.github.io/link2GI/reference/otb_api.md),
-[`otb_set_out()`](https://r-spatial.github.io/link2GI/reference/otb_api.md)),
-unified execution  
+  ([`otb_build_cmd()`](https://r-spatial.github.io/link2GI/reference/otb_api.md),
+  [`otb_set_out()`](https://r-spatial.github.io/link2GI/reference/otb_api.md)),
+  unified execution  
 - Bounded Windows + Linux OTB discovery aligned  
 - Full CRAN compliance (`R CMD check` clean)  
 - Legacy API kept for backward compatibility
+- Added testthat coverage for the OTB wrapper (runOTB command
+  construction and argument handling).
 
 ### link2GI 0.7-1
 

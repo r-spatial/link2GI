@@ -1,7 +1,11 @@
-# Return attributes of valid 'GRASS GIS' installation(s) in 'Linux'
+# Return attributes of valid GRASS GIS installation(s) on Unix
 
-Searches recursively for valid 'GRASS GIS' installations at a given
-'Linux' mount point. Returns attributes for each installation.
+Searches recursively for valid GRASS GIS installations on Unix-like
+systems (Linux/macOS) and returns basic attributes for each detected
+installation.
+
+The implementation avoids GNU-specific \`find\` primaries (e.g.
+\`-readable\`) and relies on a portable \`system2()\` call.
 
 ## Usage
 
@@ -13,19 +17,29 @@ searchGRASSX(MP = "/usr/bin", quiet = TRUE)
 
 - MP:
 
-  default is /usr. This is the directory from which the grass executable
-  file is searched, i.e. one executable for each GRASS installation on
-  the system.
+  Character. Search root directory. \`"default"\` expands to \`c("~",
+  "/opt", "/usr/local", "/usr")\`.
 
 - quiet:
 
-  boolean. switch for suppressing console messages default is TRUE
+  Logical. If \`TRUE\`, suppress messages.
 
 ## Value
 
-data frame containing 'GRASS GIS' binary folder(s) (i.e. where the
-individual GRASS commands are installed), version name(s) and
-installation type code(s)
+\`FALSE\` if no installation is found, otherwise a \`data.frame\` with
+columns:
+
+- instDir:
+
+  GRASS installation root directory
+
+- version:
+
+  Detected GRASS version (character, may be \`NA\`)
+
+- installation_type:
+
+  Launcher or installation type
 
 ## Author
 
@@ -35,10 +49,10 @@ Chris Reudenbach
 
 ``` r
 if (FALSE) { # \dontrun{
-# get all valid 'GRASS GIS' installation folders in the /usr/bin directory (typical location)
-searchGRASSX('/usr/bin')
+## Typical system-wide location
+searchGRASSX("/usr/bin")
 
-# get all valid 'GRASS GIS' installation folders in the home directory
-searchGRASSX('~/')
+## Search user home
+searchGRASSX("~")
 } # }
 ```

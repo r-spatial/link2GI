@@ -54,7 +54,8 @@ The OTB integration in **link2GI** has evolved from a basic command
 wrapper into a robust, introspection-based interface. It now derives
 valid parameters directly from OTB’s CLI metadata, supports
 version-stable command construction, and enforces explicit,
-reproducible, on-disk outputs.
+reproducible, on-disk outputs ([OTB Wrapper in
+link2GI](https://r-spatial.github.io/link2GI/articles/link2GI4.html).).
 
 ## `initProj` for reproducible projects
 
@@ -72,8 +73,7 @@ centralized in `src/functions/000_settings.R`.
 Project paths are exposed via a single `dirs` list, enabling simple,
 reproducible data handling.
 
-For details, see the article  
-[Reproducible
+For details, see the article [Reproducible
 Projects](https://r-spatial.github.io/link2GI/articles/link2GI5.html).
 
 In RStudio, a new project can be created via  

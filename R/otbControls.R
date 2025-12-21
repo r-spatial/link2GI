@@ -34,7 +34,7 @@ setenvOTB <- function(bin_OTB = NULL, root_OTB = NULL) {
 #'@param quiet boolean  switch for supressing console messages default is TRUE
 #'@return A dataframe with the 'OTB' root folder(s) the version name(s) and the installation type(s).
 #'@author Chris Reudenbach
-#'@export searchOTBW
+#'@export 
 #'@keywords internal
 #'
 #'@examples

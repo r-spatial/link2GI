@@ -246,21 +246,14 @@ paramGRASSw <- function(set_default_GRASS = NULL, DL = "C:/", ver_select = FALSE
 
 
 
-#'@title Search recursivly valid 'GRASS GIS' installation(s) on a given 'Windows' drive 
-#'@name searchGRASSW
-#'@title Search for valid OSGeo4W 'GRASS GIS' installation(s) on a given 'Windows' drive 
-#'@description  Provides an  list of valid 'GRASS GIS' installation(s) on your 'Windows' system. There is a major difference between osgeo4W and stand_alone installations. The functions trys to find all valid installations by analysing the calling batch scripts.
-#'@param DL drive letter to be searched, default is \code{C:/}
-#'@param quiet boolean  switch for supressing console messages default is TRUEs
-#'@return A dataframe with the 'GRASS GIS' root folder(s), version name(s) and installation type code(s)
-#'@author Chris Reudenbach
-#'@export searchGRASSW
-#'@keywords internal
-#'@examples
-#' \dontrun{
-#' # get all valid 'GRASS GIS' installation folders and params at 'C:/'
-#' searchGRASSW()
-#' }
+#' Search for valid GRASS GIS installations on Windows
+#'
+#' @param DL Character. Search root (e.g. `"C:/"`).
+#' @param quiet Logical. Suppress messages.
+#'
+#' @return `FALSE` or a `data.frame` with columns `instDir`, `version`, `installation_type`.
+#' @keywords internal
+#' @export
 searchGRASSW <- function(DL = "C:/", quiet = TRUE) {
   
   DL <- bf_wpath(DL)

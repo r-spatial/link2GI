@@ -2,28 +2,19 @@
 % Please edit documentation in R/grassControl.R
 \name{searchGRASSW}
 \alias{searchGRASSW}
-\title{Search recursivly valid 'GRASS GIS' installation(s) on a given 'Windows' drive}
+\title{Search for valid GRASS GIS installations on Windows}
 \usage{
 searchGRASSW(DL = "C:/", quiet = TRUE)
 }
 \arguments{
-\item{DL}{drive letter to be searched, default is \code{C:/}}
+\item{DL}{Character. Search root (e.g. `"C:/"`).}
 
-\item{quiet}{boolean  switch for supressing console messages default is TRUEs}
+\item{quiet}{Logical. Suppress messages.}
 }
 \value{
-A dataframe with the 'GRASS GIS' root folder(s), version name(s) and installation type code(s)
+`FALSE` or a `data.frame` with columns `instDir`, `version`, `installation_type`.
 }
 \description{
-Provides an  list of valid 'GRASS GIS' installation(s) on your 'Windows' system. There is a major difference between osgeo4W and stand_alone installations. The functions trys to find all valid installations by analysing the calling batch scripts.
-}
-\examples{
-\dontrun{
-# get all valid 'GRASS GIS' installation folders and params at 'C:/'
-searchGRASSW()
-}
-}
-\author{
-Chris Reudenbach
+Search for valid GRASS GIS installations on Windows
 }
 \keyword{internal}

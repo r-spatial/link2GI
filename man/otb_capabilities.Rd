@@ -14,7 +14,12 @@ otb_capabilities(algo, gili = NULL, include_param_help = FALSE)
 \item{include_param_help}{Logical. If `TRUE`, calls `-help <param>` for each key.}
 }
 \value{
-List: text, params, param_help
+List with elements:
+\describe{
+  \item{text}{Character vector of the `-help` output.}
+  \item{params}{Parsed parameter table (data.frame / tibble depending on your parser).}
+  \item{param_help}{Named list of per-parameter help texts (or `NULL`).}
+}
 }
 \description{
 Retrieve OTB application capabilities (help text + parsed parameters)

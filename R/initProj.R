@@ -14,7 +14,7 @@
 #' setup_default()
 #' }
 #' @name setup_default
-#' @export setup_default
+#' @export 
 setup_default <- function(default = NULL, new_folder_list = NULL, new_folder_list_name = NULL) {
   # Read master configuration
   setup_default <- yaml::read_yaml(system.file("templates/", "config-default-projects.yml", package = "link2GI"))
@@ -39,7 +39,7 @@ setup_default <- function(default = NULL, new_folder_list = NULL, new_folder_lis
 #'
 #' @return  List with folder paths and names.
 #'
-#' @export createFolders
+#' @export 
 #' @aliases createFolder
 #'
 #' @examples
@@ -119,8 +119,7 @@ createFolders <- function(root_folder, folders, create_folders = TRUE) {
 #'
 #' @name initProj
 #' 
-#' @export initProj
-#'
+#' @export 
 #' @examples
 #' \dontrun{
 #' root_folder <- tempdir() # Mandatory, variable must be in the R environment.
@@ -251,9 +250,7 @@ initProj <- function(root_folder = ".", folders = NULL, init_git = NULL, init_re
 #'
 #' @name setupProj
 #' 
-#' @export setupProj
-#'
-#'
+#' @export 
 #' @examples
 #' \dontrun{
 #' setupProj(
@@ -400,8 +397,7 @@ sourceFunctions <- function(fcts_folder, setup_script) {
 #' @return NULL
 #'
 #' @name saveEnvi
-#' @export saveEnvi
-#'
+#' @export 
 #' @examples
 #' \dontrun{
 #' a <- 1
@@ -444,8 +440,7 @@ createMeta <- function(prj_name) {
 #' @return list of 2 containing data and metadata.
 #'
 #' @name loadEnvi
-#' @export loadEnvi
-#'
+#' @export
 #' @examples
 #' \dontrun{
 #' a <- 1

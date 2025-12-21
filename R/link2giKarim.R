@@ -31,7 +31,7 @@ getSpatialClass <- function(obj) {
 #' # add path
 #' add2Path('pathtosomewhere')
 #' }
-#'@export add2Path
+#'@export 
 #'
 add2Path <- function(newPath) {
   exist <- FALSE
@@ -55,7 +55,7 @@ add2Path <- function(newPath) {
 #' @param name character string name of the variable
 #' @param value character string value of the variable
 #' @keywords internal
-#'@export makGlobalVar 
+#'@export 
 #'@examples
 #' \dontrun{
 #'
@@ -148,7 +148,7 @@ if (!isGeneric("sf2gvec")) {
 #' @param gisdbase_exist logical switch if the GRASS gisdbase folder exist default is TRUE
 #' @author Chris Reudenbach
 #' @note  have a look at the \code{sf} capabilities to write direct to sqlite
-#' @export sf2gvec
+#' @export
 #' @importFrom sf st_as_sf
 #' @importFrom sf st_write
 #' @importFrom sf st_read 
@@ -212,8 +212,7 @@ if (!isGeneric("gvec2sf")) {
 #' @param gisdbase_exist logical switch if the GRASS gisdbase folder exist default is TRUE
 #' @author Chris Reudenbach
 #' @note  have a look at the sf capabilities to read direct from sqlite
-#' @export gvec2sf
-#' 
+#' @export
 #' @examples 
 #' 
 #' run = FALSE

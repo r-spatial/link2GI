@@ -16,7 +16,7 @@ if (!isGeneric("linkGDAL")) {
 #'@author Chris Reudenbach
 #'@return add gdal paths to the environment and creates global variables path_GDAL
 #'@details if called without any parameter \code{linkGDAL()} it performs a full search over the hard drive \code{C:}. If it finds one or more 'GDAL' binaries it will take the first hit. You have to set \code{ver_select = TRUE} for an interactive selection of the preferred version.
-#'@export linkGDAL
+#'@export 
 #'  
 #'@examples
 #' \dontrun{

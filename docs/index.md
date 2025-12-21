@@ -60,7 +60,7 @@ and loading of the required libraries including various standard setup
 skeletons to simplify project initialisation.
 
 The function creates a skeleton of the skeleton scripts
-`main-control.R`, `pre-processing.R`, `10-processing.R` and
+`main-control.R`, `pre-processing.R`, `processing.R` and
 `post-processing.R`, and creates corresponding parameter configurations
 files stored as `yaml` files in `scr/configs/`. The script
 src/functions/000_settings.R holds all specific project settings. Easy

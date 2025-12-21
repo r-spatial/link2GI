@@ -60,11 +60,14 @@ Core functions:
 
 ## Minimal workflow
 
-```r
+```{r eval=FALSE}
 library(link2GI)
-otb <- link2GI::linkOTB(searchLocation="~/my-otbpath)
+findOTB()
+otb <- link2GI::linkOTB(searchLocation="~/mypath")
 cmd <- link2GI::otb_build_cmd("DimensionalityReduction", otb, include_optional="defaults", require_output=TRUE)
-cmd[["in"]] <- "in.tif"; cmd[["method"]] <- "pca"; cmd[["nbcomp"]] <- "3"
+cmd[["in"]] <- "in.tif" 
+cmd[["method"]] <- "pca"
+cmd[["nbcomp"]] <- "3"
 cmd <- link2GI::otb_set_out(cmd, otb, key="out", path="out.tif")
 ```
 
@@ -84,13 +87,13 @@ The following example demonstrates a complete workflow:
 
 This example avoids “guessing” parameter names. The only manual step is choosing the correct parameter key for “number of PCA components” by reading the `spec` table printed from your local OTB build.
 
-```r
+```{r eval=FALSE}
 library(link2GI)
 library(terra)
 library(mlr3spatial)
 
 # 0) Link OTB
-otb <- link2GI::linkOTB(searchLocation="~/my-otbpath)
+otb <- link2GI::linkOTB(searchLocation="c:/Users/creu/")
 
 # 1) Choose algorithm
 algo <- "DimensionalityReduction"
@@ -121,20 +124,23 @@ cmd <- link2GI::otb_build_cmd(
 
 # 6) Input + output (explicit on-disk path, not tempdir)
 infile <- system.file("extdata", "leipzig_raster.tif", package = "mlr3spatial")
-
 out_dir <- file.path(getwd(), "otb_tutorial_out")
 dir.create(out_dir, recursive = TRUE, showWarnings = FALSE)
-out_pca <- file.path(out_dir, "leipzig_pca.tif")
+out_pca <- file.path(out_dir, "leipzig_pca.tif")[1]
 
 cmd[["in"]] <- infile
-cmd <- link2GI::otb_set_out(cmd, otb, key = "out", path = out_pca)
+cmd[["out"]] <- out_pca <- file.path(out_dir, "leipzig_pca.tif")[1]
+
 
 # 7) PCA settings (explicit)
 cmd[["method"]] <- "pca"
-cmd[[nb_key]]   <- "9"
+cmd[["nb_key"]]   <- "9"
 
 # 8) Show the exact CLI that will be executed
-cat(link2GI::runOTB(cmd, otb, retCommand = TRUE, retRaster = FALSE), "\n")
+cat(link2GI::runOTB(cmd, otb, retCommand = TRUE, retRaster = TRUE), "\n")
+
+cmd <- link2GI::otb_set_out(cmd, otb, key="out", path="pca.tif")
+cmd[["out"]] <- out_pca <- file.path(out_dir, "leipzig_pca.tif")[1]
 
 # 9) Run + plot
 pca_rast <- link2GI::runOTB(cmd, otb, retRaster = TRUE, quiet = FALSE)

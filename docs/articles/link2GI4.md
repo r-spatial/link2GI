@@ -59,9 +59,12 @@ Core functions:
 
 ``` r
 library(link2GI)
-otb <- link2GI::linkOTB(searchLocation="~/my-otbpath)
+findOTB()
+otb <- link2GI::linkOTB(searchLocation="~/mypath")
 cmd <- link2GI::otb_build_cmd("DimensionalityReduction", otb, include_optional="defaults", require_output=TRUE)
-cmd[["in"]] <- "in.tif"; cmd[["method"]] <- "pca"; cmd[["nbcomp"]] <- "3"
+cmd[["in"]] <- "in.tif" 
+cmd[["method"]] <- "pca"
+cmd[["nbcomp"]] <- "3"
 cmd <- link2GI::otb_set_out(cmd, otb, key="out", path="out.tif")
 ```
 
@@ -90,7 +93,7 @@ library(terra)
 library(mlr3spatial)
 
 # 0) Link OTB
-otb <- link2GI::linkOTB(searchLocation="~/my-otbpath)
+otb <- link2GI::linkOTB(searchLocation="~/my-otbpath")
 
 # 1) Choose algorithm
 algo <- "DimensionalityReduction"

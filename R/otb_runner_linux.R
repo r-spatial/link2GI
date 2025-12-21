@@ -41,29 +41,25 @@
   env_named
 }
 
+
 #' @keywords internal
 .otb_run_launcher <- function(gili, args, stdout = TRUE, stderr = TRUE, capture = FALSE) {
   
-  # ---- reference structure kept, but root/env fixed ----
+  # Resolve launcher path (prefer explicit root; tolerate bin/)
   .otb_launcher_path <- function(gili) {
-    # prefer explicit root if available
     root <- if (!is.null(gili$otbRoot) && nzchar(gili$otbRoot)) gili$otbRoot else gili$pathOTB
     root <- sub("/+$", "", root)
-    
-    # if root is actually ".../bin", go one level up
     if (grepl("/bin$", root)) root <- dirname(root)
-    
     file.path(root, "bin", "otbApplicationLauncherCommandLine")
   }
   
   launcher <- .otb_launcher_path(gili)
   
-  # IMPORTANT: build env from ROOT (not from gili$pathOTB which may be ".../bin/")
+  # Build env from root (unchanged logic)
   root <- if (!is.null(gili$otbRoot) && nzchar(gili$otbRoot)) gili$otbRoot else gili$pathOTB
   root <- sub("/+$", "", root)
   if (grepl("/bin$", root)) root <- dirname(root)
-  
-  bin <- file.path(root, "bin")
+  bin  <- file.path(root, "bin")
   
   env_vec <- c(
     paste0("OTB_INSTALL_DIR=", root),
@@ -83,7 +79,7 @@
       command = launcher,
       args    = args,
       env     = env_vec,
-      stdout  = TRUE,
+      stdout  = TRUE,   # capture
       stderr  = TRUE
     )
     status <- attr(out, "status")
@@ -91,16 +87,18 @@
     return(list(status = as.integer(status), output = out))
   }
   
-  # non-capturing mode: just run and return exit status
+  # NOTE: no "" redirections; TRUE=capture/suppress, FALSE=inherit console
   status <- system2(
     command = launcher,
     args    = args,
     env     = env_vec,
-    stdout  = if (isTRUE(stdout)) "" else FALSE,
-    stderr  = if (isTRUE(stderr)) "" else FALSE
+    stdout  = if (stdout) FALSE else TRUE,
+    stderr  = if (stderr) FALSE else TRUE
   )
-  return(as.integer(status))
+  
+  as.integer(status)
 }
+
 
 
 #' @keywords internal

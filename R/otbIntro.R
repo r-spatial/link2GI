@@ -208,29 +208,78 @@ NULL
 
 
 # ------------------------ exported: otb_capabilities ------------------------
-
 #' Retrieve OTB application capabilities (help text + parsed parameters)
 #'
 #' @param algo Character. OTB application name (e.g. "BandMathX").
 #' @param gili Optional list returned by [linkOTB()]. If `NULL`, [linkOTB()] is called.
 #' @param include_param_help Logical. If `TRUE`, calls `-help <param>` for each key.
-#' @return List: text, params, param_help
+#'
+#' @return List with elements:
+#' \describe{
+#'   \item{text}{Character vector of the `-help` output.}
+#'   \item{params}{Parsed parameter table (data.frame / tibble depending on your parser).}
+#'   \item{param_help}{Named list of per-parameter help texts (or `NULL`).}
+#' }
 #' @export
 otb_capabilities <- function(algo, gili = NULL, include_param_help = FALSE) {
-  if (!is.character(algo) || length(algo) != 1 || !nzchar(algo))
+  if (!is.character(algo) || length(algo) != 1L || !nzchar(algo)) {
     stop("`algo` must be a non-empty character scalar.")
+  }
   if (is.null(gili)) gili <- link2GI::linkOTB()
-  if (is.null(gili) || !isTRUE(gili$exist))
+  if (is.null(gili) || !isTRUE(gili$exist)) {
     stop("No valid OTB installation found (gili$exist is FALSE).")
+  }
   
   sys <- Sys.info()[["sysname"]]
   
+  .resolve_otb_cli <- function(bin, algo) {
+    # gili$pathOTB should be binDir; keep your shortPathName usage
+    bin <- utils::shortPathName(bin)
+    
+    # Accept modern OTB 9.x standalone (.ps1) and legacy (.bat/.exe / no-ext)
+    cands <- c(
+      file.path(bin, paste0("otbcli_", algo, ".ps1")),
+      file.path(bin, paste0("otbcli_", algo, ".bat")),
+      file.path(bin, paste0("otbcli_", algo, ".exe")),
+      file.path(bin, paste0("otbcli_", algo)) # very old / edge cases
+    )
+    hit <- cands[file.exists(cands)][1]
+    if (is.na(hit) || !nzchar(hit)) return(NA_character_)
+    hit
+  }
+  
+  .run_otb_help_windows <- function(cli, args) {
+    # args is c("-help") or c("-help", k)
+    if (grepl("\\.ps1$", cli, ignore.case = TRUE)) {
+      # Run PS1 via PowerShell, avoiding policy issues
+      system2(
+        "powershell.exe",
+        c(
+          "-NoProfile",
+          "-ExecutionPolicy", "Bypass",
+          "-Command",
+          paste0("& ", shQuote(cli), " ", paste(vapply(args, shQuote, character(1)), collapse = " "))
+        ),
+        stdout = TRUE,
+        stderr = TRUE
+      )
+    } else {
+      # .bat/.exe/no-ext should work via system2 directly
+      system2(cli, args, stdout = TRUE, stderr = TRUE)
+    }
+  }
+  
   if (sys == "Windows") {
-    bin <- utils::shortPathName(gili$pathOTB)
-    exe <- file.path(bin, paste0("otbcli_", algo, ".bat"))
-    if (!file.exists(exe)) exe <- file.path(bin, paste0("otbcli_", algo))
-    if (!file.exists(exe)) stop("Missing OTB CLI wrapper: ", exe)
-    txt <- system2(exe, c("-help"), stdout = TRUE, stderr = TRUE)
+    bin <- gili$pathOTB
+    cli <- .resolve_otb_cli(bin, algo)
+    if (is.na(cli)) {
+      stop(
+        "Missing OTB CLI wrapper for '", algo, "' in: ", utils::shortPathName(bin), "\n",
+        "Expected one of: otbcli_", algo, ".ps1 / .bat / .exe",
+        call. = FALSE
+      )
+    }
+    txt <- .run_otb_help_windows(cli, c("-help"))
   } else {
     txt <- .otb_help_text(gili, algo)
   }
@@ -240,12 +289,20 @@ otb_capabilities <- function(algo, gili = NULL, include_param_help = FALSE) {
   help_list <- NULL
   if (isTRUE(include_param_help) && nrow(params)) {
     help_list <- setNames(vector("list", nrow(params)), params$key)
+    
+    if (sys == "Windows") {
+      cli <- .resolve_otb_cli(gili$pathOTB, algo)
+      if (is.na(cli)) {
+        stop(
+          "Missing OTB CLI wrapper for '", algo, "' in: ", utils::shortPathName(gili$pathOTB),
+          call. = FALSE
+        )
+      }
+    }
+    
     for (k in params$key) {
       if (sys == "Windows") {
-        bin <- utils::shortPathName(gili$pathOTB)
-        exe <- file.path(bin, paste0("otbcli_", algo, ".bat"))
-        if (!file.exists(exe)) exe <- file.path(bin, paste0("otbcli_", algo))
-        out <- system2(exe, c("-help", k), stdout = TRUE, stderr = TRUE)
+        out <- .run_otb_help_windows(cli, c("-help", k))
       } else {
         out <- .otb_help_text(gili, algo, param = k)
       }
@@ -258,6 +315,8 @@ otb_capabilities <- function(algo, gili = NULL, include_param_help = FALSE) {
   list(text = txt, params = params, param_help = help_list)
 }
 
+
+
 # ------------------------ exported: otb_args_spec ------------------------
 
 #' Return normalized OTB parameter spec for an application
@@ -269,11 +328,14 @@ otb_capabilities <- function(algo, gili = NULL, include_param_help = FALSE) {
 otb_args_spec <- function(algo, gili = NULL) {
   caps <- otb_capabilities(algo, gili, include_param_help = FALSE)
   df <- caps$params
+  
   if (!is.data.frame(df) || !nrow(df)) {
     return(data.frame(
       key = character(0),
       type = character(0),
       mandatory = logical(0),
+      has_pixel = logical(0),
+      pixel_default = character(0),
       has_default = logical(0),
       default = character(0),
       class = character(0),
@@ -282,14 +344,11 @@ otb_args_spec <- function(algo, gili = NULL) {
     ))
   }
   
-  # mandatory if "(mandatory)" OR marked MISSING
   mandatory <- as.logical(df$mandatory) | as.logical(df$missing)
-  
   
   default <- df$default
   default[default == "" | default == "<NA>"] <- NA_character_
   
-  # OTB convention: progress default false if not printed
   if ("progress" %in% df$key) {
     i <- which(df$key == "progress")[1]
     if (is.na(default[i])) default[i] <- "false"
@@ -318,6 +377,9 @@ otb_args_spec <- function(algo, gili = NULL) {
 }
 
 
+  
+ 
+
 
 #' OTB-required parameter keys for an application
 #'
@@ -337,7 +399,6 @@ otb_args_spec <- function(algo, gili = NULL) {
 #'   Returns an empty character vector if no parameters could be parsed.
 #'
 #' @export
-#'
 #' @examples
 #' \dontrun{
 #' otb <- link2GI::linkOTB()
@@ -347,8 +408,10 @@ otb_args_spec <- function(algo, gili = NULL) {
 #' }
 otb_required <- function(algo, gili = NULL) {
   spec <- otb_args_spec(algo, gili)
-  spec$key[isTRUE(spec$mandatory)]
+  if (!is.data.frame(spec) || !nrow(spec)) return(character(0))
+  spec$key[which(spec$mandatory)]
 }
+
 
 
 #' Required parameter keys under link2GI output policy
@@ -369,7 +432,6 @@ otb_required <- function(algo, gili = NULL) {
 #' @return Character vector of required keys (without leading \code{-}).
 #'
 #' @export
-#'
 #' @examples
 #' \dontrun{
 #' otb <- link2GI::linkOTB()
@@ -379,10 +441,11 @@ otb_required <- function(algo, gili = NULL) {
 #' }
 otb_required_with_output <- function(algo, gili = NULL, enforce_output = TRUE) {
   spec <- otb_args_spec(algo, gili)
-  req  <- spec$key[isTRUE(spec$mandatory)]
+  if (!is.data.frame(spec) || !nrow(spec)) return(character(0))
+  
+  req <- spec$key[which(spec$mandatory)]
   
   if (isTRUE(enforce_output)) {
-    # Common file-based outputs across OTB apps (not exhaustive, but safe)
     out_candidates <- c("out", "io.out", "out.xml", "outxml", "mode.vector.out")
     out_present <- intersect(out_candidates, spec$key)
     if (length(out_present)) req <- union(req, out_present[1])
@@ -390,6 +453,7 @@ otb_required_with_output <- function(algo, gili = NULL, enforce_output = TRUE) {
   
   req
 }
+
 
 
 
@@ -468,7 +532,6 @@ otb_optional <- function(algo, gili = NULL, with_defaults = TRUE) {
 #' runOTB(cmd, otb, quiet = FALSE)
 #' }
 #' @export
-
 otb_build_cmd <- function(algo, gili = NULL,
                           include_optional = c("none", "defaults", "all_na"),
                           require_output = TRUE) {
@@ -538,6 +601,8 @@ otb_show <- function(algo, gili = NULL) {
   
   invisible(list(caps = caps, spec = spec))
 }
+
+
 #' Set an OTB output parameter safely (file-based output)
 #'
 #' Assign a file-based output parameter (e.g. \code{out}, \code{io.out},
@@ -573,7 +638,6 @@ otb_show <- function(algo, gili = NULL) {
 #'
 #' @return The modified \code{cmd} list.
 #' @export
-#'
 #' @examples
 #' \dontrun{
 #' otb <- link2GI::linkOTB()

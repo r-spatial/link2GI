@@ -53,7 +53,6 @@
 #'
 #' @author Chris Reudenbach
 #' @export
-#'
 #' @examples
 #' \dontrun{
 #' # call if you do not have any idea if and where OTB is installed
@@ -62,163 +61,235 @@
 #'   print(otb)
 #' }
 #' }
-
 linkOTB <- function(bin_OTB = NULL, root_OTB = NULL, type_OTB = NULL,
                     searchLocation = NULL, ver_select = FALSE, quiet = TRUE,
                     returnPaths = TRUE) {
   
-  # ---- helper (local) ----
-  otb_root_from_bin <- function(binDir) {
-    binDir <- normalizePath(binDir, mustWork = FALSE)
-    normalizePath(file.path(binDir, ".."), mustWork = FALSE)
-  }
+  sys <- Sys.info()[["sysname"]]
   
   # ---- defaults ----
   if (is.null(searchLocation)) {
-    if (Sys.info()[["sysname"]] == "Windows") {
-      searchLocation <- "C:/"
-    } else {
-      searchLocation <- "/usr/bin/"
-    }
+    searchLocation <- if (sys == "Windows") "C:/" else "/usr/bin/"
   }
   
-  params_OTB <- findOTB(searchLocation = searchLocation, quiet = quiet)
-  
-  if (params_OTB[[1]][1] != FALSE) {
-    
-    if (Sys.info()[["sysname"]] != "Windows") {
-      
-      if (nrow(params_OTB) == 1) {
-        pathOTB <- params_OTB$binDir[[1]]
-        otbCmd  <- params_OTB$otbCmd[[1]]
-        
-      } else if (nrow(params_OTB) > 1 && is.numeric(ver_select) && ver_select > 0) {
-        
-        if (!quiet) {
-          cat("You have more than one valid OTB version\n")
-          print(params_OTB, right = FALSE, row.names = TRUE)
-        }
-        
-        if (is.null(type_OTB)) {
-          pathOTB <- params_OTB$binDir[[ver_select]]
-          otbCmd  <- params_OTB$otbCmd[[ver_select]]
-        }
-        
-      } else if (nrow(params_OTB) > 1 && (!ver_select)) {
-        
-        if (!quiet) {
-          cat("You have more than one valid OTB version\n")
-          print(params_OTB, right = FALSE, row.names = TRUE)
-        }
-        
-        ver <- getrowotbVer(params_OTB$binDir)
-        pathOTB <- params_OTB$binDir[[ver]]
-        otbCmd  <- params_OTB$otbCmd[[ver]]
-        
-        if (!quiet) cat("\nSelect: ", ver)
-        
-      } else if (nrow(params_OTB) > 1 && ver_select) {
-        
-        cat("You have more than one valid OTB version\n")
-        print(params_OTB, right = FALSE, row.names = TRUE)
-        
-        if (is.null(type_OTB)) {
-          ver <- as.numeric(readline(prompt = "Please choose one:  "))
-          pathOTB <- params_OTB$binDir[[ver]]
-          otbCmd  <- params_OTB$otbCmd[[ver]]
-        }
-      }
-      
-    } else {
-      # Windows branch: DO NOT call setenvOTB() here (no env mutation)
-      if (nrow(params_OTB) == 1) {
-        pathOTB <- if ("binDir" %in% names(params_OTB)) params_OTB$binDir[[1]] else params_OTB[[1]][[1]]
-        otbCmd  <- if ("otbCmd" %in% names(params_OTB)) params_OTB$otbCmd[[1]] else NA_character_
-        
-      } else if (nrow(params_OTB) > 1 && ver_select) {
-        
-        if (!quiet) {
-          cat("You have more than one valid OTB version\n")
-          print(params_OTB, right = FALSE, row.names = TRUE)
-        }
-        
-        if (is.null(type_OTB)) {
-          ver <- as.numeric(readline(prompt = "Please choose one:  "))
-          pathOTB <- params_OTB$binDir[[ver]]
-          otbCmd  <- params_OTB$otbCmd[[ver]]
-        }
-        
-      } else if (nrow(params_OTB) > 1 && is.numeric(ver_select) && ver_select > 0) {
-        
-        if (!quiet) {
-          cat("You have more than one valid OTB version\n")
-          print(params_OTB, right = FALSE, row.names = TRUE)
-        }
-        
-        if (is.null(type_OTB)) {
-          pathOTB <- params_OTB$binDir[[ver_select]]
-          otbCmd  <- params_OTB$otbCmd[[ver_select]]
-        }
-        
-      } else if (nrow(params_OTB) > 1 && (!ver_select)) {
-        
-        if (!quiet) {
-          cat("You have more than one valid OTB version\n")
-          print(params_OTB, right = FALSE, row.names = TRUE)
-        }
-        
-        ver <- getrowotbVer(params_OTB$binDir)
-        pathOTB <- params_OTB$binDir[[ver]]
-        otbCmd  <- params_OTB$otbCmd[[ver]]
-        
-        if (!quiet) cat("\nSelect: ", ver)
-      }
-    }
-    
-    # ---- build return object ----
-    otb <- list()
-    otb$pathOTB <- pathOTB
-    otb$otbCmd  <- otbCmd
-    otb$version <- params_OTB
-    otb$exist   <- TRUE
-    
-    # ---- derive OTB root + env script WITHOUT mutating env ----
-    sys <- Sys.info()[["sysname"]]
+  # ---- allow manual override (preferred if user knows exact paths) ----
+  if (!is.null(bin_OTB) && nzchar(bin_OTB)) {
     
     if (sys == "Windows") {
-      
-      otb$otbRoot <- if (!is.null(root_OTB)) {
+      pathOTB <- normalizePath(bin_OTB, winslash = "\\", mustWork = FALSE)
+      otbRoot <- if (!is.null(root_OTB) && nzchar(root_OTB)) {
         normalizePath(root_OTB, winslash = "\\", mustWork = FALSE)
       } else {
         normalizePath(file.path(pathOTB, ".."), winslash = "\\", mustWork = FALSE)
       }
       
-      cand <- c(
-        file.path(otb$otbRoot, "otbenv.bat"),
-        file.path(otb$otbRoot, "bin", "otbenv.bat"),
-        file.path(otb$otbRoot, "bin", "o4w_env.bat"),
-        file.path(otb$otbRoot, "OSGeo4W.bat")
+      # pick a usable command
+      cand_cmd <- c(
+        file.path(pathOTB, "otbcli.bat"),
+        file.path(pathOTB, "otbcli.exe"),
+        file.path(pathOTB, "otbcli")
       )
-      cand <- cand[file.exists(cand)]
-      otb$envScript <- if (length(cand)) cand[[1]] else NA_character_
+      cand_cmd <- cand_cmd[file.exists(cand_cmd)]
+      otbCmd <- if (length(cand_cmd)) cand_cmd[[1]] else NA_character_
+      
+      # standalone OTB >=9 uses otbenv.ps1
+      cand_env <- c(
+        file.path(otbRoot, "otbenv.ps1"),
+        file.path(otbRoot, "otbenv.bat"),
+        file.path(otbRoot, "bin", "otbenv.ps1"),
+        file.path(otbRoot, "bin", "otbenv.bat"),
+        file.path(otbRoot, "bin", "o4w_env.bat"),
+        file.path(otbRoot, "OSGeo4W.bat")
+      )
+      cand_env <- cand_env[file.exists(cand_env)]
+      envScript <- if (length(cand_env)) cand_env[[1]] else NA_character_
+      
+      otb <- list(
+        exist = isTRUE(file.exists(pathOTB)) && !is.na(otbCmd) && file.exists(otbCmd),
+        pathOTB = pathOTB,
+        otbCmd = otbCmd,
+        version = data.frame(
+          binDir = pathOTB,
+          baseDir = otbRoot,
+          otbCmd = otbCmd,
+          envScript = envScript,
+          installation_type = "OTB",
+          stringsAsFactors = FALSE
+        ),
+        otbRoot = otbRoot,
+        envScript = envScript
+      )
+      
+      if (isTRUE(returnPaths)) return(otb)
+      return(invisible(NULL))
       
     } else {
+      # non-Windows: keep behavior minimal
+      pathOTB <- normalizePath(bin_OTB, mustWork = FALSE)
+      otbRoot <- if (!is.null(root_OTB) && nzchar(root_OTB)) {
+        normalizePath(root_OTB, mustWork = FALSE)
+      } else {
+        normalizePath(file.path(pathOTB, ".."), mustWork = FALSE)
+      }
       
-      otb$otbRoot <- otb_root_from_bin(pathOTB)
+      cand_cmd <- c(file.path(pathOTB, "otbcli"), file.path(pathOTB, "otbcli.sh"))
+      cand_cmd <- cand_cmd[file.exists(cand_cmd)]
+      otbCmd <- if (length(cand_cmd)) cand_cmd[[1]] else NA_character_
       
-      cand <- c(
-        file.path(otb$otbRoot, "otbenv.profile"),
-        file.path(otb$otbRoot, "bin", "otbenv.profile")
+      cand_env <- c(file.path(otbRoot, "otbenv.profile"), file.path(otbRoot, "bin", "otbenv.profile"))
+      cand_env <- cand_env[file.exists(cand_env)]
+      envScript <- if (length(cand_env)) cand_env[[1]] else NA_character_
+      
+      otb <- list(
+        exist = isTRUE(file.exists(pathOTB)) && !is.na(otbCmd) && file.exists(otbCmd),
+        pathOTB = pathOTB,
+        otbCmd = otbCmd,
+        version = data.frame(
+          binDir = pathOTB,
+          baseDir = otbRoot,
+          otbCmd = otbCmd,
+          envScript = envScript,
+          installation_type = "OTB",
+          stringsAsFactors = FALSE
+        ),
+        otbRoot = otbRoot,
+        envScript = envScript
       )
-      cand <- cand[file.exists(cand)]
-      otb$envScript <- if (length(cand)) cand[[1]] else NA_character_
+      
+      if (isTRUE(returnPaths)) return(otb)
+      return(invisible(NULL))
+    }
+  }
+  
+  # ---- autodetect ----
+  params_OTB <- findOTB(searchLocation = searchLocation, quiet = quiet)
+  
+  if (identical(params_OTB, FALSE) || is.null(params_OTB) ||
+      (is.list(params_OTB) && length(params_OTB) == 1 && identical(params_OTB[[1]], FALSE))) {
+    otb <- list(exist = FALSE)
+    if (isTRUE(returnPaths)) return(otb)
+    return(invisible(NULL))
+  }
+  
+  if (!is.data.frame(params_OTB) || nrow(params_OTB) == 0) {
+    otb <- list(exist = FALSE)
+    if (isTRUE(returnPaths)) return(otb)
+    return(invisible(NULL))
+  }
+  
+  # optional installation-type filter
+  if (!is.null(type_OTB) && nzchar(type_OTB) && ("installation_type" %in% names(params_OTB))) {
+    params2 <- params_OTB[params_OTB$installation_type %in% type_OTB, , drop = FALSE]
+    if (nrow(params2) > 0) params_OTB <- params2
+  }
+  
+  # select installation
+  if (nrow(params_OTB) == 1) {
+    idx <- 1
+  } else if (is.numeric(ver_select) && ver_select > 0) {
+    idx <- ver_select
+  } else if (isTRUE(ver_select)) {
+    if (!quiet) {
+      cat("You have more than one valid OTB version\n")
+      print(params_OTB, right = FALSE, row.names = TRUE)
+    }
+    idx <- as.numeric(readline(prompt = "Please choose one:  "))
+  } else {
+    idx <- getrowotbVer(params_OTB$binDir)
+  }
+  
+  if (is.na(idx) || idx < 1 || idx > nrow(params_OTB)) idx <- 1
+  
+  pathOTB <- params_OTB$binDir[[idx]]
+  pathOTB <- if (sys == "Windows") {
+    normalizePath(pathOTB, winslash = "\\", mustWork = FALSE)
+  } else {
+    normalizePath(pathOTB, mustWork = FALSE)
+  }
+  
+  # derive root
+  if (sys == "Windows") {
+    otbRoot <- if ("baseDir" %in% names(params_OTB) && nzchar(params_OTB$baseDir[[idx]])) {
+      normalizePath(params_OTB$baseDir[[idx]], winslash = "\\", mustWork = FALSE)
+    } else {
+      normalizePath(file.path(pathOTB, ".."), winslash = "\\", mustWork = FALSE)
+    }
+    
+    # command
+    cand_cmd <- c(
+      if ("otbCmd" %in% names(params_OTB)) params_OTB$otbCmd[[idx]] else NA_character_,
+      file.path(pathOTB, "otbcli.bat"),
+      file.path(pathOTB, "otbcli.exe"),
+      file.path(pathOTB, "otbcli")
+    )
+    cand_cmd <- unique(cand_cmd[!is.na(cand_cmd) & nzchar(cand_cmd)])
+    cand_cmd <- cand_cmd[file.exists(cand_cmd)]
+    otbCmd <- if (length(cand_cmd)) cand_cmd[[1]] else NA_character_
+    
+    # env script: prefer what searchOTBW already detected (params_OTB$envScript)
+    envScript <- NA_character_
+    if ("envScript" %in% names(params_OTB)) {
+      es <- params_OTB$envScript[[idx]]
+      if (!is.na(es) && nzchar(es) && file.exists(es)) {
+        envScript <- normalizePath(es, winslash = "\\", mustWork = FALSE)
+      }
+    }
+    
+    # fallback only if not provided by searchOTBW
+    if (is.na(envScript)) {
+      cand_env <- c(
+        file.path(otbRoot, "otbenv.ps1"),
+        file.path(otbRoot, "otbenv.bat"),
+        file.path(otbRoot, "bin", "otbenv.ps1"),
+        file.path(otbRoot, "bin", "otbenv.bat"),
+        file.path(otbRoot, "bin", "o4w_env.bat"),
+        file.path(otbRoot, "OSGeo4W.bat")
+      )
+      cand_env <- cand_env[file.exists(cand_env)]
+      envScript <- if (length(cand_env)) cand_env[[1]] else NA_character_
     }
     
   } else {
-    otb <- list()
-    otb$exist <- FALSE
-    returnPaths <- TRUE
+    otbRoot <- if ("baseDir" %in% names(params_OTB) && nzchar(params_OTB$baseDir[[idx]])) {
+      normalizePath(params_OTB$baseDir[[idx]], mustWork = FALSE)
+    } else {
+      normalizePath(file.path(pathOTB, ".."), mustWork = FALSE)
+    }
+    
+    cand_cmd <- c(
+      if ("otbCmd" %in% names(params_OTB)) params_OTB$otbCmd[[idx]] else NA_character_,
+      file.path(pathOTB, "otbcli")
+    )
+    cand_cmd <- unique(cand_cmd[!is.na(cand_cmd) & nzchar(cand_cmd)])
+    cand_cmd <- cand_cmd[file.exists(cand_cmd)]
+    otbCmd <- if (length(cand_cmd)) cand_cmd[[1]] else NA_character_
+    
+    # env script: prefer what searchOTBX returned if available, else fallback
+    envScript <- NA_character_
+    if ("envScript" %in% names(params_OTB)) {
+      es <- params_OTB$envScript[[idx]]
+      if (!is.na(es) && nzchar(es) && file.exists(es)) {
+        envScript <- normalizePath(es, mustWork = FALSE)
+      }
+    }
+    if (is.na(envScript)) {
+      cand_env <- c(
+        file.path(otbRoot, "otbenv.profile"),
+        file.path(otbRoot, "bin", "otbenv.profile")
+      )
+      cand_env <- cand_env[file.exists(cand_env)]
+      envScript <- if (length(cand_env)) cand_env[[1]] else NA_character_
+    }
   }
+  
+  otb <- list(
+    pathOTB = pathOTB,
+    otbCmd = otbCmd,
+    version = params_OTB,
+    exist = isTRUE(file.exists(pathOTB)) && !is.na(otbCmd) && file.exists(otbCmd),
+    otbRoot = otbRoot,
+    envScript = envScript
+  )
   
   if (isTRUE(returnPaths)) return(otb)
   invisible(NULL)

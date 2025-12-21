@@ -2,28 +2,61 @@
 % Please edit documentation in R/grassControl.R
 \name{searchGRASSW}
 \alias{searchGRASSW}
-\title{Search recursivly valid 'GRASS GIS' installation(s) on a given 'Windows' drive}
+\title{Search for valid GRASS GIS installations on Windows}
 \usage{
 searchGRASSW(DL = "C:/", quiet = TRUE)
 }
 \arguments{
-\item{DL}{drive letter to be searched, default is \code{C:/}}
+\item{DL}{Character. Search location or drive root on Windows.
+Accepts \code{"C:"}, \code{"C:/"}, or a concrete directory path.
+Backslashes are normalized to forward slashes.}
 
-\item{quiet}{boolean  switch for supressing console messages default is TRUEs}
+\item{quiet}{Logical. If \code{TRUE} (default), suppress informational messages.}
 }
 \value{
-A dataframe with the 'GRASS GIS' root folder(s), version name(s) and installation type code(s)
+Returns \code{FALSE} if no installation was detected.
+Otherwise returns a \code{data.frame} with columns:
+\describe{
+  \item{instDir}{Root directory of the installation candidate.}
+  \item{version}{Parsed version string (from \code{VERSIONNUMBER}) or \code{NA}.}
+  \item{installation_type}{One of \code{"osgeo4w"}, \code{"qgis"}, \code{"standalone"}.}
+}
+The result is sorted by decreasing semantic version (unknown versions treated as \code{0.0.0}).
 }
 \description{
-Provides an  list of valid 'GRASS GIS' installation(s) on your 'Windows' system. There is a major difference between osgeo4W and stand_alone installations. The functions trys to find all valid installations by analysing the calling batch scripts.
+Searches for GRASS GIS installations on **Windows** using a *bounded* set of
+plausible installation roots (no full-disk crawl). The function supports:
+\itemize{
+  \item OSGeo4W / QGIS-style layouts via \code{<root>/apps/grass/grass*/etc/VERSIONNUMBER}
+  \item Standalone GRASS installs via \code{<Program Files>/GRASS GIS */etc/VERSIONNUMBER}
+  \item Optional per-user OSGeo4W installs under
+        \code{<USERPROFILE>/AppData/Local/Programs/OSGeo4W}
+}
+}
+\details{
+The argument \code{DL} can be a full path or a Windows drive root
+(e.g. \code{"C:"} or \code{"C:/"}). Drive roots are expanded to a fixed set of
+candidate directories:
+\code{OSGeo4W64}, \code{OSGeo4W}, \code{Program Files}, \code{Program Files (x86)}.
+
+
+This function is intentionally conservative to remain fast and deterministic on
+large Windows volumes. It does **not** recurse the entire drive.
+
+If multiple installations are present under the searched roots, all are returned.
+Version parsing extracts the first \code{x.y[.z...]} pattern from the first line
+of \code{VERSIONNUMBER}.
 }
 \examples{
 \dontrun{
-# get all valid 'GRASS GIS' installation folders and params at 'C:/'
-searchGRASSW()
+# Search from the C: drive root (bounded roots, no full-disk scan)
+searchGRASSW("C:/", quiet = FALSE)
+
+# Search a concrete directory only
+searchGRASSW("C:/OSGeo4W64", quiet = FALSE)
+
+# Drive letter without slash is accepted
+searchGRASSW("C:", quiet = TRUE)
 }
+
 }
-\author{
-Chris Reudenbach
-}
-\keyword{internal}

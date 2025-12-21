@@ -18,9 +18,9 @@ Same with `GRASS` and `OTB`
 
 ``` r
 require(link2GI)
-grass <- link2GI::findGRASS()
+grass <- link2GI::findGRASS(searchLocation = "C:/")
 grass
-otb <- link2GI::findOTB(searchLocation = "~/")
+otb <- link2GI::findOTB(searchLocation = "c:/Users/creu/Desktop/")
 otb
 ```
 
@@ -60,11 +60,10 @@ dirs
 
 In the past it was quite tedious to link the correct `SAGA GIS` version.
 Since version 1.x.x of `RSAGA` things are much better. The new
-[`RSAGA::rsaga.env()`](https://rdrr.io/pkg/RSAGA/man/rsaga.env.html)
-function is to get the first `RSAGA` version in the search path. It is
-also possible to pass the version number as shown below. Storing the
-result in appropriate variables will even allow you to easily switch
-between different `SAGA GIS` installations.
+`RSAGA::rsaga.env()` function is to get the first `RSAGA` version in the
+search path. It is also possible to pass the version number as shown
+below. Storing the result in appropriate variables will even allow you
+to easily switch between different `SAGA GIS` installations.
 
 ``` r
 require(link2GI)
@@ -162,7 +161,7 @@ meuse_sf = st_as_sf(meuse, coords = c("x", "y"), crs = crs, agr = "constant")
 # This is the highly recommended linking procedure for on the fly jobs
 # NOTE: if more than one GRASS installation is found the highest version will be selected
 
-linkGRASS(meuse_sf,epsg = crs)
+link2GI::linkGRASS(meuse_sf,epsg = crs)
 ```
 
 Now do the same with `sf` based data.
@@ -226,6 +225,8 @@ take 10 minutes or more. So it is helpful to specify a search path to
 narrow down the search. To search for `GRASS` installations in the home
 directory, you can use the following command.
 
+**Manual Linking Windows**
+
 ``` r
 # Link the GRASS installation and define the search location
  linkGRASS(nc, search_path = "~/")
@@ -239,28 +240,30 @@ linking.
 findGRASS()
 ```
 
-``` text
-     instDir version installation_type
-1 /usr/lib/grass83   8.3.2             grass
-```
-
-##### Now linking it
+         instDir version installation_type
+    1 /usr/lib/grass83   8.3.2             grass
 
 ``` r
 linkGRASS(nc,c("/usr/lib/grass83","8.3.2","grass"),epsg = 4267) 
 ```
 
-##### Corresponding linkage running windows
+**Manual Linking Windows**
+
+\`\`{r, eval=FALSE} \# Link the GRASS installation and define the search
+location linkGRASS(nc, search_path = “C:”)
+
+    If  you already did a full search and kow your installation fo example using the command `findGRASS` you can use the result directly for linking.
+
+
+
+    ``` r
+    findGRASS()
+
+         instDir version installation_type
+    1                                   C:/OSGeo4W   8.4.1           osgeo4w
 
 ``` r
-linkGRASS(
-  x = nc,
-  default_GRASS = c(
-    "C:/Program Files/GRASS GIS7.0.5",
-    "GRASS GIS 7.0.5",
-    "NSIS"
-  )
-)
+linkGRASS(nc,c("C:/OSGeo4W","8.4.1","osgeo4w"),epsg = 4267) 
 ```
 
 #### Specific examples

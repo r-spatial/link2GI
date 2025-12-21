@@ -2,28 +2,32 @@
 % Please edit documentation in R/otbControls.R
 \name{searchOTBW}
 \alias{searchOTBW}
-\title{Search recursively for valid 'OTB' installation(s) on a 'Windows' OS}
+\title{Search recursively valid 'OTB' installation(s) on a given Windows drive/path}
 \usage{
-searchOTBW(DL = "default", quiet = TRUE)
+searchOTBW(searchLocation = NULL, DL = "C:/", maxdepth = 8L, quiet = FALSE)
 }
 \arguments{
-\item{DL}{drive letter default is \code{C:/}}
+\item{searchLocation}{Character. Folder to search (default \code{"C:/"}).}
 
-\item{quiet}{boolean  switch for supressing console messages default is TRUE}
+\item{DL}{Character. Backward-compatible alias for \code{searchLocation}.
+If both are provided, \code{searchLocation} wins.}
+
+\item{maxdepth}{Integer. Max recursion depth (best effort).}
+
+\item{quiet}{Logical. Suppress messages.}
 }
 \value{
-A dataframe with the 'OTB' root folder(s) the version name(s) and the installation type(s).
+data.frame with columns:
+  binDir, baseDir, otbCmd, envScript, launcher, installation_type
 }
 \description{
-Search for valid 'OTB' installations on a 'Windows' OS
+Robust Windows OTB discovery for modern standalone bundles (OTB 9.x):
+- detects root by presence of 'otbenv.ps1' (or 'otbenv.bat')
+- checks for 'bin/otbApplicationLauncherCommandLine.exe'
+- checks for at least one 'bin/otbcli_*.ps1' wrapper
 }
-\examples{
-\dontrun{
-# get all valid OTB installation folders and params
-searchOTBW()
+\details{
+Backward compatible with legacy callers that use \code{DL} (as in older
+link2GI versions). Internally, \code{DL} is treated as an alias for
+\code{searchLocation}.
 }
-}
-\author{
-Chris Reudenbach
-}
-\keyword{internal}

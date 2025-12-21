@@ -13,7 +13,8 @@ runOTB(
 )
 }
 \arguments{
-\item{otbCmdList}{List as returned by [parseOTBFunction()], with parameters set.}
+\item{otbCmdList}{List as returned by [parseOTBFunction()], with parameters set.
+Must contain the application name either as first unnamed element, or in `.algo` / `algo`.}
 
 \item{gili}{Optional list returned by [linkOTB()]. If `NULL`, [linkOTB()] is called.}
 
@@ -21,7 +22,7 @@ runOTB(
 
 \item{retCommand}{Logical. If `TRUE`, return only a printable command string.}
 
-\item{quiet}{Logical. If `FALSE`, do not suppress stdout/stderr.}
+\item{quiet}{Logical. If `FALSE`, stream stdout/stderr to console.}
 }
 \value{
 Depending on `retRaster` and output type: a `terra::SpatRaster`,
@@ -29,16 +30,5 @@ Depending on `retRaster` and output type: a `terra::SpatRaster`,
 }
 \description{
 Builds a CLI call from a parameter list created by [parseOTBFunction()] and executes it.
-On Linux, execution uses the OTB launcher with a call-local environment (no global env mutation).
-}
-\examples{
-\dontrun{
-otb <- link2GI::linkOTB()
-if (otb$exist) {
-  cmd <- parseOTBFunction("ComputeImagesStatistics", otb)
-  cmd[["input_il"]] <- "/path/to/image.tif"
-  cmd[["out.xml"]]  <- tempfile(fileext = ".xml")
-  runOTB(cmd, otb, retRaster = TRUE, quiet = FALSE)
-}
-}
+On Windows, supports OTB 9.x standalone PowerShell wrappers (.ps1) as well as legacy .bat/.exe.
 }

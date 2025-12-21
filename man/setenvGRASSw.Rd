@@ -5,10 +5,9 @@
 \title{Usually for internally usage, create valid 'GRASS GIS 7.xx' rsession environment settings according to the selected GRASS GIS 7.x and Windows Version}
 \usage{
 setenvGRASSw(
-  root_GRASS = NULL,
+  root_GRASS,
   grass_version = NULL,
   installation_type = NULL,
-  jpgmem = 1e+06,
   quiet = TRUE
 )
 }
@@ -18,8 +17,6 @@ setenvGRASSw(
 \item{grass_version}{grass version name i.e. 'grass-7.0.5'}
 
 \item{installation_type}{two options 'osgeo4w' as installed by the 'OSGeo4W'-installer and 'NSIS' that is typical for a stand_alone installation of 'GRASS GIS'.}
-
-\item{jpgmem}{jpeg2000 memory allocation size. Default is 1000000}
 
 \item{quiet}{boolean  switch for suppressing console messages default is TRUE}
 }

@@ -6,7 +6,7 @@
 #'@return A data frame containing the 'SAGA GIS' root folder(s), the version name(s) and the installation type(s)
 #'@author Chris Reudenbach
 #'@keywords internal
-#'@export searchSAGAX
+#'@export 
 #'
 #'@examples
 #' \dontrun{
@@ -68,7 +68,7 @@ searchSAGAX <- function(MP = "/usr/bin", quiet = TRUE) {
 #'@return A data frame containing the 'SAGA GIS' root folder(s), the version name(s) and the installation type(s)
 #'@author Chris Reudenbach
 #'@keywords internal
-#'@export searchSAGAW
+#'@export 
 #'
 #'@examples
 #' \dontrun{
@@ -180,7 +180,7 @@ searchSAGAW <- function(DL = "C:/", quiet = TRUE) {
 #'@return A dataframe with the 'SAGA GIS' root folder(s), version name(s) and 
 #'installation type code(s)
 #'@author Chris Reudenbach
-#'@export findSAGA
+#'@export
 #'
 #'@examples
 #' \dontrun{

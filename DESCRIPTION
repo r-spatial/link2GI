@@ -27,11 +27,14 @@ Imports:
   renv
 SystemRequirements: GNU make 
 RoxygenNote: 7.3.3
-Suggests: knitr, 
-          rmarkdown,
-          sp,
-          rgrass,
-          stars,
-          curl,
-          markdown
+Suggests: 
+    knitr,
+    rmarkdown,
+    sp,
+    rgrass,
+    stars,
+    curl,
+    markdown,
+    testthat (>= 3.0.0)
 VignetteBuilder: knitr
+Config/testthat/edition: 3

@@ -23,7 +23,7 @@
 
     <a class="navbar-brand me-2" href="index.html">link2GI</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7-1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7-2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -81,18 +81,25 @@
 </div>
 </div>
 <div class="section level1">
-<h1 id="new-feature">New Feature<a class="anchor" aria-label="anchor" href="#new-feature"></a>
+<h1 id="new-features">New Features<a class="anchor" aria-label="anchor" href="#new-features"></a>
 </h1>
+<div class="section level2">
+<h2 id="otb-wrapper">OTB wrapper<a class="anchor" aria-label="anchor" href="#otb-wrapper"></a>
+</h2>
+<p>The OTB integration in <strong>link2GI</strong> has evolved from a basic command wrapper into a robust, introspection-based interface. It now derives valid parameters directly from OTB’s CLI metadata, supports version-stable command construction, and enforces explicit, reproducible, on-disk outputs.</p>
+</div>
 <div class="section level2">
 <h2 id="initproj-for-reproducible-projects">
 <code>initProj</code> for reproducible projects<a class="anchor" aria-label="anchor" href="#initproj-for-reproducible-projects"></a>
 </h2>
-<p><code>initProj</code> provides a complete and flexible lightweight working environment for GI projects. The focus is on a simple but powerful structure. The basic framework is formed by a defined folder structure, initial scripts and configuration templates as well as optional Git repositories and an <code>renv</code> environment. A corresponding RStudio project file is also created. It supports the automatic installation (if needed) and loading of the required libraries including various standard setup skeletons to simplify project initialisation.</p>
-<p>The function creates a skeleton of the skeleton scripts <code>main-control.R</code>, <code>pre-processing.R</code>, <code>processing.R</code> and <code>post-processing.R</code>, and creates corresponding parameter configurations files stored as <code>yaml</code> files in <code>scr/configs/</code>. The script src/functions/000_settings.R holds all specific project settings. Easy access to all project paths is provided via the list variable <code>dirs</code>, which enables simple, efficient and reproducible project management and data handling.</p>
-<p>For further Information have a look at the article <a href="https://r-spatial.github.io/link2GI/articles/link2GI5.html">Reproducible Projects</a>.</p>
-<p>When using RStudio, a new project can be created by simply selecting the <strong><em>Create Project Structure (link2GI)</em></strong> template from the <strong><em>File -&gt; New Project -&gt; New Directory -&gt; New Project Wizard</em></strong> dialogue.</p>
+<p><code>initProj</code> provides a lightweight but robust setup for reproducible GI projects.<br>
+It creates a clear folder structure, initial scripts, configuration templates, and optionally a Git repository and an <code>renv</code> environment. An RStudio project file is generated automatically, supporting fast and consistent project startup.</p>
+<p>The function generates a minimal workflow skeleton (<code>main-control.R</code>, <code>pre-processing.R</code>, <code>processing.R</code>, <code>post-processing.R</code>) with YAML-based configuration files in <code>src/configs/</code>. All project-specific settings are centralized in <code>src/functions/000_settings.R</code>.<br>
+Project paths are exposed via a single <code>dirs</code> list, enabling simple, reproducible data handling.</p>
+<p>For details, see the article<br><a href="https://r-spatial.github.io/link2GI/articles/link2GI5.html">Reproducible Projects</a>.</p>
+<p>In RStudio, a new project can be created via<br><strong><em>File → New Project → New Directory → Create Project Structure (link2GI)</em></strong>.</p>
 <div class="float">
-<img src="https://raw.githubusercontent.com/r-spatial/link2GI/master/figures/usegui.gif" alt="Animated demonstration of the link2GI GUI workflow (select API, configure paths,run)."><div class="figcaption">Animated demonstration of the link2GI GUI workflow (select API, configure paths,run).</div>
+<img src="https://raw.githubusercontent.com/r-spatial/link2GI/master/figures/usegui.gif" alt="Animated demonstration of the link2GI GUI workflow (select API, configure paths, run)."><div class="figcaption">Animated demonstration of the link2GI GUI workflow (select API, configure paths, run).</div>
 </div>
 </div>
 </div>

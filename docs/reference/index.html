@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">link2GI</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7-1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7-2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -74,7 +74,7 @@
           <code><a href="findOTB.html">findOTB()</a></code>
 
         </dt>
-        <dd>Search recursivly existing 'Orfeo Toolbox' installation(s) at a given drive/mountpoint</dd>
+        <dd>Locate Orfeo ToolBox (OTB) installations</dd>
 
         <dt>
 
@@ -116,7 +116,7 @@
           <code><a href="linkOTB.html">linkOTB()</a></code>
 
         </dt>
-        <dd>Locate and describe 'Orfeo ToolBox' (OTB) API bindings</dd>
+        <dd>Locate and describe Orfeo ToolBox (OTB) API bindings</dd>
 
         <dt>
 
@@ -134,66 +134,17 @@
 
         <dt>
 
-          <code><a href="otb_args_spec.html">otb_args_spec()</a></code>
+          <code><a href="otb_api.html">otb_capabilities()</a></code> <code><a href="otb_api.html">otb_args_spec()</a></code> <code><a href="otb_api.html">otb_required()</a></code> <code><a href="otb_api.html">otb_required_with_output()</a></code> <code><a href="otb_api.html">otb_optional()</a></code> <code><a href="otb_api.html">otb_build_cmd()</a></code> <code><a href="otb_api.html">otb_show()</a></code> <code><a href="otb_api.html">otb_set_out()</a></code>
 
         </dt>
-        <dd>Return normalized OTB parameter spec for an application</dd>
-
-        <dt>
-
-          <code><a href="otb_build_cmd.html">otb_build_cmd()</a></code>
-
-        </dt>
-        <dd>Build a runOTB-compatible command template from OTB application metadata</dd>
-
-        <dt>
-
-          <code><a href="otb_capabilities.html">otb_capabilities()</a></code>
-
-        </dt>
-        <dd>Retrieve OTB application capabilities (help text + parsed parameters)</dd>
-
-        <dt>
-
-          <code><a href="otb_optional.html">otb_optional()</a></code>
-
-        </dt>
-        <dd>Get optional parameters for an OTB application (keys + defaults optional)</dd>
-
-        <dt>
-
-          <code><a href="otb_required.html">otb_required()</a></code>
-
-        </dt>
-        <dd>OTB-required parameter keys for an application</dd>
-
-        <dt>
-
-          <code><a href="otb_required_with_output.html">otb_required_with_output()</a></code>
-
-        </dt>
-        <dd>Required parameter keys under link2GI output policy</dd>
-
-        <dt>
-
-          <code><a href="otb_set_out.html">otb_set_out()</a></code>
-
-        </dt>
-        <dd>Set an OTB output parameter safely (file-based output)</dd>
-
-        <dt>
-
-          <code><a href="otb_show.html">otb_show()</a></code>
-
-        </dt>
-        <dd>Print a quick console view of an OTB application's parameters</dd>
+        <dd>Orfeo ToolBox (OTB) helpers: introspection and command construction</dd>
 
         <dt>
 
           <code><a href="parseOTBAlgorithms.html">parseOTBAlgorithms()</a></code>
 
         </dt>
-        <dd>Retrieve available OTB applications</dd>
+        <dd>Linux/macOS: lists plugin libs <code>otbapp_*.so</code>, <code>otbapp_*.dylib</code>, <code>otbapp_*.dll</code> Windows: lists wrappers <code>otbcli_&lt;Algo&gt;.ps1</code>, <code>otbcli_&lt;Algo&gt;.bat</code>, <code>otbcli_&lt;Algo&gt;.exe</code># Retrieve available OTB applications</dd>
 
         <dt>
 
@@ -207,7 +158,14 @@
           <code><a href="runOTB.html">runOTB()</a></code>
 
         </dt>
-        <dd>Execute an OTB application</dd>
+        <dd>Run an OTB application (new workflow C)</dd>
+
+        <dt>
+
+          <code><a href="runOTB_isolated.html">runOTB_isolated()</a></code>
+
+        </dt>
+        <dd>Execute an OTB application in an isolated OTB environment (mainly Windows)</dd>
 
         <dt>
 
@@ -218,17 +176,10 @@
 
         <dt>
 
-          <code><a href="searchGRASSW.html">searchGRASSW()</a></code>
-
-        </dt>
-        <dd>Search for valid GRASS GIS installations on Windows</dd>
-
-        <dt>
-
           <code><a href="searchOTBW.html">searchOTBW()</a></code>
 
         </dt>
-        <dd>Search recursively valid 'OTB' installation(s) on a given Windows drive/path</dd>
+        <dd>Search for OTB installations on Windows (bounded, cmd-free)</dd>
 
         <dt>
 

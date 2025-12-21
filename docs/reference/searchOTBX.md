@@ -1,6 +1,8 @@
-# Search recursively for valid 'OTB' installation(s) on a 'Linux' OS
+# Search recursively for valid OTB installation(s) on Linux/macOS
 
-Search for valid 'OTB' installations on a 'Linux' OS
+Searches for an executable \`otbcli\` and validates presence of
+\`otbApplicationLauncherCommandLine\` in the same bin folder (or
+base/bin).
 
 ## Usage
 
@@ -12,27 +14,13 @@ searchOTBX(MP = "default", quiet = TRUE)
 
 - MP:
 
-  default mount point is the home directory '~' (as suggested by the OTB
-  team)
+  Character. "default" expands to c("~","/opt","/usr/local","/usr").
+  Otherwise, one or more mountpoints/roots.
 
 - quiet:
 
-  boolean switch for supressing messages default is TRUE
+  Logical.
 
 ## Value
 
-A dataframe with the 'OTB' root folder(s) the version name(s) and the
-installation type(s).
-
-## Author
-
-Chris Reudenbach
-
-## Examples
-
-``` r
-if (FALSE) { # \dontrun{
-# get all valid OTB installation folders and params
-searchOTBX()
-} # }
-```
+data.frame with OTB installations (or FALSE).

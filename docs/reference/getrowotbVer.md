@@ -1,7 +1,7 @@
-# Select newest OTB installation row index from a vector of binDir paths
+# Select "newest" OTB installation row index
 
-Heuristic order: 1) ../VERSION file (preferred; parses "OTB Version:
-x.y.z") 2) folder name pattern "OTB-x.y.z" (fallback)
+Heuristic: parse a version-like token from binDir/baseDir path. If none
+can be parsed, fall back to the last row.
 
 ## Usage
 
@@ -13,12 +13,8 @@ getrowotbVer(paths)
 
 - paths:
 
-  Character vector of binDir paths (may have trailing slash).
+  Character vector of binDir paths.
 
 ## Value
 
-Integer row index (1..length(paths)), defaults to 1 on failure.
-
-## Details
-
-Uses numeric_version for correct semantic version comparison.
+Integer row index (1..length(paths))

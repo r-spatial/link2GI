@@ -21,7 +21,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">link2GI</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7-1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7-2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -126,7 +126,7 @@ strings.</p>
 </h2>
 <p>In the past it was quite tedious to link the correct
 <code>SAGA GIS</code> version. Since version 1.x.x of <code>RSAGA</code>
-things are much better. The new <code>RSAGA::rsaga.env()</code> function
+things are much better. The new <code><a href="https://rdrr.io/pkg/RSAGA/man/rsaga.env.html" class="external-link">RSAGA::rsaga.env()</a></code> function
 is to get the first <code>RSAGA</code> version in the search path. It is
 also possible to pass the version number as shown below. Storing the
 result in appropriate variables will even allow you to easily switch
@@ -390,7 +390,7 @@ user home directory you need to adrees this:</p>
 <span><span class="co"># get the list of modules from the linked version</span></span>
 <span><span class="va">algo</span><span class="op">&lt;-</span><span class="fu"><a href="../reference/parseOTBAlgorithms.html">parseOTBAlgorithms</a></span><span class="op">(</span>gili <span class="op">=</span> <span class="va">otblink</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">algo</span> <span class="op">&lt;-</span> <span class="fu">link2GI</span><span class="fu">::</span><span class="fu"><a href="../reference/otb_capabilities.html">otb_capabilities</a></span><span class="op">(</span>gili <span class="op">=</span> <span class="va">otblink</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">algo</span> <span class="op">&lt;-</span> <span class="fu">link2GI</span><span class="fu">::</span><span class="fu"><a href="../reference/otb_api.html">otb_capabilities</a></span><span class="op">(</span>gili <span class="op">=</span> <span class="va">otblink</span><span class="op">)</span></span></code></pre></div>
 <p>Based on the modules of the current version of `OTB’, you can then
 select the module(s) you want to use.</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
@@ -418,7 +418,7 @@ select the module(s) you want to use.</p>
 <span><span class="co">## ------------------------------------------------------------</span></span>
 <span><span class="co">## This parses the OTB -help output and returns the raw help text.</span></span>
 <span><span class="co">## This is the *authoritative source* for parameters.</span></span>
-<span><span class="va">caps</span> <span class="op">&lt;-</span> <span class="fu">link2GI</span><span class="fu">::</span><span class="fu"><a href="../reference/otb_capabilities.html">otb_capabilities</a></span><span class="op">(</span>algo <span class="op">=</span> <span class="va">algo</span>, gili <span class="op">=</span> <span class="va">otblink</span><span class="op">)</span></span>
+<span><span class="va">caps</span> <span class="op">&lt;-</span> <span class="fu">link2GI</span><span class="fu">::</span><span class="fu"><a href="../reference/otb_api.html">otb_capabilities</a></span><span class="op">(</span>algo <span class="op">=</span> <span class="va">algo</span>, gili <span class="op">=</span> <span class="va">otblink</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co">## Print the help text to understand available parameters</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="va">caps</span><span class="op">$</span><span class="va">text</span>, collapse <span class="op">=</span> <span class="st">"\n"</span><span class="op">)</span><span class="op">)</span></span>
@@ -428,7 +428,7 @@ select the module(s) you want to use.</p>
 <span><span class="co">## ------------------------------------------------------------</span></span>
 <span><span class="co">## otb_args_spec() converts the help text into a data.frame</span></span>
 <span><span class="co">## with keys, types, defaults, and mandatory flags.</span></span>
-<span><span class="va">spec</span> <span class="op">&lt;-</span> <span class="fu">link2GI</span><span class="fu">::</span><span class="fu"><a href="../reference/otb_args_spec.html">otb_args_spec</a></span><span class="op">(</span>algo <span class="op">=</span> <span class="va">algo</span>, gili <span class="op">=</span> <span class="va">otblink</span><span class="op">)</span></span>
+<span><span class="va">spec</span> <span class="op">&lt;-</span> <span class="fu">link2GI</span><span class="fu">::</span><span class="fu"><a href="../reference/otb_api.html">otb_args_spec</a></span><span class="op">(</span>algo <span class="op">=</span> <span class="va">algo</span>, gili <span class="op">=</span> <span class="va">otblink</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co">## Inspect the relevant parameter metadata</span></span>
 <span><span class="va">spec</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"key"</span>, <span class="st">"mandatory"</span>, <span class="st">"default"</span>, <span class="st">"class"</span><span class="op">)</span><span class="op">]</span></span>
@@ -441,7 +441,7 @@ select the module(s) you want to use.</p>
 <span><span class="co">## - required parameters</span></span>
 <span><span class="co">## - optional parameters with defaults (if requested)</span></span>
 <span><span class="co">## - no execution yet</span></span>
-<span><span class="va">cmd</span> <span class="op">&lt;-</span> <span class="fu">link2GI</span><span class="fu">::</span><span class="fu"><a href="../reference/otb_build_cmd.html">otb_build_cmd</a></span><span class="op">(</span></span>
+<span><span class="va">cmd</span> <span class="op">&lt;-</span> <span class="fu">link2GI</span><span class="fu">::</span><span class="fu"><a href="../reference/otb_api.html">otb_build_cmd</a></span><span class="op">(</span></span>
 <span>  <span class="va">algo</span>,</span>
 <span>  gili             <span class="op">=</span> <span class="va">otblink</span>,</span>
 <span>  include_optional <span class="op">=</span> <span class="st">"defaults"</span>,</span>
@@ -477,7 +477,7 @@ introspection helpers.</p>
 <span><span class="va">algoKeyword</span> <span class="op">&lt;-</span> <span class="st">"EdgeExtraction"</span></span>
 <span></span>
 <span><span class="co"># 2) Create a command template with valid keys (defaults included)</span></span>
-<span><span class="va">cmd</span> <span class="op">&lt;-</span> <span class="fu">link2GI</span><span class="fu">::</span><span class="fu"><a href="../reference/otb_build_cmd.html">otb_build_cmd</a></span><span class="op">(</span></span>
+<span><span class="va">cmd</span> <span class="op">&lt;-</span> <span class="fu">link2GI</span><span class="fu">::</span><span class="fu"><a href="../reference/otb_api.html">otb_build_cmd</a></span><span class="op">(</span></span>
 <span>  algo            <span class="op">=</span> <span class="va">algoKeyword</span>,</span>
 <span>  gili            <span class="op">=</span> <span class="va">otblink</span>,</span>
 <span>  include_optional <span class="op">=</span> <span class="st">"defaults"</span>,</span>
@@ -491,7 +491,7 @@ introspection helpers.</p>
 <span></span>
 <span><span class="co"># 4) Set explicit on-disk output (recommended API: otb_set_out)</span></span>
 <span><span class="va">out_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">root_folder</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"out"</span>, <span class="va">cmd</span><span class="op">[[</span><span class="st">"filter"</span><span class="op">]</span><span class="op">]</span>, <span class="st">".tif"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">cmd</span> <span class="op">&lt;-</span> <span class="fu">link2GI</span><span class="fu">::</span><span class="fu"><a href="../reference/otb_set_out.html">otb_set_out</a></span><span class="op">(</span><span class="va">cmd</span>, gili <span class="op">=</span> <span class="va">otblink</span>, key <span class="op">=</span> <span class="st">"out"</span>, path <span class="op">=</span> <span class="va">out_file</span><span class="op">)</span></span>
+<span><span class="va">cmd</span> <span class="op">&lt;-</span> <span class="fu">link2GI</span><span class="fu">::</span><span class="fu"><a href="../reference/otb_api.html">otb_set_out</a></span><span class="op">(</span><span class="va">cmd</span>, gili <span class="op">=</span> <span class="va">otblink</span>, key <span class="op">=</span> <span class="st">"out"</span>, path <span class="op">=</span> <span class="va">out_file</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># 5) Run the algorithm and read output as a raster</span></span>
 <span><span class="va">retStack</span> <span class="op">&lt;-</span> <span class="fu">link2GI</span><span class="fu">::</span><span class="fu"><a href="../reference/runOTB.html">runOTB</a></span><span class="op">(</span><span class="va">cmd</span>, gili <span class="op">=</span> <span class="va">otblink</span>, retRaster <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>

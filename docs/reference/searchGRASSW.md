@@ -17,19 +17,19 @@ The function supports:
 
 ``` r
 searchGRASSW(DL = "C:/", quiet = TRUE)
+
+searchGRASSW(DL = "C:/", quiet = TRUE)
 ```
 
 ## Arguments
 
 - DL:
 
-  Character. Search location or drive root on Windows. Accepts `"C:"`,
-  `"C:/"`, or a concrete directory path. Backslashes are normalized to
-  forward slashes.
+  Character. Search root (e.g. \`"C:/"\`).
 
 - quiet:
 
-  Logical. If `TRUE` (default), suppress informational messages.
+  Logical. Suppress messages.
 
 ## Value
 
@@ -50,6 +50,9 @@ Returns `FALSE` if no installation was detected. Otherwise returns a
 
 The result is sorted by decreasing semantic version (unknown versions
 treated as `0.0.0`).
+
+\`FALSE\` or a \`data.frame\` with columns \`instDir\`, \`version\`,
+\`installation_type\`.
 
 ## Details
 

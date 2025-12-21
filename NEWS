@@ -1,3 +1,12 @@
+# link2GI 0.7.2
+
+**changes**
+- New introspection-based OTB API (Workflow C) using CLI `-help` as source of truth  
+- Robust command building (`otb_build_cmd()`, `otb_set_out()`), unified execution  
+- Bounded Windows + Linux OTB discovery aligned  
+- Full CRAN compliance (`R CMD check` clean)  
+- Legacy API kept for backward compatibility
+
 ## link2GI 0.7-1
 
 **bugfixes** *(Fix #67)*

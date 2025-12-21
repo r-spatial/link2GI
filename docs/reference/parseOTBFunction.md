@@ -1,7 +1,8 @@
 # Retrieve the argument list from an OTB application
 
-Queries \`-help\` output and returns a parameter list prefilled with
-detected defaults.
+Legacy convenience wrapper that returns a list containing: - first
+element: algo name - named entries: parameter defaults (if any) and
+"mandatory" markers - \`\$help\`: per-parameter help text (if available)
 
 ## Usage
 
@@ -22,14 +23,9 @@ parseOTBFunction(algo = NULL, gili = NULL)
 
 ## Value
 
-A list whose first element is the \`algo\` name, followed by parameters,
-plus a \`\$help\` element with per-parameter help text.
+List (legacy format).
 
-## Examples
+## Details
 
-``` r
-if (FALSE) { # \dontrun{
-otb <- link2GI::linkOTB()
-if (otb$exist) parseOTBFunction("ComputeImagesStatistics", otb)
-} # }
-```
+Under the hood this uses the NEW introspection API:
+\[otb_capabilities()\] and \[otb_args_spec()\].

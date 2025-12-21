@@ -1,14 +1,15 @@
-# Execute an OTB application
+# Run an OTB application (new workflow C)
 
-Builds a CLI call from a parameter list created by
-\[parseOTBFunction()\] and executes it. On Linux, execution uses the OTB
-launcher with a call-local environment (no global env mutation).
+Executes an Orfeo ToolBox application via the launcher/wrapper described
+by \`gili\` (typically returned by \[linkOTB()\]). This wrapper is
+non-invasive: it does not permanently modify PATH or the user
+environment.
 
 ## Usage
 
 ``` r
 runOTB(
-  otbCmdList = NULL,
+  otbCmdList,
   gili = NULL,
   retRaster = TRUE,
   retCommand = FALSE,
@@ -20,40 +21,43 @@ runOTB(
 
 - otbCmdList:
 
-  List as returned by \[parseOTBFunction()\], with parameters set.
+  List. OTB command list. The first element must be the algorithm name;
+  remaining named elements are parameter keys/values.
 
 - gili:
 
-  Optional list returned by \[linkOTB()\]. If \`NULL\`, \[linkOTB()\] is
-  called.
+  List. OTB installation descriptor as returned by \[linkOTB()\]. If
+  \`NULL\`, \[linkOTB()\] is called.
 
 - retRaster:
 
-  Logical. If \`TRUE\`, attempt to read raster/vector/XML output.
+  Logical. If \`TRUE\`, return a \`terra::SpatRaster\` for the primary
+  raster output (when detectable). If \`FALSE\`, return the output
+  path(s) (character) or a status code depending on implementation.
 
 - retCommand:
 
-  Logical. If \`TRUE\`, return only a printable command string.
+  Logical. If \`TRUE\`, do not execute; return the exact CLI command
+  string that would be run.
 
 - quiet:
 
-  Logical. If \`FALSE\`, do not suppress stdout/stderr.
+  Logical. If \`TRUE\`, suppress console output from OTB (best-effort).
 
 ## Value
 
-Depending on \`retRaster\` and output type: a \`terra::SpatRaster\`, an
-\`xml2::xml_document\`, an \`sf\` object, or \`invisible(NULL)\`.
+Depending on \`retCommand\` / \`retRaster\`, returns either a command
+string, a \`terra::SpatRaster\`, or a character vector/status describing
+the produced output.
 
-## Examples
+## Details
 
-``` r
-if (FALSE) { # \dontrun{
-otb <- link2GI::linkOTB()
-if (otb$exist) {
-  cmd <- parseOTBFunction("ComputeImagesStatistics", otb)
-  cmd[["input_il"]] <- "/path/to/image.tif"
-  cmd[["out.xml"]]  <- tempfile(fileext = ".xml")
-  runOTB(cmd, otb, retRaster = TRUE, quiet = FALSE)
-}
-} # }
-```
+The command is provided as a list in "link2GI style": -
+\`otbCmdList\[\[1\]\]\` is the application name (e.g.,
+\`"DimensionalityReduction"\`) - named elements are OTB parameter keys
+(without leading \`-\`)
+
+Parameter values can be: - a scalar character/numeric (converted to
+character) - \`NA\` / \`NA_character\_\` to omit the parameter - for
+pixel-typed outputs: a character vector of length 2 \`c("\<path\>",
+"\<pixel_type\>")\` (e.g. \`c("out.tif","float")\`)

@@ -46,38 +46,43 @@ fulfill most of the requirements you may install `QGIS, GRASS`,
 the [Installation guide for link2GI related
 Software](https://r-spatial.github.io/link2GI/articles/link2GI6.html).
 
-# New Feature
+# New Features
+
+## OTB wrapper
+
+The OTB integration in **link2GI** has evolved from a basic command
+wrapper into a robust, introspection-based interface. It now derives
+valid parameters directly from OTB’s CLI metadata, supports
+version-stable command construction, and enforces explicit,
+reproducible, on-disk outputs.
 
 ## `initProj` for reproducible projects
 
-`initProj` provides a complete and flexible lightweight working
-environment for GI projects. The focus is on a simple but powerful
-structure. The basic framework is formed by a defined folder structure,
-initial scripts and configuration templates as well as optional Git
-repositories and an `renv` environment. A corresponding RStudio project
-file is also created. It supports the automatic installation (if needed)
-and loading of the required libraries including various standard setup
-skeletons to simplify project initialisation.
+`initProj` provides a lightweight but robust setup for reproducible GI
+projects.  
+It creates a clear folder structure, initial scripts, configuration
+templates, and optionally a Git repository and an `renv` environment. An
+RStudio project file is generated automatically, supporting fast and
+consistent project startup.
 
-The function creates a skeleton of the skeleton scripts
-`main-control.R`, `pre-processing.R`, `processing.R` and
-`post-processing.R`, and creates corresponding parameter configurations
-files stored as `yaml` files in `scr/configs/`. The script
-src/functions/000_settings.R holds all specific project settings. Easy
-access to all project paths is provided via the list variable `dirs`,
-which enables simple, efficient and reproducible project management and
-data handling.
+The function generates a minimal workflow skeleton (`main-control.R`,
+`pre-processing.R`, `processing.R`, `post-processing.R`) with YAML-based
+configuration files in `src/configs/`. All project-specific settings are
+centralized in `src/functions/000_settings.R`.  
+Project paths are exposed via a single `dirs` list, enabling simple,
+reproducible data handling.
 
-For further Information have a look at the article [Reproducible
+For details, see the article  
+[Reproducible
 Projects](https://r-spatial.github.io/link2GI/articles/link2GI5.html).
 
-When using RStudio, a new project can be created by simply selecting the
-***Create Project Structure (link2GI)*** template from the ***File -\>
-New Project -\> New Directory -\> New Project Wizard*** dialogue.
+In RStudio, a new project can be created via  
+***File → New Project → New Directory → Create Project Structure
+(link2GI)***.
 
 ![Animated demonstration of the link2GI GUI workflow (select API,
-configure
-paths,run).](https://raw.githubusercontent.com/r-spatial/link2GI/master/figures/usegui.gif)
+configure paths,
+run).](https://raw.githubusercontent.com/r-spatial/link2GI/master/figures/usegui.gif)
 
 Animated demonstration of the link2GI GUI workflow (select API,
-configure paths,run).
+configure paths, run).

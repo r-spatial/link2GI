@@ -1,58 +1,27 @@
-# Return attributes of valid GRASS GIS installation(s) on Unix
+# Search for valid GRASS GIS installation(s) on Unix (Linux/macOS)
 
-Searches recursively for valid GRASS GIS installations on Unix-like
-systems (Linux/macOS) and returns basic attributes for each detected
-installation.
-
-The implementation avoids GNU-specific \`find\` primaries (e.g.
-\`-readable\`) and relies on a portable \`system2()\` call.
+Strategy: 1) Prefer \`grass –config path\` (returns GISBASE on modern
+GRASS) 2) Fallback: locate \`grass\` via \`Sys.which()\`, then infer
+common GISBASE paths
 
 ## Usage
 
 ``` r
-searchGRASSX(MP = "/usr/bin", quiet = TRUE)
+searchGRASSX(MP = "default", quiet = TRUE)
 ```
 
 ## Arguments
 
 - MP:
 
-  Character. Search root directory. \`"default"\` expands to \`c("~",
-  "/opt", "/usr/local", "/usr")\`.
+  Character. Ignored for detection (kept for API compatibility). You may
+  pass a directory or an executable path; it will be used only as a
+  hint.
 
 - quiet:
 
-  Logical. If \`TRUE\`, suppress messages.
+  Logical.
 
 ## Value
 
-\`FALSE\` if no installation is found, otherwise a \`data.frame\` with
-columns:
-
-- instDir:
-
-  GRASS installation root directory
-
-- version:
-
-  Detected GRASS version (character, may be \`NA\`)
-
-- installation_type:
-
-  Launcher or installation type
-
-## Author
-
-Chris Reudenbach
-
-## Examples
-
-``` r
-if (FALSE) { # \dontrun{
-## Typical system-wide location
-searchGRASSX("/usr/bin")
-
-## Search user home
-searchGRASSX("~")
-} # }
-```
+FALSE or data.frame(instDir, version, installation_type)

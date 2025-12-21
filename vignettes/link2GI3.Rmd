@@ -32,7 +32,7 @@ This example shows how to integrate large external datasets into GRASS.
 We use German 2011 census data as a real-world big data example.  
 The dataset contains over 35 million grid points with multiple attributes.
 
-```sh
+```{sh eval=FALSE}
 # Download census grid data
 wget https://www.zensus2011.de/SharedDocs/Downloads/DE/Pressemitteilung/DemografischeGrunddaten/csv_Bevoelkerung_100m_Gitter.zip?__blob=publicationFile&v=3
 ```
@@ -43,7 +43,7 @@ Key properties of the dataset:
 * Large enough to demonstrate big data workflows
 * Spatially explicit and well suited for raster and vector analysis
 
-```r
+```{r eval=FALSE}
 require(link2GI)
 require(curl)
 
@@ -73,7 +73,7 @@ unzip(
 The dataset is essentially gridded xyz data.
 Each row represents one 100 m × 100 m grid cell.
 
-```r
+```{r eval=FALSE}
 # Fast CSV import
 xyz <- data.table::fread(
   file.path(dirs$path_run, "Zensus_Bevoelkerung_100m-Gitter.csv")

@@ -18,9 +18,14 @@ Same with `GRASS` and `OTB`
 
 ``` r
 require(link2GI)
+if (Sys.info()["sysname"] == "Windows") {
 grass <- link2GI::findGRASS(searchLocation = "C:/")
+otb <- link2GI::findOTB(searchLocation = "C:/")
+} else { 
+grass <- link2GI::findGRASS(searchLocation = "/usr/bin",quiet = FALSE)
+otb <- link2GI::findOTB(searchLocation = "~/apps/otb911/",quiet = FALSE)
+}
 grass
-otb <- link2GI::findOTB(searchLocation = "c:/Users/creu/Desktop/")
 otb
 ```
 
@@ -52,7 +57,6 @@ dirs <- link2GI::setupProj(
   code_subfolder = c("src", "src/functions")
 )
 
-                                )
 dirs
 ```
 
@@ -162,7 +166,7 @@ meuse_sf = st_as_sf(meuse, coords = c("x", "y"), crs = crs, agr = "constant")
 # This is the highly recommended linking procedure for on the fly jobs
 # NOTE: if more than one GRASS installation is found the highest version will be selected
 
-link2GI::linkGRASS(meuse_sf,epsg = crs)
+link2GI::linkGRASS(meuse_sf,epsg = crs,quiet = FALSE)
 ```
 
 Now do the same with `sf` based data.
@@ -186,7 +190,7 @@ The second most common situation is to use an existing `GRASS` site and
 project, either with existing data sets or manually provided parameters.
 
 ``` r
-  library(link2GI)
+ require(link2GI)
  require(sf)
 
  # proj folders
@@ -198,17 +202,17 @@ project, either with existing data sets or manually provided parameters.
  nc <- st_read(system.file("shape/nc.shp", package="sf"))
 
  # CREATE and link to a permanent GRASS folder at "root_folder", location named "project1"
- linkGRASS(nc, gisdbase = root_folder, location = "project1")
+ linkGRASS(nc, gisdbase = root_folder, location = "project1", quiet = FALSE)
 
  # ONLY LINK to a permanent GRASS folder at "root_folder", location named "project1"
- linkGRASS(gisdbase = root_folder, location = "project1", gisdbase_exist = TRUE )
+ linkGRASS(gisdbase = root_folder, location = "project1", gisdbase_exist = TRUE, quiet = FALSE )
 
 
  # setting up GRASS manually with spatial parameters of the nc data
  epsg = 28992
  proj4_string <- sp::CRS(paste0("+init=epsg:",epsg))
  
- linkGRASS(spatial_params = c(178605,329714,181390,333611,proj4_string@projargs),epsg=epsg)
+ linkGRASS(spatial_params = c(178605,329714,181390,333611,proj4_string@projargs),epsg=epsg,quiet = FALSE)
 
  # creating a GRASS gisdbase manually with spatial parameters of the nc data
  # additionally using a peramanent directory "root_folder" and the location "nc_spatial_params "
@@ -226,11 +230,11 @@ take 10 minutes or more. So it is helpful to specify a search path to
 narrow down the search. To search for `GRASS` installations in the home
 directory, you can use the following command.
 
-**Manual Linking Windows**
+**Manual Linking Linux**
 
 ``` r
 # Link the GRASS installation and define the search location
- linkGRASS(nc, search_path = "~/")
+ linkGRASS(nc, search_path = "~/apps/otb911")
 ```
 
 If you already did a full search and kow your installation fo example
@@ -245,26 +249,29 @@ findGRASS()
     1 /usr/lib/grass83   8.3.2             grass
 
 ``` r
-linkGRASS(nc,c("/usr/lib/grass83","8.3.2","grass"),epsg = 4267) 
+linkGRASS(nc,c("/usr/lib/grass83","8.3.2","grass"),epsg = 4267, quiet = FALSE) 
 ```
 
 **Manual Linking Windows**
 
-\`\`{r, eval=FALSE} \# Link the GRASS installation and define the search
-location linkGRASS(nc, search_path = “C:”)
+``` r
+# Link the GRASS installation and define the search location
+ linkGRASS(nc, search_path = "C:", quiet = FALSE)
+```
 
-    If  you already did a full search and kow your installation fo example using the command `findGRASS` you can use the result directly for linking.
+If you already did a full search and kow your installation fo example
+using the command `findGRASS` you can use the result directly for
+linking.
 
-
-
-    ``` r
-    findGRASS()
+``` r
+findGRASS()
+```
 
          instDir version installation_type
     1                                   C:/OSGeo4W   8.4.1           osgeo4w
 
 ``` r
-linkGRASS(nc,c("C:/OSGeo4W","8.4.1","osgeo4w"),epsg = 4267) 
+linkGRASS(nc,c("C:/OSGeo4W","8.4.1","osgeo4w"),epsg = 4267, quiet = FALSE) 
 ```
 
 #### Specific examples

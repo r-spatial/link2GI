@@ -617,161 +617,88 @@ searchGRASSW <- function(DL = "C:/", quiet = TRUE) {
 
 
 
-#' @title Return attributes of valid GRASS GIS installation(s) on Unix
+#' Search for valid GRASS GIS installation(s) on Unix (Linux/macOS)
 #'
-#' @description
-#' Searches recursively for valid GRASS GIS installations on Unix-like systems
-#' (Linux/macOS) and returns basic attributes for each detected installation.
+#' Strategy:
+#' 1) Prefer `grass --config path` (returns GISBASE on modern GRASS)
+#' 2) Fallback: locate `grass` via `Sys.which()`, then infer common GISBASE paths
 #'
-#' The implementation avoids GNU-specific `find` primaries (e.g. `-readable`)
-#' and relies on a portable `system2()` call.
-#'
-#' @param MP Character. Search root directory.
-#'   `"default"` expands to `c("~", "/opt", "/usr/local", "/usr")`.
-#' @param quiet Logical. If `TRUE`, suppress messages.
-#'
-#' @return
-#' `FALSE` if no installation is found, otherwise a `data.frame` with columns:
-#' \describe{
-#'   \item{instDir}{GRASS installation root directory}
-#'   \item{version}{Detected GRASS version (character, may be `NA`)}
-#'   \item{installation_type}{Launcher or installation type}
-#' }
-#'
-#' @author Chris Reudenbach
-#'
-#' @examples
-#' \dontrun{
-#' ## Typical system-wide location
-#' searchGRASSX("/usr/bin")
-#'
-#' ## Search user home
-#' searchGRASSX("~")
-#' }
-#'
+#' @param MP Character. Ignored for detection (kept for API compatibility).
+#'   You may pass a directory or an executable path; it will be used only as a hint.
+#' @param quiet Logical.
+#' @return FALSE or data.frame(instDir, version, installation_type)
 #' @export
 #' @keywords internal
-searchGRASSX <- function(MP = "/usr/bin", quiet = TRUE) {
+searchGRASSX <- function(MP = "default", quiet = TRUE) {
   
-  # 1) default candidates
-  if (identical(MP, "default")) {
-    MP <- c("~", "/opt", "/usr/local", "/usr")
-  } else {
-    MP <- as.character(MP)
+  .msg <- function(...) if (!isTRUE(quiet)) message(...)
+  
+  # 0) Hint handling (directory or file); keep for compatibility but don't rely on it
+  hint_dir <- NULL
+  if (!is.null(MP) && !identical(MP, "default")) {
+    if (file.exists(MP) && !dir.exists(MP)) hint_dir <- dirname(MP)
+    if (dir.exists(MP)) hint_dir <- MP
   }
   
-  MP <- path.expand(MP)
-  MP <- MP[file.exists(MP)]
+  # 1) Locate grass executable (PATH)
+  grass_exe <- Sys.which("grass")
+  if (!nzchar(grass_exe) && !is.null(hint_dir)) {
+    cand <- file.path(hint_dir, "grass")
+    if (file.exists(cand)) grass_exe <- cand
+  }
   
-  if (!length(MP)) {
-    if (!quiet) message("No valid search mount points.")
+  if (!nzchar(grass_exe)) {
+    .msg("searchGRASSX(): 'grass' not found on PATH.")
     return(FALSE)
   }
   
-  if (!quiet) {
-    cat("\nsearching for GRASS installations in:\n")
-    cat(paste0(" - ", MP, collapse = "\n"), "\n")
+  # 2) Ask GRASS for GISBASE (preferred, stable)
+  gisbase <- try(system2(grass_exe, c("--config", "path"), stdout = TRUE, stderr = TRUE), silent = TRUE)
+  if (!inherits(gisbase, "try-error") && length(gisbase) > 0) {
+    gisbase <- trimws(gisbase[1])
+    if (nzchar(gisbase) && dir.exists(gisbase)) {
+      
+      # version (best-effort)
+      ver <- try(system2(grass_exe, "--version", stdout = TRUE, stderr = TRUE), silent = TRUE)
+      ver_char <- NA_character_
+      if (!inherits(ver, "try-error") && length(ver) > 0) {
+        # "GRASS GIS 8.3.2"
+        m <- regmatches(ver[1], regexpr("[0-9]+(\\.[0-9]+)+", ver[1]))
+        if (length(m) > 0) ver_char <- m
+      }
+      
+      return(data.frame(
+        instDir = gisbase,
+        version = ver_char,
+        installation_type = basename(grass_exe),
+        stringsAsFactors = FALSE
+      ))
+    }
   }
   
-  normp <- function(p) normalizePath(p, mustWork = FALSE)
+  # 3) Fallback: infer typical GISBASE locations (last resort)
+  # Try /usr/lib/grass* and /usr/local/lib/grass*
+  roots <- c("/usr/lib", "/usr/local/lib", "/opt")
+  cand <- unlist(lapply(roots, function(r) Sys.glob(file.path(r, "grass*"))), use.names = FALSE)
+  cand <- cand[dir.exists(cand)]
+  cand <- cand[file.exists(file.path(cand, "etc", "VERSIONNUMBER")) | dir.exists(file.path(cand, "etc"))]
   
-  # 2) find grass launchers (grass, grass78, grass83, etc.)
-  hits <- unique(unlist(lapply(MP, function(mp) {
-    
-    out <- suppressWarnings(try(system2(
-      "find",
-      args   = c(mp, "-type", "f", "-executable", "-iname", "grass??", "-print"),
-      stdout = TRUE,
-      stderr = TRUE
-    ), silent = TRUE))
-    
-    if (inherits(out, "try-error") || !length(out)) return(character(0))
-    
-    out <- out[nzchar(trimws(out))]
-    out <- out[!grepl("Permission denied", out, fixed = TRUE)]
-    out
-  }), use.names = FALSE))
-  
-  # fallback: plain "grass"
-  if (!length(hits)) {
-    hits <- unique(unlist(lapply(MP, function(mp) {
-      
-      out <- suppressWarnings(try(system2(
-        "find",
-        args   = c(mp, "-type", "f", "-executable", "-iname", "grass", "-print"),
-        stdout = TRUE,
-        stderr = TRUE
-      ), silent = TRUE))
-      
-      if (inherits(out, "try-error") || !length(out)) return(character(0))
-      
-      out <- out[nzchar(trimws(out))]
-      out <- out[!grepl("Permission denied", out, fixed = TRUE)]
-      out
-    }), use.names = FALSE))
-  }
-  
-  if (!length(hits)) {
-    if (!quiet) message("::: NO GRASS installation found.")
+  if (length(cand) == 0) {
+    .msg("searchGRASSX(): could not resolve GISBASE via '--config path' and no fallback candidates found.")
     return(FALSE)
   }
   
-  # 3) derive GISBASE from common layouts
-  rows <- lapply(hits, function(p) {
-    
-    p <- normp(p)
-    
-    # Common cases:
-    # - /usr/bin/grass -> wrapper; GISBASE often /usr/lib/grass?? or /usr/lib/grass??/etc
-    # - /usr/lib/grass83/bin/grass83 -> already inside GISBASE
-    # If we can find a VERSIONNUMBER near it, use that.
-    cand <- character(0)
-    
-    # if executable is inside .../bin, GISBASE might be .. (or ../.. depending)
-    exe_dir <- dirname(p)
-    cand <- c(cand, normp(file.path(exe_dir, "..")))        # .../bin/.. = GISBASE?
-    cand <- c(cand, normp(file.path(exe_dir, "..", "..")))  # wrapper case
-    
-    cand <- unique(cand)
-    cand <- cand[dir.exists(cand)]
-    
-    # validate by etc/VERSIONNUMBER
-    vn <- vapply(cand, function(gisbase) {
-      file.exists(file.path(gisbase, "etc", "VERSIONNUMBER"))
-    }, logical(1))
-    
-    if (!any(vn)) return(NULL)
-    
-    gisbase <- cand[which(vn)[1]]
-    verfile <- file.path(gisbase, "etc", "VERSIONNUMBER")
-    ver <- try(readLines(verfile, warn = FALSE), silent = TRUE)
-    if (inherits(ver, "try-error") || !length(ver)) ver <- NA_character_ else ver <- ver[1]
-    
-    # normalize version string: first x.y[.z] token if possible
-    vtok <- regmatches(ver, regexpr("[0-9]+(\\.[0-9]+)+", ver))
-    if (!length(vtok)) vtok <- NA_character_
-    
-    data.frame(
-      instDir = gisbase,
-      version = vtok,
-      installation_type = "grass",
-      stringsAsFactors = FALSE
-    )
-  })
-  
-  rows <- Filter(Negate(is.null), rows)
-  if (!length(rows)) {
-    if (!quiet) message("::: Candidate grass executables found, but none validated via etc/VERSIONNUMBER.")
-    return(FALSE)
-  }
-  
-  df <- do.call(rbind, rows)
-  df <- df[!duplicated(df$instDir), , drop = FALSE]
-  rownames(df) <- NULL
-  
-  if (!quiet) message("::: Found ", nrow(df), " GRASS installation(s).")
-  df
+  # pick highest version-looking suffix
+  suf <- suppressWarnings(as.integer(gsub(".*grass", "", basename(cand), ignore.case = TRUE)))
+  cand <- cand[order(suf, decreasing = TRUE)]
+  data.frame(
+    instDir = cand[1],
+    version = NA_character_,
+    installation_type = basename(grass_exe),
+    stringsAsFactors = FALSE
+  )
 }
+
 
 
 
@@ -907,20 +834,26 @@ findGRASS <- function(searchLocation = "default", ver_select = FALSE, quiet = TR
     # ---------------------------
     # Unix / Linux / macOS
     # ---------------------------
+    # Unix / Linux / macOS
   } else {
     
     if (identical(searchLocation, "default") || is.null(searchLocation)) {
       searchLocation <- "/usr/bin"
     }
     
-    # Reject Windows drive syntax on Unix
+    # if a file was provided (e.g. /usr/bin/grass), search its directory
+    if (file.exists(searchLocation) && !dir.exists(searchLocation)) {
+      searchLocation <- dirname(normalizePath(searchLocation, winslash = "/", mustWork = TRUE))
+    }
+    
     if (grepl(":", searchLocation, fixed = TRUE)) {
       .msg("You are running Linux/Unix - please choose a suitable searchLocation argument")
       return(FALSE)
     }
     
-    link <- link2GI::searchGRASSX(MP = searchLocation)
+    link <- link2GI::searchGRASSX(MP = searchLocation, quiet = quiet)
   }
+  
   
   # ---------------------------
   # Optional interactive selection

@@ -2,42 +2,22 @@
 % Please edit documentation in R/grassControl.R
 \name{searchGRASSX}
 \alias{searchGRASSX}
-\title{Return attributes of valid GRASS GIS installation(s) on Unix}
+\title{Search for valid GRASS GIS installation(s) on Unix (Linux/macOS)}
 \usage{
-searchGRASSX(MP = "/usr/bin", quiet = TRUE)
+searchGRASSX(MP = "default", quiet = TRUE)
 }
 \arguments{
-\item{MP}{Character. Search root directory.
-`"default"` expands to `c("~", "/opt", "/usr/local", "/usr")`.}
+\item{MP}{Character. Ignored for detection (kept for API compatibility).
+You may pass a directory or an executable path; it will be used only as a hint.}
 
-\item{quiet}{Logical. If `TRUE`, suppress messages.}
+\item{quiet}{Logical.}
 }
 \value{
-`FALSE` if no installation is found, otherwise a `data.frame` with columns:
-\describe{
-  \item{instDir}{GRASS installation root directory}
-  \item{version}{Detected GRASS version (character, may be `NA`)}
-  \item{installation_type}{Launcher or installation type}
-}
+FALSE or data.frame(instDir, version, installation_type)
 }
 \description{
-Searches recursively for valid GRASS GIS installations on Unix-like systems
-(Linux/macOS) and returns basic attributes for each detected installation.
-
-The implementation avoids GNU-specific `find` primaries (e.g. `-readable`)
-and relies on a portable `system2()` call.
-}
-\examples{
-\dontrun{
-## Typical system-wide location
-searchGRASSX("/usr/bin")
-
-## Search user home
-searchGRASSX("~")
-}
-
-}
-\author{
-Chris Reudenbach
+Strategy:
+1) Prefer `grass --config path` (returns GISBASE on modern GRASS)
+2) Fallback: locate `grass` via `Sys.which()`, then infer common GISBASE paths
 }
 \keyword{internal}

@@ -202,7 +202,7 @@ names(cmd)
 ```
 
 
-# What changed (Workflow C)
+# What changed (Introspection)
 
 The new introspection API removes fragile heuristics and centralizes metadata on:
 

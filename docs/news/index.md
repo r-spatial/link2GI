@@ -2,6 +2,8 @@
 
 ## link2GI 0.7-2
 
+CRAN release: 2025-12-23
+
 **changes**
 
 - New Self-describing OTB API using CLI `-help` as source of truth  

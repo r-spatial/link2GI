@@ -1,4 +1,6 @@
-# `link2GI` Linking Geographic Information Systems, Remote Sensing and Other Command Line Tools
+# `link2GI`
+
+## Linking Geographic Information Systems, Remote Sensing and Other Command Line Tools ![hexsticker link2GI](reference/figures/logo.png)
 
 [![cran
 checks](https://badges.cranchecks.info/worst/link2GI.svg)](https://cran.r-project.org/web/checks/check_results_link2GI.html)

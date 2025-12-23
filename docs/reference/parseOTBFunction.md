@@ -27,5 +27,5 @@ List (legacy format).
 
 ## Details
 
-Under the hood this uses the NEW introspection API:
+Under the hood this uses the NEW Self-describing API:
 \[otb_capabilities()\] and \[otb_args_spec()\].

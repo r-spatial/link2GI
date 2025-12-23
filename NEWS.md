@@ -2,7 +2,7 @@
 
 **changes**
 
-* New Self-describing OTB API (Workflow C) using CLI `-help` as source of truth  
+* New Self-describing OTB API using CLI `-help` as source of truth  
 * Robust command building (`otb_build_cmd()`, `otb_set_out()`), unified execution  
 * Bounded Windows + Linux OTB discovery aligned  
 * Full CRAN compliance (`R CMD check` clean)  

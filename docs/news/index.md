@@ -4,8 +4,7 @@
 
 **changes**
 
-- New Self-describing OTB API (Workflow C) using CLI `-help` as source
-  of truth  
+- New Self-describing OTB API using CLI `-help` as source of truth  
 - Robust command building
   ([`otb_build_cmd()`](https://r-spatial.github.io/link2GI/reference/otb_api.md),
   [`otb_set_out()`](https://r-spatial.github.io/link2GI/reference/otb_api.md)),

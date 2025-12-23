@@ -21,6 +21,6 @@ Legacy convenience wrapper that returns a list containing:
 - `$help`: per-parameter help text (if available)
 }
 \details{
-Under the hood this uses the NEW introspection API:
+Under the hood this uses the NEW Self-describing API:
 [otb_capabilities()] and [otb_args_spec()].
 }

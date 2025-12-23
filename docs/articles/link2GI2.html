@@ -6,6 +6,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Basic usage of link2GI • link2GI</title>
+<!-- favicons --><link rel="icon" type="image/png" sizes="96x96" href="../favicon-96x96.png">
+<link rel="icon" type="”image/svg+xml”" href="../favicon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+<link rel="icon" sizes="any" href="../favicon.ico">
+<link rel="manifest" href="../site.webmanifest">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/JetBrains_Mono-0.4.10/font.css" rel="stylesheet">
@@ -58,12 +63,11 @@
 
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-
-      <h1>Basic usage of link2GI</h1>
+      <img src="../logo.png" class="logo" alt=""><h1>Basic usage of link2GI</h1>
                         <h4 data-toc-skip class="author">Chris
 Reudenbach</h4>
             
-            <h4 data-toc-skip class="date">2025-12-21</h4>
+            <h4 data-toc-skip class="date">2025-12-23</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/r-spatial/link2GI/blob/HEAD/vignettes/link2GI2.Rmd" class="external-link"><code>vignettes/link2GI2.Rmd</code></a></small>
       <div class="d-none name"><code>link2GI2.Rmd</code></div>
@@ -214,9 +218,14 @@ passed to a temporary <code>R</code> environment.</p>
 </h4>
 <p>The most common use of <code>GRASS</code> is for a single call or
 algorithm. The user is not interested in setting all the parameters.
-linGRASS7(georeferenced-dataset)<code>does an automatic search and finds all the</code>GRASS<code>binaries using the georeferenced-dataset object for spatial referencing and other necessary settings.  **NOTE:** This is the highly recommended linking procedure for all on-the-fly invocations of</code>GRASS<code>. Please also note that if more than one</code>GRASS`
-installation is found, the one with the highest version number is
-automatically selected.</p>
+<code>linkGRASS</code>/<code>findGRASS</code> does an automatic search
+and finds all the <code>GRASS</code> binaries using the
+georeferenced-dataset object for spatial referencing and other necessary
+settings. <strong>NOTE:</strong> This is the highly recommended linking
+procedure for all on-the-fly invocations of <code>GRASS</code>. Please
+also note that if more than one <code>GRASS</code> installation is
+found, the one with the highest version number is automatically
+selected.</p>
 <p>Take a look at the following examples, which show a typical call for
 the well-known <code>sp</code> and <code>sf</code> vector data
 objects.</p>

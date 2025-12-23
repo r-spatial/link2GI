@@ -142,9 +142,12 @@ the arguments `select_ver = TRUE`, you will be asked to select one.
 
 The most common use of `GRASS` is for a single call or algorithm. The
 user is not interested in setting all the parameters.
-linGRASS7(georeferenced-dataset)`does an automatic search and finds all the`GRASS`binaries using the georeferenced-dataset object for spatial referencing and other necessary settings. **NOTE:** This is the highly recommended linking procedure for all on-the-fly invocations of`GRASS`. Please also note that if more than one`GRASS\`
-installation is found, the one with the highest version number is
-automatically selected.
+`linkGRASS`/`findGRASS` does an automatic search and finds all the
+`GRASS` binaries using the georeferenced-dataset object for spatial
+referencing and other necessary settings. **NOTE:** This is the highly
+recommended linking procedure for all on-the-fly invocations of `GRASS`.
+Please also note that if more than one `GRASS` installation is found,
+the one with the highest version number is automatically selected.
 
 Take a look at the following examples, which show a typical call for the
 well-known `sp` and `sf` vector data objects.

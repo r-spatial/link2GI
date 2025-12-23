@@ -14,10 +14,10 @@ and robustness across OTB versions**.
 `link2GI` supports two layers:
 
 - a **legacy** wrapper layer (kept for backward compatibility)
-- a **new introspection-based** API (recommended) that derives parameter
+- a **new Self-describing** API (recommended) that derives parameter
   metadata from OTB’s own `-help` output
 
-## Two APIs: legacy vs. introspection
+## Two APIs: legacy vs. Self-describing
 
 ### Legacy API (`parseOTBFunction()` / `runOTB()`)
 
@@ -37,9 +37,9 @@ Limitations:
 - sensitive to OTB help formatting changes
 - less suitable for strict, version-stable workflows
 
-### Introspection-based API (recommended)
+### Self-describing API (recommended)
 
-The introspection API treats the OTB CLI help output as the **single
+The Self-describing API treats the OTB CLI help output as the **single
 source of truth** for parameters and their status (mandatory
 vs. optional). It supports a strict “write-to-disk” workflow and avoids
 implicit assumptions.
@@ -57,7 +57,7 @@ Core functions:
 - [`otb_set_out()`](https://r-spatial.github.io/link2GI/reference/otb_api.md):
   set file-based outputs safely (including `[pixel]` outputs)
 
-## Minimal workflow (introspection)
+## Minimal workflow (Self-describing)
 
 ``` r
 library(link2GI)
@@ -79,7 +79,7 @@ cmd <- link2GI::otb_set_out(cmd, otb, key = "out", path = "out.tif")
 str(cmd)
 ```
 
-## Typical transparent workflow (introspection)
+## Typical transparent workflow (Self-describing)
 
 This example demonstrates a complete workflow:
 
@@ -203,9 +203,9 @@ names(cmd)
 # link2GI::runOTB(cmd, gili = otb, quiet = FALSE)
 ```
 
-## What changed (Workflow C)
+## What changed (Self-describing)
 
-The new introspection API removes fragile heuristics and centralizes
+The new Self-describing API removes fragile heuristics and centralizes
 metadata on:
 
 - OTB’s own `Parameters:` block emitted by `<Algo> -help`
@@ -234,7 +234,7 @@ Consequences:
   plus
   [`runOTB()`](https://r-spatial.github.io/link2GI/reference/runOTB.md)
   should continue to work (best-effort).
-- The introspection API is stable as long as OTB provides a parseable
+- The Self-describing API is stable as long as OTB provides a parseable
   `Parameters:` section.
 
 ### Deprecations (explicit list)

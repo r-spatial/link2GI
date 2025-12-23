@@ -6,6 +6,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Linking Geographic Information Systems, Remote Sensing and Other Command Line Tools • link2GI</title>
+<!-- favicons --><link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+<link rel="icon" type="”image/svg+xml”" href="favicon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="icon" sizes="any" href="favicon.ico">
+<link rel="manifest" href="site.webmanifest">
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/JetBrains_Mono-0.4.10/font.css" rel="stylesheet">
@@ -14,6 +19,7 @@
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Linking Geographic Information Systems, Remote Sensing and Other Command Line Tools">
 <meta name="description" content="Functions and tools for using open GIS and remote sensing command-line interfaces in a reproducible environment.">
 <meta property="og:description" content="Functions and tools for using open GIS and remote sensing command-line interfaces in a reproducible environment.">
+<meta property="og:image" content="https://r-spatial.github.io/link2GI/logo.png">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -56,9 +62,11 @@
 </nav><div class="container template-home">
 <div class="row">
   <main id="main" class="col-md-9"><div class="section level1">
-<div class="page-header"><h1 id="link2gi">
-<code>link2GI</code><a class="anchor" aria-label="anchor" href="#link2gi"></a>
-</h1></div>
+<div class="page-header">
+<img src="logo.png" class="logo" alt=""><h1 id="link2gi-linking-geographic-information-systems-remote-sensing-and-other-command-line-tools-">
+<code>link2GI</code> Linking Geographic Information Systems, Remote Sensing and Other Command Line Tools <a class="anchor" aria-label="anchor" href="#link2gi-linking-geographic-information-systems-remote-sensing-and-other-command-line-tools-"></a>
+</h1>
+</div>
 <p><a href="https://cran.r-project.org/web/checks/check_results_link2GI.html" class="external-link"><img src="https://badges.cranchecks.info/worst/link2GI.svg" alt="cran checks"></a> <img src="https://cranlogs.r-pkg.org/badges/link2GI" alt="monthly"><img src="https://cranlogs.r-pkg.org/badges/grand-total/link2GI" alt="total"><a href="https://cran.r-project.org/package=link2GI" class="external-link"><img src="https://www.r-pkg.org/badges/version/link2GI?color=009999" alt="CRAN"></a> <a href="https://github.com/r-spatial/link2GI" class="external-link"><img src="https://img.shields.io/github/stars/r-spatial/link2GI?style=flat" alt="Stars"></a> <a href="https://www.gnu.org/licenses/gpl-3.0.html" class="external-link"><img src="https://img.shields.io/badge/license-GPL%20%28%3E=%203%29-lightgrey.svg?style=flat" alt="License"></a></p>
 <p>Package website: <a href="https://r-spatial.github.io/link2GI/">release</a></p>
 <p><code>link2GI</code> provide some functions which make it a bit easier to connect straightforward the common open source GI software packages to the R-biotop. It supports both the use of wrapper packages and the direct API-use via system calls. It focuses on <code>Linux</code> and <code>WindowsX</code> operating systems but nevertheless it should also work with <code>OSX</code>.</p>
@@ -86,7 +94,7 @@
 <div class="section level2">
 <h2 id="otb-wrapper">OTB wrapper<a class="anchor" aria-label="anchor" href="#otb-wrapper"></a>
 </h2>
-<p>The OTB integration in <strong>link2GI</strong> has evolved from a basic command wrapper into a robust, introspection-based interface. It now derives valid parameters directly from OTB’s CLI metadata, supports version-stable command construction, and enforces explicit, reproducible, on-disk outputs (<a href="https://r-spatial.github.io/link2GI/articles/link2GI4.html">OTB Wrapper in link2GI</a>.).</p>
+<p>The OTB integration in <strong>link2GI</strong> has evolved from a basic command wrapper into a robust, Self-describing CLI interface. It now derives valid parameters directly from OTB’s CLI metadata, supports version-stable command construction, and enforces explicit, reproducible, on-disk outputs (<a href="https://r-spatial.github.io/link2GI/articles/link2GI4.html">OTB Wrapper in link2GI</a>.).</p>
 </div>
 <div class="section level2">
 <h2 id="initproj-for-reproducible-projects">

@@ -22,9 +22,9 @@ The Orfeo ToolBox (OTB) provides a collection of command-line applications for r
 `link2GI` supports two layers:
 
 * a **legacy** wrapper layer (kept for backward compatibility)
-* a **new introspection-based** API (recommended) that derives parameter metadata from OTB’s own `-help` output
+* a **new Self-describing** API (recommended) that derives parameter metadata from OTB’s own `-help` output
 
-# Two APIs: legacy vs. introspection
+# Two APIs: legacy vs. Self-describing
 
 ## Legacy API (`parseOTBFunction()` / `runOTB()`)
 
@@ -46,9 +46,9 @@ Limitations:
 * sensitive to OTB help formatting changes
 * less suitable for strict, version-stable workflows
 
-## Introspection-based API (recommended)
+## Self-describing API (recommended)
 
-The introspection API treats the OTB CLI help output as the **single source of truth** for parameters and their status (mandatory vs. optional). It supports a strict “write-to-disk” workflow and avoids implicit assumptions.
+The Self-describing API treats the OTB CLI help output as the **single source of truth** for parameters and their status (mandatory vs. optional). It supports a strict “write-to-disk” workflow and avoids implicit assumptions.
 
 Core functions:
 
@@ -57,7 +57,7 @@ Core functions:
 * `otb_build_cmd()`: create a `runOTB()`-compatible command template (valid keys only)
 * `otb_set_out()`: set file-based outputs safely (including `[pixel]` outputs)
 
-# Minimal workflow (introspection)
+# Minimal workflow (Self-describing)
 
 ```{r eval=FALSE}
 library(link2GI)
@@ -80,7 +80,7 @@ str(cmd)
 ```
 
 
-# Typical transparent workflow (introspection)
+# Typical transparent workflow (Self-describing)
 
 This example demonstrates a complete workflow:
 
@@ -202,9 +202,9 @@ names(cmd)
 ```
 
 
-# What changed (Introspection)
+# What changed (Self-describing)
 
-The new introspection API removes fragile heuristics and centralizes metadata on:
+The new Self-describing API removes fragile heuristics and centralizes metadata on:
 
 * OTB’s own `Parameters:` block emitted by `<Algo> -help`
 
@@ -220,7 +220,7 @@ Consequences:
 ## Compatibility
 
 * Existing scripts using `parseOTBFunction()` plus `runOTB()` should continue to work (best-effort).
-* The introspection API is stable as long as OTB provides a parseable `Parameters:` section.
+* The Self-describing API is stable as long as OTB provides a parseable `Parameters:` section.
 
 ## Deprecations (explicit list)
 

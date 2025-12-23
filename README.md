@@ -1,4 +1,4 @@
-# `link2GI`
+# `link2GI` Linking Geographic Information Systems, Remote Sensing and Other Command Line Tools <img src="man/figures/logo.png" align="right" alt="hexsticker link2GI" width="350" />
 
 [![cran
 checks](https://badges.cranchecks.info/worst/link2GI.svg)](https://cran.r-project.org/web/checks/check_results_link2GI.html)
@@ -51,7 +51,7 @@ Software](https://r-spatial.github.io/link2GI/articles/link2GI6.html).
 ## OTB wrapper
 
 The OTB integration in **link2GI** has evolved from a basic command wrapper into
-a robust, introspection-based interface. It now derives valid parameters directly
+a robust, Self-describing CLI interface. It now derives valid parameters directly
 from OTB’s CLI metadata, supports version-stable command construction, and
 enforces explicit, reproducible, on-disk outputs ([OTB Wrapper in link2GI](https://r-spatial.github.io/link2GI/articles/link2GI4.html).).
 

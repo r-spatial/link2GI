@@ -41,259 +41,349 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.7-3" id="link2gi-07-3">link2GI 0.7-3<a class="anchor" aria-label="anchor" href="#link2gi-07-3"></a></h2>
-<p><strong>changes</strong></p>
-<ul><li>Added deterministic GDAL CLI context using linked system binaries (no implicit PATH).</li>
-<li>Introduced GDAL fingerprinting, help-based skeletons, and NDJSON run logging for reproducibility.</li>
-<li>Refactored GDAL discovery/linking to be platform-robust and non-redundant.</li>
+<div class="section level3">
+<h3 id="changes-0-7-3">Changes<a class="anchor" aria-label="anchor" href="#changes-0-7-3"></a></h3>
+<ul><li>Added a deterministic GDAL CLI context based on linked system binaries (no implicit PATH usage).</li>
+<li>Introduced GDAL capability fingerprinting, help-derived minimal CLI skeletons, and NDJSON run logging to support reproducibility.</li>
+<li>Refactored GDAL discovery and linking to be platform-robust and non-redundant.</li>
 </ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.7-3" id="link2gi-07-3-1">link2GI 0.7-3<a class="anchor" aria-label="anchor" href="#link2gi-07-3-1"></a></h2>
-<p><strong>changes</strong></p>
-<ul><li>Refactored platform discovery: GRASS, GDAL, and SAGA detection was unified and hardened with strict OS guards, consistent return structures, and namespace-local calls.</li>
-<li>Stabilized environment setup</li>
-<li>Tests &amp; CRAN hygiene: replaced brittle/mock-heavy tests with meaningful coverage, fixed edge cases, and achieved clean R CMD</li>
+<div class="section level3">
+<h3 id="changes-0-7-3-1">Changes<a class="anchor" aria-label="anchor" href="#changes-0-7-3-1"></a></h3>
+<ul><li>Unified and hardened platform discovery for GRASS, GDAL, and SAGA with strict OS guards and consistent return structures.</li>
+<li>Stabilized environment setup and binary resolution across platforms.</li>
+<li>Improved test suite and CRAN compliance; removed brittle mocks and fixed edge cases.</li>
 </ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.7-2" id="link2gi-07-2">link2GI 0.7-2<a class="anchor" aria-label="anchor" href="#link2gi-07-2"></a></h2><p class="text-muted">CRAN release: 2025-12-23</p>
-<p><strong>changes</strong></p>
-<ul><li>New Self-describing OTB API using CLI <code>-help</code> as source of truth<br></li>
-<li>Robust command building (<code><a href="../reference/otb_api.html">otb_build_cmd()</a></code>, <code><a href="../reference/otb_api.html">otb_set_out()</a></code>), unified execution<br></li>
-<li>Bounded Windows + Linux OTB discovery aligned<br></li>
-<li>Full CRAN compliance (<code>R CMD check</code> clean)<br></li>
-<li>Legacy API kept for backward compatibility</li>
-<li>Added testthat coverage for the OTB wrapper (runOTB command construction and argument handling).</li>
+<div class="section level3">
+<h3 id="changes-0-7-2">Changes<a class="anchor" aria-label="anchor" href="#changes-0-7-2"></a></h3>
+<ul><li>Introduced a new introspection-based OTB API using CLI <code>-help</code> output as the single source of truth.</li>
+<li>Added robust command construction and unified OTB execution logic.</li>
+<li>Harmonized Windows and Linux OTB discovery.</li>
+<li>Preserved the legacy OTB API for backward compatibility.</li>
 </ul></div>
+<div class="section level3">
+<h3 id="testing-0-7-2">Testing<a class="anchor" aria-label="anchor" href="#testing-0-7-2"></a></h3>
+<ul><li>Added <code>testthat</code> coverage for OTB command construction and argument handling.</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.7-1" id="link2gi-07-1">link2GI 0.7-1<a class="anchor" aria-label="anchor" href="#link2gi-07-1"></a></h2>
-<p><strong>bugfixes</strong> <em>(Fix <a href="https://github.com/r-spatial/link2GI/issues/67" class="external-link">#67</a>)</em></p>
-<ul><li>fix unintended recursion in project setup logic</li>
-<li>refactor <code><a href="../reference/initProj.html">initProj()</a></code> to a single, non-recursive execution path</li>
-<li>prevent repeated re-initialisation of folders, git, and <code>renv</code>
-</li>
-</ul><p><strong>documentation</strong></p>
-<ul><li>update complete documentation to meet new concepts and calls</li>
+<div class="section level3">
+<h3 id="bug-fixes-0-7-1">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-7-1"></a></h3>
+<ul><li>Fixed unintended recursion in project setup logic.</li>
+<li>Refactored <code><a href="../reference/initProj.html">initProj()</a></code> to a single, non-recursive execution path.</li>
+<li>Prevented repeated re-initialisation of folders, git, and <code>renv</code>.</li>
 </ul></div>
+<div class="section level3">
+<h3 id="documentation-0-7-1">Documentation<a class="anchor" aria-label="anchor" href="#documentation-0-7-1"></a></h3>
+<ul><li>Updated documentation to reflect the revised project setup behaviour.</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.7-0" id="link2gi-07-0">link2GI 0.7-0<a class="anchor" aria-label="anchor" href="#link2gi-07-0"></a></h2>
-<p><strong>changes</strong></p>
-<ul><li>new Self-describing OTB API (<code><a href="../reference/otb_api.html">otb_capabilities()</a></code>, <code><a href="../reference/otb_api.html">otb_args_spec()</a></code>, <code><a href="../reference/otb_api.html">otb_build_cmd()</a></code>)</li>
-</ul><p><strong>bugfixes</strong> <em>(Fix <a href="https://github.com/r-spatial/link2GI/issues/68" class="external-link">#68</a>)</em></p>
-<ul><li>fix OTB path and environment setup (bin/root handling)</li>
-<li>stabilize <code>-help</code> introspection (stdout, non-zero exit codes)</li>
-<li>fix <code><a href="../reference/runOTB.html">runOTB()</a></code> output handling and error propagation</li>
-</ul><p><strong>documentation</strong></p>
-<ul><li>update vignette to use introspected parameters instead of hard-coded lists</li>
+<div class="section level3">
+<h3 id="changes-0-7-0">Changes<a class="anchor" aria-label="anchor" href="#changes-0-7-0"></a></h3>
+<ul><li>Added a new introspection-based OTB API (<code><a href="../reference/otb_api.html">otb_capabilities()</a></code>, <code><a href="../reference/otb_api.html">otb_args_spec()</a></code>, <code><a href="../reference/otb_api.html">otb_build_cmd()</a></code>).</li>
 </ul></div>
+<div class="section level3">
+<h3 id="bug-fixes-0-7-0">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-7-0"></a></h3>
+<ul><li>Fixed OTB path and environment setup (bin/root handling).</li>
+<li>Stabilized CLI help introspection, including non-zero exit codes.</li>
+<li>Improved <code><a href="../reference/runOTB.html">runOTB()</a></code> output handling and error propagation.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="documentation-0-7-0">Documentation<a class="anchor" aria-label="anchor" href="#documentation-0-7-0"></a></h3>
+<ul><li>Updated vignette to use introspected parameters instead of hard-coded argument lists.</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.6-2" id="link2gi-06-2">link2GI 0.6-2<a class="anchor" aria-label="anchor" href="#link2gi-06-2"></a></h2><p class="text-muted">CRAN release: 2024-10-28</p>
-<p>bugfixes:</p>
-<ul><li>fix cran issues git2r</li>
+<div class="section level3">
+<h3 id="bug-fixes-0-6-2">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-6-2"></a></h3>
+<ul><li>Fixed CRAN issues related to <code>git2r</code>.</li>
 </ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.6-1" id="link2gi-06-1">link2GI 0.6-1<a class="anchor" aria-label="anchor" href="#link2gi-06-1"></a></h2><p class="text-muted">CRAN release: 2024-06-01</p>
-<p>bugfixes:</p>
-<ul><li>fix cran issues</li>
-<li>fixing of the vignettes and examples</li>
-</ul><p>changes:</p>
-<ul><li>dropping of linkALL</li>
+<div class="section level3">
+<h3 id="bug-fixes-0-6-1">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-6-1"></a></h3>
+<ul><li>Fixed additional CRAN check issues.</li>
 </ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.6-0" id="link2gi-06-0">link2GI 0.6-0<a class="anchor" aria-label="anchor" href="#link2gi-06-0"></a></h2>
-<p>bugfixes:</p>
-<ul><li>issue <a href="https://github.com/r-spatial/link2GI/issues/65" class="external-link">#65</a></li>
-</ul><p>changes:</p>
-<ul><li>variable <code>rootDir</code> is deprecated and now <code>root_folder</code>
-</li>
-</ul><p>new feature:</p>
-<ul><li>extension of initProj to a lightweight project setup tool</li>
+<div class="section level3">
+<h3 id="changes-0-6-0">Changes<a class="anchor" aria-label="anchor" href="#changes-0-6-0"></a></h3>
+<ul><li>Deprecated <code>rootDir</code> in favour of <code>root_folder</code>.</li>
+<li>Extended <code><a href="../reference/initProj.html">initProj()</a></code> into a lightweight project setup utility.</li>
 </ul></div>
+<div class="section level3">
+<h3 id="bug-fixes-0-6-0">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-6-0"></a></h3>
+<ul><li>Fixed issue <a href="https://github.com/r-spatial/link2GI/issues/65" class="external-link">#65</a>.</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.5-4" id="link2gi-05-4">link2GI 0.5-4<a class="anchor" aria-label="anchor" href="#link2gi-05-4"></a></h2>
-<p>bugfixes:</p>
-<ul><li>#61 <a href="https://github.com/r-spatial/link2GI/issues/62" class="external-link">#62</a> <a href="https://github.com/r-spatial/link2GI/issues/63" class="external-link">#63</a></li>
+<div class="section level3">
+<h3 id="bug-fixes-0-5-4">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-5-4"></a></h3>
+<ul><li>Fixed issues <a href="https://github.com/r-spatial/link2GI/issues/61" class="external-link">#61</a>, <a href="https://github.com/r-spatial/link2GI/issues/62" class="external-link">#62</a>, and <a href="https://github.com/r-spatial/link2GI/issues/63" class="external-link">#63</a>.</li>
 </ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.5-3" id="link2gi-05-3">link2GI 0.5-3<a class="anchor" aria-label="anchor" href="#link2gi-05-3"></a></h2><p class="text-muted">CRAN release: 2023-10-30</p>
-<p>bugfixes:</p>
-<ul><li>#59 , <a href="https://github.com/r-spatial/link2GI/issues/58" class="external-link">#58</a></li>
-<li>fix rgrass7 dependencies</li>
+<div class="section level3">
+<h3 id="bug-fixes-0-5-3">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-5-3"></a></h3>
+<ul><li>Fixed issues <a href="https://github.com/r-spatial/link2GI/issues/58" class="external-link">#58</a> and <a href="https://github.com/r-spatial/link2GI/issues/59" class="external-link">#59</a>.</li>
+<li>Stabilized <code>rgrass7</code> dependencies.</li>
 </ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.5-2" id="link2gi-05-2">link2GI 0.5-2<a class="anchor" aria-label="anchor" href="#link2gi-05-2"></a></h2><p class="text-muted">CRAN release: 2023-01-27</p>
-<p>new feature:</p>
-<ul><li>add return of vector data in OTB calls</li>
-</ul><p>bugfixes:</p>
-<ul><li>#58</li>
-<li>minor fixes in runOTB</li>
-<li>prelim fix of <a href="https://github.com/r-spatial/link2GI/issues/57" class="external-link">#57</a></li>
-<li>fix of <a href="https://github.com/r-spatial/link2GI/issues/56" class="external-link">#56</a></li>
-<li>minor fixes</li>
-</ul><p>new feature:</p>
-<ul><li>integration of stars and terra raster objects for linking GRASS</li>
-<li>update of documentation</li>
+<div class="section level3">
+<h3 id="changes-0-5-2">Changes<a class="anchor" aria-label="anchor" href="#changes-0-5-2"></a></h3>
+<ul><li>Added support for returning vector data from OTB calls.</li>
 </ul></div>
+<div class="section level3">
+<h3 id="bug-fixes-0-5-2">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-5-2"></a></h3>
+<ul><li>Fixed issue <a href="https://github.com/r-spatial/link2GI/issues/58" class="external-link">#58</a>.</li>
+<li>Minor fixes in <code><a href="../reference/runOTB.html">runOTB()</a></code>.</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.5-1" id="link2gi-05-1">link2GI 0.5-1<a class="anchor" aria-label="anchor" href="#link2gi-05-1"></a></h2>
-<p>bugfixes:</p>
-<ul><li>prelim fix of <a href="https://github.com/r-spatial/link2GI/issues/57" class="external-link">#57</a></li>
-<li>fix of <a href="https://github.com/r-spatial/link2GI/issues/56" class="external-link">#56</a></li>
-<li>minor fixes</li>
-</ul><p>new feature:</p>
-<ul><li>integration of stars and terra raster objects for linking GRASS</li>
-<li>update of documentation</li>
+<div class="section level3">
+<h3 id="changes-0-5-1">Changes<a class="anchor" aria-label="anchor" href="#changes-0-5-1"></a></h3>
+<ul><li>Integrated <code>stars</code> and <code>terra</code> raster objects for GRASS linking.</li>
 </ul></div>
+<div class="section level3">
+<h3 id="bug-fixes-0-5-1">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-5-1"></a></h3>
+<ul><li>Preliminary fixes for issues <a href="https://github.com/r-spatial/link2GI/issues/56" class="external-link">#56</a> and <a href="https://github.com/r-spatial/link2GI/issues/57" class="external-link">#57</a>.</li>
+<li>Minor internal fixes.</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.5-0" id="link2gi-05-0">link2GI 0.5-0<a class="anchor" aria-label="anchor" href="#link2gi-05-0"></a></h2><p class="text-muted">CRAN release: 2022-08-29</p>
-<p>bugfixes:</p>
-<ul><li>prelim fix of <a href="https://github.com/r-spatial/link2GI/issues/56" class="external-link">#56</a></li>
-</ul><p>new feature:</p>
-<ul><li>changing to linkGRASS for both GRASS 7.x/8.x - keeping linkGRASS7for backwards compatibility</li>
+<div class="section level3">
+<h3 id="changes-0-5-0">Changes<a class="anchor" aria-label="anchor" href="#changes-0-5-0"></a></h3>
+<ul><li>Switched to a unified <code><a href="../reference/linkGRASS.html">linkGRASS()</a></code> for GRASS 7.x and 8.x.</li>
+<li>Retained <code>linkGRASS7()</code> for backward compatibility.</li>
 </ul></div>
+<div class="section level3">
+<h3 id="bug-fixes-0-5-0">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-5-0"></a></h3>
+<ul><li>Preliminary fix for issue <a href="https://github.com/r-spatial/link2GI/issues/56" class="external-link">#56</a>.</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.4-7" id="link2gi-04-7">link2GI 0.4-7<a class="anchor" aria-label="anchor" href="#link2gi-04-7"></a></h2><p class="text-muted">CRAN release: 2021-09-03</p>
-<p>bugfixes:</p>
-<ul><li>#52</li>
+<div class="section level3">
+<h3 id="bug-fixes-0-4-7">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-4-7"></a></h3>
+<ul><li>Fixed issue <a href="https://github.com/r-spatial/link2GI/issues/52" class="external-link">#52</a>.</li>
 </ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.4-6" id="link2gi-04-6">link2GI 0.4-6<a class="anchor" aria-label="anchor" href="#link2gi-04-6"></a></h2>
-<p>bugfixes:</p>
-<ul><li>pre fix <a href="https://github.com/r-spatial/link2GI/issues/52" class="external-link">#52</a></li>
+<div class="section level3">
+<h3 id="bug-fixes-0-4-6">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-4-6"></a></h3>
+<ul><li>Preliminary fix for issue <a href="https://github.com/r-spatial/link2GI/issues/52" class="external-link">#52</a>.</li>
 </ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.4-5" id="link2gi-04-5">link2GI 0.4-5<a class="anchor" aria-label="anchor" href="#link2gi-04-5"></a></h2><p class="text-muted">CRAN release: 2020-12-07</p>
-<p>bugfixes:</p>
-<ul><li>fix <a href="https://github.com/r-spatial/link2GI/issues/42" class="external-link">#42</a>, <a href="https://github.com/r-spatial/link2GI/issues/44" class="external-link">#44</a>, <a href="https://github.com/r-spatial/link2GI/issues/46" class="external-link">#46</a>, <a href="https://github.com/r-spatial/link2GI/issues/48" class="external-link">#48</a>, <a href="https://github.com/r-spatial/link2GI/issues/49" class="external-link">#49</a></li>
-</ul><p>new feature:</p>
-<ul><li>add installation vignette</li>
-<li>update some documentation</li>
+<div class="section level3">
+<h3 id="bug-fixes-0-4-5">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-4-5"></a></h3>
+<ul><li>Fixed issues <a href="https://github.com/r-spatial/link2GI/issues/42" class="external-link">#42</a>, <a href="https://github.com/r-spatial/link2GI/issues/44" class="external-link">#44</a>, <a href="https://github.com/r-spatial/link2GI/issues/46" class="external-link">#46</a>, <a href="https://github.com/r-spatial/link2GI/issues/48" class="external-link">#48</a>, and <a href="https://github.com/r-spatial/link2GI/issues/49" class="external-link">#49</a>.</li>
 </ul></div>
+<div class="section level3">
+<h3 id="documentation-0-4-5">Documentation<a class="anchor" aria-label="anchor" href="#documentation-0-4-5"></a></h3>
+<ul><li>Added installation vignette.</li>
+<li>Updated documentation.</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.4-4" id="link2gi-04-4">link2GI 0.4-4<a class="anchor" aria-label="anchor" href="#link2gi-04-4"></a></h2>
-<p>bugfixes:</p>
-<ul><li>fix <a href="https://github.com/r-spatial/link2GI/issues/42" class="external-link">#42</a></li>
+<div class="section level3">
+<h3 id="bug-fixes-0-4-4">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-4-4"></a></h3>
+<ul><li>Fixed issue <a href="https://github.com/r-spatial/link2GI/issues/42" class="external-link">#42</a>.</li>
 </ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.4-3" id="link2gi-04-3">link2GI 0.4-3<a class="anchor" aria-label="anchor" href="#link2gi-04-3"></a></h2>
-<p>bugfixes:</p>
-<ul><li>fix <a href="https://github.com/r-spatial/link2GI/issues/40" class="external-link">#40</a></li>
+<div class="section level3">
+<h3 id="bug-fixes-0-4-3">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-4-3"></a></h3>
+<ul><li>Fixed issue <a href="https://github.com/r-spatial/link2GI/issues/40" class="external-link">#40</a>.</li>
 </ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.4-2" id="link2gi-04-2">link2GI 0.4-2<a class="anchor" aria-label="anchor" href="#link2gi-04-2"></a></h2>
-<p>bugfixes:</p>
-<ul><li>fix <a href="https://github.com/r-spatial/link2GI/issues/38" class="external-link">#38</a></li>
+<div class="section level3">
+<h3 id="bug-fixes-0-4-2">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-4-2"></a></h3>
+<ul><li>Fixed issue <a href="https://github.com/r-spatial/link2GI/issues/38" class="external-link">#38</a>.</li>
 </ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.4-1" id="link2gi-04-1">link2GI 0.4-1<a class="anchor" aria-label="anchor" href="#link2gi-04-1"></a></h2>
-<p>new feature</p>
-<ul><li>add linkall</li>
-<li>add direct reading and writing of vector data to GRASS sqlite</li>
-</ul><p>bugfixes:</p>
-<ul><li>smaller bugfixes</li>
+<div class="section level3">
+<h3 id="changes-0-4-1">Changes<a class="anchor" aria-label="anchor" href="#changes-0-4-1"></a></h3>
+<ul><li>Added <code>linkall()</code>.</li>
+<li>Added direct reading and writing of vector data to GRASS SQLite.</li>
 </ul></div>
+<div class="section level3">
+<h3 id="bug-fixes-0-4-1">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-4-1"></a></h3>
+<ul><li>Several minor fixes.</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.4-0" id="link2gi-04-0">link2GI 0.4-0<a class="anchor" aria-label="anchor" href="#link2gi-04-0"></a></h2><p class="text-muted">CRAN release: 2019-11-22</p>
-<p>new feature</p>
-<ul><li>parse and return OTB API help for interactive use in R</li>
-<li>add runOTB function according to <a href="https://github.com/r-spatial/link2GI/issues/29" class="external-link">#29</a></li>
-</ul><p>bugfixes:</p>
-<ul><li>#19 <a href="https://github.com/r-spatial/link2GI/issues/21" class="external-link">#21</a> <a href="https://github.com/r-spatial/link2GI/issues/22" class="external-link">#22</a> <a href="https://github.com/r-spatial/link2GI/issues/26" class="external-link">#26</a> <a href="https://github.com/r-spatial/link2GI/issues/29" class="external-link">#29</a> fixed</li>
-<li>first parsing of the new GRASS (since 7.8.x ) start file</li>
+<div class="section level3">
+<h3 id="changes-0-4-0">Changes<a class="anchor" aria-label="anchor" href="#changes-0-4-0"></a></h3>
+<ul><li>Added parsing and return of OTB CLI help for interactive use in R.</li>
+<li>Introduced <code><a href="../reference/runOTB.html">runOTB()</a></code> according to issue <a href="https://github.com/r-spatial/link2GI/issues/29" class="external-link">#29</a>.</li>
 </ul></div>
+<div class="section level3">
+<h3 id="bug-fixes-0-4-0">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-4-0"></a></h3>
+<ul><li>Fixed issues <a href="https://github.com/r-spatial/link2GI/issues/19" class="external-link">#19</a>, <a href="https://github.com/r-spatial/link2GI/issues/21" class="external-link">#21</a>, <a href="https://github.com/r-spatial/link2GI/issues/22" class="external-link">#22</a>, <a href="https://github.com/r-spatial/link2GI/issues/26" class="external-link">#26</a>, and <a href="https://github.com/r-spatial/link2GI/issues/29" class="external-link">#29</a>.</li>
+<li>First parsing of the new GRASS (&gt;= 7.8) start file.</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.3-7" id="link2gi-03-7">link2GI 0.3-7<a class="anchor" aria-label="anchor" href="#link2gi-03-7"></a></h2><p class="text-muted">CRAN release: 2019-09-05</p>
-<p>new feature:</p>
-<ul><li>improved implementation of parseOTB</li>
-</ul><p>bugfixes:</p>
-<ul><li>several fixes</li>
-<li>examples and typos</li>
+<div class="section level3">
+<h3 id="changes-0-3-7">Changes<a class="anchor" aria-label="anchor" href="#changes-0-3-7"></a></h3>
+<ul><li>Improved implementation of <code>parseOTB()</code>.</li>
 </ul></div>
+<div class="section level3">
+<h3 id="bug-fixes-0-3-7">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-3-7"></a></h3>
+<ul><li>Several fixes.</li>
+<li>Updated examples and corrected typos.</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.3-6" id="link2gi-03-6">link2GI 0.3-6<a class="anchor" aria-label="anchor" href="#link2gi-03-6"></a></h2>
-<p>new feature:</p>
-<ul><li>full re-implementation of linkGDAL returns now all gdal installations at a given search path</li>
-</ul><p>bugfixes:</p>
-<ul><li>several fixes for Windows search and linking</li>
-<li>examples and typos</li>
+<div class="section level3">
+<h3 id="changes-0-3-6">Changes<a class="anchor" aria-label="anchor" href="#changes-0-3-6"></a></h3>
+<ul><li>Full re-implementation of <code><a href="../reference/linkGDAL.html">linkGDAL()</a></code>, now returning all GDAL installations at a given search path.</li>
 </ul></div>
+<div class="section level3">
+<h3 id="bug-fixes-0-3-6">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-3-6"></a></h3>
+<ul><li>Multiple fixes for Windows search and linking.</li>
+<li>Updated examples and typos.</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.3-5" id="link2gi-03-5">link2GI 0.3-5<a class="anchor" aria-label="anchor" href="#link2gi-03-5"></a></h2><p class="text-muted">CRAN release: 2018-10-26</p>
-<p>new feature:</p>
-<ul><li>add manual build function for UNC paths</li>
-</ul><p>bugfixes:</p>
-<ul><li>remove search argument for PRZP</li>
-<li>several fixes for Windows search and linking</li>
-<li>Comments and typos</li>
+<div class="section level3">
+<h3 id="changes-0-3-5">Changes<a class="anchor" aria-label="anchor" href="#changes-0-3-5"></a></h3>
+<ul><li>Added manual build function for UNC paths.</li>
 </ul></div>
+<div class="section level3">
+<h3 id="bug-fixes-0-3-5">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-3-5"></a></h3>
+<ul><li>Removed obsolete search argument for PRZP.</li>
+<li>Multiple fixes for Windows search and linking.</li>
+<li>Documentation improvements.</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.3-4" id="link2gi-03-4">link2GI 0.3-4<a class="anchor" aria-label="anchor" href="#link2gi-03-4"></a></h2><p class="text-muted">CRAN release: 2018-10-03</p>
-<p>new feature:</p>
-<ul><li>add boolean variable if required API exists</li>
-</ul><p>bugfixes:</p>
-<ul><li>fix of the quiet option</li>
-<li>fix the search order</li>
-<li>straighten GRASS problems with r.in.lidar</li>
-<li>several fixes for Windows search and linking</li>
-<li>fix and add a lot of examples</li>
-<li>Comments and typos</li>
+<div class="section level3">
+<h3 id="changes-0-3-4">Changes<a class="anchor" aria-label="anchor" href="#changes-0-3-4"></a></h3>
+<ul><li>Added boolean indicator for required API availability.</li>
 </ul></div>
+<div class="section level3">
+<h3 id="bug-fixes-0-3-4">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-3-4"></a></h3>
+<ul><li>Fixed quiet option behaviour.</li>
+<li>Fixed search order.</li>
+<li>Resolved GRASS issues with <code>r.in.lidar</code>.</li>
+<li>Multiple Windows-related fixes.</li>
+<li>Added and corrected examples.</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.3-3" id="link2gi-03-3">link2GI 0.3-3<a class="anchor" aria-label="anchor" href="#link2gi-03-3"></a></h2><p class="text-muted">CRAN release: 2018-09-22</p>
-<p>new feature:</p>
-<ul><li>by default the latest version of each API is selected</li>
-</ul><p>bugfixes:</p>
-<ul><li>OTB basic wrapper fixed for Windows</li>
-<li>new examples</li>
-<li>Typos</li>
+<div class="section level3">
+<h3 id="changes-0-3-3">Changes<a class="anchor" aria-label="anchor" href="#changes-0-3-3"></a></h3>
+<ul><li>By default, the latest installed version of each API is selected.</li>
 </ul></div>
+<div class="section level3">
+<h3 id="bug-fixes-0-3-3">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-3-3"></a></h3>
+<ul><li>Fixed OTB basic wrapper on Windows.</li>
+<li>Added new examples.</li>
+<li>Corrected typos.</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.3-2" id="link2gi-03-2">link2GI 0.3-2<a class="anchor" aria-label="anchor" href="#link2gi-03-2"></a></h2><p class="text-muted">CRAN release: 2018-08-23</p>
-<p>new feature:</p>
-<ul><li>ver_select can be used directly with the number of selection</li>
-<li>OTB basic wrapper</li>
-</ul><p>bugfixes:</p>
-<ul><li>RSAGA related fixes</li>
-<li>Typos</li>
+<div class="section level3">
+<h3 id="changes-0-3-2">Changes<a class="anchor" aria-label="anchor" href="#changes-0-3-2"></a></h3>
+<ul><li>
+<code>ver_select</code> can now directly select by index.</li>
+<li>Added OTB basic wrapper.</li>
 </ul></div>
+<div class="section level3">
+<h3 id="bug-fixes-0-3-2">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-3-2"></a></h3>
+<ul><li>RSAGA-related fixes.</li>
+<li>Corrected typos.</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.3-1" id="link2gi-03-1">link2GI 0.3-1<a class="anchor" aria-label="anchor" href="#link2gi-03-1"></a></h2>
-<p>new feature:</p>
-<ul><li>add returnPaths argument for suppress all returns</li>
-</ul><p>bugfixes:</p>
-<ul><li>windows RSAGA related fixes</li>
+<div class="section level3">
+<h3 id="changes-0-3-1">Changes<a class="anchor" aria-label="anchor" href="#changes-0-3-1"></a></h3>
+<ul><li>Added <code>returnPaths</code> argument to suppress return values.</li>
 </ul></div>
+<div class="section level3">
+<h3 id="bug-fixes-0-3-1">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-3-1"></a></h3>
+<ul><li>Windows RSAGA-related fixes.</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.3-0" id="link2gi-03-0">link2GI 0.3-0<a class="anchor" aria-label="anchor" href="#link2gi-03-0"></a></h2><p class="text-muted">CRAN release: 2018-02-11</p>
-<p>The 0.3-0 version is quite restructured to conform to both common R conventions (e.g. no hidden globals) and to make the calls more intuitive and one-line-like. some of the function follow a slightly different naming and argument setting. This was done to keep in line with further CLI linking functionality.</p>
-<p>new feature:</p>
-<ul><li>Linux support for multi-version selection</li>
-<li>remove all global variables (re-opened <a href="https://github.com/r-spatial/link2GI/issues/3" class="external-link">#3</a>)</li>
-<li>homogenization of the link calls</li>
-<li>wrap searchAPIOS functions with OS-agnostic findAPI functions</li>
-<li>add a more robust return of all paths and environmental variables as lists</li>
-<li>add a quiet option to supress all! console outputs ( <a href="https://github.com/r-spatial/link2GI/issues/4" class="external-link">#4</a>)</li>
-</ul><p>bugfixes:</p>
-<ul><li>remove tailing backslashes</li>
-<li>force compatibility to RSAGA and SAGA ver 3+</li>
+<div class="section level3">
+<h3 id="changes-0-3-0">Changes<a class="anchor" aria-label="anchor" href="#changes-0-3-0"></a></h3>
+<ul><li>Major restructuring to align with common R conventions.</li>
+<li>Removed hidden global variables.</li>
+<li>Added Linux support for multi-version selection.</li>
+<li>Homogenized linking functions and OS-agnostic <code>find*()</code> wrappers.</li>
+<li>Added robust environment handling and a global quiet option.</li>
 </ul></div>
+<div class="section level3">
+<h3 id="bug-fixes-0-3-0">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-3-0"></a></h3>
+<ul><li>Removed trailing backslashes.</li>
+<li>Ensured compatibility with RSAGA and SAGA &gt;= 3.</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.2-2" id="link2gi-02-2">link2GI 0.2-2<a class="anchor" aria-label="anchor" href="#link2gi-02-2"></a></h2>
-<p>new feature:</p>
-<ul><li>findGRASS a function that wraps for searchGRASSW and searchGRASSX</li>
+<div class="section level3">
+<h3 id="changes-0-2-2">Changes<a class="anchor" aria-label="anchor" href="#changes-0-2-2"></a></h3>
+<ul><li>Added <code><a href="../reference/findGRASS.html">findGRASS()</a></code> as a wrapper for <code><a href="../reference/searchGRASSW.html">searchGRASSW()</a></code> and <code><a href="../reference/searchGRASSX.html">searchGRASSX()</a></code>.</li>
 </ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.2-1" id="link2gi-02-1">link2GI 0.2-1<a class="anchor" aria-label="anchor" href="#link2gi-02-1"></a></h2><p class="text-muted">CRAN release: 2018-02-06</p>
-<p>bugfixes:</p>
-<ul><li>fix github s <a href="https://github.com/r-spatial/link2GI/issues/2" class="external-link">#2</a> <a href="https://github.com/r-spatial/link2GI/issues/3" class="external-link">#3</a> <a href="https://github.com/r-spatial/link2GI/issues/5" class="external-link">#5</a></li>
+<div class="section level3">
+<h3 id="bug-fixes-0-2-1">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-2-1"></a></h3>
+<ul><li>Fixed issues <a href="https://github.com/r-spatial/link2GI/issues/2" class="external-link">#2</a>, <a href="https://github.com/r-spatial/link2GI/issues/3" class="external-link">#3</a>, and <a href="https://github.com/r-spatial/link2GI/issues/5" class="external-link">#5</a>.</li>
 </ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.2-0" id="link2gi-02-0">link2GI 0.2-0<a class="anchor" aria-label="anchor" href="#link2gi-02-0"></a></h2><p class="text-muted">CRAN release: 2018-01-28</p>
-<p>bugfixes:</p>
-<ul><li>fix several small bugs</li>
+<div class="section level3">
+<h3 id="bug-fixes-0-2-0">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-2-0"></a></h3>
+<ul><li>Fixed several small bugs.</li>
 </ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.1-0" id="link2gi-01-0">link2GI 0.1-0<a class="anchor" aria-label="anchor" href="#link2gi-01-0"></a></h2><p class="text-muted">CRAN release: 2017-01-22</p>
-<ul><li>Initial release</li>
+<div class="section level3">
+<h3 id="changes-0-1-0">Changes<a class="anchor" aria-label="anchor" href="#changes-0-1-0"></a></h3>
+<ul><li>Initial CRAN release.</li>
 </ul></div>
+</div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
 

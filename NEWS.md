@@ -1,340 +1,258 @@
 ## link2GI 0.7-3
 
-**changes**
-
-* Added deterministic GDAL CLI context using linked system binaries (no implicit PATH).
-* Introduced GDAL fingerprinting, help-based skeletons, and NDJSON run logging for reproducibility.
-* Refactored GDAL discovery/linking to be platform-robust and non-redundant.
+### Changes
+- Added a deterministic GDAL CLI context based on linked system binaries (no implicit PATH usage).
+- Introduced GDAL capability fingerprinting, help-derived minimal CLI skeletons, and NDJSON run logging to support reproducibility.
+- Refactored GDAL discovery and linking to be platform-robust and non-redundant.
 
 ## link2GI 0.7-3
 
-**changes**
-
-* Refactored platform discovery: GRASS, GDAL, and SAGA detection was unified and hardened with strict OS guards, consistent return structures, and namespace-local calls.
-* Stabilized environment setup
-* Tests & CRAN hygiene: replaced brittle/mock-heavy tests with meaningful coverage, fixed edge cases, and achieved clean R CMD 
+### Changes
+- Unified and hardened platform discovery for GRASS, GDAL, and SAGA with strict OS guards and consistent return structures.
+- Stabilized environment setup and binary resolution across platforms.
+- Improved test suite and CRAN compliance; removed brittle mocks and fixed edge cases.
 
 ## link2GI 0.7-2
 
-**changes**
+### Changes
+- Introduced a new introspection-based OTB API using CLI `-help` output as the single source of truth.
+- Added robust command construction and unified OTB execution logic.
+- Harmonized Windows and Linux OTB discovery.
+- Preserved the legacy OTB API for backward compatibility.
 
-* New Self-describing OTB API using CLI `-help` as source of truth  
-* Robust command building (`otb_build_cmd()`, `otb_set_out()`), unified execution  
-* Bounded Windows + Linux OTB discovery aligned  
-* Full CRAN compliance (`R CMD check` clean)  
-* Legacy API kept for backward compatibility
-* Added testthat coverage for the OTB wrapper (runOTB command construction and argument handling).
+### Testing
+- Added `testthat` coverage for OTB command construction and argument handling.
 
 ## link2GI 0.7-1
 
-**bugfixes** *(Fix #67)*
+### Bug fixes
+- Fixed unintended recursion in project setup logic.
+- Refactored `initProj()` to a single, non-recursive execution path.
+- Prevented repeated re-initialisation of folders, git, and `renv`.
 
-* fix unintended recursion in project setup logic
-* refactor `initProj()` to a single, non-recursive execution path
-* prevent repeated re-initialisation of folders, git, and `renv`
-
-**documentation**
-
-* update complete documentation to meet new concepts and calls
-
+### Documentation
+- Updated documentation to reflect the revised project setup behaviour.
 
 ## link2GI 0.7-0
 
-**changes**
+### Changes
+- Added a new introspection-based OTB API (`otb_capabilities()`, `otb_args_spec()`, `otb_build_cmd()`).
 
-* new Self-describing OTB API (`otb_capabilities()`, `otb_args_spec()`, `otb_build_cmd()`)
+### Bug fixes
+- Fixed OTB path and environment setup (bin/root handling).
+- Stabilized CLI help introspection, including non-zero exit codes.
+- Improved `runOTB()` output handling and error propagation.
 
-**bugfixes** *(Fix #68)*
-
-* fix OTB path and environment setup (bin/root handling)
-* stabilize `-help` introspection (stdout, non-zero exit codes)
-* fix `runOTB()` output handling and error propagation
-
-**documentation**
-
-* update vignette to use introspected parameters instead of hard-coded lists
-
+### Documentation
+- Updated vignette to use introspected parameters instead of hard-coded argument lists.
 
 ## link2GI 0.6-2
 
-bugfixes:
-
-* fix cran issues git2r
-
-
+### Bug fixes
+- Fixed CRAN issues related to `git2r`.
 
 ## link2GI 0.6-1
 
-bugfixes:
-
-* fix cran issues
-* fixing of the vignettes and examples
-
-changes:
-
-* dropping of linkALL 
+### Bug fixes
+- Fixed additional CRAN check issues.
 
 ## link2GI 0.6-0
 
-bugfixes:
+### Changes
+- Deprecated `rootDir` in favour of `root_folder`.
+- Extended `initProj()` into a lightweight project setup utility.
 
-* issue #65
-
-changes:
-
-* variable `rootDir` is deprecated and now `root_folder`
-
-new feature:
-
-* extension of initProj to a lightweight project setup tool
-
+### Bug fixes
+- Fixed issue #65.
 
 ## link2GI 0.5-4
 
-bugfixes:
-
-*  #61 #62 #63
-
+### Bug fixes
+- Fixed issues #61, #62, and #63.
 
 ## link2GI 0.5-3
 
-bugfixes:
-
-*  #59 , #58
-* fix rgrass7 dependencies
+### Bug fixes
+- Fixed issues #58 and #59.
+- Stabilized `rgrass7` dependencies.
 
 ## link2GI 0.5-2
 
-new feature:
+### Changes
+- Added support for returning vector data from OTB calls.
 
-* add return of vector data in OTB calls
-
-bugfixes:
-
-*  #58
-* minor fixes in runOTB
-* prelim fix of  #57
-* fix of  #56
-* minor fixes
-
-new feature:
-
-* integration of stars and terra raster objects for linking GRASS
-* update of documentation
+### Bug fixes
+- Fixed issue #58.
+- Minor fixes in `runOTB()`.
 
 ## link2GI 0.5-1
 
-bugfixes:
+### Changes
+- Integrated `stars` and `terra` raster objects for GRASS linking.
 
-* prelim fix of  #57
-* fix of  #56
-* minor fixes
-
-new feature:
-
-* integration of stars and terra raster objects for linking GRASS
-* update of documentation
+### Bug fixes
+- Preliminary fixes for issues #56 and #57.
+- Minor internal fixes.
 
 ## link2GI 0.5-0
 
-bugfixes:
+### Changes
+- Switched to a unified `linkGRASS()` for GRASS 7.x and 8.x.
+- Retained `linkGRASS7()` for backward compatibility.
 
-* prelim fix of  #56
-
-new feature:
-
-* changing to linkGRASS for both GRASS 7.x/8.x - keeping linkGRASS7for backwards compatibility 
-
+### Bug fixes
+- Preliminary fix for issue #56.
 
 ## link2GI 0.4-7
 
-bugfixes:
-
-*  #52
+### Bug fixes
+- Fixed issue #52.
 
 ## link2GI 0.4-6
 
-bugfixes:
-
-* pre fix  #52
+### Bug fixes
+- Preliminary fix for issue #52.
 
 ## link2GI 0.4-5
 
-bugfixes:
+### Bug fixes
+- Fixed issues #42, #44, #46, #48, and #49.
 
-* fix  #42, #44, #46, #48, #49
-
-new feature:
-
-* add installation vignette
-* update some documentation
+### Documentation
+- Added installation vignette.
+- Updated documentation.
 
 ## link2GI 0.4-4
 
-bugfixes:
-
-* fix  #42
+### Bug fixes
+- Fixed issue #42.
 
 ## link2GI 0.4-3
 
-bugfixes:
-
-* fix  #40 
+### Bug fixes
+- Fixed issue #40.
 
 ## link2GI 0.4-2
 
-bugfixes:
-
-* fix  #38
-
+### Bug fixes
+- Fixed issue #38.
 
 ## link2GI 0.4-1
 
-new feature
+### Changes
+- Added `linkall()`.
+- Added direct reading and writing of vector data to GRASS SQLite.
 
-* add linkall
-* add direct reading and writing of vector data to GRASS sqlite
-
-bugfixes:
-
-* smaller bugfixes
+### Bug fixes
+- Several minor fixes.
 
 ## link2GI 0.4-0
 
-new feature
+### Changes
+- Added parsing and return of OTB CLI help for interactive use in R.
+- Introduced `runOTB()` according to issue #29.
 
-* parse and return OTB API help for interactive use in R
-* add runOTB function according to #29
-
-bugfixes:
-
-*  #19 #21 #22 #26 #29 fixed
-* first parsing of the new GRASS (since 7.8.x ) start file 
+### Bug fixes
+- Fixed issues #19, #21, #22, #26, and #29.
+- First parsing of the new GRASS (>= 7.8) start file.
 
 ## link2GI 0.3-7
 
-new feature: 
+### Changes
+- Improved implementation of `parseOTB()`.
 
-* improved implementation of parseOTB
-
-bugfixes:
-
-* several fixes
-* examples and typos
+### Bug fixes
+- Several fixes.
+- Updated examples and corrected typos.
 
 ## link2GI 0.3-6
 
-new feature: 
+### Changes
+- Full re-implementation of `linkGDAL()`, now returning all GDAL installations at a given search path.
 
-* full re-implementation of linkGDAL returns now all gdal installations at a given search path
-
-bugfixes:
-
-* several fixes for Windows search and linking
-* examples and typos
+### Bug fixes
+- Multiple fixes for Windows search and linking.
+- Updated examples and typos.
 
 ## link2GI 0.3-5
 
-new feature: 
+### Changes
+- Added manual build function for UNC paths.
 
-* add manual build function for UNC paths
-
-bugfixes:
-
-* remove search argument for PRZP
-* several fixes for Windows search and linking
-* Comments and typos
+### Bug fixes
+- Removed obsolete search argument for PRZP.
+- Multiple fixes for Windows search and linking.
+- Documentation improvements.
 
 ## link2GI 0.3-4
 
-new feature: 
+### Changes
+- Added boolean indicator for required API availability.
 
-* add boolean variable if required API exists
-
-bugfixes:
-
-* fix of the quiet option
-* fix the search order
-* straighten GRASS problems with r.in.lidar
-* several fixes for Windows search and linking
-* fix and add a lot of examples
-* Comments and typos
-
+### Bug fixes
+- Fixed quiet option behaviour.
+- Fixed search order.
+- Resolved GRASS issues with `r.in.lidar`.
+- Multiple Windows-related fixes.
+- Added and corrected examples.
 
 ## link2GI 0.3-3
 
-new feature: 
+### Changes
+- By default, the latest installed version of each API is selected.
 
-* by default the latest version of each API is selected
-
-bugfixes:
-
-* OTB basic wrapper fixed for Windows
-* new examples
-* Typos
+### Bug fixes
+- Fixed OTB basic wrapper on Windows.
+- Added new examples.
+- Corrected typos.
 
 ## link2GI 0.3-2
 
-new feature: 
+### Changes
+- `ver_select` can now directly select by index.
+- Added OTB basic wrapper.
 
-* ver_select can be used directly with the number of selection 
-* OTB basic wrapper
-
-bugfixes:
-
-* RSAGA related fixes
-* Typos
+### Bug fixes
+- RSAGA-related fixes.
+- Corrected typos.
 
 ## link2GI 0.3-1
 
-new feature: 
+### Changes
+- Added `returnPaths` argument to suppress return values.
 
-* add returnPaths argument for suppress all returns
-
-bugfixes:
-
-* windows RSAGA related fixes
+### Bug fixes
+- Windows RSAGA-related fixes.
 
 ## link2GI 0.3-0
 
-The 0.3-0  version is quite restructured to conform to both 
-common R conventions (e.g. no hidden globals) and to make the calls 
-more intuitive and one-line-like. some of the function follow a slightly 
-different naming and argument setting. This was done to keep in line with further 
-CLI linking functionality.
+### Changes
+- Major restructuring to align with common R conventions.
+- Removed hidden global variables.
+- Added Linux support for multi-version selection.
+- Homogenized linking functions and OS-agnostic `find*()` wrappers.
+- Added robust environment handling and a global quiet option.
 
-new feature:
-
-* Linux support for multi-version selection
-* remove all global variables (re-opened  #3)
-* homogenization of the link calls
-* wrap searchAPIOS functions with OS-agnostic findAPI functions
-* add a more robust return of all paths and environmental variables as lists 
-* add a quiet option to supress all! console outputs ( #4)
-  
-bugfixes:
-
-* remove tailing backslashes 
-* force compatibility to RSAGA and SAGA ver 3+
+### Bug fixes
+- Removed trailing backslashes.
+- Ensured compatibility with RSAGA and SAGA >= 3.
 
 ## link2GI 0.2-2
 
-new feature:
+### Changes
+- Added `findGRASS()` as a wrapper for `searchGRASSW()` and `searchGRASSX()`.
 
-* findGRASS a function that wraps for searchGRASSW and searchGRASSX
-  
 ## link2GI 0.2-1
 
-bugfixes:
+### Bug fixes
+- Fixed issues #2, #3, and #5.
 
-* fix github s #2 #3 #5 
-  
 ## link2GI 0.2-0
 
-bugfixes:
-
-* fix several small bugs
+### Bug fixes
+- Fixed several small bugs.
 
 ## link2GI 0.1-0
 
-* Initial release
+### Changes
+- Initial CRAN release.

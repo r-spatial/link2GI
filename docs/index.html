@@ -98,16 +98,15 @@
 <div class="section level3">
 <h3 id="gdal-cli-wrapper">GDAL CLI wrapper<a class="anchor" aria-label="anchor" href="#gdal-cli-wrapper"></a>
 </h3>
-<p><code>link2GI</code> now provides a minimal <code>GDAL</code> CLI wrapper for cases where system-linked <code>GDAL</code> binaries must be used deterministically, independent of what is compiled into packages like <code>sf</code> or <code>terra</code>. This is not a replacement for existing GDAL-based R tools, but a reproducibility-oriented layer that exposes the exact <code>GDAL</code> pipeline used on a given system, with explicit environment control, lightweight fingerprinting, help-driven skeletons, and optional NDJSON logging.</p>
+<p><code>link2GI</code> now provides a minimal <code>GDAL</code> CLI wrapper for cases where system-linked <code>GDAL</code> binaries must be used deterministically, independent of what is compiled into packages like <code>sf</code> or <code>terra</code>. This is not a replacement for existing GDAL-based R tools, but a reproducibility-oriented layer that exposes the exact <code>GDAL</code> pipeline used on a given system, with explicit environment control, lightweight fingerprinting, help-driven skeletons, and optional NDJSON logging <a href="https://r-spatial.github.io/link2GI/articles/link2GI6.html">GDAL CLI for Reproducible Workflows</a>.</p>
 </div>
 <div class="section level3">
-<h3 id="otb-wrapper">OTB wrapper<a class="anchor" aria-label="anchor" href="#otb-wrapper"></a>
+<h3 id="otb-cli-wrapper">OTB CLI wrapper<a class="anchor" aria-label="anchor" href="#otb-cli-wrapper"></a>
 </h3>
-<p>The OTB integration in <code>link2GI</code> has evolved from a basic command wrapper into a robust, Self-describing CLI interface. It now derives valid parameters directly from OTB’s CLI metadata, supports version-stable command construction, and enforces explicit, reproducible, on-disk outputs (<a href="https://r-spatial.github.io/link2GI/articles/link2GI4.html">OTB Wrapper in link2GI</a>.).</p>
+<p>The OTB integration in <code>link2GI</code> has evolved from a basic command wrapper into a robust, Self-describing CLI interface. It now derives valid parameters directly from OTB’s CLI metadata, supports version-stable command construction, and enforces explicit, reproducible, on-disk outputs (<a href="https://r-spatial.github.io/link2GI/articles/link2GI4.html">OTB Wrapper in link2GI</a>).</p>
 </div>
 <div class="section level3">
-<h3 id="initproj-for-reproducible-projects">
-<code>initProj</code> for reproducible projects<a class="anchor" aria-label="anchor" href="#initproj-for-reproducible-projects"></a>
+<h3 id="lightweight-framework-for-reproducible-projects">Lightweight framework for reproducible projects<a class="anchor" aria-label="anchor" href="#lightweight-framework-for-reproducible-projects"></a>
 </h3>
 <p><code>initProj</code> provides a lightweight but robust setup for reproducible GI projects.<br>
 It creates a clear folder structure, initial scripts, configuration templates, and optionally a Git repository and an <code>renv</code> environment. An RStudio project file is generated automatically, supporting fast and consistent project startup.</p>

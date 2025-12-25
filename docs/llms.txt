@@ -58,18 +58,20 @@ independent of what is compiled into packages like `sf` or `terra`. This
 is not a replacement for existing GDAL-based R tools, but a
 reproducibility-oriented layer that exposes the exact `GDAL` pipeline
 used on a given system, with explicit environment control, lightweight
-fingerprinting, help-driven skeletons, and optional NDJSON logging.
+fingerprinting, help-driven skeletons, and optional NDJSON logging [GDAL
+CLI for Reproducible
+Workflows](https://r-spatial.github.io/link2GI/articles/link2GI6.html).
 
-### OTB wrapper
+### OTB CLI wrapper
 
 The OTB integration in `link2GI` has evolved from a basic command
 wrapper into a robust, Self-describing CLI interface. It now derives
 valid parameters directly from OTB’s CLI metadata, supports
 version-stable command construction, and enforces explicit,
 reproducible, on-disk outputs ([OTB Wrapper in
-link2GI](https://r-spatial.github.io/link2GI/articles/link2GI4.html).).
+link2GI](https://r-spatial.github.io/link2GI/articles/link2GI4.html)).
 
-### `initProj` for reproducible projects
+### Lightweight framework for reproducible projects
 
 `initProj` provides a lightweight but robust setup for reproducible GI
 projects.  

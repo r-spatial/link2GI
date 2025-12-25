@@ -7,8 +7,7 @@
 searchGRASSX(MP = "default", quiet = TRUE)
 }
 \arguments{
-\item{MP}{Character. Ignored for detection (kept for API compatibility).
-You may pass a directory or an executable path; it will be used only as a hint.}
+\item{MP}{Character. Optional hint: directory or executable path.}
 
 \item{quiet}{Logical.}
 }
@@ -18,6 +17,6 @@ FALSE or data.frame(instDir, version, installation_type)
 \description{
 Strategy:
 1) Prefer `grass --config path` (returns GISBASE on modern GRASS)
-2) Fallback: locate `grass` via `Sys.which()`, then infer common GISBASE paths
+2) Fallback: locate candidates under common roots (/usr/lib, /usr/local/lib, /opt)
 }
 \keyword{internal}

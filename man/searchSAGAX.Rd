@@ -2,30 +2,24 @@
 % Please edit documentation in R/sagaControl.R
 \name{searchSAGAX}
 \alias{searchSAGAX}
-\title{Searches recursively for existing 'Windows' 'SAGA GIS' installation(s)}
+\title{Search for valid SAGA GIS installation(s) on Unix (Linux/macOS)}
 \usage{
-searchSAGAX(MP = "/usr/bin", quiet = TRUE)
+searchSAGAX(MP = "default", quiet = TRUE)
 }
 \arguments{
-\item{MP}{default mount point is \code{/usr/bin}}
+\item{MP}{Character. Search root(s). `"default"` expands to `c("~","/opt","/usr/local","/usr")`.}
 
-\item{quiet}{Boolean  switch for suppressing console messages default is TRUE}
+\item{quiet}{Logical. Suppress messages.}
 }
 \value{
-A data frame containing the 'SAGA GIS' root folder(s), the version name(s) and the installation type(s)
+`FALSE` or a `data.frame` with columns `binDir`, `moduleDir`, `version`, `installation_type`.
 }
 \description{
-Search for valid 'GRASS GIS' installations at a given 'Linux' mount point
-}
-\examples{
-\dontrun{
-#### Examples how to use searchSAGAX
-
-# get all valid SAGA installation folders and params
-searchSAGAX()
-}
-}
-\author{
-Chris Reudenbach
+Strategy:
+1) Search for `saga_cmd` under given mountpoint(s) using portable `find` primaries
+   (no GNU-only `-executable`, no `! -readable`).
+2) For each hit, derive `binDir` and `moduleDir` by checking sibling folders
+   (`tools` preferred, then `modules`).
+3) Parse version best-effort via `saga_cmd --version`.
 }
 \keyword{internal}

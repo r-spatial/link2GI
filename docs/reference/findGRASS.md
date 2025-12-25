@@ -1,7 +1,13 @@
-# Returns attributes of valid 'GRASS GIS' installation(s) on the system.
+# Find GRASS GIS installation(s)
 
-Retrieve a list of valid 'GRASS GIS' installation(s) on your system. On
-Windows, uses searchGRASSW() (cmd-free). On Unix, uses searchGRASSX().
+Detects valid GRASS GIS installation(s) on the current system and
+returns their installation paths and version information.
+
+On Windows,
+[`searchGRASSW`](https://r-spatial.github.io/link2GI/reference/searchGRASSW.md)
+is used. On Unix-alike systems (Linux/macOS),
+[`searchGRASSX`](https://r-spatial.github.io/link2GI/reference/searchGRASSX.md)
+is used.
 
 ## Usage
 
@@ -13,18 +19,59 @@ findGRASS(searchLocation = "default", ver_select = FALSE, quiet = TRUE)
 
 - searchLocation:
 
-  On Windows MUST start with drive letter + colon, e.g. "C:", "C:/",
-  "C:/Users/...". Defaults to "C:/". On Unix defaults to "/usr/bin".
+  Character. Search hint/root.
+
+  - On Windows this MUST include a drive letter and colon, e.g. `"C:"`,
+    `"C:/"`, `"C:/OSGeo4W64"`. The default is `"C:/"`.
+
+  - On Unix the default is `"/usr/bin"`. You may pass either a directory
+    or a full path to a `grass` executable; if a file is provided, its
+    directory is used as hint.
 
 - ver_select:
 
-  If TRUE and more than one installation is found, interactively select
-  one.
+  Logical. If `TRUE` and more than one installation is found, a
+  selection prompt is shown and only the chosen row is returned.
 
 - quiet:
 
-  Suppress messages.
+  Logical. If `TRUE` (default), suppress informational messages.
 
 ## Value
 
-FALSE or data.frame(instDir, version, installation_type)
+Returns `FALSE` if no installation is detected. Otherwise returns a
+`data.frame` with columns:
+
+- instDir:
+
+  Installation directory (GISBASE).
+
+- version:
+
+  Parsed version string (may be `NA`).
+
+- installation_type:
+
+  Installation type identifier (e.g. `"osgeo4w"`, `"standalone"`; on
+  Unix this may be derived from the executable name).
+
+## See also
+
+[`searchGRASSW`](https://r-spatial.github.io/link2GI/reference/searchGRASSW.md),
+[`searchGRASSX`](https://r-spatial.github.io/link2GI/reference/searchGRASSX.md),
+[`linkGRASS`](https://r-spatial.github.io/link2GI/reference/linkGRASS.md)
+
+## Examples
+
+``` r
+if (FALSE) { # \dontrun{
+# Windows
+findGRASS("C:/", quiet = FALSE)
+
+# Unix: hint directory
+findGRASS("/usr/bin", quiet = FALSE)
+
+# Unix: explicit executable path
+findGRASS("/usr/bin/grass", quiet = FALSE)
+} # }
+```

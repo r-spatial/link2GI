@@ -2,30 +2,26 @@
 % Please edit documentation in R/gdalControls.R
 \name{searchGDALW}
 \alias{searchGDALW}
-\title{Search recursively for valid 'GDAL' installation(s) on a 'Windows' OS}
+\title{Search recursively for valid GDAL installation(s) on Windows}
 \usage{
 searchGDALW(DL = "C:/", quiet = TRUE)
 }
 \arguments{
-\item{DL}{drive letter default is 'C:/'}
+\item{DL}{Character. Search root (e.g. `"C:/"`).}
 
-\item{quiet}{boolean  switch for supressing console messages default is TRUE}
+\item{quiet}{Logical. Suppress messages.}
 }
 \value{
-A dataframe with the 'GDAL' root folder(s) the version name(s) and the installation type(s).
+A list with:
+\describe{
+  \item{gdalInstallations}{data.frame with columns `binDir`, `baseDir`, `installation_type`.}
+  \item{bin}{list of data.frames (column `gdal_bin`) with detected GDAL binaries per installation.}
+  \item{py}{list of data.frames (column `gdal_py`) with detected GDAL python tools per installation.}
+}
 }
 \description{
-Search for valid 'GDAL' installations on a 'Windows' OS
-}
-\examples{
-
-run = FALSE
-if (run) {
-# get all valid GDAL installation folders and params
-searchGDALW()
-}
-}
-\author{
-Chris Reudenbach
+Finds `gdalinfo.exe` via `where /R`, derives `binDir` and `baseDir`,
+classifies the installation type by path heuristics, and lists available
+GDAL CLI tools (`gdal*`) + python tools (`*.py`) in each `binDir`.
 }
 \keyword{internal}

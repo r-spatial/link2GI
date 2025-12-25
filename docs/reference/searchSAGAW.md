@@ -1,7 +1,7 @@
-# Searches recursively for existing 'Windows' 'SAGA GIS' installation(s)
+# Search for valid SAGA GIS installations on Windows
 
-Searches recursively for existing 'SAGA GIS' installation(s) on a given
-'Windows' drive
+Uses \`where /R \<DL\> saga_cmd.exe\` and derives \`binDir\` and
+\`moduleDir\`.
 
 ## Usage
 
@@ -13,28 +13,13 @@ searchSAGAW(DL = "C:/", quiet = TRUE)
 
 - DL:
 
-  drive letter default is `C:/`
+  Character. Search root (e.g. \`"C:/"\`).
 
 - quiet:
 
-  boolean switch for suppressing messages default is TRUE
+  Logical. Suppress messages.
 
 ## Value
 
-A data frame containing the 'SAGA GIS' root folder(s), the version
-name(s) and the installation type(s)
-
-## Author
-
-Chris Reudenbach
-
-## Examples
-
-``` r
-if (FALSE) { # \dontrun{
-#### Examples how to use searchSAGAW 
-
-# get all valid SAGA installation folders and params
-searchSAGAW()
-} # }
-```
+\`FALSE\` or a \`data.frame\` with columns \`binDir\`, \`moduleDir\`,
+\`installation_type\`.

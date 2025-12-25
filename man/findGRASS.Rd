@@ -2,22 +2,56 @@
 % Please edit documentation in R/grassControl.R
 \name{findGRASS}
 \alias{findGRASS}
-\title{Returns attributes of valid 'GRASS GIS' installation(s) on the system.}
+\title{Find GRASS GIS installation(s)}
 \usage{
 findGRASS(searchLocation = "default", ver_select = FALSE, quiet = TRUE)
 }
 \arguments{
-\item{searchLocation}{On Windows MUST start with drive letter + colon, e.g. "C:", "C:/", "C:/Users/...".
-Defaults to "C:/". On Unix defaults to "/usr/bin".}
+\item{searchLocation}{Character. Search hint/root.
+\itemize{
+  \item On Windows this MUST include a drive letter and colon, e.g.
+        \code{"C:"}, \code{"C:/"}, \code{"C:/OSGeo4W64"}.
+        The default is \code{"C:/"}.
+  \item On Unix the default is \code{"/usr/bin"}. You may pass either a
+        directory or a full path to a \code{grass} executable; if a file is
+        provided, its directory is used as hint.
+}}
 
-\item{ver_select}{If TRUE and more than one installation is found, interactively select one.}
+\item{ver_select}{Logical. If \code{TRUE} and more than one installation is
+found, a selection prompt is shown and only the chosen row is returned.}
 
-\item{quiet}{Suppress messages.}
+\item{quiet}{Logical. If \code{TRUE} (default), suppress informational messages.}
 }
 \value{
-FALSE or data.frame(instDir, version, installation_type)
+Returns \code{FALSE} if no installation is detected.
+Otherwise returns a \code{data.frame} with columns:
+\describe{
+  \item{instDir}{Installation directory (GISBASE).}
+  \item{version}{Parsed version string (may be \code{NA}).}
+  \item{installation_type}{Installation type identifier (e.g. \code{"osgeo4w"},
+  \code{"standalone"}; on Unix this may be derived from the executable name).}
+}
 }
 \description{
-Retrieve a list of valid 'GRASS GIS' installation(s) on your system.
-On Windows, uses searchGRASSW() (cmd-free). On Unix, uses searchGRASSX().
+Detects valid GRASS GIS installation(s) on the current system and returns
+their installation paths and version information.
+
+On Windows, \code{\link{searchGRASSW}} is used. On Unix-alike systems
+(Linux/macOS), \code{\link{searchGRASSX}} is used.
 }
+\examples{
+\dontrun{
+# Windows
+findGRASS("C:/", quiet = FALSE)
+
+# Unix: hint directory
+findGRASS("/usr/bin", quiet = FALSE)
+
+# Unix: explicit executable path
+findGRASS("/usr/bin/grass", quiet = FALSE)
+}
+}
+\seealso{
+\code{\link{searchGRASSW}}, \code{\link{searchGRASSX}}, \code{\link{linkGRASS}}
+}
+\keyword{internal}

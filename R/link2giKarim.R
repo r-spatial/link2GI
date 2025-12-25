@@ -49,33 +49,7 @@ add2Path <- function(newPath) {
     Sys.setenv(PATH = paste0(newPath, del, Sys.getenv("PATH")))
   }
 }
-#'@title Generates a variable with a certain value in the R environment
-#'@name makGlobalVar
-#' @description  Generates a variable with a certain value in the R environment
-#' @param name character string name of the variable
-#' @param value character string value of the variable
-#' @keywords internal
-#'@export 
-#'@examples
-#' \dontrun{
-#'
-#' # creates the global var \code{pathToData} with the value \code{~/home/data}
-#' makGlobalVar('pathToData','~/home/data') 
-#' 
-#' }
-#' 
-makGlobalVar <- function(name, value) {
-  if (!exists("GiEnv"))
-    GiEnv <- new.env(parent = globalenv())
-  if (exists(name, envir = GiEnv)) {
-    # warning(paste0('The variable '', name,'' already exist in .GlobalEnv'))
-    assign(name, value, envir = GiEnv, inherits = TRUE)
-    # cat('add variable ',name,'=',value,' to global GiEnv\n')
-  } else {
-    assign(name, value, envir = GiEnv, inherits = TRUE)
-    # cat('add variable ',name,'=',value,' to global GiEnv\n')
-  }
-}
+
 readinteger <- function() {
   n <- readline()
   n <- as.integer(n)
@@ -84,58 +58,7 @@ readinteger <- function() {
   }
   return(n)
 }
-#' Build package manually
-#' 
-#' @description 
-#' This function was specifically designed to build a package from local source 
-#' files manually, i.e., without using the package building functionality 
-#' offered e.g. by RStudio. 
-#' @details NOTE the default setting are focussing HRZ environment at Marburg University
-#' 
-#' 
-#' @param dsn 'character'. Target folder containing source files; defaults to 
-#' the current working directory.
-#' @param pkgDir 'character'. Target folder containing the result ing package of the invoked build process. According to Marburg University pools the default is set to pkgDir='H:/Dokumente'. If you want to use it in a different setting you may set pkgDir to whatever you want.
-#' @param document 'logical'. Determines whether or not to invoke 
-#' roxygenize with default roclets for documentation purposes.  
-#' @param ... Further arguments passed on to devtools build. 
-#' 
-#' 
-#' @author 
-#' Florian Detsch, Chris Reudenbach
-#' @import roxygen2
-#' @import devtools
-#' @importFrom utils install.packages
-#' @keywords internal
-#' @examples
-#' \dontrun{
-#' ## when in a package directory, e.g. '~/link2GI' 
-#' manuallyBuild()
-#' }
-#' 
-#'
-manuallyBuild <- function(dsn = getwd(), pkgDir = "H:/Dokumente", document = TRUE, ...) {
-  ## reset 'dsn' to 'H:/...'
-  if (length(grep("students_smb", dsn)) > 0) {
-    lst_dsn <- strsplit(dsn, "/")
-    chr_dsn <- unlist(lst_dsn)[3:5]
-    dsn <- paste0("H:/", paste(chr_dsn, collapse = "/"))
-  }
-  ## if 'document = TRUE', create documentation
-  if (document) {
-    cat("\nCreating package documentation...\n")
-    roxygen2::roxygenize(package.dir = dsn, roclets = c("rd", "collate", "namespace"))
-  }
-  ## build package
-  cat("\nBuilding package...\n")
-  devtools::build(pkg = dsn, path = dirname(dsn), ...)
-  ## install package
-  cat("Installing package...\n")
-  pkg <- list.files(dirname(pkgDir), full.names = TRUE, pattern = paste0(basename(dsn), ".*.tar.gz$"))
-  pkg <- pkg[length(pkg)]
-  utils::install.packages(pkg, repos = NULL)
-  return(invisible(NULL))
-}
+
 if (!isGeneric("sf2gvec")) {
   setGeneric("sf2gvec", function(x, ...) standardGeneric("sf2gvec"))
 }
@@ -252,77 +175,76 @@ gvec2sf <- function(x, obj_name, gisdbase, location, gisdbase_exist = TRUE) {
   if (!methods::is(ret, "try-error"))
     return(sf::st_read(file.path(path, paste0(obj_name, "_new.sqlite")), quiet = TRUE)) else return(cat("Data not found"))
 }
-#'  convenient function to establish all link2GI links
-#' @description brute force search, find and linkl of all link2GI link functions. This is helpfull if yor system is well setup and the standard linkage procedure will provide the correct linkages. 
-#'
-#' @note You may also use the full list of arguments that is made available from the \code{link2GI} package, but it is strongly recommended in this case to use directly the single linkage functions from  \code{link2GI}.
-#' @param links character. links
-#' @param linkItems character. list of c('saga','grass','otb','gdal')
-#' @param simple logical. true  make all
-#' @param sagaArgs character. full string of sagaArgs
-#' @param grassArgs character. grassArgs full string of grassArgs
-#' @param otbArgs character. full string of otbArgs
-#' @param gdalArgs character. full string of gdalArgs
-#' @param quiet supress all messages default is FALSE
-#'
-#'@examples
-#'\dontrun{
-#' # required packages
-#' require(link2GI)
-#'
-#' # search, find and create the links to all supported  GI software
-#' giLinks<-linkAll()
-#' 
-#' # makes the GDAL linkage verbose
-#' giLinks<-linkAll(gdalArgs= 'quiet = TRUE') 
-#'
-#'}
-#' @keywords internal
-linkAll <- function(links = NULL, simple = TRUE, linkItems = c("saga", "grass", "otb", "gdal"), sagaArgs = "default", grassArgs = "default",
-                    otbArgs = "default", gdalArgs = "default", quiet = FALSE) {
-  if (!quiet)
-    cat("\n--- linking SAGA - GRASS - OTB - GDAL ---\n")
-  if (sagaArgs == "default")
-    sagaArgs <- "default_SAGA = NULL, searchLocation = 'default', ver_select=FALSE, quiet = TRUE, returnPaths = TRUE"
-  if (grassArgs == "default")
-    grassArgs <- "x = NULL, default_GRASS = NULL, search_path = NULL, ver_select = FALSE, gisdbase_exist =FALSE, gisdbase = NULL, use_home =FALSE, location = NULL, spatial_params=NULL, resolution=NULL, quiet =TRUE, returnPaths = TRUE"
-  if (otbArgs == "default")
-    otbArgs <- "bin_OTB=NULL, root_OTB= NULL, type_OTB=NULL, searchLocation=NULL, ver_select=FALSE, quiet = TRUE, returnPaths = TRUE"
-  if (gdalArgs == "default")
-    gdalArgs <- "bin_GDAL=NULL, searchLocation=NULL, ver_select=FALSE, quiet = TRUE, returnPaths = TRUE"
-  if (is.null(links) && (simple)) {
-    link <- list()
-    for (links in linkItems) {
-      cat("linking ", links, "\n")
-      if (links == "gdal")
-        link[[links]] <- assign(links, eval(parse(text = paste("link2GI::link", toupper(links), "(returnPaths = T)",
-                                                               sep = "")))) else link[[links]] <- assign(links, eval(parse(text = paste("link2GI::link", toupper(links), "(returnPaths = T)",
-                                                                                                                                        sep = ""))))
-    }
-  } else if (is.null(links)) {
-    link <- list()
-    for (links in linkItems) {
-      link[[links]] <- assign(links, eval(parse(text = paste("link2GI::link", toupper(links), "(", eval(parse(text = paste0(links,
-                                                                                                                            "Args"))), ")", sep = ""))))
-    }
-  }
-  return(link)
-}
-bf_wpath <- function(path) {
-  if (path == "default")
-    path <- "C:/"
+
+
+.bf_wpath <- function(path) {
+  if (identical(path, "default")) path <- "C:/"
+  
+  # normalize separators
   path <- gsub("\\\\", "/", path)
-  path <- gsub("/", "\\\\", path)
-  path <- utils::shortPathName(path)
-  return(path)
+  
+  # only Windows has shortPathName()
+  if (identical(Sys.info()[["sysname"]], "Windows")) {
+    path <- gsub("/", "\\\\", path)
+    path <- utils::shortPathName(path)
+  }
+  
+  path
 }
-reverse_bf_wpath <- function(path) {
+
+.reverse_bf_wpath <- function(path) {
+  path <- gsub("\\\\", "/", path)
+  
+  if (identical(Sys.info()[["sysname"]], "Windows")) {
+    # keep forward slashes in return, but resolve 8.3 if given
+    path <- utils::shortPathName(gsub("/", "\\\\", path))
+    path <- gsub("\\\\", "/", path)
+  }
+  
+  path
+}
+
+.readkey <- function() {
+  cat("[press [ESC] to continue]")
+  invisible(readline())
+}
+
+
+.reverse_bf_wpath <- function(path) {
   path <- gsub("\\\\", "/", path)
   # path = gsub('/', '\\\\', path)
   path <- utils::shortPathName(path)
   return(path)
 }
-readkey <- function() {
+.readkey <- function() {
   cat("[press [ESC] to continue]")
   line <- readline()
 }
+
+# ---- Minimal wrapper layer for testability (mock-friendly) ----
+
+.link2gi_sys2 <- function(command, args = character(), stdout = TRUE, stderr = FALSE, ...) {
+  base::system2(command = command, args = args, stdout = stdout, stderr = stderr, ...)
+}
+
+.link2gi_readLines <- function(con, warn = FALSE, ...) {
+  base::readLines(con = con, warn = warn, ...)
+}
+
+.link2gi_which <- function(x) {
+  # Sys.which returns named character vector
+  Sys.which(x)
+}
+
+.link2gi_dir_exists <- function(path) {
+  base::dir.exists(path)
+}
+
+.link2gi_file_exists <- function(path) {
+  base::file.exists(path)
+}
+
+.link2gi_glob <- function(path) {
+  Sys.glob(path)
+}
+

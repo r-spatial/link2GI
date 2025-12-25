@@ -1,7 +1,7 @@
 Package: link2GI
 Type: Package
 Title: Linking Geographic Information Systems, Remote Sensing and Other Command Line Tools
-Version: 0.7-2
+Version: 0.7-3
 Date: 2025-12-21
 Authors@R: c(person("Chris", "Reudenbach", email = "reudenbach@uni-marburg.de", role = c("cre", "aut")),
              person("Tim", "Appelhans", email = "tim.appelhans@gmail.com>", role = c("ctb"))
@@ -14,15 +14,12 @@ BugReports: https://github.com/r-spatial/link2GI/issues/
 License: GPL (>= 3) | file LICENSE
 Depends: R (>= 3.5.0)
 Imports: 
-  devtools,
-  R.utils,
-  roxygen2,
+  utils,
   sf (>= 0.9),
   brew,
   yaml,
   terra,
   methods,
-  utils,
   rstudioapi,
   renv
 SystemRequirements: GNU make 

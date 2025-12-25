@@ -1,5 +1,16 @@
 # Changelog
 
+## link2GI 0.7-3
+
+**changes**
+
+- Refactored platform discovery: GRASS, GDAL, and SAGA detection was
+  unified and hardened with strict OS guards, consistent return
+  structures, and namespace-local calls.
+- Stabilized environment setup
+- Tests & CRAN hygiene: replaced brittle/mock-heavy tests with
+  meaningful coverage, fixed edge cases, and achieved clean R CMD
+
 ## link2GI 0.7-2
 
 CRAN release: 2025-12-23

@@ -15,12 +15,12 @@ paramGRASSx(
 
 ## Arguments
 
-- set_default_GRASS, :
+- set_default_GRASS:
 
   default is NULL. will force a search for 'GRASS GIS' You may provide a
-  valid combination as c('/usr/lib/grass74','7.4.1','grass74')
+  valid combination as c('/usr/lib/grass83','8.3.2','grass')
 
-- MP, :
+- MP:
 
   default is '/usr/bin'. mount point to be searched.
 
@@ -35,23 +35,5 @@ paramGRASSx(
 
 ## Details
 
-During the rsession you will have full access to GRASS7 GIS via the
-`rgrass` wrapper. Additionally you may use also use the API calls of
-GRASS via the command line.
-
-## Examples
-
-``` r
-run = FALSE
-if (run) {
-# automatic retrieval of the GRASS environment settings
-paramGRASSx()
-
-
-# typical stand_alone installation
-paramGRASSx('/usr/bin/grass72')
-
-# typical user defined installation (compiled sources)
-paramGRASSx('/usr/local/bin/grass72')
-}
-```
+During the rsession you will have full access to GRASS GIS via the
+`rgrass` wrapper.

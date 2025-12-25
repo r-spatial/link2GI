@@ -2,34 +2,31 @@
 % Please edit documentation in R/gdalControls.R
 \name{findGDAL}
 \alias{findGDAL}
-\title{Search recursivly existing 'GDAL binaries' installation(s) at a given drive/mountpoint}
+\title{Find GDAL installation(s)}
 \usage{
 findGDAL(searchLocation = "default", quiet = TRUE)
 }
 \arguments{
-\item{searchLocation}{drive letter to be searched, for Windows systems default
-is \code{C:/}, for Linux systems default is \code{/usr/bin}.}
+\item{searchLocation}{Character. Search root or hint.
+Use `"default"` (recommended) to search standard locations
+(`"C:/"` on Windows; `"~"`, `"/usr"`, `"/usr/local"`, `"/opt"` on Unix).}
 
-\item{quiet}{boolean  switch for supressing console messages default is TRUE}
+\item{quiet}{Logical. If `TRUE`, suppress messages.}
 }
 \value{
-A dataframe with the 'GDAL' root folder(s),  and command line executable(s)
+Platform-specific GDAL installation descriptor:
+\itemize{
+  \item On Windows: the result of [searchGDALW()] or `FALSE`
+  \item On Unix: the result of [searchGDALX()]
+}
 }
 \description{
-Provides an  list of valid 'GDAL' installation(s) 
-on your 'Windows' system. There is a major difference between osgeo4W and 
-stand_alone installations. The functions trys to find all valid 
-installations by analysing the calling batch scripts.
-}
-\examples{
+Detects GDAL command line installations on Windows and Unix-like systems
+(Linux/macOS). On Windows, the search is restricted to valid drive-letter
+paths. On Unix systems, the function searches common system locations for
+a `gdalinfo` executable.
 
-run = FALSE
-if (run) {
-# find recursively all existing 'GDAL' installations folders starting 
-# at the default search location
-findGDAL()
+This function is a thin, platform-aware dispatcher that calls
+[searchGDALW()] on Windows and [searchGDALX()] on Unix systems.
 }
-}
-\author{
-Chris Reudenbach
-}
+\keyword{internal}

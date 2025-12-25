@@ -2,30 +2,19 @@
 % Please edit documentation in R/sagaControl.R
 \name{searchSAGAW}
 \alias{searchSAGAW}
-\title{Searches recursively for existing 'Windows' 'SAGA GIS' installation(s)}
+\title{Search for valid SAGA GIS installations on Windows}
 \usage{
 searchSAGAW(DL = "C:/", quiet = TRUE)
 }
 \arguments{
-\item{DL}{drive letter default is \code{C:/}}
+\item{DL}{Character. Search root (e.g. `"C:/"`).}
 
-\item{quiet}{boolean  switch for suppressing messages default is TRUE}
+\item{quiet}{Logical. Suppress messages.}
 }
 \value{
-A data frame containing the 'SAGA GIS' root folder(s), the version name(s) and the installation type(s)
+`FALSE` or a `data.frame` with columns `binDir`, `moduleDir`, `installation_type`.
 }
 \description{
-Searches recursively for existing 'SAGA GIS' installation(s) on a given 'Windows' drive
-}
-\examples{
-\dontrun{
-#### Examples how to use searchSAGAW 
-
-# get all valid SAGA installation folders and params
-searchSAGAW()
-}
-}
-\author{
-Chris Reudenbach
+Uses `where /R <DL> saga_cmd.exe` and derives `binDir` and `moduleDir`.
 }
 \keyword{internal}

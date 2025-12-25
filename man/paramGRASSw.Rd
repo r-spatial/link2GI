@@ -2,45 +2,86 @@
 % Please edit documentation in R/grassControl.R
 \name{paramGRASSw}
 \alias{paramGRASSw}
-\title{Usually for internally usage get 'GRASS GIS' and \code{rgrass} parameters on 'Windows' OS}
+\title{Get GRASS GIS parameters on Windows}
 \usage{
 paramGRASSw(
   set_default_GRASS = NULL,
   DL = "C:/",
   ver_select = FALSE,
-  quiet = TRUE
+  quiet = TRUE,
+  activate = TRUE,
+  sysname = Sys.info()[["sysname"]]
 )
 }
 \arguments{
-\item{set_default_GRASS}{default = NULL forces a full search for 'GRASS GIS' binaries. You may
-alternatively provide a vector containing paths and keywords. c('C:/OSGeo4W64','grass-7.0.5','osgeo4w') is valid for a typical osgeo4w installation.}
+\item{set_default_GRASS}{Optional predefined GRASS installation.
+Must be coercible to a data frame with columns
+\code{instDir}, \code{version}, and \code{installation_type}.}
 
-\item{DL}{character search location default = \code{C:}}
+\item{DL}{Character. Search root for GRASS installations.
+Defaults to \code{"C:/"}.}
 
-\item{ver_select}{boolean default is FALSE. If there is more than one 'SAGA GIS' installation and \code{ver_select} = TRUE the user can select interactively the preferred 'SAGA GIS' version}
+\item{ver_select}{Logical or numeric.
+If \code{FALSE} (default), the latest version is selected automatically.
+If numeric, selects the corresponding installation index.
+If \code{TRUE}, interactive selection is used.}
 
-\item{quiet}{boolean  switch for supressing console messages default is TRUE}
+\item{quiet}{Logical. If \code{TRUE} (default), suppress informational messages.}
+
+\item{activate}{Logical. If \code{TRUE} (default), activate the selected
+GRASS GIS environment.}
+
+\item{sysname}{Character. Internal/testing hook overriding
+\code{Sys.info()[["sysname"]]}.}
+}
+\value{
+A named list with elements:
+\describe{
+  \item{gisbase_GRASS}{Path to the selected GRASS GIS base directory.}
+  \item{version}{Detected GRASS GIS version string (may be \code{NA}).}
+  \item{type}{Installation type (e.g. \code{"osgeo4w"}, \code{"standalone"}).}
+  \item{installed}{Data frame of all detected installations.}
+  \item{exist}{Logical indicating whether a valid installation was found.}
+}
+
+If no installation is found or the platform is not Windows,
+\code{list(exist = FALSE)} is returned.
 }
 \description{
-Initialize the enviroment variables on a 'Windows' OS for using 
- 'GRASS GIS' via \code{rgrass}
+Detects available GRASS GIS installations on Windows systems, selects
+a suitable installation, and optionally activates the GRASS runtime
+environment for use with \pkg{rgrass}.
+
+This function is primarily intended for internal use by
+\code{\link{linkGRASS}} and related helpers.
 }
 \details{
-The concept is very straightforward but for an all days usage pretty
- helpful. You need to provide a \code{terra} or a \code{sf} object. The derived properties are used to initialize a temporary but static
- \href{https://CRAN.R-project.org/package=rgrass}{rgrass} environment. During the rsession you will have full access to
- GRASS both via the wrapper package as well as the command line. paramGRASSw initializes the usage of GRASS.
+The function searches for valid GRASS GIS installations using
+\code{\link{findGRASS}}. If multiple installations are found, the selection
+can be controlled via \code{ver_select}.
+
+If \code{activate = TRUE}, the GRASS environment variables are initialized
+via \code{\link{setenvGRASSw}}, enabling immediate use of GRASS GIS through
+\pkg{rgrass} and command-line calls.
+
+No spatial data object is required at this stage; spatial initialization
+is handled later by \code{\link{linkGRASS}}.
 }
 \examples{
+\dontrun{
+# automatic detection and activation
+g <- paramGRASSw()
 
-run = FALSE
-if (run) {
-# automatic retrieval of valid 'GRASS GIS' environment settings 
-# if more than one is found the user has to choose.
-paramGRASSw()
+# select a specific installation by index
+g <- paramGRASSw(ver_select = 1)
 
-# typical OSGeo4W64 installation
-paramGRASSw(c('C:/OSGeo4','grass7.8','osgeo4W'))
+# predefined installation (advanced use)
+g <- paramGRASSw(
+  set_default_GRASS = c("C:/OSGeo4W64", "8.3.2", "osgeo4w")
+)
 }
+}
+\seealso{
+\code{\link{findGRASS}}, \code{\link{setenvGRASSw}}, \code{\link{linkGRASS}}
 }
 \keyword{internal}

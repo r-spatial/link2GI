@@ -96,20 +96,8 @@ configure paths, run).
 - [`createFolders()`](https://r-spatial.github.io/link2GI/reference/createFolders.md)
   : Compile folder list and create folders
 
-- [`findGDAL()`](https://r-spatial.github.io/link2GI/reference/findGDAL.md)
-  : Search recursivly existing 'GDAL binaries' installation(s) at a
-  given drive/mountpoint
-
-- [`findGRASS()`](https://r-spatial.github.io/link2GI/reference/findGRASS.md)
-  : Returns attributes of valid 'GRASS GIS' installation(s) on the
-  system.
-
 - [`findOTB()`](https://r-spatial.github.io/link2GI/reference/findOTB.md)
   : Locate Orfeo ToolBox (OTB) installations
-
-- [`findSAGA()`](https://r-spatial.github.io/link2GI/reference/findSAGA.md)
-  : Search recursively existing 'SAGA GIS' installation(s) at a given
-  drive/mount point
 
 - [`gvec2sf()`](https://r-spatial.github.io/link2GI/reference/gvec2sf.md)
   : Converts from an existing \`GRASS\` environment an arbitrary vector
@@ -126,9 +114,6 @@ configure paths, run).
 
 - [`linkOTB()`](https://r-spatial.github.io/link2GI/reference/linkOTB.md)
   : Locate and describe Orfeo ToolBox (OTB) API bindings
-
-- [`linkSAGA()`](https://r-spatial.github.io/link2GI/reference/linkSAGA.md)
-  : Identifies SAGA GIS Installations and returns linking Informations
 
 - [`loadEnvi()`](https://r-spatial.github.io/link2GI/reference/loadEnvi.md)
   : Load data from rds format and associated yaml metadata file.

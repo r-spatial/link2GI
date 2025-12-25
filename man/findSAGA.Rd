@@ -2,33 +2,32 @@
 % Please edit documentation in R/sagaControl.R
 \name{findSAGA}
 \alias{findSAGA}
-\title{Search recursively existing 'SAGA GIS' installation(s) at a given drive/mount point}
+\title{Find SAGA GIS installation(s)}
 \usage{
-findSAGA(searchLocation = "default", quiet = TRUE)
+findSAGA(
+  searchLocation = "default",
+  quiet = TRUE,
+  sysname = Sys.info()[["sysname"]]
+)
 }
 \arguments{
-\item{searchLocation}{drive letter to be searched, for Windows systems default
-is \code{C:/}, for Linux systems default is \code{/usr/bin}.}
+\item{searchLocation}{Character. Search root or hint.
+Use `"default"` to search standard locations (`"C:/"` on Windows; `"~"`,
+`"/usr"`, `"/usr/local"`, `"/opt"` on Unix).}
 
-\item{quiet}{boolean  switch for suppressing console messages default is TRUE}
+\item{quiet}{Logical. If `TRUE`, suppress messages.}
+
+\item{sysname}{Character. Internal/testing hook overriding `Sys.info()[["sysname"]]`.}
 }
 \value{
-A dataframe with the 'SAGA GIS' root folder(s), version name(s) and 
-installation type code(s)
+Platform-specific SAGA installation descriptor or `FALSE`.
 }
 \description{
-Provides an  list of valid 'SAGA GIS' installation(s) 
-on your 'Windows' system. There is a major difference between osgeo4W and 
-stand_alone installations. The functions tries to find all valid 
-installations by analyzing the calling batch scripts.
-}
-\examples{
-\dontrun{
-# find recursively all existing 'SAGA GIS' installation folders starting 
-# at the default search location
-findSAGA()
+Detects SAGA GIS command line installations on Windows and Unix-like systems
+(Linux/macOS). This is a thin, platform-aware dispatcher:
+\itemize{
+  \item Windows: calls [searchSAGAW()]
+  \item Unix: calls [searchSAGAX()]
 }
 }
-\author{
-Chris Reudenbach
-}
+\keyword{internal}

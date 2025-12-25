@@ -1,42 +1,39 @@
-# Search recursively existing 'SAGA GIS' installation(s) at a given drive/mount point
+# Find SAGA GIS installation(s)
 
-Provides an list of valid 'SAGA GIS' installation(s) on your 'Windows'
-system. There is a major difference between osgeo4W and stand_alone
-installations. The functions tries to find all valid installations by
-analyzing the calling batch scripts.
+Detects SAGA GIS command line installations on Windows and Unix-like
+systems (Linux/macOS). This is a thin, platform-aware dispatcher:
+
+- Windows: calls \[searchSAGAW()\]
+
+- Unix: calls \[searchSAGAX()\]
 
 ## Usage
 
 ``` r
-findSAGA(searchLocation = "default", quiet = TRUE)
+findSAGA(
+  searchLocation = "default",
+  quiet = TRUE,
+  sysname = Sys.info()[["sysname"]]
+)
 ```
 
 ## Arguments
 
 - searchLocation:
 
-  drive letter to be searched, for Windows systems default is `C:/`, for
-  Linux systems default is `/usr/bin`.
+  Character. Search root or hint. Use \`"default"\` to search standard
+  locations (\`"C:/"\` on Windows; \`"~"\`, \`"/usr"\`,
+  \`"/usr/local"\`, \`"/opt"\` on Unix).
 
 - quiet:
 
-  boolean switch for suppressing console messages default is TRUE
+  Logical. If \`TRUE\`, suppress messages.
+
+- sysname:
+
+  Character. Internal/testing hook overriding
+  \`Sys.info()\[\["sysname"\]\]\`.
 
 ## Value
 
-A dataframe with the 'SAGA GIS' root folder(s), version name(s) and
-installation type code(s)
-
-## Author
-
-Chris Reudenbach
-
-## Examples
-
-``` r
-if (FALSE) { # \dontrun{
-# find recursively all existing 'SAGA GIS' installation folders starting 
-# at the default search location
-findSAGA()
-} # }
-```
+Platform-specific SAGA installation descriptor or \`FALSE\`.

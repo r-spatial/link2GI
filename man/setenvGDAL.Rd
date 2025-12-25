@@ -2,26 +2,22 @@
 % Please edit documentation in R/gdalControls.R
 \name{setenvGDAL}
 \alias{setenvGDAL}
-\title{Usually for internally usage, initializes and set up  access to the 'GDAL' command line interface}
+\title{Usually for internally usage, initializes and set up access to the 'GDAL' command line interface}
 \usage{
 setenvGDAL(bin_GDAL = NULL)
 }
 \arguments{
-\item{bin_GDAL}{string contains the path to the 'GDAL' binaries}
+\item{bin_GDAL}{Character. Path to GDAL bin directory OR full path to gdalinfo(.exe).}
 }
 \value{
-Adds 'GDAL' paths to the environment and creates the variable global string variable \code{gdalCmd}, that contains the path to the 'GDAL' binaries.
+The normalized GDAL bin directory path (invisibly).
 }
 \description{
-Initializes and set up  access to the 'GDAL' command line interface
+Initializes and sets up access to the 'GDAL' command line interface
 }
 \examples{
-
-run = FALSE
-if (run) {
-## example for the most common default OSGeo4W64 installation of GDAL
-setenvGDAL(bin_GDAL = 'C:/OSGeo4W64/bin/',
-          root_GDAL = 'C:/OSGeo4W64')
+\dontrun{
+setenvGDAL("C:/OSGeo4W64/bin")
 }
 }
 \keyword{internal}

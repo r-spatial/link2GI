@@ -1,3 +1,5 @@
+
+
 .link2GI_cache <- new.env(parent = emptyenv())
 
 .get_GRASS_CACHE <- function() {
@@ -20,240 +22,34 @@ is_osgeo4w_env <- function(root = NULL) {
 }
 
 
-#' Search for valid GRASS GIS installations on Windows
-#'
-#' Searches for GRASS GIS installations on **Windows** using a *bounded* set of
-#' plausible installation roots (no full-disk crawl). The function supports:
-#' \itemize{
-#'   \item OSGeo4W / QGIS-style layouts via \code{<root>/apps/grass/grass*/etc/VERSIONNUMBER}
-#'   \item Standalone GRASS installs via \code{<Program Files>/GRASS GIS */etc/VERSIONNUMBER}
-#'   \item Optional per-user OSGeo4W installs under
-#'         \code{<USERPROFILE>/AppData/Local/Programs/OSGeo4W}
-#' }
-#'
-#' The argument \code{DL} can be a full path or a Windows drive root
-#' (e.g. \code{"C:"} or \code{"C:/"}). Drive roots are expanded to a fixed set of
-#' candidate directories:
-#' \code{OSGeo4W64}, \code{OSGeo4W}, \code{Program Files}, \code{Program Files (x86)}.
-#'
-#' @param DL Character. Search location or drive root on Windows.
-#'   Accepts \code{"C:"}, \code{"C:/"}, or a concrete directory path.
-#'   Backslashes are normalized to forward slashes.
-#' @param quiet Logical. If \code{TRUE} (default), suppress informational messages.
-#'
-#' @return
-#' Returns \code{FALSE} if no installation was detected.
-#' Otherwise returns a \code{data.frame} with columns:
-#' \describe{
-#'   \item{instDir}{Root directory of the installation candidate.}
-#'   \item{version}{Parsed version string (from \code{VERSIONNUMBER}) or \code{NA}.}
-#'   \item{installation_type}{One of \code{"osgeo4w"}, \code{"qgis"}, \code{"standalone"}.}
-#' }
-#' The result is sorted by decreasing semantic version (unknown versions treated as \code{0.0.0}).
-#'
-#' @details
-#' This function is intentionally conservative to remain fast and deterministic on
-#' large Windows volumes. It does **not** recurse the entire drive.
-#'
-#' If multiple installations are present under the searched roots, all are returned.
-#' Version parsing extracts the first \code{x.y[.z...]} pattern from the first line
-#' of \code{VERSIONNUMBER}.
-#'
-#' @examples
-#' \dontrun{
-#' # Search from the C: drive root (bounded roots, no full-disk scan)
-#' searchGRASSW("C:/", quiet = FALSE)
-#'
-#' # Search a concrete directory only
-#' searchGRASSW("C:/OSGeo4W64", quiet = FALSE)
-#'
-#' # Drive letter without slash is accepted
-#' searchGRASSW("C:", quiet = TRUE)
-#' }
-#'
-#' @export
-searchGRASSW <- function(DL = "C:/", quiet = TRUE) {
-  
-  .msg <- function(...) if (!isTRUE(quiet)) message(...)
-  
-  if (!identical(Sys.info()[["sysname"]], "Windows")) {
-    stop("searchGRASSW() is Windows-only.")
-  }
-  
-  # ------------------------------------------------------------
-  # FIX 1: Windows drive semantics — MUST happen BEFORE normalizePath()
-  # ------------------------------------------------------------
-  DL <- gsub("\\\\", "/", DL)
-  if (grepl("^[A-Za-z]:$", DL)) {
-    DL <- paste0(DL, "/")
-  }
-  
-  DL <- normalizePath(path.expand(DL), winslash = "/", mustWork = FALSE)
-  
-  if (is.na(DL) || !grepl("^[A-Za-z]:(/|$)", DL)) {
-    return(FALSE)
-  }
-  
-  is_drive_root <- grepl("^[A-Za-z]:(/)?$", DL)
-  drive <- substr(DL, 1, 2)  # "C:"
-  
-  # ------------------------------------------------------------
-  # Candidate roots (bounded, no full-disk crawl)
-  # ------------------------------------------------------------
-  candidates <- if (is_drive_root) {
-    c(
-      paste0(drive, "/OSGeo4W64"),
-      paste0(drive, "/OSGeo4W"),
-      paste0(drive, "/Program Files"),
-      paste0(drive, "/Program Files (x86)")
-    )
-  } else {
-    c(DL)
-  }
-  
-  candidates <- unique(candidates)
-  candidates <- candidates[dir.exists(candidates)]
-  
-  # ------------------------------------------------------------
-  # FIX 2: deterministic per-user OSGeo4W
-  # ------------------------------------------------------------
-  up <- normalizePath(Sys.getenv("USERPROFILE"), winslash = "/", mustWork = FALSE)
-  cand_user <- file.path(up, "AppData/Local/Programs/OSGeo4W")
-  if (dir.exists(cand_user)) {
-    candidates <- unique(c(candidates, cand_user))
-  }
-  
-  if (length(candidates) == 0) {
-    .msg("::: NO GRASS installation found: no plausible search roots exist on ", drive, "/")
-    return(FALSE)
-  }
-  
-  .read_version <- function(f) {
-    x <- try(readLines(f, warn = FALSE), silent = TRUE)
-    if (inherits(x, "try-error") || length(x) == 0) return(NA_character_)
-    m <- regmatches(x[1], regexpr("[0-9]+(\\.[0-9]+)+", x[1]))
-    if (length(m) == 0) NA_character_ else m
-  }
-  
-  found <- list()
-  
-  # ------------------------------------------------------------
-  # A) OSGeo4W / QGIS layout
-  # ------------------------------------------------------------
-  for (root in candidates) {
-    
-    apps_grass <- file.path(root, "apps", "grass")
-    if (!dir.exists(apps_grass)) next
-    
-    grass_dirs <- list.dirs(apps_grass, full.names = TRUE, recursive = FALSE)
-    grass_dirs <- grass_dirs[grepl("^grass[0-9]+", basename(grass_dirs), ignore.case = TRUE)]
-    
-    for (gd in grass_dirs) {
-      vf <- file.path(gd, "etc", "VERSIONNUMBER")
-      if (!file.exists(vf)) next
-      
-      instDir <- normalizePath(root, winslash = "/", mustWork = FALSE)
-      
-      installation_type <- "osgeo4w"
-      if (grepl("/QGIS", instDir, ignore.case = TRUE)) {
-        installation_type <- "qgis"
-      }
-      
-      found[[length(found) + 1]] <- data.frame(
-        instDir = instDir,
-        version = .read_version(vf),
-        installation_type = installation_type,
-        stringsAsFactors = FALSE
-      )
-    }
-  }
-  
-  # ------------------------------------------------------------
-  # B) Standalone layout
-  # ------------------------------------------------------------
-  pf_roots <- intersect(
-    c(paste0(drive, "/Program Files"), paste0(drive, "/Program Files (x86)")),
-    candidates
-  )
-  
-  for (root in pf_roots) {
-    
-    grass_pf <- list.dirs(root, full.names = TRUE, recursive = FALSE)
-    grass_pf <- grass_pf[grepl("^GRASS GIS", basename(grass_pf), ignore.case = TRUE)]
-    
-    for (gd in grass_pf) {
-      vf <- file.path(gd, "etc", "VERSIONNUMBER")
-      if (!file.exists(vf)) next
-      
-      found[[length(found) + 1]] <- data.frame(
-        instDir = normalizePath(gd, winslash = "/", mustWork = FALSE),
-        version = .read_version(vf),
-        installation_type = "standalone",
-        stringsAsFactors = FALSE
-      )
-    }
-  }
-  
-  if (length(found) == 0) {
-    .msg("::: NO GRASS installation found at: '", DL, "'")
-    .msg("::: NOTE: Avoid scanning full drive roots; install roots differ (OSGeo4W/QGIS/user-local).")
-    return(FALSE)
-  }
-  
-  out <- unique(do.call(rbind, found))
-  
-  suppressWarnings({
-    vnum <- numeric_version(ifelse(is.na(out$version), "0.0.0", out$version))
-    out <- out[order(vnum, decreasing = TRUE), , drop = FALSE]
-  })
-  
-  if (!quiet) {
-    message("::: Found ", nrow(out), " GRASS installation(s) derived from: '", DL, "'")
-    print(out)
-  }
-  
-  invisible(out)
-}
-
-
-
 #'@title Usually for internally usage, get 'GRASS GIS' and \code{rgrass} parameters on 'Linux' OS
 #'@name paramGRASSx
-#'@description Initialize and set up \code{rgrass}  for 'Linux'
-#'@details During the rsession you will have full access to GRASS7 GIS via the \code{rgrass} wrapper. Additionally you may use also use the API calls of GRASS via the command line.
-#'@param set_default_GRASS, default is NULL. will force a search for 'GRASS GIS' You may provide a valid combination as 
-#'                                    c('/usr/lib/grass74','7.4.1','grass74')
-#'@param MP, default is '/usr/bin'. mount point to be searched. 
-#'@param quiet boolean, default is TRUE.  switch for suppressing console messages 
+#'@description Initialize and set up \code{rgrass} for 'Linux'
+#'@details During the rsession you will have full access to GRASS GIS via the \code{rgrass} wrapper.
+#'@param set_default_GRASS default is NULL. will force a search for 'GRASS GIS'
+#'   You may provide a valid combination as c('/usr/lib/grass83','8.3.2','grass')
+#'@param MP default is '/usr/bin'. mount point to be searched.
+#'@param quiet boolean, default is TRUE. switch for suppressing console messages
 #'@param ver_select if TRUE you must interactively select between alternative installations
 #'@keywords internal
-#'
-#' @examples
-#' 
-#' run = FALSE
-#' if (run) {
-#' # automatic retrieval of the GRASS environment settings
-#' paramGRASSx()
-#' 
-#' 
-#' # typical stand_alone installation
-#' paramGRASSx('/usr/bin/grass72')
-#' 
-#' # typical user defined installation (compiled sources)
-#' paramGRASSx('/usr/local/bin/grass72')
-#' }
 paramGRASSx <- function(set_default_GRASS = NULL, MP = "/usr/bin", ver_select = FALSE, quiet = TRUE) {
   
-  if (ver_select == "T") ver_select <- TRUE
-  if (ver_select == "F" && !is.numeric(ver_select)) ver_select <- FALSE
+  if (identical(ver_select, "T")) ver_select <- TRUE
+  if (identical(ver_select, "F") && !is.numeric(ver_select)) ver_select <- FALSE
   
-  if (Sys.info()["sysname"] == "Windows") {
+  if (Sys.info()[["sysname"]] == "Windows") {
     if (!quiet) {
-      message("You are running Windows - Please choose a suitable searchLocation argument that MUST include a Windows drive letter and colon")
+      message(
+        "You are running Windows - Please choose a suitable searchLocation ",
+        "argument that MUST include a Windows drive letter and colon"
+      )
     }
-    return(FALSE)  }
+    return(list(exist = FALSE))
+  }
   
-  # If we know nothing about grass paths we have to search
+  # ------------------------------------------------------------
+  # Detect installations
+  # ------------------------------------------------------------
   if (is.null(set_default_GRASS)) {
     params_GRASS <- findGRASS(searchLocation = MP, quiet = quiet)
   } else {
@@ -261,198 +57,406 @@ paramGRASSx <- function(set_default_GRASS = NULL, MP = "/usr/bin", ver_select = 
     names(params_GRASS) <- c("instDir", "version", "installation_type")
   }
   
-  # robust "found" check
   if (isFALSE(params_GRASS) || !is.data.frame(params_GRASS) || nrow(params_GRASS) < 1) {
     return(list(exist = FALSE))
   }
   
-  # choose the desired installation depending on ver_select options
+  # ------------------------------------------------------------
+  # Select installation index
+  # ------------------------------------------------------------
+  sel_idx <- 1L
+  
   if (nrow(params_GRASS) == 1) {
+    sel_idx <- 1L
     
-    gisbase_GRASS <- as.character(params_GRASS$instDir[[1]])
+  } else if (nrow(params_GRASS) > 1 &&
+             is.numeric(ver_select) &&
+             ver_select > 0 &&
+             ver_select <= nrow(params_GRASS)) {
     
-  } else if (nrow(params_GRASS) > 1 && is.numeric(ver_select) &&
-             (ver_select > 0 && ver_select <= nrow(params_GRASS))) {
+    sel_idx <- as.integer(ver_select)
     
     if (!quiet) {
       cat("You have more than one valid GRASS version installed!\n")
       print(params_GRASS)
-      cat("Selected version is: ", ver_select, "\n")
+      cat("Selected version is:", sel_idx, "\n")
     }
-    gisbase_GRASS <- as.character(params_GRASS$instDir[[ver_select]])
     
   } else if (nrow(params_GRASS) > 1 && !isTRUE(ver_select)) {
     
-    # if ver_select is FALSE take the one with the highest version number
     v <- suppressWarnings(numeric_version(params_GRASS$version))
-    idx <- which(v == max(v))[1]
+    sel_idx <- which(v == max(v))[1]
     
     if (!quiet) {
       cat("You have more than one valid GRASS version installed!\n")
-      cat("The latest installed version (", idx, ") has been selected \n")
+      cat("The latest installed version (", sel_idx, ") has been selected\n")
       print(params_GRASS)
       cat("\n")
     }
-    gisbase_GRASS <- as.character(params_GRASS$instDir[[idx]])
     
   } else {
-    
-    # ver_select == TRUE: interactively select
+    # interactive selection
     cat("You have more than one valid GRASS version installed!\n")
     print(params_GRASS)
     cat("\n")
-    ver <- as.numeric(readline(prompt = "Please select one:  "))
-    gisbase_GRASS <- as.character(params_GRASS$instDir[[ver]])
+    ver <- suppressWarnings(as.numeric(readline(prompt = "Please select one: ")))
+    if (!is.na(ver) && ver >= 1 && ver <= nrow(params_GRASS)) {
+      sel_idx <- as.integer(ver)
+    } else {
+      stop("Invalid GRASS version selection.")
+    }
   }
   
+  # ------------------------------------------------------------
+  # Build return object (Windows parity)
+  # ------------------------------------------------------------
   grass <- list()
-  grass$gisbase_GRASS <- gisbase_GRASS
-  grass$installed <- params_GRASS
-  grass$exist <- TRUE
+  grass$gisbase_GRASS <- as.character(params_GRASS$instDir[[sel_idx]])
+  grass$version       <- params_GRASS$version[[sel_idx]]
+  grass$installed     <- params_GRASS
+  grass$exist         <- TRUE
   
-  return(grass)
+  it <- params_GRASS$installation_type[[sel_idx]]
+  grass$type <- if (is.null(it) || is.na(it) || !nzchar(it)) NA_character_ else tolower(as.character(it))
+  
+  grass
 }
 
 
-
-#'@title Usually for internally usage get 'GRASS GIS' and \code{rgrass} parameters on 'Windows' OS
-#'@name paramGRASSw
-#'@description Initialize the enviroment variables on a 'Windows' OS for using 
-#'  'GRASS GIS' via \code{rgrass}
-#'@details The concept is very straightforward but for an all days usage pretty
-#'  helpful. You need to provide a \code{terra} or a \code{sf} object. The derived properties are used to initialize a temporary but static
-#'  \href{https://CRAN.R-project.org/package=rgrass}{rgrass} environment. During the rsession you will have full access to
-#'  GRASS both via the wrapper package as well as the command line. paramGRASSw initializes the usage of GRASS.
-#'@param DL character search location default = \code{C:}
-#'@param ver_select boolean default is FALSE. If there is more than one 'SAGA GIS' installation and \code{ver_select} = TRUE the user can select interactively the preferred 'SAGA GIS' version 
-#'@param set_default_GRASS default = NULL forces a full search for 'GRASS GIS' binaries. You may
-#'  alternatively provide a vector containing paths and keywords. c('C:/OSGeo4W64','grass-7.0.5','osgeo4w') is valid for a typical osgeo4w installation.
-#'  
-#'@param quiet boolean  switch for supressing console messages default is TRUE
-#'@keywords internal
-#'  
-#' @examples
-#' 
-#' run = FALSE
-#' if (run) {
-#' # automatic retrieval of valid 'GRASS GIS' environment settings 
-#' # if more than one is found the user has to choose.
-#' paramGRASSw()
+#' Search for valid GRASS GIS installations on Windows
 #'
-#' # typical OSGeo4W64 installation
-#' paramGRASSw(c('C:/OSGeo4','grass7.8','osgeo4W'))
-#' }
-paramGRASSw <- function(set_default_GRASS = NULL, DL = "C:/", ver_select = FALSE, quiet = TRUE) {
+#' @param DL Character. Search root (e.g. `"C:/"`).
+#' @param quiet Logical. Suppress messages.
+#'
+#' @return `FALSE` or a `data.frame` with columns `instDir`, `version`, `installation_type`.
+#' @keywords internal
+#' @export
+searchGRASSW <- function(DL = "C:/", quiet = TRUE) {
   
-  if (ver_select == "T") ver_select <- TRUE
-  if (ver_select == "F" && !is.numeric(ver_select)) ver_select <- FALSE
+  DL <- .bf_wpath(DL)
   
-  if (Sys.info()["sysname"] == "Linux") {
-    return(cat("You are running Linux - please choose a suitable searchLocation argument"))
+  if (!quiet) {
+    cat("\nsearching for GRASS installations - this may take a while\n")
+    cat("For providing the path manually see ?searchGRASSW \n")
   }
   
-  # (R) set paths of 'GRASS' binaries depending on 'WINDOWS'
+  old_show_err <- getOption("show.error.messages")
+  old_warn <- getOption("warn")
+  on.exit({
+    options(show.error.messages = old_show_err)
+    options(warn = old_warn)
+  }, add = TRUE)
+  
+  options(show.error.messages = FALSE)
+  options(warn = -1)
+  
+  raw_GRASS <- try(
+    system(paste0("cmd.exe /c WHERE /R ", DL, " grass*.bat"), intern = TRUE),
+    silent = TRUE
+  )
+  
+  options(show.error.messages = TRUE)
+  options(warn = 0)
+  
+  if (methods::is(raw_GRASS, "try-error") || length(raw_GRASS) == 0) {
+    if (!quiet) {
+      message("::: NO GRASS installation found at: '", DL, "'")
+      message("::: NOTE: Links or symbolic links like 'C:/Documents' are not searched...")
+    }
+    return(FALSE)
+  }
+  
+  # standard "not found" outputs
+  not_found <- any(
+    grepl("File not found", raw_GRASS, fixed = TRUE) |
+      grepl("Datei nicht gefunden", raw_GRASS, fixed = TRUE) |
+      grepl("INFORMATION:", raw_GRASS, fixed = TRUE) |
+      grepl("FEHLER:", raw_GRASS, fixed = TRUE) |
+      grepl("ERROR:", raw_GRASS, fixed = TRUE)
+  )
+  
+  if (isTRUE(not_found)) {
+    if (!quiet) {
+      message("::: NO GRASS installation found at: '", DL, "'")
+      message("::: NOTE: Links or symbolic links like 'C:/Documents' are not searched...")
+    }
+    return(FALSE)
+  }
+  
+  installations_GRASS <- lapply(seq_along(raw_GRASS), function(i) {
+    
+    bf <- utils::shortPathName(raw_GRASS[i])
+    
+    batchfile_lines <- try(
+      system(paste0("cmd.exe /C TYPE ", bf), intern = TRUE),
+      silent = TRUE
+    )
+    if (methods::is(batchfile_lines, "try-error") || length(batchfile_lines) == 0) return(NULL)
+    
+    osgeo4w <- length(grep("OSGEO4W", batchfile_lines, value = TRUE)) > 0
+    nsis    <- length(grep("NSIS installer", batchfile_lines, value = TRUE)) > 0
+    
+    root_dir <- NA_character_
+    ver_char <- NA_character_
+    installerType <- NA_character_
+    
+    if (isTRUE(osgeo4w)) {
+      
+      bn <- basename(bf)
+      
+      # common launcher names (adjust if you want more)
+      if (tolower(bn) %in% c("grass78.bat", "grass79.bat", "grass83.bat", "grass84.bat")) {
+        root_dir <- dirname(dirname(bf))           # OSGeo4W root
+        ver_char <- gsub("[^0-9]", "", bn)         # "83" from "grass83.bat"
+        installerType <- "osgeo4w"
+      } else {
+        
+        # try to read OSGEO4W_ROOT=...
+        rd <- grep("OSGEO4W_ROOT", batchfile_lines, value = TRUE)
+        if (length(rd) > 0) {
+          rd <- rd[1]
+          pos <- regexpr("=", rd, fixed = TRUE)
+          if (pos > 0) root_dir <- substr(rd, pos + 1, nchar(rd))
+        }
+        
+        # try to infer version from env.bat path fragment containing grass-*
+        vv <- grep("\\benv\\.bat\\b", batchfile_lines, value = TRUE)
+        if (length(vv) > 0 && !is.na(root_dir)) {
+          vv <- vv[1]
+          m <- regmatches(vv, regexpr("grass-[0-9]+(\\.[0-9]+)*", vv))
+          if (length(m) > 0) ver_char <- m
+        }
+        
+        installerType <- "osgeo4w"
+      }
+    }
+    
+    if (isTRUE(nsis)) {
+      rd <- grep("set GISBASE=", batchfile_lines, value = TRUE)
+      if (length(rd) > 0) {
+        rd <- rd[1]
+        pos <- regexpr("=", rd, fixed = TRUE)
+        if (pos > 0) root_dir <- substr(rd, pos + 1, nchar(rd))
+      }
+      if (!is.na(root_dir)) {
+        m <- regmatches(root_dir, regexpr("[0-9]+(\\.[0-9]+)+", root_dir))
+        if (length(m) > 0) ver_char <- m
+      }
+      installerType <- "nsis"
+    }
+    
+    if (!is.na(root_dir) && nzchar(root_dir) && file.exists(root_dir)) {
+      data.frame(
+        instDir = root_dir,
+        version = ver_char,
+        installation_type = tolower(installerType),
+        stringsAsFactors = FALSE
+      )
+    } else {
+      NULL
+    }
+  })
+  
+  installations_GRASS <- do.call(rbind, installations_GRASS)
+  
+  if (is.null(installations_GRASS) || nrow(installations_GRASS) == 0) {
+    if (!quiet) cat("Did not find any valid GRASS installation at mount point", DL, "\n")
+    return(FALSE)
+  }
+  
+  installations_GRASS
+}
+
+#' @title Get GRASS GIS parameters on Windows
+#'
+#' @description
+#' Detects available GRASS GIS installations on Windows systems, selects
+#' a suitable installation, and optionally activates the GRASS runtime
+#' environment for use with \pkg{rgrass}.
+#'
+#' This function is primarily intended for internal use by
+#' \code{\link{linkGRASS}} and related helpers.
+#'
+#' @details
+#' The function searches for valid GRASS GIS installations using
+#' \code{\link{findGRASS}}. If multiple installations are found, the selection
+#' can be controlled via \code{ver_select}.
+#'
+#' If \code{activate = TRUE}, the GRASS environment variables are initialized
+#' via \code{\link{setenvGRASSw}}, enabling immediate use of GRASS GIS through
+#' \pkg{rgrass} and command-line calls.
+#'
+#' No spatial data object is required at this stage; spatial initialization
+#' is handled later by \code{\link{linkGRASS}}.
+#'
+#' @param set_default_GRASS Optional predefined GRASS installation.
+#'   Must be coercible to a data frame with columns
+#'   \code{instDir}, \code{version}, and \code{installation_type}.
+#'
+#' @param DL Character. Search root for GRASS installations.
+#'   Defaults to \code{"C:/"}.
+#'
+#' @param ver_select Logical or numeric.
+#'   If \code{FALSE} (default), the latest version is selected automatically.
+#'   If numeric, selects the corresponding installation index.
+#'   If \code{TRUE}, interactive selection is used.
+#'
+#' @param quiet Logical. If \code{TRUE} (default), suppress informational messages.
+#'
+#' @param activate Logical. If \code{TRUE} (default), activate the selected
+#'   GRASS GIS environment.
+#'
+#' @param sysname Character. Internal/testing hook overriding
+#'   \code{Sys.info()[["sysname"]]}.
+#'
+#' @return
+#' A named list with elements:
+#' \describe{
+#'   \item{gisbase_GRASS}{Path to the selected GRASS GIS base directory.}
+#'   \item{version}{Detected GRASS GIS version string (may be \code{NA}).}
+#'   \item{type}{Installation type (e.g. \code{"osgeo4w"}, \code{"standalone"}).}
+#'   \item{installed}{Data frame of all detected installations.}
+#'   \item{exist}{Logical indicating whether a valid installation was found.}
+#' }
+#'
+#' If no installation is found or the platform is not Windows,
+#' \code{list(exist = FALSE)} is returned.
+#'
+#' @keywords internal
+#'
+#' @seealso
+#' \code{\link{findGRASS}}, \code{\link{setenvGRASSw}}, \code{\link{linkGRASS}}
+#'
+#' @examples
+#' \dontrun{
+#' # automatic detection and activation
+#' g <- paramGRASSw()
+#'
+#' # select a specific installation by index
+#' g <- paramGRASSw(ver_select = 1)
+#'
+#' # predefined installation (advanced use)
+#' g <- paramGRASSw(
+#'   set_default_GRASS = c("C:/OSGeo4W64", "8.3.2", "osgeo4w")
+#' )
+#' }
+paramGRASSw <- function(set_default_GRASS = NULL,
+                        DL = "C:/",
+                        ver_select = FALSE,
+                        quiet = TRUE,
+                        activate = TRUE,
+                        sysname = Sys.info()[["sysname"]]) {
+  
+  # ------------------------------------------------------------
+  # 1) Platform guard (testable, no side effects)
+  # ------------------------------------------------------------
+  if (sysname != "Windows") {
+    return(list(exist = FALSE))
+  }
+  
+  # normalize logical flags that may come as "T"/"F"
+  if (identical(ver_select, "T")) ver_select <- TRUE
+  if (identical(ver_select, "F")) ver_select <- FALSE
+  
+  # ------------------------------------------------------------
+  # 2) Detect GRASS installations
+  # ------------------------------------------------------------
   if (is.null(set_default_GRASS)) {
-    if (DL == "default" || is.null(DL)) DL <- "C:/"
+    if (is.null(DL) || identical(DL, "default")) DL <- "C:/"
     params_GRASS <- findGRASS(searchLocation = DL, quiet = quiet)
   } else {
     params_GRASS <- rbind.data.frame(set_default_GRASS)
     names(params_GRASS) <- c("instDir", "version", "installation_type")
   }
   
-  # --- robust success check ---
-  if (isFALSE(params_GRASS) || !is.data.frame(params_GRASS) || nrow(params_GRASS) < 1) {
+  if (isFALSE(params_GRASS) ||
+      !is.data.frame(params_GRASS) ||
+      nrow(params_GRASS) < 1) {
     return(list(exist = FALSE))
   }
   
-  # --- select version ---
-  if (nrow(params_GRASS) == 1) {
+  # ------------------------------------------------------------
+  # 3) Select installation index (extracted logic)
+  # ------------------------------------------------------------
+  n <- nrow(params_GRASS)
+  sel_idx <- 1L
+  
+  if (n == 1) {
+    sel_idx <- 1L
     
-    gisbase_GRASS <- setenvGRASSw(
-      root_GRASS = params_GRASS$instDir[[1]],
-      grass_version = params_GRASS$version[[1]],
-      installation_type = params_GRASS$installation_type[[1]],
-      quiet = quiet
-    )
+  } else if (is.numeric(ver_select) &&
+             ver_select >= 1 &&
+             ver_select <= n) {
     
-    grass_version <- params_GRASS$version[[1]]
-    installation_type <- params_GRASS$installation_type[[1]]
-    
-  } else if (nrow(params_GRASS) > 1 && is.numeric(ver_select) &&
-             (ver_select > 0 && ver_select <= nrow(params_GRASS))) {
+    sel_idx <- as.integer(ver_select)
     
     if (!quiet) {
-      cat("You have more than one valid GRASS GIS version\n")
+      message("Multiple GRASS installations detected:")
       print(params_GRASS)
-      cat("You have selected version: ", ver_select, "\n")
+      message("Selected installation: ", sel_idx)
     }
     
-    gisbase_GRASS <- normalizePath(
-      setenvGRASSw(
-        root_GRASS = params_GRASS$instDir[[ver_select]],
-        grass_version = params_GRASS$version[[ver_select]],
-        installation_type = params_GRASS$installation_type[[ver_select]],
-        quiet = quiet
-      ),
-      winslash = "/"
-    )
+  } else if (!isTRUE(ver_select)) {
     
-    grass_version <- params_GRASS$version[[ver_select]]
-    installation_type <- params_GRASS$installation_type[[ver_select]]
-    
-  } else if (nrow(params_GRASS) > 1 && !isTRUE(ver_select)) {
-    
-    # take the latest installed version (semantic version compare)
     v <- suppressWarnings(numeric_version(params_GRASS$version))
-    idx <- which(v == max(v))[1]
+    sel_idx <- which(v == max(v))[1]
     
     if (!quiet) {
-      cat("You have more than one valid GRASS version installed!\n")
-      cat("The latest installed version (", idx, ") has been selected \n")
+      message("Multiple GRASS installations detected.")
+      message("Automatically selected latest version (", sel_idx, ").")
     }
-    
-    gisbase_GRASS <- setenvGRASSw(
-      root_GRASS = params_GRASS$instDir[[idx]],
-      grass_version = params_GRASS$version[[idx]],
-      installation_type = params_GRASS$installation_type[[idx]],
-      quiet = quiet
-    )
-    
-    grass_version <- params_GRASS$version[[idx]]
-    installation_type <- params_GRASS$installation_type[[idx]]
     
   } else {
     
-    # interactive selection
-    cat("You have more than one valid GRASS GIS version\n")
+    message("Multiple GRASS installations detected:")
     print(params_GRASS)
-    cat("\n")
-    ver <- as.numeric(readline(prompt = "Please select one:  "))
+    ver <- suppressWarnings(as.numeric(readline("Please select one: ")))
     
-    gisbase_GRASS <- normalizePath(
-      setenvGRASSw(
-        root_GRASS = params_GRASS$instDir[[ver]],
-        grass_version = params_GRASS$version[[ver]],
-        installation_type = params_GRASS$installation_type[[ver]],
-        quiet = quiet
-      ),
-      winslash = "/"
-    )
+    if (is.na(ver) || ver < 1 || ver > n) {
+      stop("Invalid GRASS version selection.")
+    }
     
-    grass_version <- params_GRASS$version[[ver]]
-    installation_type <- params_GRASS$installation_type[[ver]]
+    sel_idx <- as.integer(ver)
   }
   
-  grass <- list()
-  grass$gisbase_GRASS <- gsub("\\\\", "/", gisbase_GRASS)
-  grass$version <- grass_version
-  grass$type <- installation_type
-  grass$installed <- params_GRASS
-  grass$exist <- TRUE
+  # ------------------------------------------------------------
+  # 4) Normalize selected installation metadata
+  # ------------------------------------------------------------
+  instDir <- as.character(params_GRASS$instDir[[sel_idx]])
+  version <- params_GRASS$version[[sel_idx]]
+  type    <- tolower(as.character(params_GRASS$installation_type[[sel_idx]]))
   
-  return(grass)
+  # ------------------------------------------------------------
+  # 5) Optional environment activation (side effects isolated)
+  # ------------------------------------------------------------
+  if (isTRUE(activate)) {
+    gisbase_GRASS <- normalizePath(
+      setenvGRASSw(
+        root_GRASS = instDir,
+        grass_version = version,
+        installation_type = type,
+        quiet = quiet
+      ),
+      winslash = "/",
+      mustWork = FALSE
+    )
+  } else {
+    gisbase_GRASS <- normalizePath(instDir, winslash = "/", mustWork = FALSE)
+  }
+  
+  # ------------------------------------------------------------
+  # 6) Stable, cross-platform return object
+  # ------------------------------------------------------------
+  grass <- list(
+    gisbase_GRASS = gsub("\\\\", "/", gisbase_GRASS),
+    version       = if (!nzchar(version)) NA_character_ else version,
+    type          = if (!nzchar(type)) NA_character_ else type,
+    installed     = params_GRASS,
+    exist         = TRUE
+  )
+  
+  grass
 }
-
 
 
 
@@ -467,99 +471,108 @@ paramGRASSw <- function(set_default_GRASS = NULL, DL = "C:/", ver_select = FALSE
 #' @export
 searchGRASSW <- function(DL = "C:/", quiet = TRUE) {
   
-  DL <- bf_wpath(DL)
+  # keep your existing path normalizer (must exist in your package)
+  DL <- .bf_wpath(DL)
   
   if (!quiet) {
     cat("\nsearching for GRASS installations - this may take a while\n")
     cat("For providing the path manually see ?searchGRASSW \n")
   }
   
-  # save + restore options safely
-  old_show_err <- getOption("show.error.messages")
-  old_warn <- getOption("warn")
-  on.exit({
-    options(show.error.messages = old_show_err)
-    options(warn = old_warn)
-  }, add = TRUE)
+  # ---- run bounded Windows search via WHERE ----
+  raw_GRASS <- try(
+    .link2gi_sys2(
+      "cmd.exe",
+      args   = c("/c", "where", "/R", DL, "grass*.bat"),
+      stdout = TRUE,
+      stderr = TRUE
+    ),
+    silent = TRUE
+  )
   
-  options(show.error.messages = FALSE)
-  options(warn = -1)
-  
-  raw_GRASS <- try(system(paste0("cmd.exe /c WHERE /R ", DL, " ", "grass*.bat"), intern = TRUE), silent = TRUE)
-  
-  # restore warning display for subsequent logic/messages (on.exit will also restore)
-  options(show.error.messages = TRUE)
-  options(warn = 0)
-  
-  if (methods::is(raw_GRASS, "try-error") || length(raw_GRASS) == 0) {
-    message("::: NO GRASS installation found at: '", DL, "'")
-    message("::: NOTE:  Links or symbolic links like 'C:/Documents' are not searched...")
+  if (inherits(raw_GRASS, "try-error") || length(raw_GRASS) == 0) {
+    if (!quiet) {
+      message("::: NO GRASS installation found at: '", DL, "'")
+      message("::: NOTE:  Links or symbolic links like 'C:/Documents' are not searched...")
+    }
     return(FALSE)
   }
   
-  # detect standard "not found" outputs
-  not_found <- unique(
-    grepl(raw_GRASS, pattern = "File not found") |
-      grepl(raw_GRASS, pattern = "Datei nicht gefunden") |
-      grepl(raw_GRASS, pattern = "INFORMATION:") |
-      grepl(raw_GRASS, pattern = "FEHLER:") |
-      grepl(raw_GRASS, pattern = "ERROR:")
+  # normalize typical WHERE output noise / localized "not found" messages
+  raw_GRASS <- trimws(raw_GRASS)
+  raw_GRASS <- raw_GRASS[nzchar(raw_GRASS)]
+  
+  not_found <- any(
+    grepl("File not found", raw_GRASS, fixed = TRUE) |
+      grepl("Datei nicht gefunden", raw_GRASS, fixed = TRUE) |
+      grepl("INFORMATION:", raw_GRASS, fixed = TRUE) |
+      grepl("FEHLER:", raw_GRASS, fixed = TRUE) |
+      grepl("ERROR:", raw_GRASS, fixed = TRUE)
   )
   
-  if (isTRUE(not_found)) {
-    message("::: NO GRASS installation found at: '", DL, "'")
-    message("::: NOTE:  Links or symbolic links like 'C:/Documents' are not searched...")
+  if (isTRUE(not_found) || length(raw_GRASS) == 0) {
+    if (!quiet) {
+      message("::: NO GRASS installation found at: '", DL, "'")
+      message("::: NOTE:  Links or symbolic links like 'C:/Documents' are not searched...")
+    }
     return(FALSE)
   }
   
   installations_GRASS <- lapply(seq_along(raw_GRASS), function(i) {
     
-    batchfile_lines <- system(
-      paste0("cmd.exe /C TYPE  ", utils::shortPathName(raw_GRASS[i])),
-      ignore.stdout = FALSE,
-      intern = TRUE
+    bat <- raw_GRASS[i]
+    bat_sp <- utils::shortPathName(bat)
+    
+    batchfile_lines <- try(
+      .link2gi_sys2(
+        "cmd.exe",
+        args   = c("/c", "type", bat_sp),
+        stdout = TRUE,
+        stderr = TRUE
+      ),
+      silent = TRUE
     )
     
-    osgeo4w <- FALSE
-    stand_alone <- FALSE
+    if (inherits(batchfile_lines, "try-error") || length(batchfile_lines) == 0) {
+      return(NULL)
+    }
+    
+    osgeo4w <- length(unique(grep("OSGEO4W", batchfile_lines, value = TRUE))) > 0
+    stand_alone <- length(unique(grep("NSIS installer", batchfile_lines, value = TRUE))) > 0
+    
     root_dir <- ""
     ver_char <- NA_character_
     installerType <- NA_character_
     
-    if (length(unique(grep("OSGEO4W", batchfile_lines, value = TRUE))) > 0) {
-      osgeo4w <- TRUE
-      stand_alone <- FALSE
-    }
-    
-    if (length(unique(grep("NSIS installer", batchfile_lines, value = TRUE))) > 0) {
-      osgeo4w <- FALSE
-      stand_alone <- TRUE
-    }
-    
-    if (osgeo4w) {
+    if (isTRUE(osgeo4w)) {
       
-      bn <- basename(utils::shortPathName(raw_GRASS[i]))
+      bn <- basename(bat_sp)
       
       if (bn %in% c("grass78.bat", "grass79.bat", "grass83.bat")) {
         
-        root_dir <- dirname(dirname(utils::shortPathName(raw_GRASS[i])))
+        root_dir <- dirname(dirname(bat_sp))
         ver_char <- substr(bn, 6, 7)
         installerType <- "osgeo4W"
         
       } else {
         
-        if (length(grep("PREREM~1", utils::shortPathName(raw_GRASS[i]))) == 0 &&
-            length(grep("extrabin", utils::shortPathName(raw_GRASS[i]))) == 0) {
+        if (length(grep("PREREM~1", bat_sp)) == 0 &&
+            length(grep("extrabin", bat_sp)) == 0) {
           
           root_dir <- unique(grep("OSGEO4W_ROOT", batchfile_lines, value = TRUE))
           if (length(root_dir) > 0) {
-            root_dir <- substr(root_dir, gregexpr(pattern = "=", root_dir)[[1]][1] + 1, nchar(root_dir))
+            eq <- gregexpr(pattern = "=", root_dir[[1]])[[1]][1]
+            if (!is.na(eq) && eq > 0) root_dir <- substr(root_dir[[1]], eq + 1, nchar(root_dir[[1]]))
           }
           
           ver_char <- unique(grep("\\benv.bat\\b", batchfile_lines, value = TRUE))
           if (length(root_dir) > 0 && length(ver_char) > 0) {
-            ver_char <- substr(ver_char, gregexpr(pattern = "\\grass-", ver_char)[[1]][1], nchar(ver_char))
-            ver_char <- substr(ver_char, 1, gregexpr(pattern = "\\\\", ver_char)[[1]][1] - 1)
+            p0 <- gregexpr(pattern = "\\grass-", ver_char[[1]])[[1]][1]
+            if (!is.na(p0) && p0 > 0) {
+              tmp <- substr(ver_char[[1]], p0, nchar(ver_char[[1]]))
+              p1 <- gregexpr(pattern = "\\\\", tmp)[[1]][1]
+              if (!is.na(p1) && p1 > 1) ver_char <- substr(tmp, 1, p1 - 1)
+            }
           }
         }
         
@@ -567,33 +580,31 @@ searchGRASSW <- function(DL = "C:/", quiet = TRUE) {
       }
     }
     
-    if (stand_alone) {
+    if (isTRUE(stand_alone)) {
       
       root_dir <- unique(grep("set GISBASE=", batchfile_lines, value = TRUE))
       if (length(root_dir) > 0) {
-        root_dir <- substr(root_dir, gregexpr(pattern = "=", root_dir)[[1]][1] + 1, nchar(root_dir))
+        eq <- gregexpr(pattern = "=", root_dir[[1]])[[1]][1]
+        if (!is.na(eq) && eq > 0) root_dir <- substr(root_dir[[1]], eq + 1, nchar(root_dir[[1]]))
       }
       
       ver_char <- root_dir
       if (length(root_dir) > 0) {
-        ver_char <- substr(ver_char, gregexpr(pattern = "GRASS", ver_char)[[1]][1], nchar(ver_char))
+        p0 <- gregexpr(pattern = "GRASS", ver_char[[1]])[[1]][1]
+        if (!is.na(p0) && p0 > 0) ver_char <- substr(ver_char[[1]], p0, nchar(ver_char[[1]]))
       }
       
       installerType <- "NSIS"
     }
     
+    # final existence check
     exist <- FALSE
-    if (length(root_dir) > 0 && !is.na(root_dir)) {
-      # keep your original "strip after =" behavior but guard indices
-      if (length(gregexpr(pattern = "=", root_dir)[[1]]) > 0 && gregexpr(pattern = "=", root_dir)[[1]][1] > 0) {
-        root_dir <- substr(root_dir[[1]], gregexpr(pattern = "=", root_dir)[[1]][1] + 1, nchar(root_dir))
-      } else {
-        root_dir <- root_dir[[1]]
-      }
-      exist <- file.exists(file.path(root_dir))
+    if (length(root_dir) > 0 && !is.na(root_dir) && nzchar(root_dir)) {
+      root_dir <- root_dir[[1]]
+      exist <- .link2gi_dir_exists(root_dir) || .link2gi_file_exists(root_dir)
     }
     
-    if (length(root_dir) > 0 && exist) {
+    if (isTRUE(exist)) {
       data.frame(
         instDir = root_dir,
         version = ver_char,
@@ -612,8 +623,9 @@ searchGRASSW <- function(DL = "C:/", quiet = TRUE) {
     return(FALSE)
   }
   
-  return(installations_GRASS)
+  installations_GRASS
 }
+
 
 
 
@@ -621,10 +633,9 @@ searchGRASSW <- function(DL = "C:/", quiet = TRUE) {
 #'
 #' Strategy:
 #' 1) Prefer `grass --config path` (returns GISBASE on modern GRASS)
-#' 2) Fallback: locate `grass` via `Sys.which()`, then infer common GISBASE paths
+#' 2) Fallback: locate candidates under common roots (/usr/lib, /usr/local/lib, /opt)
 #'
-#' @param MP Character. Ignored for detection (kept for API compatibility).
-#'   You may pass a directory or an executable path; it will be used only as a hint.
+#' @param MP Character. Optional hint: directory or executable path.
 #' @param quiet Logical.
 #' @return FALSE or data.frame(instDir, version, installation_type)
 #' @export
@@ -633,18 +644,18 @@ searchGRASSX <- function(MP = "default", quiet = TRUE) {
   
   .msg <- function(...) if (!isTRUE(quiet)) message(...)
   
-  # 0) Hint handling (directory or file); keep for compatibility but don't rely on it
+  # 0) Hint handling
   hint_dir <- NULL
   if (!is.null(MP) && !identical(MP, "default")) {
-    if (file.exists(MP) && !dir.exists(MP)) hint_dir <- dirname(MP)
-    if (dir.exists(MP)) hint_dir <- MP
+    if (.link2gi_file_exists(MP) && !.link2gi_dir_exists(MP)) hint_dir <- dirname(MP)
+    if (.link2gi_dir_exists(MP)) hint_dir <- MP
   }
   
-  # 1) Locate grass executable (PATH)
-  grass_exe <- Sys.which("grass")
+  # 1) Locate grass executable
+  grass_exe <- unname(.link2gi_which("grass")[1])
   if (!nzchar(grass_exe) && !is.null(hint_dir)) {
     cand <- file.path(hint_dir, "grass")
-    if (file.exists(cand)) grass_exe <- cand
+    if (.link2gi_file_exists(cand)) grass_exe <- cand
   }
   
   if (!nzchar(grass_exe)) {
@@ -652,18 +663,18 @@ searchGRASSX <- function(MP = "default", quiet = TRUE) {
     return(FALSE)
   }
   
-  # 2) Ask GRASS for GISBASE (preferred, stable)
-  gisbase <- try(system2(grass_exe, c("--config", "path"), stdout = TRUE, stderr = TRUE), silent = TRUE)
-  if (!inherits(gisbase, "try-error") && length(gisbase) > 0) {
-    gisbase <- trimws(gisbase[1])
-    if (nzchar(gisbase) && dir.exists(gisbase)) {
+  # 2) Ask GRASS for GISBASE (preferred)
+  gisbase_out <- try(.link2gi_sys2(grass_exe, c("--config", "path"), stdout = TRUE, stderr = TRUE), silent = TRUE)
+  
+  if (!inherits(gisbase_out, "try-error") && length(gisbase_out) > 0) {
+    gisbase <- trimws(gisbase_out[1])
+    if (nzchar(gisbase) && .link2gi_dir_exists(gisbase)) {
       
-      # version (best-effort)
-      ver <- try(system2(grass_exe, "--version", stdout = TRUE, stderr = TRUE), silent = TRUE)
+      # Version (best-effort)
+      ver_out <- try(.link2gi_sys2(grass_exe, "--version", stdout = TRUE, stderr = TRUE), silent = TRUE)
       ver_char <- NA_character_
-      if (!inherits(ver, "try-error") && length(ver) > 0) {
-        # "GRASS GIS 8.3.2"
-        m <- regmatches(ver[1], regexpr("[0-9]+(\\.[0-9]+)+", ver[1]))
+      if (!inherits(ver_out, "try-error") && length(ver_out) > 0) {
+        m <- regmatches(ver_out[1], regexpr("[0-9]+(\\.[0-9]+)+", ver_out[1]))
         if (length(m) > 0) ver_char <- m
       }
       
@@ -676,28 +687,38 @@ searchGRASSX <- function(MP = "default", quiet = TRUE) {
     }
   }
   
-  # 3) Fallback: infer typical GISBASE locations (last resort)
-  # Try /usr/lib/grass* and /usr/local/lib/grass*
+  # 3) Fallback candidates (last resort)
   roots <- c("/usr/lib", "/usr/local/lib", "/opt")
-  cand <- unlist(lapply(roots, function(r) Sys.glob(file.path(r, "grass*"))), use.names = FALSE)
-  cand <- cand[dir.exists(cand)]
-  cand <- cand[file.exists(file.path(cand, "etc", "VERSIONNUMBER")) | dir.exists(file.path(cand, "etc"))]
+  cand <- unlist(lapply(roots, function(r) .link2gi_glob(file.path(r, "grass*"))), use.names = FALSE)
+  cand <- cand[nzchar(cand)]
+  cand <- cand[.link2gi_dir_exists(cand)]
+  
+  # Keep only things that look like GISBASE
+  ok <- vapply(cand, function(p) {
+    .link2gi_dir_exists(file.path(p, "etc")) &&
+      (.link2gi_file_exists(file.path(p, "etc", "VERSIONNUMBER")) || .link2gi_dir_exists(file.path(p, "scripts")))
+  }, logical(1))
+  cand <- cand[ok]
   
   if (length(cand) == 0) {
     .msg("searchGRASSX(): could not resolve GISBASE via '--config path' and no fallback candidates found.")
     return(FALSE)
   }
   
-  # pick highest version-looking suffix
+  # Choose highest numeric suffix if present (grass84 > grass83); otherwise first
   suf <- suppressWarnings(as.integer(gsub(".*grass", "", basename(cand), ignore.case = TRUE)))
-  cand <- cand[order(suf, decreasing = TRUE)]
-  data.frame(
-    instDir = cand[1],
-    version = NA_character_,
-    installation_type = basename(grass_exe),
+  ord <- order(ifelse(is.na(suf), -Inf, suf), decreasing = TRUE)
+  cand <- cand[ord]
+  
+  return(data.frame(
+    instDir = gisbase,
+    version = ver_char,
+    installation_type = "system",
     stringsAsFactors = FALSE
-  )
+  ))
 }
+
+
 
 
 
@@ -779,33 +800,69 @@ checkGisdbase <- function(x = NULL, gisdbase = NULL, location = NULL,
 
 
 
-#' @title Returns attributes of valid 'GRASS GIS' installation(s) on the system.
-#' @name findGRASS
-#' @description Retrieve a list of valid 'GRASS GIS' installation(s) on your system.
-#' On Windows, uses searchGRASSW() (cmd-free). On Unix, uses searchGRASSX().
-#' @param searchLocation On Windows MUST start with drive letter + colon, e.g. "C:", "C:/", "C:/Users/...".
-#' Defaults to "C:/". On Unix defaults to "/usr/bin".
-#' @param ver_select If TRUE and more than one installation is found, interactively select one.
-#' @param quiet Suppress messages.
-#' @return FALSE or data.frame(instDir, version, installation_type)
+
+#' @title Find GRASS GIS installation(s)
+#'
+#' @description
+#' Detects valid GRASS GIS installation(s) on the current system and returns
+#' their installation paths and version information.
+#'
+#' On Windows, \code{\link{searchGRASSW}} is used. On Unix-alike systems
+#' (Linux/macOS), \code{\link{searchGRASSX}} is used.
+#'
+#' @param searchLocation Character. Search hint/root.
+#' \itemize{
+#'   \item On Windows this MUST include a drive letter and colon, e.g.
+#'         \code{"C:"}, \code{"C:/"}, \code{"C:/OSGeo4W64"}.
+#'         The default is \code{"C:/"}.
+#'   \item On Unix the default is \code{"/usr/bin"}. You may pass either a
+#'         directory or a full path to a \code{grass} executable; if a file is
+#'         provided, its directory is used as hint.
+#' }
+#'
+#' @param ver_select Logical. If \code{TRUE} and more than one installation is
+#' found, a selection prompt is shown and only the chosen row is returned.
+#'
+#' @param quiet Logical. If \code{TRUE} (default), suppress informational messages.
+#'
+#' @return
+#' Returns \code{FALSE} if no installation is detected.
+#' Otherwise returns a \code{data.frame} with columns:
+#' \describe{
+#'   \item{instDir}{Installation directory (GISBASE).}
+#'   \item{version}{Parsed version string (may be \code{NA}).}
+#'   \item{installation_type}{Installation type identifier (e.g. \code{"osgeo4w"},
+#'   \code{"standalone"}; on Unix this may be derived from the executable name).}
+#' }
+#'
+#' @keywords internal
 #' @export
+#'
+#' @seealso
+#' \code{\link{searchGRASSW}}, \code{\link{searchGRASSX}}, \code{\link{linkGRASS}}
+#'
+#' @examples
+#' \dontrun{
+#' # Windows
+#' findGRASS("C:/", quiet = FALSE)
+#'
+#' # Unix: hint directory
+#' findGRASS("/usr/bin", quiet = FALSE)
+#'
+#' # Unix: explicit executable path
+#' findGRASS("/usr/bin/grass", quiet = FALSE)
+#' }
 findGRASS <- function(searchLocation = "default", ver_select = FALSE, quiet = TRUE) {
-  
   .msg <- function(...) if (!isTRUE(quiet)) message(...)
   
-  # ---------------------------
-  # Windows
-  # ---------------------------
   if (Sys.info()[["sysname"]] == "Windows") {
     
-    # Resolve default
     if (identical(searchLocation, "default") || is.null(searchLocation)) {
       searchLocation <- "C:/"
     } else {
       searchLocation <- normalizePath(path.expand(searchLocation), winslash = "/", mustWork = FALSE)
     }
     
-    # Validate Windows drive prefix (NO vector-pattern bug; NO cat()/NULL)
     if (is.na(searchLocation) || !grepl("^[A-Za-z]:(/|$)", searchLocation)) {
       .msg(
         "You are running Windows - Please choose a suitable searchLocation argument ",
@@ -814,10 +871,8 @@ findGRASS <- function(searchLocation = "default", ver_select = FALSE, quiet = TR
       return(FALSE)
     }
     
-    # Run Windows finder (cmd-free)
     link <- searchGRASSW(DL = searchLocation, quiet = quiet)
     
-    # Optional hint ONLY if not found and GRASS not on PATH
     if (isFALSE(link)) {
       check <- try(system("o-help", intern = TRUE), silent = TRUE)
       if (methods::is(check, "try-error") && !quiet) {
@@ -831,17 +886,12 @@ findGRASS <- function(searchLocation = "default", ver_select = FALSE, quiet = TR
       }
     }
     
-    # ---------------------------
-    # Unix / Linux / macOS
-    # ---------------------------
-    # Unix / Linux / macOS
   } else {
     
     if (identical(searchLocation, "default") || is.null(searchLocation)) {
       searchLocation <- "/usr/bin"
     }
     
-    # if a file was provided (e.g. /usr/bin/grass), search its directory
     if (file.exists(searchLocation) && !dir.exists(searchLocation)) {
       searchLocation <- dirname(normalizePath(searchLocation, winslash = "/", mustWork = TRUE))
     }
@@ -851,13 +901,10 @@ findGRASS <- function(searchLocation = "default", ver_select = FALSE, quiet = TR
       return(FALSE)
     }
     
-    link <- link2GI::searchGRASSX(MP = searchLocation, quiet = quiet)
+    # IMPORTANT: no link2GI:: prefix inside the package
+    link <- searchGRASSX(MP = searchLocation, quiet = quiet)
   }
   
-  
-  # ---------------------------
-  # Optional interactive selection
-  # ---------------------------
   if (isTRUE(ver_select) && is.data.frame(link) && nrow(link) > 1) {
     if (!quiet) {
       cat("You have more than one valid GRASS GIS version\n")

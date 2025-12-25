@@ -12,5 +12,7 @@
   link2GI](https://r-spatial.github.io/link2GI/articles/link2GI4.md):
 - [Create reproducible project structures in
   link2GI](https://r-spatial.github.io/link2GI/articles/link2GI5.md):
+- [A Deterministic GDAL CLI Context for Reproducible
+  Workflows](https://r-spatial.github.io/link2GI/articles/link2GI6.md):
 - [Installation guide for link2GI related
-  software](https://r-spatial.github.io/link2GI/articles/link2GI6.md):
+  software](https://r-spatial.github.io/link2GI/articles/link2GI7.md):

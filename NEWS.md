@@ -1,4 +1,12 @@
-# link2GI 0.7-3
+## link2GI 0.7-3
+
+**changes**
+
+* Added deterministic GDAL CLI context using linked system binaries (no implicit PATH).
+* Introduced GDAL fingerprinting, help-based skeletons, and NDJSON run logging for reproducibility.
+* Refactored GDAL discovery/linking to be platform-robust and non-redundant.
+
+## link2GI 0.7-3
 
 **changes**
 
@@ -6,7 +14,7 @@
 * Stabilized environment setup
 * Tests & CRAN hygiene: replaced brittle/mock-heavy tests with meaningful coverage, fixed edge cases, and achieved clean R CMD 
 
-# link2GI 0.7-2
+## link2GI 0.7-2
 
 **changes**
 

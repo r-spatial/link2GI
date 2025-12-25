@@ -9,6 +9,7 @@
 <url><loc>https://r-spatial.github.io/link2GI/articles/link2GI4a.html</loc></url>
 <url><loc>https://r-spatial.github.io/link2GI/articles/link2GI5.html</loc></url>
 <url><loc>https://r-spatial.github.io/link2GI/articles/link2GI6.html</loc></url>
+<url><loc>https://r-spatial.github.io/link2GI/articles/link2GI7.html</loc></url>
 <url><loc>https://r-spatial.github.io/link2GI/authors.html</loc></url>
 <url><loc>https://r-spatial.github.io/link2GI/index.html</loc></url>
 <url><loc>https://r-spatial.github.io/link2GI/news/index.html</loc></url>
@@ -22,6 +23,12 @@
 <url><loc>https://r-spatial.github.io/link2GI/reference/findGRASS.html</loc></url>
 <url><loc>https://r-spatial.github.io/link2GI/reference/findOTB.html</loc></url>
 <url><loc>https://r-spatial.github.io/link2GI/reference/findSAGA.html</loc></url>
+<url><loc>https://r-spatial.github.io/link2GI/reference/gdal_build_args.html</loc></url>
+<url><loc>https://r-spatial.github.io/link2GI/reference/gdal_context.html</loc></url>
+<url><loc>https://r-spatial.github.io/link2GI/reference/gdal_context_from_link.html</loc></url>
+<url><loc>https://r-spatial.github.io/link2GI/reference/gdal_fingerprint.html</loc></url>
+<url><loc>https://r-spatial.github.io/link2GI/reference/gdal_help.html</loc></url>
+<url><loc>https://r-spatial.github.io/link2GI/reference/gdal_skeleton.html</loc></url>
 <url><loc>https://r-spatial.github.io/link2GI/reference/getSpatialClass.html</loc></url>
 <url><loc>https://r-spatial.github.io/link2GI/reference/getrowotbVer.html</loc></url>
 <url><loc>https://r-spatial.github.io/link2GI/reference/gvec2sf.html</loc></url>
@@ -45,6 +52,7 @@
 <url><loc>https://r-spatial.github.io/link2GI/reference/parseOTBFunction.html</loc></url>
 <url><loc>https://r-spatial.github.io/link2GI/reference/runOTB.html</loc></url>
 <url><loc>https://r-spatial.github.io/link2GI/reference/runOTB_isolated.html</loc></url>
+<url><loc>https://r-spatial.github.io/link2GI/reference/run_gdal.html</loc></url>
 <url><loc>https://r-spatial.github.io/link2GI/reference/saveEnvi.html</loc></url>
 <url><loc>https://r-spatial.github.io/link2GI/reference/searchGDALW.html</loc></url>
 <url><loc>https://r-spatial.github.io/link2GI/reference/searchGDALX.html</loc></url>

@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Installation guide for link2GI related software • link2GI</title>
+<title>A Deterministic GDAL CLI Context for Reproducible Workflows • link2GI</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="96x96" href="../favicon-96x96.png">
 <link rel="icon" type="”image/svg+xml”" href="../favicon.svg">
 <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
@@ -16,7 +16,7 @@
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/JetBrains_Mono-0.4.10/font.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Installation guide for link2GI related software">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="A Deterministic GDAL CLI Context for Reproducible Workflows">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -26,7 +26,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">link2GI</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7-3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7-4</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -44,7 +44,8 @@
     <li><a class="dropdown-item" href="../articles/link2GI3.html">GRASS application for real world big data</a></li>
     <li><a class="dropdown-item" href="../articles/link2GI4.html">OTB Wrapper in link2GI</a></li>
     <li><a class="dropdown-item" href="../articles/link2GI5.html">Create reproducible project structures in link2GI</a></li>
-    <li><a class="dropdown-item" href="../articles/link2GI6.html">Installation guide for link2GI related software</a></li>
+    <li><a class="dropdown-item" href="../articles/link2GI6.html">A Deterministic GDAL CLI Context for Reproducible Workflows</a></li>
+    <li><a class="dropdown-item" href="../articles/link2GI7.html">Installation guide for link2GI related software</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
@@ -63,7 +64,7 @@
 
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-      <img src="../logo.png" class="logo" alt=""><h1>Installation guide for link2GI related software</h1>
+      <img src="../logo.png" class="logo" alt=""><h1>A Deterministic GDAL CLI Context for Reproducible Workflows</h1>
                         <h4 data-toc-skip class="author">Chris
 Reudenbach</h4>
             
@@ -76,187 +77,234 @@ Reudenbach</h4>
     
     
 <div class="section level2">
-<h2 id="vignette-scope">Vignette scope<a class="anchor" aria-label="anchor" href="#vignette-scope"></a>
+<h2 id="motivation">Motivation<a class="anchor" aria-label="anchor" href="#motivation"></a>
 </h2>
-<p>This vignette describes how to install and configure external GIS
-software required by <strong>link2GI</strong>. It is based on the former
-<em>RQGIS</em> installation guide, with updates and simplifications.</p>
-<p>The goal is a <strong>robust command-line–accessible GIS
-stack</strong> usable from R via <code>link2GI</code>. The exact set of
-available algorithms depends on platform, architecture, and software
-versions.</p>
-</div>
-<div class="section level2">
-<h2 id="windows">Windows<a class="anchor" aria-label="anchor" href="#windows"></a>
-</h2>
-<div class="section level3">
-<h3 id="qgis-grass-and-saga">QGIS, GRASS and SAGA<a class="anchor" aria-label="anchor" href="#qgis-grass-and-saga"></a>
-</h3>
-<p>On Windows, <strong>OSGeo4W</strong> is the recommended installation
-method. It provides QGIS together with GRASS, SAGA, GDAL, OTB and many
-other tools.</p>
-<p>Standalone QGIS installers work, but provide fewer third-party
-components.</p>
+<p>GDAL is available in R through high-level packages such as
+<strong>sf</strong> and <strong>terra</strong>, and through wrapper
+packages like <strong>gdalUtilities</strong>. These approaches work well
+for many use cases, but they share a fundamental limitation:</p>
 <blockquote>
-<p><strong>Do not install QGIS 2.x.</strong></p>
+<p><strong>They bind against a specific GDAL build, not necessarily the
+GDAL binaries actually used on the system.</strong></p>
 </blockquote>
-<p>The OSGeo4W installer is available from:</p>
+<p>In practice, this leads to several recurring problems:</p>
 <ul>
-<li><a href="https://www.qgis.org/download/" class="external-link">https://www.qgis.org/download/</a></li>
-<li><a href="https://trac.osgeo.org/osgeo4w/" class="external-link">https://trac.osgeo.org/osgeo4w/</a></li>
+<li>Different GDAL versions on different machines</li>
+<li>Mismatch between linked libraries and CLI binaries</li>
+<li>Silent changes in available drivers, options, or defaults</li>
+<li>Poor traceability of <em>what actually ran</em> in batch or HPC
+contexts</li>
 </ul>
-<div class="section level4">
-<h4 id="express-installation-minimal">Express installation (minimal)<a class="anchor" aria-label="anchor" href="#express-installation-minimal"></a>
-</h4>
-<div class="float">
-<img src="https://raw.githubusercontent.com/r-spatial/link2GI/master/figures/00_express.PNG" alt="Express setup dialog showing the minimal project configuration options."><div class="figcaption">Express setup dialog showing the minimal project
-configuration options.</div>
+<p>The goal of the <code>link2GI</code> GDAL context is
+<strong>not</strong> to replace existing packages, but to <strong>expose
+and control the system GDAL CLI deterministically</strong>.</p>
+<hr>
 </div>
-<p>Steps:</p>
+<div class="section level2">
+<h2 id="design-goals">Design Goals<a class="anchor" aria-label="anchor" href="#design-goals"></a>
+</h2>
+<p>The GDAL context introduced here follows a small set of strict
+principles:</p>
 <ol style="list-style-type: decimal">
-<li>Select <strong>Express Installation</strong>
-</li>
-<li>Choose <strong>QGIS, GRASS and GDAL</strong>
-</li>
-<li>Start installation</li>
+<li><p><strong>Use the linked GDAL binaries explicitly</strong><br>
+No implicit reliance on <code>PATH</code>, no guessing, no fallback to
+other builds.</p></li>
+<li><p><strong>Be system-honest</strong><br>
+The context reflects what the system <em>can actually do</em>, not what
+a package was compiled against.</p></li>
+<li><p><strong>Remain thin and non-intrusive</strong><br>
+No re-implementation of GDAL semantics, no competing wrapper
+API.</p></li>
+<li><p><strong>Enable reproducibility</strong><br>
+Every run can be fingerprinted and logged, including environment and
+versions.</p></li>
+<li><p><strong>Support interactive and batch workflows
+equally</strong><br>
+From exploratory work to large batch runs or CI pipelines.</p></li>
 </ol>
-<p>This setup is comparable to the standalone QGIS installer.</p>
+<hr>
 </div>
-<div class="section level4">
-<h4 id="advanced-installation-recommended">Advanced installation (recommended)<a class="anchor" aria-label="anchor" href="#advanced-installation-recommended"></a>
-</h4>
-<p>For full command-line access and additional tools, use
-<strong>Advanced Installation</strong>.</p>
-<div class="float">
-<img src="https://raw.githubusercontent.com/r-spatial/link2GI/master/figures/01_initial_setup.PNG" alt="Initial setup screen selecting GIS backends and defining search locations."><div class="figcaption">Initial setup screen selecting GIS backends and
-defining search locations.</div>
-</div>
-<p>Proceed with defaults until <strong>Select Packages</strong>.</p>
-<div class="float">
-<img src="https://raw.githubusercontent.com/r-spatial/link2GI/master/figures/04_select_packages.PNG" alt="Package selection screen for choosing available GIS APIs to link."><div class="figcaption">Package selection screen for choosing available
-GIS APIs to link.</div>
-</div>
-<p>Select command-line tools such as <strong>GDAL</strong>,
-<strong>Python</strong>, and others as needed:</p>
-<div class="float">
-<img src="https://raw.githubusercontent.com/r-spatial/link2GI/master/figures/05_command_line_utilties.PNG" alt="Command-line utilities configuration screen for external GIS tools."><div class="figcaption">Command-line utilities configuration screen for
-external GIS tools.</div>
-</div>
-<p>Additionally select:</p>
+<div class="section level2">
+<h2 id="core-concept-the-gdal-context">Core Concept: The GDAL Context<a class="anchor" aria-label="anchor" href="#core-concept-the-gdal-context"></a>
+</h2>
+<p>At the heart of the approach is a <strong>GDAL CLI
+context</strong>:</p>
 <ul>
-<li>GRASS Desktop GIS</li>
-<li>Orfeo Toolbox</li>
-<li>SAGA GIS</li>
-<li>QGIS (LTR + current release recommended)</li>
+<li>A fixed <code>binDir</code> containing GDAL executables</li>
+<li>A per-call environment (<code>PATH</code>, <code>GDAL_DATA</code>,
+<code>PROJ_LIB</code>, …)</li>
+<li>A resolved set of available GDAL utilities</li>
+<li>Optional logging and help caching</li>
 </ul>
-<p>Accept suggested dependencies:</p>
-<div class="float">
-<img src="https://raw.githubusercontent.com/r-spatial/link2GI/master/figures/08_suggestions.PNG" alt="Suggestions screen listing recommended next steps after project initialization."><div class="figcaption">Suggestions screen listing recommended next
-steps after project initialization.</div>
-</div>
-<p>The download and installation process may take some time.</p>
-<p>Installed components can later be modified via:</p>
-<pre><code><span><span class="va">OSGeo4W</span><span class="op">/</span><span class="va">bin</span><span class="op">/</span><span class="va">osgeo4w</span><span class="op">-</span><span class="va">setup.exe</span></span></code></pre>
-</div>
-<div class="section level4">
-<h4 id="optional-lastools">Optional: LAStools<a class="anchor" aria-label="anchor" href="#optional-lastools"></a>
-</h4>
-<p>For LiDAR processing support: <a href="https://rapidlasso.de/how-to-install-lastools-toolbox-in-qgis/" class="external-link">https://rapidlasso.de/how-to-install-lastools-toolbox-in-qgis/</a></p>
+<p>This context is <strong>immutable for a run</strong> and can be
+reused safely.</p>
 <hr>
-</div>
-</div>
-<div class="section level3">
-<h3 id="orfeo-toolbox-windows">Orfeo Toolbox (Windows)<a class="anchor" aria-label="anchor" href="#orfeo-toolbox-windows"></a>
-</h3>
-<p>Download the latest Windows binary from: <a href="https://www.orfeo-toolbox.org/download/" class="external-link">https://www.orfeo-toolbox.org/download/</a></p>
-<p>OTB binaries do not require administrative privileges. Extract the
-archive and use <code>otbcli_*</code> tools directly or via
-<code>link2GI</code>.</p>
-<p>See the official cookbook for details: <a href="https://www.orfeo-toolbox.org/CookBook/Installation.html#windows" class="external-link">https://www.orfeo-toolbox.org/CookBook/Installation.html#windows</a></p>
-<hr>
-</div>
 </div>
 <div class="section level2">
-<h2 id="linux">Linux<a class="anchor" aria-label="anchor" href="#linux"></a>
+<h2 id="creating-a-context-from-linkgdal">Creating a Context from <code>linkGDAL()</code><a class="anchor" aria-label="anchor" href="#creating-a-context-from-linkgdal"></a>
 </h2>
-<div class="section level3">
-<h3 id="ubuntu-debian">Ubuntu / Debian<a class="anchor" aria-label="anchor" href="#ubuntu-debian"></a>
-</h3>
-<p>Distribution repositories usually ship outdated QGIS versions. Use
-the official QGIS repositories instead:</p>
-<p><a href="https://www.qgis.org/download/" class="external-link">https://www.qgis.org/download/</a></p>
-<p>Remove old installations first:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">sudo</span> apt-get <span class="at">--purge</span> remove qgis</span>
-<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">sudo</span> apt autoremove <span class="at">--purge-remove</span></span>
-<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="fu">sudo</span> apt autoremove</span>
-<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="fu">sudo</span> apt update</span></code></pre></div>
-<p>Add the official QGIS repository (example for Ubuntu 22.04):</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">sudo</span> apt install gnupg software-properties-common</span>
-<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="fu">wget</span> <span class="at">-qO</span> <span class="at">-</span> https://qgis.org/downloads/qgis-2020.gpg.key <span class="dt">\</span></span>
-<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>  <span class="kw">|</span> <span class="fu">sudo</span> gpg <span class="at">--no-default-keyring</span> <span class="dt">\</span></span>
-<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>    <span class="at">--keyring</span> gnupg-ring:/etc/apt/trusted.gpg.d/qgis-archive.gpg <span class="dt">\</span></span>
-<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>    <span class="at">--import</span></span>
-<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a></span>
-<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="fu">sudo</span> add-apt-repository <span class="st">"deb https://qgis.org/debian focal main"</span></span></code></pre></div>
-<p>Install required software:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">sudo</span> apt update</span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="fu">sudo</span> apt install qgis qgis-plugin-grass grass saga otb-bin python-qgis</span></code></pre></div>
-<p><strong>Note:</strong> QGIS currently supports only <strong>SAGA LTS
-2.3.x</strong>. Other versions require manual compilation.</p>
+<p>The recommended entry point is <code><a href="../reference/linkGDAL.html">linkGDAL()</a></code>:</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">gdal_link</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/linkGDAL.html">linkGDAL</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p>This locates a valid GDAL installation on the system. From this
+result, a deterministic CLI context is created:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">ctx</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gdal_context_from_link.html">gdal_context_from_link</a></span><span class="op">(</span><span class="va">gdal_link</span><span class="op">)</span></span></code></pre></div>
+<p>At this point:</p>
+<ul>
+<li>The exact GDAL binaries are fixed</li>
+<li>The effective environment is known</li>
+<li>No global state has been modified</li>
+</ul>
 <hr>
-</div>
-<div class="section level3">
-<h3 id="arch-linux">Arch Linux<a class="anchor" aria-label="anchor" href="#arch-linux"></a>
-</h3>
-<p>QGIS, GRASS and SAGA are available via the <strong>AUR</strong>: <a href="https://aur.archlinux.org/" class="external-link">https://aur.archlinux.org/</a></p>
-<hr>
-</div>
-<div class="section level3">
-<h3 id="fedora">Fedora<a class="anchor" aria-label="anchor" href="#fedora"></a>
-</h3>
-<p>Install via the system package manager:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">sudo</span> dnf install qgis qgis-python qgis-grass saga grass-gui grass-libs</span></code></pre></div>
-<hr>
-</div>
 </div>
 <div class="section level2">
-<h2 id="macos">macOS<a class="anchor" aria-label="anchor" href="#macos"></a>
+<h2 id="inspecting-capabilities-fingerprinting">Inspecting Capabilities (Fingerprinting)<a class="anchor" aria-label="anchor" href="#inspecting-capabilities-fingerprinting"></a>
 </h2>
-<div class="section level3">
-<h3 id="saga">SAGA<a class="anchor" aria-label="anchor" href="#saga"></a>
-</h3>
-<p>There is no official SAGA binary for macOS. Use Homebrew LTS
-builds:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="ex">brew</span> install saga-gis-lts</span>
-<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="ex">brew</span> link saga-gis-lts <span class="at">--force</span></span></code></pre></div>
-<p>Forced linking is required so QGIS can detect SAGA.</p>
+<p>To document <em>what this GDAL can do</em>, a fingerprint can be
+collected:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">fp</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gdal_fingerprint.html">gdal_fingerprint</a></span><span class="op">(</span><span class="va">ctx</span><span class="op">)</span></span></code></pre></div>
+<p>This records, among other things:</p>
+<ul>
+<li>GDAL version string</li>
+<li>Available raster and vector formats</li>
+<li>Spatial reference behaviour (axis order probe)</li>
+<li>Context identifier</li>
+</ul>
+<p>Optionally, the fingerprint can be written to an NDJSON log for
+auditability.</p>
 <hr>
 </div>
-<div class="section level3">
-<h3 id="grass">GRASS<a class="anchor" aria-label="anchor" href="#grass"></a>
-</h3>
-<p>Install GRASS via Homebrew:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="ex">brew</span> install grass grass7 grass8</span></code></pre></div>
-<p>Binary installers are available at: <a href="https://grass.osgeo.org/download/mac/" class="external-link">https://grass.osgeo.org/download/mac/</a></p>
-<p>Homebrew installations are recommended.</p>
+<div class="section level2">
+<h2 id="running-gdal-commands-deterministically">Running GDAL Commands Deterministically<a class="anchor" aria-label="anchor" href="#running-gdal-commands-deterministically"></a>
+</h2>
+<p>A GDAL utility can now be executed explicitly:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_gdal.html">run_gdal</a></span><span class="op">(</span></span>
+<span>  <span class="va">ctx</span>,</span>
+<span>  cmd  <span class="op">=</span> <span class="st">"gdalinfo"</span>,</span>
+<span>  args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"--formats"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p>Key properties:</p>
+<ul>
+<li>The resolved executable path is used</li>
+<li>The environment is passed explicitly</li>
+<li>Output and exit status are captured</li>
+<li>No reliance on global <code>PATH</code>
+</li>
+</ul>
+<p>This makes the call reproducible across machines <em>as long as the
+same binaries are used</em>.</p>
 <hr>
 </div>
-<div class="section level3">
-<h3 id="qgis">QGIS<a class="anchor" aria-label="anchor" href="#qgis"></a>
-</h3>
-<p>Two options exist:</p>
-<div class="section level4">
-<h4 id="homebrew-recommended">Homebrew (recommended)<a class="anchor" aria-label="anchor" href="#homebrew-recommended"></a>
-</h4>
-<div class="sourceCode" id="cb8"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="ex">brew</span> install qgis3</span></code></pre></div>
-<p>Prebuilt bottles are used by default. Source builds may take &gt;30
-minutes.</p>
-<p><strong>Important:</strong> Install <strong>GRASS and SAGA before
-QGIS</strong> so that paths are detected correctly.</p>
+<div class="section level2">
+<h2 id="help-driven-skeleton-generation">Help-Driven Skeleton Generation<a class="anchor" aria-label="anchor" href="#help-driven-skeleton-generation"></a>
+</h2>
+<p>One recurring pain point when using the GDAL CLI is remembering valid
+flags and argument structure.</p>
+<p>The context provides a <strong>help-based skeleton</strong>:</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">sk</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gdal_skeleton.html">gdal_skeleton</a></span><span class="op">(</span><span class="va">ctx</span>, <span class="st">"gdalwarp"</span><span class="op">)</span></span></code></pre></div>
+<p>This skeleton is derived directly from <code>gdalwarp --help</code>
+and contains:</p>
+<ul>
+<li>The primary <code>Usage:</code> line</li>
+<li>A flat list of supported flags</li>
+<li>A minimal argument template</li>
+</ul>
+<p>Importantly:</p>
+<blockquote>
+<p>The skeleton does <strong>not</strong> guess semantics or defaults.
+It reflects exactly what this GDAL build exposes.</p>
+</blockquote>
 <hr>
 </div>
+<div class="section level2">
+<h2 id="building-arguments-programmatically">Building Arguments Programmatically<a class="anchor" aria-label="anchor" href="#building-arguments-programmatically"></a>
+</h2>
+<p>Skeletons can be combined with structured options:</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">args</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gdal_build_args.html">gdal_build_args</a></span><span class="op">(</span></span>
+<span>  <span class="va">sk</span>,</span>
+<span>  opts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>    t_srs <span class="op">=</span> <span class="st">"EPSG:25832"</span>,</span>
+<span>    r     <span class="op">=</span> <span class="st">"bilinear"</span></span>
+<span>  <span class="op">)</span>,</span>
+<span>  positional <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"in.tif"</span>, <span class="st">"out.tif"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p>This avoids error-prone copy-paste and keeps CLI usage explicit.</p>
+<hr>
 </div>
+<div class="section level2">
+<h2 id="ndjson-logging-for-reproducibility">NDJSON Logging for Reproducibility<a class="anchor" aria-label="anchor" href="#ndjson-logging-for-reproducibility"></a>
+</h2>
+<p>Every GDAL call can optionally be logged as <strong>one JSON object
+per line</strong>:</p>
+<ul>
+<li>Command and arguments</li>
+<li>Resolved executable</li>
+<li>Environment variables</li>
+<li>Runtime, exit code, stdout/stderr</li>
+<li>Host and system metadata</li>
+</ul>
+<p>This format is:</p>
+<ul>
+<li>Append-only</li>
+<li>Stream-friendly</li>
+<li>Easy to post-process or archive</li>
+</ul>
+<p>It enables answering questions like:</p>
+<blockquote>
+<p><em>Which GDAL, with which environment, produced this
+output?</em></p>
+</blockquote>
+<hr>
+</div>
+<div class="section level2">
+<h2 id="relationship-to-existing-packages">Relationship to Existing Packages<a class="anchor" aria-label="anchor" href="#relationship-to-existing-packages"></a>
+</h2>
+<p>This approach is <strong>complementary</strong>, not competitive:</p>
+<ul>
+<li><p><strong>sf / terra</strong> Excellent for in-memory workflows and
+analysis; rely on linked libraries.</p></li>
+<li><p><strong>gdalUtilities</strong> Provides R wrappers for many CLI
+tools, but still depends on system setup.</p></li>
+<li><p><strong>link2GI GDAL context</strong> Focuses on
+<em>deterministic execution</em>, <em>capability introspection</em> and
+<em>traceability</em>.</p></li>
+</ul>
+<p>You can freely mix these approaches in one project.</p>
+<hr>
+</div>
+<div class="section level2">
+<h2 id="when-is-this-useful">When Is This Useful?<a class="anchor" aria-label="anchor" href="#when-is-this-useful"></a>
+</h2>
+<p>Typical use cases include:</p>
+<ul>
+<li>Batch processing pipelines</li>
+<li>HPC or containerised workflows</li>
+<li>Teaching and documentation</li>
+<li>Cross-platform projects</li>
+<li>Debugging GDAL behaviour differences</li>
+<li>Long-term reproducibility requirements</li>
+</ul>
+<p>If you already rely heavily on the GDAL CLI, this approach removes
+ambiguity without adding conceptual overhead.</p>
+<hr>
+</div>
+<div class="section level2">
+<h2 id="summary">Summary<a class="anchor" aria-label="anchor" href="#summary"></a>
+</h2>
+<p>The GDAL CLI context in <code>link2GI</code> provides:</p>
+<ul>
+<li>Explicit control over GDAL binaries</li>
+<li>Minimal but reliable skeleton generation</li>
+<li>Deterministic execution</li>
+<li>Optional, structured logging</li>
+<li>Zero interference with existing R geospatial packages</li>
+</ul>
+<p>It is intentionally small, honest, and system-centric.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

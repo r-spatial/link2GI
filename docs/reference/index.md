@@ -8,6 +8,24 @@
 - [`findOTB()`](https://r-spatial.github.io/link2GI/reference/findOTB.md)
   : Locate Orfeo ToolBox (OTB) installations
 
+- [`gdal_build_args()`](https://r-spatial.github.io/link2GI/reference/gdal_build_args.md)
+  : Assemble args from a skeleton and a named list
+
+- [`gdal_context()`](https://r-spatial.github.io/link2GI/reference/gdal_context.md)
+  : Create a GDAL CLI context from linked binaries
+
+- [`gdal_context_from_link()`](https://r-spatial.github.io/link2GI/reference/gdal_context_from_link.md)
+  : Create a GDAL context from linkGDAL()
+
+- [`gdal_fingerprint()`](https://r-spatial.github.io/link2GI/reference/gdal_fingerprint.md)
+  : Collect a GDAL capability fingerprint for a context
+
+- [`gdal_help()`](https://r-spatial.github.io/link2GI/reference/gdal_help.md)
+  : Get and cache "–help" output for a GDAL command
+
+- [`gdal_skeleton()`](https://r-spatial.github.io/link2GI/reference/gdal_skeleton.md)
+  : Build a minimal CLI skeleton from "–help"
+
 - [`gvec2sf()`](https://r-spatial.github.io/link2GI/reference/gvec2sf.md)
   : Converts from an existing \`GRASS\` environment an arbitrary vector
   dataset into a sf object
@@ -54,6 +72,9 @@
 - [`runOTB_isolated()`](https://r-spatial.github.io/link2GI/reference/runOTB_isolated.md)
   : Execute an OTB application in an isolated OTB environment (mainly
   Windows)
+
+- [`run_gdal()`](https://r-spatial.github.io/link2GI/reference/run_gdal.md)
+  : Run a GDAL utility deterministically
 
 - [`saveEnvi()`](https://r-spatial.github.io/link2GI/reference/saveEnvi.md)
   : Saves data in rds format and adds a yaml metadata file.

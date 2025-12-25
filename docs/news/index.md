@@ -4,6 +4,17 @@
 
 **changes**
 
+- Added deterministic GDAL CLI context using linked system binaries (no
+  implicit PATH).
+- Introduced GDAL fingerprinting, help-based skeletons, and NDJSON run
+  logging for reproducibility.
+- Refactored GDAL discovery/linking to be platform-robust and
+  non-redundant.
+
+## link2GI 0.7-3
+
+**changes**
+
 - Refactored platform discovery: GRASS, GDAL, and SAGA detection was
   unified and hardened with strict OS guards, consistent return
   structures, and namespace-local calls.
@@ -28,7 +39,7 @@ CRAN release: 2025-12-23
 - Added testthat coverage for the OTB wrapper (runOTB command
   construction and argument handling).
 
-### link2GI 0.7-1
+## link2GI 0.7-1
 
 **bugfixes** *(Fix
 [\#67](https://github.com/r-spatial/link2GI/issues/67))*
@@ -43,7 +54,7 @@ CRAN release: 2025-12-23
 
 - update complete documentation to meet new concepts and calls
 
-### link2GI 0.7-0
+## link2GI 0.7-0
 
 **changes**
 
@@ -66,13 +77,17 @@ CRAN release: 2025-12-23
 - update vignette to use introspected parameters instead of hard-coded
   lists
 
-### link2GI 0.6-2
+## link2GI 0.6-2
+
+CRAN release: 2024-10-28
 
 bugfixes:
 
 - fix cran issues git2r
 
-### link2GI 0.6-1
+## link2GI 0.6-1
+
+CRAN release: 2024-06-01
 
 bugfixes:
 
@@ -83,7 +98,7 @@ changes:
 
 - dropping of linkALL
 
-### link2GI 0.6-0
+## link2GI 0.6-0
 
 bugfixes:
 
@@ -97,21 +112,25 @@ new feature:
 
 - extension of initProj to a lightweight project setup tool
 
-### link2GI 0.5-4
+## link2GI 0.5-4
 
 bugfixes:
 
 - \#61 [\#62](https://github.com/r-spatial/link2GI/issues/62)
   [\#63](https://github.com/r-spatial/link2GI/issues/63)
 
-### link2GI 0.5-3
+## link2GI 0.5-3
+
+CRAN release: 2023-10-30
 
 bugfixes:
 
 - \#59 , [\#58](https://github.com/r-spatial/link2GI/issues/58)
 - fix rgrass7 dependencies
 
-### link2GI 0.5-2
+## link2GI 0.5-2
+
+CRAN release: 2023-01-27
 
 new feature:
 
@@ -130,7 +149,7 @@ new feature:
 - integration of stars and terra raster objects for linking GRASS
 - update of documentation
 
-### link2GI 0.5-1
+## link2GI 0.5-1
 
 bugfixes:
 
@@ -143,7 +162,9 @@ new feature:
 - integration of stars and terra raster objects for linking GRASS
 - update of documentation
 
-### link2GI 0.5-0
+## link2GI 0.5-0
+
+CRAN release: 2022-08-29
 
 bugfixes:
 
@@ -154,19 +175,23 @@ new feature:
 - changing to linkGRASS for both GRASS 7.x/8.x - keeping linkGRASS7for
   backwards compatibility
 
-### link2GI 0.4-7
+## link2GI 0.4-7
+
+CRAN release: 2021-09-03
 
 bugfixes:
 
 - \#52
 
-### link2GI 0.4-6
+## link2GI 0.4-6
 
 bugfixes:
 
 - pre fix [\#52](https://github.com/r-spatial/link2GI/issues/52)
 
-### link2GI 0.4-5
+## link2GI 0.4-5
+
+CRAN release: 2020-12-07
 
 bugfixes:
 
@@ -181,25 +206,25 @@ new feature:
 - add installation vignette
 - update some documentation
 
-### link2GI 0.4-4
+## link2GI 0.4-4
 
 bugfixes:
 
 - fix [\#42](https://github.com/r-spatial/link2GI/issues/42)
 
-### link2GI 0.4-3
+## link2GI 0.4-3
 
 bugfixes:
 
 - fix [\#40](https://github.com/r-spatial/link2GI/issues/40)
 
-### link2GI 0.4-2
+## link2GI 0.4-2
 
 bugfixes:
 
 - fix [\#38](https://github.com/r-spatial/link2GI/issues/38)
 
-### link2GI 0.4-1
+## link2GI 0.4-1
 
 new feature
 
@@ -210,7 +235,9 @@ bugfixes:
 
 - smaller bugfixes
 
-### link2GI 0.4-0
+## link2GI 0.4-0
+
+CRAN release: 2019-11-22
 
 new feature
 
@@ -226,7 +253,9 @@ bugfixes:
   [\#29](https://github.com/r-spatial/link2GI/issues/29) fixed
 - first parsing of the new GRASS (since 7.8.x ) start file
 
-### link2GI 0.3-7
+## link2GI 0.3-7
+
+CRAN release: 2019-09-05
 
 new feature:
 
@@ -237,7 +266,7 @@ bugfixes:
 - several fixes
 - examples and typos
 
-### link2GI 0.3-6
+## link2GI 0.3-6
 
 new feature:
 
@@ -249,7 +278,9 @@ bugfixes:
 - several fixes for Windows search and linking
 - examples and typos
 
-### link2GI 0.3-5
+## link2GI 0.3-5
+
+CRAN release: 2018-10-26
 
 new feature:
 
@@ -261,7 +292,9 @@ bugfixes:
 - several fixes for Windows search and linking
 - Comments and typos
 
-### link2GI 0.3-4
+## link2GI 0.3-4
+
+CRAN release: 2018-10-03
 
 new feature:
 
@@ -276,7 +309,9 @@ bugfixes:
 - fix and add a lot of examples
 - Comments and typos
 
-### link2GI 0.3-3
+## link2GI 0.3-3
+
+CRAN release: 2018-09-22
 
 new feature:
 
@@ -288,7 +323,9 @@ bugfixes:
 - new examples
 - Typos
 
-### link2GI 0.3-2
+## link2GI 0.3-2
+
+CRAN release: 2018-08-23
 
 new feature:
 
@@ -300,7 +337,7 @@ bugfixes:
 - RSAGA related fixes
 - Typos
 
-### link2GI 0.3-1
+## link2GI 0.3-1
 
 new feature:
 
@@ -310,7 +347,9 @@ bugfixes:
 
 - windows RSAGA related fixes
 
-### link2GI 0.3-0
+## link2GI 0.3-0
+
+CRAN release: 2018-02-11
 
 The 0.3-0 version is quite restructured to conform to both common R
 conventions (e.g. no hidden globals) and to make the calls more
@@ -335,13 +374,15 @@ bugfixes:
 - remove tailing backslashes
 - force compatibility to RSAGA and SAGA ver 3+
 
-### link2GI 0.2-2
+## link2GI 0.2-2
 
 new feature:
 
 - findGRASS a function that wraps for searchGRASSW and searchGRASSX
 
-### link2GI 0.2-1
+## link2GI 0.2-1
+
+CRAN release: 2018-02-06
 
 bugfixes:
 
@@ -349,12 +390,16 @@ bugfixes:
   [\#3](https://github.com/r-spatial/link2GI/issues/3)
   [\#5](https://github.com/r-spatial/link2GI/issues/5)
 
-### link2GI 0.2-0
+## link2GI 0.2-0
+
+CRAN release: 2018-01-28
 
 bugfixes:
 
 - fix several small bugs
 
-### link2GI 0.1-0
+## link2GI 0.1-0
+
+CRAN release: 2017-01-22
 
 - Initial release

@@ -22,8 +22,8 @@ some strange behaviours and requirements. Especially helpful is the
 support of `OTB`, the `GDAL-Python` functions and a simple support to
 use any `SAGA` version via the CLI. Hopefully `RSAGA` and `Rsagacmd`
 will join forces in one package in the future. Anyway the current
-releases (1.4.1) of `RSAGA` as well as `Rsagacmd` will work with the
-environment settings as provided by `linkSAGA`.
+releases of `RSAGA` as well as `Rsagacmd` will work with the environment
+settings as provided by `linkSAGA`.
 
 # Installation
 

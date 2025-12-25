@@ -46,7 +46,7 @@ need to install them first. As a first promising opportunity to do
 fulfill most of the requirements you may install `QGIS, GRASS`,
 `SAGA-GIS` and `Orfeo-toolbox`. For further Information have a look at
 the [Installation guide for link2GI related
-Software](https://r-spatial.github.io/link2GI/articles/link2GI6.html).
+Software](https://r-spatial.github.io/link2GI/articles/link2GI7.html).
 
 ## New Features
 

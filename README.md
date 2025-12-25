@@ -7,7 +7,7 @@ checks](https://badges.cranchecks.info/worst/link2GI.svg)](https://cran.r-projec
 [![Stars](https://img.shields.io/github/stars/r-spatial/link2GI?style=flat)](https://github.com/r-spatial/link2GI)
 [![License](https://img.shields.io/badge/license-GPL%20%28%3E=%203%29-lightgrey.svg?style=flat)](https://www.gnu.org/licenses/gpl-3.0.html)
 
-Package website: [release](https://r-spatial.github.io/link2GI/)
+  Package website: [release](https://r-spatial.github.io/link2GI/)
 
 `link2GI` provide some functions which make it a bit easier to connect
 straightforward the common open source GI software packages to the
@@ -44,7 +44,7 @@ need to install them first. As a first promising opportunity to do
 fulfill most of the requirements you may install `QGIS, GRASS`,
 `SAGA-GIS` and `Orfeo-toolbox`. For further Information have a look at
 the [Installation guide for link2GI related
-Software](https://r-spatial.github.io/link2GI/articles/link2GI6.html).
+Software](https://r-spatial.github.io/link2GI/articles/link2GI7.html).
 
 ## New Features
 

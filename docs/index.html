@@ -76,35 +76,39 @@
 <p><code>link2GI</code> provide some functions which make it a bit easier to connect straightforward the common open source GI software packages to the R-biotop. It supports both the use of wrapper packages and the direct API-use via system calls. It focuses on <code>Linux</code> and <code>WindowsX</code> operating systems but nevertheless it should also work with <code>OSX</code>.</p>
 <p>If you have several versions installed or if you want to use the full power of the GI software it will be a nice and helpful tool to deal with some strange behaviours and requirements. Especially helpful is the support of <code>OTB</code>, the <code>GDAL-Python</code> functions and a simple support to use any <code>SAGA</code> version via the CLI. Hopefully <code>RSAGA</code> and <code>Rsagacmd</code> will join forces in one package in the future. Anyway the current releases of <code>RSAGA</code> as well as <code>Rsagacmd</code> will work with the environment settings as provided by <code>linkSAGA</code>.</p>
 </div>
-</div>
-<div class="section level1">
-<h1 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
-</h1>
-<p><code>link2GI</code>is up to CRAN. For the installation of the stable version please use <code>install.packages("link2GI")</code>.</p>
-<p>However it is strongly recommended to install the latest stable version:</p>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
+<p><code>link2GI</code>is up to CRAN, please use <code>install.packages("link2GI")</code>.</p>
+<p>However it is strongly recommended to install the latest stable development version:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># devtools package</span></span>
 <span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"r-spatial/link2GI"</span>, ref <span class="op">=</span> <span class="st">"master"</span><span class="op">)</span></span>
 <span><span class="co"># remotes package</span></span>
 <span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"r-spatial/link2GI"</span>,ref <span class="op">=</span> <span class="st">"master"</span><span class="op">)</span></span></code></pre></div>
+</div>
 <div class="section level2">
 <h2 id="third-party-software">Third Party software<a class="anchor" aria-label="anchor" href="#third-party-software"></a>
 </h2>
 <p>To utilize the power of the open source GI tools from within <code>R</code> you need to install them first. As a first promising opportunity to do fulfill most of the requirements you may install <code>QGIS, GRASS</code>, <code>SAGA-GIS</code> and <code>Orfeo-toolbox</code>. For further Information have a look at the <a href="https://r-spatial.github.io/link2GI/articles/link2GI6.html">Installation guide for link2GI related Software</a>.</p>
 </div>
-</div>
-<div class="section level1">
-<h1 id="new-features">New Features<a class="anchor" aria-label="anchor" href="#new-features"></a>
-</h1>
 <div class="section level2">
-<h2 id="otb-wrapper">OTB wrapper<a class="anchor" aria-label="anchor" href="#otb-wrapper"></a>
+<h2 id="new-features">New Features<a class="anchor" aria-label="anchor" href="#new-features"></a>
 </h2>
-<p>The OTB integration in <strong>link2GI</strong> has evolved from a basic command wrapper into a robust, Self-describing CLI interface. It now derives valid parameters directly from OTB’s CLI metadata, supports version-stable command construction, and enforces explicit, reproducible, on-disk outputs (<a href="https://r-spatial.github.io/link2GI/articles/link2GI4.html">OTB Wrapper in link2GI</a>.).</p>
+<div class="section level3">
+<h3 id="gdal-cli-wrapper">GDAL CLI wrapper<a class="anchor" aria-label="anchor" href="#gdal-cli-wrapper"></a>
+</h3>
+<p><code>link2GI</code> now provides a minimal <code>GDAL</code> CLI wrapper for cases where system-linked <code>GDAL</code> binaries must be used deterministically, independent of what is compiled into packages like <code>sf</code> or <code>terra</code>. This is not a replacement for existing GDAL-based R tools, but a reproducibility-oriented layer that exposes the exact <code>GDAL</code> pipeline used on a given system, with explicit environment control, lightweight fingerprinting, help-driven skeletons, and optional NDJSON logging.</p>
 </div>
-<div class="section level2">
-<h2 id="initproj-for-reproducible-projects">
+<div class="section level3">
+<h3 id="otb-wrapper">OTB wrapper<a class="anchor" aria-label="anchor" href="#otb-wrapper"></a>
+</h3>
+<p>The OTB integration in <code>link2GI</code> has evolved from a basic command wrapper into a robust, Self-describing CLI interface. It now derives valid parameters directly from OTB’s CLI metadata, supports version-stable command construction, and enforces explicit, reproducible, on-disk outputs (<a href="https://r-spatial.github.io/link2GI/articles/link2GI4.html">OTB Wrapper in link2GI</a>.).</p>
+</div>
+<div class="section level3">
+<h3 id="initproj-for-reproducible-projects">
 <code>initProj</code> for reproducible projects<a class="anchor" aria-label="anchor" href="#initproj-for-reproducible-projects"></a>
-</h2>
+</h3>
 <p><code>initProj</code> provides a lightweight but robust setup for reproducible GI projects.<br>
 It creates a clear folder structure, initial scripts, configuration templates, and optionally a Git repository and an <code>renv</code> environment. An RStudio project file is generated automatically, supporting fast and consistent project startup.</p>
 <p>The function generates a minimal workflow skeleton (<code>main-control.R</code>, <code>pre-processing.R</code>, <code>processing.R</code>, <code>post-processing.R</code>) with YAML-based configuration files in <code>src/configs/</code>. All project-specific settings are centralized in <code>src/functions/000_settings.R</code>.<br>
@@ -116,7 +120,7 @@ Project paths are exposed via a single <code>dirs</code> list, enabling simple, 
 </div>
 </div>
 </div>
-
+</div>
   </main><aside class="col-md-3"><div class="links">
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">

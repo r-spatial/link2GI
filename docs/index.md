@@ -25,12 +25,12 @@ will join forces in one package in the future. Anyway the current
 releases of `RSAGA` as well as `Rsagacmd` will work with the environment
 settings as provided by `linkSAGA`.
 
-# Installation
+## Installation
 
-`link2GI`is up to CRAN. For the installation of the stable version
-please use `install.packages("link2GI")`.
+`link2GI`is up to CRAN, please use `install.packages("link2GI")`.
 
-However it is strongly recommended to install the latest stable version:
+However it is strongly recommended to install the latest stable
+development version:
 
 ``` r
 # devtools package
@@ -48,18 +48,28 @@ fulfill most of the requirements you may install `QGIS, GRASS`,
 the [Installation guide for link2GI related
 Software](https://r-spatial.github.io/link2GI/articles/link2GI6.html).
 
-# New Features
+## New Features
 
-## OTB wrapper
+### GDAL CLI wrapper
 
-The OTB integration in **link2GI** has evolved from a basic command
+`link2GI` now provides a minimal `GDAL` CLI wrapper for cases where
+system-linked `GDAL` binaries must be used deterministically,
+independent of what is compiled into packages like `sf` or `terra`. This
+is not a replacement for existing GDAL-based R tools, but a
+reproducibility-oriented layer that exposes the exact `GDAL` pipeline
+used on a given system, with explicit environment control, lightweight
+fingerprinting, help-driven skeletons, and optional NDJSON logging.
+
+### OTB wrapper
+
+The OTB integration in `link2GI` has evolved from a basic command
 wrapper into a robust, Self-describing CLI interface. It now derives
 valid parameters directly from OTB’s CLI metadata, supports
 version-stable command construction, and enforces explicit,
 reproducible, on-disk outputs ([OTB Wrapper in
 link2GI](https://r-spatial.github.io/link2GI/articles/link2GI4.html).).
 
-## `initProj` for reproducible projects
+### `initProj` for reproducible projects
 
 `initProj` provides a lightweight but robust setup for reproducible GI
 projects.  

@@ -134,7 +134,7 @@ require_output   = TRUE
 
 # 5) Identify component-count key by inspecting the spec table (no heuristics)
 
-pca_related <- spec[grepl("^method\.pca\.|^nbcomp$|outdim|comp", spec$key), ]
+pca_related <- spec[grepl(r"(^method\.pca\.|^nbcomp$|outdim|comp)", spec$key), ]
 print(pca_related[, c("key", "mandatory", "default", "desc")], row.names = FALSE)
 
 # 6) Set PCA method + number of components (OTB 9.1.1: nbcomp)
